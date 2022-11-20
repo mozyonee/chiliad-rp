@@ -189,7 +189,7 @@ stock roulette_Stop(playerid) {
 	PlayerPlaySound(playerid, 31205, 0.0, 0.0, 0.0);
 
 	new
-		roulette_string[256],
+		roulette_string[400],
 		player_prize_id = RouletteInfo[playerid][roulettePrizeSlots][2],
 		string[128], day, month, year, hour, minute, second;
 	getdate(day, month, year);
@@ -842,11 +842,11 @@ public roulette_TakePrize(playerid, prize_bdid) {
 
 	new roulette_string[120];
 	format(roulette_string, sizeof(roulette_string),
-		"{FFFFFF}Наименование: {FF0000}%s\n\
-		{FFFFFF}Получен: {FF0000}%s",
+		"{FFFFFF}Найменування: {FF0000}%s\n\
+		{FFFFFF}Отримано: {FF0000}%s",
 		pi_name, pi_date
 	);
-	SPD(playerid, D_ROULETTE_3, DSM, ""P"Інформація про приз", roulette_string, "Далі", "Отмена");
+	SPD(playerid, D_ROULETTE_3, DSM, ""P"Інформація про приз", roulette_string, "Далі", "Скасувати");
 }
 stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
     switch (db_type_id) {
