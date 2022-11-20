@@ -804,7 +804,7 @@ public roulette_ShowPrizes(playerid) {
 		if (0 == i) {
 			switch (type_id) {
 				case PRIZE_TYPE_SKIN: format(roulette_string, sizeof(roulette_string),
-							"%d. %s (ID: %d) - (%s)", (i + 1),
+							""P"%d. %s (ID: %d) - (%s)", (i + 1),
 							pi_name, model_id, pi_date);
 				default:
 					format(roulette_string, sizeof(roulette_string), ""G"%d. "W"%s - (%s)", (i + 1),
@@ -815,7 +815,7 @@ public roulette_ShowPrizes(playerid) {
 		else {
 			switch (type_id) {
 				case PRIZE_TYPE_SKIN: format(roulette_string, sizeof(roulette_string),
-							"%s\n%d. %s (ID: %d) - (%s)", roulette_string, (i + 1),
+							"%s\n"P"%d. %s (ID: %d) - (%s)", roulette_string, (i + 1),
 							pi_name, model_id, pi_date);
 				default: format(roulette_string, sizeof(roulette_string), "%s\n"P"%d. "W"%s - (%s)", roulette_string, (i + 1), pi_name, pi_date);
 			}
