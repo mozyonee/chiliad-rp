@@ -192,11 +192,10 @@ stock roulette_Stop(playerid) {
 		roulette_string[256],
 		player_prize_id = RouletteInfo[playerid][roulettePrizeSlots][2],
 		string[128], day, month, year, hour, minute, second;
-	;
 	getdate(day, month, year);
 	gettime(hour, minute, second);
 	format(string, sizeof(string), "%0d.%02d.%d | %d:%02d:%02d", day, month, year, hour, minute, second);
-	mysql_format(connects, roulette_string, sizeof(roulette_string);
+	mysql_format(connects, roulette_string, sizeof(roulette_string),
 		"INSERT INTO "TABLE_ROULETTE" (player_name, name, model, type, arrayid, date)\
 		VALUES ('%s', '%s', '%i', '%i', '%i', '%s')",
 
@@ -805,7 +804,7 @@ public roulette_ShowPrizes(playerid) {
 		if (0 == i) {
 			switch (type_id) {
 				case PRIZE_TYPE_SKIN: format(roulette_string, sizeof(roulette_string),
-							"%d. %s (ID: %d) - (%s)", (i + 1),
+							""P"%d. %s (ID: %d) - (%s)", (i + 1),
 							pi_name, model_id, pi_date);
 				default:
 					format(roulette_string, sizeof(roulette_string), ""G"%d. "W"%s - (%s)", (i + 1),
@@ -816,7 +815,7 @@ public roulette_ShowPrizes(playerid) {
 		else {
 			switch (type_id) {
 				case PRIZE_TYPE_SKIN: format(roulette_string, sizeof(roulette_string),
-							"%s\n%d. %s (ID: %d) - (%s)", roulette_string, (i + 1),
+							"%s\n"P"%d. %s (ID: %d) - (%s)", roulette_string, (i + 1),
 							pi_name, model_id, pi_date);
 				default: format(roulette_string, sizeof(roulette_string), "%s\n"P"%d. "W"%s - (%s)", roulette_string, (i + 1), pi_name, pi_date);
 			}
