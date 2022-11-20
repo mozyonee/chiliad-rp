@@ -43,7 +43,7 @@ enum {
 	PRIZE_TYPE_EXP,
 	PRIZE_TYPE_LEVEL,
 	PRIZE_TYPE_BOOST,
-	PRIZE_TYPE_VIP_RUBY,
+	PRIZE_TYPE_VIP_UAHY,
 	PRIZE_TYPE_SKIN,
 	PRIZE_TYPE_ACCESORY,
 }
@@ -67,15 +67,15 @@ new const PrizeRouletInfo[][PRIZE_ESING] = {
 	{90, 98, "$500000", "$500000", 500000, PRIZE_TYPE_MONEY, {328.0, 0.0, 0.0, 1.44}},
 	{98, 100, "$1000000", "$1000000", 1000000, PRIZE_TYPE_MONEY, {328.0, 0.0, 0.0, 1.44}},
 	// DONATE
-	{0, 30, "30 RUB", "30 rub", 30, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{30, 80, "70 RUB", "70 rub", 70, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{80, 90, "150 RUB", "150 rub", 150, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{90, 98, "500 RUB", "500 rub", 500, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{0, 30, "30 RUB", "30 rub", 30, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{30, 80, "70 RUB", "70 rub", 70, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{80, 90, "150 RUB", "150 rub", 150, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{90, 98, "500 RUB", "500 rub", 500, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
-	{98, 100, "1000 RUB", "1000 rub", 1000, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{0, 30, "30 UAH", "30 uah", 30, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{30, 80, "70 UAH", "70 uah", 70, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{80, 90, "150 UAH", "150 uah", 150, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{90, 98, "500 UAH", "500 uah", 500, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{0, 30, "30 UAH", "30 uah", 30, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{30, 80, "70 UAH", "70 uah", 70, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{80, 90, "150 UAH", "150 uah", 150, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{90, 98, "500 UAH", "500 uah", 500, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
+	{98, 100, "1000 UAH", "1000 uah", 1000, PRIZE_TYPE_DONATE, {270.0, 180.0, 196.0, 2.00}},
 	//acs
 	{90, 98, "DREADLOCKS", "DREADLOCKS", 453, PRIZE_TYPE_ACCESORY, {328.0, 0.0, 0.0, 1.44}},
 	{90, 98, "DREADLOCKS", "DREADLOCKS", 453, PRIZE_TYPE_ACCESORY, {328.0, 0.0, 0.0, 1.44}},
@@ -89,22 +89,22 @@ new const PrizeRouletInfo[][PRIZE_ESING] = {
 	{70, 90, "KATANA", "KATANA", 461, PRIZE_TYPE_ACCESORY, {328.0, 0.0, 0.0, 1.44}},
 	
 	// VIP
-	{0, 40, "PREMIUM ~y~(1)", "VIP PREMIUM (на 1 сутки)", 1, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{40, 70, "VIP PREMIUM ~y~(3)", "PREMIUM (на 3 суток)", 3, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{70, 90, "VIP PREMIUM ~y~(7)", "PREMIUM (на 1 неделю)", 7, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{90, 97, "VIP PREMIUM ~y~(15)", "PREMIUM (на 2 недели)", 15, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{97, 100, "VIP PREMIUM ~y~(30)", "PREMIUM (на 1 месяц)", 30, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{0, 40, "PREMIUM ~y~(1)", "VIP PREMIUM (на 1 сутки)", 1, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{40, 70, "VIP PREMIUM ~y~(3)", "PREMIUM (на 3 суток)", 3, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{70, 90, "VIP PREMIUM ~y~(7)", "PREMIUM (на 1 неделю)", 7, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{90, 97, "VIP PREMIUM ~y~(15)", "PREMIUM (на 2 недели)", 15, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{97, 100, "VIP PREMIUM ~y~(30)", "PREMIUM (на 1 месяц)", 30, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
+	{0, 40, "PREMIUM ~y~(1)", "VIP PREMIUM (на 1 доби)", 1, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{40, 70, "VIP PREMIUM ~y~(3)", "PREMIUM (на 3 доби)", 3, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{70, 90, "VIP PREMIUM ~y~(7)", "PREMIUM (на 1 тиждень)", 7, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{90, 97, "VIP PREMIUM ~y~(15)", "PREMIUM (на 2 тижня)", 15, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{97, 100, "VIP PREMIUM ~y~(30)", "PREMIUM (на 1 місяць)", 30, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{0, 40, "PREMIUM ~y~(1)", "VIP PREMIUM (на 1 доби)", 1, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{40, 70, "VIP PREMIUM ~y~(3)", "PREMIUM (на 3 доби)", 3, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{70, 90, "VIP PREMIUM ~y~(7)", "PREMIUM (на 1 тиждень)", 7, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{90, 97, "VIP PREMIUM ~y~(15)", "PREMIUM (на 2 тижня)", 15, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{97, 100, "VIP PREMIUM ~y~(30)", "PREMIUM (на 1 місяць)", 30, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
 	
-	{0, 40, "PREMIUM ~y~(1)", "VIP PREMIUM (на 1 сутки)", 1, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{40, 70, "VIP PREMIUM ~y~(3)", "PREMIUM (на 3 суток)", 3, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{70, 90, "VIP PREMIUM ~y~(7)", "PREMIUM (на 1 неделю)", 7, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{90, 97, "VIP PREMIUM ~y~(15)", "PREMIUM (на 2 недели)", 15, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
-	{97, 100, "VIP PREMIUM ~y~(30)", "PREMIUM (на 1 месяц)", 30, PRIZE_TYPE_VIP_RUBY, {270.0, 0.0, 270.0, 1.71}},
+	{0, 40, "PREMIUM ~y~(1)", "VIP PREMIUM (на 1 доби)", 1, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{40, 70, "VIP PREMIUM ~y~(3)", "PREMIUM (на 3 доби)", 3, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{70, 90, "VIP PREMIUM ~y~(7)", "PREMIUM (на 1 тиждень)", 7, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{90, 97, "VIP PREMIUM ~y~(15)", "PREMIUM (на 2 тижня)", 15, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
+	{97, 100, "VIP PREMIUM ~y~(30)", "PREMIUM (на 1 місяць)", 30, PRIZE_TYPE_VIP_UAHY, {270.0, 0.0, 270.0, 1.71}},
 	
 	{0, 40, "CLOTHER ~y~(177)", "CLOTHER(177)", 177, PRIZE_TYPE_SKIN, {0.0, 0.0, 0.0, 1.0}},
 	{40, 70, "CLOTHER ~y~(249)", "CLOTHER(249)", 249, PRIZE_TYPE_SKIN, {0.0, 0.0, 0.0, 1.0}},
@@ -121,10 +121,10 @@ new const PrizeRouletInfo[][PRIZE_ESING] = {
 	{0, 60, "+1 LEVEL", "+1 LEVEL", 1, PRIZE_TYPE_LEVEL, {169.0, 180.0, 90.0, 1.50}},
 	{60, 100, "+2 LEVEL", "+2 LEVEL", 2, PRIZE_TYPE_LEVEL, {169.0, 180.0, 90.0, 1.50}},
 	// BOOST
-	{0, 30, "X2 ~w~SALARY ~y~(1)", "X2 зарплата (на 1 час)", 1, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}},
-	{30, 60, "X2 ~w~SALARY ~y~(3)", "X2 зарплата (на 3 часа)", 3, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}},
-	{60, 75, "X2 ~w~SALARY ~y~(9)", "X2 зарплата (на 9 часов)", 9, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}},
-	{75, 100, "X2 ~w~SALARY ~y~(24)", "X2 зарплата (на 1 сутки)", 24, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}}
+	{0, 30, "X2 ~w~SALARY ~y~(1)", "X2 зарплата (на 1 годину)", 1, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}},
+	{30, 60, "X2 ~w~SALARY ~y~(3)", "X2 зарплата (на 3 години)", 3, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}},
+	{60, 75, "X2 ~w~SALARY ~y~(9)", "X2 зарплата (на 9 годин)", 9, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}},
+	{75, 100, "X2 ~w~SALARY ~y~(24)", "X2 зарплата (на 1 доби)", 24, PRIZE_TYPE_BOOST, {180.0, 0.0, 270.0, 1.64}}
 };
 #define MAX_ROULETTE_PRIZE	sizeof (PrizeRouletInfo)
 
@@ -139,7 +139,7 @@ stock roulette_NextPrize(playerid) {
 }
 stock roulette_UpdateBalanceTD(playerid) {
 	new roulette_string[36];
-	format(roulette_string, sizeof(roulette_string), "~>~ BALANCE: ~r~~h~~h~~h~%iP", PI[playerid][pRouble]);
+	format(roulette_string, sizeof(roulette_string), "~>~ BALANCE: ~r~~h~~h~~h~%iUAH", PI[playerid][pRouble]);
 	PlayerTextDrawSetString(playerid, Roulette_PTD[playerid][10], roulette_string);
 
 	new cases_amount = (PI[playerid][pRouble] / ROULETTE_OPEN_PRICE);
@@ -155,7 +155,7 @@ stock roulette_Start(playerid) {
 		return false;
 	if (PI[playerid][pRouble] < ROULETTE_OPEN_PRICE) {
 		PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
-		return SendClientMessage(playerid, -1, "Для открытия необходимо "#ROULETTE_OPEN_PRICE" рублей.");
+		return SendClientMessage(playerid, -1, "Для відкриття необхідно мати "#ROULETTE_OPEN_PRICE" UAH.");
 	}
 	PI[playerid][pRouble] -= ROULETTE_OPEN_PRICE;
 	UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
@@ -190,32 +190,37 @@ stock roulette_Stop(playerid) {
 
 	new
 		roulette_string[256],
-		player_prize_id = RouletteInfo[playerid][roulettePrizeSlots][2]
+		player_prize_id = RouletteInfo[playerid][roulettePrizeSlots][2],
+		string[128], day, month, year, hour, minute, second;
 	;
-	mysql_format(connects, roulette_string, sizeof(roulette_string),
-		"INSERT INTO "TABLE_ROULETTE" (player_name, name, model, type, arrayid)\
-		VALUES ('%s', '%s', '%i', '%i', '%i')",
+	getdate(day, month, year);
+	gettime(hour, minute, second);
+	format(string, sizeof(string), "%0d.%02d.%d | %d:%02d:%02d", day, month, year, hour, minute, second);
+	mysql_format(connects, roulette_string, sizeof(roulette_string);
+		"INSERT INTO "TABLE_ROULETTE" (player_name, name, model, type, arrayid, date)\
+		VALUES ('%s', '%s', '%i', '%i', '%i', '%s')",
 
 		GetName(playerid),
 
 		PrizeRouletInfo[player_prize_id][prize_text_name],
 		PrizeRouletInfo[player_prize_id][prize_model_id],
 		PrizeRouletInfo[player_prize_id][prize_type_id],
-		player_prize_id
+		player_prize_id,
+		string
 	);
 	mysql_tquery(connects, roulette_string);
 
 	roulette_GetPrizesArray(playerid);
 
 	format(roulette_string, sizeof(roulette_string),
-		""W"Вы выиграли — "P"%s"W". Поздравляем!",
+		""W"Ви виграли — "P"%s"W". Вітаємо!",
 
 		PrizeRouletInfo[player_prize_id][prize_text_name]
 	);
-	SPD(playerid, D_ROULETTE, DSM, ""P"Рулетка", roulette_string, "Закрыть", "");
+	SPD(playerid, D_ROULETTE, DSM, ""P"Рулетка", roulette_string, "Закрити", "");
 
 	printf(
-		"Игрок %s выиграл в рулетке - \"%s\". Текущий баланс: %d",
+		"Гравець %s виграв в рулетці - \"%s\". Поточний баланс: %d",
 		GetName(playerid), PrizeRouletInfo[player_prize_id][prize_text_name], PI[playerid][pRouble]
 	);
 	RouletteInfo[playerid][rouletteStarted] = 0;
@@ -231,7 +236,7 @@ stock roulette_SetPrizeSlot(playerid, prize_id) {
 	switch (PrizeRouletInfo[prize_typeid][prize_type_id]) {
 		case PRIZE_TYPE_MONEY: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 1212);
 		case PRIZE_TYPE_DONATE: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 1874);
-		case PRIZE_TYPE_VIP_RUBY: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 902);
+		case PRIZE_TYPE_VIP_UAHY: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 902);
 		case PRIZE_TYPE_EXP, PRIZE_TYPE_LEVEL: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 19134);
 		case PRIZE_TYPE_BOOST: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 1318);
 		case PRIZE_TYPE_ACCESORY: PlayerTextDrawSetPreviewModel(playerid, Roulette_PTD[playerid][prize_id], 18645);
@@ -573,7 +578,7 @@ stock roulette_CreateTD() {
 	TextDrawFont(Roulette_TD[19], 1);
 	TextDrawSetProportional(Roulette_TD[19], 1);
 
-	Roulette_TD[20] = TextDrawCreate(371.900115, 264.000000, "~r~~h~~h~~h~"#ROULETTE_OPEN_PRICE"P");
+	Roulette_TD[20] = TextDrawCreate(371.900115, 264.000000, "~r~~h~~h~~h~"#ROULETTE_OPEN_PRICE"UAH");
 	TextDrawLetterSize(Roulette_TD[20], 0.184946, 0.882498);
 	TextDrawTextSize(Roulette_TD[20], 636.000000, 0.000000);
 	TextDrawAlignment(Roulette_TD[20], 3);
@@ -786,9 +791,9 @@ public roulette_ShowPrizes(playerid) {
 	new rows;
 	cache_get_row_count(rows);
 	if (!rows)
-		return SendClientMessage(playerid, -1, "У вас нет неиспользованных призов.");
+		return SendClientMessage(playerid, -1, "У Вас немає невикористаних призів.");
 	new roulette_string[2048];
-	for (new i = 0, type_id, model_id, pi_name[32], pi_date[22]; i < rows; i++) {
+	for (new i = 0, type_id, model_id, pi_name[32], pi_date[128]; i < rows; i++) {
 		cache_get_value_name_int(i, "id", RouletteInfo[playerid][roulettePrizeID][i]);
 
 		cache_get_value_name(i, "name", pi_name, sizeof(pi_name));
@@ -817,7 +822,7 @@ public roulette_ShowPrizes(playerid) {
 			}
 		}
 	}
-	SPD(playerid, D_ROULETTE_2, DSL, ""P"Список ваших призов", roulette_string, "Выбрать", "Отмена");
+	SPD(playerid, D_ROULETTE_2, DSL, ""P"Список ваших призів", roulette_string, "Обрати", "Скасувати");
 
 	return true;
 }
@@ -842,13 +847,13 @@ public roulette_TakePrize(playerid, prize_bdid) {
 		{FFFFFF}Получен: {FF0000}%s",
 		pi_name, pi_date
 	);
-	SPD(playerid, D_ROULETTE_3, DSM, ""P"Информация о призе", roulette_string, "Далее", "Отмена");
+	SPD(playerid, D_ROULETTE_3, DSM, ""P"Інформація про приз", roulette_string, "Далі", "Отмена");
 }
 stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
     switch (db_type_id) {
-		case PRIZE_TYPE_LEVEL: GiveMoney(playerid, 10000* db_model_id, "50% продажа 'level'");
-		case PRIZE_TYPE_EXP: GiveMoney(playerid, 2500* db_model_id, "50% продажа 'EXP'");
-		case PRIZE_TYPE_VIP_RUBY:{
+		case PRIZE_TYPE_LEVEL: GiveMoney(playerid, 10000* db_model_id, "50% продаж 'level'");
+		case PRIZE_TYPE_EXP: GiveMoney(playerid, 2500* db_model_id, "50% продаж 'EXP'");
+		case PRIZE_TYPE_VIP_UAHY:{
 			switch(db_model_id){
 				case 1:  PI[playerid][pRouble] += 15;
 				case 3:  PI[playerid][pRouble] += 45;
@@ -872,16 +877,16 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, (db_model_id/100)*50, "usePrize");
 		case PRIZE_TYPE_SKIN: {
 			switch(db_model_id){
-				case 177: GiveMoney(playerid, 150000, "50% продажа 'Clother'");
-				case 249: GiveMoney(playerid, 450000, "50% продажа 'Clother'");
-				case 294: GiveMoney(playerid, 6500000, "50% продажа 'Clother'");
+				case 177: GiveMoney(playerid, 150000, "50% продаж 'Clother'");
+				case 249: GiveMoney(playerid, 450000, "50% продаж 'Clother'");
+				case 294: GiveMoney(playerid, 6500000, "50% продаж 'Clother'");
 			}
 		}
 		case PRIZE_TYPE_ACCESORY:{
 			switch(db_model_id){
-				case 133: GiveMoney(playerid, 100000, "50% продажа 'Accesory'");
-				case 453: GiveMoney(playerid, 250000, "50% продажа 'Accesory'");
-				case 461: GiveMoney(playerid, 400000, "50% продажа 'Accesory'");
+				case 133: GiveMoney(playerid, 100000, "50% продаж 'Accesory'");
+				case 453: GiveMoney(playerid, 250000, "50% продаж 'Accesory'");
+				case 461: GiveMoney(playerid, 400000, "50% продаж 'Accesory'");
 			}
 
 		}
@@ -889,7 +894,7 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 
 	}
 	UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
-    format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Вы успешно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
+    format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
 	SendOk(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
 	new roulette_string[64];
@@ -909,7 +914,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 			PI[playerid][pExp] = 0;
 
 			DollahScoreUpdate(playerid);
-			SendClientMessage(playerid, CGOLD, "Поздравляем! Ваш уровень повышен");
+			SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
 		}
 		case PRIZE_TYPE_EXP: {
 			PI[playerid][pExp] += db_model_id;
@@ -919,11 +924,11 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 				UpdatePlayerData(playerid, "pLevel", PI[playerid][pLevel]);
 				PI[playerid][pExp] = 0;
 				DollahScoreUpdate(playerid);
-				SendClientMessage(playerid, CGOLD, "Поздравляем! Ваш уровень повышен");
+				SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
 			}
 		}
-		case PRIZE_TYPE_VIP_RUBY:{
-		    if(PI[playerid][pPremium] > 1) return SendClientMessage(playerid, COLOR_GREY,"У вас уже есть премиум, активируйте когда старый премиум закончится!");
+		case PRIZE_TYPE_VIP_UAHY:{
+		    if(PI[playerid][pPremium] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є преміум-акаунт. Рекомендуємо активувати виграних після завершення старого!");
 			switch(db_model_id){
 				case 1:  PI[playerid][pPremium] = gettime() + 60*60*24;
 				case 3:  PI[playerid][pPremium] = gettime() + 60*60*24*3;
@@ -934,7 +939,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
         	UpdatePlayerData(playerid,"Premium",PI[playerid][pPremium]);
 		}
 		case PRIZE_TYPE_BOOST:{
-		    if(PI[playerid][pBoost] > 1) return SendClientMessage(playerid, COLOR_GREY,"У вас уже есть Х2 зарплата, активируйте когда старая X2 зарплата закончится!");
+		    if(PI[playerid][pBoost] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є х2 зарплата. Рекомендуємо активувати виграну після завершення старої!");
 		    switch(db_model_id){
 				case 1:  PI[playerid][pBoost] = gettime() + 60*60*24;
 				case 3:  PI[playerid][pBoost] = gettime() + 60*60*24*3;
@@ -956,7 +961,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 		}*/
 		
 	}
-	format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Вы успешно использовали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
+	format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Ви успішно використали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
 	SendOk(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
 	new roulette_string[64];
