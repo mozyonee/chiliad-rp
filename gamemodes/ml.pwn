@@ -494,7 +494,7 @@ new
 PlayerTrailer[MAX_VEHICLES_PLAYER][PLAYER_VEHICLE_E],
 playerVehicleID[MAX_PLAYERS],
 playerVehicleAmount[MAX_PLAYERS];
-////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 
 #define VEHICLE_STATE_CAR   0
 #define VEHICLE_STATE_BIKE  1
