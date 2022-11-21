@@ -54094,7 +54094,7 @@ CMD:makeleader(playerid, params[]) {
 	if(!PI[playerid][giveLeader]) return SendClientMessage(playerid,-1,""cError"У вас немає доступу до цієї команди.");
 	new string[64], strings[600], count_leader = 0;
 	strcat(strings,"#\tОрганізація\tЛідер\n");
-	for(new i = 1;i < MAX_FRACTIONS;i ++)
+	for(new i = 0;i < MAX_FRACTIONS;i ++)
 	{
 		if(!GetString(FI[i][fName],"Закрито"))
 		{
