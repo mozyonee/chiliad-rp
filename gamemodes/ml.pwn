@@ -8618,6 +8618,43 @@ stock to_default(playerid) {
 #include "../system/hacker.pwn"
 stock RemoveBuildings(playerid) {
 
+	//ждлс
+	RemoveBuildingForPlayer(playerid, 4853, 1736.976, -1960.656, 15.054, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1724.875, -1859.539, 16.351, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1703.468, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1710.835, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1714.976, -1841.851, 16.351, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1710.835, -1833.054, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1703.468, -1833.054, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 673, 1704.742, -1829.796, 11.445, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1721.156, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1731.476, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1741.796, -1833.054, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1731.476, -1833.054, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1721.156, -1833.054, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 673, 1723.929, -1829.796, 11.445, 0.250);
+	RemoveBuildingForPlayer(playerid, 700, 1732.671, -1830.078, 11.445, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1774.757, -1931.312, 16.375, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1806.429, -1931.601, 16.375, 0.250);
+	RemoveBuildingForPlayer(playerid, 5024, 1748.843, -1883.031, 14.187, 0.250);
+	RemoveBuildingForPlayer(playerid, 5083, 1748.843, -1883.031, 14.187, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1774.757, -1901.539, 16.375, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1806.429, -1901.828, 16.375, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1755.820, -1859.539, 16.351, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1808.125, -1859.539, 16.351, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1783.671, -1859.539, 16.351, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1747.187, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 1742.554, -1835.062, 16.351, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1762.828, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1778.476, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1794.117, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 620, 1809.765, -1846.710, 10.804, 0.250);
+	RemoveBuildingForPlayer(playerid, 5033, 1745.199, -1882.849, 26.140, 0.250);
+	RemoveBuildingForPlayer(playerid, 5055, 1745.199, -1882.849, 26.140, 0.250);
+	RemoveBuildingForPlayer(playerid, 5024, 1748.839, -1883.030, 14.187, 0.250);
+	RemoveBuildingForPlayer(playerid, 5083, 1748.839, -1883.030, 14.187, 0.250);
+	RemoveBuildingForPlayer(playerid, 4821, 1745.199, -1882.849, 26.140, 0.250);
+	RemoveBuildingForPlayer(playerid, 4961, 1745.199, -1882.849, 26.140, 0.250);
 	
 
 	//ноВий lcn
@@ -12006,7 +12043,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 1: {
 					SendOk(playerid,"Взяти квест можна на вокзалі в Лукаса"NO" (відмічено на карті червоної міткою)");
 					gpss[playerid] = 1;
-					SetPlayerRaceCheckpoint(playerid, 2, 1763.3773,-1906.7416,13.5880, 1763.3773,-1906.7416,13.5880, 1.0);
+					SetPlayerRaceCheckpoint(playerid, 2, 1772.8312,-1896.1721,13.5521, 1772.8312,-1896.1721,13.5521, 1.0);
 				}
 			case 2: {
 					new mas[17] = {40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56}, num=0, string[1200];
@@ -14579,8 +14616,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response)
 				return false;
 			ShowPlayerDialog(playerid, D_ROULETTE_4, DIALOG_STYLE_LIST, ""P"Доступные дії",
-				!""P"1. "W"ИсПользовать прз\n\
-				"P"2. "W"Продати прз "G"[50%]", //
+				!""P"1. "W"Використати приз\n\
+				"P"2. "W"Продати приз "G"[50%]", //
 				!"Обрати", "Скасувати"
 			);
 			return 1;
@@ -32176,7 +32213,7 @@ public OnGameModeInit() {
 	CreateDynamic3DTextLabel(""G"Уряд\n"W"Взаємодія:"G" 'ALT'",-1, 1429.3641,-21.8939,1000.8815, 3.0);
 	
 	//// СПАВН БОМЖЕЙ
-	CreateObject(984, 1791.72607, -1920.30933, 13.00160, 0.00000, 0.00000, 0.00000);
+	/*CreateObject(984, 1791.72607, -1920.30933, 13.00160, 0.00000, 0.00000, 0.00000);
     CreateObject(984, 1791.72607, -1907.34924, 13.00160, 0.00000, 0.00000, 0.00000);
 	CreateObject(1290, 1791.73547, -1900.98865, 12.38350, 0.00000, 0.00000, 0.00000);
 	CreateObject(1290, 1791.74170, -1913.83252, 12.38350, 0.00000, 0.00000, 0.00000);
@@ -32239,7 +32276,7 @@ public OnGameModeInit() {
 	CreateObject(1415, 1767.61060, -1915.04602, 12.65439, 0.00000, 0.00000, 270.00000);
 	CreateObject(1264, 1767.44287, -1910.06995, 12.89506, 0.00000, 0.00000, 0.00000);
 	CreateObject(1264, 1766.67175, -1908.86353, 12.89510, 0.00000, 0.00000, 65.28520);
-	CreateObject(1264, 1767.68164, -1909.01245, 12.89510, 0.00000, 0.00000, 65.28520);
+	CreateObject(1264, 1767.68164, -1909.01245, 12.89510, 0.00000, 0.00000, 65.28520);*/
 	// каналзация
 	CreateDynamicPickup(19135,23,2212.5579,-2545.3342,13.5469);
 	CreateDynamic3DTextLabel(""ORANGE"Утилізація сміття\n"W"Для утилізації натисніть"ORANGE" 'H'"W" в транспорті",-1,2212.5579,-2545.3342,13.5469,5.0);
@@ -32612,7 +32649,7 @@ public CreateSphree() {
 	actor[4] = CreateActor(29, 324.3706,1120.0488,1083.8828,110.0615);//[притон] Продаж нарко
 	SetActorVirtualWorld(actor[4], 32);
 	
-	actor[5] = CreateActor(291, 1763.3773,-1906.7416,13.5880,357.3777);//[КВЕСТ] гетто спавн
+	actor[5] = CreateActor(291, 1772.8312,-1896.1721,13.5521,88.0522);//[КВЕСТ] гетто спавн
 	ApplyActorAnimation(actor[5],"DEALER","Dealer_idle",4.1,0,0,0,1,1);
 
 	actor[6] = CreateActor(291, 539.3405,-4785.8008,2.0859,267.3876);// Лодочная бот
@@ -32947,7 +32984,7 @@ stock Create3dText() {
 	
 	CreateDynamic3DTextLabel("{ECC987}Carl Johnson"W"\n\nВзаємодія 'ALT'",-1,1768.1006,-1935.9192,13.5691,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	//CreateDynamic3DTextLabel("{ECC987}Lucas Evans"W"\n\nВзаємодія 'ALT'",-1,1630.7994,-2285.9072,-1.1666,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-	Create3DTextLabel("{ECC987}Lucas Evans"W"\n\nВзаємодія 'ALT'", 0x008080FF, 1763.3773,-1906.7416,13.5880,4.0, 0, 0);
+	Create3DTextLabel("{ECC987}Lucas Evans"W"\n\nВзаємодія 'ALT'", 0x008080FF, 1772.8312,-1896.1721,13.5521,4.0, 0, 0);
 	CreateDynamic3DTextLabel("{ECC987}Karen Wood"W"\n\nВзаємодія 'ALT'",-1,2451.3081,-1901.9733,13.5469,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 
 	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть"YELLOW" 'ALT'",-1,1782.5869,-1885.4102,13.3912,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
@@ -42586,7 +42623,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			format(str,sizeof(str),""P"1."W" Купити наркотики "GREEN"[1 г = $%d]\n"P"2."W" Замовити наркотики\n"P"3."W" Інформація\n"P"4."W" Керування притоном",gBusiness[56][bizzPrice]);
 			ShowPlayerDialog(playerid,DIALOG_PRITON,DSL, ""P"Наркопритон", str, "Обрати", "Скасувати");
 		}
-		else if(PlayerToPoint(2.5,playerid,1763.3773,-1906.7416,13.5880))
+		else if(PlayerToPoint(2.5,playerid,1772.8312,-1896.1721,13.5521))
 		{
 			new mas[14] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14},num=0, string[750];
 			new skr[750];
@@ -45821,7 +45858,7 @@ CB: player_register(playerid) {
 	save_settings(playerid);
 	
 	gpss[playerid] = 1;
-	SetPlayerRaceCheckpoint(playerid, 2, 1763.3773,-1906.7416,13.5880-0.8, 1763.3773,-1906.7416,13.5880-0.8, 1.0);
+	SetPlayerRaceCheckpoint(playerid, 2, 1772.8312,-1896.1721,13.5521-0.8, 1772.8312,-1896.1721,13.5521-0.8, 1.0);
 	
 	StopAudioStreamForPlayer(playerid);
 	UpdatePlayerData(playerid, "Skin", skin);
@@ -46482,9 +46519,19 @@ CB: CopsWanted(playerid,player_id) {
 	return false;
 }
 stock SendOk(playerid, const text[]) {
-	new string[256];
-	format(string, 256, "%s", text);
-	return SendClientMessage(playerid, COLOR_WHITE, string);
+  new string[256];
+  format(string, 256, "[Успішно] "W"%s", text);
+  return SendClientMessage(playerid, 0x33AA33FF, string);
+}
+stock SendError(playerid, const text[]) {
+  new string[256];
+  format(string, 256, "[Помилка] "W"%s", text);
+  return SendClientMessage(playerid, 0xBC2C2CFF, string);
+}
+stock SendInfo(playerid, const text[]) {
+  new string[256];
+  format(string, 256, "[Інформація] "W"%s", text);
+  return SendClientMessage(playerid, 0x479ff2ff, string);
 }
 stock SendUse(playerid, const text[]) {
 	new string[256];
@@ -52777,6 +52824,36 @@ CMD:alldelveh(playerid) {
 	SendOk(playerid,"Все адмін авто видалено.");
 	return 1;
 }
+CMD:templeader(playerid, params[])
+{
+	if(sscanf(params,"i",params[0])) return SendError(playerid,"Використайте: /templeader ID фракції");
+	if(params[0] < 0 || params[0] > 22) return SendError(playerid, "Діапазон ID фракцій від 1 до 22");
+	if(params[0] == 0)
+	{
+		PI[playerid][pLeader] = params[0];
+		PI[playerid][pMember] = params[0];
+		PI[playerid][pRank] = 0;
+		return SendOk(playerid, "Ви вийшли з-під фракції");
+	}
+	else
+	{
+		new string[128];
+		format(string, sizeof(string), "Ви зайшли під фракцію %s", FI[params[0]][fName]);
+		SendOk(playerid, string);
+		PI[playerid][pLeader] = params[0];
+		PI[playerid][pMember] = params[0];
+		PI[playerid][pRank] = FI[params[0]][fMaxRang];
+		UpdatePlayerData(playerid,"pMember",PI[playerid][pMember]);
+		UpdatePlayerData(playerid,"pLeader",PI[playerid][pLeader]);
+		UpdatePlayerData(playerid,"pRank",PI[playerid][pRank]);
+		start_work[playerid] = 1;
+		if(PI[playerid][pfWarn] > 0) PI[playerid][pfWarn] = 0;
+		UpdatePlayerData(playerid,"fwarn",PI[playerid][pfWarn]);
+		UpdatePlayerData(playerid,"FracDuty",start_work[playerid]);
+		SendInfo(playerid, "Щоб вийти з-під фракції, використайте: /templeader 0");
+	}
+	return 1;
+}
 CMD:unwarn(playerid, params[])
 {
 	if (PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
@@ -55067,7 +55144,7 @@ stock NextStapQI(playerid,id) {
 			}
 			else if(QuestProgress[playerid][id] == 1) {
 				gpss[playerid] = 1;
-				SetPlayerRaceCheckpoint(playerid, 2, 1763.3773,-1906.7416,13.5880-0.8, 1763.3773,-1906.7416,13.5880-0.8, 1.0);
+				SetPlayerRaceCheckpoint(playerid, 2, 1772.8312,-1896.1721,13.5521-0.8, 1772.8312,-1896.1721,13.5521-0.8, 1.0);
 			}
 		}
 	case 57: {

@@ -577,7 +577,7 @@ stock roulette_CreateTD() {
 	TextDrawFont(Roulette_TD[19], 1);
 	TextDrawSetProportional(Roulette_TD[19], 1);
 
-	Roulette_TD[20] = TextDrawCreate(371.900115, 264.000000, "~r~~h~~h~~h~"#ROULETTE_OPEN_PRICE"UAH");
+	Roulette_TD[20] = TextDrawCreate(371.900115, 264.000000, "~r~~h~~h~~h~"     #ROULETTE_OPEN_PRICE"UAH");
 	TextDrawLetterSize(Roulette_TD[20], 0.184946, 0.882498);
 	TextDrawTextSize(Roulette_TD[20], 636.000000, 0.000000);
 	TextDrawAlignment(Roulette_TD[20], 3);
