@@ -23898,7 +23898,7 @@
     SetDynamicObjectMaterialText(tmpobjid, 0, "________________________________________________________________________________________________________________________________", 130, "Arial", 40, 0, 0xFFFFFFFF, 0x00000000, 1);
     tmpobjid = CreateDynamicObject(2714, -52.658744, -185.031158, 1026.782348, -0.000043, -0.000003, -87.999885, 6, 9, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 1, 19480, "signsurf", "sign", 0x00000000);
-    SetDynamicObjectMaterialText(tmpobjid, 0, "R.C.S.D", 130, "Impact", 130, 0, 0xFFFFFFFF, 0x00000000, 0);
+    SetDynamicObjectMaterialText(tmpobjid, 0, "RCSO", 130, "Impact", 130, 0, 0xFFFFFFFF, 0x00000000, 0);
     tmpobjid = CreateDynamicObject(2714, -52.642826, -185.493972, 1026.525512, -0.000043, -0.000004, -87.999885, 6, 9, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 1, 19480, "signsurf", "sign", 0x00000000);
     SetDynamicObjectMaterialText(tmpobjid, 0, "INFORMATION", 130, "Impact", 90, 0, 0xFFFFFFFF, 0x00000000, 0);
@@ -23974,7 +23974,7 @@
     SetDynamicObjectMaterial(tmpobjid, 0, 10101, "2notherbuildsfe", "ferry_build14", 0x00000000);
     SetDynamicObjectMaterial(tmpobjid, 1, 18646, "matcolours", "grey-10-percent", 0x00000000);
     tmpobjid = CreateDynamicObject(19477, -48.843788, -185.186996, 1027.953735, -0.000003, -0.000007, 179.999847, 6, 9, -1, 300.00, 300.00);
-    SetDynamicObjectMaterialText(tmpobjid, 0, "SHERIFF DEPARTMENT", 130, "Calibri", 65, 0, 0xFF000000, 0x00000000, 1);
+    SetDynamicObjectMaterialText(tmpobjid, 0, "SHERIFF'S OFFICE", 130, "Calibri", 65, 0, 0xFF000000, 0x00000000, 1);
     tmpobjid = CreateDynamicObject(18066, -48.789588, -185.896789, 1027.943481, -0.000007, 0.000003, -90.000015, 6, 9, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 1, 14650, "ab_trukstpc", "mp_CJ_WOOD5", 0x00000000);
     tmpobjid = CreateDynamicObject(18066, -48.789588, -184.476745, 1027.943481, -0.000007, 0.000003, -90.000015, 6, 9, -1, 300.00, 300.00);
@@ -24483,7 +24483,7 @@
     SetDynamicObjectMaterial(tmpobjid, 1, 18646, "matcolours", "grey-90-percent", 0x00000000);
     SetDynamicObjectMaterial(tmpobjid, 2, 18646, "matcolours", "grey-93-percent", 0x00000000);
     tmpobjid = CreateDynamicObject(19325, -61.078155, -185.322296, 1031.725952, 0.000000, 0.000000, 180.000000, 6, 9, -1, 300.00, 300.00);
-    SetDynamicObjectMaterialText(tmpobjid, 0, "R.C.S.D", 130, "Arial", 140, 1, 0xF0000000, 0x00000000, 1);
+    SetDynamicObjectMaterialText(tmpobjid, 0, "RCSO", 130, "Arial", 140, 1, 0xF0000000, 0x00000000, 1);
     tmpobjid = CreateDynamicObject(19797, -19.040321, -183.692123, 1026.790405, 0.000000, 90.000000, -89.999977, 6, 9, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFCDCDCD);
     SetDynamicObjectMaterialText(tmpobjid, 0, "g", 130, "Webdings", 40, 1, 0xFFCDCDCD, 0x00000000, 1);
@@ -25030,8 +25030,8 @@
     SetDynamicObjectMaterial(tmpobjid, 0, 3902, "libertyhi3", "taxi_256128", 0x00000000);
     tmpobjid = CreateDynamicObject(19325, -61.143218, -185.292312, 1031.674926, 0.000000, 0.000000, 180.000000, 6, 9, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 0, 3922, "bistro", "concretebig3_256", 0xFFFFFFFF);
-    tmpobjid = CreateDynamicObject(902, -61.688720, -184.066070, 1030.808593, 36.000000, 90.000000, 0.000000, 6, 9, -1, 300.00, 300.00);
-    SetDynamicObjectMaterial(tmpobjid, 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
+    // tmpobjid = CreateDynamicObject(902, -61.688720, -184.066070, 1030.808593, 36.000000, 90.000000, 0.000000, 6, 9, -1, 300.00, 300.00);
+    // SetDynamicObjectMaterial(tmpobjid, 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
     tmpobjid = CreateDynamicObject(640, -60.617126, -178.769027, 1026.643798, 0.000000, 0.000000, 0.000000, 6, 9, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFFFFFFF);
     tmpobjid = CreateDynamicObject(640, -60.617126, -191.888717, 1026.643798, 0.000000, 0.000000, 0.000000, 6, 9, -1, 300.00, 300.00);
