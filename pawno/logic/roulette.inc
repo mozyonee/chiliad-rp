@@ -894,7 +894,7 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 	}
 	UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
     format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
-	SendOk(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
+	SendOK(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
 	new roulette_string[64];
 	mysql_format(connects, roulette_string, sizeof(roulette_string),
@@ -961,7 +961,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 		
 	}
 	format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Ви успішно використали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
-	SendOk(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
+	SendOK(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
 	new roulette_string[64];
 	mysql_format(connects, roulette_string, sizeof(roulette_string), 
