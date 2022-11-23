@@ -893,8 +893,8 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 
 	}
 	UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
-    format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
-	SendOK(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
+    format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "{479FF2}[Успіх] "W"Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
+	SendClientMessage(playerid, COLOR_WHITE, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
 	new roulette_string[64];
 	mysql_format(connects, roulette_string, sizeof(roulette_string),
@@ -949,7 +949,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 		}
 		case PRIZE_TYPE_DONATE: {
 			PI[playerid][pRouble] += db_model_id;
-			UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
+			UpdatePlayerData(playerid, "donatemonegy", PI[playerid][pRouble]);
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id, "usePrize");
 		case PRIZE_TYPE_SKIN: AddItem(playerid, 140 + db_model_id, 1);
@@ -960,8 +960,8 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 		}*/
 		
 	}
-	format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "Ви успішно використали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
-	SendOK(playerid, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
+	format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "{479FF2}[Успіх] "W"Ви успішно використали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
+	SendClientMessage(playerid, COLOR_WHITE, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
 	new roulette_string[64];
 	mysql_format(connects, roulette_string, sizeof(roulette_string), 

@@ -7536,12 +7536,10 @@ new Float:auto_exam[3][3] = {
 	{3.9606,-90.4766,1026.4091},
 	{6.3032,-90.4572,1026.4089}
 };
-
+#include "../logic/roulette.inc"
 new TotalGZ[6],
-
 Text3D:black_market,
 black_prods[10];
-#include "../logic/roulette.inc"
 stock IsPlayerInBandOnline(bandid) {
 	new count_band_online = 1;
 	foreach(new i:Player) {
@@ -17707,7 +17705,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(listitem) {
 				case 0: pc_cmd_admins(playerid);
 				case 1: pc_cmd_spawn(playerid,"");
-				case 2: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\t"W"Необхідний рівень\n1. Водій автобуса\t"P"2 рівень\n2. Механік\t"P"3 рівень\n3. Розвізник їжі\t"P"3 рівень\t"P"4 рівень\n4. Мийщик доріг\t"P"4 рівень\n5. Чистильник каналізацій\t"P"3 рівень\n6. Таксист\t"P"2 рівень\n7. Інкасатор\t"P"2 рівень\n8. Развізник продуктів чи палива\t"P"2 рівень\n"NO"Звільнитися з роботи", "Обрати", "Закрити");
+				case 2: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\n1. Водій автобуса\n2. Механік\n3. Розвізник їжі\n4. Мийщик доріг\n5. Чистильник каналізацій\n6. Таксист\n7. Інкасаторь\n8. Развізник продуктів чи палива\n"NO"Звільнитися з роботи", "Обрати", "Закрити");
 				case 3: pc_cmd_prisoners(playerid,"");
 				case 4: pc_cmd_mutelist(playerid,"");
 				case 5: PI[playerid][pAdmMSG] = (!PI[playerid][pAdmMSG])?(1):(0),UpdatePlayerData(playerid,"pAdmMSG",PI[playerid][pAdmMSG]),pc_cmd_apanel(playerid,"");
@@ -18581,8 +18579,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_JOB: {
 			if(!response) return 1;
-			//if(start_work[playerid]) return SendError(playerid, "Необхідно закончить робочий день в організації");
-			switch(listitem) {
+			if(start_work[playerid]) return SendError(playerid, "Необхідно закончить робочий день в організації");
+			/*switch(listitem) {
 			case 0: {
 					if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 					PI[playerid][pJob] = 1;
@@ -18623,10 +18621,25 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					UpdatePlayerData(playerid,"pJob",PI[playerid][pJob]);
 					return 1;
 				}
+			}*/
+
+			listitem++;
+			if(PI[playerid][pJob] == listitem) return SendError(playerid, "Ви вже влаштовані на цю роботу.");
+			if(IsAGang(playerid) || listitem == 7) return SendError(playerid, "Ви знаходитеся в банді. Вам не можна працювати на цій роботі.");
+			if(listitem == 8)
+			{
+				if(!PI[playerid][pJob]) return SendError(playerid, "Ви не влаштовані на роботу.");
+				PI[playerid][pJob] = 0;
+				SendOK(playerid,"Ви звільнилися з роботи.");
+				UpdatePlayerData(playerid,"pJob",PI[playerid][pJob]);
 			}
-			UpdatePlayerData(playerid,"pJob",PI[playerid][pJob]);
-			SendOK(playerid,"Ви успішно працевлаштувалися!");
-			SendOK(playerid,"Для перегляду доступних команд, введіть "P"/menu"W". (Команди сервера > По роботі)");
+			else
+			{
+				PI[playerid][pJob] = listitem;
+				UpdatePlayerData(playerid,"pJob",PI[playerid][pJob]);
+				SendOK(playerid,"Ви успішно працевлаштувалися!");
+				SendOK(playerid,"Для перегляду доступних команд, введіть "P"/menu"W". (Команди сервера > По роботі)");
+			}
 		}
 	case D_FARM: {
 			if(!response) return 1;
@@ -18852,7 +18865,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(bint < 0 || bint >= BINT_COUNT) return 1;
 				if(businessid == 57) 
 				{
-					if(PI[playerid][pLevel] < 3) return SendError(playerid, "Вхід в казино можливий з 3 рівня.");
 					if(!casino) return SendError(playerid, "Вхід в казино тимчасово закритий.");
 				}
 				TI[playerid][tTPpick] = true;
