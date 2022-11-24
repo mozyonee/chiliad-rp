@@ -1,5 +1,4 @@
 //fixModeBySamperLife2022
-
 @___If_u_can_read_this_u_r_nerd();
 @___If_u_can_read_this_u_r_nerd()
 {
@@ -21,7 +20,6 @@ L1:
 	#emit  jump  L1
 	#emit  zero  cellmin
 }
-
 #include <a_samp>
 #define MAX_PLAYERS                             	   (1000)
 #include <a_mysql>
@@ -39,9 +37,7 @@ main() {
 	print(" server by: Andrei_Mix						   	  	  ");
 	print(" motion project © 2019-2021, inc. all rights reserved. ");
 	print("_______________________________________________________");
-
 }
-
 #include 	<Pawn.CMD>
 #include    <MD5>
 #include 	<crashdetect>
@@ -86,52 +82,43 @@ new open_zg_time = 0, open_zg = 0;
 new InLoadFrac[23] = false;
 new VehicleWareHouse[2];
 new CountMaterialVehicleWH = 0;
-
-
 // Підключення до БД
-
 #define MYSQL_HOST 	"leaf.cityhost.com.ua"
 #define MYSQL_USER 	"ch5d055a58"
 #define MYSQL_PASS 	"0e8f0cc01d"
 #define DB_NAME 	"ch5d055a58_server"
-
 //============================================
-
 #define pName(%0)      					fPlayer[%0][nname]
 #define IP(%0)							fPlayer[%0][fip]
 //============================================================================
-#define 	CADMIN_INFO 0xAFAFAFAA
-#define 	cServer 	"{D5014E}"
-#define rServer 		"{D5014E}"
-#define oServer 		"{4499CC}"
-#define cOrange                         "{FFA500}"
-#define for_1(%0,%1) 					for(new %0 = 0; %0 != %1; ++%0)
-#define SPVI 							SetPVarInt
-#define GPVI 							GetPVarInt
-#define SPVS 							SetPVarString
-#define GPVS 							GetPVarString
-#define SPVF 							SetPVarFloat
-#define GPVF 							GetPVarFloat
-#define DPV 							DeletePVar
-#define function%0(%1) 					forward %0(%1); public %0(%1)
+#define 	CADMIN_INFO 							0xAFAFAFAA
+#define 	cServer 								"{D5014E}"
+#define 	rServer 								"{D5014E}"
+#define 	oServer 								"{4499CC}"
+#define 	cOrange                 			    "{FFA500}"
+#define 	for_1(%0,%1) 							for(new %0 = 0; %0 != %1; ++%0)
+#define 	SPVI 									SetPVarInt
+#define 	GPVI 									GetPVarInt
+#define 	SPVS 									SetPVarString
+#define 	GPVS 									GetPVarString
+#define 	SPVF 									SetPVarFloat
+#define 	GPVF 									GetPVarFloat
+#define 	DPV 									DeletePVar
+#define 	function%0(%1) 							forward %0(%1); public %0(%1)
+#define 	abs(%0) 								(%0 < 0) ? (-(%0)) : (%0)
 native 		IsValidVehicle(vehicleid);
-
 #define 	MAX_D_ACTORS              	    		500
 #define 	HOLDING(%0) 							((newkeys & (%0)) == (%0))
 #define 	PRESSED(%0) 							(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 #define 	RELEASED(%0) 							(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
-
 #define 	KEY_NUM4								(8192)
 #define 	KEY_NUM6 								(16384)
-
 #define		MAX_TELEPORTS                       	35
 #define 	MAX_ACTORSS                             53
 #define 	MAX_ADVERT_COUNT 						35
 #define 	RES_CAR_TIME    						1800
-
 #define 	dActorAnim 								7865
 #define 	dDeleteActor 							7866
-
 #define 	MAX_HOUSE_COUNT 						437 //Кількість будинків
 #define 	FAMILY_COUNT 							500	//Кількість сімей
 #define 	SHOP_OBJECTS 							12	//Кількість предметів в 24/7
@@ -168,10 +155,8 @@ new bool:Vizod;
 #define     SALARY_APPLE 120 // яблочный сад 
 #define     SALARY_WOOD 120 // лесопилка 
 //==============================================================================
-
 #define CASINO_WORLD_ID             (58)
 #define CASINO_INTERIOR_ID			(7)
-
 #if !defined INVALID_DYNAMIC_3D_TEXT_ID
 #define INVALID_DYNAMIC_3D_TEXT_ID	(Text3D:-1)
 #endif
@@ -194,28 +179,20 @@ new bool:Vizod;
 #define 	T_PROMOCODE_USED    "promocode_used"
 #define cError					 "{AC0000}[Помилка] {FFFFFF}"
 #define cHelp                    "{FFC800}[Підказка] {FFFFFF}"
-
 #define FSAM(%0,%1,%2) 					fscm_str[0] = EOS, format(fscm_str, 144, %1, %2) && SendAdminMessage(%0, fscm_str)
 #define FSCM(%0,%1,%2,%3) 				fscm_str[0] = EOS, format(fscm_str, 144, %2, %3) && SendClientMessage(%0, %1, fscm_str)
 #define FSPD(%0,%1,%2,%3,%4,%5,%6,%7) 	fscm_str[0] = EOS, format(fscm_str, 512, %6, %7) && ShowPlayerDialog(%0, %1, %2, %3, fscm_str, %4, %5)
-
 #define KickEx(%0) SetTimerEx("kick",250,false,"d",%0)
-
 new 	fscm_str[512];
 new 	MySQL:connects;
-
 new UsingDrugs[MAX_PLAYERS];
 new hour_s, minute_s, second_s;
-
 new weeklast, weekcurrent;
-
 new PlayerWarningSilent[MAX_PLAYERS];
 new PlayerWarningTimeSilent[MAX_PLAYERS][2];
 new MPTeleportPlayer[MAX_PLAYERS];
-
 new Float: deathpos[MAX_PLAYERS][6]; // world, interior, x, y, z, angle
 new deathphase[MAX_PLAYERS], deathtimer[MAX_PLAYERS][4], deatharea[MAX_PLAYERS], Text3D:deathlabel[MAX_PLAYERS]; // timer (phase, phasevar, choice, choicevar)
-
 enum E_GosCars{
 	eID, 
 	eOrgs, 
@@ -227,7 +204,6 @@ enum E_GosCars{
 static const eGC[][E_GosCars] ={
 	//органзация, model car, Вартість, Кольорара
 	{1, 0, 0, 0, 0, 0},
-
 	{2, 1, 505, 210000, 0, 1}, //Поліція ЛС
 	{3, 1, 523, 350000, 0, 1}, //Поліція ЛС
 	{4, 1, 541, 2000000, 0, 1}, //Поліція ЛС
@@ -236,7 +212,6 @@ static const eGC[][E_GosCars] ={
 	{7, 1, 560, 1750000, 0, 1}, //Поліція ЛС
 	{8, 1, 596, 300000, 0, 1}, //Поліція ЛС
 	{9, 1, 601, 4000000, 0, 1}, //Поліція ЛС
-
 	{10, 4, 411, 2500000, 1, 1},//FBI
 	{11, 4, 415, 1500000, 1, 1},//FBI
 	{12, 4, 418, 700000, 1, 1}, //FBI 
@@ -244,7 +219,6 @@ static const eGC[][E_GosCars] ={
 	{14, 4, 451, 2000000, 1, 1},//FBI
 	{15, 4, 490, 700000, 1, 1}, //FBI
 	{16, 4, 522, 3500000,1, 1}, //FBI
-
 	{17, 5, 475, 150000, 0, 1}, //RCSO
 	{18, 5, 529, 250000, 0, 1}, //RCSO
 	{19, 5, 541, 2000000, 0, 1},//RCSO
@@ -254,13 +228,11 @@ static const eGC[][E_GosCars] ={
 	{23, 5, 596, 300000, 0, 1}, //RCSO
 	{24, 5, 601, 4000000, 0, 1}, //RCSO
 	{25, 5, 599, 1000000, 0, 1}, //RCSO
-
 	{26, 6, 433, 1500000, 77, 77},
 	{27, 6, 470, 2500000, 77, 77},
 	{28, 6, 540, 500000, 77, 77},
 	{29, 6, 598, 1000000, 77, 77},
 	{30, 6, 603, 1500000, 77, 77}
-
 };
 enum airdrop_Data
 {
@@ -316,12 +288,10 @@ static
 Text:GhettoTableTD[36],
 PlayerText:GhettoTablePTD[MAX_PLAYERS][3];
 static const ghettoGangBoxTDColors[] = { -16711917, -5963725, 8388633, 16777034, -1378294198 };
-
 new PlayerPromoText[MAX_PLAYERS][16];
 new PlayerPromoDonate[MAX_PLAYERS];
 new PlayerPromoMoney[MAX_PLAYERS];
 new PlayerPromoCount[MAX_PLAYERS];
-
 enum fun_bizz {
 	funcbSlot,
 	funcbID,
@@ -338,10 +308,8 @@ enum fun_bizz {
 	funcbPercent3,
 	funcbCarID[20],
 	funcbCars[20]
-
 }
 new FuncBizz[MAX_BUSINESS_COUNT][fun_bizz];
-
 new Float:car_bizz[20][4] = {
 	{-469.1691, -473.7513, 26.5467, 180.0000},
 	{-474.1685, -473.7513, 26.5467, 180.0000},
@@ -364,7 +332,6 @@ new Float:car_bizz[20][4] = {
 	{-1.00, -1.00, -1.00, 270.0000},
 	{-1.00, -1.00, -1.00, 270.0000}
 };
-
 enum col_td {
 	col_id,
 	col_rgb[16],
@@ -404,15 +371,11 @@ new tk_car[3][2] = {
 	{514,12000},
 	{515,15000}
 };
-
 new serv_stats[2];
-
 new PlayerText:DmArenaTextDraw[MAX_PLAYERS];
 new players_dm[4];
 new PlayerBuyProdFix[MAX_PLAYERS];
-
 new hellow[MAX_PLAYERS];
-
 new Float:hell_map[7][4] = {
 	{1328.0538,1385.8890,552.3762,215.0514},
 	{1364.8817,1378.6028,552.3762,57.4432},
@@ -422,7 +385,6 @@ new Float:hell_map[7][4] = {
 	{1336.3926,1414.6816,552.3762,206.5913},
 	{1327.4587,1408.2430,552.3762,192.8045}
 };
-
 new Float:dm_map_1[5][4] = {
 	{-409.3651,2260.8037,42.4297,286.5789},
 	{-360.0915,2243.7307,42.4844,107.6639},
@@ -438,7 +400,6 @@ new Float:dm_map_2[6][4] = {
 	{-1307.9325,2528.1174,87.6150,176.4503},
 	{-1316.5959,2510.2603,87.0420,0.3553}
 };
-
 new Float:dm_map_3[5][4] = {
 	{2605.3606,2729.4834,23.8222,356.5121},
 	{2633.2002,2726.6917,23.8222,353.2666},
@@ -446,7 +407,6 @@ new Float:dm_map_3[5][4] = {
 	{2636.6609,2781.1287,23.8222,91.0041},
 	{2652.4102,2779.5972,19.3222,181.2451}
 };
-
 new Float:dm_map_4[6][4] = {
 	{1077.9539,2131.8630,10.8203,177.0825},
 	{1060.1449,2103.9063,10.8203,268.2634},
@@ -455,9 +415,7 @@ new Float:dm_map_4[6][4] = {
 	{1091.4039,2088.0046,15.3504,89.3718},
 	{1087.9221,2119.0339,15.3504,178.6726}
 };
-
 #define MAX_PLAYER_VEHICLES         1
-
 new const Float:ticketVehicleSpawnPos[][4] = {
 	{ 1558.2311,-1012.4500,24.2621,180.8820 },
 	{ 1562.8167,-1011.9684,24.2627,181.3922 },
@@ -476,9 +434,7 @@ new const Float:ticketVehicleSpawnPos[][4] = {
 };
 #define MAX_VEHICLES_PLAYER		1500
 #define TRAILER_SELL            1000000
-
 new Iterator:playerVehicles<MAX_VEHICLES_PLAYER>;
-
 enum PLAYER_VEHICLE_E {
 	carID,
 	carVehicle,
@@ -505,13 +461,11 @@ PlayerTrailer[MAX_VEHICLES_PLAYER][PLAYER_VEHICLE_E],
 playerVehicleID[MAX_PLAYERS],
 playerVehicleAmount[MAX_PLAYERS];
 /////////////////////////////////////////////////////////
-
 #define VEHICLE_STATE_CAR   0
 #define VEHICLE_STATE_BIKE  1
 #define VEHICLE_STATE_VELIK 2
 #define VEHICLE_STATE_PLANE 3
 #define VEHICLE_STATE_BOAT  4
-
 #define VEHICLE_TYPE_NONE 0
 #define VEHICLE_TYPE_PLAYER 1
 #define VEHICLE_TYPE_FRACTION 2
@@ -529,28 +483,21 @@ playerVehicleAmount[MAX_PLAYERS];
 #define VEHICLE_TYPE_AUTOSALON 14
 #define VEHICLE_TYPE_FAMILY 15
 #define VEHICLE_TYPE_DNK 16
-
 #define VIP_NONE 0
 #define VIP_BRONZE 1
 #define VIP_SILVER 2
 #define VIP_GOLD 3
-
 #define MINISTRE_NEWS 6
 #define MINISTRE_MEDICS 7
 #define MINISTRE_ARMY 8
 #define MINISTRE_PD 9
 #define MINISTRE_YUST 10
-
 #define MOBILE_AUTH_KEY     "ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990"
-
 #pragma warning disable 214
 /*============================================================================*/
 #define 	CB:%0(%1)					forward %0(%1); public %0(%1)
 #define 	format:%0(		    		%0[0] = EOS,format(%0,sizeof(%0),
 #define 	GivePVarInt(%0,%1,%2) SetPVarInt(%0,%1,(GetPVarInt(%0,%1) + %2))
-
-#define PRESSED(%0) \
-	(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 /*============================================================================*/
 #define  	DSM 			DIALOG_STYLE_MSGBOX
 #define 	DSI				DIALOG_STYLE_INPUT
@@ -565,7 +512,6 @@ playerVehicleAmount[MAX_PLAYERS];
 #define dip_status_alliance_invite 3
 #define dip_status_alliance_get_invite 4
 /*============================================================================*/
-
 enum PRIZE_E {
 	cont_class,
 	cont_type,
@@ -573,7 +519,6 @@ enum PRIZE_E {
 	cont_name[32],
 	cont_price
 }
-
 new const PrizeInfo[][PRIZE_E] = {
 	// 1 аксы, 2 - вип, 3 - clothes, 4 - money (100000$), 5 - vehiclie, 6 - exp points 3 шт, 7 - donate points, 8 - 200к;
 	{1, 1, 6, "Чорні окуляри", 25000},
@@ -585,7 +530,6 @@ new const PrizeInfo[][PRIZE_E] = {
 	{1, 3, 15, "Clothes (15)", 25000},
 	{1, 3, 50, "Clothes (50)", 30000},
 	{1, 3, 95, "Clothes (95)", 35000},
-
 	{2, 1, 6, "Чорні окуляри", 55000},
 	{2, 1, 73, "Чорная панамка", 45000},
 	{2, 1, 75, "Біло-голубий шолом", 70000},
@@ -599,7 +543,6 @@ new const PrizeInfo[][PRIZE_E] = {
 	
 	{2, 5, 0, "GOLD кейс", 250000},
 	{2, 5, 0, "GOLD кейс", 300000},
-
 	{3, 1, 75, "Біло-голубий шолом", 150000},
 	{3, 1, 123, "Маска демона", 220000},
 	{3, 1, 125, "Папуга", 210000},
@@ -610,7 +553,6 @@ new const PrizeInfo[][PRIZE_E] = {
 	
 	{2, 5, 0, "GOLD кейс", 80000},
 	{2, 5, 0, "GOLD кейс", 75000},
-
 	{4, 1, 128, "Валіза", 300000},
 	{4, 1, 126, "Літачок", 250000},
 	{4, 1, 457, "Біла гітара", 350000},
@@ -638,19 +580,15 @@ new const PrizeInfo[][PRIZE_E] = {
 	{5, 1, 459, "Ангельське кільце", 3000000}//42
 	
 	
-
 };
 #define MAX_PRIZ_CONT	sizeof (PrizeInfo)
-
 #define MAX_PRIZ 40
-
 enum GARAGE_E {
 	cont_class,
 	cont_model,
 	cont_name[32],
 	cont_price
 }
-
 new const GarageInfo[][GARAGE_E] = {
 	{1, 474, "Машина (Landstalker)", 0},//0
 	{1, 0, "Пусто", 0},
@@ -682,7 +620,6 @@ new const GarageInfo[][GARAGE_E] = {
 	{1, 491, "Машина (Flash)", 0}//26
 	
 };
-
 enum priz_player {
 	cont_id[MAX_PRIZ],
 	cont_model[MAX_PRIZ],
@@ -690,45 +627,32 @@ enum priz_player {
 	cont_type[MAX_PRIZ]
 }
 new CountInfo[MAX_PLAYERS][priz_player];
-
 new MYSQL_GLOBAL[2048];
 new STRING_GLOBAL[4096];
-
 new SAD_TIMER = 2;
 new ServerMovedEx[MAX_OBJECT_MOVED];
 new ServerMovedFix[MAX_OBJECT_MOVED];
-
 new PlayerRaceFix[MAX_PLAYERS];
-
 new skill_gun[MAX_PLAYERS];
-
 #define MAX_REPORTS (50)
-
 new PlayerClearAnim[MAX_PLAYERS];
 new PlayerHealExFix[MAX_PLAYERS];
 new PlayerHealFix[MAX_PLAYERS];
-
 new PlayerBuildFix[MAX_PLAYERS];
 new PlayerBuildExFix[MAX_PLAYERS];
-
 new PlayerBuild2Fix[MAX_PLAYERS];
 new PlayerBuild2ExFix[MAX_PLAYERS];
-
 new PlayerSecondTimer[MAX_PLAYERS] = {-1, ...};
 /*=============================================================================*/
 // casino
 // casino
 #define MAX_BLACKJACK_PLAYER_CARD		5
 #define MAX_BLACKJACK_TABLES			10
-
 #define MAX_BLACKJACK_SEATS				3
-
 #define BLACKJACK_DEFAULT_MIN_BET		1
 #define BLACKJACK_DEFAULT_MAX_BET		10000
 #define MAX_CASINO_CARDS				52
-
 #define BLACKJACK_DEFAULT_SEAT_PRICE	10
-
 enum BLACKJACK_E {
 	pBlackJackTableID,
 	pBlackJackSeatID,
@@ -751,11 +675,9 @@ Float:pBlackJackPos[3],
 	pBlackJackTutorialKey
 };
 new BJ_PlayerInfo[MAX_PLAYERS][BLACKJACK_E], NULL_BJ_PI[BLACKJACK_E];
-
 new
 Text:Blackjack_Tutorial_TD[4], PlayerText:Blackjack_Tutorial_PTD[MAX_PLAYERS],
 Text:Blackjack_TD[6], PlayerText:Blackjack_PTD[MAX_PLAYERS][58];
-
 new Float:blackjack_TableOffsets[MAX_BLACKJACK_SEATS + 1/*(dealer pos)*/][4] = {
 	{-0.0418, -1.6296, 0.0602, 355.5609}, // 1
 	{-1.3105, -1.1824, 0.0602, 315.0}, // 2
@@ -812,7 +734,6 @@ Float:blackjackTablePos[6],
 new
 blackjackTableInfo[MAX_BLACKJACK_TABLES][blackjackTableE],
 Iterator:blackjackTables<MAX_BLACKJACK_TABLES>;
-
 enum {
 	BLACKJACK_OPTION_NONE = 0,
 	BLACKJACK_OPTION_MMBA, //	MIN(1)  MAX(300)  BET(1-300)  AGAIN(300)
@@ -896,7 +817,6 @@ new CASINO_BJ_CARD_INFO[MAX_CASINO_CARDS][CASINO_BJ_CARD_ENUM] = {
 	{"LD_CARD:cd11c", CARD_SUIT_CLUBS, BJ_CARD_NUMBER_JACK},
 	{"LD_CARD:cd12c", CARD_SUIT_CLUBS, BJ_CARD_NUMBER_QUEEN},
 	{"LD_CARD:cd13c", CARD_SUIT_CLUBS, BJ_CARD_NUMBER_KING},
-
 	{"LD_CARD:cd1d", CARD_SUIT_DIAMONDS, BJ_CARD_NUMBER_ACE},
 	{"LD_CARD:cd2d", CARD_SUIT_DIAMONDS, BJ_CARD_NUMBER_TWO},
 	{"LD_CARD:cd3d", CARD_SUIT_DIAMONDS, BJ_CARD_NUMBER_THREE},
@@ -910,7 +830,6 @@ new CASINO_BJ_CARD_INFO[MAX_CASINO_CARDS][CASINO_BJ_CARD_ENUM] = {
 	{"LD_CARD:cd11d", CARD_SUIT_DIAMONDS, BJ_CARD_NUMBER_JACK},
 	{"LD_CARD:cd12d", CARD_SUIT_DIAMONDS, BJ_CARD_NUMBER_QUEEN},
 	{"LD_CARD:cd13d", CARD_SUIT_DIAMONDS, BJ_CARD_NUMBER_KING},
-
 	{"LD_CARD:cd1h", CARD_SUIT_HEARTS, BJ_CARD_NUMBER_ACE},
 	{"LD_CARD:cd2h", CARD_SUIT_HEARTS, BJ_CARD_NUMBER_TWO},
 	{"LD_CARD:cd3h", CARD_SUIT_HEARTS, BJ_CARD_NUMBER_THREE},
@@ -924,7 +843,6 @@ new CASINO_BJ_CARD_INFO[MAX_CASINO_CARDS][CASINO_BJ_CARD_ENUM] = {
 	{"LD_CARD:cd11h", CARD_SUIT_HEARTS, BJ_CARD_NUMBER_JACK},
 	{"LD_CARD:cd12h", CARD_SUIT_HEARTS, BJ_CARD_NUMBER_QUEEN},
 	{"LD_CARD:cd13h", CARD_SUIT_HEARTS, BJ_CARD_NUMBER_KING},
-
 	{"LD_CARD:cd1s", CARD_SUIT_SPADES, BJ_CARD_NUMBER_ACE},
 	{"LD_CARD:cd2s", CARD_SUIT_SPADES, BJ_CARD_NUMBER_TWO},
 	{"LD_CARD:cd3s", CARD_SUIT_SPADES, BJ_CARD_NUMBER_THREE},
@@ -953,58 +871,43 @@ new anim_actors                         [MAX_D_ACTORS];
 new OldDialogID[MAX_PLAYERS];
 new PlayerAdminFix[MAX_PLAYERS];
 #define INVALID_DIALOG_ID   (1234)
-
 new TextReport[MAX_REPORTS][151];
 new TextReportAdmin[MAX_REPORTS][131];
 new PlayerReport[MAX_REPORTS] = {-1,...};
 new ReportID[MAX_PLAYERS] = {-1,...};
 new ReportSlot[MAX_REPORTS] = {-1,...};
 new rep_system = 1;
-
 new PlayerChatFix[MAX_PLAYERS];
 new PlayerChatExFix[MAX_PLAYERS];
-
 new pl_update_speed[MAX_PLAYERS];
 new PlayerSpeedFix[MAX_PLAYERS];
 new PlayerUnFreezeFix[MAX_PLAYERS];
 new PlayerUnFreezeTimerFix[MAX_PLAYERS];
-
 new Text:inventory_TD[54];
 new PlayerText:inventory_PTD[MAX_PLAYERS][8];
 new PlayerText:inventory_slot[MAX_PLAYERS][46];
-
 new Text:autoshop_TD[54];
 new PlayerText:auto_PTD[MAX_PLAYERS][2];
-
 new car_shop[MAX_PLAYERS];
 new car_color[MAX_PLAYERS][2];
-
 static
 GlobalSecondTimer = -1,
 GlobalTimer_1MIN,
 GlobalTimer_3SEC;
-
 new CHAT_GLOBAL[144];
-
 new l_casino[6];
 new l2_casino;
 new l_start;
 new stats_lift = 0;
 new gm_player[MAX_PLAYERS];
-
 new buy_curs = 10;
 new sell_curs = 8;
-
 new Float:bak[MAX_VEHICLES];
-
 new CountFloodForPlayer[MAX_PLAYERS];
-
 new police_eqm[MAX_PLAYERS][11];
 new take_items[MAX_PLAYERS][11];
-
 new bank_vzlom[4];
 new Text3D:text_bank;
-
 enum d_donate
 {
 	dName[MAX_PLAYER_NAME],
@@ -1099,7 +1002,6 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{19008, "Зелені спіралевидні окуляри", 0.000000, 0.000000, 90.000000, 1.000000, 1, 1}, // 30
 	{19007, "Оранжеві спіралевидні окуляри", -20.000000, 0.000000, 90.000000, 1.000000, 1, 1}, // 31
 	{19006, "Темно-оранжеві спіралевидні окуляри", -20.000000, 0.000000, 90.000000, 1.000000, 1, 1}, // 32
-
 	{19069, "Шапка з черепом", -15.000000, 0.000000, 0.000000, 1.00000, 1, 0}, // 33
 	{19067, "Шапка з надписом", -15.000000, 0.000000, 0.000000, 1.00000, 1, 0}, // 34
 	{19068, "Сіра шапка", -15.000000, 0.000000, 0.000000, 1.00000, 1, 0}, // 35
@@ -1111,7 +1013,6 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{18949, "Зелена капелюх", -15.000000, 0.000000, 0.000000, 1.00000, 1, 0}, // 41
 	{18950, "Червона капелюх", -15.000000, 0.000000, 0.000000, 1.00000, 1, 0}, // 42
 	{18951, "Жовта капелюх", -15.000000, 0.000000, 0.000000, 1.00000, 1, 0}, // 43
-
 	{18933, "Біла кепка з узором", 0.000000, 0.000000, -180.000000, 1.00000, 1, 0}, // 44
 	{18932, "Вогняно-жовта кепка", 0.000000, 0.000000, -180.000000, 1.00000, 1, 0}, // 45
 	{18928, "Веселкова кепка", 0.000000, 0.000000, -180.000000, 1.00000, 1, 0}, // 46
@@ -1124,13 +1025,11 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{18956, "Темна кепка", 0.000000, 0.000000, -180.000000, 1.00000, 1, 0}, // 53
 	{18957, "Синьо-голуба кепка", 0.000000, 0.000000, -180.000000, 1.00000, 1, 0}, // 54
 	{18959, "Камуфляжна кепка '2'", 0.000000, 0.000000, -180.000000, 1.00000, 1, 0}, // 55
-
 	{18924, "Камуфляжний берет", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 56
 	{18925, "Червоний берет", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 57
 	{18921, "Чорний берет", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 58
 	{18923, "Синій берет", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 59
 	{18922, "Оранжевий берет", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 60
-
 	{18906, "Лавова бандана",90.000000, 90.000000, 0.000000, 1.000000, 1, 3}, // 61
 	{18910, "Балкитна бандана",90.000000, 90.000000, 0.000000, 1.000000, 1, 3}, // 62
 	{18911, "Бандана з черепами", 90.000000, 90.000000, 0.000000, 1.000000, 1, 3}, // 63
@@ -1142,18 +1041,14 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{18917, "Синьо-голуба бандана", 90.000000, 90.000000, 0.000000, 1.000000, 1, 3}, // 69
 	{18918, "Зелена бандана з узором", 90.000000, 90.000000, 0.000000, 1.000000, 1, 3}, // 70
 	{18919, "Біла бандана", 90.000000, 90.000000, 0.000000, 1.000000, 1, 3}, // 71
-
 	{18968, "Сіра панама", 0.000000, 0.000000, 35.000000, 1.00000, 1, 0}, // 72
 	{18967, "Чорна панама", 0.000000, 0.000000, 35.000000, 1.00000, 1, 0}, // 73
 	{18969, "Лавова панама", 0.000000, 0.000000, 35.000000, 1.00000, 1, 0}, // 74
-
-
 	{18976, "Біло-голубий шолом", 0.000000, 0.000000, 193.000000, 0.872784, 1, 0}, // 75
 	{18977, "Червоний шолом", 0.000000, 0.000000, 193.000000, 0.872784, 1, 0}, // 76
 	{18978, "Білий шолом", 0.000000, 0.000000, 193.000000, 0.872784, 1, 0}, // 77
 	{18979, "Рожевий шолом", 0.000000, 0.000000, 193.000000, 0.872784, 1, 0}, // 78
 	{18645, "Червоно-білий шолом", 0.000000, 0.000000, 193.000000, 0.872784, 1, 0}, // 79
-
 	{19101, "Камуфляжна каска", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 80
 	{19102, "Камуфляжна каска (2)", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 81
 	{19103, "Камуфляжна каска (3)", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 82
@@ -1174,16 +1069,13 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{19118, "Зелена каска", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 97
 	{19119, "Голуба каска", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 98
 	{19120, "Золота каска", 90.000000, 0.000000, 90.000000, 1.00000, 1, 0}, // 99
-
 	{19036, "Біля маска", 10.000000, 0.000000, -256.000000, 1.000000, 1, 3}, // 100
 	{19037, "Червона маска", 10.000000, 0.000000, -256.000000, 1.000000, 1, 3}, // 101
 	{19038, "Зелена маска", 10.000000, 0.000000, -256.000000, 1.000000, 1, 3}, // 102
-
 	{19421, "Білі навушніки", 120.000000, 0.000000, 0.000000, 1.000000, 1, 6}, // 103
 	{19422, "Чорні навушніки", 120.000000, 0.000000, 0.000000, 1.000000, 1, 6}, // 104
 	{19423, "Оранжеві навушніки", 120.000000, 0.000000, 0.000000, 1.000000, 1, 6}, // 105
 	{19424, "Сині навушніки", 120.000000, 0.000000, 0.000000, 1.000000, 1, 6}, // 106
-
 	{19040, "Срібний годинник", 0.000000, 0.000000, 0.000000, 1.00000, 1, 7}, // 107
 	{19042, "Золотий годинник", 0.000000, 0.000000, 0.000000, 1.00000, 1, 7}, // 108
 	{19041, "Темно-золотий годинник", 0.000000, 0.000000, 0.000000, 1.00000, 1, 7}, // 109
@@ -1197,11 +1089,9 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{19050, "годинник морського кольору", 0.000000, 0.000000, 0.000000, 1.00000, 1, 7}, // 117
 	{19051, "Чорний годинник", 0.000000, 0.000000, 0.000000, 1.00000, 1, 7}, // 118
 	{19053, "Леопардовий годинник", 0.000000, 0.000000, 0.000000, 1.00000, 1, 7}, // 119
-
 	{19163,"Маска",10.000000, 0.000000, -256.000000, 1.000000, 0, 0}, // 120
 	{19627,"Ремкоплекти",87.000000, 0.000000, -42.000000, 1.000000, 0, 0}, // 121
 	{11746,"Відмичка", 0.000000, 0.000000, 0.000000, 1.000000, 0, 0}, // 122
-
 	{11704, "Маска демона (донат)", 0.000000, 0.000000, 114.000000, 0.725755, 1, 3}, // 123
 	{1609, "Черепаха (донат)", 160.000000, 174.000000, 195.000000, 1.000000, 1, 5}, // 124
 	{19079, "Папуга (донат)", 90.000000, 90.000000, 0.000000, 1.000000, 1, 4}, // 125
@@ -1221,7 +1111,6 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	{1254, "Череп (донат)", 0.000000, 0.000000, 0.000000, 1.00000, 1, 6}, // 139
 	{19878, "Скейтборд (донат)", 220.000000, 146.000000, 156.000000, 1.001042, 1, 5}, // 140
 	{19314, "Роги (донат)", 182.000000, 190.000000, 259.000000, 1.001042, 1, 2}, // 141
-
 	{1, "Скін: The Truth (ID: 1)", 0.000000, 0.000000, 0.000000, 1.000000, 0, 0}, // 142
 	{2, "Скін: Maccer (ID: 2)", 0.000000, 0.000000, 0.000000, 1.000000, 0, 0}, // 143
 	{3, "Скін: Andre (ID: 3)", 0.000000, 0.000000, 0.000000, 1.000000, 0, 0}, // 144
@@ -1577,14 +1466,11 @@ new ItemsInfo[MAX_ITEM][ItemInfo] =
 	
     
 };
-
 new ClickInv[MAX_PLAYERS];
 new InvPage[MAX_PLAYERS];
 new PlayerText:Speed_PTD[MAX_PLAYERS][7];
 new Text:Speed_TD[40];
-
 new biglet1ters[32][] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y","Z","2", "3", "4", "5", "6", "7"};
-
 new salon_namecars[][] =
 {
 	"Landstalker", "Bravura", "Buffalo", "Linerunner", "Perrenial", "Sentinel", "Dumper", "Firetruck", "Trashmaster",
@@ -1610,7 +1496,6 @@ new salon_namecars[][] =
 	"Police Ranger", "Picador", "S.W.A.T", "Alpha", "Phoenix", "Glendale", "Clover", "Luggage", "Luggage", "Stairs",
 	"Boxville", "Tiller", "Utility Trailer"
 };
-
 new vehicle_name[][] =
 {
 	"Landstalker", "Bravura", "Buffalo", "Linerunner", "Perrenial", "Sentinel", "Dumper", "Firetruck", "Trashmaster",
@@ -1747,16 +1632,13 @@ new condition_of_roads[][]  = {
 	{"На дорогах бруд"}
 };
 new condition_of_roads_;//тут рандомное число від 0 до 2, в зп і ongamemodeinit, буде отвечать за Стан дорог
-
 enum ROB_PL {
 	AttachObj,
 	RobRand,
 Text3D:RobText
 };
 new RobPlayer[MAX_PLAYERS][ROB_PL];
-
 new rob_veh[MAX_PLAYERS];
-
 enum GRF {
 	gId,
 	gObject,
@@ -1766,16 +1648,11 @@ Float: gr_x[7],
 new GrafInfo[121][GRF],CountGraffity;
 new CountGarage;
 new graf_timer[MAX_PLAYERS];
-
 //new dice_random[11] = {2,4,6,8,10,12,3,5,7,9,11};
-
 new order_drugs;
 new drugs_pickup;
 new Text3D:drugs_text;
-
 new GUARD_TICK_C_BUG[MAX_PLAYERS];
-
-
 new salary_pd[15] = {1400,2600,3800,4600,5500,6500,7600,8600,10000,12800,15000};
 new salary_fbi[15] = {3600,4400,5500,6400,7200,7900,9600,11200,12600,14500,17300};
 new salary_medics[15] = {2400,3300,4000,7000,8900,10600,12800};
@@ -1786,19 +1663,15 @@ new salary_rcso[15] = {1300,2300,3600,5400,7200,9400,11000};
 new salary_autosh[15] = {3600,5600,7500,8900,9700,11800};
 new salary_gang[15] = {2000,3000,4000,4000,4000,4000,4200,4500,5000,5000};
 new salary_mafia[15] = {2000,3000,4000,4800,5400,6000,7000,8000,10000,13000};
-
 new UseSound[MAX_PLAYERS];
 new Sounds;
 new Float:rads;
 new Float:streampos[3];
 new stream[256];
 new Float:setX[MAX_PLAYERS], Float:setY[MAX_PLAYERS], Float:setZ[MAX_PLAYERS];
-
 new anti_dm[MAX_PLAYERS char] ;
-
 new object[MAX_OGRAD] ={-1,...};
 new objectrot[MAX_OGRAD] ={-1,...};
-
 new PlayerText:p_mh[MAX_PLAYERS] = {PlayerText:-1,...};
 /*============================================================================*/
 enum e_HOUSE_INTERIOR {
@@ -1864,14 +1737,10 @@ const hinterior_info[][e_HOUSE_INTERIOR] = {
 #define PointToPoint(%0,%1,%2,%3,%4,%5) floatsqroot(floatpower(floatabs(floatsub(%3,%0)),2)+floatpower(floatabs(floatsub(%4,%1)),2)+floatpower(floatabs(floatsub(%5,%2)),2))
 new const not_id[] = "Неправильний ID гравця.";
 /*============================================================================*/
-
 new VehTrailer[MAX_PLAYERS] = {INVALID_VEHICLE_ID,...};
 new LastVeh[MAX_PLAYERS] = {INVALID_VEHICLE_ID,...};
-
 new SlotCObject[499];
-
 new SlotObject[99];
-
 enum MAKEGUN_DATA {
 	mgunname[24],
 	mgunamount,
@@ -1907,16 +1776,13 @@ CB: Random(min, max) {
 	new a = random(max - min) + min;
 	return a;
 }
-
 new 
 gCurDay,
 tmphour, 
 tmpminute, 
 tmpsecond,
 ghour;
-
 #define unix gettime()
-
 new time_grandtimer,
 time_grandtimer_max,
 time_newkeys,
@@ -1929,18 +1795,13 @@ timer_payday,
 timer_paydaymax,
 minute_update,
 minute_update_max;
-
 new progress_rob[MAX_PLAYERS];
-
 new Welding[MAX_PLAYERS];
-
 new Text3D:gPlayerProdText[MAX_PLAYERS] = {Text3D: -1, ...},
 gPlayerProdCP[MAX_PLAYERS];
 new Text3D:ShipText[MAX_PLAYERS],
 ObjectShip[MAX_PLAYERS] = {0x7F800000,...};
-
 new Text:AnimDraw;
-
 enum a_sewer {
 Float:seX,
 Float:seY,
@@ -1962,9 +1823,7 @@ new Sewer[MAX_SEWER][a_sewer] =
 	{1230.0690,-928.1727,42.5485},
 	{898.8250,-1318.2100,13.5075}
 };
-
 new spaned[MAX_PLAYERS];
-
 enum e_container {
 	cClass,
 Float:cX,
@@ -2018,7 +1877,6 @@ new market_id[MAX_PLAYERS][5];
 new market_item[MAX_PLAYERS][5];
 new market_ammout[MAX_PLAYERS][5];
 new market_cash[MAX_PLAYERS][5];
-
 enum _eggfarm
 {
 	gID,
@@ -2050,13 +1908,9 @@ new PlayerEgg[MAX_PLAYERS];
 new PlayerKorm[MAX_PLAYERS];
 new EggSklad[MAX_PLAYERS];
 new EggCount[MAX_PLAYERS];
-
 new Text3D:PlayerMehText[MAX_PLAYERS] = {Text3D:-1, ...};
-
 new Text3D:PlayerEatText[MAX_PLAYERS] = {Text3D:-1, ...};
-
 new ABC[20][2] 	= { "E", "R", "T", "Y", "U", "O", "A", "S", "D", "F", "G", "H", "K", "Z", "X", "C", "V", "B", "N", "M" };
-
 enum _spectator {
 	sID
 }
@@ -2064,13 +1918,11 @@ new SERIU[MAX_PLAYERS][_spectator];
 new avir[MAX_PLAYERS];
 new aint[MAX_PLAYERS];
 new Lastspec[MAX_PLAYERS];
-
 new Teleport_Players[2] = 0,
 bool:Teleport,
 Teleport_text[36] = {"None"},
 Float:TeleportFloat[3],
 TeleportInfo[2];
-
 enum aInfo {
 	aID,       // - Unknown -
 	aPlayerID, // - Unknown -
@@ -2086,7 +1938,6 @@ Float:aPos_A,	//Угол поворота
 };
 new DonateX,PayDayX;
 new drieltorka[MAX_PLAYERS];
-
 new WeaponNames[48][40] = {
 	"Unarmed (Fist)", // 0
 	{"Brass Knuckles"}, // 1
@@ -2137,7 +1988,6 @@ new WeaponNames[48][40] = {
 	{"Parachute"}, // 46
 	{"Fake Pistol"} // 47
 };
-
 #define MAX_DUELS 100
 enum duel_data {
 	duel_type,
@@ -2161,7 +2011,6 @@ bool:duel_create,
 }
 new DI[MAX_DUELS][duel_data];
 new duel_id_gun[5] = {24,25,29,30,31};
-
 #define STANDART_GUN_TEXT ""W"%s\n"G"ALT"
 #define MAX_DROP_GUNS 250
 new GPDIO[47]={0,331,333,334,335,336,337,338,339,341,321,322,323,324,325,326,342,343,344,0,0,0,346,347,348,349,350,351,352,353,355,356,372,357,358,359,360,361,362,363,364,365,366,367,368,368,371};
@@ -2176,14 +2025,10 @@ new drop_gun[MAX_DROP_GUNS][drop_gun_data];
 new BDserverName[128],BDserverPassword[64];
 new Text:HungerFon[2];
 new PlayerText:HungerProgres[MAX_PLAYERS];
-
-
 new Text:skill_td[4];
 new PlayerText:skill_player_td[MAX_PLAYERS][2] = {PlayerText:-1,...};
-
 new Text:buy_skins[9];
 new PlayerText:buy_player_skins[MAX_PLAYERS] = {PlayerText:-1,...};
-
 enum rgInfo {
 	rgPlayer[2],
 	rgTime,
@@ -2192,7 +2037,6 @@ enum rgInfo {
 	rgLoad[2]
 }
 new RingInfo[1][rgInfo];
-
 enum admCMD {
 	cmdName[32],
 	cmdInfo[64],
@@ -2223,7 +2067,6 @@ new AdminCommand[MAX_ADM_CMDS][admCMD] = {
 	{"/gm", "увімкнути GM", 1},
 	{"/goto [/g]", "телепортуватися до гравця", 1},
 	{"/astats", "подивитися статистику гравця", 1},
-
 	{"/kick", "кікнути гравця", 2},
 	{"/jail", "посадити у в'язницю", 2},
 	{"/offjail", "посадити у в'язницю офлайн", 2},
@@ -2253,7 +2096,6 @@ new AdminCommand[MAX_ADM_CMDS][admCMD] = {
 	{"/slap", "підкинути гравця", 2},
 	{"/plveh", "створити транспорт і посадити туди гравця", 2},
 	{"/ears", "прослушка SMS", 2},
-
 	{"/alock", "відкрити/закрити транспорт", 3},
 	{"/veh", "створити транспорт", 3},
 	{"/delveh", "видалити адмін авто", 3},
@@ -2279,8 +2121,6 @@ new AdminCommand[MAX_ADM_CMDS][admCMD] = {
 	{"/gomp", "провести захід", 3},
 	{"/skick", "тихий кік", 3},
 	{"/givegun", "видати зброю", 3},
-
-
 	{"/getip", "Дізнатися IP адресу гравця", 4},
 	{"/agetip", "Дізнатися IP адресу гравця в офлайні", 4},
 	{"/gsinfo", "статистика саппорту", 4},
@@ -2303,7 +2143,6 @@ new AdminCommand[MAX_ADM_CMDS][admCMD] = {
 	{"/spcars", "заспавнити весь незанятий транспорт", 4},
 	{"/gzcolor", "перемалювати ганг-зону", 4},
 	{"/setbizmafia", "передати бізнес мафії", 4},
-
 	{"/setskill", "видати комплект скілів", 5},
 	{"/spall", "заспавнити всех в радиусе", 5},
 	{"/setmats", "змінити мати організаціям", 5},
@@ -2317,7 +2156,6 @@ new AdminCommand[MAX_ADM_CMDS][admCMD] = {
 	{"/givelic", "видати всі ліцензії", 5},
 	{"/apromo", "створення промо", 5},
 	{"/reloadbans", "перезавантажити блокування акаунтів", 5},
-
 	{"/gives","бонус за співпрацю", 6},
 	{"/getdonate", "Дізнатися поповнення(донат) гравця", 6},
 	{"/restartservera", "провести рестарт сервера", 6},
@@ -2328,7 +2166,6 @@ new AdminCommand[MAX_ADM_CMDS][admCMD] = {
 	{"/makeadmin", "додати модератора", 6},
 	{"/setyt", "видати ютуберку",6},
 	{"/ylist", "список ютуберів",6},
-
 	{"/addzone", "керування ЗЗ зонами", 7},
 	{"/asellbiz", "видалити власника бізнесу", 7},
 	{"/cenabiz", "змінити вартість бізнесу", 7},
@@ -2345,7 +2182,6 @@ new ArendInfo[][aInfo] =
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 461, 5500,2136.8276, -1133.4684, 25.2229, 100.0000,-1,-1,71 }, // Моторынок2
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 462, 220,2136.8013, -1130.9340, 25.1831, 100.0000,-1,-1,71 }, // Моторынок3
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 510, 130,2137.0405, -1128.2262, 25.2155, 100.000,-1,-1,71 }, // Моторынок4
-
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 401, 1500,546.2834, -1267.1354, 17.0241, 220.0000,-1,-1,68 }, // Авторынок ЛС 1
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 585, 1600,542.8993, -1270.2717, 16.8330, 220.0000,-1,-1,68 }, // Авторынок ЛС 2
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 518, 1200,539.4501, -1273.0795, 16.9120, 220.0000,-1,-1,68 }, // Авторынок ЛС 3
@@ -2353,7 +2189,6 @@ new ArendInfo[][aInfo] =
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 491, 2100,533.1170, -1278.3557, 17.0001, 220.0000,-1,-1,68 }, // Авторынок ЛС 5
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 410, 1000,529.7689, -1280.4216, 16.9001, 220.0000,-1,-1,68 } // Авторынок ЛС 6
 };
-
 new Float:med_heal[12][4]={
 	{1560.5155,496.3742,1070.9421,272.3593}, // кровать 1
 	{1563.1982,496.3743,1070.9421,270.4559}, // кровать 2
@@ -2368,7 +2203,6 @@ new Float:med_heal[12][4]={
 	{1545.0653,496.4404,1070.9421,269.4219}, // кровать 11
 	{1542.4304,496.4236,1070.9421,271.6151} // кровать 12
 };
-
 enum ticlist {
 	tID,
 	tName[MAX_PLAYER_NAME],
@@ -2377,7 +2211,6 @@ enum ticlist {
 	tReason[30],
 }
 new TL[MAX_PLAYERS][15][ticlist], TOTALTICKETS[MAX_PLAYERS];
-
 #define WD::                    WoodsInfo
 #define MAX_WOODS               9
 enum woodsInfo {
@@ -2404,14 +2237,12 @@ new woodsklad;
 new casino;
 new tk_unloading[4];
 new invite_frac[8];
-
 enum FS_PINFO
 {
 	nname[MAX_PLAYER_NAME],
 	fip[32]
 };
 new fPlayer[MAX_PLAYERS][FS_PINFO];
-
 enum fraction_weapon_data {
 	fwID,
 	fwName[32],
@@ -2422,30 +2253,23 @@ enum fraction_weapon_data {
 }
 new FW[13][MAX_FRACTIONS + 1][fraction_weapon_data];
 new GunTickGet[MAX_PLAYERS][13];
-
 new CountOnZone[23];
 new capture_kd[24];
 new capture_war[24];
 new Text:Capture[34];
 new PlayerText:CaptPlayer[MAX_PLAYERS][6];
-
 new fracmoroz [8]={0,...};
-
 new const stock fracmorozName [8][32]={"The Ballas","The Vagos","The Grove","The Rifa","The Aztecas","Ла Коза Ностра","Якудза","Медельїнський картель"};
-
 new BizWarTime[2] = 0,
 BizHourTime = 0,
 Text:Bizwar[3],
 biz_war_gangzone = - 1,
 war_gangzone = - 1;
-
 #define MOROZ_LCN 5
 #define MOROZ_YAKUZA 6
 #define MOROZ_RM 7
 new gBankMafia[3][MAX_BUSINESS_COUNT];
-
 new bool:spec_t[MAX_PLAYERS];
-
 enum MzoneInfo {
 	bFrakVlad,
 	bNapad,
@@ -2463,7 +2287,6 @@ new Float:mafia_zone[7][4] = {
 	
 };
 new MZInfo[MzoneInfo];
-
 new IDGZ[MAX_PLAYERS] = {-1,...};
 enum GzoneInfo {
 	gID,
@@ -2475,13 +2298,10 @@ enum GzoneInfo {
 	ZoneOnBattle
 }
 new GZInfo[132][GzoneInfo];
-
 new TOTALGZ = 0;
 new VladGzone[MAX_FRACTIONS]={0,...};
 new SFa;
-
 new bool:ac_1[MAX_PLAYERS char];
-
 stock GetIDGZ(playerid)
 { 
 	for (new i = 0; i < TOTALGZ; i++)
@@ -2489,8 +2309,6 @@ stock GetIDGZ(playerid)
 	return -1;
 }
 stock GetGangZoneColor(fractionid) return (GZInfo[fractionid][gFrakVlad] == fBALLAS) ? (0xCC00FFAA) : (GZInfo[fractionid][gFrakVlad] == fRIFA) ? (0x6666FFAA)  : (GZInfo[fractionid][gFrakVlad] == fVAGOS) ? (0xffff00AA) : (GZInfo[fractionid][gFrakVlad] == fGROVE) ? (0x009900AA) : (0x00CCFFAA);
-
-
 stock GetGangColor(g) {
 	new zx;
 	switch(g) {
@@ -2536,7 +2354,6 @@ stock GFrac(frac) {
 	}
 	return namegang;
 }
-
 enum _ATMData {
 Float:ATM_Pos[6],
 	atm_VW,
@@ -2548,24 +2365,19 @@ Text3D:atm_Label,
 }
 new ATMData[MAX_ATM][_ATMData];
 new EdittingATM[MAX_PLAYERS];
-
 new PlayerText:Captcha[29], 
 TextArray[11] = "1234567890";
 new med_mskin[] = {50,15,35},
 med_gskin[] = {55,90,192};
-
 new Text:hack_magaz_TD[24];
 new PlayerText:hack_numbers[MAX_PLAYERS][13];
-
 new Signal[MAX_VEHICLES];
 new Float:SignalAngle[MAX_VEHICLES];
 new SignalTick[MAX_VEHICLES][2];
 new LightsObject[MAX_VEHICLES][2];
 //new perf_object_engine[MAX_VEHICLES];
-
 new select_yaxta[MAX_PLAYERS];
 new yaxta_money[MAX_PLAYERS];
-
 new Float:LightsPos[212][6] =
 {
 	{ 0.8766, 2.0272, -0.1000, 0.8766, -2.2272, -0.1000 },
@@ -2787,20 +2599,19 @@ new Float:LightsPos[212][6] =
 #define MAX_STAVKA 10000
 #define MAX_TABLES_DICE 4
 enum Casino_TD_Data {
-Text:Casino_TD_Set_Bet,
-Text:Casino_TD_Dice,
-Text:Casino_TD_Exit,
-Text:Casino_TD_TableNicks[MAX_TABLES_DICE],
-Text:Casino_TD_TableScore[MAX_TABLES_DICE],
-Text:Casino_TD_TableName[MAX_TABLES_DICE],
-Text:Casino_TD_Box,
-Text:Casino_TD_Enum,
-Text:Casino_TD_Lines[5],
-Text:Casino_TD_Modeled[2]
+	Text:Casino_TD_Set_Bet,
+	Text:Casino_TD_Dice,
+	Text:Casino_TD_Exit,
+	Text:Casino_TD_TableNicks[MAX_TABLES_DICE],
+	Text:Casino_TD_TableScore[MAX_TABLES_DICE],
+	Text:Casino_TD_TableName[MAX_TABLES_DICE],
+	Text:Casino_TD_Box,
+	Text:Casino_TD_Enum,
+	Text:Casino_TD_Lines[5],
+	Text:Casino_TD_Modeled[2]
 }
 new Casino_TD[Casino_TD_Data],
 PlayerText:PTD_DiceStat[MAX_PLAYERS] = {PlayerText:-1,...};
-
 #define CASINO_TEXT_STRING ""ORANGE"Стіл #%d\n\n"W"Круп'є: "P"   %s\n\n"W"Гравець 1:"G"   %s\n"W"Гравець 2:"G"   %s\n"W"Гравець 3:"G"   %s\n"W"Гравець 4:"G"   %s\n"W"Гравець 5:"G"   %s\n\n"W"Ставка: "ORANGE"$%d\n"W"Банк: "ORANGE"$%d\n\n"W"Статус: {EB3F36}%s\n"G"Для початку гри натисніть "W"'F'\n"
 enum InfoDice_ {
 	dice_gamer[5],
@@ -2808,20 +2619,18 @@ enum InfoDice_ {
 	dice_stavka,
 	dice_bank,
 	dice_crup,
-bool:dice_game_start,
+	bool:dice_game_start,
 	dice_area,
-Text3D:dice_text,
+	Text3D:dice_text,
 	dice_game_start_time,
 	dice_game_start_timer
 }
 new InfoDice[MAX_TABLES_DICE][InfoDice_];
 new Casino_Flag[MAX_PLAYERS][6];
-
 #define show_casino_td 0
 #define select_casino_table 1
 #define casino_crup 2
 #define casino_bet_cash 3
-
 //////////////////////////////////////////////////////////////////
 new legalmods[48][22] = {
 	{400, 1024,1021,1020,1019,1018,1013,0000,0000,0000,0000,0000,0000,0000,0000,0000,0000,0000,0000},
@@ -2873,9 +2682,7 @@ new legalmods[48][22] = {
 	{600, 1022,1020,1018,1017,1013,1007,1006,1005,1004,0000,0000,0000,0000,0000,0000,0000,0000,0000},
 	{603, 1145,1144,1143,1142,1024,1023,1020,1019,1018,1017,1007,1006,1001,0000,0000,0000,0000,0000}
 };
-
 new Float:salon_car[][] = {
-
 	{562.3264,-1265.4463,16.9250,101.3029},
 	{563.2874,-1269.9998,16.9240,103.0002},
 	{564.4907,-1274.9780,16.9250,100.8979},
@@ -2883,9 +2690,7 @@ new Float:salon_car[][] = {
 	{566.4673,-1284.8821,16.9326,97.9601},
 	{567.2491,-1288.7737,16.9280,99.9368}
 };
-
 new Float:bike_spawn[][] = {
-
 	{2117.3269,-1143.0537,24.4275,287.9681},
 	{2117.1365,-1139.8842,24.6432,281.8104},
 	{2117.1292,-1137.2787,24.6851,292.3506},
@@ -2894,7 +2699,6 @@ new Float:bike_spawn[][] = {
 	{2117.4573,-1129.7628,24.8112,303.8611},
 	{2117.3931,-1126.6271,24.8376,303.8688}
 };
-
 new Float:salon_spawn[][] = {
 	{1240.4315,-1514.5670,12.8815,89.8507},
 	{1240.4351,-1511.3879,12.8812,89.5078},
@@ -2913,7 +2717,6 @@ new Float:salon_spawn[][] = {
 	{1221.9297,-1516.0487,12.8810,90.9002},
 	{1211.8264,-1492.8872,12.8809,268.6584}
 };
-
 new Float:theft_spawn[30][4] = {
 	{1188.7095,-1085.1385,28.8731,90.1645},
 	{287.0098,-1521.8062,24.2738,234.3871},
@@ -2946,7 +2749,6 @@ new Float:theft_spawn[30][4] = {
 	{647.1885,-504.3948,16.0168,357.6528},
 	{-2196.1550,-2262.1704,30.3193,138.4476}
 };
-
 new Float:boat_spawn[][] = {
 	{325.3284,-1957.8163,-0.2301,92.6400},
 	{309.2881,-1977.0956,-0.2445,180.9045},
@@ -2968,10 +2770,8 @@ new Talk[][] = {
 	{"prtial_gngtlkF"},
 	{"prtial_gngtlkG"}
 };
-
 new PlayerTrailerTime[MAX_PLAYERS];
-new Float:car_fuels[6][3] =
-{
+new Float:car_fuels[6][3] = {
 	{-231.2285, -195.9663, 2.4525},
 	{-224.4868, -197.6987, 2.4525},
 	{-217.5300, -199.7619, 2.4525},
@@ -2979,7 +2779,6 @@ new Float:car_fuels[6][3] =
 	{-203.3658, -202.8208, 2.4525},
 	{-195.6543, -204.4956, 2.4525}
 };
-
 enum fracspawn {
 	fracInt,
 	fracWorld,
@@ -3014,9 +2813,7 @@ new Float:gFractionSpawn[MAX_FRACTIONS][fracspawn] = {//saneka
 	{15,4,TEAM_AZTECAS_COLOR,-16.9384,-83.5364,1029.9232,87.1867},//Aztec
 	{15,5,0x2A9170FF,-16.9384,-83.5364,1029.9232,87.1867}//Rifa
 };
-
 new gpss[MAX_PLAYERS];
-
 enum suspect_data {
 	suspect_name_folder[31],
 	suspect_name_reason[90],
@@ -3100,8 +2897,6 @@ new Float:hotel_spawnscar[60][4] = {
 	{1673.8429, 724.6450, 589.2629, 180.0000},
 	{1669.6791, 724.6450, 589.2625, 180.0000}
 };
-
-
 new Float:exitgarage[4][4] = {
 	{1111.7349,-1772.8270,894.0478,181.6883},//N
 	{1045.7454,-1781.7330,894.0495,180.3648},//D
@@ -3118,7 +2913,6 @@ new Float:cargarage[8][4] = {
 	{1050.6737, -1862.6144, 893.8024, -230.0000},//A
 	{1050.1293, -1856.7645, 893.8024, -230.0000}//A
 };
-
 enum TRANSPORT_DATA {
 	trID,
 	trModel,
@@ -3132,10 +2926,8 @@ enum TRANSPORT_DATA {
 	trProds
 }
 new gTransport[220][TRANSPORT_DATA];
-
 #define BUS_PRICE_CHECKPOINT 50
 #define BUS_PRICE_RENT 500
-
 new Text3D:gPlayerBusText[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID,...},
 gRouteName[7][32];
 new Text3D:VWH3DText[2];
@@ -3932,14 +3724,11 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0,0.0,0.0,0.0}
 	}
 };
-
 #define SP_TYPE_NONE 0
 #define SP_TYPE_PLAYER 1
 #define SP_TYPE_VEHICLE 2
-
 new PlayerText:RECON[MAX_PLAYERS];
 new Menu:specmenu;
-
 new gAdmin[MAX_PLAYERS][9],
 gAdminTime[MAX_PLAYERS];
 new gDaysOfWeek[][10] = {
@@ -3957,7 +3746,6 @@ new gDaysOfWeek[][10] = {
 #define ADMIN_PM 3
 #define ADMIN_WARN 4
 #define ADMIN_JAIL 5
-
 #define LOG_MUTE 0
 #define LOG_KICK 1
 #define LOG_WARN 2
@@ -3977,14 +3765,12 @@ new gDaysOfWeek[][10] = {
 #define LOG_INVENT 16
 #define LOG_CASINO 17
 #define LOG_UNWARN 18
-
 #define LOGS_INVITE 0
 #define LOGS_UNINVITE 1
 #define LOGS_RANK 2
 #define LOGS_LEAVE 3
 #define LOGS_FWARN 4
 #define LOGS_FUNWARN 5
-
 enum dInfo {
 	dDialog,
 	dQuestion[500],
@@ -4001,7 +3787,6 @@ new QueInfo[7][dInfo] = {
 	{2,"Чи повинні бути видні держ.номера автомобіля?",		 						"Не повинні\nПовинні лише спереду\nПовинні лише ззаду\nПовинні спереду і ззаду",3}
 },
 TestASKMassive[MAX_PLAYERS][7],
-
 Float:AutoCP[AUTO_CP_COUNT][3] = {
 	{708.9213,-1414.1073,13.2573},
 	{756.2823,-1408.0419,13.0956},
@@ -4324,7 +4109,6 @@ Float:sad_stairs[119][6] = {
 	{ -200.569946, -78.443023, 2.619222, 0.000082, 0.000012, 80.499725 },
 	{ -189.889022, -82.855865, 2.619222, 0.000082, 0.000012, 80.499725 }
 };
-
 enum s_apple {
 	a_ID,
 Float:a_coordsX,
@@ -5172,13 +4956,10 @@ new sad_apple[833][s_apple] = {
 new PlayerText:YandNsysTDPlayer[MAX_PLAYERS][2];
 new Text:YandNsysTD[3];
 new JobTempProcess[MAX_PLAYERS];
-
 new PlayerText:work_td[MAX_PLAYERS][4];
-
 new patrul_id[MAX_PLAYERS],
 tick_wanted[MAX_PLAYERS char],
 time_wanted[MAX_PLAYERS];
-
 enum TPList {
 	tName[46],
 	Float:tPos[3],
@@ -5221,7 +5002,6 @@ new TPLIST[MAX_TELEPORTS][TPList] = {
 	{"Військомат",				{1241.3760,325.8867,19.7555},2},
 	{"Озеро 'Місце пошуку предметів'",{-785.2922,-1893.7770,8.2463},2}
 };
-
 enum INTlist {
 	iID,
 	iName[70],
@@ -5234,7 +5014,6 @@ enum INTlist {
 	Float:iExitz
 };
 new bool:Poisk[MAX_PLAYERS];
-
 new edit_int[MAX_PLAYERS];
 new bool:Fishing[MAX_PLAYERS],
 fish_zone[3],
@@ -5255,7 +5034,6 @@ FishName[8][22] = {
 },
 Float:fish_sklad,
 Text3D:fish_text;
-
 new Float:HospitalSpawns[12][4] = {
 	{1561.8345,496.7100,1070.4226,359.1996}, // spawn 1
 	{1564.4565,496.6277,1070.4226,357.2962}, // spawn 2
@@ -5270,14 +5048,12 @@ new Float:HospitalSpawns[12][4] = {
 	{1546.3250,496.6836,1070.4226,1.9031}, // spawn 11
 	{1543.7367,496.6739,1070.4226,359.0831} // spawn 12
 };
-
 new Float:HospitalArmSpawns[4][4] = {
 	{309.4100,2067.1343,1014.3731,274.7489},
 	{309.4100,2067.1343,1014.3731,274.7489},
 	{312.5431,2063.4282,1014.3731,177.6381},
 	{310.5005,2054.7236,1014.3731,358.0731}
 };
-
 enum chetinfo {
 	cheatid1
 }
@@ -5285,11 +5061,9 @@ new Float:ChetInfo[10][chetinfo],
 Cheat1,
 Text:CheatText[10],
 Text:CheatPanel[3];
-
 new actor[MAX_ACTORSS];
 new Text3D:tActor[MAX_ACTORSS];
 new actortime[MAX_ACTORSS];
-
 enum ADVERT_DATA {
 	adID,
 	adSender[24],
@@ -5307,10 +5081,8 @@ bool:adCheking
 new gAdvert[MAX_ADVERT_COUNT][ADVERT_DATA],
 gAdvertCount,
 gAdvertTime;
-
 new calls_news[3],
 calls_ether[3];
-
 enum object_moved_data {
 	moved_id,
 	moved_vw,
@@ -5399,25 +5171,17 @@ Float:moved_pos_object[MAX_OBJECT_MOVED][6]={
 	{-32.843727, -175.250106, 1025.985229, 0.000000, 0.000000, -60.000000}, 
 	{-32.863727, -177.470092, 1025.985229, 0.000000, 0.000000, 180.000000} 
 };
-
 new addchet[MAX_PLAYERS];
-
 new FirstBL[MAX_PLAYERS],
 UnbanName[MAX_PLAYERS][24];
-
 new FirstReferal[MAX_PLAYERS];
-
 new PageFirst[MAX_PLAYERS][2];
-
 new prod_id[MAX_PLAYERS];
-
 new idaofcar[MAX_PLAYERS],
 nedded[MAX_PLAYERS];
-
 new Text3D:gMenu[5],
 Text3D:mMenu[3],
 Text3D:gHealth[5];
-
 new engine,
 lights,
 alarm,
@@ -5425,12 +5189,10 @@ doors,
 bonnet,
 boot,
 objective;
-
 new Float:PickupX[MAX_PLAYERS],
 Float:PickupY[MAX_PLAYERS],
 oldpickup[MAX_PLAYERS],
 timepickup[MAX_PLAYERS];
-
 enum grzone {
 	grid,
 	Float:grX,
@@ -5442,22 +5204,15 @@ enum grzone {
 };
 new GREENZONE[100][grzone],
 TOTALZONE = 0;
-
 new advertise_price,
 action_server[3];
-
 new car_spawn[MAX_PLAYERS];
-
 new car_autoschool[MAX_PLAYERS];
-
 new WantNickChange[MAX_PLAYERS][MAX_PLAYER_NAME];
 new Text:logo_TD[4];
-
 new HealOffer[MAX_PLAYERS],
 HealPrice[MAX_PLAYERS];
-
 new dostup[MAX_PLAYERS];
-
 enum enter_info {
 	tpName[50],
 	Float:tpEnterPos_X,
@@ -5573,10 +5328,6 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*95{"Вихід",789.2207,2505.4590,1502.0000,92,92,2353.5300,247.3599,26.4466,92.5602,0,0}*/ // Вихід
     /*94*/{"Вихід на вулицю", 1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0},// вхід в байкеры 2
 	/*95*/{"Вхід в аеропорт",1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0}
-
-
-
-
 };
 new TeleportPickup[sizeof(gTeleportsToD)] = {-1, ...};
 // ПИКАПЫ
@@ -5785,7 +5536,6 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"Відділення Поліції",COLOR_WHITE},//29
 	{"Заготовка",COLOR_WHITE},//30
 	{"Склад",COLOR_WHITE},//31
-
 	{"Роздягальня",COLOR_WHITE},//32
 	{"Роздягальня",COLOR_WHITE},//33
 	{"Роздягальня",COLOR_WHITE},//34
@@ -5804,12 +5554,10 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE},//47
 	{"None",COLOR_WHITE},//48
 	{"None",COLOR_WHITE},//49
-
 	{"{dbd705}Vagos\n"W"Допомога гравцю",COLOR_WHITE},//50
 	{"None",COLOR_WHITE},//51
 	{"None",COLOR_WHITE},//52
 	{"None",COLOR_WHITE},//53
-
 	{"None",COLOR_WHITE},//54
 	{"None",COLOR_WHITE},//55
 	{"None",COLOR_WHITE},//56
@@ -5819,13 +5567,11 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	
 	{"Вхід на парковку",COLOR_WHITE},//60
 	{"Багатоквартирний дім",COLOR_WHITE},//61
-
 	{"None",COLOR_WHITE},//62
 	{"None",COLOR_WHITE},//63
 	{"None",COLOR_WHITE},//64
 	{"None",COLOR_WHITE},//65
 	{"None",COLOR_WHITE},//66
-
 	{"None",COLOR_WHITE},//67
 	{"None",COLOR_WHITE},//68
 	{"None",COLOR_WHITE},//69
@@ -5842,9 +5588,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE}, //79
 	{"None",COLOR_WHITE}//80
 };
-
 new gPickID[sizeof(gPickup)] = {-1, ...};
-
 CB: Float:GetDistanceBetweenPlayers(p1,p2) {
 	new Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2;
 	if(!IsPlayerConnected(p1) || !IsPlayerConnected(p2)) return -1.00;
@@ -5882,20 +5626,16 @@ enum pl_cars {
 	carShot[2],
 	carKanistra[2],
 	carMats[2],
-
 	carPaintJob[2],
 	carLock[2]
 };
 new CarsInfo [MAX_PLAYERS] [pl_cars];
 new house_car[MAX_PLAYERS][2],
 NumberVehicle[MAX_PLAYERS][2][26];
-
 new bl_reason[MAX_PLAYERS][50];
-
 // автовикрадення
 new thef_car[MAX_PLAYERS];
 new thef_timer[MAX_PLAYERS];
-
 enum trunkInfo {
 	tGun[4],
 	tDrugs,
@@ -5905,14 +5645,12 @@ enum trunkInfo {
 	tOpen
 };
 new TrunkInfo[MAX_VEHICLES][trunkInfo];
-
 new player_ip[MAX_PLAYERS][16],
 player_ip_check[MAX_PLAYERS][16],
 player_name[MAX_PLAYERS][24],
 player_pass[MAX_PLAYERS][75],
 player_salt[MAX_PLAYERS][75];
 new Float:PlayerArmour[MAX_PLAYERS];
-
 enum pInfo {
 	pID,
 	pEmail[36],
@@ -6058,7 +5796,6 @@ lic[MAX_PLAYERS][64],
 start_work[MAX_PLAYERS],
 gOnlinePlayer[MAX_PLAYERS][2],
 gOnlinePlayerAFK[MAX_PLAYERS][2];
-
 enum tInfo {
 	tAFK,
 	tSelectHouse,
@@ -6069,12 +5806,9 @@ enum tInfo {
 	bool:tPhone,
 	bool:tSpawn,
 	bool:tSpectate,
-
 	tSelectedBusinessID,
 	tSelectedRoom,
-
 	tStoreGun,
-
 	tArendaCar,
 	tTaxiPrice,
 	tTaxiTurn,
@@ -6174,7 +5908,6 @@ Float:tUcar[3],
 	tYoutubcar
 }
 new TI[MAX_PLAYERS][tInfo];
-
 stock SPD(playerid, dialogid, style, const caption[], const info[], const button1[], const button2[]) {
 	if (!TI[playerid][tLogin]) {
 		switch (dialogid) { 
@@ -6283,13 +6016,10 @@ enum gtInfo {
 }
 new GotoInfo[MAX_PLAYERS][gtInfo];
 new RankName[MAX_FRACTIONS][15][24];
-
 #define house_rent 	0.001
 #define hotel_rent 	0.003
 #define bizz_rent 	0.002
-
 new Nalog[8];
-
 enum fgarage{
 	gGID,
 	gOwnerID,
@@ -6369,7 +6099,6 @@ CB: kick(giveplayerid) {
 }
 //
 //Бізнеси
-
 enum BINT_DATA {
 	bintID,
 	bintInterior,
@@ -6423,7 +6152,6 @@ enum BUSINESS_DATA {
 	bizzUpgrade[3],
 	bizzArrMoney
 }
-
 //Бізнеси
 new Bizz_r[MAX_BUSINESS_COUNT][MAX_PLAYERS];
 new BizzID[MAX_PLAYERS][4];
@@ -6448,7 +6176,6 @@ gPoiskCosts[] = {520, 340};
 new stock gSellGun [14] = { 6, 5, 1, 17, 46, 23, 24, 25, 29, 30, 31, 33 };
 new stock gSellGunPrice [14] = { 50, 100, 100, 300, 1000, 16, 27, 32, 14, 27, 27, 1000, 1000, 500};
 new stock gSellGunProds [14] = { 10, 10, 10, 15, 20, 3, 4, 5, 3, 4, 4, 70, 50 };
-
 enum AP_DATA {
 	aID,
 	apID,
@@ -6464,14 +6191,11 @@ enum AP_DATA {
 new Apartment[MAX_APARTMENT][AP_DATA];
 new aArea[MAX_APARTMENT];
 new gAparmentCount;
-
 new salon_sport[18][1] = {602,587,559,560,562,541,506,480,434,477,415,429,402,451,411,495,494,603};
 new salon_econom[20][1] = {419,404,401,410,422,439,467,474,479,492,491,517,518,542,543,545,549,576,600,585};
 new salon_sred[19][1] = {475,579,589,580,567,566,561,558,555,554,551,534,527,535,507,505,526,533,500};
 new salon_moto[11][1] = {481,509,510,462,461,521,463,586,471,468,522};
-
 new type_acces[MAX_PLAYERS];
-
 new acces_name_all[][] = {
 	{""P"1."W" Окуляри"},
 	{""P"2."W" Шапки"},
@@ -6638,10 +6362,8 @@ new acces_id_watch[][] = {
 	{19051,15000,118},
 	{19053,15000,119}
 };
-
 new Text3D:army_text;
 new bool:army_chs[2];
-
 new theft_info[][] = {
 	{""ORANGE"\tВикрадення транспорта"W"\n\n"},
 	{"Для викрадення транспорту Вам необхідні відмички, купити їх можна у будь-якому магазині 24/7\n"},
@@ -6654,11 +6376,8 @@ new theft_info[][] = {
 	{"3 рівень - потрібно викрасти 45 автомобілів спорт класу\n\n"},
 	{"Навик автовикрадача:"ORANGE" /theftskill\n"}
 };
-
 new open_cont;
 new open_cont_time;
-
-
 new open_game = 0; // если 0 - рега закрыта, 1 - Відчинена
 new time_registr_game; // час на реєстрацію
 new time_play_game;
@@ -6668,14 +6387,9 @@ new game_start; // Гру началась или немає
 new player_to_game[MAX_PLAYERS];
 new kills_player_game[MAX_PLAYERS];
 new weapon_id_game[] ={22,23,24,25,28,29,30,31,33,34};
-
-
-
 ///////////////
-
 new random_car_race_lv = INVALID_VEHICLE_ID;
 new car_id_race_lv[] ={495,502,506,559,560,562,568,587,603,451,411};
-
 new open_race_lv = 0; // если 0 - рега закрыта, 1 - Відчинена
 new time_registr_race_lv; // час на реєстрацію
 new players_in_race_lv; // кількість гравців зарегалось
@@ -6689,9 +6403,7 @@ new race_lead_lv = 0;
 new race_type = 0;
 new Text:td_game[6];
 new game_players[3];
-
 new pickups_game_dm[14];
-
 new Float:pickup_game_dm[][14] = {
 	{-1131.3823,1057.6615,1346.4155},
 	{-1101.3960,1019.7981,1342.0938},
@@ -6706,14 +6418,12 @@ new Float:pickup_game_dm[][14] = {
 	{-974.7061,1061.1276,1345.6770},
 	{-1132.5320,1095.6166,1345.7961}
 };
-
 new Float:spawns_pos_game_end[4][6] ={
 	{-1148.1650,-284.5583,1128.3345,178.3078},
 	{-1143.5732,-292.5761,1128.3345,358.9344},
 	{-1145.7667,-284.1833,1128.3345,178.9111},
 	{-1146.5162,-292.4044,1128.3345,359.2244}
 };
-
 new Float:spawns_pos_game[][19] = {
 	{-971.9037,1088.3547,1344.9967,129.8470},
 	{-972.0953,1073.0126,1345.0067,176.5341},
@@ -6735,7 +6445,6 @@ new Float:spawns_pos_game[][19] = {
 	{-1090.9199,1062.1122,1341.3516,341.3527},
 	{-1132.3114,1062.6431,1345.7616,249.7135}
 };
-
 new Float:gRaceCPs[3][49][4] = {
 	{// город
 		{0.0,-1593.1674,995.8550,6.7661},
@@ -6891,7 +6600,6 @@ new Float:gRaceCPs[3][49][4] = {
 		{0.0,0.0,0.0,0.0}
 	}
 };
-
 new Float:spawns_car_race_kart[][25] = {
 	{-1402.4996, -207.0603, 1042.3719, 0.0000},
 	{-1400.2638, -207.0603, 1042.3754, 0.0000},
@@ -6973,7 +6681,6 @@ new Float:spawns_car_race_desert[][25] = {
 	{-1941.3196, -2463.2275, 30.6701, 315.0000},
 	{-1938.7661, -2465.7358, 30.7351, 315.0000}
 };
-
 new ped_buyclothes[79][3] ={
 	{95,5000,235},
 	{50,10000,191},
@@ -7055,12 +6762,9 @@ new ped_buyclothes[79][3] ={
 	{93, 600000,233},
 	{233, 600000,373} // 79
 };
-
-enum
-{
+enum {
 	iconTaxi
 }
-
 enum HOUSE_DATA {
 	houseID,	
 	houseClass,
@@ -7075,14 +6779,14 @@ enum HOUSE_DATA {
 	houseDrugs,
 	houseProducts,
 	houseClose,
-Float:houseX,
-Float:houseY,
-Float:houseZ,
-Float:houseR,
-Float:houseParkX,
-Float:houseParkY,
-Float:houseParkZ,
-Float:houseParkR,
+	Float:houseX,
+	Float:houseY,
+	Float:houseZ,
+	Float:houseR,
+	Float:houseParkX,
+	Float:houseParkY,
+	Float:houseParkZ,
+	Float:houseParkR,
 	houseOwnerID,
 	houseOwner[MAX_PLAYER_NAME],
 	houseHabitID[3],
@@ -7091,20 +6795,8 @@ Float:houseParkR,
 	houseFamily,
 	houseFamilyID
 }
-
-new gHouses[MAX_HOUSE_COUNT][HOUSE_DATA],
-gHouseArendator[MAX_HOUSE_COUNT][2][MAX_PLAYER_NAME],
-gHouseArea[MAX_HOUSE_COUNT],
-gHousePickup[MAX_HOUSE_COUNT],
-gHouseIcon[MAX_HOUSE_COUNT],
-gHouseCount;
-
-new gHouseImprovePriceN[4] = {10000,20000,25000,20000},
-gHouseImprovePriceD[4] = {25000,60000,65000,50000},
-gHouseImprovePriceB[4] = {75000,110000,115000,85000},
-gHouseImprovePriceA[4] = {125000,160000,165000,170000},
-gHouseImproveName[4][36] = {"Автоматичні двері","Пониження субсидії","Гараж","Підвал"};
-
+new gHouses[MAX_HOUSE_COUNT][HOUSE_DATA], gHouseArendator[MAX_HOUSE_COUNT][2][MAX_PLAYER_NAME], gHouseArea[MAX_HOUSE_COUNT], gHousePickup[MAX_HOUSE_COUNT], gHouseIcon[MAX_HOUSE_COUNT], gHouseCount;
+new gHouseImprovePriceN[4] = {10000,20000,25000,20000}, gHouseImprovePriceD[4] = {25000,60000,65000,50000}, gHouseImprovePriceB[4] = {75000,110000,115000,85000}, gHouseImprovePriceA[4] = {125000,160000,165000,170000}, gHouseImproveName[4][36] = {"Автоматичні двері","Пониження субсидії","Гараж","Підвал"};
 enum ac_info {
 	acID,
 	acName[64],
@@ -7112,7 +6804,6 @@ enum ac_info {
 };
 new AntiCheat[53][ac_info];
 static NEW_TYPE_AC_ENABLED = 1;
-
 new TotalFamily = 0;
 enum family_data {
 	famID,
@@ -7148,15 +6839,13 @@ new Text3D:fam_lable[MAX_PLAYERS] = {Text3D:-1, ...};
 new FamilyColor[13][7] ={"FFFFFF","AFAFAF","33AA33","FF0000","FFFF00","FFD700","dc6a26","2C8BDE","98F5FF","DD90FF","63cb00","54FF9F","6B8E23"};
 new FamilyColorG[13] ={COLOR_WHITE,0xAFAFAFAA,0x33AA33AA,0xFF0000AA,0xFFFF00FF,0xFFD700FF,0xdc6a26AA,0x2C8BDEAA,0x98F5FFFF,0xDD90FFFF,0x63cb00FF,0x54FF9FFF,0x6B8E23FF};
 new FamilyColorC[13] ={1,8,128,3,228,194,6,79,2,126,86,154,235};
-
-enum car_family
-{
+enum car_family {
 	carID,
 	LoadCar,
-Float:fam_cx,
-Float:fam_cy,
-Float:fam_cz,
-Float:fam_ca,
+	Float:fam_cx,
+	Float:fam_cy,
+	Float:fam_cz,
+	Float:fam_ca,
 	famVehcom_1,
 	famVehcom_2,
 	famVehcom_3,
@@ -7176,7 +6865,6 @@ Float:fam_ca,
 	famVehPaint
 }
 new CarFamily[FAMILY_COUNT][5][car_family];
-
 #define MAX_QUESTS 62
 enum QuestInfo {
 	QuestName[64],
@@ -7200,7 +6888,6 @@ new QI[MAX_QUESTS][QuestInfo] = {
 	{"Кращий працівнік", "Опануйте собі в організації, яка вам цікава.\n\n"P"Завдання:"W"\n\n - Відіграти у будь-якій організації 30 годин\n\nВинагорода:"P" $25.000",30},
 	{"Мій дім", "Вам необхідно знайти постійне місце проживання\n\n"P"Завдання:"W"\n\n - Купити будинок будь-якого класу\n\nВинагорода:"P" $10.000",1},
 	{"Щасливий час", "Покажи свою максимальну активність, на яку ти здатен!\n\n"P"Завдання:"W"\n\n - Відіграти на сервері 5 годин\n\nВинагорода:"P" $20.000",5},
-
 	// Gang
 	{"Перша гонка", "Знайдіть собі відповідного суперніка, для участі в гонках.\n\n"P"Завдання:"W"\n\n - Перемогти 5 раз в гонках (/srace)\n\nВинагорода:"GREEN" $3.000",5},
 	{"Армійська форма", "Знайдіть військового в гетто та зніміть з нього його форму.\nУ формі дозволено прокрадатися на військову базу.\n\n"P"Завдання:"W"\n\n - Вбити військового у формі в гетто\n\nВинагорода:"GREEN" $5.000",1},
@@ -7212,7 +6899,6 @@ new QI[MAX_QUESTS][QuestInfo] = {
 	{"Завойовнік", "Захопіть територію ворожої банди (/capture)\nЗахоплення можливе з "NO"5"W" рангу\n\n"P"Завдання:"W"\n\n - Захопити 5 разів чужу територію\n\nВинагорода:"GREEN" $12.000 + 3 EXP",5},
 	{"Найкращий стрілець", "Займіть вершину ТОП списку капта. Вбивайте всіх противніків,\nщо зустрічаються вам на шляху\n\n"P"Завдання:"W"\n\n - Зайняти 2 рази перше місце у ТОП капта\n\nВинагорода:"GREEN" $30.000 + 2 EXP",2},
 	{"Просунутий боєць", "Вам необхідно взяти участь у боях на ринзі. Для цього\nвідправляйтеся у спорт зал (/gps > Громад. місця > Спорт зал)\n\n"P"Завдання:"W"\n\n - ВГрути 10 боїв на ринзі\n\nВинагорода:"GREEN" $20.000 + 1 EXP",10},
-
 	// Mafia
 	{"Викрадення", "ВиПолните ответственное завдання. Последствием может\nбути великий термін у в'язниці\n\n"P"Завдання:"W"\n\n - Похитить агента FBI (/tie)\n\nВинагорода:"GREEN" $25.000 + 2 EXP",1},
 	{"Азарт", "Попробуйте сробити крупную ставку в костях\n\n"P"Завдання:"W"\n\n - Сыграть в кості на 100 фішок (/dice)\n\nВинагорода:"GREEN" $2.000 + 1 EXP",1},
@@ -7231,7 +6917,6 @@ new QI[MAX_QUESTS][QuestInfo] = {
 	{"Экстренный виклик", "Принимайте поступившие ВзоВи від граждан штата\n\n"P"Завдання:"W"\n\n - Прийняти 10 викликов (/obc)\n\nВинагорода:"GREEN" $8.000 + 1 EXP",10},
 	{"Арестовать ООП", "Поймайте і арестуйте ООП (від 4 уровня розшуку)\n\n"P"Завдання:"W"\n\n - Арестовать преступніка з 4+ уровнем розшуку\n\nВинагорода:"GREEN" $5.000",1},
 	{"Активная работа", "Начинайте активно наводить порядок в штате! Патрулировать,\nарестоВивать преступніков, і многое другое.\n\n"P"Завдання:"W"\n\n - Пробути в організації 36 часов\n\nВинагорода:"GREEN" $30.000 + 4 EXP",36},
-
 	// Щоденні завдання
 	{"Поучаствовать 5 раз в мероприятиях", "Вибрано завдання:"P" Поучаствовать в 5 мероприятиях (/gps > Розваги > Центр розваг)"W"\n\nВи хочете взятись за виконання?",5,"5 UAH"},
 	{"Випить в баре", "Вибрано завдання:"P" Випить в баре"W"\n\nВи хочете взятись за виконання?",1,"$8.000"},
@@ -7263,11 +6948,10 @@ new QuestShow[MAX_PLAYERS][MAX_QUESTS];
 new AcceptQuest[MAX_PLAYERS][MAX_QUESTS];
 new time_quest[MAX_PLAYERS][MAX_QUESTS];
 new QuestClick[MAX_PLAYERS];
-
 enum B_INFO {
 	bObjectID,
 	bObjectModel,
-Float:bPos[4],
+	Float:bPos[4],
 	bPosText[32],
 	bText[144],
 	bOwner[MAX_PLAYER_NAME],
@@ -7284,19 +6968,16 @@ new Colors_BIG[100] = { 0x000000,0xFFFFFF,0x20B2AA,0xDC143C,0x6495ED,0xf0e68c,0x
 	0x057F94,0xB98519,0x388EEA,0x028151,0xA55043,0x0DE018,0x93AB1C,0x95BAF0,0x369976,0x18F71F,0x4B8987, 0x491B9E,0x829DC7,0xBCE635,0xCEA6DF,0x20D4AD,0x2D74FD,0x3C1C0D,0x12D6D4,0x48C000,0x2A51E2,0xE3AC12,
 	0xFC42A8,0x2FC827,0x1A30BF,0xB740C2,0x42ACF5,0x2FD9DE,0xFAFB71,0x05D1CD,0xC471BD,0x94436E,0xC1F7EC, 0xCE79EE,0xBD1EF2,0x93B7E4,0x3214AA,0x184D3B,0xAE4B99,0x7E49D7,0x4C436E,0xFA24CC,0xCE76BE,0xA04E0A,
 	0x9F945C,0xDCDE3D,0x10C9C5,0x70524D,0x0BE472,0x8A2CD7,0x6152C2,0xCF72A9,0xE59338,0xEEDC2D,0xD8C762, 0x3FE65C };
-
 new Colors_LOW[][12] = { "000000","FFFFFF","20B2AA","DC143C","6495ED","f0e68c","778899","FF1493","F4A460","EE82EE","FFD720", "8b4513","4949A0","148b8b","14ff7f","556b2f","0FD9FA","10DC29","534081","0495CD","EF6CE8","BD34DA",
 	"247C1B","0C8E5D","635B03","CB7ED3","65ADEB","5C1ACC","F2F853","11F891","7B39AA","53EB10","54137D", "275222","F09F5B","3D0A4F","22F767","D63034","9A6980","DFB935","3793FA","90239D","E9AB2F","AF2FF3",
 	"057F94","B98519","388EEA","028151","A55043","0DE018","93AB1C","95BAF0","369976","18F71F","4B8987", "491B9E","829DC7","BCE635","CEA6DF","20D4AD","2D74FD","3C1C0D","12D6D4","48C000","2A51E2","E3AC12",
 	"FC42A8","2FC827","1A30BF","B740C2","42ACF5","2FD9DE","FAFB71","05D1CD","C471BD","94436E","C1F7EC", "CE79EE","BD1EF2","93B7E4","3214AA","184D3B","AE4B99","7E49D7","4C436E","FA24CC","CE76BE","A04E0A",
 	"9F945C","DCDE3D","10C9C5","70524D","0BE472","8A2CD7","6152C2","CF72A9","E59338","EEDC2D","D8C762","3FE65C" };
-
 new skin_register[14][1] = {
 	{7}, {6}, {29}, {2}, {7}, {6}, {29}, {2},
 	
 	{12}, {40}, {12}, {40}, {12}, {40}
 };
-
 new skin_undress[][] = {
 	{0},{142},{143},{144},{145},{146},{147},{148},{149},{150},{151},{152},{153},{154},{155},{156},{157},
 	{158},{159},{160},{161},{162},{163},{164},{165},{166},{167},{168},{169},{170},{171},{172},{173},{174},{175},
@@ -7317,7 +6998,6 @@ new skin_undress[][] = {
 	{427},{428},{429},{430},{431},{432},{433},{434},{435},{436},{437},{438},{439},{440},{441},{442},{443},{444},
 	{445},{446},{447},{448},{449},{450},{451}
 };
-
 stock SendDead(ids,whoids,killerid,playerid,reason) {
 	foreach(new m:Player) { 
 		if(reason == 0) return 1;
@@ -7326,8 +7006,7 @@ stock SendDead(ids,whoids,killerid,playerid,reason) {
 	}
 	return 1;
 }
-stock IsAMafiaAndGang(playerid)
-{
+stock IsAMafiaAndGang(playerid) {
     if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
 	case fBALLAS,fVAGOS,fGROVE,fAZTEC,fRIFA,fLCN,fYAKUZA,fRM: return 1;
@@ -7363,7 +7042,6 @@ stock IsANews(playerid) {
 	return 0;
 }
 stock DollahScoreUpdate(playerid) return SetPlayerScore(playerid, PI[playerid][pLevel]);
-
 stock IsAMedic(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
@@ -7385,17 +7063,14 @@ stock IsACop(playerid) {
 	}
 	return 0;
 }
-stock IsAGos(playerid)
-{
+stock IsAGos(playerid){
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
 	case fLSPD,fFBI,fRCSO,fMEDICLS,fMEDICSF,fMEDICLV,fARMYLS,fLSNEWS,fSFNEWS,fLVNEWS,fWHITEHOUSE: return 1;
 	}
 	return 0;
 }
-
-stock IsACopAndArm(playerid)
-{
+stock IsACopAndArm(playerid) {
     if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
 	case fARMYLS, fLSPD,fFBI,fRCSO: return 1;
@@ -7409,7 +7084,6 @@ stock IsAArm(playerid) {
 	}
 	return 0;
 }
-
 enum v_car {
 	vID,
 	vSpawn,
@@ -7454,7 +7128,6 @@ enum v_car {
 }
 new VehicleInfo[MAX_VEHICLES][v_car];
 new VehicleState[MAX_VEHICLES];
-
 enum v_gun {
 	vgID,
 	vgAmount[2],
@@ -7472,7 +7145,6 @@ enum v_gun {
 	vgNarko
 }
 new VG[MAX_VEHICLES][v_gun];
-
 enum ARs {
 	arZavod,
 	arZavodSklad,
@@ -7484,24 +7156,16 @@ enum ARs {
 	arLoadProds[2],
 	arGang[4]
 }
-new gAreas[ARs];
-new Text3D:gun_3dtext[3],
-gun_pickup[24],
+new gAreas[ARs]; new Text3D:gun_3dtext[3], gun_pickup[24],
 Float:gun_checkpoints[5][3] = {
 	{961.8552,-450.0207,1471.5500}, // місце оружейка 1
 	{964.9297,-449.9872,1471.5500}, // місце оружейка 2
 	{968.0408,-450.0279,1471.5500}, // місце оружейка 3
 	{971.0580,-450.0187,1471.5500}, // місце оружейка 4
 	{974.1682,-450.0255,1471.5500} // місце оружейка 5
-},
-GunWorkWeapon[6] = {348,353,355,356,346,349},
-zavodsklad;
-
+}, GunWorkWeapon[6] = {348,353,355,356,346,349}, zavodsklad;
 #include "../sourse/mast/mast_func.inc"
-
-new Text3D:sklad_armysf[3],
-Text3D:sklad_cops[4];
-
+new Text3D:sklad_armysf[3], Text3D:sklad_cops[4];
 new Float:news_edit[8][3] = {
 	{766.6069,-1531.0240,1417.8180},
 	{766.7095,-1533.7859,1417.8180},
@@ -7512,7 +7176,6 @@ new Float:news_edit[8][3] = {
 	{759.6487,-1533.7859,1417.8180},
 	{759.6533,-1531.2749,1417.8180}
 };
-
 new Float:comp_club[15][3] = {
 	{840.469,-221.190,1000.190},
 	{840.489,-219.210,1000.190},
@@ -7530,16 +7193,13 @@ new Float:comp_club[15][3] = {
 	{847.200,-210.169,1000.190},
 	{845.210,-210.169,1000.190}
 };
-
 new Float:auto_exam[3][3] = {
 	{1.4569,-90.4876,1026.4089},
 	{3.9606,-90.4766,1026.4091},
 	{6.3032,-90.4572,1026.4089}
 };
 #include "../logic/roulette.inc"
-new TotalGZ[6],
-Text3D:black_market,
-black_prods[10];
+new TotalGZ[6], Text3D:black_market, black_prods[10];
 stock IsPlayerInBandOnline(bandid) {
 	new count_band_online = 1;
 	foreach(new i:Player) {
@@ -7558,7 +7218,6 @@ stock Float:GetPlayerDistanceToPlayer(playerid, targetid) {
 	GetPlayerPos(targetid, x2, y2, z2);
 	return PointToPoint2D(x, y, x2, y2);
 }
-
 stock CreateTextDraws(playerid) {
 	// autosalon Вибір авто
 	auto_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 465.7333, 380.6916, "_INFERNUS"); // пусто
@@ -7569,7 +7228,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, auto_PTD[playerid][0], 2);
 	PlayerTextDrawSetProportional(playerid, auto_PTD[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, auto_PTD[playerid][0], 0);
-
 	auto_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 467.4330, 361.1332, "$5000000"); // пусто
 	PlayerTextDrawLetterSize(playerid, auto_PTD[playerid][1], 0.1246, 0.9114);
 	PlayerTextDrawTextSize(playerid, auto_PTD[playerid][1], 10.0000, 40.0000);
@@ -7581,7 +7239,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, auto_PTD[playerid][1], 2);
 	PlayerTextDrawSetProportional(playerid, auto_PTD[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid, auto_PTD[playerid][1], 0);
-
 	inventory_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 176.9998, 137.5771, ""); // player skin
 	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][0], 90.0000, 114.0000);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][0], 1);
@@ -7592,7 +7249,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][0], 0);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_PTD[playerid][0], 0);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_PTD[playerid][0], -10.0000, 0.0000, -5.0000, 1.0000);
-
 	inventory_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 169.7666, 318.3363, "LD_SPAC:white"); // health
 	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][1], 68.0000, 8.0000);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][1], 1);
@@ -7601,7 +7257,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][1], 4);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][1], 0);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][1], 0);
-
 	inventory_PTD[playerid][2] = CreatePlayerTextDraw(playerid, 169.7666, 270.2182, "LD_SPAC:white"); // satiety
 	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][2], 85.0000, 8.0000);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][2], 1);
@@ -7610,7 +7265,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][2], 4);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][2], 0);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][2], 0);
-
 	inventory_PTD[playerid][3] = CreatePlayerTextDraw(playerid, 169.7666, 295.1069, "LD_SPAC:white"); // thrist
 	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][3], 44.0000, 8.0000);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][3], 1);
@@ -7619,7 +7273,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][3], 4);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][3], 0);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][3], 0);
-
 	inventory_PTD[playerid][4] = CreatePlayerTextDraw(playerid, 275.8663, 261.3481, "100%"); // satiety
 	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][4], 0.1246, 0.8615);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][4], 3);
@@ -7628,7 +7281,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][4], 2);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][4], 1);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][4], 0);
-
 	inventory_PTD[playerid][5] = CreatePlayerTextDraw(playerid, 275.8663, 285.6184, "100%"); // thirst
 	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][5], 0.1246, 0.8615);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][5], 3);
@@ -7637,7 +7289,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][5], 2);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][5], 1);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][5], 0);
-
 	inventory_PTD[playerid][6] = CreatePlayerTextDraw(playerid, 276.3330, 308.8481, "100%"); // health
 	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][6], 0.1246, 0.8615);
 	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][6], 3);
@@ -7646,7 +7297,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][6], 2);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][6], 1);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][6], 0);
-
 	inventory_PTD[playerid][7] = CreatePlayerTextDraw(playerid, 335.7001, 317.7626, "PAGE_1"); // пусто
 	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][7], 0.1332, 0.8945);
 	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][7], 10.0000, 26.0000);
@@ -7657,7 +7307,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, inventory_PTD[playerid][7], 2);
 	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][7], 1);
 	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][7], 0);
-
 	// INVENTARY SLOT
 	inventory_slot[playerid][0] = CreatePlayerTextDraw(playerid, 313.1994, 145.0437, ""); // 1 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][0], 28.0000, 33.0000);
@@ -7766,7 +7415,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][8], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][8], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][8], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][9] = CreatePlayerTextDraw(playerid, 443.1994, 181.5476, ""); // 10 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][9], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][9], 1);
@@ -7850,7 +7498,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][15], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][15], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][15], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][16] = CreatePlayerTextDraw(playerid, 345.8663, 254.5554, ""); // 17 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][16], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][16], 1);
@@ -7886,7 +7533,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][18], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][18], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][18], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][19] = CreatePlayerTextDraw(playerid, 443.1994, 254.5552, ""); // 20 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][19], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][19], 1);
@@ -7911,7 +7557,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][20], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][20], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][20], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][21] = CreatePlayerTextDraw(playerid, 168.9998, 145.0437, ""); // player slot 1
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][21], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][21], 1);
@@ -7923,7 +7568,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][21], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][21], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][21], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][22] = CreatePlayerTextDraw(playerid, 248.2976, 181.5475, ""); // player slot 4
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][22], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][22], 1);
@@ -7935,7 +7579,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][22], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][22], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][22], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][23] = CreatePlayerTextDraw(playerid, 168.9642, 181.5475, ""); // player slot 3
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][23], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][23], 1);
@@ -7947,7 +7590,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][23], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][23], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][23], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][24] = CreatePlayerTextDraw(playerid, 248.2976, 218.0513, ""); // player slot 6
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][24], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][24], 1);
@@ -7959,7 +7601,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][24], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][24], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][24], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][25] = CreatePlayerTextDraw(playerid, 168.9642, 218.0513, ""); // player slot 5
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][25], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][25], 1);
@@ -7971,7 +7612,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][25], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][25], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][25], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	// INV PAGE 2.
 	
 	inventory_slot[playerid][26] = CreatePlayerTextDraw(playerid, 313.1994, 145.0437, ""); // 1 slot
@@ -7985,7 +7625,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][26], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][26], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][26], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][27] = CreatePlayerTextDraw(playerid, 345.8663, 145.0437, ""); // 2 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][27], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][27], 1);
@@ -7997,7 +7636,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][27], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][27], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][27], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][28] = CreatePlayerTextDraw(playerid, 378.5331, 145.0437, ""); // 3 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][28], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][28], 1);
@@ -8009,7 +7647,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][28], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][28], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][28], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][29] = CreatePlayerTextDraw(playerid, 411.1994, 145.0437, ""); // 4 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][29], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][29], 1);
@@ -8021,7 +7658,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][29], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][29], 52);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][29], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][30] = CreatePlayerTextDraw(playerid, 443.1994, 145.0437, ""); // 5 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][30], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][30], 1);
@@ -8033,7 +7669,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][30], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][30], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][30], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][31] = CreatePlayerTextDraw(playerid, 313.1994, 181.5476, ""); // 6 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][31], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][31], 1);
@@ -8045,7 +7680,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][31], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][31], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][31], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][32] = CreatePlayerTextDraw(playerid, 345.8663, 181.5476, ""); // 7 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][32], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][32], 1);
@@ -8057,7 +7691,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][32], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][32], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][32], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][33] = CreatePlayerTextDraw(playerid, 378.5331, 181.5476, ""); // 8 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][33], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][33], 1);
@@ -8069,7 +7702,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][33], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][33], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][33], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][34] = CreatePlayerTextDraw(playerid, 411.1994, 181.5476, ""); // 9 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][34], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][34], 1);
@@ -8081,7 +7713,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][34], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][34], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][34], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][35] = CreatePlayerTextDraw(playerid, 443.1994, 181.5476, ""); // 10 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][35], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][35], 1);
@@ -8093,7 +7724,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][35], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][35], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][35], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][36] = CreatePlayerTextDraw(playerid, 313.1994, 218.0513, ""); // 11 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][36], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][36], 1);
@@ -8105,7 +7735,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][36], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][36], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][36], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][37] = CreatePlayerTextDraw(playerid, 345.8663, 218.0513, ""); // 12 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][37], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][37], 1);
@@ -8117,7 +7746,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][37], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][37], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][37], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][38] = CreatePlayerTextDraw(playerid, 378.5331, 218.0513, ""); // 13 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][38], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][38], 1);
@@ -8129,7 +7757,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][38], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][38], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][38], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][39] = CreatePlayerTextDraw(playerid, 411.1994, 218.0513, ""); // 14 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][39], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][39], 1);
@@ -8141,7 +7768,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][39], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][39], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][39], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][40] = CreatePlayerTextDraw(playerid, 443.1994, 218.0513, ""); // 15 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][40], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][40], 1);
@@ -8153,7 +7779,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][40], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][40], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][40], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][41] = CreatePlayerTextDraw(playerid, 313.1994, 254.5554, ""); // 16 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][41], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][41], 1);
@@ -8165,7 +7790,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][41], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][41], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][41], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][42] = CreatePlayerTextDraw(playerid, 345.8663, 254.5554, ""); // 17 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][42], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][42], 1);
@@ -8177,7 +7801,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][42], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][42], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][42], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][43] = CreatePlayerTextDraw(playerid, 378.5331, 254.5554, ""); // 18 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][43], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][43], 1);
@@ -8189,7 +7812,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][43], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][43], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][43], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][44] = CreatePlayerTextDraw(playerid, 411.1994, 254.5552, ""); // 19 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][44], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][44], 1);
@@ -8201,7 +7823,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][44], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][44], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][44], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	inventory_slot[playerid][45] = CreatePlayerTextDraw(playerid, 443.1994, 254.5552, ""); // 20 slot
 	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][45], 28.0000, 33.0000);
 	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][45], 1);
@@ -8213,7 +7834,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][45], true);
 	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][45], 18691);
 	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][45], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	//
 	buy_player_skins[playerid] = CreatePlayerTextDraw(playerid, 294.555664, 404.706756, "10000$");
 	PlayerTextDrawLetterSize(playerid, buy_player_skins[playerid], 0.217999, 1.316264);
@@ -8224,7 +7844,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, buy_player_skins[playerid], 255);
 	PlayerTextDrawFont(playerid, buy_player_skins[playerid], 2);
 	PlayerTextDrawSetProportional(playerid, buy_player_skins[playerid], 1);
-
 	skill_player_td[playerid][0] = CreatePlayerTextDraw(playerid,484.000091, 363.875549, "Desert Eagle");
 	PlayerTextDrawLetterSize(playerid,skill_player_td[playerid][0], 0.186000, 1.077332);
 	PlayerTextDrawAlignment(playerid,skill_player_td[playerid][0], 1);
@@ -8234,7 +7853,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid,skill_player_td[playerid][0], 51);
 	PlayerTextDrawFont(playerid,skill_player_td[playerid][0], 2);
 	PlayerTextDrawSetProportional(playerid,skill_player_td[playerid][0], 1);
-
 	skill_player_td[playerid][1] = CreatePlayerTextDraw(playerid,497.444732, 372.342224, "0/0");
 	PlayerTextDrawLetterSize(playerid,skill_player_td[playerid][1], 0.198444, 1.127111);
 	PlayerTextDrawAlignment(playerid,skill_player_td[playerid][1], 1);
@@ -8244,7 +7862,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid,skill_player_td[playerid][1], 51);
 	PlayerTextDrawFont(playerid,skill_player_td[playerid][1], 2);
 	PlayerTextDrawSetProportional(playerid,skill_player_td[playerid][1], 1);
-
 	RECON[playerid] = CreatePlayerTextDraw(playerid, 457.7958, 241.8333, "_");
 	PlayerTextDrawFont(playerid, RECON[playerid], 2);
 	PlayerTextDrawColor(playerid, RECON[playerid],-1);
@@ -8257,13 +7874,10 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, RECON[playerid], 51);
 	//PlayerTextDrawUseBox(playerid,RECON[playerid], 1);
 	//PlayerTextDrawBoxColor(playerid,RECON[playerid], 100);
-
 	load_tunes(playerid);
-
 	HungerProgres[playerid] = CreatePlayerTextDraw(playerid,549.500000, 60.000000, "____");PlayerTextDrawBackgroundColor(playerid,HungerProgres[playerid], 255);PlayerTextDrawFont(playerid,HungerProgres[playerid], 1);PlayerTextDrawLetterSize(playerid,HungerProgres[playerid], 0.490000, -0.000000);
 	PlayerTextDrawColor(playerid,HungerProgres[playerid], -1);PlayerTextDrawSetOutline(playerid,HungerProgres[playerid], 0);PlayerTextDrawSetProportional(playerid,HungerProgres[playerid], 1);PlayerTextDrawSetShadow(playerid,HungerProgres[playerid], 1);
 	PlayerTextDrawUseBox(playerid,HungerProgres[playerid], 1);PlayerTextDrawBoxColor(playerid,HungerProgres[playerid], 0xfF2AB5Bff);PlayerTextDrawTextSize(playerid,HungerProgres[playerid], 604.000000, 40.000000);PlayerTextDrawSetSelectable(playerid,HungerProgres[playerid], 0);
-
 	DmArenaTextDraw[playerid] = CreatePlayerTextDraw(playerid, 56.000000, 296.333374, "Kills: 0~n~Death: 0");
 	//PlayerTextDrawLetterSize(playerid, DmArenaTextDraw[playerid], 0.449999, 1.600000);
 	PlayerTextDrawAlignment(playerid, DmArenaTextDraw[playerid], 1);
@@ -8273,7 +7887,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, DmArenaTextDraw[playerid], 51);
 	PlayerTextDrawFont(playerid, DmArenaTextDraw[playerid], 3);
 	PlayerTextDrawSetProportional(playerid, DmArenaTextDraw[playerid], 1);
-
 	work_td[playerid][0] = CreatePlayerTextDraw(playerid, 508.799560, 157.333328, "box");
 	PlayerTextDrawLetterSize(playerid, work_td[playerid][0], 0.000000, 4.143486);
 	PlayerTextDrawTextSize(playerid, work_td[playerid][0], 607.000000, 0.000000);
@@ -8287,7 +7900,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, work_td[playerid][0], 1);
 	PlayerTextDrawSetProportional(playerid, work_td[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][0], 0);
-
 	work_td[playerid][1] = CreatePlayerTextDraw(playerid, 511.142517, 168.416656, "MONEY:_$0");
 	PlayerTextDrawLetterSize(playerid, work_td[playerid][1], 0.377979, 1.389998);
 	PlayerTextDrawAlignment(playerid, work_td[playerid][1], 1);
@@ -8298,7 +7910,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, work_td[playerid][1], 1);
 	PlayerTextDrawSetProportional(playerid, work_td[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][1], 0);
-
 	work_td[playerid][2] = CreatePlayerTextDraw(playerid, 509.267150, 165.500045, "box");
 	PlayerTextDrawLetterSize(playerid, work_td[playerid][2], 0.000000, -0.494873);
 	PlayerTextDrawTextSize(playerid, work_td[playerid][2], 607.000000, 0.000000);
@@ -8312,7 +7923,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, work_td[playerid][2], 1);
 	PlayerTextDrawSetProportional(playerid, work_td[playerid][2], 1);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][2], 0);
-
 	work_td[playerid][3] = CreatePlayerTextDraw(playerid, 509.267150, 190.583328, "box");
 	PlayerTextDrawLetterSize(playerid, work_td[playerid][3], 0.000000, -0.494873);
 	PlayerTextDrawTextSize(playerid, work_td[playerid][3], 607.000000, 0.000000);
@@ -8326,7 +7936,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, work_td[playerid][3], 1);
 	PlayerTextDrawSetProportional(playerid, work_td[playerid][3], 1);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][3], 0);
-
 	YandNsysTDPlayer[playerid][0] = CreatePlayerTextDraw(playerid, 287.288482, 318.583343, "PRESS Y");
 	PlayerTextDrawLetterSize(playerid, YandNsysTDPlayer[playerid][0], 0.449999, 1.600000);
 	PlayerTextDrawAlignment(playerid, YandNsysTDPlayer[playerid][0], 1);
@@ -8336,7 +7945,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, YandNsysTDPlayer[playerid][0], 51);
 	PlayerTextDrawFont(playerid, YandNsysTDPlayer[playerid][0], 2);
 	PlayerTextDrawSetProportional(playerid, YandNsysTDPlayer[playerid][0], 1);
-
 	YandNsysTDPlayer[playerid][1] = CreatePlayerTextDraw(playerid, 294.472076, 332.583099, "IIIIIIIIII");
 	PlayerTextDrawLetterSize(playerid, YandNsysTDPlayer[playerid][1], 0.402498, 1.553333);
 	PlayerTextDrawAlignment(playerid, YandNsysTDPlayer[playerid][1], 1);
@@ -8356,7 +7964,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][0], 3);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][0], 0);
-
 	Speed_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 530.7332, 415.2145, "ИГOPOЛТE:_100%"); // пусто
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][1], 0.1010, 0.7411);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][1], 3);
@@ -8365,7 +7972,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][1], 2);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][1], 0);
-
 	Speed_PTD[playerid][2] = CreatePlayerTextDraw(playerid, 581.7996, 415.7297, "АEHИЕH:_100З."); // пусто
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][2], 0.1013, 0.6790);
 	PlayerTextDrawTextSize(playerid, Speed_PTD[playerid][2], -3.0000, 0.0000);
@@ -8375,7 +7981,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][2], 2);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][2], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][2], 0);
-
 	Speed_PTD[playerid][3] = CreatePlayerTextDraw(playerid, 508.6665, 398.5368, "HUNTLEY"); // пусто
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][3], 0.1580, 0.7950);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][3], 2);
@@ -8384,7 +7989,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][3], 1);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][3], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][3], 0);
-
 	Speed_PTD[playerid][4] = CreatePlayerTextDraw(playerid, 577.5665, 405.5480, "LD_SPAC:white"); // engine
 	PlayerTextDrawTextSize(playerid, Speed_PTD[playerid][4], 6.0000, 1.0000);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][4], 1);
@@ -8393,7 +7997,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][4], 4);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][4], 0);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][4], 0);
-
 	Speed_PTD[playerid][5] = CreatePlayerTextDraw(playerid, 591.8660, 405.5480, "LD_SPAC:white"); // lamps
 	PlayerTextDrawTextSize(playerid, Speed_PTD[playerid][5], 6.0000, 1.0000);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][5], 1);
@@ -8402,7 +8005,6 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][5], 4);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][5], 0);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][5], 0);
-
 	Speed_PTD[playerid][6] = CreatePlayerTextDraw(playerid, 606.4328, 405.5480, "LD_SPAC:white"); // doors
 	PlayerTextDrawTextSize(playerid, Speed_PTD[playerid][6], 6.0000, 1.0000);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][6], 1);
@@ -8433,7 +8035,6 @@ stock to_default(playerid) {
 	yaxta_money[playerid] = 0;
 	PI[playerid][pRoom] = 0;
 	CountFloodForPlayer[playerid] = 0;
-
 	SetPVarInt(playerid, "taxist",-1);
 	SetPVarInt(playerid, "invstat",-1);
 	
@@ -8444,7 +8045,6 @@ stock to_default(playerid) {
 		market_ammout[playerid][i] = 0;
 		market_cash[playerid][i] = 0;
 	}
-
 	PI[playerid][pAdmin] 						=
 	addchet[playerid]							= 
 	dostup[playerid] 							=
@@ -8518,9 +8118,7 @@ stock to_default(playerid) {
 	TI[playerid][tCodeBank] = 
 	PI[playerid][pMedCard] = 
 	PI[playerid][pTempKey]						= 0;
-
 	PI[playerid][pHP]							= 100;
-
 	idaofcar[playerid]							=
 	PlayerTrailerTime[playerid] 				=
 	avir[playerid]								=
@@ -8539,7 +8137,6 @@ stock to_default(playerid) {
 	TI[playerid][tDuel] 						=
 	TI[playerid][tDuelLobby] 					=
 	Casino_Flag[playerid][select_casino_table] 	= -1;
-
 	PI[playerid][pSlotItem][0] 					=
 	PI[playerid][pSlotItem][1] 					=
 	PI[playerid][pSlotItem][2] 					=
@@ -8548,7 +8145,6 @@ stock to_default(playerid) {
 	PI[playerid][pSlotItem][5] 					=
 	PI[playerid][pSlotItem][6] 					=
 	PI[playerid][pSlotItem][7] 					= 0;
-
 	TI[playerid][tPhoneCaller] 					=
 	TI[playerid][tPhoneCalled] 					=
 	GotoInfo[playerid][gtID]                    =
@@ -8559,13 +8155,11 @@ stock to_default(playerid) {
 	TI[playerid][tSpectr]						=
 	TI[playerid][tDiceID]						=
 	TI[playerid][tDiceIDs]						= INVALID_PLAYER_ID;
-
 	car_spawn[playerid]							=
 	LastVeh[playerid] 							=
 	VehTrailer[playerid]						=
 	rob_veh[playerid]							=
 	car_autoschool[playerid] 					=
-
 	TI[playerid][tPhone] 						=
 	TI[playerid][tPhoneNews] 					=
 	TI[playerid][tTazer] 						=
@@ -8588,7 +8182,6 @@ stock to_default(playerid) {
 	TI[playerid][tSelectSkin] 					= 
 	TI[playerid][tDiceClosed]					=
 	TI[playerid][tTir]							= false;
-
 	TI[playerid][tGyms] 						=
 	TI[playerid][tTaxiStart] 					=
 	GotoInfo[playerid][gtX]                     = 
@@ -8602,20 +8195,16 @@ stock to_default(playerid) {
 	
 	TK_Trailer[playerid] 						= INVALID_VEHICLE_ID;
 	thef_car[playerid]                          = INVALID_VEHICLE_ID;
-
 	for(new i = 0; i < 4; i++) 					lic[playerid][i] = 0;
-
 	for (new i = 0; i < TOTALGZ; i++) 			GangZoneShowForPlayer(playerid,GZInfo[i][gZone],GetGangZoneColor(i));
 	
 	GangZoneShowForPlayer(playerid,SFa, COLOR_YELLOW2);
-
 	ResetPlayerMoney(playerid);
 	CreateTextDraws(playerid);
 	
 }
 #include "../system/hacker.pwn"
 stock RemoveBuildings(playerid) {
-
 	//ждлс
 	RemoveBuildingForPlayer(playerid, 4853, 1736.976, -1960.656, 15.054, 0.250);
 	RemoveBuildingForPlayer(playerid, 1226, 1724.875, -1859.539, 16.351, 0.250);
@@ -8654,7 +8243,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 4821, 1745.199, -1882.849, 26.140, 0.250);
 	RemoveBuildingForPlayer(playerid, 4961, 1745.199, -1882.849, 26.140, 0.250);
 	
-
 	//ноВий lcn
 	RemoveBuildingForPlayer(playerid, 3685, 1249.554, -905.460, 45.031, 0.250);
 	RemoveBuildingForPlayer(playerid, 3685, 1287.687, -900.460, 45.062, 0.250);
@@ -8677,7 +8265,6 @@ stock RemoveBuildings(playerid) {
 	//ждлс тест
 	RemoveBuildingForPlayer(playerid, 4961, 1745.2031, -1882.8516, 26.1406, 0.25);
 	RemoveBuildingForPlayer(playerid, 4821, 1745.2031, -1882.8516, 26.1406, 0.25);
-
 	/*//НоВий спавн лс
 	RemoveBuildingForPlayer(playerid, 4994, 1604.339, -2286.530, 2.101, 0.250);
 	RemoveBuildingForPlayer(playerid, 4992, 1654.540, -2286.800, 13.320, 0.250);
@@ -8788,7 +8375,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 1441, -537.039, -469.117, 25.226, 0.250);
 	RemoveBuildingForPlayer(playerid, 1440, -516.945, -496.648, 25.023, 0.250);
 	RemoveBuildingForPlayer(playerid, 1440, -503.125, -509.000, 25.023, 0.250);
-
 	/*// mayor экстерьер
 	RemoveBuildingForPlayer(playerid, 4057, 1479.553, -1693.140, 19.577, 0.250);
 	RemoveBuildingForPlayer(playerid, 4210, 1479.562, -1631.453, 12.078, 0.250);
@@ -8866,7 +8452,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 625, 1508.515, -1647.859, 13.694, 0.250);
 	RemoveBuildingForPlayer(playerid, 625, 1513.272, -1642.491, 13.694, 0.250);
 	RemoveBuildingForPlayer(playerid, 1258, 1510.890, -1607.312, 13.694, 0.250);*/
-
 	// контейнери
 	RemoveBuildingForPlayer(playerid, 3625, 2400.909, -2577.340, 15.164, 0.250);
 	RemoveBuildingForPlayer(playerid, 3769, 2400.909, -2577.340, 15.164, 0.250);
@@ -8883,7 +8468,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 3574, 2391.879, -2503.510, 15.218, 0.250);
 	RemoveBuildingForPlayer(playerid, 3744, 2391.879, -2503.510, 15.218, 0.250);
 	RemoveBuildingForPlayer(playerid, 1278, 2376.330, -2630.000, 26.671, 0.250);
-
 	// RCSO
 	RemoveBuildingForPlayer(playerid, 1294, 632.578, -583.593, 19.820, 0.250);
 	RemoveBuildingForPlayer(playerid, 781, 630.726, -578.773, 15.132, 0.250);
@@ -8892,7 +8476,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 1294, 632.843, -545.601, 19.820, 0.250);
 	RemoveBuildingForPlayer(playerid, 781, 629.578, -547.218, 15.132, 0.250);
 	RemoveBuildingForPlayer(playerid, 780, 604.015, -542.343, 15.070, 0.250);
-
 	// стройка
 	RemoveBuildingForPlayer(playerid, 8028, 1735.8594, 519.1563, 25.1563, 0.25);
 	RemoveBuildingForPlayer(playerid, 8056, 1735.8594, 519.1563, 25.1563, 0.25);
@@ -8905,7 +8488,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 966, -1526.390, 481.382, 6.179, 0.250);
 	RemoveBuildingForPlayer(playerid, 968, -1526.439, 481.382, 6.906, 0.250);
 	RemoveBuildingForPlayer(playerid, 1211, 555.156, -1251.930, 16.640, 0.250);
-
 	// Армия ЛС
 	RemoveBuildingForPlayer(playerid, 5156, 2838.039, -2423.882, 10.960, 0.250);
 	RemoveBuildingForPlayer(playerid, 5159, 2838.031, -2371.953, 7.296, 0.250);
@@ -9000,7 +8582,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 615, 1323.867, -1467.710, 12.546, 0.250);
 	RemoveBuildingForPlayer(playerid, 615, 1311.979, -1491.910, 12.546, 0.250);
 	RemoveBuildingForPlayer(playerid, 615, 1302.339, -1507.160, 12.546, 0.250);
-
 	// черный рынок
 	RemoveBuildingForPlayer(playerid, 3744, 2331.382, -2001.671, 15.023, 0.250);
 	RemoveBuildingForPlayer(playerid, 3744, 2313.046, -2008.539, 15.023, 0.250);
@@ -9008,7 +8589,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 3574, 2313.046, -2008.539, 15.023, 0.250);
 	RemoveBuildingForPlayer(playerid, 3574, 2331.382, -2001.671, 15.023, 0.250);
 	RemoveBuildingForPlayer(playerid, 1260, 2336.914, -1987.632, 21.828, 0.250);
-
 	// База LCN
 	RemoveBuildingForPlayer(playerid, 10702, -2555.7500, 392.0000, 26.5000, 0.25);
 	RemoveBuildingForPlayer(playerid, 10703, -2617.8828, 256.4453, 14.0625, 0.25);
@@ -9030,7 +8610,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 1479, -2563.6016, 327.3750, 10.9375, 0.25);
 	RemoveBuildingForPlayer(playerid, 1458, -2560.3750, 323.2031, 15.1719, 0.25);
 	RemoveBuildingForPlayer(playerid, 1479, -2560.4609, 314.8828, 16.3438, 0.25);
-
 	// Yakuza
 	RemoveBuildingForPlayer(playerid, 3750, 664.921, -1309.351, 18.367, 0.250);
 	RemoveBuildingForPlayer(playerid, 3750, 659.781, -1227.273, 19.914, 0.250);
@@ -9182,17 +8761,14 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 1497, 965.7422, 2161.5781, 1010.0000, 0.25);
 	RemoveBuildingForPlayer(playerid, 1497, 965.7578, 2158.5703, 1010.0000, 0.25);
 	RemoveBuildingForPlayer(playerid, 14612, 961.1719, 2166.5781, 1012.7344, 0.25);
-
 	RemoveBuildingForPlayer(playerid, 14784, 1281.1406, -30.0938, 1009.4141, 0.25);
 	RemoveBuildingForPlayer(playerid, 14795, 1388.8828, -20.8828, 1005.2031, 0.25);	
-
 	//farm
 	RemoveBuildingForPlayer(playerid, 3376, -96.0859, 3.1953, 6.6953, 0.25);
 	RemoveBuildingForPlayer(playerid, 3375, -96.0859, 3.1953, 6.6953, 0.25);
 	
 	//post
 	RemoveBuildingForPlayer(playerid, 17002, 52.890, -1532.031, 7.742, 0.250);
-
 	RemoveBuildingForPlayer(playerid, 3516, 1776.992, 828.968, 12.781, 0.250);
 	RemoveBuildingForPlayer(playerid, 1290, 1796.351, 789.234, 16.671, 0.250);
 	RemoveBuildingForPlayer(playerid, 3516, 1811.742, 822.929, 12.921, 0.250);
@@ -9225,7 +8801,6 @@ stock RemoveBuildings(playerid) {
 	RemoveBuildingForPlayer(playerid, 1684, -2508.4063, -669.0938, 139.8516, 0.25);//[SF NEWS] здание для тока
 	RemoveBuildingForPlayer(playerid, 1245, 2675.5234, 1172.9297, 11.1563, 0.25);//[LV NEWS] трамплин
 }
-
 public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ) {
 	if (hittype > 4) return 0;
 	if (
@@ -9239,16 +8814,13 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		static
 		Float: fOriginX, Float: fOriginY, Float: fOriginZ,
 		Float: fHitPosX, Float: fHitPosY, Float: fHitPosZ;
-
 		GetPlayerLastShotVectors(playerid, fOriginX, fOriginY, fOriginZ, fHitPosX, fHitPosY, fHitPosZ);
 		
 		new
 		string[90],
 		Float: PosIgnore,
 		Float: PosPlayerZ;
-
 		GetPlayerPos(playerid, PosIgnore, PosIgnore, PosPlayerZ);
-
 		if (fOriginZ == fHitPosZ) {
 			if (PlayerWarningTimeSilent[playerid][0] < gettime()) {
 				format(string, sizeof(string), "<< Warning >> %s[%d]: підозра на Silent Aim", player_name[playerid], playerid);
@@ -9257,7 +8829,6 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 				return 0;
 			}
 		}
-
 		new Float:ReasonCheat = floatsub(PosPlayerZ, fHitPosZ);
 		if (floatabs(ReasonCheat) < 0.03) {
 			if (++PlayerWarningSilent[playerid] >= 3) {
@@ -9327,7 +8898,6 @@ public OnPlayerConnect(playerid) {
 	MPTeleportPlayer[playerid] = 0;
 	
 	PI[playerid][pYoutube] = 0;
-
 	gPlayerProdText[playerid]    = Text3D: -1;
 	gPlayerProdCP[playerid] = -1;
 	Trailer_job[playerid] = INVALID_VEHICLE_ID;
@@ -9373,15 +8943,12 @@ public OnPlayerConnect(playerid) {
 	PlayerWarningSilent[playerid] = 0;
 	
 	TI[playerid][tDM] = 0;
-
 	RemoveBuildings(playerid);
 	textdraw_bank(playerid);
-
 	new gpciStr[64];
 	gpci(playerid, gpciStr);
 	if(!strcmp(gpciStr, MOBILE_AUTH_KEY)) TI[playerid][tMobile] = 1;
 	else TI[playerid][tMobile] = 0;
-
 	GetPlayerName(playerid,player_name[playerid],MAX_PLAYER_NAME);
 	TI[playerid][tLoginTime] = 180;
 	for(new l = 0; l < 2; l++)
@@ -9391,11 +8958,10 @@ public OnPlayerConnect(playerid) {
 	
 	static const f_check_ip_ban[] = "\
 	SELECT * FROM `"TABLE_BANIP"` WHERE `IP` = '%s' LIMIT 1";
-
 	new str_check_ip_ban[sizeof(f_check_ip_ban) + (-2 + 16)];
 	format(str_check_ip_ban, sizeof(str_check_ip_ban), f_check_ip_ban, ip[0]);
 	mysql_tquery(connects, str_check_ip_ban, "check_ip_ban", "i", playerid);
-//	NickName(playerid);
+	// NickName(playerid);
 	return 1;
 }
 stock IsVehicleOccupiedEx(vehicleid) {
@@ -9469,7 +9035,6 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
 CB: PlayerSpawn(playerid) {
 	if(IsPlayerNPC(playerid)) return 1;
 	TogglePlayerControllable(playerid, 1);
-
 	if(IsPlayerInAnyVehicle(playerid)) {
 		new Float:X, Float:Y, Float:Z;
 		GetPlayerPos(playerid, X, Y, Z);
@@ -9483,8 +9048,7 @@ CB: PlayerSpawn(playerid) {
 	RobLeave(playerid);
 	return 1;
 }
-stock AllMapping(playerid)
-{
+stock AllMapping(playerid) {
     pTemp[playerid][var_unit_1] = 0;
     pTemp[playerid][var_unit_2] = 0;
     pTemp[playerid][var_unit_3] = 0;
@@ -9494,23 +9058,19 @@ stock AllMapping(playerid)
     return 1;
 }
 forward unit_mapping_2(playerid);
-public unit_mapping_2(playerid)
-{
+public unit_mapping_2(playerid) {
 	new stringer[500];
     new rows = cache_num_rows();
     if(rows)
     {
         new tmp = 0;
         new name[32],bdobj, string[80];
-
         stringer = "{FFFFFF}ObjectID\t{FFFFFF}Встановлено адміністратором\n";
-
         for(new i = pTemp[playerid][var_unit_1]*15; i < rows; i++)
         {
             cache_get_value_name(i, "name", name,MAX_PLAYER_NAME);
             cache_get_value_name_int(i, "id", bdobj);
             tmp++;
-
             format(string, sizeof(string), "{FFFFFF}%d\t%s\n",bdobj,name);
             strcat(stringer, string);
         }
@@ -9542,8 +9102,7 @@ public unit_mapping_2(playerid)
     }
     return 1;
 }
-stock unit_mapping(playerid)
-{
+stock unit_mapping(playerid) {
 	new stringer[128];
     mysql_format(connects, stringer, 128, "SELECT * FROM `bmap` LIMIT %i", pTemp[playerid][var_unit_1]*15+15);
     mysql_pquery(connects, stringer, "unit_mapping_2", "i", playerid);
@@ -9575,7 +9134,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	for(new guard_iterator = strlen(inputtext) - 1; guard_iterator > -1; --guard_iterator) {
 		if(inputtext[guard_iterator]=='%') inputtext[guard_iterator]='#';
 	}
-
 	switch(dialogid) 
 	{
 	case 2095: {
@@ -9593,12 +9151,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(deathtimer[playerid][3] == 0)
 				{
 					if(GetPlayerVirtualWorld(playerid) != 0) return SendError(playerid, "Ви не можете зробити виклик у приміщенні.");
-
 					new deathphasetimerstr[32];
 					format(deathphasetimerstr, sizeof(deathphasetimerstr),"%d", deathtimer[playerid][1]);
 					GameTextForPlayer(playerid, deathphasetimerstr, 1000, 4);
 					deathtimer[playerid][0] = SetTimerEx("DeathPhaseTimer", 1000, true, "i", playerid);
-
 					new bool:online = false;
 					foreach(new i:Player) {
 						if(!TI[i][tLogin]) continue;
@@ -9952,7 +9508,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					MYSQL_GLOBAL[0] = EOS;
 					mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"SELECT * FROM `admin` WHERE `Name` = '%s' AND `password` = '%s' LIMIT 1", player_name[playerid], MD5_Hash(inputtext));
 					mysql_pquery(connects, MYSQL_GLOBAL, "password_adm","ds", playerid, inputtext);
-
 				}
 			}
 			return 1;
@@ -9992,7 +9547,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			cache_get_row_count(rows);
 			if(rows)
 			{
-				string = ""W"Им'я гравця\t"W"Собрано тыкв\n";
+				string = ""W"Ім'я гравця\t"W"Зібрано гарбузів\n";
 				static const f_str[] = "%i. %s\t%d\n";
 				new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 				for(new i; i < rows; i ++)
@@ -10006,7 +9561,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, "{F88539}HAllOWEEN."W" Рейтинг зібраних гарбузів", string, "Закрити", "");
 			new str[100];
-			format(str,sizeof(str),"Всього собрано"W" %d{F88539} гарбузів.",PI[playerid][pEvent]);
+			format(str,sizeof(str),"Всього зібрано "W"%d{F88539} гарбузів.",PI[playerid][pEvent]);
 			SendClientMessage(playerid, 0xfF88539ff, str);
 			cache_delete(result);
 			if(count == 0) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "{F88539}HAllOWEEN."W" Рейтинг зібраних гарбузів", ""W"Не знайдено гравців в рейтингу", "Закрити", "");
@@ -10145,7 +9700,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
          
         PI[playerid][pEkills] -= strval(inputtext)*100;
         UpdatePlayerData(playerid, "e_kills", PI[playerid][pEkills]);
-
         new str[200];
         format(str,sizeof(str),"{F88539}HAllOWEEN:"W"ви обміняли %d кіллів на %d тикв",strval(inputtext)*100, strval(inputtext));
         SendOK(playerid,str);
@@ -10370,7 +9924,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		switch(PI[id][bizz_status])
 		{
 			case 2,4: SetPlayerSkin(playerid, 159);
-
 		}
 		SendClientMessage(playerid, COLOR_WHITE, "Ви успішно Вишли на роботу!");
 		
@@ -10702,7 +10255,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				RemovePlayerAttachedObject(playerid, ItemsInfo[PI[playerid][pInventory][i]][AcessBone]);
 				save_slotitem(playerid);
 			}
-
 			new query[250];
 			mysql_format(connects, query, sizeof(query),"INSERT INTO `market` (`Name`, `item`, `ammout`, `cash`) VALUES ('%s','%i','%i','%i')",player_name[playerid],PI[playerid][pInventory][i], count, cash);
 			mysql_pquery(connects, query, "", "");
@@ -11126,7 +10678,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(gBusiness[bizz][bizzBank] < gTransport[tk_car[id_car][0]-400][trPrice]) return SendError(playerid, "У касі транспортної компанії недостатньо коштів для купівлі.");
 						FuncBizz[bizz+1][funcbCar][id_slot] = tk_car[id_car][0];
 						gBusiness[bizz][bizzBank] -= gTransport[tk_car[id_car][0]-400][trPrice];
-
 						UpdateBusinessData(bizz+1,"bank",gBusiness[bizz][bizzBank]);
 					}
 					creare_funccar(bizz+1,id_slot);
@@ -11164,10 +10715,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdatePlayerData(playerid,"bizz_cash",0);
 			PI[playerid][bizz_lcash] = 0;
 			UpdatePlayerData(playerid,"bizz_lcash",0);
-
 			PI[playerid][pSettings][3] = 1;
 			save_settings(playerid);
-
 			new string[100];
 			format(string,sizeof(string),"[TRUCK] %s влаштувався у транспортну компанію",player_name[playerid]);
 			BizzMSG(bizz,COLOR_YELLOW,string);
@@ -11219,7 +10768,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			return 1;
 		}
 		return 1;
-
 		}
 	case D_CREDIT_BUY:{
 		if(!response) return 1;
@@ -11605,7 +11153,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if (!response) return 1;
 			if (!strlen(inputtext)) return ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_1, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введість кількість активацій бонус-коду", "Прийняти", "Скасувати");
 			if (strval(inputtext) < 1) return ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_1, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введість кількість активацій бонус-коду", "Прийняти", "Скасувати");
-
 			PlayerPromoCount[playerid] = strval(inputtext);
 			ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_2, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть кількість грошей, яка буде видаватися при Ввестиі бонус-коду", "Прийняти", "Скасувати");
 			return 1;
@@ -11614,7 +11161,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if (!response) return 1;
 			if (!strlen(inputtext)) return ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_2, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть кількість грошей, яка буде видаватися при Ввестиі бонус-коду", "Прийняти", "Скасувати");
 			if (strval(inputtext) < 0) return ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_2, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть кількість грошей, яка буде видаватися при Ввестиі бонус-коду", "Прийняти", "Скасувати");
-
 			PlayerPromoMoney[playerid] = strval(inputtext);
 			ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_3, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть кількість донату, яка буде видаватися при Ввестиі бонус-коду", "Прийняти", "Скасувати");
 			return 1;
@@ -11623,9 +11169,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if (!response) return 1;
 			if (!strlen(inputtext)) return ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_3, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть кількість донату, яка буде видаватися при Ввестиі бонус-коду", "Прийняти", "Скасувати");
 			if (strval(inputtext) < 0) return ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE_3, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть кількість донату, яка буде видаватися при Ввестиі бонус-коду", "Прийняти", "Скасувати");
-
 			PlayerPromoDonate[playerid] = strval(inputtext);
-
 			STRING_GLOBAL[0] = EOS;
 			format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "\
 	"W"Бонус-код: "P"%s\n\n\
@@ -11640,11 +11184,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_FAKE_PROMO_CREATE_4: {
 			if (!response) return 1;
-
 			new string[250];
 			mysql_format(connects, string, sizeof(string), "INSERT INTO `fake_promo` (`Code`, `Money`, `Donate`, `UseCode`) VALUES ('%s', '%d', '%d', '%d')", PlayerPromoText[playerid], PlayerPromoMoney[playerid], PlayerPromoDonate[playerid], PlayerPromoCount[playerid]);
 			mysql_pquery(connects, string, "", "");
-
 			SendClientMessage(playerid, 0xFFFF00FF, "Бонус-код успішно створено");
 			return 1;
 		}
@@ -11653,7 +11195,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if (!strlen(inputtext)) return ShowPlayerDialog(playerid, D_FAKE_PROMO, DIALOG_STYLE_INPUT, ""P"Введення бонус-коду", ""W"Введіть нижче дійсний бонус-код", "Прийняти", "Закрити");
 			if (strlen(inputtext) < 1 || strlen(inputtext) > 15) return SendError(playerid, "Довжина бонус-коду повинна бути від 1 до 15 символів");
 			if (is_text_invalid(inputtext)) return SendError(playerid, "Присутні заборонені символи");
-
 			new string[200];
 			mysql_format(connects, string, sizeof(string), "SELECT * FROM `fake_promo` WHERE `Code` = '%s'", inputtext);
 			mysql_tquery(connects, string, "OnMemoryCheckFakePromo", "is", playerid, inputtext);
@@ -11741,7 +11282,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new cash = GetPVarInt(playerid,"p_bank");
 			new id = GetPVarInt(playerid,"p_player");
 			if(id == INVALID_PLAYER_ID || TI[playerid][tLogin] == false) return SendError(playerid, "Сталася помилка #75. Повторіть спробу");
-
 			PI[playerid][pBank] -= cash;
 			UpdatePlayerData(playerid, "pBank", PI[playerid][pBank]);
 			new string[350];
@@ -11887,12 +11427,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				, gBusiness[bizid][bizzName], str, gBusiness[bizid][bizzProdOrder], prod, gBusiness[bizid][bizzProdOrder], str, str);
 				return ShowPlayerDialog(playerid, dProdSell, DSI, ""P"Доставка", string, "Продати", "Скасувати");
 			}
-
 			GiveMoney(playerid,gBusiness[bizid][bizzProdOrderPrice] * price, "оплата розвізнику");
-
 			gBusiness[bizid][bizzProdOrder] -= price;
 			gBusiness[bizid][bizzProduct] += price;
-
 			format(string, sizeof(string), ""W"Бізнес: "P"%s\n\n\
 				"W"Продуктів доставлено: "O"%d\n\
 				"W"Необхідно продуктів: "O"%d\n\
@@ -11900,17 +11437,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			gBusiness[bizid][bizzName], price, gBusiness[bizid][bizzProdOrder],gBusiness[bizid][bizzProdOrderPrice] * price
 			);
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Доставлено", string, "Закрити", "");
-
 			if (gBusiness[bizid][bizzProdOrder] == 0) gBusiness[bizid][bizzProdOrderPrice] = 0;
 			SaveBusiness(bizid);
-
 			DeletePVar(playerid, "prod_id");
 			SetPVarInt(playerid, "count_prod", GetPVarInt(playerid, "count_prod") - price);
-
 			format(string, sizeof(string), "Завантажено: "GREEN"%d/2000\n"W"Бізнес: "GREEN"Відсутній", GetPVarInt(playerid, "count_prod"));
 			UpdateDynamic3DTextLabelText(gPlayerProdText[playerid], -1, string);
 			UpdateBusinessText(bizid);
-
 			if (gPlayerProdCP[playerid] != -1) DestroyDynamicCP(gPlayerProdCP[playerid]);
 			return 1;
 		}
@@ -11982,7 +11515,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					VacancyInfo[i][VacancyFraction] = PI[playerid][pMember];
 					VacancyInfo[i][VacancyStatus] = true;
 					strmid(VacancyInfo[i][VacancyCreator], player_name[playerid], 0, 24);
-
 					SendOK(playerid, "Вакансія успішно додана.");
 					return pc_cmd_vacancy(playerid);
 				}
@@ -12247,7 +11779,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(STRING_GLOBAL,sizeof(STRING_GLOBAL),"Використати\nПродати за $%d.", CountInfo[playerid][cont_cash][listitem]);
 			ShowPlayerDialog(playerid, D_CONTAINER_3, DSL, ""P"Оберіть дію", STRING_GLOBAL, "Обрати", "Закрити");
 			SetPVarInt(playerid,"list_predm",listitem);
-
 		
 		}
 	case D_CONTAINER_3: {
@@ -12345,7 +11876,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				save_quest(playerid,31);
 				ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви закінчили виконання квесту 'Адвокат'\n\t"NO"Квест можна завершити в списку квестів (/quest)","Закрити","");
 			}
-
 			format(string, sizeof(string), "Ви випустили "P"%s"W" за "P"$%d."G" Спосіб оплати: "W"%s.", player_name[playerid], percent, (listitem == 0) ? ("готівка") : ("банк. рахунок"));
 			SendUse(id, string);
 			PI[playerid][pJailTime] = 0;
@@ -12367,9 +11897,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case DIALOG_BLACKJACK_BET: {
 			if (!response)
 			return SelectTextDraw(playerid, 0x000000FF), false;
-
 			new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1), amount = strval(inputtext);
-
 			if (blackjackTableInfo[tableid][blackjackTableStatus] != BLACKJACK_STATUS_STARTING) {
 				SelectTextDraw(playerid, 0x000000FF);
 				return false;
@@ -12379,18 +11907,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				format(str, sizeof(str),""W"Введіть суму ставки "ORANGE"(%d - %d)"W":\n\nУ вас в наявності: "ORANGE"%d фішок",blackjackTableInfo[tableid][blackjackTableMinBet], blackjackTableInfo[tableid][blackjackTableMaxBet], PI[playerid][pCasinoChips]);
 				return ShowPlayerDialog(playerid, DIALOG_BLACKJACK_BET, DSI, "{9932CC}Black Jack", str, "Прийняти", "Вийти");
 			}
-
 			SetPVarInt(playerid, "Anticheat::Dialog_ID", 0);
 			
 			BJ_PlayerInfo[playerid][pBlackJackLastBet] =
 			BJ_PlayerInfo[playerid][pBlackJackBet][BJ_PlayerInfo[playerid][pBlackJackBlockID]] = amount;
-
 			SelectTextDraw(playerid, 0x000000FF);
-
 			ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
 			return 1;
 		}
-
 	case DIALOG_BLACKJACK_LEAVE: {
 			SelectTextDraw(playerid, 0x000000FF);
 			if (response) blackjack_LeaveGame(playerid);
@@ -12426,15 +11950,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			"G"Інформація", "Обрати", "Скасувати");
 				return 1;
 			}
-
 			if(PI[playerid][pCasinoLanguage] == 0) PI[playerid][pCasinoLanguage] = 1;
 			else PI[playerid][pCasinoLanguage] = 0;
 			UpdatePlayerData(playerid,"casino_lang",PI[playerid][pCasinoLanguage]);
-
 			new string[100];
 			format(string,sizeof(string),"Поточна мова інтерфейсу ["GREEN"%s"W"]",PI[playerid][pCasinoLanguage] ? ("Українська") : ("Англійська"));
 			ShowPlayerDialog(playerid, DIALOG_CASINO_LANG, DSL, ""P"Мова інтерфейсу", string, "Змінити", "Назад");
-
 		}
 	case DIALOG_CASINO_1: {
 			if(!response) return 1;
@@ -12740,13 +12261,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					VehicleInfo[CarFamily[fam][car][LoadCar]][vFslot] = slot;
 					VehicleInfo[CarFamily[fam][car][LoadCar]][vFuel] = 100;
 					VehicleInfo[CarFamily[fam][car][LoadCar]][vAkum] = 100;
-
 					
 					VehicleInfo[CarFamily[fam][car][LoadCar]][vColor][0] = CarFamily[fam][car][famVehColor];
 					VehicleInfo[CarFamily[fam][car][LoadCar]][vColor][1] = CarFamily[fam][car][famVehColor_1];
-
 					LoadFamilyTuning(fam, CarFamily[fam][car][LoadCar], car); 
-
 					ChangeVehicleColor(CarFamily[fam][car][LoadCar], CarFamily[fam][car][famVehColor], CarFamily[fam][car][famVehColor_1]);
 					
 					SendClientMessage(playerid, COLOR_ORANGE, "Транспорт завантажений у гру.");
@@ -12778,7 +12296,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new sum = (gTransport[modelid][trPrice]-procent);
 			
 			RemoveFamilyComponent(fam,CarFamily[fam][car][LoadCar], car);
-
 			if(CarFamily[fam][car][LoadCar] != INVALID_VEHICLE_ID)
 			{
 				VehicleInfo[CarFamily[fam][car][LoadCar]][vFamily] = 0;
@@ -12807,7 +12324,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_VIEW_CARS: {
 			if(!response) return 1;
-
 			switch(GetPVarInt(playerid,"get_class"))
 			{
 			case 1: car_shop[playerid] = CreateVehicle(salon_sport[0][0], 45.0986,-14.8016,1225.3112,89.6199, 1, 1, -1);
@@ -12829,11 +12345,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			format(string,sizeof(string),"$%d", gTransport[modelid][trPrice]);
 			PlayerTextDrawSetString(playerid, auto_PTD[playerid][1],string);
-
 			for(new i = 0; i < 54; i++) TextDrawShowForPlayer(playerid, autoshop_TD[i]);
 			PlayerTextDrawShow(playerid, auto_PTD[playerid][0]);
 			PlayerTextDrawShow(playerid, auto_PTD[playerid][1]);
-
 			InterpolateCameraPos(playerid, 39.897727, -20.048879, 1226.559936, 39.897727, -20.048879, 1226.559936, 3000);
 			InterpolateCameraLookAt(playerid, 43.363063, -16.444784, 1226.515747, 43.363063, -16.444784, 1226.515747, 3000);
 			
@@ -12859,14 +12373,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			DeletePVar(playerid,"block_inv");
 			if(slot == -1) return SendError(playerid, "Ви не обрали в інвентарі предмет.");
 			if(!PI[playerid][pActivTrade][slot]) return SendError(playerid, "Ви не надсилали запит на передачу цього предмета.");
-
 			SendClientMessage(acter, COLOR_GREY,"Гравець відмовився від передачі предмету.");
 			SendError(playerid, "Ви відмовилися від передачі предмету.");
-
 			PI[playerid][pActivTrade][slot] = 0;
 			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][slot], 370810879);
 			InvUpdate(playerid, slot, PI[playerid][pInventory][slot]);
-
 			DeletePVar(acter,"give_inv");
 			DeletePVar(playerid,"activ_trade");
 			ClickInv[playerid] = -1;
@@ -12901,8 +12412,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarInt(playerid,"activ_trade",id+1);
 			
 			PI[playerid][pActivTrade][slot] = 1;
-
-
 			STRING_GLOBAL[0] = EOS;
 			
 			format(STRING_GLOBAL, sizeof(STRING_GLOBAL), ""P"%s"W" запропонував вам купити "P" %s "W"у кількості"P" %d за $%d.",player_name[playerid],ItemsInfo[PI[playerid][pInventory][slot]][ItemName],PI[playerid][pInventoryKolvo][ClickInv[playerid]], money);
@@ -13064,7 +12573,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(PI[playerid][pAcsJob][6]) strcat(string,"Аксесуар 'Бургер'\n"), take_items[playerid][null] = 6, null++;
 					if(PI[playerid][pAcsJob][7]) strcat(string,"Аксесуар 'Літак'\n"), take_items[playerid][null] = 7, null++;
 					if(PI[playerid][pAcsJob][8]) strcat(string,"Аксесуар 'Маска півня'\n"), take_items[playerid][null] = 8, null++;
-
 					if(null == 0) return SendError(playerid, "Ви не заробили ніяких аксесуарів.");
 					ShowPlayerDialog(playerid,DIALOG_JOB_PROGRESS_2,DSL, ""P"Аксесуари з робіт",string, "Забрати", "Назад");
 					return 1;
@@ -13171,7 +12679,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				CarsInfo[playerid][carDrived][1] = VehicleInfo[house_car[playerid][1]][vDrived];
 				A_DestroyVehicle(house_car[playerid][1]),house_car[playerid][1] = INVALID_VEHICLE_ID;
 			}
-
 			CarsInfo[playerid][carModel][listitem] = gTransport[carid][trModel];
 			CarsInfo[playerid][carDrived][listitem] = 0;
 			
@@ -13192,7 +12699,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			CarsInfo[playerid][carColor_one][listitem] = car_color[playerid][0];
 			CarsInfo[playerid][carColor_two][listitem] = car_color[playerid][1];
-
 			
 			strmid(NumberVehicle[playerid][listitem], "[        ]", 0, strlen("[        ]"), MAX_PLAYER_NAME);
 			
@@ -13223,7 +12729,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new query[350];
 			format(query, sizeof(query), "UPDATE `cars` SET `model` = '%d',`color_one` = '%d',`color_two` = '%d' WHERE `id` = '%d'",CarsInfo[playerid][carModel][listitem],car_color[playerid][0],car_color[playerid][1],CarsInfo[playerid][carID][listitem]);
 			mysql_tquery(connects, query, "", "");
-
 			
 			new str[128];
 			format(str,sizeof(str),"купівля авто %s",gTransport[carid][trName]);
@@ -13242,14 +12747,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!PI[playerid][pHouse] && !PI[playerid][pRoom] && !PI[playerid][pTempKey]) return SendError(playerid, "У вас немає будинку або квартири.");
 			if(CarsInfo[playerid][carModel][listitem] != 481) return SendError(playerid, "Для початку продайте автомобіль на даному слоті.");
 			if(house_car[playerid][listitem] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][listitem]), house_car[playerid][listitem] = INVALID_VEHICLE_ID;
-
 			new query[120]; 
 			format(query, 120, "UPDATE `cars` SET `model` = '%d',`color_one` = '%d',`color_two` = '%d' WHERE `id` = '%d'",CountInfo[playerid][cont_model][GetPVarInt(playerid,"list_predm")],car_color[playerid][0],car_color[playerid][1],CarsInfo[playerid][carID][listitem]);
 			mysql_tquery(connects, query, "", "");
 			
 			CarsInfo[playerid][carModel][listitem] = CountInfo[playerid][cont_model][GetPVarInt(playerid,"list_predm")];
 			CarsInfo[playerid][carDrived][listitem] = 0;
-
 			new str[128];
 			mysql_format(connects, str, sizeof(str),"DELETE FROM `priz` WHERE `id` = '%i'",CountInfo[playerid][cont_id][GetPVarInt(playerid,"list_predm")]);
 			mysql_tquery(connects, str, "", "");
@@ -13275,7 +12778,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendError(playerid, str);
 				return 1;
 			}
-
 			CarFamily[fam][listitem][carID] = gTransport[carid][trModel];
 			
 			if(gBusiness[businessid][bizzProduct]-gTransport[carid][trProds] > 0) {
@@ -13294,7 +12796,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendClientMessage(playerid,COLOR_ORANGE,"Вітаємо з купівлею нового транспорту.");
 			
 			CarFamily[fam][listitem][famVehPaint] = -1;
-
 			CarFamily[fam][listitem][famVehColor] = car_color[playerid][0];
 			CarFamily[fam][listitem][famVehColor_1] = car_color[playerid][1];
 			
@@ -13411,7 +12912,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			switch(DI[id][duel_type]) {
 			case 0: {
 					DI[id][duel_id][1] = playerid;
-
 					start_duel_1(id);
 					new Float:pos[3];
 					GetPlayerPos(DI[id][duel_id][0], pos[0], pos[1], pos[2]);
@@ -13746,7 +13246,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			VehicleInfo[vehicleid][vFuel] = 50;
 			VehicleInfo[vehicleid][vAkum] = 50;
 			GetVehicleParamsEx(TI[playerid][tMoped],engine,lights,alarm,doors,bonnet,boot,objective);
-			ToggleEngine(TI[playerid][tMoped],playerid);
+			if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) ToggleEngine(TI[playerid][tMoped],playerid);
 		}
 	case D_CAS_LIFT: {
 			if(!response) return 1;
@@ -14052,12 +13552,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(active_accept(player)) return SendError(playerid, "У гравця вже є активна пропозиція.");
 			if(lic[player][listitem]) return SendError(playerid, "У гравця вже є ця ліцензія.");
 			if(PI[player][pCash] < GetPVarInt(playerid,"lic_cash")) return SendError(playerid, "У гравця недостатньо грошей.");
-
 			new string[144];
 			format(string, sizeof(string), ""P"%s "W"хоче продати вам ліцензию на"P" %s"W" за %i$.", player_name[playerid], lic_name, cash);
 			SendUse(player, string);
 			SendClientMessage(player,COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 			format(string, sizeof(string), "Ви запропонували "P"%s "W"купити ліцензію на"P" %s"W" за %i$.", player_name[player], lic_name, cash);
 			SendUse(playerid, string);
 			
@@ -14303,10 +13801,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_format(connects, query_string, sizeof(query_string),"SELECT `Name`,`pRank`,`pOnline` FROM `accounts` WHERE `pMember` = '%d' AND `pRank` = '%d' AND `online_status` = '1001'",PI[playerid][pMember], GetPVarInt (playerid, "ofm_type")) ;
 					mysql_pquery(connects, query_string, "callback_offmembers", "i", playerid) ;
 					return 1 ;
-
 				}
 				SetPVarInt (playerid, "ofm_list_page", page_id) ;
-
 				if(! GetPVarInt (playerid, "ofm_type"))
 				{
 					new query_string [128] ;
@@ -14317,7 +13813,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new query_string [128] ;
 				mysql_format(connects, query_string, sizeof(query_string),"SELECT `Name`,`pRank`,`pOnline` FROM `accounts` WHERE `pMember` = '%d' AND `pRank` = '%d' AND `online_status` = '1001'", PI[playerid][pMember], GetPVarInt (playerid, "ofm_type")) ;
 				mysql_pquery(connects, query_string, "callback_offmembers", "i", playerid) ;
-
 			}
 			else if (listitem == 1)
 			{
@@ -14335,7 +13830,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new query_string [128] ;
 					mysql_format(connects, query_string, sizeof(query_string),"SELECT `Name`,`pRank`,`pOnline` FROM `accounts` WHERE `pMember` = '%d' AND `pRank` = '%d' AND `online_status` = '1001'", PI[playerid][pMember], GetPVarInt (playerid, "ofm_type")) ;
 					mysql_pquery(connects, query_string, "callback_offmembers", "i", playerid) ;
-
 					return 1 ;
 				}
 				SetPVarInt (playerid, "ofm_list_page", page_id + 2) ;
@@ -14407,7 +13901,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format (pvar_string, sizeof (pvar_string), "ofm_%d", GetPVarInt (playerid, "ofm_listitem")) ;
 					GetPVarString (playerid, pvar_string, pl_name, 40) ;
 					format (pvar_string, sizeof (pvar_string), "%s", pl_name) ;
-
 					new query_string [400];
 					mysql_format(connects, query_string, sizeof(query_string),"UPDATE `accounts` SET `pMember` = '0', `pRank` = '0' WHERE `Name` = '%s' LIMIT 1", pl_name) ;
 					mysql_tquery(connects, query_string, "", "") ;
@@ -14415,7 +13908,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format (query_string, sizeof query_string, "Ви звільнили %s з організації.", pl_name) ;
 					SendOK(playerid, query_string);
 					DeletePVar(playerid, "ofm_listitem");
-
 				}
 			case 2: ShowPlayerDialog(playerid, d_offmembers_pl_rank, DSI, ""P"Зміна рангу гравця", ""W"Введіть номер рангу, який хочете встановити для гравця:", "Обрати", "Назад") ;
 			}
@@ -14515,9 +14007,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new rand = random(sizeof(theft_spawn));
 			car = A_CreateVehicle(model,theft_spawn[rand][0],theft_spawn[rand][1],theft_spawn[rand][2],theft_spawn[rand][3], color, 1, -1, VEHICLE_TYPE_PLAYER);
 			GetVehiclePos(car, TI[playerid][tUcar][0], TI[playerid][tUcar][1], TI[playerid][tUcar][2]);
-
 			EnableGPSForPlayer(playerid,TI[playerid][tUcar][0],TI[playerid][tUcar][1],TI[playerid][tUcar][2]);
-
 			VehicleInfo[car][vFuel] = 75;
 			VehicleInfo[car][vFuel] = 75;
 			thef_timer[playerid] = 1020;
@@ -14563,8 +14053,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					case 1: SetPVarInt(playerid,"eng_car", 15);
 					case 2: SetPVarInt(playerid,"eng_car", 10);
 					}
-					GameTextForPlayer(playerid,"~w~engine started",1200,4);
-					ToggleEngine(veh,playerid);
+					if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) return ToggleEngine(veh,playerid);
 					EnableGPSForPlayer(playerid,2488.0916,-1463.9087,24.0205);
 				}
 			case 2: {
@@ -14589,7 +14078,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response)
 				return false;
 			STRING_GLOBAL[0] = EOS;
-
 			mysql_format(connects, STRING_GLOBAL, 128, "SELECT * FROM "TABLE_ROULETTE" WHERE `player_name` = '%s' AND `id`=%d LIMIT 1",
 				GetName(playerid), RouletteInfo[playerid][roulettePrizeID][listitem]);
 			mysql_tquery(connects, STRING_GLOBAL, "roulette_TakePrize","d", playerid), STRING_GLOBAL[0] = EOS;
@@ -15087,7 +14575,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							GiveMoney(id_prodaet,house_price,string);
 							
 							strmid(PlayerTrailer[player_vehicleid][carOwner], player_name[playerid], 0, strlen(player_name[playerid]), MAX_PLAYER_NAME + 2);
-
 							MYSQL_GLOBAL[0] = EOS;
 							mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),
 							"UPDATE `"TABLE_DNK"` SET `owner` = '%e' WHERE id = %d LIMIT 1",
@@ -15103,7 +14590,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							
 							GetPlayerVehicles(playerid);
 							GetPlayerVehicles(id_prodaet);
-
 							trailer_text(player_vehicleid);
 							
 							DeletePVar(playerid,"hCarSeller");
@@ -15131,9 +14617,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			return SendError(playerid, "Будинок на колесах далеко від вас!");
 			
 			if (!DestroyPlayerVehicle(playerid, player_vehicle_id)) return 1;
-
 			GiveMoney(playerid, TRAILER_SELL/100*50, "утилзация будинку на колесах");
-
 			DeletePVar(playerid, "player_vehicle_id");
 			GetPlayerVehicles(playerid);
 			
@@ -15250,10 +14734,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			strmid(GREENZONE[TOTALZONE][grName],name, 0, strlen(name), 32);
 			GREENZONE[TOTALZONE][grid] = TOTALZONE;
 			GREENZONE[TOTALZONE][grD] = float(price);
-
 			static const f_str[] = "Зелена зона під номером "ORANGE"%i"G" создана";
 			new string[sizeof(f_str) +1 + (-2 + 3)];
-
 			format(string,sizeof(string),f_str,TOTALZONE);
 			SendOK(playerid,string);
 			return 1;
@@ -15360,7 +14842,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		GivePlayerWeapon(playerid,5,1);
 		static const f_str[] = "[F] %s[%d] взяв зброю зі складу.";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -15389,17 +14870,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 		if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[1][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BIKERS_GUN_2, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Desert Eagle"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 		if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BIKERS_GUN_2, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Desert Eagle"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 		if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[1][mgunamount];
 		SetPVarInt(playerid,"noneedgun",0);
-
 		FI[PI[playerid][pMember]][fMats] -= gun;
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 		GivePlayerWeapon(playerid,MakeGunData[1][mgunid],gun);
 		static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -15428,17 +14905,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 		if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[2][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BIKERS_GUN_3, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Дробовик"W", которое хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 		if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BIKERS_GUN_3, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Дробовик"W", которое хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 		if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[2][mgunamount];
 		DeletePVar(playerid,"noneedgun");
-
 		FI[PI[playerid][pMember]][fMats] -= gun;
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 		GivePlayerWeapon(playerid,25,gun);
 		static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -15452,10 +14925,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		FI[PI[playerid][pMember]][fBank] += dengi;
 		UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
 		GiveMoney(playerid, -dengi,"поклав на рахунок банди");
-
 		static const f_str[] = "[F] %s[%d] Положив(ла) в банк MC: "GREEN"$%d";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,strval(inputtext));
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -15477,14 +14948,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 		FI[PI[playerid][pMember]][fBank] -= dengi;
 		UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
-
 		FI[PI[playerid][pMember]][fBankCash] += dengi;
 		UpdateFraction(PI[playerid][pMember],"BankCash",FI[PI[playerid][pMember]][fBankCash]);
 		GiveMoney(playerid, dengi,"зняв з рахунку банди");
-
 		static const f_str[] = "[F] %s[%d] зняв з банку MC: "GREEN"$%d.";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,dengi);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		return 1;
@@ -15498,13 +14966,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(FI[PI[playerid][pMember]][fMats] +mats > 300000) return SendError(playerid, "Склад повний.");
 		FI[PI[playerid][pMember]][fMats] += mats;
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 		static const f_str[] = "[F] %s[%d] поклав %d матеріалів на склад.";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,mats);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
-
 		PI[playerid][pMats] -= mats;
 		UpdatePlayerData(playerid,"pMats",PI[playerid][pMats]);
 		return  1;
@@ -15525,19 +14990,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(FI[PI[playerid][pMember]][fMats] < mats) return SendError(playerid, "На складі немає матеріалів.");
 		FI[PI[playerid][pMember]][fMats] -= mats;
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 		PI[playerid][pMats] += mats;
 		UpdatePlayerData(playerid,"pMats",PI[playerid][pMats]);
-
 		static const f_str[] = "[F] %s[%d] взял(а) %d матеріалів зі складу";
 		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 3)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,mats);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		return 1;
 		}
 	case D_BIKERS_STOCK_PUT_DRUGS: {
-
 		if(!response) return 1;
 		if(!strlen(inputtext)) return ShowPlayerDialog(playerid,D_BAND_STOCK_PUT_DRUGS,DSI, ""P"Введіть кількість наркотиків","\n\n"W"Покласти наркотики на склад:\n\n","Покласти","Закрити");
 		new drugs = strval(inputtext);
@@ -15548,7 +15009,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		UpdateFraction(PI[playerid][pMember],"Drugs",FI[PI[playerid][pMember]][fDrugs]);
 		static const f_str[] = "[F] %s[%d] поклав %d наркотиків на склад.";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,drugs);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		PI[playerid][pDrugs] -= drugs;
@@ -15571,13 +15031,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(FI[PI[playerid][pMember]][fDrugs] < drugs) return SendError(playerid, "На складі немає наркотиків.");
 		FI[PI[playerid][pMember]][fDrugs] -= drugs;
 		UpdateFraction(PI[playerid][pMember],"Drugs",FI[PI[playerid][pMember]][fDrugs]);
-
 		static const f_str[] = "[F] %s[%d] взяв %d наркотиків зі складу.";
 		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 3)];
-
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,drugs);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
-
 		PI[playerid][pDrugs] += drugs;
 		UpdatePlayerData(playerid,"pDrugs",PI[playerid][pDrugs]);
 		return 1;
@@ -15684,13 +15141,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[0][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_1, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"SD Pistol"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_1, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"SD Pistol"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[0][mgunamount];
 			SetPVarInt(playerid,"noneedgun",0);
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[0][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -15720,13 +15175,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[1][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_2, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Desert Eagle"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_2, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Desert Eagle"W", котякуорое хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[1][mgunamount];
 			SetPVarInt(playerid,"noneedgun",0);
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[1][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -15756,13 +15209,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[2][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_3, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"MP5"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_3, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"MP5"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[2][mgunamount];
 			DeletePVar(playerid,"noneedgun");
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[2][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -15792,13 +15243,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[3][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_4, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Shotgun"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_4, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Shotgun"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[3][mgunamount];
 			DeletePVar(playerid,"noneedgun");
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[3][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -15828,13 +15277,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[4][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_5, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"M4"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_5, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"M4"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[4][mgunamount];
 			DeletePVar(playerid,"noneedgun");
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[4][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -15864,13 +15311,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[5][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_6, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"AK-47"W", которое хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_6, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"AK-47"W", яку хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[5][mgunamount];
 			DeletePVar(playerid,"noneedgun");
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[5][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -15900,13 +15345,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(FI[PI[playerid][pMember]][fMats]<(gun+MakeGunData[6][mgunamount]) && !GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_7, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Rifle"W", которое хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
 			if(FI[PI[playerid][pMember]][fMats]<gun && GetPVarInt(playerid,"noneedgun")) return ShowPlayerDialog(playerid, D_BAND_GUN_7, DSI, ""P"Склад зброї","\n\n"W"Введіть кількість патронів "ORANGE"Rifle"W", которое хочете взяти зі складу\n\n"NO"*"G" На складі недостатньо матеріалів\n\n", "Взяти", "Скасувати");
-
 			if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[6][mgunamount];
 			DeletePVar(playerid,"noneedgun");
 			
 			FI[PI[playerid][pMember]][fMats] -= gun;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			GivePlayerWeapon(playerid,MakeGunData[6][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -16000,7 +15443,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			PI[playerid][pMats] += mats;
 			UpdatePlayerData(playerid,"pMats",PI[playerid][pMats]);
-
 			static const f_str[] = "[F] %s[%d] взяв %d матеріалів зі складу.";
 			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 3)];
 			
@@ -16042,7 +15484,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(FI[PI[playerid][pMember]][fDrugs] < drugs) return SendError(playerid, "На складі немає наркотиків.");
 			FI[PI[playerid][pMember]][fDrugs] -= drugs;
 			UpdateFraction(PI[playerid][pMember],"Drugs",FI[PI[playerid][pMember]][fDrugs]);
-
 			static const f_str[] = "[F] %s[%d] взяв %d наркотиків зі складу.";
 			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 3)];
 			
@@ -16169,7 +15610,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(FI[PI[playerid][pMember]][fMats] +mats > 300000) return SendError(playerid, "Склад повний.");
 			FI[PI[playerid][pMember]][fMats] += mats;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 			static const f_str[] = "[F] %s[%d] поклав(-ла) %d матеріалів на склад";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 			
@@ -16493,7 +15933,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		}
-
 	case D_GOOGLE: {
 			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
 			switch(listitem) {
@@ -16680,7 +16119,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			rand = Random(1,15);
 			if(GetPVarType(playerid, "rand_case_2") != PLAYER_VARTYPE_NONE && GetPVarInt(playerid, "rand_case_2") == rand)
 			goto _random_repeat_case2;
-
 			switch(rand) {
 			case 1: GiveMoney(playerid, 60000, "Виграш у кейсі gold"), SendClientMessage(playerid, COLOR_WHITE,"Ви відкрили кейс GOLD"W". Ваш виграш:"P" $60.000.");
 			case 2: GiveMoney(playerid, 90000, "Виграш у кейсі gold"), SendClientMessage(playerid, COLOR_WHITE,"Ви відкрили кейс GOLD"W". Ваш виграш:"P" $90.000.");
@@ -17224,7 +16662,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						{
 							new date_ban[6];
 							timestamp_to_date(UNBAN_DATA - 1, date_ban[0], date_ban[1], date_ban[2], date_ban[3], date_ban[4], date_ban[5]);
-
 							format(string, sizeof(string), "\
 						"W"Заблокований:\t"NO"%s\n\
 						"W"Заблокував:\t"ORANGE"%s\n\
@@ -17235,10 +16672,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 						/*else
 					{
-
 						static const f_str[] = "Гравець %s вже не забанен";
 						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
-
 						format(str, sizeof(str), f_str, UnbanName[playerid]);
 						SendError(playerid, str);
 					}*/
@@ -17620,7 +17055,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			DeletePVar(playerid,"adchecking_fix");
 			new id = GetPVarInt(playerid,"editadvert");
 			new player = GetCheckID(gAdvert[id][adSender]);
-
 			if(listitem == 1) {
 				new string[143];
 				format(string, sizeof(string), "[NEWS] %s[%d]: %s.", gAdvert[id][adSender],gAdvert[id][adID], gAdvert[id][adText]);
@@ -17654,7 +17088,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			PI[playerid][pAdvert]++;
 			UpdatePlayerData(playerid,"Advert", PI[playerid][pAdvert]);
-
 			FI[PI[playerid][pMember]][fBank] += gAdvert[id][adMoney];
 			UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
 			PI[playerid][pSalary] += 50;
@@ -17861,7 +17294,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						FI[fGROVE][fMats] = 300000,UpdateFraction(fGROVE,"Mats",FI[fGROVE][fMats]);
 						FI[fAZTEC][fMats] = 300000,UpdateFraction(fAZTEC,"Mats",FI[fAZTEC][fMats]);
 						FI[fRIFA][fMats] = 300000,UpdateFraction(fRIFA,"Mats",FI[fRIFA][fMats]);
-
 						FI[fLCN][fMats] = 300000,UpdateFraction(fLCN,"Mats",FI[fLCN][fMats]);
 						FI[fYAKUZA][fMats] = 300000,UpdateFraction(fYAKUZA,"Mats",FI[fYAKUZA][fMats]);
 						FI[fRM][fMats] = 300000,UpdateFraction(fRM,"Mats",FI[fRM][fMats]);
@@ -17904,11 +17336,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 			invite_frac[GetPVarInt(playerid,"invite_admin")] = strval(inputtext);
-
 			new query[90];
 			mysql_format(connects, query, sizeof(query),"UPDATE `others` SET `invite_frac%d` = '%d' LIMIT 1",GetPVarInt(playerid,"invite_admin"),invite_frac[GetPVarInt(playerid,"invite_admin")]);
 			mysql_tquery(connects, query);
-
 			DeletePVar(playerid,"invite_admin");
 			SendOK(playerid,"Обмеження встановлене.");
 		}
@@ -17954,20 +17384,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new total_player_online = 0;
 					tick_wanted{total_player_online} = 0;
 					static const dialog_put_fmt[] = "%s\t%i\n";
-
 					const string_length =
 					sizeof(dialog_put_fmt) + 1 +
 					(- 2 + MAX_PLAYER_NAME) + // Им'я гравця
 					(- 2 + 1);  // Уровень розшуку
-
 					goto skip_array_init;
 					new onestring[(string_length * 30) / 4],
 					tempstring[string_length];
 					skip_array_init:
-
 					new Float:pos[3];
 					GetPlayerPos(playerid,pos[0],pos[1],pos[2]); 
-
 					onestring = !""W"Ім'я гравця\t"W"Рівень розшуку\n";
 					foreach(new i:Player) {
 						if(!TI[i][tLogin]) continue;
@@ -18068,7 +17494,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return pc_cmd_obc(playerid);
 			if(GetPlayerInterior(patrul_id[playerid]) != 0) return SendError(playerid, "Не вдалося виявити ціль. (Об'єкт в приміщенні)");
 			if(patrul_id[playerid] == playerid) return SendError(playerid, "Ви не можете стежити за собою.");
-
 			static const f_str[] = G"%s[%d] почав переслідування за %s.";
 			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + MAX_PLAYER_NAME)];
 			
@@ -18176,11 +17601,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new frac = GetPVarInt(playerid, "use_frac");
 			format(FI[frac][fLeader], 24, "%s", player_name[ID]);
 			format(FI[frac][fAdmin], 24, "%s", player_name[playerid]);
-
 			new year, month, day;
 			getdate(year, month, day);
 			format(FI[frac][fTime], 53, "%02i/%02i/%02i", day, month, year);
-
 			PI[ID][pLeader] = FI[frac][fID];
 			PI[ID][pMember] = FI[frac][fID];
 			PI[ID][pRank] 	= FI[frac][fMaxRang];
@@ -18194,7 +17617,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			format(string,sizeof(string),f_str,player_name[playerid],FI[frac][fName]);
 			SendOK(ID,string);
-
 			format(string, sizeof(string), "[A] %s[%d] назначив %s[%d] на посаду лідера %s.",player_name[playerid],playerid,player_name[ID],ID,FI[frac][fName]);
 			AdmMSG(0xAFAFAFAA, string);
 			
@@ -18238,7 +17660,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				
 				format(string,sizeof(string),f_str,player_name[playerid]);
 				SendOK(ID,string);
-
 				format(string, sizeof(string), "[A] %s[%d] зняв %s[%d] з посади лідера %s.",player_name[playerid],playerid,player_name[ID],ID,FI[GetPVarInt(playerid, "use_frac")][fName]);
 				AdmMSG(0xAFAFAFAA, string);
 				if(PI[playerid][pHouse] > 0) PI[ID][pSpawn] = 1;
@@ -18425,7 +17846,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						\tдоступне грам в кишені: "P"%d"W"\n\
 						\tНа склад поміститься: "P"%d"W"\n";
 					new string[sizeof(f_str) +1 + (-2 +5) + (-2 +5) + (-2 +5)];
-
 					format(string,sizeof(string),f_str,floatround(black_prods[5]/4),PI[playerid][pDrugs],2500-black_prods[1]);
 					ShowPlayerDialog(playerid,D_MARKET_NARKO_SELL,DSI, ""P"Продаж наркотиків", string, "Продати", "Скасувати");
 				}
@@ -18436,7 +17856,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						\tдоступне материалів в кишені: "P"%d"W"\n\
 						\tНа склад поміститься: "P"%d"W"\n";
 					new string[sizeof(f_str) +1 + (-2 +5) + (-2 +5) + (-2 +5)];
-
 					format(string,sizeof(string),f_str,floatround(black_prods[6]/4),PI[playerid][pMats],50000-black_prods[2]);
 					ShowPlayerDialog(playerid,D_MARKET_MATS_SELL,DSI, ""P"Продаж матеріалів", string, "Продати", "Скасувати");
 				}
@@ -18479,7 +17898,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						\tдоступне матеріалів в кишені: "P"%d"W"\n\
 						\tНа склад поміститься: "P"%d"W"\n";
 				new string[sizeof(f_str) +1 + (-2 +5) + (-2 +5) + (-2 +5)];
-
 				format(string,sizeof(string),f_str,floatround(black_prods[6]/4),PI[playerid][pMats],50000-black_prods[2]);
 				ShowPlayerDialog(playerid,D_MARKET_MATS_SELL,DSI, ""P"Продаж матеріалів", string, "Продати", "Скасувати");
 				return 1;
@@ -18622,7 +18040,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return 1;
 				}
 			}*/
-
 			listitem++;
 			if(PI[playerid][pJob] == listitem) return SendError(playerid, "Ви вже влаштовані на цю роботу.");
 			if(IsAGang(playerid) || listitem == 7) return SendError(playerid, "Ви знаходитеся в банді. Вам не можна працювати на цій роботі.");
@@ -18938,7 +18355,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 									UpdatePlayerData(playerid,"bizz_cash",0);
 									PI[playerid][bizz_lcash] = 0;
 									UpdatePlayerData(playerid,"bizz_lcash",0);
-
 									PI[id_prodaet][bizz_work] = 0;
 									UpdatePlayerData(id_prodaet,"bizz_work",0);
 									PI[id_prodaet][bizz_status] = 0;
@@ -18979,16 +18395,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetString(gBusiness[businessid][bizzOwner],player_name[playerid]);
 			SendOK(playerid,"Вітаємо, ви придбали бізнес. Не забувайте платити за нього, інакше його продадуть державі.");
 			SendOK(playerid,"Щоб керувати бізнесом, введіть "P"/business"W".");
-
 			gBusiness[businessid][bizzDay] = unix + 60*60*24;
-
 			mysql_format(connects, query, sizeof(query),"UPDATE `business` SET `deliving` = '%d' WHERE id = '%d'",gBusiness[businessid][bizzDay],gBusiness[businessid][bizzID]);
 			mysql_tquery(connects, query,"","");
 			
 			if(gBusiness[businessid][bizzType] == 20) {
-
 			}
-
 			gBusiness[businessid][bizzBank] = 0;
 			gBusiness[businessid][bizzBankDay] = 0;
 			gBusiness[businessid][bizzProduct] = 100;
@@ -19030,7 +18442,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				UpdatePlayerData(playerid,"bizz_cash",0);
 				UpdatePlayerData(playerid,"bizz_lcash",0);
 			}
-
 			switch(gBusiness[businessid][bizzType]){
 				case 14,30..33:
 				{
@@ -19044,10 +18455,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					UpdatePlayerData(playerid,"bizz_lcash",0);
 				}
 			}
-
 			gBusiness[businessid][bizzDay] = unix + 60*60*24;
 			UpdateBusinessData(businessid+1,"deliving",gBusiness[businessid][bizzDay]);
-
 			gBusiness[businessid][bizzBank] = 0;
 			gBusiness[businessid][bizzBankDay] = 0;
 			gBusiness[businessid][bizzProduct] = 500;
@@ -19210,7 +18619,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		
 		FI[fWHITEHOUSE][fBank] += procent;
 		UpdateFraction(fWHITEHOUSE,"Bank",FI[fWHITEHOUSE][fBank]);
-
 		if(UpdateBusinessData(id+1,"ownerid",0)) return SendError(playerid,"Відбулася помилка. (#21)");
 		gBusiness[id][bizzOwnerID] = 0;
 		if(gBusiness[id][bizzType] != 26) gBusiness[id][bizzStatus] = 11;
@@ -19413,7 +18821,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			bizz_pay(businessid,price);
 			TI[playerid][tTPpick] = true;
 			SetPlayerPosAC(playerid, gBints[bint][bintX],gBints[bint][bintY],gBints[bint][bintZ], businessid+1, gBints[bint][bintInterior]);
-
 			SetPlayerFacingAngle(playerid,gBints[bint][bintR]);
 			gBusiness[businessid][bizzVisitors]++;
 			SetCameraBehindPlayer(playerid);
@@ -19441,7 +18848,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if (gBusiness[bizid][bizzProduct] + put > gBusiness[bizid][bizzUpgrade][0])
 			return ShowPlayerDialog(playerid, dBusinessProd, DSI, ""P"Замовлення продуктів", "\n\n"W"Введіть к-сть продуктів, яку ви хочете замовити:\n\n"NO"*"G" На складі вашого бізнесу достатньо продуктів\n\n", "Далі", "Скасувати");
-
 			PlayerBuyProdFix[playerid] = put;
 			ShowPlayerDialog(playerid, dBusinessProd2, DSI, ""P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
 			return 1;
@@ -19452,7 +18858,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new bizid = PI[playerid][pBusiness] - 1;
 			if (sscanf(inputtext, "i", put)) return ShowPlayerDialog(playerid, dBusinessProd2, DSI, ""P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
 			if (put < 2 || put > 4) return ShowPlayerDialog(playerid, dBusinessProd2, DSI, ""P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
-
 			new string[144];
 			new prod = PlayerBuyProdFix[playerid] * put / 10;
 			if (gBusiness[bizid][bizzBank] < prod)
@@ -19465,9 +18870,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			gBusiness[bizid][bizzBank] -= prod;
 			gBusiness[bizid][bizzProdOrder] = PlayerBuyProdFix[playerid];
 			gBusiness[bizid][bizzProdOrderPrice] = put;
-
 			SaveBusiness(bizid);
-
 			format(string, sizeof(string), ""W"Замовлено продуктів: "O"%d\n"W"Оплачено з рахунку бізнесу: "GREEN"$%d", gBusiness[bizid][bizzProdOrder], gBusiness[bizid][bizzProdOrderPrice]*gBusiness[bizid][bizzProdOrder]);
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Замовлення продуктів", string, "Закрити", "");
 			PlayerBuyProdFix[playerid] = 0;
@@ -19555,7 +18958,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				gBusiness[bizid][bizzProduct] -= gSellGunProds[slot]*patron;
 				bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron));
 			} 
-
 			GivePlayerWeapon(playerid,gSellGun[slot],patron);
 			GiveMoney(playerid,-gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron,"купівля зброї(аммо)");
 			DeletePVar(playerid,"slot_ammo");
@@ -19714,9 +19116,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				save_quest(playerid,43);
 				SendOK(playerid,"Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
 			}
-
 			if(listitem != 0) show_24(playerid,id);
-
 			GiveMoney(playerid, -price,"купівля в 24/7");
 			show_24(playerid,id);
 		}
@@ -19727,7 +19127,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid,D_BIZZ_OTM,DSI, ""P"Купівля відмичок",""W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок","Купити","Закрити");
 			if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid,D_BIZZ_OTM,DSI, ""P"Купівля відмичок",""W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок","Купити","Закрити");
 			if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-
 			GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
 			if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
 				gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
@@ -20174,7 +19573,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							string[0] = EOS;
 							format(string,64,"купівля будинку %s",player_name[playerid]);
 							GiveMoney(id_prodaet,house_price,string);
-
 							gHouses[houseid][houseOwnerID] = PI[playerid][pID];
 							format(gHouses[houseid][houseOwner],MAX_PLAYER_NAME,"%s",player_name[playerid]);
 							strmid(gHouseArendator[houseid][0],"None",0,strlen("None"),MAX_PLAYER_NAME);
@@ -20262,11 +19660,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					A_DestroyVehicle(CarFamily[fam][c][LoadCar]);
 					CarFamily[fam][c][LoadCar] = INVALID_VEHICLE_ID;
 				}
-
 				new str[350];
 				mysql_format(connects, str, sizeof(str),"UPDATE `family` SET `house` = '0',`poscar1` = '0',`poscar2` = '0',`poscar3` = '0',`poscar4` = '0',`poscar5` = '0' WHERE `id` = '%d'",fam+1);
 				mysql_tquery(connects, str,"","");
-
 				gFamily[fam][famHouse] = 0;
 				gHouses[houseid][houseFamily] = 0;
 				gHouses[houseid][houseFamilyID] = 0;
@@ -20292,7 +19688,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendOK(playerid,"Будинок продано державі.");
 			if(house_car[playerid][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][0]),house_car[playerid][0] = INVALID_VEHICLE_ID;
 			if(house_car[playerid][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][1]),house_car[playerid][1] = INVALID_VEHICLE_ID;
-
 			PI[playerid][pSpawn] = 0;
 			UpdatePlayerData(playerid,"spawn",PI[playerid][pSpawn]);
 			return 1;
@@ -20335,7 +19730,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(gHouses[houseid][houseImprove][1]) strcat(improve,"2. Зниження субсидій\n");
 					if(gHouses[houseid][houseImprove][3]) strcat(improve,"3. Підвал\n");
 					if(gHouses[houseid][houseImprove][0] == 0 && gHouses[houseid][houseImprove][1] == 0 && gHouses[houseid][houseImprove][3] == 0) strcat(improve,"Відсутні");
-
 					new day;
 					day = (gHouses[houseid][houseDay]-gettime())/86400;
 					static const f_str[] = ""W"Номер будинку: \t\t"P"%d\n\
@@ -20441,7 +19835,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new query[156];
 					mysql_format(connects, query, sizeof(query),"UPDATE `houses` SET `hint` = '%d' WHERE id = '%d'",gHouses[house][houseHint],house+1);
 					mysql_tquery(connects, query);
-
 					new i = gHouses[house][houseHint];
 					SetPlayerPosAC(playerid, hinterior_info[i][h_pos_exit][0],hinterior_info[i][h_pos_exit][1],hinterior_info[i][h_pos_exit][2], house+1, hinterior_info[i][h_interior]);
 					SetPlayerFacingAngle(playerid,hinterior_info[i][h_pos_exit][3]);
@@ -20629,7 +20022,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(mysql_errno()) return SendError(playerid,"Відбулася помилка. (#6)");
 						PlayerTrailer[c][carMoney] -= money;
 						GiveMoney(playerid, money,"взяв гроші з сейфу.");
-
 						new query[128];
 						mysql_format(connects, query, sizeof(query),"UPDATE `"TABLE_DNK"` SET `safemoney` = '%d' WHERE id = '%d'",PlayerTrailer[c][carMoney],PlayerTrailer[c][carID]);
 						mysql_tquery(connects, query);
@@ -21377,7 +20769,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			new house = PI[playerid][pHouse] -1;
 			new id_rent = GetPVarInt(playerid,"arenda_listitem")-1;
-
 			if(isNumeric(inputtext)) {
 				ShowPlayerDialog(playerid,dArendatorAction,DSI, ""P"Жителі","\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Відбулася помилка при спробі ввести ID. Спробуйте ще раз\n\n","Ввести","Закрити");
 				return 1;
@@ -21502,7 +20893,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 2: {
 					PageFirst[playerid][0] = 0;
 					PageFirst[playerid][1] = 20; 
-
 					new query[200];
 					mysql_format(connects, query, sizeof(query),"SELECT `family`,`pOnline`,`pFamRank`,`Name` FROM `accounts` WHERE `family` = '%i' AND `online_status` = '1001' LIMIT %i, %i", PI[playerid][pFamily], PageFirst[playerid][0],PageFirst[playerid][1]);
 					mysql_pquery(connects, query, "family_offline", "i", playerid);
@@ -21630,11 +21020,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(NonSym(inputtext,70,1)) return ShowPlayerDialog(playerid,D_FAMILY_TEXT, DSI, ""P"Слоган сім'ї", "\n\n"W"Введіть новий слоган сім'ї, який буде відображатися всім членам сім'ї в статистиці сім'ї\nДля видалення повідомлення введіть: "ORANGE"None\n\n"NO"* "G"Заборонені некоректні символи\n\n", "Ввести", "Скасувати");
 			if(sscanf(inputtext,"s[70]",message)) return ShowPlayerDialog(playerid,D_FAMILY_TEXT, DSI, ""P"Слоган сім'ї", "\n\n"W"Введіть новий слоган сім'ї, який буде відображатися всім членам сім'ї в статистиці сім'ї\nДля видалення повідомлення введіть: "ORANGE"None\n\n"NO"* "G"Від 1 до 70 символів\n\n", "Ввести", "Скасувати");
 			strmid(gFamily[PI[playerid][pFamily]-1][famMessage],message,0,strlen(message),70);
-
 			new query[350];
 			mysql_format(connects, query, sizeof(query),"UPDATE `family` SET message = '%s' WHERE `id` = '%d' LIMIT 1",gFamily[PI[playerid][pFamily]-1][famMessage],PI[playerid][pFamily]);
 			mysql_tquery(connects,query);
-
 			new string[128];
 			format(string,sizeof(string),""P"%s "W"успішно встановлено.",message);
 			SendOK(playerid,string);
@@ -21664,13 +21052,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new fam = PI[playerid][pFamily]-1;
 			format(string,sizeof(string),"Вас підвищили/понзили "W"%s{%s} до рангу "W"%s",player_name[rank_id],FamilyColor[gFamily[fam][famColor]],GetFamName(fam,listitem+1));
 			SendClientMessage(playerid,FamilyColorG[gFamily[fam][famColor]],string);
-
 			format(string,sizeof(string),"Вас підвищив/понзив "W"%s{%s} до рангу "W"%s",player_name[playerid],FamilyColor[gFamily[fam][famColor]],GetFamName(fam,listitem+1));
 			SendClientMessage(rank_id,FamilyColorG[gFamily[fam][famColor]],string);
-
 			PI[rank_id][pFamRank] = listitem + 1;
 			UpdatePlayerData(rank_id,"pFamRank",PI[rank_id][pFamRank]);
-
 			DeletePVar(playerid,"id_fgiverank");
 			return 1;
 		}
@@ -21680,11 +21065,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new fam = PI[playerid][pFamily]-1;
 			gFamily[fam][famColor] = listitem;
 			UpdateFamily(fam+1,"color",listitem);
-
 			new string[128];
 			format(string,sizeof(string),"Ви успішно змінили колір Вашої сім'ї на - {%s} колір",FamilyColor[gFamily[fam][famColor]]);
 			SendUse(playerid,string);
-
 			foreach(new i:Player) {
 				if(!TI[i][tLogin]) continue;
 				if(PI[playerid][pFamily] != PI[i][pFamily]) continue;
@@ -21726,11 +21109,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(strlen(inputtext) <= 1 || strlen(inputtext) >= 24) return ShowPlayerDialog(playerid, D_FAMILY_ERANK_2, DSI, ""P"Зміна назви рангу", "\n\n"W"Введіть нову назву рангу\n\n"NO"*"G" Від 2 до 24 символів\n\n", "Змінити", "Скасувати");
 			string_replace(inputtext, "'", ' ');
 			new slot = GetPVarInt(playerid, "edit_frank");
-
 			new string[128];
 			format(string,sizeof(string),"Ранг #%d перейменовано з %s на %s.",slot+1,GetFamName(fam,slot+1),inputtext);
 			SendClientMessage(playerid,FamilyColorG[gFamily[fam][famColor]],string);
-
 			strmid(FamRanks[fam][slot], inputtext, 0, strlen(inputtext));
 			SavefRank(slot+1,fam);
 			family_setting(playerid);
@@ -21971,7 +21352,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetString(gRouteName[5], "ЗДЛВ - Автовокзал м. ЛС");
 					format(string,sizeof(string),""P"%s\n"W"Вартість м. : "GREEN"$%i",gRouteName[5],100);
 					gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string,-1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
-
 					SetPVarInt(playerid,"route",6);
 					SetNextBusCP(playerid);
 				}
@@ -21982,7 +21362,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetString(gRouteName[6], "ЗДСФ - Автовокзал м. ЛС");
 					format(string,sizeof(string),""P"%s\n"W"Вартість квитка: "GREEN"$%i",gRouteName[6],100);
 					gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string,-1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
-
 					SetPVarInt(playerid,"route",7);
 					SetNextBusCP(playerid);
 				}
@@ -22005,7 +21384,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new vehicleid = GetPlayerVehicleID(playerid);
 			new model = GetVehicleModel(vehicleid);
 			if(vehicleid == INVALID_VEHICLE_ID || (model != 431 && model != 437)) return 1;
-
 			switch(route) {
 			case 0: SetString(gRouteName[0], "Автозавод м. ЛС - Завод - Ферма");
 			case 1: SetString(gRouteName[1], "Автозавод м. ЛС - Лісопильня");
@@ -22013,13 +21391,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 3: SetString(gRouteName[3], "Внутрішньоміський м. ЛС");
 				//  4 маршрут
 			}
-
 			format(string,sizeof(string),""P"%s\n"W"Вартість квитка: "GREEN"$%i",gRouteName[route],100);
-
 			gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string,-1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
 			Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,gPlayerBusText[playerid],E_STREAMER_ATTACH_OFFSET_Y, -0.5);
 			Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,gPlayerBusText[playerid],E_STREAMER_ATTACH_OFFSET_Z, 3.0);
-
 			SetPVarInt(playerid,"route",route + 1);
 			SetNextBusCP(playerid);
 			SetPVarInt(playerid,"bus_id",vehicleid);
@@ -22199,14 +21574,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			VG[vehicleid][vgDrugs] -= drugs;
 			FI[gung][fDrugs] +=drugs;
 			UpdateFraction(gung,"Drugs",FI[gung][fDrugs]);
-
 			FI[PI[playerid][pMember]][fBank] += (FI[gung][fDrugsPrice] * drugs);
 			UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
-
 			new string[128];
 			format(string,sizeof(string),"Наркотики успішно розвантажено. У фургоні доступно: "ORANGE"%d"W" наркотиків.",(FI[gung][fDrugsPrice] * drugs),VG[vehicleid][vgDrugs]);
 			SendOK(playerid,string);
-
 			FI[gung][fDrugsBuy]-=drugs;
 			UpdateFraction(gung,"DrugsBuy",FI[gung][fDrugsBuy]);
 			if(FI[gung][fDrugsBuy] == 0) {
@@ -22399,10 +21771,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			{
 			case 0: {
 					//if (GetVehicleModel(veh) == 403 && !GetVehicleTrailer(veh)) return ErrorMessage(playerid,"У вас немає цистерны з паливом");
-
 					STRING_GLOBAL[0] = EOS;
 					strcat(STRING_GLOBAL, ""YELLOW"#\t"GREEN"Назва бізнесу\t"GREEN"Вартість за од. продукту\t"GREEN"Необхідно продуктів\n");
-
 					new count_est = 0;
 					for (new i; i < gBusinessCount; i++)
 					{
@@ -22438,7 +21808,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if (!response) return 1;
 			prod_id[playerid] = strval(inputtext);
 			new biz = prod_id[playerid] - 1;
-
 			if (!GetPVarInt(playerid, "count_prod")) return SendError(playerid, "У вашій машині відсутні продукти.");
 			switch (car)
 			{
@@ -22448,10 +21817,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new string[256];
 			format(string, sizeof(string), ""W"Бізнес: "O"%s\n"W"Вартість за 1 продукт: "GREEN"$%d\n"W"Необхідно продуктів: "O"%d", gBusiness[biz][bizzName], gBusiness[biz][bizzProdOrderPrice], gBusiness[biz][bizzProdOrder]);
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Бізнес", string, "Закрити", "");
-
 			format(string, 144, ""W"%s: "GREEN"%d/2000\n"W"Бізнес: "GREEN"%s", (car == 456) ? ("Продукти") : ("Бензин"), GetPVarInt(playerid, "count_prod"), gBusiness[biz][bizzName]);
 			UpdateDynamic3DTextLabelText(gPlayerProdText[playerid], COLOR_BLUE, string);
-
 			SetPVarInt(playerid, "prod_id", biz + 1);
 			if (gBusiness[biz][bizzID] != 20)
 			{
@@ -22580,7 +21947,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(storeslot != -1) {
 					format(string,sizeof(string),""P"%s"W" успішно заряджено паралізуючими патронами. (2 шт.)",gun_text);
 					SendUse(playerid,string);
-
 					TI[playerid][tTazers][0] = 2;
 					TI[playerid][tTazers][1] = gunid;
 					break;
@@ -22593,7 +21959,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(string, sizeof(string), ""P"%s[%d]"W" запропонував вам вступити в організацію "P"%s"W".",player_name[playerid],playerid,FI[PI[playerid][pMember]][fName]);
 			SendUse(GetPVarInt(playerid,"invkot"), string);
 			SendClientMessage(GetPVarInt(playerid,"invkot"), COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 			format(string, sizeof(string),"Ви запропонували "P"%s"W" вступити в організацію "P"%s"W".",player_name[GetPVarInt(playerid,"invkot")],FI[PI[playerid][pMember]][fName]);
 			SendUse(playerid, string);
 			
@@ -22624,16 +21989,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(listitem == -1) return 1;
 			if(PI[playerid][pRank] <= listitem) return SendError(playerid, "Ваш ранг недостатній.");
 			new rank_id = GetPVarInt(playerid,"id_giverank"),string[128];
-
 			format(string,sizeof(string),"Ви змінили ранг "P"%s"W" на "P"%s.",player_name[rank_id],GetRankName(PI[playerid][pMember],listitem+1));
 			SendUse(playerid,string);
-
 			format(string,sizeof(string),""P"%s"W" змінив вам ранг на "P"%s.",player_name[playerid],GetRankName(PI[playerid][pMember],listitem+1));
 			SendUse(rank_id,string);
-
 			PI[rank_id][pRank] = listitem + 1;
 			UpdatePlayerData(rank_id,"pRank",PI[rank_id][pRank]);
-
 			new rangs[4];
 			format(rangs,sizeof(rangs),"%d",PI[rank_id][pRank]);
 			FracLog(LOGS_RANK,player_name[playerid],player_name[rank_id],rangs);
@@ -22842,7 +22203,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(response) {
 				new i = GetPVarInt(playerid,"bizwar_id");
 				DeletePVar(playerid, "bizwar_id");
-
 				if(BizWarTime[0] > 0 || BizWarTime[1] > 0) return SendError(playerid, "Війна за бізнес вже йде.");
 				if(BizHourTime > 0) return SendError(playerid, "Стріли за бізнес проходять 1 раз в 30 хвилин.");
 				if(PI[playerid][pMember] == gBusiness[i][bizzMafia]) return SendError(playerid, "Ви не можете захопити власний бізнес.");
@@ -22859,14 +22219,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				war_gangzone = listitem;
 				biz_war_gangzone = GangZoneCreate(mafia_zone[war_gangzone][0], mafia_zone[war_gangzone][1], mafia_zone[war_gangzone][2], mafia_zone[war_gangzone][3]);
 				GangZoneShowForAll(biz_war_gangzone, gFractionSpawn[MZInfo[bFrakVlad]][fracColor]);
-
 				BizWarTime[0] = 60*5;
 				MZInfo[bNapad] = PI[playerid][pMember];
 				MZInfo[bFrakVlad] = gBusiness[i][bizzMafia];
 				MZInfo[bBiz] = i;
 				MZInfo[bCountDead][MZInfo[bNapad]] = 0;
 				MZInfo[bCountDead][MZInfo[bFrakVlad]] = 0;
-
 				GangZoneFlashForAll(biz_war_gangzone, gFractionSpawn[MZInfo[bNapad]][fracColor]);
 				
 				new strela[32];
@@ -22891,7 +22249,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendFamilyMessage(gBusiness[i][bizzMafia],0xFFFFFFFF,"Зустріч відбудеться через 5 хвилин.");
 				format(string,sizeof(string),"Почав захоплення бізнесу: %s.",player_name[playerid]);
 				SendFamilyMessage(gBusiness[i][bizzMafia],-1,string);
-
 				format(string,sizeof(string), "Ваша мафія забила стрілу %s за бізнес %s. Місце зустрічі: %s.", GetMN(gBusiness[i][bizzMafia]),gBusiness[i][bizzName],strela);
 				SendFamilyMessage(PI[playerid][pMember],0xFFFFFFFF,string);
 				SendFamilyMessage(PI[playerid][pMember],0xFFFFFFFF,"Зустріч відбудеться через 5 хвилин.");
@@ -23057,7 +22414,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(amount < 1 || amount > 50000) return ShowPlayerDialog(playerid,D_ATM_INPUT,DSI, ""P"Видача готівки","\n\n"W"Введіть суму, яку хочете зняти з основного банківськго рахунку:\n\n"NO"*"G" Від $1 до $50.000\n\n","Зняти","Назад");
 			if(ATMData[atmID][atm_cash] < amount) return ShowPlayerDialog(playerid,D_ATM_INPUT,DSI, ""P"Видача готівки",""W"Введіть суму, яку хочете зняти з основного банківськго рахунку:\n\n"NO"*"G" Недостатньо коштів","Зняти","Назад");
 			if(PI[playerid][pBank] < amount) return ShowPlayerDialog(playerid,D_ATM_INPUT,DSI, ""P"Видача готівки",""W"Введіть суму, яку хочете зняти з основного банківськго рахунку:\n\n"NO"*"G" Недостатньо коштів","Зняти","Назад");
-
 			PI[playerid][pBank] -= amount;
 			UpdatePlayerData(playerid,"pBank",PI[playerid][pBank]);
 			GiveMoney(playerid, amount,"зняття з банк счета");
@@ -23068,7 +22424,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new query[128];
 			mysql_format(connects, query, sizeof(query),"UPDATE `atms` SET `cash` = '%d' WHERE `ID` = '%d'", ATMData[atmID][atm_cash], atmID);
 			mysql_tquery(connects, query);
-
 			static const f_str[] = ""W"Знято средств:\t\t"ORANGE"$%d"W"\n\
 								"W"Баланс:\t\t\t"ORANGE"$%d\n";
 			new string[sizeof(f_str) +1 + (-2 + 11) + (-2 + 11)];
@@ -23091,7 +22446,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new query[128];
 			mysql_format(connects, query, sizeof(query),"UPDATE `atms` SET `cash` = '%d' WHERE `ID` = '%d'", ATMData[atmID][atm_cash], atmID);
 			mysql_tquery(connects, query);
-
 			static const f_str[] = ""W"Внесено средств:\t\t"ORANGE"$%d\n\
 								"W"Баланс:\t\t\t"ORANGE"$%d\n";
 			new string[sizeof(f_str) +1 + (-2 + 11) + (-2 + 11)];
@@ -23364,7 +22718,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				CarsInfo[playerid][carVehcom_12][slot_car] = CarsInfo[id_prodaet][carVehcom_12][car];
 				CarsInfo[playerid][carVehcom_13][slot_car] = CarsInfo[id_prodaet][carVehcom_13][car];
 				CarsInfo[playerid][carVehcom_14][slot_car] = CarsInfo[id_prodaet][carVehcom_14][car];
-
 				
 				if(house_car[playerid][slot_car] != INVALID_VEHICLE_ID) {
 					A_DestroyVehicle(house_car[playerid][slot_car]);
@@ -23413,7 +22766,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new query_str[128];
 				format(query_str,sizeof(query_str),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[playerid]);
 				mysql_tquery(connects,query_str,"load_cars","i",playerid);
-
 				format(query_str,sizeof(query_str),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[id_prodaet]);
 				mysql_tquery(connects,query_str,"load_cars","i",id_prodaet);
 				
@@ -23425,7 +22777,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) {
 				DeletePVar(id_pokupaet,"carProdaet");
 				DeletePVar(id_pokupaet,"carCena");
-
 				DeletePVar(playerid,"carPokupaet");
 				DeletePVar(playerid,"numbercar1");
 				DeletePVar(playerid,"numbercar2");
@@ -23490,18 +22841,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				GiveMoney(playerid, -car_cena,"Покупка авто");
 				GiveMoney(id_prodaet, car_cena,"Продаж авто");
-
 				new string[156];
 				format(string,sizeof(string),"Ви обмінялись т/з з "P"%s"W". Ваша доплата "ORANGE"$%i.",player_name[id_prodaet],car_cena);
 				SendUse(playerid,string);
 				format(string,sizeof(string),"Ви обмінялись т/з з "P"%s"W". Доплата з його сторони: "ORANGE"$%i.",player_name[playerid],car_cena);
 				SendUse(id_prodaet,string);
-
 				SetPVarInt(id_prodaet,"car",CarsInfo[playerid][carID][car2]);
 				CarsInfo[playerid][carID][car2] = CarsInfo[id_prodaet][carID][car1];
 				CarsInfo[id_prodaet][carID][car1] = GetPVarInt(id_prodaet,"car");
 				DeletePVar(id_prodaet,"car");
-
 				if(house_car[id_prodaet][0] != INVALID_VEHICLE_ID) {
 					A_DestroyVehicle(house_car[id_prodaet][0]);
 					house_car[id_prodaet][0] = INVALID_VEHICLE_ID;
@@ -23510,7 +22858,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					A_DestroyVehicle(house_car[id_prodaet][1]);
 					house_car[id_prodaet][1] = INVALID_VEHICLE_ID;
 				}
-
 				if(house_car[playerid][0] != INVALID_VEHICLE_ID) {
 					A_DestroyVehicle(house_car[playerid][0]);
 					house_car[playerid][0] = INVALID_VEHICLE_ID;
@@ -23524,14 +22871,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				save_car(id_prodaet,1);
 				save_car(playerid,0);
 				save_car(playerid,1);
-
 				new query_str[128];
 				format(query_str,sizeof(query_str),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[playerid]);
 				mysql_tquery(connects,query_str,"load_cars","i",playerid);
-
 				format(query_str,sizeof(query_str),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[id_prodaet]);
 				mysql_tquery(connects,query_str,"load_cars","i",id_prodaet);
-
 				change_carcancel(playerid,id_prodaet);
 				return 1;
 			}
@@ -23661,7 +23005,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(header_string, 8, "d_%d", listitem);
 			new fr_id = GetPVarInt(playerid, header_string);
 			SetPVarInt (playerid, "d_listitem", listitem) ;
-
 			header_string[0] = EOS;
 			strcat(header_string, "{");
 			strcat(header_string, GetColorFrac(fr_id));
@@ -23680,7 +23023,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if (f_diplomacy[PI[playerid][pMember] - 15][fr_id - 15] == dip_status_alliance_get_invite) {
 					f_diplomacy[PI[playerid][pMember] - 15][fr_id - 15] = dip_status_alliance;
 					f_diplomacy[fr_id - 15][PI[playerid][pMember] - 15] = dip_status_alliance;
-
 					dialog_diplom(playerid,true);
 					save_diplomation(playerid,PI[playerid][pMember]);
 					save_diplomation(playerid,fr_id);
@@ -23688,7 +23030,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				f_diplomacy[PI[playerid][pMember] - 15][fr_id - 15] = dip_status_alliance_invite;
 				f_diplomacy[fr_id - 15][PI[playerid][pMember] - 15] = dip_status_alliance_get_invite;
-
 				dialog_diplom(playerid,true);
 				save_diplomation(playerid,PI[playerid][pMember]);
 				save_diplomation(playerid,fr_id);
@@ -23696,7 +23037,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			f_diplomacy[PI[playerid][pMember] - 15][fr_id - 15] = listitem;
 			f_diplomacy[fr_id - 15][PI[playerid][pMember] - 15] = listitem;
-
 			dialog_diplom(playerid,true);
 			save_diplomation(playerid,PI[playerid][pMember]);
 			save_diplomation(playerid,fr_id);
@@ -23774,11 +23114,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(strlen(inputtext) <= 5 || strlen(inputtext) >= 24) return ShowPlayerDialog(playerid, D_EDIT_RANK_2, DSI, ""P"Зміна названия рангу", "\n\n"W"Введіть новое Назва рангу:\n\n"NO"*"G" Від 6 і до 24 симолов\n\n", "змінити", "Скасувати");
 			string_replace(inputtext, "'", ' ') ;
 			new slot = GetPVarInt(playerid, "edit_rank");
-
 			new string[156];
 			format(string,sizeof(string),"Ранг "P"#%d"W" перейменовано з"P" %s"W" на "P"%s.",slot+1,GetRankName(PI[playerid][pMember],slot+1),inputtext);
 			SendUse(playerid,string);
-
 			strmid(RankName[PI[playerid][pMember]][slot], inputtext, 0, strlen(inputtext));
 			SaveRank(slot+1,PI[playerid][pMember]);
 			return 1;
@@ -24010,7 +23348,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			PI[playerid][pPremium] = gettime()+(5*24*60*60);
 			UpdatePlayerData(playerid,"premium",PI[playerid][pPremium]);
-
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", ""W"Комплект{F2BB68} 'Продвинутий'"W" успішно зібрано і активировано", "Закрити", "");
 			GiveDonate(playerid, -950, "купівля пакет просунутий");
 		}
@@ -24023,7 +23360,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			lic[playerid][2] =
 			lic[playerid][3] = 1;
 			UpdateLicenses(playerid);
-
 			PI[playerid][pGunSkill][0] = 100;
 			PI[playerid][pGunSkill][1] = 100;
 			PI[playerid][pGunSkill][2] = 100;
@@ -24037,7 +23373,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			PI[playerid][pBox] = 3;
 			UpdatePlayerData(playerid,"pBox",PI[playerid][pBox]);
-
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", ""W"Комплект{F2BB68} 'Максимальний'"W" успішно зібрано і активировано", "Закрити", "");
 			GiveDonate(playerid, -3000, "купівля пакет максимальний");
 		}
@@ -24181,7 +23516,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				string[0] = EOS;
 				format(string,64,"купил симку у %s",player_name[sell_sim_id]);
 				GiveMoney(playerid, -sell_sim_sum, string);
-
 				PI[playerid][pPhone] = PI[sell_sim_id][pPhone];
 				PI[sell_sim_id][pPhone] = 0;
 				UpdatePlayerData(playerid,"pPhone",PI[playerid][pPhone]);
@@ -24259,7 +23593,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					static const f_str[] = ""CS"1. "W"Контейнери\n\
 											"CS"2. "W"Центр розваг\n\
 											"CS"3. "W"Аукціон гаражів";
-
 					new string[sizeof(f_str)];
 					format(string,sizeof(string),"%s",f_str);
 					ShowPlayerDialog(playerid, D_GPS_RAZ, DSL, ""CS"Розваги", string, "Обрати", "Назад");
@@ -24295,7 +23628,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new max_distance = 100000;
 					new id_biz = -1;
 					for(new i = 0; i < gBusinessCount; i ++) {
-
 						if(gBusiness[i][bizzType] != 7) continue;
 						new here_distance = (!IsPlayerInAnyVehicle(playerid)) ? floatround(GetPlayerDistanceFromPoint(playerid, gBusiness[i][bizzX],gBusiness[i][bizzY],gBusiness[i][bizzZ])) : floatround(GetVehicleDistanceFromPoint(GetPlayerVehicleID(playerid), gBusiness[i][bizzX],gBusiness[i][bizzY],gBusiness[i][bizzZ]));
 						if(here_distance < max_distance) {
@@ -24356,7 +23688,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return 1;
 				}
 	
-
 		}*/
 	case D_GPS_RAZ: {
 		if(!response) return 1;
@@ -24860,11 +24191,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid,-salary,"поповнення казны");
 			FI[fWHITEHOUSE][fBank] += salary;
 			UpdateFraction(fWHITEHOUSE,"Bank",FI[fWHITEHOUSE][fBank]);
-
 			FI[fWHITEHOUSE][fBankCash] -= salary;
 			if(FI[fWHITEHOUSE][fBankCash] < 0) FI[fWHITEHOUSE][fBankCash] = 0;
 			UpdateFraction(fWHITEHOUSE,"BankCash",FI[fWHITEHOUSE][fBankCash]);
-
 			static const f_string[] = "Ви поповнили казну штата на "GREEN"$%d"W".";
 			new str[sizeof(f_string) +1 + (-2 + 5)];
 			format(str,sizeof(str),f_string,salary);
@@ -24897,10 +24226,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid,salary,"зняття з казни");
 			FI[fWHITEHOUSE][fBank] -= salary;
 			UpdateFraction(fWHITEHOUSE,"Bank",FI[fWHITEHOUSE][fBank]);
-
 			FI[fWHITEHOUSE][fBankCash] += salary;
 			UpdateFraction(fWHITEHOUSE,"BankCash",FI[fWHITEHOUSE][fBankCash]);
-
 			static const f_string[] = "Ви зняли з казни штата "GREEN"$%d"W".";
 			new str[sizeof(f_string) +1 + (-2 + 5)];
 			format(str,sizeof(str),f_string,salary);
@@ -25005,10 +24332,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(ArendInfo[arid][aPlayerID] == INVALID_PLAYER_ID || !IsPlayerConnected(ArendInfo[arid][aPlayerID])) {
 						if(PI[playerid][pCash] < ArendInfo[arid][aCost]) return SendError(playerid, "У вас недостатньо коштів.");
 						GiveMoney(playerid,-ArendInfo[arid][aCost],"оренда т/з");
-
 						//bizz_pay(ArendInfo[arid][aBizz],floatround(ArendInfo[arid][aCost]));
 						TI[playerid][tArendKey] = arid;
-
 						ArendInfo[arid][aPlayerID] = playerid;
 						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Транспортний засіб орендовано", ""W"Список доступних команд:\n\n"YELLOW"/lock 3"W" - закрити чи відкрити орендований транспорт\n"YELLOW"/unrent"W" - відмовитися від оренди\n\n"NO"При віддаленні від т/з на 2км контракт автоматично розривається", "Закрити", "");
 					}
@@ -25027,7 +24352,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 4: GivePlayerWeapon(playerid,3,1);
 			case 5: SetArmour(playerid,100);
 			}
-
 		}
 	case dGiveGunTD: {
 			if(!response) return 1;
@@ -25157,7 +24481,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new string[144];
 				format(string,sizeof(string), "Механік "P"%s"W" заправив вам автомобіль на "P"%d"W" літрів за "GREEN"$%i.",player_name[id_mhnk],litres,price_mhnk);
 				SendUse(playerid,string);
-
 				format(string,sizeof(string), "Ви заправили автомобіль "P"%s "W"на "P"%d"W" літрів за "GREEN"$%i.",player_name[playerid],litres,price_mhnk);
 				SendUse(id_mhnk,string);
 				
@@ -25171,14 +24494,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 					save_jskill(id_mhnk);
 				}
-
 				GiveMoney(playerid,-price_mhnk,"оплата механіку заправка");
 				GiveMoney(id_mhnk,price_mhnk,"ЗП механіку заправка");
 				new vehicleid = GetPlayerVehicleID(playerid);
-
 				if(vehicleid) VehicleInfo[vehicleid][vFuel] += float(litres);
 				SetPVarInt(id_mhnk,"toplivo",GetPVarInt(id_mhnk,"toplivo") - litres);
-
 				format(string, sizeof(string),""G"паливо: "P"%d л.",GetPVarInt(id_mhnk,"toplivo"));
 				UpdateDynamic3DTextLabelText(PlayerMehText[id_mhnk], -1, string);
 			}
@@ -25219,16 +24539,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 					save_jskill(id_mhnk);
 				}
-
 				format(string,sizeof(string), "Ви продали хот-дог "P"%s"W" за "ORANGE"$%i",player_name[playerid],price_mhnk);
 				SendUse(id_mhnk,string);
-
 				GiveMoney(playerid,-price_mhnk,"оплата продавцу їжі");
 				GiveMoney(id_mhnk,price_mhnk,"ЗП продавцу їжі");
 				GiveFullness(playerid, 40);
 				
 				SetPVarInt(id_mhnk,"eatcolvo",GetPVarInt(id_mhnk,"eatcolvo") - 1);
-
 				format(string, sizeof(string),""G"Хот-Догов: "P"%d ед.",GetPVarInt(id_mhnk,"eatcolvo"));
 				UpdateDynamic3DTextLabelText(PlayerEatText[id_mhnk], -1, string);
 			}
@@ -25253,14 +24570,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendInfo(id_marriage, string);
 				format(string, sizeof(string), "{FC6DEC}Вітаємо! %s та %s тепер чоловік і дружина!", player_name[playerid], player_name[id_marriage]);
 				SendClientMessageToAll(-1,string);
-
 				strmid(PI[playerid][pMarried], player_name[id_marriage], 0, strlen(player_name[id_marriage]));
 				strmid(PI[id_marriage][pMarried], player_name[playerid], 0, strlen(player_name[playerid]));
-
 				new query[156];
 				mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pMarried` = '%s' WHERE `pID` = '%d' LIMIT 1",PI[playerid][pMarried],PI[playerid][pID]);
 				mysql_pquery(connects, query, "", "");
-
 				mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pMarried` = '%s' WHERE `pID` = '%d' LIMIT 1",PI[id_marriage][pMarried],PI[id_marriage][pID]);
 				mysql_pquery(connects, query, "", "");
 			}
@@ -25463,7 +24777,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			new promo[30], owner[24];
 			if(sscanf(inputtext, "p<,>s[30]s[24]",promo, owner)) return ShowPlayerDialog(playerid, D_PROMO_1, DSI, ""P"Створення промокода", "\n\n"W"Введіть промокод, який ви хочете створити\n"G"Від 3 до 16 символів\n\n", "Далі", "Назад");
-
 			SetPVarString(playerid, "promoname", promo);
 			SetPVarString(playerid, "prom_nick", owner);
 			
@@ -25492,7 +24805,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			
 			new str2[7][13] = {"SD-Pistol","Deagle","Shotgun","MP5","AK-47","M4","Не видавати"};
 			new str3[5][20] = {"Водійські права","Польоты","Водний транспорт","Зброю","Не видавати"};
-
 			new string[360];
 			format(string, sizeof(string), "\
 				"W"Створити промокод "P"%s"W" для гравця "ORANGE"%s"W"?\n\
@@ -26084,7 +25396,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					"W"Державна вартість: \t\t"GREEN"$%d\n\n\
 					"W"Вартість огляду будинку - "GREEN"$%d";
 				new string[sizeof(f_str) +1 + (-2 + 10) + (-2 + 20) + (-2 + 7)];
-
 				format(string,sizeof(string),f_str,houseid+1, classname, gHouses[houseid][housePrice],price);
 				ShowPlayerDialog(playerid,D_RIELTOR_HOUSE_2,DSM, ""P"Ріелторське агентство",string,"Оглянути","Скасувати");
 			}
@@ -26098,20 +25409,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			bizz_pay(bizz,price);
 			GiveMoney(playerid,-price,"огляд ріелторка");
 			new houseid = GetPVarInt(playerid,"hrieltor")-1,Float:pos[3];
-
 			GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
-
 			SetPVarFloat(playerid,"rielX",pos[0]);
 			SetPVarFloat(playerid,"rielY",pos[1]);
 			SetPVarFloat(playerid,"rielZ",pos[2]);
 			SetPVarInt(playerid,"rielVW",GetPlayerVirtualWorld(playerid));
-
 			SetPlayerPosAC(playerid,gHouses[houseid][houseX],gHouses[houseid][houseY],gHouses[houseid][houseZ]-50.0,0,0);
 			TogglePlayerControllable(playerid,0);
-
 			SetPlayerCameraPos(playerid,gHouses[houseid][houseX] + (-8.0 * floatsin(gHouses[houseid][houseR], degrees)),gHouses[houseid][houseY] + (5.0 * floatcos(gHouses[houseid][houseR], degrees)), gHouses[houseid][houseZ]+0.3);
 			SetPlayerCameraLookAt(playerid, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ]);
-
 			SendOK(playerid,"Для виходу натисніть: "ORANGE"ENTER.");
 			SendOK(playerid,"Щоб відмітити місце розташування будинку на вашій карті, введіть "ORANGE"/label.");
 		}
@@ -26135,7 +25441,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					"W"Державна вартість: \t\t"GREEN"$%d\n\n\
 					"W"Вартість огляду бізнесу - "GREEN"$%d";
 				new string[sizeof(f_str) +1 + (-2 + 15) + (-2 + 20) + (-2 + 7) + 6];
-
 				format(string,sizeof(string),f_str,bizzid+1, gBusiness[bizzid][bizzName],gBusinessTypeName[gBusiness[bizzid][bizzType]-1], gBusiness[bizzid][bizzSellPrice],price);
 				ShowPlayerDialog(playerid,D_RIELTOR_BIZZ_2,DSM, ""P"Ріелторське агентство",string,"Оглянути","Скасувати");
 			}
@@ -26149,20 +25454,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			bizz_pay(bizz,price);
 			GiveMoney(playerid,-price,"осмотр ріелторка");
 			new bizzid = GetPVarInt(playerid,"bizzrielor")-1,Float:pos[3];
-
 			GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
-
 			SetPVarFloat(playerid,"rielX",pos[0]);
 			SetPVarFloat(playerid,"rielY",pos[1]);
 			SetPVarFloat(playerid,"rielZ",pos[2]);
 			SetPVarInt(playerid,"rielVW",GetPlayerVirtualWorld(playerid));
-
 			SetPlayerPosAC(playerid,gBusiness[bizzid][bizzX],gBusiness[bizzid][bizzY],gBusiness[bizzid][bizzZ]-50.0,0,0);
 			TogglePlayerControllable(playerid,0);
-
 			SetPlayerCameraPos(playerid,gBusiness[bizzid][bizzX] + (-8.0 * floatsin(gBusiness[bizzid][bizzR], degrees)),gBusiness[bizzid][bizzY] + (5.0 * floatcos(gBusiness[bizzid][bizzR], degrees)), gBusiness[bizzid][bizzZ]+0.3);
 			SetPlayerCameraLookAt(playerid, gBusiness[bizzid][bizzX], gBusiness[bizzid][bizzY], gBusiness[bizzid][bizzZ]);
-
 			SendOK(playerid,"Для виходу натисніть "P"Enter"W".");
 			SendOK(playerid,"Щоб відмітити місце розташування будинку на вашій карті, введіть "P"/label"W".");
 		}
@@ -26280,9 +25580,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(sscanf(inputtext, "p<,>is[50]",targetid, reason)) return ShowPlayerDialog(playerid,D_FAMILY_BLINVITE, DSI, ""P"Чорний список", ""W""W"Введіть нижче через кому ID гравця та причину", "Прийняти", "Назад");
 			if(!IsPlayerConnected(targetid) || targetid == playerid) return ShowPlayerDialog(playerid, D_FAMILY_BLINVITE, DSI, ""P"Чорний список", ""W""W"Введіть нижче через кому ID гравця та причину\n\n"G"Неправильний ID гравця", "Прийняти", "Назад");
 			if(PI[targetid][pFamily] != PI[playerid][pFamily]) return ShowPlayerDialog(playerid,D_FAMILY_BLINVITE, DSI, ""P"Чорний список", ""W""W"Введіть нижче через кому ID гравця та причину\n\n"G"Гравець не є членом вашої сім'ї", "Прийняти", "Назад");
-
 			strmid(bl_reason[playerid], reason, 0, strlen(reason), 50);
-
 			new sql_string[200];
 			mysql_format(connects, sql_string, sizeof(sql_string),"SELECT * FROM `family_blacklist` WHERE `bl_id` = '%d' AND `bl_family` = '%d'", PI[targetid][pID], PI[playerid][pFamily]);
 			mysql_pquery(connects, sql_string, "bl_callback_family", "ii", playerid, targetid);
@@ -26291,7 +25589,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return pc_cmd_fmenu(playerid);
 			new names[24];
 			if(sscanf(inputtext, "s[24]",names)) return ShowPlayerDialog(playerid,D_FAMILY_BLUNINVITE, DSI, ""P"Чорний список", ""W"Введіть ім'я гравця, якого хочете видалити з чорного списку:", "Прийняти", "Назад") ;
-
 			new sql_string[128];
 			mysql_format(connects, sql_string, sizeof(sql_string),"SELECT * FROM `family_blacklist` WHERE `bl_name` = '%s' AND `bl_family` = '%d'", names, PI[playerid][pFamily]);
 			mysql_pquery(connects, sql_string, "bl_callback_3", "is", playerid, names);
@@ -26303,7 +25600,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new sql_string[128];
 			mysql_format(connects, sql_string, sizeof(sql_string),"DELETE FROM `family_blacklist` WHERE `bl_family` = '%d'",PI[playerid][pFamily]);
 			mysql_tquery(connects, sql_string,"","");
-
 			SendOK(playerid,"Ви очистили чорний список сім'ї.");
 			return 1;
 		}
@@ -26371,7 +25667,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new sql_string[128];
 			mysql_format(connects, sql_string, sizeof(sql_string),"DELETE FROM `fractions_blacklist` WHERE `bl_fraction` = '%d'",PI[playerid][pMember]);
 			mysql_tquery(connects, sql_string,"","");
-
 			SendOK(playerid,"Ви очистили чорний список організації.");
 			return 1;
 		}
@@ -26379,7 +25674,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return pc_cmd_bl(playerid);
 			new names[24];
 			if(sscanf(inputtext, "s[24]",names)) return ShowPlayerDialog(playerid,D_BLUNINVITE, DSI, ""P"Чорний список", ""W"Введіть ім'я гравця, якого хочете винести з чорного списку:", "Прийняти", "Назад") ;
-
 			new sql_string[128];
 			mysql_format(connects, sql_string, sizeof(sql_string),"SELECT * FROM `fractions_blacklist` WHERE `bl_name` = '%s' AND `bl_fraction` = '%d'", names, PI[playerid][pMember]);
 			mysql_pquery(connects, sql_string, "bl_callback_1", "is", playerid, names);
@@ -26392,9 +25686,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(sscanf(inputtext, "p<,>is[50]",targetid, reason)) return ShowPlayerDialog(playerid,D_BLINVITE, DSI, ""P"Чорний список", ""W""W"Введіть нижче через кому ID гравця, причину", "Прийняти", "Назад");
 			if(!IsPlayerConnected(targetid) || targetid == playerid) return ShowPlayerDialog(playerid, D_BLINVITE, DSI, ""P"Чорний список", ""W""W"Введіть нижче через кому ID гравця, причину\n\n"G"Неправильний ID гравця", "Прийняти", "Назад");
 			if(PI[targetid][pMember] != PI[playerid][pMember]) return ShowPlayerDialog(playerid,D_BLINVITE, DSI, ""P"Чорний список", ""W""W"Введіть нижче через кому ID гравця, причину\n\n"G"Гравець не знаходиться у вашій організації", "Прийняти", "Назад");
-
 			strmid(bl_reason[playerid], reason, 0, strlen(reason), 50);
-
 			new sql_string[200];
 			mysql_format(connects, sql_string, sizeof(sql_string),"SELECT * FROM `fractions_blacklist` WHERE `bl_id` = '%d' AND `bl_fraction` = '%d'", PI[targetid][pID], PI[playerid][pMember]);
 			mysql_pquery(connects, sql_string, "bl_callback", "ii", playerid, targetid);
@@ -26413,7 +25705,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				for(new i; i < rows; i ++) {
 					cache_get_value_name(i, "Name", Name, MAX_PLAYER_NAME);
 					cache_get_value_name_int(i, "pLevel",Level);
-
 					if(Level < 3) format(string, sizeof(string), "%s"ORANGE"%i."W" %s - "NO"%d Рівень\n", string, i+FirstReferal[playerid]+1, Name, Level);
 					else format(string, sizeof(string), "%s"ORANGE"%i."W" %s - "GREEN"%d Рівень\n", string, i+FirstReferal[playerid]+1, Name, Level);
 				}
@@ -26477,7 +25768,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendOK(playerid,"Щоб переодягнутися назад, встаньте ще раз на пікап.");
 			return 1;
 		}
-
 	case D_SPY_3: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -26571,7 +25861,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 					GiveMoney(playerid,-500,"купівля ліцензії");
 					FI[fINSTRUCTORS][fBank] += 250;
-
 					format(string,sizeof(string),"%s займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
 					SendBotMessage(playerid,string);
 				}
@@ -26631,7 +25920,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			//if(id < 0) return 1;
 			new price = 30000;
 			SetPVarInt(playerid,"SelectBildID",listitem);
-
 			new Float:pos[3];
 			GetPlayerPos(playerid, pos[0], pos[1], pos[2]);
 			SetPVarFloat(playerid, "bild_x", pos[0]);
@@ -26702,7 +25990,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			BildInfo[p_var][bBackColor] = listitem;
 			SendOK(playerid,"Ви успішно змінили фон білборда");
 			ShowPlayerEditMenu(playerid), UpdateBuildText(p_var);
-
 			mysql_format(connects, query, sizeof(query),"UPDATE `billboards` SET `bBackColor` = %i WHERE `id` = %i",listitem,p_var);
 			mysql_tquery(connects,query,"","");
 		}
@@ -26712,7 +25999,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			BildInfo[p_var][bFontFace] = listitem;
 			SendOK(playerid,"Ви успішно змінили шрифт білборда");
 			ShowPlayerEditMenu(playerid), UpdateBuildText(p_var);
-
 			mysql_format(connects, query, sizeof(query),"UPDATE `billboards` SET `bFontFace` = %i WHERE `id` = %i",listitem,p_var);
 			mysql_tquery(connects,query,"","");
 		}
@@ -26723,7 +26009,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			BildInfo[p_var][bFontSize] = size;
 			SendOK(playerid,"Ви успішно змінили розмір тексту білборда");
 			ShowPlayerEditMenu(playerid), UpdateBuildText(p_var);
-
 			mysql_format(connects, query, sizeof(query),"UPDATE `billboards` SET `bFontSize` = %i WHERE `id` = %i",size,p_var);
 			mysql_tquery(connects,query,"","");
 		}
@@ -26733,7 +26018,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			BildInfo[p_var][bAligment] = listitem;
 			SendOK(playerid,"Ви успішно змінили вирівнювання тексту білборда");
 			ShowPlayerEditMenu(playerid), UpdateBuildText(p_var);
-
 			mysql_format(connects, query, sizeof(query),"UPDATE `billboards` SET `bAligment` = %i WHERE `id` = %i",listitem,p_var);
 			mysql_tquery(connects,query,"","");
 		}
@@ -26749,7 +26033,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendOK(playerid,"Договір з одним з рекламних білбордів успішно розірваний");
 			UpdateBuildText(p_var);
 			BildExit(playerid);
-
 			mysql_format(connects, query, sizeof(query),"UPDATE `billboards` SET `bDay` = 0, `bOwned` = 0, `bOwner` = '-', `bText` = '-', `bFontSize` = 25, `bAligment` = 1, `bBackColor` = 1, `bFontFace` = 0 WHERE `id` = %i",p_var);
 			mysql_tquery(connects,query,"","");
 		}
@@ -26784,7 +26067,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(str,64,"TUN[%d][Value]",CustomListNum[playerid]);
 			value = GetGVarInt(str,CustomType[playerid]);
 			if(!IsVehicleUpgradeCompatible(GetVehicleModel(vehicleid),model)) return SendError(playerid, "Неможливо встановити цю деталь.");
-
 			if(VehicleInfo[vehicleid][vFamily])
 			{
 				if(family_checktun(PI[playerid][pFamily],GetFamilyCar(playerid),model)) return SendError(playerid, "Ця деталь вже встановлена.");
@@ -26894,7 +26176,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(string, sizeof(string), ""P"%s "W"хоче показати вам паспорт.", player_name[playerid]);
 			SendUse(id, string);
 			SendClientMessage(id,COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 			format(string, sizeof(string), "Ви запропонували "P"%s "W"показати ваш паспорт.", player_name[id]);
 			SendUse(playerid, string);
 			SetPVarInt(id,"fpass", playerid + 1);
@@ -27427,7 +26708,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 					gAdvertCount ++;
 					GiveMoney(playerid,-1000,"подача оголошення");
-
 					format(gAdvert[slot][adText],100,"Обміняю аеропорт",strval(inputtext));
 					auto_news(slot,playerid);
 				}
@@ -27458,10 +26738,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new house_class[5][13] = {"no","економ","середній","елітний","особняк"};
 			new house_city[15][17] = {"м. Лос-Сантос","г. Сан Фиерро","м. Лас Вентурас","гетто","Паломино-Крик","Ділімор","Блуберрі","Монтгомері","Форт-Карсон","Лас-Паясадас","Ангел-Пайн","Бейсайд","Лас-Барранкас","Валле-Окультадо","Ель-Кебрадос"};
-
 			if(!GetPVarInt(playerid, "auto_house_class")) {
 				format(gAdvert[slot][adText],100,"Куплю будинок в %s. Вартість: $%d",house_city[GetPVarInt(playerid, "auto_house_city")],strval(inputtext));
 			}
@@ -27492,10 +26770,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new house_class[5][13] = {"no","економ","середній","елітний","особняк"};
 			new house_city[15][17] = {"г. Лос Сантос","г. Сан Фиерро","г. Лас Вентурас","гетто","Паломино-Крик","Ділімор","Блуберри","Монтгомері","Форт Карсон","Лас-Паясадас","Енджел-Пайн","Бэйсайд","Лас-Барранкас","Валле-Окультадо","Ель-Квебрадос"};
-
 			if(!GetPVarInt(playerid, "auto_house_class")) {
 				format(gAdvert[slot][adText],100,"Продам будинок в %s. Вартість: $%d",house_city[GetPVarInt(playerid, "auto_house_city")],strval(inputtext));
 			}
@@ -27520,10 +26796,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new house_class[5][13] = {"no","економ","середній","елітний","особняк"};
 			new house_city[15][17] = {"м. Лос-Сантос","м. Сан-Фиерро","м. Лас-Вентурас","гетто","Паломино-Крик","Ділімор","Блуберри","Монтгомері","Форт Карсон","Лас-Паясадас","Енджел-Пайн","Бэйсайд","Лас-Барранкас","Валле-Окультадо","Ель-Квебрадос"};
-
 			if(!GetPVarInt(playerid, "auto_house_class")) {
 				format(gAdvert[slot][adText],100,"Обміняю будинок в %s",house_city[GetPVarInt(playerid, "auto_house_city")]);
 			}
@@ -27549,7 +26823,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new bizz_type[17][28] = {"no","Закусочна","24/7","Бар","Клуб","Магазин одягу","АММО","АЗС","Автосалон","Рибальський бізнес","Комп'ютерний клуб","Ріелторське агентство","Спорт-Зал","Банк","Рекламне агентство","Магазин Аксесуарів","Perfomance Tune"};
 			if(!GetPVarInt(playerid, "auto_bizz_type")) format(gAdvert[slot][adText],100,"Куплю прибутокное бізнес. Вартість: $%d",strval(inputtext));
 			else format(gAdvert[slot][adText],100,"Куплю бізнес \"%s\". Вартість: $%d",bizz_type[GetPVarInt(playerid, "auto_bizz_type")],strval(inputtext));
@@ -27590,7 +26863,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new bizz_type[17][28] = {"no","Закусочна","24/7","Бар","Клуб","Магазин одягу","АММО","АЗС","Автосалон","Рибальський бізнес","Комп'ютерний клуб","Ріелторське агентство","Спорт-Зал","Банк","Рекламне агентство","Магазин Аксесуарів","Perfomance Tune"};
 			if(!listitem) format(gAdvert[slot][adText],100,"Обміняю бізнес");
 			else format(gAdvert[slot][adText],100,"Обміняю бізнес \"%s\"",bizz_type[listitem]);
@@ -27609,7 +26881,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			format(gAdvert[slot][adText],100,"Куплю аеропорт. Вартість: $%d",strval(inputtext));
 			auto_news(slot,playerid);
 		}
@@ -27625,7 +26896,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			format(gAdvert[slot][adText],100,"Продам аеропорт. Вартість: $%d",strval(inputtext));
 			auto_news(slot,playerid);
 		}
@@ -27661,7 +26931,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new car_tune[4][8] = {"No Tune","FT","PT","FT/PT"};
 			new car_class[4][12] = {"no","економ","середній","спорт"};
 			if(!GetPVarInt(playerid, "auto_car_class")) {
@@ -27720,7 +26989,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new car_tune[4][8] = {"No Tune","FT","PT","FT/PT"};
 			new car_class[4][12] = {"no","економ","середній","спорт"};
 			if(!GetPVarInt(playerid, "auto_car_class")) {
@@ -27766,7 +27034,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 					gAdvertCount ++;
 					GiveMoney(playerid,-1000,"подача оголошення");
-
 					new car_tune[4][8] = {"No Tune","FT","PT","FT/PT"};
 					format(gAdvert[slot][adText],100,"Обміняю автомобіль [%s]",car_tune[GetPVarInt(playerid, "auto_car_tune")]);
 					auto_news(slot,playerid);
@@ -27787,7 +27054,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new car_tune[4][8] = {"No Tune","FT","PT","FT/PT"};
 			new car_class[4][12] = {"no","економ","середній","спорт"};
 			if(!GetPVarInt(playerid, "auto_car_class")) {
@@ -27840,7 +27106,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new format_sim[7];
 			GetPVarString(playerid,"auto_sim_format",format_sim,15);
 			if(GetString(format_sim,"NONE")) {
@@ -27875,7 +27140,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			new format_sim[7];
 			GetPVarString(playerid,"auto_sim_format",format_sim,15);
 			if(GetString(format_sim,"NONE")) {
@@ -27913,7 +27177,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			format(gAdvert[slot][adText],100,"Обміняю сім-карту формату %s",inputtext);
 			auto_news(slot,playerid);
 		}
@@ -27939,7 +27202,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			if(!GetPVarInt(playerid, "auto_moto_class")) {
 				format(gAdvert[slot][adText],100,"Куплю мотоцикл. Вартість: $%d",strval(inputtext));
 			}
@@ -27967,7 +27229,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			if(!GetPVarInt(playerid, "auto_moto_class")) {
 				format(gAdvert[slot][adText],100,"Продам мотоцикл. Вартість: $%d",strval(inputtext));
 			}
@@ -27989,7 +27250,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 			gAdvertCount ++;
 			GiveMoney(playerid,-1000,"подача оголошення");
-
 			if(!listitem) {
 				format(gAdvert[slot][adText],100,"Обміняю мотоцикл");
 			}
@@ -28035,7 +27295,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		strdel(inputtext,strfind(inputtext, "%s",true),strfind(inputtext, "%s",true)+2);
 	}
 	return 1;
-}//диалоги
+}
 public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 	if(SERIU[playerid][sID] != INVALID_PLAYER_ID) return 1;
 	if (checkpointid == gPlayerProdCP[playerid] && GetPVarInt(playerid, "prod_id") && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
@@ -28463,10 +27723,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					DeletePVar(playerid,"ograbl_");
 					FI[PI[playerid][pMember]][fBank] += 75000;
 					UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
-
 					static const f_str[] = "[F] %s[%d] поклав(ла) в банк банди: "GREEN"$%d";
 					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
-
 					format(string,sizeof(string),f_str,player_name[playerid],playerid,75000);
 					SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 					return 1;
@@ -28491,10 +27749,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					DeletePVar(playerid,"ograbl_");
 					FI[PI[playerid][pMember]][fBank] += 75000;
 					UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
-
 					static const f_str[] = "[F] %s[%d] поклав(ла) в банк MC: "GREEN"$%d.";
 					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
-
 					format(string,sizeof(string),f_str,player_name[playerid],playerid,75000);
 					SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 					return 1;
@@ -28531,7 +27787,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					SetPlayerPos(playerid, 2353.5300,247.3599,26.4466);
 					SetPlayerVirtualWorld(playerid, 0);
 					SetPlayerInterior(playerid, 0);
-
 				}
 			}
 		case 26,49,27: {
@@ -28546,10 +27801,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					DeletePVar(playerid,"ograbl_");
 					FI[PI[playerid][pMember]][fBank] += 75000;
 					UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
-
 					static const f_str[] = "[F] %s[%d] поклав в банк банди "GREEN"$%d.";
 					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
-
 					format(string,sizeof(string),f_str,player_name[playerid],playerid,75000);
 					SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 					return 1;
@@ -28619,7 +27872,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				FI[PI[playerid][pMember]][fHealth] --;
 				UpdateFraction(PI[playerid][pMember],"Health",FI[PI[playerid][pMember]][fHealth]);
 				SetPVarInt(playerid, "gang_heal", gettime()+15);
-
 				static const f_str[] = "[F] %s[%d] використав аптечку.";
 				new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 				
@@ -28680,7 +27932,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					UpdateFamily(PI[playerid][pFamily],"talon",gFamily[PI[playerid][pFamily]-1][famTalon]);
 					PI[playerid][pFamTalon] += 1, UpdatePlayerData(playerid, "talon_fam", PI[playerid][pFamTalon]);
 				}
-
 				if(QuestProgress[playerid][49] < 10 && AcceptQuest[playerid][49] != 0) QuestProgress[playerid][49] ++,save_quest(playerid,49);
 				if(QuestProgress[playerid][49] == 10 && AcceptQuest[playerid][49] != 0) {
 					ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
@@ -28898,7 +28149,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					case 2: SetPVarInt(playerid,"join_ped_item",71);
 					}
 					A_SetPlayerSkin(playerid,ped_buyclothes[GetPVarInt(playerid,"join_ped_item")][0]);
-
 					for(new i=0; i<9; i++) {
 						TextDrawShowForPlayer(playerid,buy_skins[i]);
 					}
@@ -28963,7 +28213,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					for(new i=0; i < 10; i++) if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
 				}
 			}
-
 		}
 	}
 	else if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
@@ -28978,7 +28227,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		if(QuestProgress[playerid][48] == 10 && AcceptQuest[playerid][48] != 0) {
 			ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
 		}
-
 		new string[24];
 		format(string,sizeof(string),"MONEY:_$%d",TI[playerid][tJobSalary]);
 		PlayerTextDrawSetString(playerid,work_td[playerid][1],string);
@@ -29227,7 +28475,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					}
 					InLoadFrac[PI[playerid][pMember]] = true;
 					UpdateDynamic3DTextLabelText(VG[i][vgText],COLOR_WHITE,string);
-
 					ApplyAnimation(playerid,"CARRY","liftup",1.0,0,1,1,0,0,1);
 					SetTimerEx("CarryDelay",1000,false,"i",playerid);
 					SetPlayerAttachedObject(playerid,1,2358,6,0.0,0.10,-0.2, -110.0,0.0,78.0);
@@ -29344,7 +28591,6 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 	}
 	return 1;
 }
-
 public OnDynamicObjectMoved(objectid) {
 	for(new id = 0; id < MAX_OBJECT_MOVED; id++) {
 		if(objectid == moved_info[id][moved_id] && moved_info[id][status_moved]) {
@@ -29356,10 +28602,8 @@ public OnDynamicObjectMoved(objectid) {
 	}
 	if(objectid == l_casino[2] && l_start == 1) { // лифт закрив двери
 		MoveDynamicObject(l_casino[0], 300.390136, -139.715637, 1036.076904,1, 0.000000, 0.000000, 270.000000);
-
 		l2_casino = CreateDynamicObject(19325,300.430572, -137.912704, 1029.311523, 0.000000, 0.000000, 90.000000, 58, 7, -1, 300.00, 300.00);
 		MoveDynamicObject(l2_casino, 300.430572, -137.912704, 1035.946533,1, 0.000000, 0.000000, 90.000000);
-
 		l_start = 2;
 		
 	}
@@ -29373,10 +28617,8 @@ public OnDynamicObjectMoved(objectid) {
 	if(objectid == l_casino[4] && l_start == 4)
 	{
 		MoveDynamicObject(l_casino[0], 300.390136, -139.715637, 1030.315795,1, 0.000000, 0.000000, 270.000000);
-
 		l2_casino = CreateDynamicObject(19325,300.430572, -137.912704, 1035.946533,0.000000, 0.000000, 90.000000, 58, 7, -1, 300.00, 300.00);
 		MoveDynamicObject(l2_casino, 300.430572, -137.912704, 1029.311523,1, 0.000000, 0.000000, 90.000000);
-
 		l_start = 5;
 	}
 	if(objectid == l_casino[0] && l_start == 5)
@@ -29398,9 +28640,7 @@ public OnDynamicObjectMoved(objectid) {
 	}
 	return 1;
 }
-
-public OnPlayerDisconnect(playerid, reason) 
-{
+public OnPlayerDisconnect(playerid, reason) {
 	if(deathphase[playerid] == 1) {
 		SendClientMessage(playerid, -1, "onplayerdisconnect");
 		deathphase[playerid] = 0;
@@ -29447,7 +28687,6 @@ public OnPlayerDisconnect(playerid, reason)
 	for(new i = 0; i < 13; i++) PlayerTextDrawDestroy(playerid, hack_numbers[playerid][i]);
 	for(new i = 0; i < 46; i++) PlayerTextDrawDestroy(playerid, inventory_slot[playerid][i]); // del inv
 	for(new i = 0; i < 8; i++) PlayerTextDrawDestroy(playerid, inventory_PTD[playerid][i]); // del inv
-
 	ghetto_HideGUI(playerid);
 	if(skill_gun[playerid] == 1) {
 		save_skill(playerid);
@@ -29706,7 +28945,6 @@ public OnPlayerDisconnect(playerid, reason)
 		TI[id][tPhone] = false;
 	}
 	for(new i=0; i < 10; i++) if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-
 	format(WantNickChange[playerid],MAX_PLAYER_NAME, "");
 	
 	new year, month,day;
@@ -29721,11 +28959,9 @@ public OnPlayerDisconnect(playerid, reason)
 	
 	if(PI[playerid][pAdmin] > 0 && dostup[playerid] == 1) {
 		static const Names_Days[7][22] = {"online_monday", "online_tuesday", "online_wednesday", "online_thursday", "online_friday", "online_saturday", "online_sunday"};
-
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"UPDATE `admin` SET `%s` = '%d', `kick` = '%d', `ban` = '%d', `mute` = '%d', `pm` = '%d', `warn` = '%d', `jail` = '%d',`vig`='%d',`blockadmin`='%d',online_status = '0' WHERE `Name` = '%s' LIMIT 1",Names_Days[weekcurrent], gAdminTime[playerid],gAdmin[playerid][0],gAdmin[playerid][1],gAdmin[playerid][2],gAdmin[playerid][3],gAdmin[playerid][4],gAdmin[playerid][5],gAdmin[playerid][6],gAdmin[playerid][7],player_name[playerid]);
 		mysql_pquery(connects, MYSQL_GLOBAL, "", "");
-
 		format(string, sizeof(string), "[A-%d] %s від'єднався.",PI[playerid][pAdmin],player_name[playerid]);
 		if(gAdmin[playerid][7] != 1) SendAdminMessage(COLOR_GREY, string);
 		dostup[playerid] = 0;
@@ -29785,7 +29021,6 @@ public OnPlayerDisconnect(playerid, reason)
 	TI[playerid][tSpawn] = false;
 	TI[playerid][tJoined] = false;
 	TI[playerid][tSelectSkin] = false;
-
 	mysql_format(connects,query,sizeof(query), "UPDATE `"TABLE_ACCOUNTS"` SET `pHP` = '%f', `online_status` = '1001' WHERE pID = '%d'",PI[playerid][pHP],PI[playerid][pID]);
 	mysql_tquery(connects,query, "", "");
 	
@@ -29816,8 +29051,6 @@ public OnPlayerDisconnect(playerid, reason)
 	RobLeave(playerid);
 	return 1;
 }
-
-
 #if !defined _INC_WEAPON_CONFIG
 public OnPlayerDamageDone(playerid, Float:amount, issuerid, weapon, bodypart)
 #else
@@ -29840,7 +29073,6 @@ public OnPlayerDamageDone(playerid, Float:amount, issuerid, weapon, bodypart)
 		KillTimer(deathtimer[playerid][0]);
 		KillTimer(deathtimer[playerid][2]);
 		Delete3DTextLabel(deathlabel[playerid]);
-
 		deathpos[playerid][0] = float(GetPlayerVirtualWorld(playerid));
 		deathpos[playerid][1] = float(GetPlayerInterior(playerid));
 		GetPlayerPos(playerid, deathpos[playerid][2], deathpos[playerid][3], deathpos[playerid][4]);
@@ -29849,9 +29081,7 @@ public OnPlayerDamageDone(playerid, Float:amount, issuerid, weapon, bodypart)
 	}
 	return 1;
 }
-
-public OnPlayerDeath(playerid, killerid, reason)
-{
+public OnPlayerDeath(playerid, killerid, reason) {
 	for (new i = 0; i < TOTALGZ; i++)
 	{
 		if(GZInfo[i][ZoneOnBattle] == 1 && killerid != INVALID_PLAYER_ID)
@@ -29903,13 +29133,11 @@ public OnPlayerDeath(playerid, killerid, reason)
 	DeletePVar(playerid,"_musor");
 	gKilled[playerid] = 1;
 	for(new i=0; i < 10; i++) if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-
 	TI[playerid][tMasked] = 0;
 	DeletePVar(playerid,"carrygun");
 	DeletePVar(playerid,"use_mats");
 	DeletePVar(playerid,"takephone");
 	DeletePVar(playerid,"takeradio");
-
 	if(IsPlayerInAnyVehicle(playerid)) RemovePlayerFromVehicleAC(playerid);
 	
 	if(GetPVarInt(playerid,"adchecking_fix")) {
@@ -29955,7 +29183,6 @@ public OnPlayerDeath(playerid, killerid, reason)
 	   {
           PI[killerid][pEkills] += 1;
     	  UpdatePlayerData(killerid, "e_kills", PI[killerid][pEkills]);
-
 		  new str[97];
 	  	  format(str,sizeof(str),"~g~Killed:~w~ %d",PI[killerid][pEkills]);
 		  PlayerTextDrawSetString(killerid, DmArenaTextDraw[killerid], str);
@@ -30117,13 +29344,10 @@ public OnPlayerDeath(playerid, killerid, reason)
 					
 					static const f_str_1[] = "Ви були посаджені у в'язницю офіцером %s на %d секунд.";
 					new string_1[sizeof(f_str_1)  +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
-
 					format(string_1,sizeof(string_1),f_str_1,player_name[killerid],(src * search));
 					SendClientMessage(playerid,COLOR_LIGHTRED,string_1);
-
 					static const f_str_2[] = "Ви посадили у в'язницю злочинця %s на %d секунд.";
 					new string_2[sizeof(f_str_2) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
-
 					format(string_2,sizeof(string_2),f_str_2,player_name[playerid],(src * search));
 					SendClientMessage(killerid,COLOR_LIGHTRED,string_2);
 				}
@@ -30138,12 +29362,10 @@ public OnPlayerDeath(playerid, killerid, reason)
 	}
 	TI[playerid][tMaskTime] = 0;
 	TI[playerid][tTazers][0] = 0;
-
 	RobLeave(playerid);
 	PlayerSpawn(playerid);
 	return 1;
 }
-
 #if !defined _INC_WEAPON_CONFIG
 public OnPlayerDamage(&playerid, &Float:amount, &issuerid, &weapon, &bodypart)
 #else
@@ -30229,12 +29451,9 @@ public OnPlayerDamage(&playerid, &Float: amount, &issuerid, &weapon, &bodypart)
 	}
 	return 1;
 }
-
-public OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid, bodypart)
-{
+public OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid, bodypart) {
 	return 1;
 }
-
 public OnPlayerSpawn(playerid) {
 	if(!TI[playerid][tLogin] || !TI[playerid][tJoined]) return 1;
 	if(PI[playerid][pMember] == 0) start_work[playerid] = 0;
@@ -30246,7 +29465,6 @@ public OnPlayerSpawn(playerid) {
 		A_SetPlayerSkin(playerid, PI[playerid][pFracSkin]);
 	}
 	else A_SetPlayerSkin(playerid, PI[playerid][pSkin]);
-
 	
 	if(GetPVarInt(playerid,"Animation") == 2) {
 		ApplyAnimation(playerid, "CARRY", "null", 1.0, 0, 0, 0, 0, 0, 0);
@@ -30254,7 +29472,6 @@ public OnPlayerSpawn(playerid) {
 		DeletePVar(playerid,"Animation");
 		TextDrawHideForPlayer(playerid, AnimDraw);
 	}
-
 	if(GetPVarInt(playerid, "KeyWareHouseWeapon")) DeletePVar(playerid, "KeyWareHouseWeapon");
 	ResetPlayerWeapons(playerid);
 	leave_robhouse(playerid);
@@ -30270,7 +29487,6 @@ public OnPlayerSpawn(playerid) {
 	SetPlayerSkills(playerid);
 	SetPlayerColor(playerid, gFractionSpawn[PI[playerid][pMember]][fracColor]);
 	if(TI[playerid][tJobSad][0] > 0) EndSad(playerid);
-
 	if(PI[playerid][pHP] < 10) SetHealth(playerid, 10);
 	else SetHealth(playerid, PI[playerid][pHP]);
 	
@@ -30391,7 +29607,6 @@ public OnPlayerSpawn(playerid) {
 		SetPlayerPos(playerid, deathpos[playerid][2], deathpos[playerid][3], deathpos[playerid][4]);
 		SetPlayerFacingAngle(playerid, deathpos[playerid][5]);
 		SetCameraBehindPlayer(playerid);
-
 		TogglePlayerDynamicArea(playerid, deatharea[playerid], true);
 		deatharea[playerid] = CreateDynamicSphere(deathpos[playerid][2], deathpos[playerid][3], deathpos[playerid][4], 7.5, floatround(deathpos[playerid][0]), floatround(deathpos[playerid][1]), playerid);
 		deathlabel[playerid] = Create3DTextLabel("(( ДАНИЙ ПЕРСОНАЖ ПОРАНЕНИЙ ))", 0xFF6347AA, 0.0, 0.0, 0.0, 10, 0, 1);
@@ -30460,7 +29675,6 @@ SettingSpawn(playerid) {
 	else if (TI[playerid][tLastSpawn]) {
 		TI[playerid][tLastSpawn] = 0;
 		TI[playerid][tTPpick] = bool:PI[playerid][pSpawnTPPick];
-
 		SetPlayerPosAC(playerid,
 		PI[playerid][pSpawnPos][0], PI[playerid][pSpawnPos][1], PI[playerid][pSpawnPos][2],
 		PI[playerid][pSpawnWorld], PI[playerid][pSpawnInterior]
@@ -30468,7 +29682,6 @@ SettingSpawn(playerid) {
 		SetPlayerFacingAngle(playerid, PI[playerid][pSpawnPos][3]);
 		TI[playerid][tVirtualWorld] = PI[playerid][pSpawnWorld];
 		TI[playerid][tInterior] = PI[playerid][pSpawnInterior];
-
 		SetPlayerVirtualWorld(playerid, TI[playerid][tVirtualWorld]);
 		SetPlayerInterior(playerid, TI[playerid][tInterior]);
 		SetCameraBehindPlayer(playerid);
@@ -30642,7 +29855,6 @@ SettingSpawn(playerid) {
 		return 1;
 	}
 	if(PI[playerid][pMember] && PI[playerid][pSpawn] == 2 && start_work[playerid]) {
-
 		new fractionid = PI[playerid][pMember];
 		SetPlayerPosAC(playerid, gFractionSpawn[fractionid][fracCoordsX], gFractionSpawn[fractionid][fracCoordsY], gFractionSpawn[fractionid][fracCoordsZ], gFractionSpawn[fractionid][fracWorld],
 		gFractionSpawn[fractionid][fracInt]);
@@ -30683,7 +29895,6 @@ public OnPlayerEnterCheckpoint(playerid) {
 		for(new id = 0;id < 24;id++) {
 			if(IsPlayerInDynamicCP(playerid, gun_pickup[id])) {
 				SetPVarInt(playerid,"loadid",id);
-
 				JobTempProcess[playerid] = 3;
 				TI[playerid][tProcess][0] = 0;
 				TI[playerid][tProcess][1] = 10;
@@ -30924,7 +30135,6 @@ public OnPlayerEnterCheckpoint(playerid) {
 		
 	}
 	
-
 	if(GetPVarInt(playerid,"check_pizza") == 1)
 	{
 		
@@ -30977,7 +30187,6 @@ public OnPlayerLeaveCheckpoint(playerid) {
 	}
 	return 1;
 }
-
 public OnPlayerEnterRaceCheckpoint(playerid) {
 	if(gpss[playerid]) {
 		gpss[playerid] = 0;
@@ -31106,7 +30315,6 @@ CB: PlayerUdostover(playerid) {
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 2)) RemovePlayerAttachedObject(playerid, 2);
 }
 public OnRconLoginAttempt(ip[], password[], success) return false;
-
 public OnPlayerPickUpPickup(playerid, pickupid) {
 	return 1;
 }
@@ -31193,26 +30401,13 @@ public OnPlayerExitedMenu(playerid) {
 public OnPlayerStateChange(playerid, newstate, oldstate) {
 	if(newstate == PLAYER_STATE_PASSENGER && (GetPlayerWeapon(playerid) == 24 || GetPlayerWeapon(playerid) == 25)) SetPlayerArmedWeapon(playerid, 0);
 	if(newstate == PLAYER_STATE_ONFOOT && oldstate == PLAYER_STATE_NONE) return KickEx(playerid),printf("%d",55555);
-	if(newstate == oldstate) return KickEx(playerid),printf("%d",333333);
+	if(newstate == oldstate) return KickEx(playerid), printf("%d",333333);
 	if(newstate == PLAYER_STATE_DRIVER) {
 		LastVeh[playerid] = GetPlayerVehicleID(playerid);
 		DeletePVar(playerid,"removetimer");
 		new tr = GetVehicleTrailer(LastVeh[playerid]);
 		if(tr != 0) VehTrailer[playerid] = tr;
 	}
-	if(oldstate == PLAYER_STATE_DRIVER) {
-		LastVeh[playerid] = INVALID_VEHICLE_ID;
-		VehTrailer[playerid] = INVALID_VEHICLE_ID;
-	}
-	if((oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER) && newstate == PLAYER_STATE_WASTED) {
-		new vid = GetPlayerVehicleID(playerid);
-		if(vid) {
-			new Float:x, Float:y, Float:z;
-			GetVehiclePos(vid, x, y, z),
-			SetPlayerPosAC(playerid, x, y, z,TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
-		}
-	}
-
 	if(newstate == PLAYER_STATE_DRIVER) {
 		new carid = GetPlayerVehicleID(playerid);
 		if(VehicleInfo[carid][vAkum] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid)&&!IsAVelik(carid))
@@ -31224,7 +30419,6 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			SendError(playerid, "В транспорті закінчився бензин.");
 			VehicleInfo[carid][vFuel] = 0;
 		}
-
 		if(thef_car[playerid] == carid)
 		{
 			SetPVarInt(playerid, "theft", 2);
@@ -31232,18 +30426,39 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		}
 		if(IsAVelik(carid)) {
 			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-			SetVehicleParamsEx(carid,true,lights,alarm,doors,bonnet,boot,objective);
+			SetVehicleParamsEx(carid,1,lights,alarm,doors,bonnet,boot,objective);
 		}
-		if(IsAPlane(carid) || IsABoat(carid)) {
-			SendInfo(playerid, "Щоб завести чи заглушити двигун, натисніть "P"LCTRL"W" або введіть "P"/engine"W".");
-		}
-		if(!IsABoat(carid) && !IsAPlane(carid) && !IsABikeSped(carid)) { 
+		if(!IsABikeSped(carid)) { 
 			if(thef_car[playerid] != carid)
 			{
 				SendInfo(playerid, "Щоб завести чи заглушити двигун, натисніть "P"LCTRL"W" або введіть "P"/engine"W".");
 			}
-			for(new i = 0; i < 7; i++)  PlayerTextDrawShow(playerid, Speed_PTD[playerid][i]);
-			for(new b = 0; b < 40; b++) TextDrawShowForPlayer(playerid, Speed_TD[b]);
+			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
+			new str[32];
+			if(engine == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
+			else {
+				format(str, sizeof(str), "%d", lights);
+				SendClientMessage(playerid, -1, str);
+				PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
+			}
+			if(lights == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], -347323649);
+			else {
+				format(str, sizeof(str), "%d", lights);
+				SendClientMessage(playerid, -1, str);
+				PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], 8388863);
+			}
+			if(doors == 1) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], -347323649);
+			else  {
+				format(str, sizeof(str), "%d", lights);
+				SendClientMessage(playerid, -1, str);
+				PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], 8388863);
+			}
+			for(new i = 0; i < 7; i++) {
+				PlayerTextDrawShow(playerid, Speed_PTD[playerid][i]);
+			}
+			for(new b = 0; b < 40; b++) {
+				TextDrawShowForPlayer(playerid, Speed_TD[b]);
+			}
 			if (pl_update_speed[playerid] != -1) {
 				KillTimer(pl_update_speed[playerid]);
 				pl_update_speed[playerid] = -1;
@@ -31275,7 +30490,6 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		if(GetVehicleModel(carid) == 548) {
 			static const f_str[] = "Завантажено боєприпасів: "P"%d"W".";
 			new string[sizeof(f_str) +7];
-
 			format(string,sizeof(string),f_str,VG[carid][vgAmount][0]);
 			SendInfo(playerid,string);
 			SendInfo(playerid,"Використайте: /carm");
@@ -31324,7 +30538,6 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					}
 				}
     			
-
 			}
 			if(!GetPVarInt(playerid, "HackerQuest4") && PI[playerid][pHacker] < 5)
 			{
@@ -31477,8 +30690,8 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					TI[playerid][tSpcarTime] = 0;
 				}
 			case 8: { // Таксист
-					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем"),RemovePlayerFromVehicleAC(playerid);
-					if(PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви Не працюєте таксистом"), RemovePlayerFromVehicleAC(playerid);
+					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."),RemovePlayerFromVehicleAC(playerid);
+					if(PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви не працюєте таксистом."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
 						if(TI[playerid][tArendaCar] != -1) {
 							SendError(playerid, "Ви вже орендуєте робочий транспорт.");
@@ -31488,12 +30701,12 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 							SendError(playerid, "Для оренди робочого транспорту необхідно $500.");
 							return RemovePlayerFromVehicleAC(playerid);
 						}
-						ShowPlayerDialog(playerid,D_JOB_TAXI,DSM, ""P"Оренда",""W"Ви хочете орендувати таксі за "GREEN"$500?","Так","Ні");
+						ShowPlayerDialog(playerid,D_JOB_TAXI,DSM, ""P"Оренда",""W"Ви хочете орендувати таксі за "GREEN"$500"W"?","Так","Ні");
 					}
 					TI[playerid][tSpcarTime] = 0;
 				}
 			case 9: { // Інкасатор
-					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем"),RemovePlayerFromVehicleAC(playerid);
+					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем/"),RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] != VehicleInfo[carid][vJob] || !GetPVarInt(playerid,"inc_start")) return SendError(playerid, "Ви не працюєте інкасатором або не в формі."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
 						if(TI[playerid][tArendaCar] != -1) {
@@ -31504,14 +30717,14 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 							SendError(playerid, "Для оренди робочого транспорту необхідно $500.");
 							return RemovePlayerFromVehicleAC(playerid);
 						}
-						ShowPlayerDialog(playerid,D_JOB_INCASS,DSM, ""P"Оренда",""W"Ви хочете орендувати автомобіль за "GREEN"$500?","Так","Ні");
+						ShowPlayerDialog(playerid,D_JOB_INCASS,DSM, ""P"Оренда",""W"Ви хочете орендувати автомобіль за "GREEN"$500"W"?","Так","Ні");
 					}
 					if(VG[carid][vgAtm]) ShowPlayerDialog(playerid,D_STOP_LOAD,DSM, ""P"Погрузка","\n\n"W"Ви хочете зупинити розвантаження грошей?\n\n","Так","Ні");
 					TI[playerid][tSpcarTime] = 0;
 				}
 			case 105: {
 					if(!IsACop(playerid) || !start_work[playerid]) {
-						SendError(playerid, "Ви не працівник правохоронних органів!");
+						SendError(playerid, "Ви не працівник правохоронних органів.");
 						RemovePlayerFromVehicleAC(playerid);
 					}
 				}
@@ -31533,13 +30746,23 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			}
 		}
 	}
+	if(oldstate == PLAYER_STATE_DRIVER) {
+		LastVeh[playerid] = INVALID_VEHICLE_ID;
+		VehTrailer[playerid] = INVALID_VEHICLE_ID;
+	}
+	if((oldstate == PLAYER_STATE_DRIVER || oldstate == PLAYER_STATE_PASSENGER) && newstate == PLAYER_STATE_WASTED) {
+		new vid = GetPlayerVehicleID(playerid);
+		if(vid) {
+			new Float:x, Float:y, Float:z;
+			GetVehiclePos(vid, x, y, z),
+			SetPlayerPosAC(playerid, x, y, z,TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
+		}
+	}
 	else if(newstate == PLAYER_STATE_PASSENGER) {
 		DeletePVar (playerid,"removetimer") ;
 		new carid = GetPlayerVehicleID(playerid);
 		GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-
 		if(doors == 1) return RemovePlayerFromVehicleAC(playerid);
-
 		if(VehicleInfo[carid][vJob] == 1 && VehicleInfo[carid][vPlayer] != -1) {
 			foreach(new i:Player) {
 				if(!TI[i][tLogin]) continue;
@@ -31567,58 +30790,125 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 	}
 	return 1;
 }
-stock lights_status(carid,status, playerid=-1) {
-	GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-	SetVehicleParamsEx(carid,engine,status,alarm,doors,bonnet,boot,objective);
+stock ToggleEngine(vehicleid, playerid = INVALID_PLAYER_ID) {
+	if (!IsValidVehicle(vehicleid)) return 0;
 
-	VehicleInfo[carid][vLights] = status;
+	new Float:X, Float:Y, Float:Z;
+	GetVehiclePos(vehicleid, X, Y, Z);
+	if(!IsPlayerInRangeOfPoint(playerid, 5, X, Y, Z) || vehicleid == -1) return SendError(playerid, "Ви не поруч з автомобілем.");
 
-	if(playerid != -1 && !IsAVelik(carid) && !IsAPlane(carid) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
-		if(status) {
-			PlayerTextDrawHide(playerid, Speed_PTD[playerid][5]);
-			PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], 8388863);
-			PlayerTextDrawShow(playerid, Speed_PTD[playerid][5]);
-			GameTextForPlayer(playerid, "~g~HEADLIGHTS ON", 2500, 4);
+	GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
+
+	/*if(PI[playerid][pMember] != VehicleInfo[vehicleid][vTeam] && VehicleInfo[vehicleid][vType] == VEHICLE_TYPE_FRACTION && PI[playerid][pHacker] > 4 && GetPVarInt(playerid, "VehicleHackers") != GetPlayerVehicleID(playerid)) return SendClientMessage(playerid, -1, "У вас немає доступу до цього транспорту.");
+	if(vehicleid == VehicleWareHouse[0]) {
+	    if(TimerRobWeapon > 0 && TimerRobWeaponBool == true) {
+            SendError(playerid, "Спочатку відстійте перестрілку.");
+	    	return SetVehicleParamsEx(GetPlayerVehicleID(playerid), 0, lights, alarm, doors, bonnet, boot, objective);
 		}
-		else {
-			PlayerTextDrawHide(playerid, Speed_PTD[playerid][5]);
+	    if(CountMaterialVehicleWH < 1) {
+            SendError(playerid, "Ви не можете відвезти пустий транспорт.");
+			return SetVehicleParamsEx(GetPlayerVehicleID(playerid), 0, lights, alarm, doors, bonnet, boot, objective);
+		}
+	}
+    if(GetPVarInt(playerid, "StopEngine") == 1) {
+    	SendClientMessage(playerid, -1, "Завантажте сумки з алкоголем.");
+        return SetVehicleParamsEx(GetPlayerVehicleID(playerid), 0, lights, alarm, doors, bonnet, boot, objective);
+	}
+	if(engine == 1) {
+		SetVehicleParamsEx(vehicleid,0,lights,alarm,doors,bonnet,boot,objective);
+		PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
+		GameTextForPlayer(playerid, "~r~ENGINE STOPPED", 2500, 4);
+	} else {
+		if(VehicleInfo[vehicleid][vAkum] > 0.0 && VehicleInfo[vehicleid][vAkum] <= 30.0 && !IsAPlane(vehicleid) && !IsABoat(vehicleid) && !IsABike(vehicleid) && !IsAVelik(vehicleid)) {
+			switch(random(2)) {
+				case 0: SendError(playerid, "Акумулятор майже розряджений. Повторіть спробу завести двигун.");
+				case 1:
+				{
+					SetVehicleParamsEx(vehicleid, 1, lights, alarm, doors, bonnet, boot, objective);
+					PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
+					GameTextForPlayer(playerid, "~g~ENGINE STARTED", 2500, 4);
+				}
+			}
+			return 1;
+		}
+		if(VehicleInfo[vehicleid][vAkum] <= 0.5 && !IsAPlane(vehicleid) && !IsABoat(vehicleid) && !IsABike(vehicleid) && !IsAVelik(vehicleid)) {
+			SendError(playerid, "Акумулятор розрядився.");
+			return 1;
+		}
+		
+		SetVehicleParamsEx(vehicleid,1,lights,alarm,doors,bonnet,boot,objective);
+		PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
+		GameTextForPlayer(playerid, "~g~ENGINE STARTED", 2500, 4);
+	}*/
+
+	if(playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid)) {
+		if(engine == 1) {
+			SetVehicleParamsEx(vehicleid, 0, 0, alarm, doors, bonnet, boot, objective);
+			PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
+			GameTextForPlayer(playerid, "~r~ENGINE STOPPED", 2500, 4);
+		}
+		else
+		{
+			SetVehicleParamsEx(vehicleid, 1, lights, alarm, doors, bonnet, boot, objective);
+			PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
+			GameTextForPlayer(playerid, "~g~ENGINE STARTED", 2500, 4);
+		}
+		PlayerTextDrawShow(playerid, Speed_PTD[playerid][4]);
+	}
+	if(LightsObject[vehicleid][1] != -1) DestroyDynamicObject(LightsObject[vehicleid][1]);
+	LightsObject[vehicleid][0] = -1;
+	LightsObject[vehicleid][1] = -1;
+	SignalTick[vehicleid][0] = 0;
+	SignalTick[vehicleid][1] = -1;
+	Signal[vehicleid] = 0;
+	return 1;
+}
+stock ToggleLights(vehicleid, playerid = INVALID_PLAYER_ID) {
+	if (!IsValidVehicle(vehicleid)) return 0;
+
+	new Float:X, Float:Y, Float:Z;
+	GetVehiclePos(vehicleid, X, Y, Z);
+	if(!IsPlayerInRangeOfPoint(playerid, 5, X, Y, Z) || vehicleid == -1) return SendError(playerid, "Ви не поруч з автомобілем.");
+
+	GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
+
+	if(playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid)) {
+		if(lights == 1) {
+			VehicleInfo[vehicleid][vLights] = 0;
 			PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], -347323649);
-			PlayerTextDrawShow(playerid, Speed_PTD[playerid][5]);
 			GameTextForPlayer(playerid, "~r~HEADLIGHTS OFF", 2500, 4);
 		}
+		else {
+			VehicleInfo[vehicleid][vLights] = 1;
+			PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], 8388863);
+			GameTextForPlayer(playerid, "~g~HEADLIGHTS ON", 2500, 4);
+		}
+		PlayerTextDrawShow(playerid, Speed_PTD[playerid][5]);
+		SetVehicleParamsEx(vehicleid, engine, VehicleInfo[vehicleid][vLights], alarm, doors, bonnet, boot, objective);
 	}
 	return 1;
 }
-
-stock SetVehicleDoorStatus(vehicleid, playerid = INVALID_PLAYER_ID, status = -1) {
-	if (!IsValidVehicle(vehicleid))
-	return 0;
-
-	if (status == -1) {
-		if (!VehicleInfo[vehicleid][vLocked])
-		VehicleInfo[vehicleid][vLocked] = 1;
-		else VehicleInfo[vehicleid][vLocked] = 0;
-	} else {
-		VehicleInfo[vehicleid][vLocked] = status;
-	}
-	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
-	SetVehicleParamsEx(vehicleid, engine, lights, alarm, VehicleInfo[vehicleid][vLocked], bonnet, boot, objective);
+stock ToggleDoors(vehicleid, playerid = INVALID_PLAYER_ID) {
+	if (!IsValidVehicle(vehicleid)) return 0;
 	
-	if (playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid) && !IsAPlane(vehicleid))  {
-		if (!VehicleInfo[vehicleid][vLocked]) {
-			if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
-			{
-				PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], 8388863);
-			}
+	new Float:X, Float:Y, Float:Z;
+	GetVehiclePos(GetNearestVehicle(playerid), X, Y, Z);
+	if(!IsPlayerInRangeOfPoint(playerid, 5, X, Y, Z) || vehicleid == -1) return SendError(playerid, "Ви не поруч з автомобілем.");
+	
+	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+	
+	if (playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid))  {
+		if (doors == 1) {
+			VehicleInfo[vehicleid][vLocked] = 0;
+			if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], 8388863);
 			GameTextForPlayer(playerid, "~g~DOORS UNLOCKED", 2500, 4);
 		} else {
-			if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
-			{
-				PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], -347323649);
-			}
+			VehicleInfo[vehicleid][vLocked] = 1;
+			if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], -347323649);
 			GameTextForPlayer(playerid, "~r~DOORS LOCKED", 2500, 4);
 		}
 		if (GetPlayerState(playerid) == PLAYER_STATE_DRIVER) PlayerTextDrawShow(playerid, Speed_PTD[playerid][6]);
+		SetVehicleParamsEx(vehicleid, engine, lights, alarm, VehicleInfo[vehicleid][vLocked], bonnet, boot, objective);
 	}
 	return VehicleInfo[vehicleid][vLocked];
 }
@@ -31706,14 +30996,12 @@ public OnPlayerRequestClass(playerid, classid) {
 	{
 		TI[playerid][tJoined] = true;
 		ac_1{playerid} = true;
-
 		new query[500];
 		mysql_format(connects, query, sizeof(query), "SELECT `pID`, `pKey`,`pSalt`, `pKeyip`, `GoogleCode`, `pGoogle`, `pvIp` FROM `accounts` WHERE `Name` = '%s' LIMIT 1",player_name[playerid]);
 		mysql_tquery(connects, query, "OnPlayerRequestDetect", "d", playerid);
 	}
 	return 1;
 }
-
 stock RemoveSettings(playerid) { // сброс настроек при авторизации/реєстрації
 	pl_update_speed[playerid] = -1;
 	PlayerSpeedFix[playerid] = 0;
@@ -31735,27 +31023,20 @@ stock RemoveSettings(playerid) { // сброс настроек при авторизации/реєстрації
 	
 	GhettoInfo[playerid][ghettoPassLevel] = 1;
 	GhettoInfo[playerid][ghettoDMG] = 0.0;
-
 	PI[playerid][pMute] = 0;
 	PI[playerid][pWarns] = 0;
 	PI[playerid][punWarnstime] = 0;
-
 	PI[playerid][pSettings][5] = 0;
-
 	PlayerBuildFix[playerid] = 0;
 	PlayerBuildExFix[playerid] = 0;
-
 	PlayerBuild2Fix[playerid] = 0;
 	PlayerBuild2ExFix[playerid] = 0;
-
 	PI[playerid][pSearch] = 0;
-
 	OldDialogID[playerid] = INVALID_DIALOG_ID;
 	PI[playerid][pCasinoChips] = 0;
 	PI[playerid][pCasinoLanguage] = 0;
 	
 	ResetPlayerWeapons(playerid);
-
 	TI[playerid][tLogin] = false;
 	TI[playerid][tBoatEnter] = INVALID_VEHICLE_ID;
 	TI[playerid][tBoat] = INVALID_VEHICLE_ID;
@@ -31766,26 +31047,20 @@ stock RemoveSettings(playerid) { // сброс настроек при авторизации/реєстрації
 	TI[playerid][tSpawn] = false;
 	PlayerArmour[playerid] 							= 0.0;
 	GetPlayerIp(playerid,player_ip_check[playerid],16);
-
 	PI[playerid][pAdmKL] = 0;
-
 	BizzID[playerid][0] = 0;
 	BizzID[playerid][1] = 0;
 	BizzID[playerid][2] = 0;
-
 	gm_player[playerid] = 0;
-
 	for(new i = 0; i < MAX_QUESTS; i++) {
 		AcceptQuest[playerid][i]=0;
 		QuestShow[playerid][i]=0;
 		QuestProgress[playerid][i]=0;
 		time_quest[playerid][i] = 0;
 	}
-
 	for(new i = 0; i < 10; i++) {
 		police_eqm[playerid][i] = 0;
 	}
-
 	for(new i = 0; i < 46; i++) {
 		PI[playerid][pInventory][i] = 0;
 		PI[playerid][pInventoryKolvo][i] = 0;
@@ -31795,13 +31070,9 @@ stock RemoveSettings(playerid) { // сброс настроек при авторизации/реєстрації
 	InvPage[playerid] = 0;
 	
 	to_default(playerid);
-
 	gKilled[playerid] = 0;
-
 }
-
-CB: OnPlayerRequestDetect(playerid)
-{
+CB: OnPlayerRequestDetect(playerid) {
 	if(!IsPlayerConnected(playerid)) return 1;
 	
 	SetSpawnInfo(playerid, 255, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -31810,7 +31081,6 @@ CB: OnPlayerRequestDetect(playerid)
 	
 	for(new i = 0; i < 60; i++) SendClientMessage(playerid, COLOR_WHITE, "");
 	SendClientMessage(playerid,COLOR_WHITE,"Ласкаво просимо на"P" Chiliad Role Play"W"!");
-
 	InterpolateCameraPos(playerid, 1218.2290, -2233.3933, 22.9547, 1218.2290, -2233.3933, 22.9547, 3000);
 	InterpolateCameraLookAt(playerid, 1219.0100, -2234.0122, 22.8197, 1219.0100, -2234.0122, 22.8197, 3000);
 	///tpcor  1220.937011, -2238.076904, 22.155000
@@ -31849,8 +31119,7 @@ CB: OnPlayerRequestDetect(playerid)
 	}
 	return 1;
 }
-stock SetPlayerCriminal(playerid, const killerid[], const reason[])
-{
+stock SetPlayerCriminal(playerid, const killerid[], const reason[]) {
 	PI[playerid][pCrimes]++;
 	UpdatePlayerData(playerid,"pCrimes",PI[playerid][pCrimes]);
 	strmid(PI[playerid][pVictim], killerid, 0, strlen(killerid), MAX_PLAYER_NAME);
@@ -31890,9 +31159,7 @@ stock other_timer() {
 	update3dtext();
 	return 1;
 }
-
-public OnGameModeExit()
-{
+public OnGameModeExit() {
 	mysql_close(connects);
 	print("Gamemode ended.");
 	if (GlobalSecondTimer != -1) {
@@ -31900,12 +31167,8 @@ public OnGameModeExit()
 	}
 	return 1;
 }
-
-public OnGameModeInit()
-{
-
+public OnGameModeInit() {
     //SetDisableSyncBugs(true);
-
 	gCurDay = GetDayNumber();
 	SetGameModeText("Chiliad");
 	new MySQLOpt: option_id = mysql_init_options();
@@ -31924,11 +31187,9 @@ public OnGameModeInit()
 	mysql_tquery(connects, !"SET SESSION collation_connection = 'utf8_general_ci'", "", "");
 	
 	AddPlayerClass(36, 0.0, 0.0, 5.0, 0.0, 0, 0, 0, 0, 0, 0);
-
 	new hor, m, s; 
 	gettime(hor, m, s);
     SetTimer("min_timer", 60000, 1);
-
 	load_vehicles();
 	CreateVehicless();
 	CreatePickups();
@@ -31959,28 +31220,23 @@ public OnGameModeInit()
 	#endif
 	// mysql_tquery(connects, "SELECT * FROM `bmap`", "LoadMapping");
 	// mysql_tquery(connects, "SELECT * FROM `Settings`", "LoadSettings");
-
 	// upLoadActors(0);
 	
 	mysql_tquery(connects,"UPDATE `accounts` SET `online_status` = '1001'", "", "");
 	
 	blackjack_CreateTD();
-
 	blackjack_CreateTable(
 	290.739837, -111.020553, 1035.385009, 0.000000, 0.000007, 0.000000,
 	CASINO_WORLD_ID+1, .interiorid = CASINO_INTERIOR_ID
 	);
-
 	blackjack_CreateTable(
 	290.739837, -111.020553, 1035.385009, 0.000000, 0.000007, 0.000000, CASINO_WORLD_ID,
 	.interiorid = CASINO_INTERIOR_ID
 	);
-
 	blackjack_CreateTable(
 	287.249725, -111.020553, 1035.385009, 0.000000, 0.000007, 0.000000,
 	CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID
 	);
-
 	blackjack_CreateTable(
 	289.799468, -115.350494, 1035.385009, 0.000000, 0.000000, 270.000000,
 	CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID
@@ -32001,7 +31257,6 @@ public OnGameModeInit()
 		DI[d][duel_point_2] = 0;
 		DI[d][duel_vw] = 0;
 	}
-
 	for(new i=0;i<MAX_DROP_GUNS;i++) {
 		drop_gun[i][dg_object] = -1;
 		drop_gun[i][dg_gun] = -1;
@@ -32016,7 +31271,6 @@ public OnGameModeInit()
 	calls_ether[0] = INVALID_PLAYER_ID;
 	calls_ether[1] = INVALID_PLAYER_ID;
 	calls_ether[2] = INVALID_PLAYER_ID;
-
 	SetGravity(0.010);
 	
 	components_name();
@@ -32046,11 +31300,9 @@ public OnGameModeInit()
 	gateopen[2] = CreateDynamicObject(13817, 1269.723510, -913.950134, 43.448936, 0.000000, 0.000000, 96.200035, -1, -1, -1, 300.00, 300.00); 
 	CreateDynamic3DTextLabel(""G"'N'"W" (в транспорті)\n"G"'ALT'"W" (пішки)", -1, 1269.723510, -913.950134, 43.448936, 10.0);
     SetDynamicObjectMaterial(gateopen[2], 0, 6487, "councl_law2", "lanlabra1_M", 0x00000000);
-
 	CreateDynamic3DTextLabel(""W"Купівля\n\n Натисніть клавішу '"G"ALT'"W"", -1, 1120.8074,-893.6594,1046.0126, 2.0);
 	
 	gateopen[1] = CreateDynamicObject(8229, 74.565895, -222.017242, 3.007985, 0.000000, 0.000000, 0.000000, -1, -1, -1, 300.00, 300.00);
-
 	SetDynamicObjectMaterial(gateopen[1], 0, 16640, "a51", "metpat64", 0x00000000);
 	SetDynamicObjectMaterial(gateopen[1], 1, 14584, "ab_abbatoir01", "ab_vent1", 0x00000000);
 	SetDynamicObjectMaterial(gateopen[1], 2, 16640, "a51", "sl_metalwalk", 0x00000000);
@@ -32059,7 +31311,6 @@ public OnGameModeInit()
 	
 	Create3DTextLabel(""W"Відключення сигналізації\n\n Натисніть клавішу '"G"ALT'"W"", -1, 86.8335,-235.0523,1.6274, 10.0, 0, 1);
 	
-
 	advertise_price = 2;
 	condition_of_roads_ = 1;
 	
@@ -32072,16 +31323,13 @@ public OnGameModeInit()
 	// перВий этаж полуВідчиненіе двери;
 	l_casino[1] = CreateDynamicObject(18756, 301.800598, -135.845367, 1030.287597, 0.000014, 0.000000, 89.999954, 58, 7, -1, 300.00, 300.00);
 	l_casino[2] = CreateDynamicObject(18756, 298.997772, -139.651321, 1030.287597, -0.000014, 0.000000, -89.999954, 58, 7, -1, 300.00, 300.00);
-
 	// 2 Этаж
 	l_casino[3] =   CreateDynamicObject(18756, 300.330657, -135.845367, 1036.068481, 0.000007, 0.000000, 89.999977, 58, 7, -1, 300.00, 300.00);
 	l_casino[4] =   CreateDynamicObject(18756, 300.387695, -139.651321, 1036.068481, -0.000007, -0.000000, -89.999954, 58, 7, -1, 300.00, 300.00);
 	
 	SFa = GangZoneCreate(2689.0, -2585.0, 2858.0, -2314.0);
-
 	gatekpp[0] = CreateDynamicObject(988, -173.460571, 333.434265, 12.062686, 0.000000, 0.000000, -14.400010, -1, -1, -1, 300.00, 300.00);
 	gatekpp[1] = CreateDynamicObject(988, -179.756500, 335.050170, 12.062686, 0.000000, 0.000000, -14.400010, -1, -1, -1, 300.00, 300.00);
-
 	specmenu = CreateMenu("Recon", 1, 15.0, 200.0, 100.0);
 	AddMenuItem(specmenu,0,"Refresh");
 	AddMenuItem(specmenu,0,"Kick");
@@ -32092,7 +31340,6 @@ public OnGameModeInit()
 	AddMenuItem(specmenu,0,"Next");
 	AddMenuItem(specmenu,0,"Back");
 	AddMenuItem(specmenu,0,"-EXIT-");
-
 	Create3dText();
 	CreateTexdraw();
 	
@@ -32100,7 +31347,6 @@ public OnGameModeInit()
 	
 	new tmpobjid;
 	Streamer_TickRate(100);
-
 	#include "modules/old_object.pwn"
 	#include "modules/object.pwn"
 	#include "objects/intbak.inc"// інтер'єр байкерів
@@ -32112,7 +31358,6 @@ public OnGameModeInit()
 	
 	CreatePickup(1239,23,1400.5125,-20.4098,1010.3695,61);
 	CreateDynamic3DTextLabel(""W"Для продажу\n\n Натисніть клавішу '"G"ALT'"W"", -1, 1123.7704,-892.0002,1046.0126, 2.0);
-
 	tmpobjid = CreateObject(4821, 1745.199951, -1882.849975, 26.140600, 0.000000, 0.000000, 0.000000,300.00);
 	SetObjectMaterial(tmpobjid, 5, 18029, "genintintsmallrest", "GB_restaursmll03", 0x00000000);
 	SetObjectMaterial(tmpobjid, 7, 7555, "bballcpark1", "ws_carparknew2", 0x00000000);
@@ -32173,7 +31418,6 @@ public OnGameModeInit()
 	CreateDynamic3DTextLabel(""ORANGE"Ліфт"W"\nНатисніть"ORANGE" 'F'",PP, 298.466552, -137.670822, 1035.534423, 3.0);
 	CreateDynamic3DTextLabel(""ORANGE"Ліфт"W"\nНатисніть"ORANGE" 'F'",PP, 298.466552, -137.670822, 1035.534423, 3.0);
 	
-
 	CreateDynamic3DTextLabel(""ORANGE"Ліфт"W"\nНатисніть"ORANGE" 'F'",PP, 298.466552, -137.670822, 1035.534423, 3.0);
 	CreateDynamic3DTextLabel(""ORANGE"Ліфт"W"\nНатисніть"ORANGE" 'F'",PP, 298.346527, -137.589859, 1029.644531, 3.0);
 	
@@ -32189,16 +31433,12 @@ public OnGameModeInit()
 	CreateDynamic3DTextLabel("{F87427}Приварювання"W"\nДля взаємодії натисніть{F87427} ALT",PP,1704.7219,432.6099,30.6758, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
 	CreateDynamic3DTextLabel("{F87427}Приварювання"W"\nДля взаємодії натисніть{F87427} ALT",PP,1708.7975,432.3958,30.6758, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
 	CreateDynamic3DTextLabel("{F87427}Приварювання"W"\nДля взаємодії натисніть{F87427} ALT",PP,1714.7260,431.2768,30.6003, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
-
 	CreateDynamic3DTextLabel("{F87427}Цемент"W"\nДля взаємодії натисніть{F87427} ALT",PP,1683.2194,378.8254,30.8809, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
 	CreateDynamic3DTextLabel("{F87427}Мішки з цементом"W"\nДля взаємодії натисніть{F87427} ALT",PP,1704.5819,419.5714,30.6758, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
-
 	CreateDynamic3DTextLabel("{F87427}Збір сміття"W"\nДля взаємодії натисніть{F87427} ALT",PP,1725.9937,449.3317,28.4830, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
-
 	CreateDynamic3DTextLabel("{F87427}Сміттєвий бак"W"\nДля взаємодії натисніть{F87427} ALT",PP,1693.4808,423.1825,30.6758, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
 	
 	CreateDynamic3DTextLabel("{F87427}Меню ферми"W"\nДля взаємодії натисніть{F87427} ALT",COLOR_WHITE,323.5974,-1589.5575,10.1469, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 0, 0);
-
 	CreateDynamicPickup(1239,23, -1142.2551,-288.3172,1128.3345, 2); // Центр розваг
 	CreateDynamic3DTextLabel(""W"Взаємодія:"G" 'ALT'",-1, -1142.2551,-288.3172,1128.3345,4.0);
 	
@@ -32206,7 +31446,6 @@ public OnGameModeInit()
 	CreateDynamic3DTextLabel(""ORANGE"Проїжджаючий потяг\n"W"Взаємодія:"G" 'ALT'",-1, -1307.6519,-1509.0223,24.0463,5.0);
 	CreateDynamic3DTextLabel(""ORANGE"Батяр [FAQ Помощь]\n"W"Взаємодія:"G" 'ALT'",-1, 3571.7920,-692.1529,20.2399,5.0);
 	CreateDynamic3DTextLabel(""ORANGE"Накрайщий друг\n"W"Взаємодія:"G" 'ALT'",-1, -2114.6072,-2419.0989,30.6250,5.0);
-
 	
 	CreateDynamic3DTextLabel(""W"Натисніть"G" 'ALT'",-1, 1125.4294,-1027.9141,1046.0126,4.0);
 	
@@ -32221,7 +31460,6 @@ public OnGameModeInit()
 	
 	CreateDynamicPickup(1582,23, 794.2693,-1625.7371,13.3828); // Доставщик піци взяти замовлення
 	CreateDynamic3DTextLabel("{F87427}Готові замовлення\n"W"Взаємодія:"G" 'ALT'",-1,794.2693,-1625.7371,13.3828,4.0);
-
 	// casino
 	CreateDynamicPickup(1239,23,305.3058,-132.1072,1029.4011, 58);
 	CreateDynamic3DTextLabel(""W"Взаємодія:"G" 'ALT'",-1,305.3058,-132.1072,1029.4011,5.0);
@@ -32304,10 +31542,8 @@ public OnGameModeInit()
 	CreateDynamic3DTextLabel(""ORANGE"Очистка каналізації\n"W"Для збору сміття натисніть"ORANGE" ALT",-1,1465.0853,-118.6356,895.9769-0.5,3.0);
 	// trailer
 	CreateDynamic3DTextLabel(""E"Шкаф"W" [ALT]",-1,-674.1530,1724.3579,1376.6270,4.0); // шкаф в доме на колесах
-
 	CreateDynamic3DTextLabel(""YELLOW"Безкоштовний курячий корм\n"W"Взяти корм"P" [ALT]",-1,-85.2639,-0.8936,3.1172,4.0);
 	CreateDynamic3DTextLabel("{F7A587}Аукціон гаражів\n\n"W"Для взаємодії натисніть{F7A587} ALT",-1, 1072.3623,399.6407,1856.6050, 5.0);
-
 	GlobalSecondTimer = SetTimer("OnGameModeUpdate", 1000, false);
 	ghetto_CreateTD();
 	GZ_ZONE1 = GangZoneCreate(-76.171875,-400.390625,193.359375,-195.3125);
@@ -32316,7 +31552,6 @@ public OnGameModeInit()
 	SetTimer("CreateSphree", 5000, false);
 	return 1;
 }
-
 stock CreateVehicless() {
 	for(new i = 0; i < sizeof(ArendInfo); i ++) {
 		ArendInfo[i][aID] = A_AddStaticVehicleEx(ArendInfo[i][aModel], ArendInfo[i][aPos_X], ArendInfo[i][aPos_Y], ArendInfo[i][aPos_Z], ArendInfo[i][aPos_A], ArendInfo[i][aColor_1], ArendInfo[i][aColor_2], 100000,VEHICLE_TYPE_RENT);
@@ -32363,8 +31598,6 @@ stock CreateVehicless() {
 	CreateBusVehicle(1,1,431, 1277.1067, -1824.2389, 13.4924, 90.0000, 162, 162, RES_CAR_TIME);
 	CreateBusVehicle(1,1,431, 1277.1067, -1829.3267, 13.4947, 90.0000, 162, 162, RES_CAR_TIME);
 	CreateBusVehicle(1,1,431, 1277.1067, -1834.7875, 13.4879, 90.0000, 162, 162, RES_CAR_TIME);
-
-
 	///////////////////////////////////////////////////////////////////////////////////////
 	CreateJobVehicle(2,525, 1648.3584, -1111.3390, 23.7807, 90.0000, -1, -1, RES_CAR_TIME);//механіки
 	CreateJobVehicle(2,525, 1648.3584, -1107.0978, 23.7807, 90.0000, -1, -1, RES_CAR_TIME);//механіки
@@ -32376,7 +31609,6 @@ stock CreateVehicless() {
 	CreateJobVehicle(2,525, -1645.4277, 443.8788, 7.0438, -175.0000, -1, -1, RES_CAR_TIME);//механіки
 	CreateJobVehicle(2,525, 2635.4714, 1070.1379, 10.7283, 90.0000, -1, -1, RES_CAR_TIME);//механіки
 	CreateJobVehicle(2,525, 2635.4714, 1075.6338, 10.7283, 90.0000, -1, -1, RES_CAR_TIME);//механіки
-
 	CreateJobVehicle(4,588, 204.7591, -1444.2350, 13.0257, -41.0000, -1, -1, RES_CAR_TIME);//Продаж їжі
 	CreateJobVehicle(4,588, 200.1640, -1440.1998, 13.0257, -41.0000, -1, -1, RES_CAR_TIME);//Продаж їжі
 	CreateJobVehicle(4,588, 195.7671, -1436.1971, 13.0257, -41.0000, -1, -1, RES_CAR_TIME);//Продаж їжі
@@ -32389,13 +31621,11 @@ stock CreateVehicless() {
 	CreateJobVehicle(4,588, -2399.1357, -592.8521, 132.5215, 125.0000, -1, -1, RES_CAR_TIME);//Продаж їжі
 	CreateJobVehicle(4,588, -2402.5354, -588.0103, 132.5215, 125.0000, -1, -1, RES_CAR_TIME);//Продаж їжі
 	CreateJobVehicle(4,588, -2416.1211, -589.9481, 132.5215, -145.0000, -1, -1, RES_CAR_TIME);//Продаж їжі
-
 	CreateJobVehicle(5,574,684.9719800,-1567.9510500,14.0360000,180.0000000, -1, -1, RES_CAR_TIME);//уборщик дорог
 	CreateJobVehicle(5,574,688.4539800,-1567.9189500,14.0360000,180.0000000, -1, -1, RES_CAR_TIME);//уборщик дорог
 	CreateJobVehicle(5,574,691.8309900,-1567.9260300,14.0360000,180.0000000, -1, -1, RES_CAR_TIME);//уборщик дорог
 	CreateJobVehicle(5,574,695.3020000,-1567.8969700,14.0360000,180.0000000, -1, -1, RES_CAR_TIME);//уборщик дорог
 	CreateJobVehicle(5,574,698.7160000,-1567.9139400,14.0360000,180.0000000, -1, -1, RES_CAR_TIME);//уборщик дорог
-
 	CreateJobVehicle(6,552,2212.1840, -2507.5449, 13.324, 270.0, -1, -1, RES_CAR_TIME);//чистка каналзаций
 	CreateJobVehicle(6,552,2212.1840, -2511.9021, 13.324, 270.0, -1, -1, RES_CAR_TIME);//чистка каналзаций
 	CreateJobVehicle(6,552,2212.1840, -2532.5749, 13.324, 270.0, -1, -1, RES_CAR_TIME);//чистка каналзаций
@@ -32475,14 +31705,12 @@ stock CreateVehicless() {
 	CreateOrgsVehicle(fARMYLS,1, 598, 2797.2202,-2503.0583,13.2600,88.6941, 77, 77, RES_CAR_TIME);
 	CreateOrgsVehicle(fARMYLS,8, 520, 2828.5288,-2339.6123,20.5996,179.5553, 77, 77, RES_CAR_TIME);
 	CreateOrgsVehicle(fARMYLS,1, 548, 2820.1343,-2531.9702,21.2788,0.0470, 77, 77, RES_CAR_TIME);
-
 	CreateOrgsVehicle(fLSNEWS,1, 582, 1548.4930,-1324.9818,16.5440,0.0000,152,155,RES_CAR_TIME);
 	CreateOrgsVehicle(fLSNEWS,1, 582, 1552.9690,-1324.9818,16.5394,0.0000,152,155,RES_CAR_TIME);
 	CreateOrgsVehicle(fLSNEWS,1, 582, 1558.9740,-1324.9818,16.5374,0.0000,152,155,RES_CAR_TIME);
 	CreateOrgsVehicle(fLSNEWS,1, 582, 1563.6055,-1324.9818,16.5413,0.0000,152,155,RES_CAR_TIME);
 	CreateOrgsVehicle(fLSNEWS,1,	582, 1577.4751, -1315.8938, 16.5327, 90.0000,152,155,RES_CAR_TIME);
 	CreateOrgsVehicle(fLSNEWS,1, 488, 1545.1329,-1352.8324,329.6407,270.5792,0,155,RES_CAR_TIME);
-
 	CreateOrgsVehicle(fFBI,1, 427, 1601.7637,-1264.8778,17.5810,271.3938,0,0,RES_CAR_TIME);
 	CreateOrgsVehicle(fFBI,1, 490, 1601.8647,-1256.2493,17.5578,270.8979,0,0,RES_CAR_TIME);
 	CreateOrgsVehicle(fFBI,1, 415, 1601.6395,-1250.8352,17.5572,272.0809,0,0,RES_CAR_TIME);
@@ -32506,7 +31734,6 @@ stock CreateVehicless() {
 	CreateOrgsVehicle(fRM,1, 409, 1387.2294,398.9271,19.5000,65.7598, 8, 8,RES_CAR_TIME);
 	CreateOrgsVehicle(fRM,1, 482, 1378.5331,402.4811,19.8012,67.1438, 8, 8,RES_CAR_TIME);
 	CreateOrgsVehicle(fRM,1, 487, 1390.7072,413.7133,27.3289,65.4708, 8, 8,RES_CAR_TIME);
-
 	CreateOrgsVehicle(fLCN,1,409, 655.8882,-451.6355,15.9768,179.6650, 6, 6, RES_CAR_TIME);
 	CreateOrgsVehicle(fLCN,1,482, 660.3427,-450.6212,16.2955,179.9837, 6, 6, RES_CAR_TIME);
 	CreateOrgsVehicle(fLCN,1,580, 664.8812,-450.7851,15.9763,180.6794, 6, 6, RES_CAR_TIME);
@@ -32528,8 +31755,6 @@ stock CreateVehicless() {
 	CreateOrgsVehicle(fRCSO,1,523, 614.0106,-610.2168,16.7740,339.6288, 1, 16, RES_CAR_TIME);
 	CreateOrgsVehicle(fRCSO,1,523, 616.2487,-610.4496,16.7706,347.2054, 1, 16, RES_CAR_TIME);
 	CreateOrgsVehicle(fRCSO,1,525, 611.9434,-590.8552,17.1707,269.8551, 1, 16, RES_CAR_TIME);
-
-
 	
 	CreateOrgsVehicle(fLSPD,1,596, 1595.4889, -1711.5000, 5.6125, 0.0000, 0, 1, RES_CAR_TIME);
 	CreateOrgsVehicle(fLSPD,1,596, 1591.4387, -1711.5000, 5.6116, 0.0000, 0, 1, RES_CAR_TIME);
@@ -32591,7 +31816,6 @@ stock CreateVehicless() {
 	CreateOrgsVehicle(fINSTRUCTORS,1,426,706.6771,-1438.0846,13.2628,0.1056,209,209, RES_CAR_TIME);
 	CreateOrgsVehicle(fINSTRUCTORS,1,426,710.2498,-1437.8423,13.2803,356.7993,209,209, RES_CAR_TIME); 
 	CreateOrgsVehicle(fINSTRUCTORS,1,426,714.5416,-1437.7178,13.2570,358.1386,209,209, RES_CAR_TIME); 
-
 	CreateOrgsVehicle(fMEDICLS,1,416, 1123.8384, -1326.9530, 13.4725, 0.0000, 3, 1, RES_CAR_TIME);
 	CreateOrgsVehicle(fMEDICLS,1,416, 1110.8032, -1326.9530, 13.3433, 0.0000, 3, 1, RES_CAR_TIME);
 	CreateOrgsVehicle(fMEDICLS,1,416, 1097.7792, -1326.9530, 13.3344, 0.0000, 3, 1, RES_CAR_TIME);
@@ -32600,12 +31824,10 @@ stock CreateVehicless() {
 	CreateOrgsVehicle(fMEDICLS,1,487, 1162.2275, -1319.9258, 32.1892, 270.0000, 1, 3, RES_CAR_TIME);
 	CreateOrgsVehicle(fMEDICLS,1,416, 1184.0970, -1315.7960, 13.8034, 180.0000, 3, 1, RES_CAR_TIME);
 	CreateOrgsVehicle(fMEDICLS,1,416, 1176.9188, -1308.4987, 13.9295, 270.0000, 3, 1, RES_CAR_TIME);*/
-
 	CreateJobVehicle(71,473, -2334.9319, 1689.5669, 0.1308, 180.0000, -1, -1, 100);
 	CreateJobVehicle(71,473, -2331.0867, 1691.3357, 0.1308, 180.0000, -1, -1, 100);
 	
 	
-
 	VehicleWareHouse[0] = AddStaticVehicle(455,132.2546,-287.5774,1.7220,180.2298,77, 77);
 	VehicleWareHouse[1] = CreatePickup(1575, 23, 164.8852,1852.3386,643.0618);
 	
@@ -32615,7 +31837,6 @@ stock CreateVehicless() {
 	
 	VehicleInfo[VehicleWareHouse[0]][vAkum] = 100;
 	VehicleInfo[VehicleWareHouse[0]][vFuel] = gTransport[VehicleWareHouse[0]][trTank];
-
 	for(new i = GetVehiclePoolSize()+1; --i != 0;) {
 		SignalTick[i][1] = -1;
 		LightsObject[i][0] = -1;
@@ -32667,10 +31888,8 @@ public CreateSphree() {
 	
 	actor[5] = CreateActor(291, 1772.8312,-1896.1721,13.5521,88.0522);//[КВЕСТ] гетто спавн
 	ApplyActorAnimation(actor[5],"DEALER","Dealer_idle",4.1,0,0,0,1,1);
-
 	actor[6] = CreateActor(291, 539.3405,-4785.8008,2.0859,267.3876);// Лодочная бот
 	SetActorVirtualWorld(actor[6], 50);
-
 	actor[7] = CreateActor(91, 1441.9052,696.7106,1087.9011,353.7388);//[автосалони]
 	SetActorVirtualWorld(actor[7], 59);
 	
@@ -32679,7 +31898,6 @@ public CreateSphree() {
 	
 	actor[9] = CreateActor(29, 1768.1006,-1935.9192,13.5691,180.6560);//
 	ApplyActorAnimation(actor[9],"BD_FIRE","M_smklean_loop",4.1,0,0,0,1,1);
-
 	actor[10] = CreateActor(6, 1611.4192,999.5148,1475.6283,184.6588);//[Коза Ностра] босс нарко
 	SetActorVirtualWorld(actor[10], 49);
 	ApplyActorAnimation(actor[10],"MISC","seat_LR",4.1,0,0,0,1,1);
@@ -32691,16 +31909,12 @@ public CreateSphree() {
 	actor[12] = CreateActor(6, 1611.4192,999.5148,1475.6283,184.6588);//[Медельїнський картель] босс нарко
 	SetActorVirtualWorld(actor[12], 49);
 	ApplyActorAnimation(actor[12],"MISC","seat_LR",4.1,0,0,0,1,1);
-
 	actor[13] = CreateActor(217,2544.8782,2810.9150,10.8203,323.7741);//[LsNews] бот объяВи
 	SetActorVirtualWorld(actor[13], 10);
-
 	actor[14] = CreateActor(30, 2360.9939,-2007.8639,13.5537,177.4613); //Квест для ГЕТТО //Пограбування
 	ApplyActorAnimation(actor[14],"DEALER","Dealer_idle",4.1,0,0,0,1,1);
-
 	actor[15] = CreateActor(194,-199.5641,-34.5301,1011.1747,0.6646); // центр занятости
 	SetActorVirtualWorld(actor[15], 1);
-
 	actor[16] = CreateActor(21,2057.5798,-1897.5746,13.5538,178.1751); // бот Дуелі
 	ApplyActorAnimation(actor[16],"DEALER","Dealer_idle",4.1,0,0,0,1,1);
 	
@@ -32824,35 +32038,27 @@ public CreateSphree() {
 	
 	actor[51] = CreateActor(249, 775.3139,2518.5359,1502.0100,6.1540);
 	SetActorVirtualWorld(actor[51], 92);
-
 	Create3DTextLabel("{FFFFFF}Для взаємодії з хакером\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 208.7502,-225.6151,1.7786, 10.0, 0);
 	actor[52] = CreateActor(29, 208.7502,-225.6151,1.7786, 180.0);
 	SetActorVirtualWorld(actor[52], 0);
-//	SetActorInterior(actor[51], 92);
-
+	// SetActorInterior(actor[51], 92);
 	for(new i;i<MAX_ACTORSS;i++) {
 		new Float: x,Float:y,Float:z;
 		GetActorPos(actor[i], x, y,z);
 		tActor[i] = Create3DTextLabel("",COLOR_GREY, x, y, z+1,10.0, GetActorVirtualWorld(actor[i]));
 	}
-
 	gAreas[arJob][0] = CreateDynamicSphere(-131.4120,8.5900,3.1172,1000.0);//[ферма]
 	gAreas[arJob][1] = CreateDynamicSphere(2708.9302,-2405.2688,13.5039,70.0);//[оружейный]
 	gAreas[arJob][2] = CreateDynamicSphere(-310.8985,-481.1532,1.9255,350.0);//[рыбалка]
 	gAreas[arJob][3] = CreateDynamicSphere(-1995.3519,-2446.2380,30.8452,350.0);//[лесопилка]
-
 	CreateDynamicCP(308.1984,-168.6314,999.5938,1.5, -1, -1, -1,10.0);//[АРМИЯ] склад
-
 	CreateDynamicCP(853.3725,-1290.7078,13.8437,5.0, 0, 0, -1,10.0);//[розвізники продуктів] ПРОЧЕЕ
 	CreateDynamicCP(-215.4123,-246.7570,2.0283,5.0, 0, 0, -1,10.0);//[розвізники продуктів] АЗС
 	
 	gAreas[arLoadProds][0] = CreateDynamicSphere(1354.6313,363.6651,19.9837, 2.0); //[Розвізник продуктів] 24/7
 	gAreas[arLoadProds][1] = CreateDynamicSphere(-215.4123, -246.7570, 2.0283, 2.0); //[Розвізник продуктів] АЗС
-
 	gAreas[arSad] = CreateDynamicSphere(-112.1444,4.2448,3.1257,2.0);//[Сад] склад
-
 	gAreas[arNews] = CreateDynamicSphere(2823.2854,1067.2120,1052.5973,10.0);//[News] студия
-
 	gAreas[arZavod] = CreateDynamicSphere(971.8011,-466.4688,1471.5895,1.5);//склад
 	gAreas[arZavodSklad] = CreateDynamicSphere(308.1984,-168.6314,999.5938,1.3,35);//склад
 	
@@ -32868,7 +32074,6 @@ public CreateSphree() {
 	return 1;
 }
 stock CreatePickups() {
-
 	CreateDynamicPickup(3632,23,-2193.8083,-205.0704,35.2970,0,0);//[нефть] пікап бочки
 	CreateDynamicPickup(3632,23,-2193.4939,-234.2975,35.2970,0,0);//[нефть] пікап бочки
 	CreateDynamicPickup(19131,23,2357.3328,-2023.5265,13.8836); // черный рынок пікап
@@ -32890,10 +32095,8 @@ stock CreatePickups() {
 	
 	CreateDynamicPickup(1318,23,-677.4073,1727.0359,1376.6718); // Виход з трейлера
 	CreateDynamic3DTextLabel(""W"Для виходу використайте"G" 'ALT'",-1,-677.4073,1727.0359,1376.6718,4.0);
-
 	CreateDynamic3DTextLabel("Для входу натисніть ALT",0xFFFFFFFF,2716.3943,-2395.9451,13.6328,1.5,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1); // багатоквартирка
 	CreateDynamic3DTextLabel("Для виходу натисніть ALT",0xFFFFFFFF,2716.4363,-2395.2075,13.6390,1.5,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1); // багатоквартирка
-
 	for(new i = 0; i < sizeof(gTeleportsToD); i++) {
 		new string[72];
 		strcat(string, gTeleportsToD[i][tpName]), strcat(string,"\n\n"G"Вcтаньте на пікап, щоб увійти");
@@ -32924,7 +32127,6 @@ stock CreatePickups() {
 	RingInfo[0][rgPlayer][0] = -1;
 	RingInfo[0][rgPlayer][1] = -1;
 	//==========================================================================
-
 	CreateDynamicMapIcon(1555.1647,-1675.6324,16.1953,30,0); // LSPD
 	CreateDynamicMapIcon(-1972.5879,-1020.2689,32.1719,16,0); // FBI
 	CreateDynamicMapIcon(1481.0220,-1772.2487,18.7958,19,0); // Mayor
@@ -32941,10 +32143,8 @@ stock CreatePickups() {
 	CreateDynamicMapIcon(-2521.1753,-624.5951,132.7827,56,0);//SFn
 	
 	CreateDynamicMapIcon(325.8424,-1967.8805,2.1310,9,0);// arenda boat
-
 	CreateDynamicMapIcon(1310.1367,-1366.8054,13.5068,52,0); // bank ls
 	CreateDynamicMapIcon(1211.6141,-1750.2025,13.5941,33,0);// Центр розваг
-
 	CreateDynamicMapIcon(2057.5798,-1897.5746,13.5538,18,0); // Дуелі
 	CreateDynamicMapIcon(1287.5477,-1156.0406,23.8281,25,0); // casino
 	CreateDynamicMapIcon(2168.1326, -1673.3715, 15.0826, 23, 0) ;	// притон
@@ -32954,81 +32154,62 @@ stock Create3dText() {
 	new string[128];
 	
 	army_text = CreateDynamic3DTextLabel("Для оголошення надзвичайної ситуації, введіть:\n"P"/fhelp",-1,2800.3972,-2481.9619,13.6349,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
-	format(string,sizeof(string),"Риби на складі: "O"%.1f кг\n\n"W"Вартість 1кг риби - "ORANGE"$150", fish_sklad);
+	format(string,sizeof(string),"Риби на складі: "O"%.1f кг\n\n"W"Вартість 1кг риби - "P"$150", fish_sklad);
 	fish_text = CreateDynamic3DTextLabel(string,-1,817.3759,-1847.1996,8.3775, 15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
-	format(string,sizeof(string),"Боєприпасів на складі: "ORANGE"%d",zavodsklad);
+	format(string,sizeof(string),"Боєприпасів на складі: "P"%d",zavodsklad);
 	gun_3dtext[0] = CreateDynamic3DTextLabel(string,-1,971.8011,-466.4688,1471.5895,20.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
-	format(string,sizeof(string),"Боєприпасів доступно: "ORANGE"%d",zavodsklad);
+	format(string,sizeof(string),"Боєприпасів доступно: "P"%d",zavodsklad);
 	gun_3dtext[1] = CreateDynamic3DTextLabel(string,-1,-22.8073,-273.1954,5.4297,35.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
-	format(string,sizeof(string),"Боєприпасів на складі: "ORANGE"%d",zavodsklad);
+	format(string,sizeof(string),"Боєприпасів на складі: "P"%d",zavodsklad);
 	gun_3dtext[2] = CreateDynamic3DTextLabel(string,-1,308.1984,-168.6314,999.5938,20.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,0, 35);
-
-	format(string,sizeof(string),"Деревини на складі: "ORANGE"%d кг",woodsklad);
+	format(string,sizeof(string),"Деревини на складі: "P"%d кг",woodsklad);
 	wood_3dtext = CreateDynamic3DTextLabel(string,-1,1073.9360,-288.9533,73.9922,15.0);
-
-	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fARMYLS][fMats]);
+	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fARMYLS][fMats]);
 	sklad_armysf[0] = CreateDynamic3DTextLabel(string,-1,308.1984,-168.6314,999.5938,20.0, INVALID_PLAYER_ID,INVALID_VEHICLE_ID,0, 31);
-
-	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fARMYLS][fMats]);
+	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fARMYLS][fMats]);
 	sklad_armysf[1] = CreateDynamic3DTextLabel(string,-1,2752.4421,-2471.4094,13.6484,20.0, INVALID_PLAYER_ID,INVALID_VEHICLE_ID,0, 0);
-
-	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fLSPD][fMats]);
+	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fLSPD][fMats]);
 	sklad_cops[0] = CreateDynamic3DTextLabel(string,-1,1575.0371,-1637.2079,-7.8730,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1);
 	//склад байкеров
-	//format(string,sizeof(string),"Боеприпасов: "ORANGE"%d ед",FI[fBikers][fMats]);
-//	sklad_cops[1] = CreateDynamic3DTextLabel(string,-1,1374.6270,1056.6377,1626.4896,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 41);
+	//format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fBikers][fMats]);
+	// sklad_cops[1] = CreateDynamic3DTextLabel(string,-1,1374.6270,1056.6377,1626.4896,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 41);
 	
-	//format(string,sizeof(string),"Боеприпасов: "ORANGE"%d ед",FI[fLVPD][fMats]);
-//	sklad_cops[2] = CreateDynamic3DTextLabel(string,-1,1374.6270,1056.6377,1626.4896,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 42);
-
-	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fFBI][fMats]);
+	// format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fLVPD][fMats]);
+	// sklad_cops[2] = CreateDynamic3DTextLabel(string,-1,1374.6270,1056.6377,1626.4896,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 42);
+	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fFBI][fMats]);
 	sklad_cops[3] = CreateDynamic3DTextLabel(string,-1,18.8650,1407.6656,1069.3866,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 43);
-
 	CreateDynamic3DTextLabel("Для взаємодії з вишкою використайте команду: \n"P"/hacker",0xFFFFFFFF,1643.3060,-1681.9083,21.4215,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Для взаємодії з вишкою використайте команду:\n"P"/hacker",0xFFFFFFFF,1462.8285,-775.3546,92.8073,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Вхід:\n"P" ALT",0xFFFFFFFF,1359.5322-0.3,1065.0143,1626.4896+0.5,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Вихід:\n"P" ALT",0xFFFFFFFF,1356.3823-0.3,1068.3185,1626.4896+0.5,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
-	CreateDynamic3DTextLabel("Продаж техніки\n1ед = "ORANGE"$250\n\n"P" Сигнал 'H'",0xFFFFFFFF,2357.3328,-2023.5265,13.8836,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel("Продаж техніки\n1ед = "P"$250\n\n"P" Сигнал 'H'",0xFFFFFFFF,2357.3328,-2023.5265,13.8836,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
 	CreateDynamic3DTextLabel(""P"Склад автомобілів\n"W"Посигнальте ('H')",0xFFFFFFFF,2488.0916,-1463.9087,24.0205,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-	CreateDynamic3DTextLabel("["P" Jack Waze{FFFFFF}]\nДля взаємодії натисніть{F1C72D} 'ALT'",-1,2493.9104,-1464.7085,24.0253,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel("["P" Jack Waze{FFFFFF}]\nДля взаємодії натисніть{ 'ALT'",-1,2493.9104,-1464.7085,24.0253,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
 	CreateDynamic3DTextLabel(""P"Carl Johnson"W"\n\nВзаємодія 'ALT'",-1,1768.1006,-1935.9192,13.5691,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	//CreateDynamic3DTextLabel("{ECC987}Lucas Evans"W"\n\nВзаємодія 'ALT'",-1,1630.7994,-2285.9072,-1.1666,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	Create3DTextLabel(""P"Lucas Evans"W"\n\nВзаємодія 'ALT'", 0x008080FF, 1772.8312,-1896.1721,13.5521,4.0, 0, 0);
 	CreateDynamic3DTextLabel(""P"Karen Wood"W"\n\nВзаємодія 'ALT'",-1,2451.3081,-1901.9733,13.5469,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
-	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть"YELLOW" 'ALT'",-1,1782.5869,-1885.4102,13.3912,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть"YELLOW" 'ALT'",-1,728.2281,-1411.7220,13.5299,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть"YELLOW" 'ALT'",-1,-122.9779,-18.7226,3.1172,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть"YELLOW" 'ALT'",-1,1189.7053,-1342.7035,13.5648,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть"YELLOW" 'ALT'",-1,1667.5844,355.9797,30.2493,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
+	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть 'ALT'",-1,1782.5869,-1885.4102,13.3912,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть 'ALT'",-1,728.2281,-1411.7220,13.5299,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть 'ALT'",-1,-122.9779,-18.7226,3.1172,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть 'ALT'",-1,1189.7053,-1342.7035,13.5648,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel(""P"Оренда мопедів\n\n"W"Для оренди мопеда натисніть 'ALT'",-1,1667.5844,355.9797,30.2493,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel(""G"Злом сейфа{ECC987} 'ALT'",-1,-1150.9003,31.2155,1169.5709,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel(""G"Злом сейфа{ECC987} 'ALT'",-1,-1150.8993,33.5067,1169.5709,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel(""G"Злом сейфа{ECC987} 'ALT'",-1,-1150.8988,35.7689,1169.5709,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel("{ECC987}Charles Neal"W"\n\nДля оренди човна натисніть 'ALT'",-1,539.3405,-4785.8008,2.0859,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
 	CreateDynamic3DTextLabel("{ECC987}Jacob Gerkens"W"\n\nВзаємодія 'ALT'",-1,2360.9939,-2007.8639,13.5537,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel("{ECC987}Дуелі"W"\nВзаємодія"W" 'ALT'",-1,2057.5798,-1897.5746,13.5538,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel(""P"Гараж\n\n"G"Натисніть 'H' для в'їзду в гараж",0xFFFFFFFF,2292.8179,-1786.3413,13.5469,7.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1); // багатоквартирка
 	CreateDynamic3DTextLabel(""P"Гараж\n\n"G"Натисніть 'H' для в'їзду в гараж",0xFFFFFFFF,855.7083,-1662.6046,13.5547,7.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1); // багатоквартирка
 	
 	CreateDynamic3DTextLabel("База даних:"P" /scan",0xFFFFFFFF,1494.6227,281.6257,1020.4926,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,0, -1, -1);
 	CreateDynamic3DTextLabel("База даних:"P" /scan",0xFFFFFFFF,1490.9877,278.8188,1020.4926,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel("Місце завантаження\n Посигнальте, щоб завантажитися", CGOLD,-14.6123,-272.2174,5.429, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); //завод з виготов.зброї LOAD
-
 	CreateDynamic3DTextLabel("Місце розвантаження\n Посигнальте, щоб завантажитися", CGOLD,2573.2446,-2220.9661,13.5469, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); //завод з виготов.зброї LOAD
-
 	// tk
 	CreateDynamic3DTextLabel("Купівля причепів\n Посигнальте, щоб купити причеп", CGOLD,2209.9639,-2204.5803,13.5469, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // склад в ЛС ТК
 	CreateDynamic3DTextLabel("Місце розвантаження\n Посигнальте, щоб розвантажитися", CGOLD,1078.4210,-352.8502,74.5498, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // разгрузка лесопилка
@@ -33036,41 +32217,29 @@ stock Create3dText() {
 	CreateDynamic3DTextLabel("Місце розвантаження\n Посигнальте, щоб розвантажитися", CGOLD,1708.5884,407.1685,30.6304, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // разгрузка стройка
 	CreateDynamic3DTextLabel("Місце розвантаження\n Посигнальте, щоб розвантажитися", CGOLD,-56.5448,-224.0444,5.4297, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // разгрузка завод з виготов.зброї
 	CreateDynamic3DTextLabel("Місце розвантаження\n Посигнальте, щоб розвантажитися", CGOLD,1219.8451,189.5213,19.8915, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // деревня Mantgomery
-
 	CreateDynamic3DTextLabel("Місце розвантаження\n Посигнальте, щоб розвантажитися", CGOLD,2249.0378,-81.1264,26.5151, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // деревня Polomino Creek
-
-
 	for(new i; i < sizeof(med_heal); i ++) CreateDynamic3DTextLabel("Лежати:"P" ENTER",0xFFFFFFFF,med_heal[i][0],med_heal[i][1],med_heal[i][2],5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	for(new i; i < sizeof(news_edit); i ++) CreateDynamic3DTextLabel("Оголошення:"P" /edit",0xFFFFFFFF,news_edit[i][0],news_edit[i][1],news_edit[i][2],10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	for(new i; i < sizeof(comp_club); i ++) CreateDynamic3DTextLabel("Почати гру:"P" ALT",0xFFFFFFFF,comp_club[i][0],comp_club[i][1],comp_club[i][2]+0.9,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	for(new i; i < sizeof(auto_exam); i ++) CreateDynamic3DTextLabel("Екзамен:"P" ALT",0xFFFFFFFF,auto_exam[i][0],auto_exam[i][1],auto_exam[i][2]+0.3,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel("Місце для розвантаження боєприпасів",CGOLD,310.7923,1801.0048,17.6406, 25.0);
-
 	CreateDynamic3DTextLabel("Зробити пропозицію: "W"/propose\n"ORANGE"Расторжение брака: "W"/divorce",CGOLD,2233.2588,-1333.1310,23.9815, 25.0);
-
 	CreateDynamic3DTextLabel("Для арешту злочинця, використайте: "NO"/arrest [playerid]",-1,1560.2266,-1694.2327,5.8970, 10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);//lspd
-
 	CreateDynamic3DTextLabel("Виїзд з гаража: "GREEN"H",-1, 1050.0936,-1868.7532,894.0478,17.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Виїзд з гаража: "GREEN"H",-1, 1123.6130,-1849.0645,894.0478,17.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Виїзд з гаража: "GREEN"H",-1, 1053.8595,-1785.5875,894.0478,17.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Виїзд з гаража: "GREEN"H",-1, 1108.8413,-1783.3357,894.0478,17.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel("Виїзд з гаража: "GREEN"H",-1, 1646.7213,738.0809,590.4441,17.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	CreateDynamic3DTextLabel("Для в'їзду в тюнінг центр: "GREEN"H", -1, 882.2743,-1340.8132,13.6652, 20.0);
-
 	CreateDynamic3DTextLabel("Для виїзду: "GREEN"H",-1,-2463.8516,2513.8286,1014.7252,10.0);
 	CreateDynamic3DTextLabel("Для виїзду: "GREEN"H",-1,-2471.8428,2513.8328,1014.7252,10.0);
 	
 	CreateDynamic3DTextLabel("Покраска: "GREEN"H",-1,-2471.7139,2505.1924,1014.7252,20.0);
 	CreateDynamic3DTextLabel("Тюнінг: "GREEN"H",-1,-2463.8042,2505.5767,1014.7252,20.0);
-
 	CreateDynamic3DTextLabel("Для виходу натисніть:\n"GREEN"ENTER",-1, 1400.8309,-1205.0583,130.2086+1.0,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
 	CreateDynamic3DTextLabel("Кості 1x1:\n"GREEN"/dice",-1, 295.3712,-112.4607,1036.669+0.1,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Кості 1x1:\n"GREEN"/dice",-1, 300.7174,-112.3977,1036.6692+0.1,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 	new moved = 0;
 	for(moved = 0; moved < MAX_OBJECT_MOVED; moved++)
 	{
@@ -33083,58 +32252,41 @@ stock Create3dText() {
 	}
 	SetDynamicObjectMaterial(moved_info[9][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[9][moved_id], 2, 18646, "matcolours", "grey-40-percent", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[12][moved_id], 0, 10101, "2notherbuildsfe", "ferry_build14", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[12][moved_id], 1, 10101, "2notherbuildsfe", "ferry_build14", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[10][moved_id], 0, 10765, "airportgnd_sfse", "black64", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[10][moved_id], 1, 3820, "boxhses_sfsx", "ws_ irongate", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[10][moved_id], 2, 14415, "carter_block_2", "ws_doormat", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[7][moved_id], 0, 16093, "a51_ext", "des_backdoor1", 0xFFFFFFFF);
-
 	SetDynamicObjectMaterial(moved_info[19][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[20][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[21][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[22][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[23][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[18][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[13][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[13][moved_id], 2, 18646, "matcolours", "grey-30-percent", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[14][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[14][moved_id], 2, 18646, "matcolours", "grey-30-percent", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[15][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[15][moved_id], 2, 18646, "matcolours", "grey-30-percent", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[24][moved_id], 0, 18646, "matcolours", "grey-50-percent", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[24][moved_id], 1, 18646, "matcolours", "grey-93-percent", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[24][moved_id], 2, 18646, "matcolours", "grey-93-percent", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[25][moved_id], 0, 16093, "a51_ext", "des_backdoor1", 0xFFFFFFFF);
-
 	SetDynamicObjectMaterial(moved_info[26][moved_id], 0, 3042, "ct_ventx", "liftdoorsac128", 0xFFFFFFFF);
-
 	//
 	SetDynamicObjectMaterial(moved_info[29][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[29][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[30][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[30][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[31][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[31][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[32][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[32][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[33][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[33][moved_id], 1, 2669, "cj_chris", "cj_metalplate2", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[33][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-
 	SetDynamicObjectMaterial(moved_info[34][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
 	SetDynamicObjectMaterial(moved_info[34][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
 	
@@ -33149,21 +32301,16 @@ stock Create3dText() {
 	gHealth[2] = CreateDynamic3DTextLabel("-", 0x339966AA, 2499.2332,-1710.5901,1014.7422+0.5, 15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 54);//Grove
 	gHealth[3] = CreateDynamic3DTextLabel("-", 0x339966AA, -46.1472,1401.3104,1084.4370+0.5, 15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 55);//Aztec
 	gHealth[4] = CreateDynamic3DTextLabel("-", 0x339966AA, 2449.5359,-1685.9984,1013.5078+0.5, 15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 56);//Rifa
-
 	mMenu[0] = CreateDynamic3DTextLabel("-",0x339966AA, 1390.3114,-24.3432,1005.0829,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 49, -1);
 	mMenu[1] = CreateDynamic3DTextLabel("-",0x339966AA, 33.3096,-32.5851,2001.0516,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 50, -1);
 	mMenu[2] = CreateDynamic3DTextLabel("-",0x339966AA, 1390.4547,-7.2559,1000.9417,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 51, -1);
-
 	CreateDynamic3DTextLabel(""W"Натисніть "O"'ALT'",-1,2303.5725,-1984.2985,13.5764,7.0);
 	CreateDynamic3DTextLabel(""W"Натисніть "O"'ALT'",-1,2304.7039,-1997.4758,13.5545,7.0);
 	CreateDynamic3DTextLabel(""W"Натисніть "O"'ALT'",-1,2303.5745,-1988.9795,13.5729,7.0);
 	CreateDynamic3DTextLabel(""W"Натисніть "O"'ALT'",-1,2303.6292,-1993.4894,13.5696,7.0);
-
 	CreateDynamic3DTextLabel(""G"Купівля боєприпасів\n "O"'ALT'",-1,1050.3049,2313.1973,10.6818,10.0);
 	CreateDynamic3DTextLabel(""G"Купівля наркотиків\n "O"'ALT'",-1,329.2349,1118.6484,1083.8903,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1);
-
 	CreateDynamic3DTextLabel(""W"Склад наркопритону\n"W"Посигнальте "O"('H')"W" для взаємодії",-1,2179.1509,-1661.0247,14.9291,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1);
-
 	black_market = CreateDynamic3DTextLabel("-", 0x339966AA,2313.1169,-1996.9884,13.5528, 10.0);
 	return 1;
 }
@@ -33178,7 +32325,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(td_game[0], 0);
 	TextDrawSetOutline(td_game[0], 0);
 	TextDrawFont(td_game[0], 0);
-
 	td_game[1] = TextDrawCreate(628.221618, 289.713439, "usebox");
 	TextDrawLetterSize(td_game[1], 0.000000, 3.403820);
 	TextDrawTextSize(td_game[1], 519.777282, 0.000000);
@@ -33189,7 +32335,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(td_game[1], 0);
 	TextDrawSetOutline(td_game[1], -156);
 	TextDrawFont(td_game[1], 0);
-
 	td_game[2] = TextDrawCreate(525.778076, 291.697692, "time:");
 	TextDrawLetterSize(td_game[2], 0.280221, 1.326221);
 	TextDrawAlignment(td_game[2], 1);
@@ -33199,7 +32344,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(td_game[2], 255);
 	TextDrawFont(td_game[2], 2);
 	TextDrawSetProportional(td_game[2], 1);
-
 	td_game[3] = TextDrawCreate(526.666931, 304.639923, "bank:");
 	TextDrawLetterSize(td_game[3], 0.280221, 1.326221);
 	TextDrawAlignment(td_game[3], 1);
@@ -33209,7 +32353,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(td_game[3], 255);
 	TextDrawFont(td_game[3], 2);
 	TextDrawSetProportional(td_game[3], 1);
-
 	td_game[4] = TextDrawCreate(567.555969, 292.195465, "10:00");
 	TextDrawLetterSize(td_game[4], 0.280221, 1.326221);
 	TextDrawAlignment(td_game[4], 1);
@@ -33219,7 +32362,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(td_game[4], 255);
 	TextDrawFont(td_game[4], 2);
 	TextDrawSetProportional(td_game[4], 1);
-
 	td_game[5] = TextDrawCreate(567.111572, 305.137664, "250000$");
 	TextDrawLetterSize(td_game[5], 0.280221, 1.326221);
 	TextDrawAlignment(td_game[5], 1);
@@ -33229,7 +32371,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(td_game[5], 255);
 	TextDrawFont(td_game[5], 2);
 	TextDrawSetProportional(td_game[5], 1);
-
 	// autosalon Вибір авто
 	autoshop_TD[0] = TextDrawCreate(542.3333, 356.6000, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[0], 66.0000, 66.0000);
@@ -33239,7 +32380,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[0], 4);
 	TextDrawSetProportional(autoshop_TD[0], 0);
 	TextDrawSetShadow(autoshop_TD[0], 0);
-
 	autoshop_TD[1] = TextDrawCreate(545.0000, 377.3406, "LD_SPAC:white"); // white
 	TextDrawTextSize(autoshop_TD[1], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[1], 1);
@@ -33249,7 +32389,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[1], 0);
 	TextDrawSetShadow(autoshop_TD[1], 0);
 	TextDrawSetSelectable(autoshop_TD[1], true);
-
 	autoshop_TD[2] = TextDrawCreate(545.0000, 396.4223, "LD_SPAC:white"); // black
 	TextDrawTextSize(autoshop_TD[2], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[2], 1);
@@ -33259,7 +32398,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[2], 0);
 	TextDrawSetShadow(autoshop_TD[2], 0);
 	TextDrawSetSelectable(autoshop_TD[2], true);
-
 	autoshop_TD[3] = TextDrawCreate(560.3333, 377.3406, "LD_SPAC:white"); // gray
 	TextDrawTextSize(autoshop_TD[3], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[3], 1);
@@ -33269,7 +32407,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[3], 0);
 	TextDrawSetShadow(autoshop_TD[3], 0);
 	TextDrawSetSelectable(autoshop_TD[3], true);
-
 	autoshop_TD[4] = TextDrawCreate(560.3333, 396.4223, "LD_SPAC:white"); // red
 	TextDrawTextSize(autoshop_TD[4], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[4], 1);
@@ -33279,7 +32416,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[4], 0);
 	TextDrawSetShadow(autoshop_TD[4], 0);
 	TextDrawSetSelectable(autoshop_TD[4], true);
-
 	autoshop_TD[5] = TextDrawCreate(575.6666, 377.3406, "LD_SPAC:white"); // orange
 	TextDrawTextSize(autoshop_TD[5], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[5], 1);
@@ -33289,7 +32425,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[5], 0);
 	TextDrawSetShadow(autoshop_TD[5], 0);
 	TextDrawSetSelectable(autoshop_TD[5], true);
-
 	autoshop_TD[6] = TextDrawCreate(575.6666, 396.4223, "LD_SPAC:white"); // yellow
 	TextDrawTextSize(autoshop_TD[6], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[6], 1);
@@ -33299,7 +32434,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[6], 0);
 	TextDrawSetShadow(autoshop_TD[6], 0);
 	TextDrawSetSelectable(autoshop_TD[6], true);
-
 	autoshop_TD[7] = TextDrawCreate(591.0000, 377.3406, "LD_SPAC:white"); // blue
 	TextDrawTextSize(autoshop_TD[7], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[7], 1);
@@ -33309,7 +32443,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[7], 0);
 	TextDrawSetShadow(autoshop_TD[7], 0);
 	TextDrawSetSelectable(autoshop_TD[7], true);
-
 	autoshop_TD[8] = TextDrawCreate(591.0000, 396.4223, "LD_SPAC:white"); // green
 	TextDrawTextSize(autoshop_TD[8], 13.1400, 17.0000);
 	TextDrawAlignment(autoshop_TD[8], 1);
@@ -33319,7 +32452,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[8], 0);
 	TextDrawSetShadow(autoshop_TD[8], 0);
 	TextDrawSetSelectable(autoshop_TD[8], true);
-
 	autoshop_TD[9] = TextDrawCreate(546.5333, 379.3001, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[9], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[9], 1);
@@ -33328,7 +32460,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[9], 4);
 	TextDrawSetProportional(autoshop_TD[9], 0);
 	TextDrawSetShadow(autoshop_TD[9], 0);
-
 	autoshop_TD[10] = TextDrawCreate(546.5333, 398.5013, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[10], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[10], 1);
@@ -33337,7 +32468,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[10], 4);
 	TextDrawSetProportional(autoshop_TD[10], 0);
 	TextDrawSetShadow(autoshop_TD[10], 0);
-
 	autoshop_TD[11] = TextDrawCreate(561.8665, 379.4197, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[11], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[11], 1);
@@ -33346,7 +32476,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[11], 4);
 	TextDrawSetProportional(autoshop_TD[11], 0);
 	TextDrawSetShadow(autoshop_TD[11], 0);
-
 	autoshop_TD[12] = TextDrawCreate(561.8665, 398.5013, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[12], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[12], 1);
@@ -33355,7 +32484,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[12], 4);
 	TextDrawSetProportional(autoshop_TD[12], 0);
 	TextDrawSetShadow(autoshop_TD[12], 0);
-
 	autoshop_TD[13] = TextDrawCreate(577.1998, 379.4197, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[13], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[13], 1);
@@ -33364,7 +32492,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[13], 4);
 	TextDrawSetProportional(autoshop_TD[13], 0);
 	TextDrawSetShadow(autoshop_TD[13], 0);
-
 	autoshop_TD[14] = TextDrawCreate(577.1998, 398.5010, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[14], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[14], 1);
@@ -33373,7 +32500,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[14], 4);
 	TextDrawSetProportional(autoshop_TD[14], 0);
 	TextDrawSetShadow(autoshop_TD[14], 0);
-
 	autoshop_TD[15] = TextDrawCreate(592.3333, 379.4197, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[15], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[15], 1);
@@ -33382,7 +32508,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[15], 4);
 	TextDrawSetProportional(autoshop_TD[15], 0);
 	TextDrawSetShadow(autoshop_TD[15], 0);
-
 	autoshop_TD[16] = TextDrawCreate(592.4334, 398.5010, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[16], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[16], 1);
@@ -33391,7 +32516,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[16], 4);
 	TextDrawSetProportional(autoshop_TD[16], 0);
 	TextDrawSetShadow(autoshop_TD[16], 0);
-
 	autoshop_TD[17] = TextDrawCreate(545.3333, 364.5516, "SELECT_COLOR"); // пусто
 	TextDrawLetterSize(autoshop_TD[17], 0.1164, 0.9297);
 	TextDrawAlignment(autoshop_TD[17], 1);
@@ -33400,7 +32524,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[17], 2);
 	TextDrawSetProportional(autoshop_TD[17], 1);
 	TextDrawSetShadow(autoshop_TD[17], 0);
-
 	autoshop_TD[18] = TextDrawCreate(536.7999, 354.2109, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[18], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[18], 1);
@@ -33409,7 +32532,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[18], 4);
 	TextDrawSetProportional(autoshop_TD[18], 0);
 	TextDrawSetShadow(autoshop_TD[18], 0);
-
 	autoshop_TD[19] = TextDrawCreate(536.7999, 410.8482, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[19], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[19], 1);
@@ -33418,7 +32540,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[19], 4);
 	TextDrawSetProportional(autoshop_TD[19], 0);
 	TextDrawSetShadow(autoshop_TD[19], 0);
-
 	autoshop_TD[20] = TextDrawCreate(440.2936, 354.2109, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[20], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[20], 1);
@@ -33427,7 +32548,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[20], 4);
 	TextDrawSetProportional(autoshop_TD[20], 0);
 	TextDrawSetShadow(autoshop_TD[20], 0);
-
 	autoshop_TD[21] = TextDrawCreate(440.2937, 410.8482, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[21], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[21], 1);
@@ -33436,7 +32556,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[21], 4);
 	TextDrawSetProportional(autoshop_TD[21], 0);
 	TextDrawSetShadow(autoshop_TD[21], 0);
-
 	autoshop_TD[22] = TextDrawCreate(538.6333, 361.0072, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[22], 5.0000, 57.0000);
 	TextDrawAlignment(autoshop_TD[22], 1);
@@ -33445,7 +32564,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[22], 4);
 	TextDrawSetProportional(autoshop_TD[22], 0);
 	TextDrawSetShadow(autoshop_TD[22], 0);
-
 	autoshop_TD[23] = TextDrawCreate(607.6666, 361.0072, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[23], 5.0000, 57.0000);
 	TextDrawAlignment(autoshop_TD[23], 1);
@@ -33454,7 +32572,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[23], 4);
 	TextDrawSetProportional(autoshop_TD[23], 0);
 	TextDrawSetShadow(autoshop_TD[23], 0);
-
 	autoshop_TD[24] = TextDrawCreate(603.2666, 354.2109, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[24], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[24], 1);
@@ -33463,7 +32580,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[24], 4);
 	TextDrawSetProportional(autoshop_TD[24], 0);
 	TextDrawSetShadow(autoshop_TD[24], 0);
-
 	autoshop_TD[25] = TextDrawCreate(603.2667, 410.8482, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[25], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[25], 1);
@@ -33472,7 +32588,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[25], 4);
 	TextDrawSetProportional(autoshop_TD[25], 0);
 	TextDrawSetShadow(autoshop_TD[25], 0);
-
 	autoshop_TD[26] = TextDrawCreate(526.2990, 354.2109, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[26], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[26], 1);
@@ -33481,7 +32596,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[26], 4);
 	TextDrawSetProportional(autoshop_TD[26], 0);
 	TextDrawSetShadow(autoshop_TD[26], 0);
-
 	autoshop_TD[27] = TextDrawCreate(526.2990, 410.8482, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[27], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[27], 1);
@@ -33490,7 +32604,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[27], 4);
 	TextDrawSetProportional(autoshop_TD[27], 0);
 	TextDrawSetShadow(autoshop_TD[27], 0);
-
 	autoshop_TD[28] = TextDrawCreate(446.3666, 356.5592, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[28], 85.1996, 66.0000);
 	TextDrawAlignment(autoshop_TD[28], 1);
@@ -33499,7 +32612,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[28], 4);
 	TextDrawSetProportional(autoshop_TD[28], 0);
 	TextDrawSetShadow(autoshop_TD[28], 0);
-
 	autoshop_TD[29] = TextDrawCreate(442.2330, 361.5368, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[29], 93.1996, 56.0000);
 	TextDrawAlignment(autoshop_TD[29], 1);
@@ -33508,7 +32620,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[29], 4);
 	TextDrawSetProportional(autoshop_TD[29], 0);
 	TextDrawSetShadow(autoshop_TD[29], 0);
-
 	autoshop_TD[30] = TextDrawCreate(448.0997, 380.7915, "MODEL:"); // пусто
 	TextDrawLetterSize(autoshop_TD[30], 0.1439, 0.8033);
 	TextDrawAlignment(autoshop_TD[30], 1);
@@ -33517,7 +32628,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[30], 1);
 	TextDrawSetProportional(autoshop_TD[30], 1);
 	TextDrawSetShadow(autoshop_TD[30], 0);
-
 	autoshop_TD[31] = TextDrawCreate(489.4689, 358.5592, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[31], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[31], 1);
@@ -33526,7 +32636,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[31], 4);
 	TextDrawSetProportional(autoshop_TD[31], 0);
 	TextDrawSetShadow(autoshop_TD[31], 0);
-
 	autoshop_TD[32] = TextDrawCreate(489.4689, 366.1596, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[32], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[32], 1);
@@ -33535,7 +32644,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[32], 4);
 	TextDrawSetProportional(autoshop_TD[32], 0);
 	TextDrawSetShadow(autoshop_TD[32], 0);
-
 	autoshop_TD[33] = TextDrawCreate(527.7666, 358.5592, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[33], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[33], 1);
@@ -33544,7 +32652,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[33], 4);
 	TextDrawSetProportional(autoshop_TD[33], 0);
 	TextDrawSetShadow(autoshop_TD[33], 0);
-
 	autoshop_TD[34] = TextDrawCreate(527.7666, 366.1596, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[34], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[34], 1);
@@ -33553,7 +32660,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[34], 4);
 	TextDrawSetProportional(autoshop_TD[34], 0);
 	TextDrawSetShadow(autoshop_TD[34], 0);
-
 	autoshop_TD[35] = TextDrawCreate(493.0664, 359.9183, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[35], 37.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[35], 1);
@@ -33562,7 +32668,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[35], 4);
 	TextDrawSetProportional(autoshop_TD[35], 0);
 	TextDrawSetShadow(autoshop_TD[35], 0);
-
 	autoshop_TD[36] = TextDrawCreate(490.3999, 362.4071, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[36], 42.0000, 7.0000);
 	TextDrawAlignment(autoshop_TD[36], 1);
@@ -33571,7 +32676,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[36], 4);
 	TextDrawSetProportional(autoshop_TD[36], 0);
 	TextDrawSetShadow(autoshop_TD[36], 0);
-
 	autoshop_TD[37] = TextDrawCreate(511.4331, 361.1332, "Exit"); // пусто
 	TextDrawLetterSize(autoshop_TD[37], 0.1368, 0.9610); 
 	TextDrawTextSize(autoshop_TD[37], 10.0000, 12.0000);
@@ -33582,7 +32686,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[37], 1);
 	TextDrawSetShadow(autoshop_TD[37], 0);
 	TextDrawSetSelectable(autoshop_TD[37], true);
-
 	autoshop_TD[38] = TextDrawCreate(446.9999, 375.6813, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[38], 85.0000, 0.5098);
 	TextDrawAlignment(autoshop_TD[38], 1);
@@ -33591,7 +32694,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[38], 4);
 	TextDrawSetProportional(autoshop_TD[38], 0);
 	TextDrawSetShadow(autoshop_TD[38], 0);
-
 	autoshop_TD[39] = TextDrawCreate(443.0997, 396.0262, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[39], 21.0000, 26.0000);
 	TextDrawAlignment(autoshop_TD[39], 1);
@@ -33600,7 +32702,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[39], 4);
 	TextDrawSetProportional(autoshop_TD[39], 0);
 	TextDrawSetShadow(autoshop_TD[39], 0);
-
 	autoshop_TD[40] = TextDrawCreate(513.8333, 396.0262, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[40], 21.0000, 26.0000);
 	TextDrawAlignment(autoshop_TD[40], 1);
@@ -33609,7 +32710,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[40], 4);
 	TextDrawSetProportional(autoshop_TD[40], 0);
 	TextDrawSetShadow(autoshop_TD[40], 0);
-
 	autoshop_TD[41] = TextDrawCreate(462.8999, 396.1260, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[41], 21.0000, 25.8498);
 	TextDrawAlignment(autoshop_TD[41], 1);
@@ -33618,7 +32718,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[41], 4);
 	TextDrawSetProportional(autoshop_TD[41], 0);
 	TextDrawSetShadow(autoshop_TD[41], 0);
-
 	autoshop_TD[42] = TextDrawCreate(493.8330, 396.1260, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[42], 21.0000, 25.8498);
 	TextDrawAlignment(autoshop_TD[42], 1);
@@ -33627,7 +32726,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[42], 4);
 	TextDrawSetProportional(autoshop_TD[42], 0);
 	TextDrawSetShadow(autoshop_TD[42], 0);
-
 	autoshop_TD[43] = TextDrawCreate(474.2998, 400.4743, "LD_Spac:White"); // пусто
 	TextDrawTextSize(autoshop_TD[43], 29.1700, 17.1198);
 	TextDrawAlignment(autoshop_TD[43], 1);
@@ -33636,7 +32734,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[43], 4);
 	TextDrawSetProportional(autoshop_TD[43], 0);
 	TextDrawSetShadow(autoshop_TD[43], 0);
-
 	autoshop_TD[44] = TextDrawCreate(453.3330, 403.5443, "<<"); // пусто
 	TextDrawLetterSize(autoshop_TD[44], 0.1018, 1.1102);
 	TextDrawTextSize(autoshop_TD[44], 10.0000, 12.0000);
@@ -33649,7 +32746,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[44], 1);
 	TextDrawSetShadow(autoshop_TD[44], 0);
 	TextDrawSetSelectable(autoshop_TD[44], true);
-
 	autoshop_TD[45] = TextDrawCreate(524.8665, 403.5443, ">>"); // пусто
 	TextDrawLetterSize(autoshop_TD[45], 0.1018, 1.1102);
 	TextDrawTextSize(autoshop_TD[45], 10.0000, 12.0000);
@@ -33662,7 +32758,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[45], 1);
 	TextDrawSetShadow(autoshop_TD[45], 0);
 	TextDrawSetSelectable(autoshop_TD[45], true);
-
 	autoshop_TD[46] = TextDrawCreate(488.8663, 404.2738, "SELECT"); // пусто
 	TextDrawLetterSize(autoshop_TD[46], 0.1368, 0.9610);
 	TextDrawTextSize(autoshop_TD[46], 10.0000, 40.0000);
@@ -33675,7 +32770,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[46], 1);
 	TextDrawSetShadow(autoshop_TD[46], 0);
 	TextDrawSetSelectable(autoshop_TD[46], true);
-
 	autoshop_TD[47] = TextDrawCreate(446.9999, 393.6824, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[47], 85.0000, 0.5098);
 	TextDrawAlignment(autoshop_TD[47], 1);
@@ -33684,7 +32778,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[47], 4);
 	TextDrawSetProportional(autoshop_TD[47], 0);
 	TextDrawSetShadow(autoshop_TD[47], 0);
-
 	autoshop_TD[48] = TextDrawCreate(445.4688, 358.5592, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[48], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[48], 1);
@@ -33693,7 +32786,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[48], 4);
 	TextDrawSetProportional(autoshop_TD[48], 0);
 	TextDrawSetShadow(autoshop_TD[48], 0);
-
 	autoshop_TD[49] = TextDrawCreate(445.4688, 366.1596, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[49], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[49], 1);
@@ -33702,7 +32794,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[49], 4);
 	TextDrawSetProportional(autoshop_TD[49], 0);
 	TextDrawSetShadow(autoshop_TD[49], 0);
-
 	autoshop_TD[50] = TextDrawCreate(483.7665, 358.5592, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[50], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[50], 1);
@@ -33711,7 +32802,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[50], 4);
 	TextDrawSetProportional(autoshop_TD[50], 0);
 	TextDrawSetShadow(autoshop_TD[50], 0);
-
 	autoshop_TD[51] = TextDrawCreate(483.7665, 366.1596, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[51], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[51], 1);
@@ -33720,7 +32810,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[51], 4);
 	TextDrawSetProportional(autoshop_TD[51], 0);
 	TextDrawSetShadow(autoshop_TD[51], 0);
-
 	autoshop_TD[52] = TextDrawCreate(449.0663, 359.9183, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[52], 37.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[52], 1);
@@ -33729,7 +32818,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[52], 4);
 	TextDrawSetProportional(autoshop_TD[52], 0);
 	TextDrawSetShadow(autoshop_TD[52], 0);
-
 	autoshop_TD[53] = TextDrawCreate(446.3998, 362.4071, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(autoshop_TD[53], 42.0000, 7.0000);
 	TextDrawAlignment(autoshop_TD[53], 1);
@@ -33738,8 +32826,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[53], 4);
 	TextDrawSetProportional(autoshop_TD[53], 0);
 	TextDrawSetShadow(autoshop_TD[53], 0);
-
-
 	inventory_TD[0] = TextDrawCreate(294.2997, 101.7145, ""); // пусто
 	TextDrawTextSize(inventory_TD[0], 195.0000, 211.0000);
 	TextDrawAlignment(inventory_TD[0], 1);
@@ -33750,7 +32836,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(inventory_TD[0], 0);
 	TextDrawSetPreviewModel(inventory_TD[0], 24);
 	TextDrawSetPreviewRot(inventory_TD[0], 0.0000, 0.0000, 0.0000, -0.0052);
-
 	inventory_TD[1] = TextDrawCreate(294.3327, 122.5251, ""); // пусто
 	TextDrawTextSize(inventory_TD[1], 195.0000, 213.0000);
 	TextDrawAlignment(inventory_TD[1], 1);
@@ -33761,7 +32846,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(inventory_TD[1], 0);
 	TextDrawSetPreviewModel(inventory_TD[1], 33);
 	TextDrawSetPreviewRot(inventory_TD[1], 0.0000, 0.0000, 0.0000, -0.0052);
-
 	inventory_TD[2] = TextDrawCreate(153.6331, 101.7330, ""); // пусто
 	TextDrawTextSize(inventory_TD[2], 139.0000, 211.0000);
 	TextDrawAlignment(inventory_TD[2], 1);
@@ -33772,7 +32856,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(inventory_TD[2], 0);
 	TextDrawSetPreviewModel(inventory_TD[2], 24);
 	TextDrawSetPreviewRot(inventory_TD[2], 0.0000, 0.0000, 0.0000, -0.0052);
-
 	inventory_TD[3] = TextDrawCreate(153.6665, 122.5438, ""); // пусто
 	TextDrawTextSize(inventory_TD[3], 139.0000, 213.0000);
 	TextDrawAlignment(inventory_TD[3], 1);
@@ -33783,7 +32866,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(inventory_TD[3], 0);
 	TextDrawSetPreviewModel(inventory_TD[3], 33);
 	TextDrawSetPreviewRot(inventory_TD[3], 0.0000, 0.0000, 0.0000, -0.0052);
-
 	inventory_TD[4] = TextDrawCreate(152.3332, 108.1110, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(inventory_TD[4], 140.0000, 14.0000);
 	TextDrawAlignment(inventory_TD[4], 1);
@@ -33792,7 +32874,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[4], 4);
 	TextDrawSetProportional(inventory_TD[4], 0);
 	TextDrawSetShadow(inventory_TD[4], 0);
-
 	inventory_TD[5] = TextDrawCreate(292.3330, 108.9402, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(inventory_TD[5], 140.0000, 14.0000);
 	TextDrawAlignment(inventory_TD[5], 1);
@@ -33801,7 +32882,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[5], 4);
 	TextDrawSetProportional(inventory_TD[5], 0);
 	TextDrawSetShadow(inventory_TD[5], 0);
-
 	inventory_TD[6] = TextDrawCreate(222.2328, 107.6949, "CHARACTER"); // пусто
 	TextDrawLetterSize(inventory_TD[6], 0.1342, 0.9775);
 	TextDrawAlignment(inventory_TD[6], 2);
@@ -33810,7 +32890,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[6], 2);
 	TextDrawSetProportional(inventory_TD[6], 1);
 	TextDrawSetShadow(inventory_TD[6], 0);
-
 	inventory_TD[7] = TextDrawCreate(390.8663, 107.6949, "INVENTORY"); // пусто
 	TextDrawLetterSize(inventory_TD[7], 0.1342, 0.9775);
 	TextDrawAlignment(inventory_TD[7], 2);
@@ -33819,7 +32898,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[7], 2);
 	TextDrawSetProportional(inventory_TD[7], 1);
 	TextDrawSetShadow(inventory_TD[7], 0);
-
 	inventory_TD[8] = TextDrawCreate(442.6329, 319.2661, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[8], 28.5998, 6.0000);
 	TextDrawAlignment(inventory_TD[8], 1);
@@ -33828,7 +32906,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[8], 4);
 	TextDrawSetProportional(inventory_TD[8], 0);
 	TextDrawSetShadow(inventory_TD[8], 0);
-
 	inventory_TD[9] = TextDrawCreate(440.7994, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[9], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[9], 1);
@@ -33837,7 +32914,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[9], 4);
 	TextDrawSetProportional(inventory_TD[9], 0);
 	TextDrawSetShadow(inventory_TD[9], 0);
-
 	inventory_TD[10] = TextDrawCreate(462.9009, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[10], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[10], 1);
@@ -33846,7 +32922,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[10], 4);
 	TextDrawSetProportional(inventory_TD[10], 0);
 	TextDrawSetShadow(inventory_TD[10], 0);
-
 	inventory_TD[11] = TextDrawCreate(440.7994, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[11], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[11], 1);
@@ -33855,7 +32930,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[11], 4);
 	TextDrawSetProportional(inventory_TD[11], 0);
 	TextDrawSetShadow(inventory_TD[11], 0);
-
 	inventory_TD[12] = TextDrawCreate(463.0010, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[12], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[12], 1);
@@ -33864,7 +32938,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[12], 4);
 	TextDrawSetProportional(inventory_TD[12], 0);
 	TextDrawSetShadow(inventory_TD[12], 0);
-
 	inventory_TD[13] = TextDrawCreate(446.3330, 315.1177, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[13], 22.0000, 14.0000);
 	TextDrawAlignment(inventory_TD[13], 1);
@@ -33873,7 +32946,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[13], 4);
 	TextDrawSetProportional(inventory_TD[13], 0);
 	TextDrawSetShadow(inventory_TD[13], 0);
-
 	inventory_TD[14] = TextDrawCreate(456.9331, 317.7626, "DROP"); // пусто
 	TextDrawLetterSize(inventory_TD[14], 0.1312, 0.9110);
 	TextDrawTextSize(inventory_TD[14], 10.0000, 26.0000);
@@ -33885,7 +32957,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[14], 1);
 	TextDrawSetShadow(inventory_TD[14], 0);
 	TextDrawSetSelectable(inventory_TD[14], true);
-
 	inventory_TD[15] = TextDrawCreate(373.3002, 319.2662, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[15], 28.5998, 6.0000);
 	TextDrawAlignment(inventory_TD[15], 1);
@@ -33894,7 +32965,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[15], 4);
 	TextDrawSetProportional(inventory_TD[15], 0);
 	TextDrawSetShadow(inventory_TD[15], 0);
-
 	inventory_TD[16] = TextDrawCreate(371.4667, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[16], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[16], 1);
@@ -33903,7 +32973,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[16], 4);
 	TextDrawSetProportional(inventory_TD[16], 0);
 	TextDrawSetShadow(inventory_TD[16], 0);
-
 	inventory_TD[17] = TextDrawCreate(393.5682, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[17], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[17], 1);
@@ -33912,7 +32981,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[17], 4);
 	TextDrawSetProportional(inventory_TD[17], 0);
 	TextDrawSetShadow(inventory_TD[17], 0);
-
 	inventory_TD[18] = TextDrawCreate(371.4667, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[18], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[18], 1);
@@ -33921,7 +32989,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[18], 4);
 	TextDrawSetProportional(inventory_TD[18], 0);
 	TextDrawSetShadow(inventory_TD[18], 0);
-
 	inventory_TD[19] = TextDrawCreate(393.6679, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[19], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[19], 1);
@@ -33930,7 +32997,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[19], 4);
 	TextDrawSetProportional(inventory_TD[19], 0);
 	TextDrawSetShadow(inventory_TD[19], 0);
-
 	inventory_TD[20] = TextDrawCreate(377.0000, 315.1181, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[20], 22.0000, 14.0000);
 	TextDrawAlignment(inventory_TD[20], 1);
@@ -33939,7 +33005,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[20], 4);
 	TextDrawSetProportional(inventory_TD[20], 0);
 	TextDrawSetShadow(inventory_TD[20], 0);
-
 	inventory_TD[21] = TextDrawCreate(387.7001, 317.7626, "INFO"); // пусто
 	TextDrawLetterSize(inventory_TD[21], 0.1332, 0.8945);
 	TextDrawTextSize(inventory_TD[21], 10.0000, 26.0000);
@@ -33951,7 +33016,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[21], 1);
 	TextDrawSetShadow(inventory_TD[21], 0);
 	TextDrawSetSelectable(inventory_TD[21], true);
-
 	inventory_TD[22] = TextDrawCreate(355.3662, 318.5921, ">>"); // пусто
 	TextDrawLetterSize(inventory_TD[22], 0.0671, 0.7702);
 	TextDrawTextSize(inventory_TD[22], 10.0000, 26.0000);
@@ -33963,7 +33027,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[22], 1);
 	TextDrawSetShadow(inventory_TD[22], 0);
 	TextDrawSetSelectable(inventory_TD[22], true);
-
 	inventory_TD[23] = TextDrawCreate(316.0328, 318.5921, "<<"); // пусто
 	TextDrawLetterSize(inventory_TD[23], 0.0671, 0.7702);
 	TextDrawTextSize(inventory_TD[23], 10.0000, 26.0000);
@@ -33975,7 +33038,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[23], 1);
 	TextDrawSetShadow(inventory_TD[23], 0);
 	TextDrawSetSelectable(inventory_TD[23], true);
-
 	inventory_TD[24] = TextDrawCreate(169.0000, 316.7770, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[24], 107.5597, 11.0000);
 	TextDrawAlignment(inventory_TD[24], 1);
@@ -33984,7 +33046,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[24], 4);
 	TextDrawSetProportional(inventory_TD[24], 0);
 	TextDrawSetShadow(inventory_TD[24], 0);
-
 	inventory_TD[25] = TextDrawCreate(169.7666, 318.3363, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[25], 105.5895, 7.8797);
 	TextDrawAlignment(inventory_TD[25], 1);
@@ -33993,7 +33054,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[25], 4);
 	TextDrawSetProportional(inventory_TD[25], 0);
 	TextDrawSetShadow(inventory_TD[25], 0);
-
 	inventory_TD[26] = TextDrawCreate(169.0000, 268.6589, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[26], 107.5597, 11.0000);
 	TextDrawAlignment(inventory_TD[26], 1);
@@ -34002,7 +33062,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[26], 4);
 	TextDrawSetProportional(inventory_TD[26], 0);
 	TextDrawSetShadow(inventory_TD[26], 0);
-
 	inventory_TD[27] = TextDrawCreate(169.7666, 270.2182, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[27], 105.5895, 7.8797);
 	TextDrawAlignment(inventory_TD[27], 1);
@@ -34011,7 +33070,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[27], 4);
 	TextDrawSetProportional(inventory_TD[27], 0);
 	TextDrawSetShadow(inventory_TD[27], 0);
-
 	inventory_TD[28] = TextDrawCreate(169.0000, 293.5476, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[28], 107.5597, 11.0000);
 	TextDrawAlignment(inventory_TD[28], 1);
@@ -34020,7 +33078,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[28], 4);
 	TextDrawSetProportional(inventory_TD[28], 0);
 	TextDrawSetShadow(inventory_TD[28], 0);
-
 	inventory_TD[29] = TextDrawCreate(169.7666, 295.1069, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[29], 105.5895, 7.8797);
 	TextDrawAlignment(inventory_TD[29], 1);
@@ -34029,7 +33086,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[29], 4);
 	TextDrawSetProportional(inventory_TD[29], 0);
 	TextDrawSetShadow(inventory_TD[29], 0);
-
 	inventory_TD[30] = TextDrawCreate(169.1997, 260.5184, "Satiety"); // пусто
 	TextDrawLetterSize(inventory_TD[30], 0.1246, 0.8615);
 	TextDrawAlignment(inventory_TD[30], 1);
@@ -34038,7 +33094,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[30], 2);
 	TextDrawSetProportional(inventory_TD[30], 1);
 	TextDrawSetShadow(inventory_TD[30], 0);
-
 	inventory_TD[31] = TextDrawCreate(169.1997, 284.7889, "THRIST"); // пусто
 	TextDrawLetterSize(inventory_TD[31], 0.1246, 0.8615);
 	TextDrawAlignment(inventory_TD[31], 1);
@@ -34047,7 +33102,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[31], 2);
 	TextDrawSetProportional(inventory_TD[31], 1);
 	TextDrawSetShadow(inventory_TD[31], 0);
-
 	inventory_TD[32] = TextDrawCreate(169.6665, 308.0184, "HEALTH"); // пусто
 	TextDrawLetterSize(inventory_TD[32], 0.1246, 0.8615);
 	TextDrawAlignment(inventory_TD[32], 1);
@@ -34056,7 +33110,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[32], 2);
 	TextDrawSetProportional(inventory_TD[32], 1);
 	TextDrawSetShadow(inventory_TD[32], 0);
-
 	inventory_TD[33] = TextDrawCreate(321.3001, 319.2662, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[33], 28.5998, 6.0000);
 	TextDrawAlignment(inventory_TD[33], 1);
@@ -34065,7 +33118,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[33], 4);
 	TextDrawSetProportional(inventory_TD[33], 0);
 	TextDrawSetShadow(inventory_TD[33], 0);
-
 	inventory_TD[34] = TextDrawCreate(260.7994, 337.5184, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[34], 52.0000, 17.0000);
 	TextDrawAlignment(inventory_TD[34], 1);
@@ -34074,7 +33126,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[34], 4);
 	TextDrawSetProportional(inventory_TD[34], 0);
 	TextDrawSetShadow(inventory_TD[34], 0);
-
 	inventory_TD[35] = TextDrawCreate(153.0664, 337.5184, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[35], 52.0000, 17.0000);
 	TextDrawAlignment(inventory_TD[35], 1);
@@ -34083,7 +33134,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[35], 4);
 	TextDrawSetProportional(inventory_TD[35], 0);
 	TextDrawSetShadow(inventory_TD[35], 0);
-
 	inventory_TD[36] = TextDrawCreate(319.4666, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[36], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[36], 1);
@@ -34092,7 +33142,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[36], 4);
 	TextDrawSetProportional(inventory_TD[36], 0);
 	TextDrawSetShadow(inventory_TD[36], 0);
-
 	inventory_TD[37] = TextDrawCreate(341.5681, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[37], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[37], 1);
@@ -34101,7 +33150,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[37], 4);
 	TextDrawSetProportional(inventory_TD[37], 0);
 	TextDrawSetShadow(inventory_TD[37], 0);
-
 	inventory_TD[38] = TextDrawCreate(319.4666, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[38], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[38], 1);
@@ -34110,7 +33158,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[38], 4);
 	TextDrawSetProportional(inventory_TD[38], 0);
 	TextDrawSetShadow(inventory_TD[38], 0);
-
 	inventory_TD[39] = TextDrawCreate(341.6679, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[39], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[39], 1);
@@ -34119,7 +33166,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[39], 4);
 	TextDrawSetProportional(inventory_TD[39], 0);
 	TextDrawSetShadow(inventory_TD[39], 0);
-
 	inventory_TD[40] = TextDrawCreate(437.2994, 337.5184, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[40], 52.0000, 17.0000);
 	TextDrawAlignment(inventory_TD[40], 1);
@@ -34128,7 +33174,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[40], 4);
 	TextDrawSetProportional(inventory_TD[40], 0);
 	TextDrawSetShadow(inventory_TD[40], 0);
-
 	inventory_TD[41] = TextDrawCreate(179.3332, 340.9926, "TRADE"); // пусто
 	TextDrawLetterSize(inventory_TD[41], 0.1286, 0.9279);
 	TextDrawTextSize(inventory_TD[41], 10.0000, 49.0000);
@@ -34141,7 +33186,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[41], 1);
 	TextDrawSetShadow(inventory_TD[41], 0);
 	TextDrawSetSelectable(inventory_TD[41], true);
-
 	inventory_TD[42] = TextDrawCreate(463.8998, 340.9926, "CLOSE"); // пусто
 	TextDrawLetterSize(inventory_TD[42], 0.1286, 0.9279);
 	TextDrawTextSize(inventory_TD[42], 10.0000, 49.0000);
@@ -34154,7 +33198,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[42], 1);
 	TextDrawSetShadow(inventory_TD[42], 0);
 	TextDrawSetSelectable(inventory_TD[42], true);
-
 	inventory_TD[43] = TextDrawCreate(286.5667, 340.9926, "MENU"); // пусто
 	TextDrawLetterSize(inventory_TD[43], 0.1286, 0.9279);
 	TextDrawTextSize(inventory_TD[43], 10.0000, 49.0000);
@@ -34167,7 +33210,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[43], 1);
 	TextDrawSetShadow(inventory_TD[43], 0);
 	TextDrawSetSelectable(inventory_TD[43], true);
-
 	inventory_TD[44] = TextDrawCreate(325.0000, 315.1181, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[44], 22.0000, 14.0000);
 	TextDrawAlignment(inventory_TD[44], 1);
@@ -34176,7 +33218,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[44], 4);
 	TextDrawSetProportional(inventory_TD[44], 0);
 	TextDrawSetShadow(inventory_TD[44], 0);
-
 	inventory_TD[45] = TextDrawCreate(407.9667, 319.2662, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[45], 28.5998, 6.0000);
 	TextDrawAlignment(inventory_TD[45], 1);
@@ -34185,7 +33226,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[45], 4);
 	TextDrawSetProportional(inventory_TD[45], 0);
 	TextDrawSetShadow(inventory_TD[45], 0);
-
 	inventory_TD[46] = TextDrawCreate(406.1333, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[46], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[46], 1);
@@ -34194,7 +33234,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[46], 4);
 	TextDrawSetProportional(inventory_TD[46], 0);
 	TextDrawSetShadow(inventory_TD[46], 0);
-
 	inventory_TD[47] = TextDrawCreate(428.2348, 319.2590, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[47], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[47], 1);
@@ -34203,7 +33242,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[47], 4);
 	TextDrawSetProportional(inventory_TD[47], 0);
 	TextDrawSetShadow(inventory_TD[47], 0);
-
 	inventory_TD[48] = TextDrawCreate(406.1333, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[48], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[48], 1);
@@ -34212,7 +33250,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[48], 4);
 	TextDrawSetProportional(inventory_TD[48], 0);
 	TextDrawSetShadow(inventory_TD[48], 0);
-
 	inventory_TD[49] = TextDrawCreate(428.3345, 313.0585, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(inventory_TD[49], 10.0000, 12.0000);
 	TextDrawAlignment(inventory_TD[49], 1);
@@ -34221,7 +33258,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[49], 4);
 	TextDrawSetProportional(inventory_TD[49], 0);
 	TextDrawSetShadow(inventory_TD[49], 0);
-
 	inventory_TD[50] = TextDrawCreate(411.6665, 315.1181, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[50], 22.0000, 14.0000);
 	TextDrawAlignment(inventory_TD[50], 1);
@@ -34230,7 +33266,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[50], 4);
 	TextDrawSetProportional(inventory_TD[50], 0);
 	TextDrawSetShadow(inventory_TD[50], 0);
-
 	inventory_TD[51] = TextDrawCreate(422.3669, 317.7626, "USE"); // пусто
 	TextDrawLetterSize(inventory_TD[51], 0.1332, 0.8945);
 	TextDrawTextSize(inventory_TD[51], 10.0000, 26.0000);
@@ -34242,7 +33277,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[51], 1);
 	TextDrawSetShadow(inventory_TD[51], 0);
 	TextDrawSetSelectable(inventory_TD[51], true);
-
 	inventory_TD[52] = TextDrawCreate(207.2996, 337.5184, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(inventory_TD[52], 52.0000, 17.0000);
 	TextDrawAlignment(inventory_TD[52], 1);
@@ -34251,7 +33285,6 @@ stock CreateTexdraw() {
 	TextDrawFont(inventory_TD[52], 4);
 	TextDrawSetProportional(inventory_TD[52], 0);
 	TextDrawSetShadow(inventory_TD[52], 0);
-
 	inventory_TD[53] = TextDrawCreate(233.8999, 340.9926, "SHOP"); // пусто
 	TextDrawLetterSize(inventory_TD[53], 0.1286, 0.9279);
 	TextDrawTextSize(inventory_TD[53], 10.0000, 49.0000);
@@ -34264,8 +33297,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(inventory_TD[53], 1);
 	TextDrawSetShadow(inventory_TD[53], 0);
 	TextDrawSetSelectable(inventory_TD[53], true);
-
-
 	// ограбление банка
 	hack_magaz_TD[0] = TextDrawCreate(206.3332, 103.9776, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[0], 224.0000, 162.0000);
@@ -34275,7 +33306,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[0], 4);
 	TextDrawSetProportional(hack_magaz_TD[0], 0);
 	TextDrawSetShadow(hack_magaz_TD[0], 0);
-
 	hack_magaz_TD[1] = TextDrawCreate(208.3334, 106.0776, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[1], 220.0299, 157.5097);
 	TextDrawAlignment(hack_magaz_TD[1], 1);
@@ -34284,7 +33314,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[1], 4);
 	TextDrawSetProportional(hack_magaz_TD[1], 0);
 	TextDrawSetShadow(hack_magaz_TD[1], 0);
-
 	hack_magaz_TD[2] = TextDrawCreate(214.5332, 113.0444, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[2], 206.7901, 143.2297);
 	TextDrawAlignment(hack_magaz_TD[2], 1);
@@ -34293,7 +33322,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[2], 4);
 	TextDrawSetProportional(hack_magaz_TD[2], 0);
 	TextDrawSetShadow(hack_magaz_TD[2], 0);
-
 	hack_magaz_TD[3] = TextDrawCreate(215.7667, 114.4888, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[3], 204.3397, 140.1199);
 	TextDrawAlignment(hack_magaz_TD[3], 1);
@@ -34302,7 +33330,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[3], 4);
 	TextDrawSetProportional(hack_magaz_TD[3], 0);
 	TextDrawSetShadow(hack_magaz_TD[3], 0);
-
 	hack_magaz_TD[4] = TextDrawCreate(223.9331, 124.0519, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[4], 188.0000, 120.7398);
 	TextDrawAlignment(hack_magaz_TD[4], 1);
@@ -34311,7 +33338,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[4], 4);
 	TextDrawSetProportional(hack_magaz_TD[4], 0);
 	TextDrawSetShadow(hack_magaz_TD[4], 0);
-
 	hack_magaz_TD[5] = TextDrawCreate(224.8332, 125.2518, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[5], 186.0000, 118.7398);
 	TextDrawAlignment(hack_magaz_TD[5], 1);
@@ -34320,7 +33346,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[5], 4);
 	TextDrawSetProportional(hack_magaz_TD[5], 0);
 	TextDrawSetShadow(hack_magaz_TD[5], 0);
-
 	hack_magaz_TD[6] = TextDrawCreate(225.8332, 126.4518, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[6], 184.0000, 116.2900);
 	TextDrawAlignment(hack_magaz_TD[6], 1);
@@ -34329,7 +33354,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[6], 4);
 	TextDrawSetProportional(hack_magaz_TD[6], 0);
 	TextDrawSetShadow(hack_magaz_TD[6], 0);
-
 	hack_magaz_TD[7] = TextDrawCreate(326.3666, 126.0630, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[7], 1.0000, 118.0000);
 	TextDrawAlignment(hack_magaz_TD[7], 1);
@@ -34338,7 +33362,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[7], 4);
 	TextDrawSetProportional(hack_magaz_TD[7], 0);
 	TextDrawSetShadow(hack_magaz_TD[7], 0);
-
 	hack_magaz_TD[8] = TextDrawCreate(328.0339, 125.9777, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[8], 83.0000, 116.8497);
 	TextDrawAlignment(hack_magaz_TD[8], 1);
@@ -34347,7 +33370,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[8], 4);
 	TextDrawSetProportional(hack_magaz_TD[8], 0);
 	TextDrawSetShadow(hack_magaz_TD[8], 0);
-
 	hack_magaz_TD[9] = TextDrawCreate(327.7998, 207.1398, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[9], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[9], 1);
@@ -34356,7 +33378,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[9], 4);
 	TextDrawSetProportional(hack_magaz_TD[9], 0);
 	TextDrawSetShadow(hack_magaz_TD[9], 0);
-
 	hack_magaz_TD[10] = TextDrawCreate(353.3020, 207.1398, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[10], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[10], 1);
@@ -34365,7 +33386,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[10], 4);
 	TextDrawSetProportional(hack_magaz_TD[10], 0);
 	TextDrawSetShadow(hack_magaz_TD[10], 0);
-
 	hack_magaz_TD[11] = TextDrawCreate(378.9035, 207.1398, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[11], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[11], 1);
@@ -34374,7 +33394,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[11], 4);
 	TextDrawSetProportional(hack_magaz_TD[11], 0);
 	TextDrawSetShadow(hack_magaz_TD[11], 0);
-
 	hack_magaz_TD[12] = TextDrawCreate(327.7998, 179.5381, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[12], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[12], 1);
@@ -34383,7 +33402,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[12], 4);
 	TextDrawSetProportional(hack_magaz_TD[12], 0);
 	TextDrawSetShadow(hack_magaz_TD[12], 0);
-
 	hack_magaz_TD[13] = TextDrawCreate(353.3020, 179.5381, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[13], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[13], 1);
@@ -34392,7 +33410,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[13], 4);
 	TextDrawSetProportional(hack_magaz_TD[13], 0);
 	TextDrawSetShadow(hack_magaz_TD[13], 0);
-
 	hack_magaz_TD[14] = TextDrawCreate(378.9035, 179.5381, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[14], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[14], 1);
@@ -34401,7 +33418,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[14], 4);
 	TextDrawSetProportional(hack_magaz_TD[14], 0);
 	TextDrawSetShadow(hack_magaz_TD[14], 0);
-
 	hack_magaz_TD[15] = TextDrawCreate(327.8331, 151.2200, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[15], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[15], 1);
@@ -34410,7 +33426,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[15], 4);
 	TextDrawSetProportional(hack_magaz_TD[15], 0);
 	TextDrawSetShadow(hack_magaz_TD[15], 0);
-
 	hack_magaz_TD[16] = TextDrawCreate(353.3352, 151.2200, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[16], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[16], 1);
@@ -34419,7 +33434,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[16], 4);
 	TextDrawSetProportional(hack_magaz_TD[16], 0);
 	TextDrawSetShadow(hack_magaz_TD[16], 0);
-
 	hack_magaz_TD[17] = TextDrawCreate(378.9367, 151.2200, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[17], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[17], 1);
@@ -34428,7 +33442,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[17], 4);
 	TextDrawSetProportional(hack_magaz_TD[17], 0);
 	TextDrawSetShadow(hack_magaz_TD[17], 0);
-
 	hack_magaz_TD[18] = TextDrawCreate(327.8331, 123.6184, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[18], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[18], 1);
@@ -34437,7 +33450,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[18], 4);
 	TextDrawSetProportional(hack_magaz_TD[18], 0);
 	TextDrawSetShadow(hack_magaz_TD[18], 0);
-
 	hack_magaz_TD[19] = TextDrawCreate(353.3352, 123.6184, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[19], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[19], 1);
@@ -34446,7 +33458,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[19], 4);
 	TextDrawSetProportional(hack_magaz_TD[19], 0);
 	TextDrawSetShadow(hack_magaz_TD[19], 0);
-
 	hack_magaz_TD[20] = TextDrawCreate(378.9367, 123.6184, "LD_Beat:Chit"); // ?????
 	TextDrawTextSize(hack_magaz_TD[20], 32.0000, 37.0000);
 	TextDrawAlignment(hack_magaz_TD[20], 1);
@@ -34455,7 +33466,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[20], 4);
 	TextDrawSetProportional(hack_magaz_TD[20], 0);
 	TextDrawSetShadow(hack_magaz_TD[20], 0);
-
 	hack_magaz_TD[21] = TextDrawCreate(226.7998, 228.7073, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[21], 98.5401, 12.8399);
 	TextDrawAlignment(hack_magaz_TD[21], 1);
@@ -34464,7 +33474,6 @@ stock CreateTexdraw() {
 	TextDrawFont(hack_magaz_TD[21], 4);
 	TextDrawSetProportional(hack_magaz_TD[21], 0);
 	TextDrawSetShadow(hack_magaz_TD[21], 0);
-
 	hack_magaz_TD[22] = TextDrawCreate(226.7998, 228.7073, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[22], 98.5401, 12.8399);
 	TextDrawAlignment(hack_magaz_TD[22], 1);
@@ -34484,8 +33493,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(hack_magaz_TD[23], 0);
 	TextDrawSetPreviewModel(hack_magaz_TD[23], 19273);
 	TextDrawSetPreviewRot(hack_magaz_TD[23], 0.0000, 0.0000, 0.0000, 1.0000);
-
-
 	// Global speed
     Speed_TD[0] = TextDrawCreate(483.7666, 394.7626, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[0], 49.0000, 12.0000);
@@ -34495,7 +33502,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[0], 4);
 	TextDrawSetProportional(Speed_TD[0], 0);
 	TextDrawSetShadow(Speed_TD[0], 0);
-
 	Speed_TD[1] = TextDrawCreate(481.9666, 398.9107, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[1], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[1], 1);
@@ -34504,7 +33510,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[1], 4);
 	TextDrawSetProportional(Speed_TD[1], 0);
 	TextDrawSetShadow(Speed_TD[1], 0);
-
 	Speed_TD[2] = TextDrawCreate(488.1664, 406.4888, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[2], 44.5097, 4.0699);
 	TextDrawAlignment(Speed_TD[2], 1);
@@ -34513,7 +33518,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[2], 4);
 	TextDrawSetProportional(Speed_TD[2], 0);
 	TextDrawSetShadow(Speed_TD[2], 0);
-
 	Speed_TD[3] = TextDrawCreate(491.7665, 413.0144, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[3], 41.0000, 12.0000);
 	TextDrawAlignment(Speed_TD[3], 1);
@@ -34522,7 +33526,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[3], 4);
 	TextDrawSetProportional(Speed_TD[3], 0);
 	TextDrawSetShadow(Speed_TD[3], 0);
-
 	Speed_TD[4] = TextDrawCreate(485.6665, 413.4443, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[4], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[4], 1);
@@ -34531,7 +33534,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[4], 4);
 	TextDrawSetProportional(Speed_TD[4], 0);
 	TextDrawSetShadow(Speed_TD[4], 0);
-
 	Speed_TD[5] = TextDrawCreate(487.6664, 413.0144, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[5], 43.0000, 8.0000);
 	TextDrawAlignment(Speed_TD[5], 1);
@@ -34540,7 +33542,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[5], 4);
 	TextDrawSetProportional(Speed_TD[5], 0);
 	TextDrawSetShadow(Speed_TD[5], 0);
-
 	Speed_TD[6] = TextDrawCreate(569.3001, 394.5628, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[6], 49.0000, 16.0000);
 	TextDrawAlignment(Speed_TD[6], 1);
@@ -34549,7 +33550,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[6], 4);
 	TextDrawSetProportional(Speed_TD[6], 0);
 	TextDrawSetShadow(Speed_TD[6], 0);
-
 	Speed_TD[7] = TextDrawCreate(569.7664, 412.9147, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[7], 41.0000, 12.0000);
 	TextDrawAlignment(Speed_TD[7], 1);
@@ -34558,7 +33558,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[7], 4);
 	TextDrawSetProportional(Speed_TD[7], 0);
 	TextDrawSetShadow(Speed_TD[7], 0);
-
 	Speed_TD[8] = TextDrawCreate(612.6002, 398.7221, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[8], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[8], 1);
@@ -34567,7 +33566,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[8], 4);
 	TextDrawSetProportional(Speed_TD[8], 0);
 	TextDrawSetShadow(Speed_TD[8], 0);
-
 	Speed_TD[9] = TextDrawCreate(605.0999, 413.3738, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[9], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[9], 1);
@@ -34576,7 +33574,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[9], 4);
 	TextDrawSetProportional(Speed_TD[9], 0);
 	TextDrawSetShadow(Speed_TD[9], 0);
-
 	Speed_TD[10] = TextDrawCreate(579.0999, 394.7626, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[10], 42.6399, 10.7398);
 	TextDrawAlignment(Speed_TD[10], 1);
@@ -34585,7 +33582,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[10], 4);
 	TextDrawSetProportional(Speed_TD[10], 0);
 	TextDrawSetShadow(Speed_TD[10], 0);
-
 	Speed_TD[11] = TextDrawCreate(571.7332, 413.0147, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[11], 42.5699, 7.0000);
 	TextDrawAlignment(Speed_TD[11], 1);
@@ -34594,7 +33590,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[11], 4);
 	TextDrawSetProportional(Speed_TD[11], 0);
 	TextDrawSetShadow(Speed_TD[11], 0);
-
 	Speed_TD[12] = TextDrawCreate(534.0332, 388.9554, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[12], 34.0000, 41.0000);
 	TextDrawAlignment(Speed_TD[12], 1);
@@ -34603,7 +33598,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[12], 4);
 	TextDrawSetProportional(Speed_TD[12], 0);
 	TextDrawSetShadow(Speed_TD[12], 0);
-
 	Speed_TD[13] = TextDrawCreate(532.4332, 382.3182, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[13], 10.0000, 13.0000);
 	TextDrawAlignment(Speed_TD[13], 1);
@@ -34612,7 +33606,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[13], 4);
 	TextDrawSetProportional(Speed_TD[13], 0);
 	TextDrawSetShadow(Speed_TD[13], 0);
-
 	Speed_TD[14] = TextDrawCreate(559.7666, 422.9703, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[14], 10.0000, 13.0000);
 	TextDrawAlignment(Speed_TD[14], 1);
@@ -34621,7 +33614,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[14], 4);
 	TextDrawSetProportional(Speed_TD[14], 0);
 	TextDrawSetShadow(Speed_TD[14], 0);
-
 	Speed_TD[15] = TextDrawCreate(538.0665, 384.2777, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[15], 30.0000, 33.0000);
 	TextDrawAlignment(Speed_TD[15], 1);
@@ -34630,7 +33622,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[15], 4);
 	TextDrawSetProportional(Speed_TD[15], 0);
 	TextDrawSetShadow(Speed_TD[15], 0);
-
 	Speed_TD[16] = TextDrawCreate(534.0665, 424.9295, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[16], 31.0000, 8.8297);
 	TextDrawAlignment(Speed_TD[16], 1);
@@ -34639,7 +33630,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[16], 4);
 	TextDrawSetProportional(Speed_TD[16], 0);
 	TextDrawSetShadow(Speed_TD[16], 0);
-
 	Speed_TD[17] = TextDrawCreate(532.6333, 407.6072, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Speed_TD[17], 36.0000, 26.0000);
 	TextDrawAlignment(Speed_TD[17], 1);
@@ -34648,7 +33638,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[17], 4);
 	TextDrawSetProportional(Speed_TD[17], 0);
 	TextDrawSetShadow(Speed_TD[17], 0);
-
 	Speed_TD[18] = TextDrawCreate(535.5335, 407.5072, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Speed_TD[18], 34.0000, -23.0000);
 	TextDrawAlignment(Speed_TD[18], 1);
@@ -34657,7 +33646,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[18], 4);
 	TextDrawSetProportional(Speed_TD[18], 0);
 	TextDrawSetShadow(Speed_TD[18], 0);
-
 	Speed_TD[19] = TextDrawCreate(569.7661, 398.7106, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Speed_TD[19], 51.0000, 11.7798);
 	TextDrawAlignment(Speed_TD[19], 1);
@@ -34666,7 +33654,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[19], 4);
 	TextDrawSetProportional(Speed_TD[19], 0);
 	TextDrawSetShadow(Speed_TD[19], 0);
-
 	Speed_TD[20] = TextDrawCreate(569.7661, 408.8114, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Speed_TD[20], 52.0000, -14.0000);
 	TextDrawAlignment(Speed_TD[20], 1);
@@ -34675,7 +33662,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[20], 4);
 	TextDrawSetProportional(Speed_TD[20], 0);
 	TextDrawSetShadow(Speed_TD[20], 0);
-
 	Speed_TD[21] = TextDrawCreate(485.0997, 398.7109, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Speed_TD[21], 51.0000, 11.7798);
 	TextDrawAlignment(Speed_TD[21], 1);
@@ -34684,7 +33670,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[21], 4);
 	TextDrawSetProportional(Speed_TD[21], 0);
 	TextDrawSetShadow(Speed_TD[21], 0);
-
 	Speed_TD[22] = TextDrawCreate(485.0997, 408.8114, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Speed_TD[22], 52.0000, -14.0000);
 	TextDrawAlignment(Speed_TD[22], 1);
@@ -34693,7 +33678,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[22], 4);
 	TextDrawSetProportional(Speed_TD[22], 0);
 	TextDrawSetShadow(Speed_TD[22], 0);
-
 	Speed_TD[23] = TextDrawCreate(551.5333, 412.3703, "KM/H"); // пусто
 	TextDrawLetterSize(Speed_TD[23], 0.1642, 0.7702);
 	TextDrawAlignment(Speed_TD[23], 2);
@@ -34702,7 +33686,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[23], 1);
 	TextDrawSetProportional(Speed_TD[23], 1);
 	TextDrawSetShadow(Speed_TD[23], 0);
-
 	Speed_TD[24] = TextDrawCreate(576.0009, 416.3629, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[24], 3.1698, 6.0000);
 	TextDrawAlignment(Speed_TD[24], 1);
@@ -34711,7 +33694,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[24], 4);
 	TextDrawSetProportional(Speed_TD[24], 0);
 	TextDrawSetShadow(Speed_TD[24], 0);
-
 	Speed_TD[25] = TextDrawCreate(576.4677, 416.7630, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[25], 2.1698, 2.0000);
 	TextDrawAlignment(Speed_TD[25], 1);
@@ -34720,7 +33702,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[25], 4);
 	TextDrawSetProportional(Speed_TD[25], 0);
 	TextDrawSetShadow(Speed_TD[25], 0);
-
 	Speed_TD[26] = TextDrawCreate(579.6994, 416.2889, "C"); // пусто
 	TextDrawLetterSize(Speed_TD[26], -0.0560, 0.5960);
 	TextDrawAlignment(Speed_TD[26], 1);
@@ -34729,7 +33710,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[26], 1);
 	TextDrawSetProportional(Speed_TD[26], 1);
 	TextDrawSetShadow(Speed_TD[26], 0);
-
 	Speed_TD[27] = TextDrawCreate(483.4331, 401.3554, "L"); // пусто
 	TextDrawLetterSize(Speed_TD[27], 0.2284, -0.9800);
 	TextDrawAlignment(Speed_TD[27], 1);
@@ -34738,7 +33718,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[27], 2);
 	TextDrawSetProportional(Speed_TD[27], 1);
 	TextDrawSetShadow(Speed_TD[27], 0);
-
 	Speed_TD[28] = TextDrawCreate(622.3999, 401.5851, "L"); // пусто
 	TextDrawLetterSize(Speed_TD[28], -0.2363, -0.9965);
 	TextDrawAlignment(Speed_TD[28], 1);
@@ -34747,7 +33726,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[28], 2);
 	TextDrawSetProportional(Speed_TD[28], 1);
 	TextDrawSetShadow(Speed_TD[28], 0);
-
 	Speed_TD[29] = TextDrawCreate(595.3333, 396.9927, "E_____L_____D"); // пусто
 	TextDrawLetterSize(Speed_TD[29], 0.1632, 0.8284);
 	TextDrawAlignment(Speed_TD[29], 2);
@@ -34756,7 +33734,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[29], 1);
 	TextDrawSetProportional(Speed_TD[29], 1);
 	TextDrawSetShadow(Speed_TD[29], 0);
-
 	Speed_TD[30] = TextDrawCreate(529.7664, 388.4555, "LD_Beat:CHIT"); // пусто
 	TextDrawTextSize(Speed_TD[30], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[30], 1);
@@ -34765,7 +33742,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[30], 4);
 	TextDrawSetProportional(Speed_TD[30], 0);
 	TextDrawSetShadow(Speed_TD[30], 0);
-
 	Speed_TD[31] = TextDrawCreate(530.9331, 383.4776, "LD_Beat:CHIT"); // пусто
 	TextDrawTextSize(Speed_TD[31], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[31], 1);
@@ -34774,7 +33750,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[31], 4);
 	TextDrawSetProportional(Speed_TD[31], 0);
 	TextDrawSetShadow(Speed_TD[31], 0);
-
 	Speed_TD[32] = TextDrawCreate(534.2664, 380.1593, "LD_Beat:CHIT"); // пусто
 	TextDrawTextSize(Speed_TD[32], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[32], 1);
@@ -34783,7 +33758,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[32], 4);
 	TextDrawSetProportional(Speed_TD[32], 0);
 	TextDrawSetShadow(Speed_TD[32], 0);
-
 	Speed_TD[33] = TextDrawCreate(568.9332, 426.6184, "LD_Beat:CHIT"); // пусто
 	TextDrawTextSize(Speed_TD[33], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[33], 1);
@@ -34792,7 +33766,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[33], 4);
 	TextDrawSetProportional(Speed_TD[33], 0);
 	TextDrawSetShadow(Speed_TD[33], 0);
-
 	Speed_TD[34] = TextDrawCreate(567.5999, 431.5963, "LD_Beat:CHIT"); // пусто
 	TextDrawTextSize(Speed_TD[34], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[34], 1);
@@ -34801,7 +33774,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[34], 4);
 	TextDrawSetProportional(Speed_TD[34], 0);
 	TextDrawSetShadow(Speed_TD[34], 0);
-
 	Speed_TD[35] = TextDrawCreate(563.5996, 433.6556, "LD_Beat:CHIT"); // пусто
 	TextDrawTextSize(Speed_TD[35], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[35], 1);
@@ -34810,7 +33782,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[35], 4);
 	TextDrawSetProportional(Speed_TD[35], 0);
 	TextDrawSetShadow(Speed_TD[35], 0);
-
 	Speed_TD[36] = TextDrawCreate(490.0000, 414.6740, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[36], 4.0000, 6.0000);
 	TextDrawAlignment(Speed_TD[36], 1);
@@ -34819,7 +33790,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[36], 4);
 	TextDrawSetProportional(Speed_TD[36], 0);
 	TextDrawSetShadow(Speed_TD[36], 0);
-
 	Speed_TD[37] = TextDrawCreate(492.1000, 414.6740, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(Speed_TD[37], 4.0000, 6.0000);
 	TextDrawAlignment(Speed_TD[37], 1);
@@ -34828,7 +33798,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[37], 4);
 	TextDrawSetProportional(Speed_TD[37], 0);
 	TextDrawSetShadow(Speed_TD[37], 0);
-
 	Speed_TD[38] = TextDrawCreate(490.7001, 416.8887, "V"); // пусто
 	TextDrawLetterSize(Speed_TD[38], 0.1879, 0.6251);
 	TextDrawAlignment(Speed_TD[38], 1);
@@ -34837,7 +33806,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[38], 2);
 	TextDrawSetProportional(Speed_TD[38], 1);
 	TextDrawSetShadow(Speed_TD[38], 0);
-
 	Speed_TD[39] = TextDrawCreate(492.6665, 418.8222, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[39], 1.4900, 2.0000);
 	TextDrawAlignment(Speed_TD[39], 1);
@@ -34847,7 +33815,6 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(Speed_TD[39], 0);
 	TextDrawSetShadow(Speed_TD[39], 0);
 	//
-
 	buy_skins[0] = TextDrawCreate(258.666656, 423.608856, "LD_SPAC:white");
 	TextDrawLetterSize(buy_skins[0], 0.000000, 0.000000);
 	TextDrawTextSize(buy_skins[0], 40.444458, 14.933320);
@@ -34857,7 +33824,6 @@ stock CreateTexdraw() {
 	TextDrawSetOutline(buy_skins[0], 0);
 	TextDrawFont(buy_skins[0], 4);
 	TextDrawSetSelectable(buy_skins[0], true);
-
 	buy_skins[1] = TextDrawCreate(322.333404, 423.115509, "LD_SPAC:white");
 	TextDrawLetterSize(buy_skins[1], 0.000000, 0.000000);
 	TextDrawTextSize(buy_skins[1], 40.444458, 14.933320);
@@ -34867,7 +33833,6 @@ stock CreateTexdraw() {
 	TextDrawSetOutline(buy_skins[1], 0);
 	TextDrawFont(buy_skins[1], 4);
 	TextDrawSetSelectable(buy_skins[1], true);
-
 	buy_skins[2] = TextDrawCreate(268.666656, 424.115631, "buy");
 	TextDrawLetterSize(buy_skins[2], 0.217999, 1.316264);
 	TextDrawAlignment(buy_skins[2], 1);
@@ -34877,7 +33842,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(buy_skins[2], 255);
 	TextDrawFont(buy_skins[2], 2);
 	TextDrawSetProportional(buy_skins[2], 1);
-
 	buy_skins[3] = TextDrawCreate(332.777709, 424.120086, "exit");
 	TextDrawLetterSize(buy_skins[3], 0.217999, 1.316264);
 	TextDrawAlignment(buy_skins[3], 1);
@@ -34887,7 +33851,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(buy_skins[3], 255);
 	TextDrawFont(buy_skins[3], 2);
 	TextDrawSetProportional(buy_skins[3], 1);
-
 	buy_skins[4] = TextDrawCreate(364.222229, 406.691101, "usebox");
 	TextDrawLetterSize(buy_skins[4], 0.000000, 1.066050);
 	TextDrawTextSize(buy_skins[4], 256.666656, 0.000000);
@@ -34898,7 +33861,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(buy_skins[4], 0);
 	TextDrawSetOutline(buy_skins[4], 0);
 	TextDrawFont(buy_skins[4], 0);
-
 	buy_skins[5] = TextDrawCreate(361.333221, 398.720062, "LD_BEAT:chit");
 	TextDrawLetterSize(buy_skins[5], 0.009777, 0.199110);
 	TextDrawTextSize(buy_skins[5], 39.555564, 45.297744);
@@ -34910,7 +33872,6 @@ stock CreateTexdraw() {
 	TextDrawSetSelectable(buy_skins[5], true);
 	TextDrawSetPreviewModel(buy_skins[5], 19134);
 	TextDrawSetPreviewRot(buy_skins[5], 100.000000, -100.000000, 0.000000, 1.000000);
-
 	buy_skins[6] = TextDrawCreate(220.555435, 398.724517, "LD_BEAT:chit");
 	TextDrawLetterSize(buy_skins[6], 0.009777, 0.199111);
 	TextDrawTextSize(buy_skins[6], 39.555564, 45.297744);
@@ -34922,7 +33883,6 @@ stock CreateTexdraw() {
 	TextDrawSetSelectable(buy_skins[6], true);
 	TextDrawSetPreviewModel(buy_skins[6], 19134);
 	TextDrawSetPreviewRot(buy_skins[6], 100.000000, -100.000000, 0.000000, 1.000000);
-
 	buy_skins[7] = TextDrawCreate(376.889007, 409.191223, ">");
 	TextDrawLetterSize(buy_skins[7], 0.494888, 2.754842);
 	TextDrawAlignment(buy_skins[7], 1);
@@ -34932,7 +33892,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(buy_skins[7], 255);
 	TextDrawFont(buy_skins[7], 2);
 	TextDrawSetProportional(buy_skins[7], 1);
-
 	buy_skins[8] = TextDrawCreate(233.000167, 408.697814, "<");
 	TextDrawLetterSize(buy_skins[8], 0.494888, 2.754842);
 	TextDrawAlignment(buy_skins[8], 1);
@@ -34942,8 +33901,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(buy_skins[8], 255);
 	TextDrawFont(buy_skins[8], 2);
 	TextDrawSetProportional(buy_skins[8], 1);
-
-
 	skill_td[0] = TextDrawCreate(570.444763, 349.944427, "usebox");
 	TextDrawLetterSize(skill_td[0], 0.000000, 3.724817);
 	TextDrawTextSize(skill_td[0], 454.444458, 0.000000);
@@ -34954,7 +33911,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(skill_td[0], 0);
 	TextDrawSetOutline(skill_td[0], 0);
 	TextDrawFont(skill_td[0], 0);
-
 	skill_td[1] = TextDrawCreate(570.555847, 349.948852, "usebox");
 	TextDrawLetterSize(skill_td[1], 0.000000, 0.880373);
 	TextDrawTextSize(skill_td[1], 454.444458, 0.000000);
@@ -34965,7 +33921,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(skill_td[1], 0);
 	TextDrawSetOutline(skill_td[1], 0);
 	TextDrawFont(skill_td[1], 0);
-
 	skill_td[2] = TextDrawCreate(476.110992, 348.448944, "skill information");
 	TextDrawLetterSize(skill_td[2], 0.194444, 1.142044);
 	TextDrawAlignment(skill_td[2], 1);
@@ -34975,7 +33930,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(skill_td[2], 51);
 	TextDrawFont(skill_td[2], 2);
 	TextDrawSetProportional(skill_td[2], 1);
-
 	skill_td[3] = TextDrawCreate(570.666870, 386.291137, "usebox");
 	TextDrawLetterSize(skill_td[3], 0.000000, -0.319626);
 	TextDrawTextSize(skill_td[3], 454.444396, 0.000000);
@@ -34986,7 +33940,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(skill_td[3], 0);
 	TextDrawSetOutline(skill_td[3], 0);
 	TextDrawFont(skill_td[3], 0);
-
 	AnimDraw = TextDrawCreate(401.00, 419.00, "~w~Press ~g~ENTER~w~ to stop animation");
 	TextDrawBackgroundColor(AnimDraw, 0x000000FF);
 	TextDrawFont(AnimDraw, 2);
@@ -34994,7 +33947,6 @@ stock CreateTexdraw() {
 	TextDrawLetterSize(AnimDraw, 0.300000, 1.250000);
 	TextDrawColor(AnimDraw, 0x0095B6FF);
 	TextDrawSetProportional(AnimDraw, 1);
-
 	HungerFon[0] = TextDrawCreate(547.500000, 58.000000, "_");
 	TextDrawBackgroundColor(HungerFon[0], 255);
 	TextDrawFont(HungerFon[0], 1);
@@ -35007,7 +33959,6 @@ stock CreateTexdraw() {
 	TextDrawBoxColor(HungerFon[0], 255);
 	TextDrawTextSize(HungerFon[0], 606.000000, 40.000000);
 	TextDrawSetSelectable(HungerFon[0], 0);
-
 	HungerFon[1] = TextDrawCreate(549.500000, 60.000000, "_");
 	TextDrawBackgroundColor(HungerFon[1], 255);
 	TextDrawFont(HungerFon[1], 1); //
@@ -35020,7 +33971,6 @@ stock CreateTexdraw() {
 	TextDrawBoxColor(HungerFon[1], 1787344480);
 	TextDrawTextSize(HungerFon[1], 604.000000, 40.000000);
 	TextDrawSetSelectable(HungerFon[1], 0);
-
 	YandNsysTD[0] = TextDrawCreate(356.507568, 318.333465, "usebox");
 	TextDrawLetterSize(YandNsysTD[0], -0.023426, 4.082155);
 	TextDrawTextSize(YandNsysTD[0], 277.000000, 0.000000);
@@ -35031,7 +33981,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(YandNsysTD[0], 0);
 	TextDrawSetOutline(YandNsysTD[0], 0);
 	TextDrawFont(YandNsysTD[0], 0);
-
 	YandNsysTD[1] = TextDrawCreate(285.415283, 334.916687, "LD_SPAC:white");
 	TextDrawLetterSize(YandNsysTD[1], 0.000000, 0.000000);
 	TextDrawTextSize(YandNsysTD[1], 63.000000, 0.583343);
@@ -35040,7 +33989,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(YandNsysTD[1], 0);
 	TextDrawSetOutline(YandNsysTD[1], 0);
 	TextDrawFont(YandNsysTD[1], 4);
-
 	YandNsysTD[2] = TextDrawCreate(285.415283, 346.999816, "LD_SPAC:white");
 	TextDrawLetterSize(YandNsysTD[2], 0.000000, 0.000000);
 	TextDrawTextSize(YandNsysTD[2], 63.000000, 0.583343);
@@ -35049,7 +33997,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(YandNsysTD[2], 0);
 	TextDrawSetOutline(YandNsysTD[2], 0);
 	TextDrawFont(YandNsysTD[2], 4);
-
 	Bizwar[0] = TextDrawCreate(95.00000, 290.00000, "__");
 	TextDrawBackgroundColor(Bizwar[0], 255);
 	TextDrawAlignment(Bizwar[0], 2);
@@ -35079,7 +34026,6 @@ stock CreateTexdraw() {
 	TextDrawSetOutline(Bizwar[1],1);
 	TextDrawSetProportional(Bizwar[1],1);
 	TextDrawSetShadow(Bizwar[1],1);
-
 	new Float:dice_area_pos[4][3]={{300.619750, -116.679603, 1035.475952},{300.619750, -120.979476, 1035.475952},
 		{300.619750, -125.139434, 1035.475952},{294.399932, -125.199684, 1035.475952}};
 	
@@ -35122,7 +34068,6 @@ stock CreateTexdraw() {
 		TextDrawBackgroundColor(Casino_TD[Casino_TD_TableNicks][c], 0x00000000);
 		TextDrawFont(Casino_TD[Casino_TD_TableNicks][c], 1);
 		TextDrawSetProportional(Casino_TD[Casino_TD_TableNicks][c], 1);
-
 		Casino_TD[Casino_TD_TableScore][c] = TextDrawCreate(593.616333, 191.916687, "0~n~0~n~0~n~0~n~0");
 		TextDrawLetterSize(Casino_TD[Casino_TD_TableScore][c], 0.444846, 1.815833);
 		TextDrawTextSize(Casino_TD[Casino_TD_TableScore][c], 36.544651, 20.416666);
@@ -35135,7 +34080,6 @@ stock CreateTexdraw() {
 		TextDrawBackgroundColor(Casino_TD[Casino_TD_TableScore][c], 0x00000000);
 		TextDrawFont(Casino_TD[Casino_TD_TableScore][c], 3);
 		TextDrawSetProportional(Casino_TD[Casino_TD_TableScore][c], 1);
-
 		InfoDice[c][dice_gamer][0] = INVALID_PLAYER_ID;
 		InfoDice[c][dice_gamer][1] = INVALID_PLAYER_ID;
 		InfoDice[c][dice_gamer][2] = INVALID_PLAYER_ID;
@@ -35152,7 +34096,6 @@ stock CreateTexdraw() {
 		InfoDice[c][dice_crup] = INVALID_PLAYER_ID;
 		UpdateTextCasino(c);
 	}
-
 	Casino_TD[Casino_TD_Enum] = TextDrawCreate(464.304626, 192.500000, "1~n~2~n~3~n~4~n~5");
 	TextDrawLetterSize(Casino_TD[Casino_TD_Enum], 0.449531, 1.833333);
 	TextDrawAlignment(Casino_TD[Casino_TD_Enum], 1);
@@ -35162,7 +34105,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(Casino_TD[Casino_TD_Enum], 255);
 	TextDrawFont(Casino_TD[Casino_TD_Enum], 3);
 	TextDrawSetProportional(Casino_TD[Casino_TD_Enum], 1);
-
 	Casino_TD[Casino_TD_Set_Bet] = TextDrawCreate(534.583007, 329.583190, "SET_BET");
 	TextDrawLetterSize(Casino_TD[Casino_TD_Set_Bet], 0.449999, 1.600000);
 	TextDrawTextSize(Casino_TD[Casino_TD_Set_Bet], 16.600000, 148.749862);
@@ -35176,7 +34118,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Casino_TD[Casino_TD_Set_Bet], 1);
 	TextDrawSetProportional(Casino_TD[Casino_TD_Set_Bet], 1);
 	TextDrawSetSelectable(Casino_TD[Casino_TD_Set_Bet], true);
-
 	Casino_TD[Casino_TD_Dice] = TextDrawCreate(534.583007, 352.749877, "DICE");
 	TextDrawLetterSize(Casino_TD[Casino_TD_Dice], 0.449999, 1.600000);
 	TextDrawTextSize(Casino_TD[Casino_TD_Dice], 16.600000, 148.749862);
@@ -35190,7 +34131,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Casino_TD[Casino_TD_Dice], 1);
 	TextDrawSetProportional(Casino_TD[Casino_TD_Dice], 1);
 	TextDrawSetSelectable(Casino_TD[Casino_TD_Dice], true);
-
 	Casino_TD[Casino_TD_Exit] = TextDrawCreate(534.583007, 377.083251, "EXIT");
 	TextDrawLetterSize(Casino_TD[Casino_TD_Exit], 0.449999, 1.600000);
 	TextDrawTextSize(Casino_TD[Casino_TD_Exit], 16.600000, 148.749862);
@@ -35204,8 +34144,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Casino_TD[Casino_TD_Exit], 1);
 	TextDrawSetProportional(Casino_TD[Casino_TD_Exit], 1);
 	TextDrawSetSelectable(Casino_TD[Casino_TD_Exit], true);
-
-
 	Casino_TD[Casino_TD_Lines][0] = TextDrawCreate(466.179138, 211.166641, "_____________");
 	Casino_TD[Casino_TD_Lines][1] = TextDrawCreate(466.710601, 227.333297, "_____________");
 	Casino_TD[Casino_TD_Lines][2] = TextDrawCreate(465.836486, 244.083312, "_____________");
@@ -35239,9 +34177,7 @@ stock CreateTexdraw() {
 	}
 	TextDrawSetPreviewRot(Casino_TD[Casino_TD_Modeled][0], 0.000000, 111.000000, 124.000000, 1.000000);
 	TextDrawSetPreviewRot(Casino_TD[Casino_TD_Modeled][1], 247.000000, 134.000000, 0.000000, 1.000000);
-
 	load_tune();
-
 	Capture[0] = TextDrawCreate(9.6999, 248.5628, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[0], 13.0000, 15.0000);
 	TextDrawAlignment(Capture[0], 1);
@@ -35250,7 +34186,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[0], 4);
 	TextDrawSetProportional(Capture[0], 0);
 	TextDrawSetShadow(Capture[0], 0);
-
 	Capture[1] = TextDrawCreate(99.7001, 248.5628, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[1], 13.0000, 15.0000);
 	TextDrawAlignment(Capture[1], 1);
@@ -35259,7 +34194,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[1], 4);
 	TextDrawSetProportional(Capture[1], 0);
 	TextDrawSetShadow(Capture[1], 0);
-
 	Capture[2] = TextDrawCreate(11.6665, 225.9333, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[2], 99.0000, 30.0000);
 	TextDrawAlignment(Capture[2], 1);
@@ -35268,7 +34202,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[2], 4);
 	TextDrawSetProportional(Capture[2], 0);
 	TextDrawSetShadow(Capture[2], 0);
-
 	Capture[3] = TextDrawCreate(17.0000, 247.0889, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[3], 89.0000, 14.0000);
 	TextDrawAlignment(Capture[3], 1);
@@ -35277,7 +34210,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[3], 4);
 	TextDrawSetProportional(Capture[3], 0);
 	TextDrawSetShadow(Capture[3], 0);
-
 	Capture[4] = TextDrawCreate(102.7330, 249.1523, "LD_Beat:chit"); // 123
 	TextDrawTextSize(Capture[4], 7.0000, 9.0000);
 	TextDrawAlignment(Capture[4], 1);
@@ -35286,7 +34218,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[4], 4);
 	TextDrawSetProportional(Capture[4], 0);
 	TextDrawSetShadow(Capture[4], 0);
-
 	Capture[5] = TextDrawCreate(13.8663, 245.7296, "LD_SPAC:white"); // 123
 	TextDrawTextSize(Capture[5], 94.5399, 9.0000);
 	TextDrawAlignment(Capture[5], 1);
@@ -35295,7 +34226,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[5], 4);
 	TextDrawSetProportional(Capture[5], 0);
 	TextDrawSetShadow(Capture[5], 0);
-
 	Capture[6] = TextDrawCreate(102.7330, 240.7518, "LD_Beat:chit"); // 123
 	TextDrawTextSize(Capture[6], 7.0000, 9.0000);
 	TextDrawAlignment(Capture[6], 1);
@@ -35304,7 +34234,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[6], 4);
 	TextDrawSetProportional(Capture[6], 0);
 	TextDrawSetShadow(Capture[6], 0);
-
 	Capture[7] = TextDrawCreate(12.7330, 249.1671, "LD_Beat:chit"); // 123
 	TextDrawTextSize(Capture[7], 7.0000, 9.0000);
 	TextDrawAlignment(Capture[7], 1);
@@ -35313,7 +34242,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[7], 4);
 	TextDrawSetProportional(Capture[7], 0);
 	TextDrawSetShadow(Capture[7], 0);
-
 	Capture[8] = TextDrawCreate(12.7330, 240.7666, "LD_Beat:chit"); // 123
 	TextDrawTextSize(Capture[8], 7.0000, 9.0000);
 	TextDrawAlignment(Capture[8], 1);
@@ -35322,7 +34250,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[8], 4);
 	TextDrawSetProportional(Capture[8], 0);
 	TextDrawSetShadow(Capture[8], 0);
-
 	Capture[9] = TextDrawCreate(16.3331, 242.3963, "LD_SPAC:white"); // 123
 	TextDrawTextSize(Capture[9], 89.2598, 14.0000);
 	TextDrawAlignment(Capture[9], 1);
@@ -35331,7 +34258,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[9], 4);
 	TextDrawSetProportional(Capture[9], 0);
 	TextDrawSetShadow(Capture[9], 0);
-
 	Capture[10] = TextDrawCreate(77.8667, 247.9558, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[10], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[10], 1);
@@ -35340,7 +34266,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[10], 4);
 	TextDrawSetProportional(Capture[10], 0);
 	TextDrawSetShadow(Capture[10], 0);
-
 	Capture[11] = TextDrawCreate(79.1333, 246.4444, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[11], 25.3400, 4.7999);
 	TextDrawAlignment(Capture[11], 1);
@@ -35349,7 +34274,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[11], 4);
 	TextDrawSetProportional(Capture[11], 0);
 	TextDrawSetShadow(Capture[11], 0);
-
 	Capture[12] = TextDrawCreate(98.5335, 242.7554, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[12], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[12], 1);
@@ -35358,7 +34282,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[12], 4);
 	TextDrawSetProportional(Capture[12], 0);
 	TextDrawSetShadow(Capture[12], 0);
-
 	Capture[13] = TextDrawCreate(98.3335, 247.4558, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[13], 7.1999, 8.8100);
 	TextDrawAlignment(Capture[13], 1);
@@ -35367,7 +34290,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[13], 4);
 	TextDrawSetProportional(Capture[13], 0);
 	TextDrawSetShadow(Capture[13], 0);
-
 	Capture[14] = TextDrawCreate(82.0000, 243.8851, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[14], 20.0000, 11.0000);
 	TextDrawAlignment(Capture[14], 1);
@@ -35376,7 +34298,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[14], 4);
 	TextDrawSetProportional(Capture[14], 0);
 	TextDrawSetShadow(Capture[14], 0);
-
 	Capture[15] = TextDrawCreate(70.7334, 242.7406, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[15], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[15], 1);
@@ -35385,7 +34306,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[15], 4);
 	TextDrawSetProportional(Capture[15], 0);
 	TextDrawSetShadow(Capture[15], 0);
-
 	Capture[16] = TextDrawCreate(70.6336, 248.0410, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[16], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[16], 1);
@@ -35394,7 +34314,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[16], 4);
 	TextDrawSetProportional(Capture[16], 0);
 	TextDrawSetShadow(Capture[16], 0);
-
 	Capture[17] = TextDrawCreate(44.6333, 246.5295, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[17], 32.0000, 5.0000);
 	TextDrawAlignment(Capture[17], 1);
@@ -35403,7 +34322,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[17], 4);
 	TextDrawSetProportional(Capture[17], 0);
 	TextDrawSetShadow(Capture[17], 0);
-
 	Capture[18] = TextDrawCreate(47.5000, 243.9702, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[18], 26.0000, 11.0000);
 	TextDrawAlignment(Capture[18], 1);
@@ -35412,7 +34330,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[18], 4);
 	TextDrawSetProportional(Capture[18], 0);
 	TextDrawSetShadow(Capture[18], 0);
-
 	Capture[19] = TextDrawCreate(43.6669, 242.7406, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[19], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[19], 1);
@@ -35421,7 +34338,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[19], 4);
 	TextDrawSetProportional(Capture[19], 0);
 	TextDrawSetShadow(Capture[19], 0);
-
 	Capture[20] = TextDrawCreate(43.5668, 248.0410, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[20], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[20], 1);
@@ -35430,7 +34346,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[20], 4);
 	TextDrawSetProportional(Capture[20], 0);
 	TextDrawSetShadow(Capture[20], 0);
-
 	Capture[21] = TextDrawCreate(16.0665, 242.6554, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[21], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[21], 1);
@@ -35439,7 +34354,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[21], 4);
 	TextDrawSetProportional(Capture[21], 0);
 	TextDrawSetShadow(Capture[21], 0);
-
 	Capture[22] = TextDrawCreate(15.8663, 247.9558, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[22], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[22], 1);
@@ -35448,7 +34362,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[22], 4);
 	TextDrawSetProportional(Capture[22], 0);
 	TextDrawSetShadow(Capture[22], 0);
-
 	Capture[23] = TextDrawCreate(17.1330, 246.4444, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[23], 25.3400, 4.7999);
 	TextDrawAlignment(Capture[23], 1);
@@ -35457,7 +34370,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[23], 4);
 	TextDrawSetProportional(Capture[23], 0);
 	TextDrawSetShadow(Capture[23], 0);
-
 	Capture[24] = TextDrawCreate(36.5330, 242.7554, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[24], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[24], 1);
@@ -35466,7 +34378,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[24], 4);
 	TextDrawSetProportional(Capture[24], 0);
 	TextDrawSetShadow(Capture[24], 0);
-
 	Capture[25] = TextDrawCreate(36.3332, 247.4558, "LD_Beat:chit"); // пусто
 	TextDrawTextSize(Capture[25], 7.1999, 8.8100);
 	TextDrawAlignment(Capture[25], 1);
@@ -35475,7 +34386,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[25], 4);
 	TextDrawSetProportional(Capture[25], 0);
 	TextDrawSetShadow(Capture[25], 0);
-
 	Capture[26] = TextDrawCreate(19.9996, 243.8851, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[26], 20.0000, 11.0000);
 	TextDrawAlignment(Capture[26], 1);
@@ -35484,7 +34394,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[26], 4);
 	TextDrawSetProportional(Capture[26], 0);
 	TextDrawSetShadow(Capture[26], 0);
-
 	Capture[27] = TextDrawCreate(78.0336, 242.6406, "LD_Beat:chit"); // 123
 	TextDrawTextSize(Capture[27], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[27], 1);
@@ -35493,7 +34402,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[27], 4);
 	TextDrawSetProportional(Capture[27], 0);
 	TextDrawSetShadow(Capture[27], 0);
-
 	Capture[28] = TextDrawCreate(14.1329, 240.1961, "LD_SPAC:white"); // 123
 	TextDrawTextSize(Capture[28], 94.0000, 1.0000);
 	TextDrawAlignment(Capture[28], 1);
@@ -35502,8 +34410,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[28], 4);
 	TextDrawSetProportional(Capture[28], 0);
 	TextDrawSetShadow(Capture[28], 0);
-
-
 	Capture[29] = TextDrawCreate(8.6666, 216.8074, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Capture[29], 105.0000, 9.0000);
 	TextDrawAlignment(Capture[29], 1);
@@ -35512,7 +34418,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[29], 4);
 	TextDrawSetProportional(Capture[29], 0);
 	TextDrawSetShadow(Capture[29], 0);
-
 	/*Capture[30] = TextDrawCreate(60.3333, 216.9630, "CAPTURE"); // пусто
 	TextDrawLetterSize(Capture[30], 0.1556, 0.8865);
 	TextDrawAlignment(Capture[30], 2);
@@ -35521,7 +34426,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[30], 2);
 	TextDrawSetProportional(Capture[30], 1);
 	TextDrawSetShadow(Capture[30], 0);*/
-
 	Capture[30] = TextDrawCreate(0.3333, 234.2297, ""); // пусто
 	TextDrawTextSize(Capture[30], 20.0000, -11.0000);
 	TextDrawAlignment(Capture[30], 1);
@@ -35532,7 +34436,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(Capture[30], 0);
 	TextDrawSetPreviewModel(Capture[30], 3090);
 	TextDrawSetPreviewRot(Capture[30], 0.0000, 0.0000, 0.0000, 1.0000);
-
 	Capture[31] = TextDrawCreate(101.9999, 233.8149, ""); // пусто
 	TextDrawTextSize(Capture[31], 20.0000, -11.0000);
 	TextDrawAlignment(Capture[31], 1);
@@ -35543,7 +34446,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(Capture[31], 0);
 	TextDrawSetPreviewModel(Capture[31], 3090);
 	TextDrawSetPreviewRot(Capture[31], 0.0000, 0.0000, 180.0000, 1.0000);
-
 	Capture[32] = TextDrawCreate(22.3332, 217.6370, "particle:lamp_shad_64"); // пусто
 	TextDrawTextSize(Capture[32], 78.0000, 8.0000);
 	TextDrawAlignment(Capture[32], 1);
@@ -35552,7 +34454,6 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[32], 4);
 	TextDrawSetProportional(Capture[32], 0);
 	TextDrawSetShadow(Capture[32], 0);
-
 	Capture[33] = TextDrawCreate(63.3335, 233.4260, "vs"); // пусто
 	TextDrawLetterSize(Capture[33], 0.1159, 0.6417);
 	TextDrawAlignment(Capture[33], 3);
@@ -35573,7 +34474,6 @@ stock CreateTexdraw() {
 	TextDrawFont(logo334_TD[0], 2);
 	TextDrawSetProportional(logo334_TD[0], 1);
 	TextDrawSetShadow(logo334_TD[0], 0);
-
 	logo334_TD[1] = TextDrawCreate(3.882393, 418.083251, "Chiliad");
 	TextDrawLetterSize(logo334_TD[1], 0.400000, 1.600000);
 	TextDrawAlignment(logo334_TD[1], 1);
@@ -35593,7 +34493,6 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[0], 1);
 	TextDrawSetProportional(logo_TD[0], 1);
 	TextDrawSetShadow(logo_TD[0], 0);
-
 	logo_TD[1] = TextDrawCreate(574.6665, 15.1079, "ROLE_PLAY"); // пусто
 	TextDrawLetterSize(logo_TD[1], 0.1250, 0.9321);
 	TextDrawAlignment(logo_TD[1], 2);
@@ -35602,7 +34501,6 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[1], 2);
 	TextDrawSetProportional(logo_TD[1], 1);
 	TextDrawSetShadow(logo_TD[1], 0);
-
 	logo_TD[2] = TextDrawCreate(591.3332, 18.1111, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(logo_TD[2], 3.1199, 4.0000);
 	TextDrawAlignment(logo_TD[2], 1);
@@ -35611,7 +34509,6 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[2], 4);
 	TextDrawSetProportional(logo_TD[2], 0);
 	TextDrawSetShadow(logo_TD[2], 0);
-
 	logo_TD[3] = TextDrawCreate(567.6665, 3.1777, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(logo_TD[3], 2.4400, 3.0000);
 	TextDrawAlignment(logo_TD[3], 1);
@@ -35620,7 +34517,6 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[3], 4);
 	TextDrawSetProportional(logo_TD[3], 0);
 	TextDrawSetShadow(logo_TD[3], 0);
-
 	CheatPanel[0] = TextDrawCreate(644.666503, 435.562164, "usebox");
 	TextDrawLetterSize(CheatPanel[0], 0.000000, 1.010738);
 	TextDrawTextSize(CheatPanel[0], 457.110839, 0.000000);
@@ -35631,7 +34527,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(CheatPanel[0], 0);
 	TextDrawSetOutline(CheatPanel[0], 0);
 	TextDrawFont(CheatPanel[0], 0);
-
 	CheatPanel[1] = TextDrawCreate(484.777862, 435.566650, "usebox");
 	TextDrawLetterSize(CheatPanel[1], 0.000000, 1.010738);
 	TextDrawTextSize(CheatPanel[1], 457.110961, 0.000000);
@@ -35642,7 +34537,6 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(CheatPanel[1], 0);
 	TextDrawSetOutline(CheatPanel[1], 0);
 	TextDrawFont(CheatPanel[1], 1);
-
 	CheatPanel[2] = TextDrawCreate(460.999816, 436.057586, "CHECK");
 	TextDrawLetterSize(CheatPanel[2], 0.158000, 0.918043);
 	TextDrawAlignment(CheatPanel[2], 1);
@@ -35654,7 +34548,6 @@ stock CreateTexdraw() {
 	TextDrawBackgroundColor(CheatPanel[2], 51);
 	TextDrawFont(CheatPanel[2], 2);
 	TextDrawSetProportional(CheatPanel[2], 1);
-
 	for(new i;i<10;i++) ChetInfo[i][cheatid1]=-1;
 	new Float:DrawPos = 485.111267;
 	Cheat1 = 0;
@@ -35750,7 +34643,6 @@ stock PayDay() {
 		SendClientMessage(i,-1,string);
 		
 		//if(PI[i][pPremium]) PI[i][pExp] += 1;
-
 		PI[i][pExp] += 3 * PayDayX;
 		
 		if(PI[i][pBoost]) format(string, sizeof(string), "Заробітня плата: "GREEN"$%i.", PI[i][pSalary]*2);
@@ -35761,7 +34653,6 @@ stock PayDay() {
 			SendClientMessage(i,-1, "Адмін-зарплата: "GREEN"$7000.");
 			PI[i][pBank] += 7000;
 		}
-
 		if(PI[i][pBoost]) PI[i][pBank] += PI[i][pSalary]*2;
 		else PI[i][pBank] += PI[i][pSalary];
 		PI[i][pSalary] = 0;
@@ -35774,7 +34665,6 @@ stock PayDay() {
 			PI[i][pBank] += Nalog[2];
 			FI[fWHITEHOUSE][fBank] -= Nalog[2];
 		}
-
 		format(string,sizeof(string),"Баланс: "GREEN"$%i.",PI[i][pBank]);
 		SendClientMessage(i,-1,string);
 		SendClientMessage(i,COLOR_GREY, "--------------------------------------------------");
@@ -35910,8 +34800,7 @@ stock SendDeptMessage(color, const string[]) {
 	}
 	return 1;
 }
-stock SendPDMessage(color, const string[])
-{
+stock SendPDMessage(color, const string[]) {
     foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
 		if(!start_work[i]) continue;
@@ -35933,8 +34822,7 @@ stock SendMCMessage(color, const string[]) {
 	}
 	return 1;
 }
-stock MarkerGos(playerid, Float:x,Float:y,Float:z)
-{
+stock MarkerGos(playerid, Float:x,Float:y,Float:z) {
 	foreach(new i:Player)
 	{
 		if(IsACop(i) || IsAArm(i) || IsAMedic(i) || IsANews(i) || PI[i][pMember] == fINSTRUCTORS || PI[i][pMember] == fWHITEHOUSE)
@@ -35981,13 +34869,10 @@ alias:mycollab("mypromo","promo");
 CMD:mycollab(playerid) {
 	ShowPlayerDialog(playerid,D_MYCOLLAB,DSL,""P"Статистика співпраці","Інформація про мій промокод\nМої реферали","Обрати","Закрити");
 }
-
-stock IsText(const name[], const name2[])
-{
+stock IsText(const name[], const name2[]) {
 	if(!strcmp(name, name2, true)) return 1;
 	return 0;
 }
-
 CMD:referals(playerid) {
 	new string[1024], Name[24], Level,query[156]; 
 	mysql_format(connects, query, sizeof(query),"SELECT `Name`, `pLevel` FROM `accounts` WHERE `pDrug` = '%s' ORDER BY `pLevel` DESC LIMIT 10", player_name[playerid]);
@@ -36024,10 +34909,8 @@ CMD:bankhack(playerid) {
 		if(IsPlayerInRangeOfPoint(i,8.0,X,Y,Z) && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid)) count++;
 	}
 	if(count < 3) return SendError(playerid, "З вами повинно знаходитися щонайменш 3 людини для пограбування банку.");
-
 	for(new it = 0; it < 24; it++) TextDrawShowForPlayer(playerid, hack_magaz_TD[it]);
 	for(new i = 0; i < 13; i++) PlayerTextDrawShow(playerid, hack_numbers[playerid][i]);
-
 	SelectTextDraw(playerid, 0x0080FFFF);
 	
 	new rand;
@@ -36037,7 +34920,6 @@ CMD:bankhack(playerid) {
 	
 	SetPVarInt(playerid, "ExpectedSelectionTD", rand);
 	SetPVarInt(playerid, "bank_rob",1);
-
 	progress_rob[playerid] = 0;
 	bank_vzlom[2] = PI[playerid][pMember];
 	
@@ -36048,7 +34930,7 @@ CMD:bankhack(playerid) {
 CMD:fixcar(playerid) {
 	if(!PI[playerid][pHouse] && !PI[playerid][pRoom] && !PI[playerid][pTempKey]) return SendError(playerid, "Ви не маєте будинку чи квартири.");
 	new string[144];
-	format(string,sizeof(string),""W"1. Транспорт #1 "P"[%s]"W" - "ORANGE"$500\n"W"2. Транспорт #2 "P"[%s]"W" - "ORANGE"$500",gTransport[CarsInfo[playerid][carModel][0]-400][trName],gTransport[CarsInfo[playerid][carModel][1]-400][trName]);
+	format(string,sizeof(string),""W"1. Транспорт #1 "P"[%s]"W" - "GREEN"$500\n"W"2. Транспорт #2 "P"[%s]"W" - "GREEN"$500",gTransport[CarsInfo[playerid][carModel][0]-400][trName],gTransport[CarsInfo[playerid][carModel][1]-400][trName]);
 	ShowPlayerDialog(playerid,D_FIXCAR,DSL,""P"Доставити транспорт",string,"Обрати","Закрити");
 	return 1;
 }
@@ -36067,14 +34949,12 @@ CMD:lmayor(playerid) {
 	dialog_mayor(playerid);
 	return 1;
 }
-
 CMD:viphelp(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Преміум-акаунт", ""W"Список основних можливостей"ORANGE" преміум-акаунта:"W"\n\n- Доступ до загального чату преміум-гравців (/v)\n- +1 сімейное очко каждый PayDay\n- Лікування в лікарні вдвічі швидше\n\
 	- Прегляд адміністраторів у мережі (/admins)\n- час в КПЗ і ДеМоргані спливає вдвічі швидше\n- Додаткове очко досвіду щогодини\n\
 	- Відсутність голоду\n- Звільнення з будь-якої організації (/leave)\n\n"G"*"W" Вартість преміум-акаунта залежить від кількості днів (/donate)", "Закрити", "");
 	return 1;
 }
-
 CMD:vacancy(playerid)
 {
 	new vacancies = 0;
@@ -36097,7 +34977,6 @@ CMD:vacancy(playerid)
 	if(vacancies == 0) return SendError(playerid, "Наразі немає доступних вакансій.");
 	return ShowPlayerDialog(playerid, D_VACANCY, DSL, ""P"Вакансії", str, "Далі", "Закрити");
 }
-
 CMD:taxilist(playerid) {
 	if(PI[playerid][pJob] != 8) return SendError(playerid, "Ви не водій таксі.");
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(playerid) != GetPVarInt(playerid,"veh_id_taxi")) return SendError(playerid, "Ви повинні бути за кермом таксі.");
@@ -36143,27 +35022,20 @@ CMD:dice(playerid, params[]) {
 	if(TI[params[0]][tDiceTime] > unix) return SendError(playerid, "Гравець недавно грав. Можно грати раз в 10 секунд.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	if(TI[playerid][tDiceID] != INVALID_PLAYER_ID) return SendError(playerid, "Не можна пропонувати ставку, поки не приймете або відхилете запит на гру в кості. (Y/N)");
-
 	new string[144];
-
 	format(string, sizeof(string), ""P"%s "W"запропонував вам кинути кості. Ставка: "P"$%i.", player_name[playerid], params[1]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"кинути кості. Ставка: "P"$%i.", player_name[params[0]], params[1]);
 	SendUse(playerid, string);
-
 	TI[params[0]][tDiceID] = playerid;
 	TI[playerid][tDiceIDs] = params[0];
 	TI[params[0]][tDiceMoney] = params[1];
-
 	TI[playerid][tDiceClosed] = true;
 	return 1;
 }
-
 CMD:yes(playerid) key_activate(playerid);
 CMD:no(playerid) key_dectivate(playerid);
-
 CMD:checktime(playerid, params[]) {
 	if(GetPVarInt(playerid,"anti_sbiv_time") > unix) return 1;
 	new string[800];
@@ -36227,7 +35099,6 @@ CMD:animlist(playerid,params[]) {
 	if(GetPVarInt(playerid,"anti_sbiv_time") > unix) return 1;
 	if(TI[playerid][tHeal] || GetPVarInt(playerid,"anim_build") > 0) return 1;
 	if(TI[playerid][tTazer] || TI[playerid][tCuffedTime] || deathphase[playerid] || GetPVarInt(playerid,"drug_time") >= gettime() || GetPVarInt(playerid,"anti_sbiv_time") >= unix || TI[playerid][tTied] || GetPVarInt(playerid,"Animation")) return SendClientMessage(playerid, -1, "Ви не можете скористатись цією фукнцією зараз.");
-
 	new id;
 	static const f_str[] = "1. Танец - 1\n2. Танец - 2\n3. Танец - 3\n4. Танец - 4\n5. Стійка дилера\n6. Передав щось\n7. З'їв щось\n8. Справити потребу\n9. Медитація\n10. Сидіти пораненим\n11. Спати на боці\n12. Лягти на спину\n13. Шльопнути рукою\n14. Наносити графіті 1\n15. Наносити графіті 2\n16. Куріння\n17. Пограбування\n18. Надеть маску\n19. Руки вверх\n20. Покликати когось\n21. Підняти руки\n22. Вболівальник 1\n23. Вболівальник 2\n24. Вболівальник 3\n\
 		25. Показати середній палець\n26. Випить щось\n27. Махати руками\n28. Чоловіче куріння\n29. Прилягти 1\n30. Прилягти 2\n31. Прилягти 3\n32. Прилягти 4\n33. Присісти на підлогу\n34. Читати реп 1\n35. Читати реп 2\n36. Читати реп 3\n37. Читати реп 4\n38. Набивати м'яч\n39. Кинути м'яч\n40. Підняти м'яч\n41. Покликати\n42. Ремонтувати авто\n43. Притулитися до авто\n44. Скласти руки разом\n\
@@ -36353,15 +35224,12 @@ CMD:kiss(playerid,params[]) {
 	if(!IsPlayerConnected(params[0])) return SendError(playerid, not_id);
 	if(!IsPlayerStream(4.0, playerid, params[0])) return SendError(playerid, "Гравець не поруч з вами.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
-
 	new string[128];
-
 	format(string, sizeof(string), "Ви запропонували "P"%s"W" поцілунок.",player_name[params[0]]);
 	SendUse(playerid, string);
 	format(string, sizeof(string), ""P"%s"W" запропонував вам поцілунок.",player_name[playerid]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	SetPVarInt(params[0],"kiss", playerid+1);
 	return 1;
 }
@@ -36378,19 +35246,14 @@ CMD:w(playerid,params[]) {
 }
 CMD:flip(playerid) {
 	if(PI[playerid][pCash] <= 0) return SendError(playerid, "У вас недостатньо коштів.");
-
 	static const  	coin_str0[] = "підкинув монетку, випав",
 	coin_str1[] = "а \"решка\".", coin_str2[] = " \" орел\".";
-
 	new string[MAX_PLAYER_NAME + (sizeof (coin_str0) - 2) + (sizeof (coin_str1) - 1) + 1] ;
-
 	strcat(string, coin_str0);
 	strcat(string, (random(2)) ? (coin_str1) : (coin_str2));
-
 	MeAction(playerid, string);
 	return 1;
 }
-
 CMD:ame(playerid, params[]) {
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чата.");
 	if(isnull(params) || strlen(params) > 80) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /ame [text]");
@@ -36442,7 +35305,6 @@ CMD:b(playerid,params[]) {
 	ProxDetector(15.0,playerid, mes, 0xcecf9cFF);
 	return 1;
 }
-
 CMD:stats(playerid, params[]) {
 	ShowStats(playerid,playerid,0);
 	return 1;
@@ -36456,15 +35318,12 @@ CMD:fight(playerid, params[]) {
 	if(params[1] < 1000 || params[1] > 10000) return SendError(playerid, "Ставка не повинна бути менше $1000 і більше $10000");
 	if(PI[playerid][pCash] < params[1]) return SendError(playerid, "У Вас недостатньо коштів");
 	if(PI[params[0]][pCash] < params[1]) return SendError(playerid, "У гравця недостатньо коштів");
-
 	new string[144];
 	format(string, sizeof(string), ""P"%s "W"запропонував вам взяти участь в бою. Ставка: "P"$%d.", player_name[playerid], params[1]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися "NO"N "BLUE"для відмови");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"взяти участь в бою. Ставка: "P"$%d.", player_name[params[0]],params[1]);
 	SendUse(playerid, string);
-
 	SetPVarInt(params[0],"fight_offer",playerid+1), SetPVarInt(params[0],"fight_price",params[1]);
 	return 1;
 }
@@ -36483,7 +35342,6 @@ CMD:skills(playerid, params[]) {
 		format(string, sizeof(string), ""P"%s "W"хоче показати вам свої навички володіння зброєю.", player_name[playerid]);
 		SendUse(params[0], string);
 		SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 		format(string, sizeof(string), "Ви запропонували "P"%s "W"показати ваші навики володіння зброєю.", player_name[params[0]]);
 		SendUse(playerid, string);
 		
@@ -36491,7 +35349,6 @@ CMD:skills(playerid, params[]) {
 	}
 	return 1;
 }
-
 CMD:wanted(playerid, params[])
 {
 	if(!IsACop(playerid)) return SendError(playerid, "Ви не є працівником правоохоронних органів");
@@ -36509,7 +35366,6 @@ CMD:wanted(playerid, params[])
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Список розшукуваних", string, "Закрити", "");
 	return 1;
 }
-
 CMD:find(playerid, params[])
 {
 	if(!IsACop(playerid)) return 1;
@@ -36547,14 +35403,11 @@ CMD:finvite(playerid,params[]) {
 	if(!ProxDetectorS(3.0, playerid,params[0])) return SendError(playerid, "Ви далеко один від одного.");
 	if(fam_members(PI[playerid][pFamily]) > 250) return SendError(playerid, "У сім'ї недостатньо місця.");
 	if(IsBLName_fam(PI[params[0]][pID],PI[playerid][pFamily])) return SendError(playerid, "Гравець знаходиться у ЧС вашої сім'ї.");
-
 	format(string, sizeof(string), ""P"%s "W"запропонував вам вступити у сім'ю "P"%s.", player_name[playerid], gFamily[PI[playerid][pFamily]-1][famName]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або"NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"вступити у вашу сім'ю.", player_name[params[0]]);
 	SendUse(playerid, string);
-
 	SetPVarInt(params[0],"family_invite",playerid + 1);
 	return 1;
 }
@@ -36572,16 +35425,13 @@ CMD:funinvite(playerid,params[]) {
 	if(params[0] == playerid) return SendError(playerid, not_id);
 	if(PI[playerid][pFamRank] <= PI[params[0]][pFamRank]) return SendError(playerid, "Ваш ранг недостатній.");
 	//if(!ProxDetectorS(3.0, playerid,params[0])) return SendError(playerid, "Ви далеко один від одного");
-
 	new fam = PI[playerid][pFamily]-1;
-
 	format(string,128,""W"%s{%s} вигнав вас з сім'ї "W"%s.", player_name[playerid],FamilyColor[gFamily[fam][famColor]],gFamily[fam][famName]);
 	SendClientMessage(params[0],FamilyColorG[gFamily[fam][famColor]],string);
 	PI[params[0]][pFamily] = 0;
 	UpdatePlayerData(params[0],"family",0);
 	PI[params[0]][pFamRank] = 0;
 	UpdatePlayerData(params[0],"pFamRank",0);
-
 	format(string,128,""W"%s{%s} вигнав "W"%s{%s} з сім'ї.", player_name[playerid],FamilyColor[gFamily[fam][famColor]],player_name[params[0]],FamilyColor[gFamily[fam][famColor]]);
 	FamMSG(fam+1,string);
 	return 1;
@@ -36610,7 +35460,6 @@ CMD:foffuninvite(playerid,params[]) {
 	}
 	else SendError(playerid, "Цей гравець не є членом вашої сім'ї.");
 	cache_delete(result);
-
 	format(string,128,""W"%s{%s} вигнав "W"%s{%s} з сім'ї.", player_name[playerid],FamilyColor[gFamily[PI[playerid][pFamily]-1][famColor]],params,FamilyColor[gFamily[PI[playerid][pFamily]-1][famColor]]);
 	FamMSG(PI[playerid][pFamily],string);
 	return 1;
@@ -36628,7 +35477,6 @@ CMD:frang(playerid, params[]) {
 	if(PI[params[0]][pFamRank] >= 8) return SendError(playerid, not_id);
 	if(PI[playerid][pFamily] != PI[params[0]][pFamily]) return SendError(playerid, "Гравець не є членом вашої сім'ї.");
 	if(PI[playerid][pFamRank] <= PI[params[0]][pFamRank]) return SendError(playerid, "Ваш ранг недостатній.");
-
 	if(PI[playerid][pFamRank] == 8) {
 		for(new i = 1; i <= 8; i++) {
 			if(i>= PI[playerid][pFamRank]) break;
@@ -36683,8 +35531,7 @@ CMD:famspcar(playerid) {
 	return 1;
 }
 forward LoadSettings();
-public LoadSettings()
-{
+public LoadSettings() {
     new time = GetTickCount();
     new rows = cache_num_rows();
 	new string[128];
@@ -36704,8 +35551,7 @@ public LoadSettings()
 	return 1;
 }
 forward LoadMapping();
-public LoadMapping()
-{
+public LoadMapping() {
 	new stringer[144];
     new time = GetTickCount();
     new rows = cache_num_rows();
@@ -36753,7 +35599,6 @@ CMD:fampark(playerid) {
 	if(id == -1) return SendError(playerid, "Ви повинні знаходитися у сімейному транспорті.");
 	return 1;
 }
-
 CMD:fmenu(playerid) {
 	if(!PI[playerid][pFamily]) return SendError(playerid, "Ви не є членом сім'ї.");
 	family_dialog(playerid);
@@ -36832,7 +35677,6 @@ CMD:topmed(playerid) {
 	}
 	return 1;
 }
-
 CMD:topnews(playerid) {
 	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не є працівником радіоцентру.");
 	new query[128], string[400], name[24], advert;
@@ -36854,7 +35698,6 @@ CMD:topnews(playerid) {
 	if(!count) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Рейтинг працівників.",""W"Список співробітників пустий", "Закрити", "");
 	return 1;
 }
-
 CMD:ether(playerid) {
 	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник радіоцентру.");
 	if(PI[playerid][pRank] < 5) return SendError(playerid, "Доступно з 5 рангу.");
@@ -36886,7 +35729,6 @@ CMD:ether(playerid) {
 }
 CMD:skip(playerid) {
 	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник радіоцентру.");
-
 	switch(PI[playerid][pMember]) {
 	case fLSNEWS: {
 			if(calls_ether[0] == INVALID_PLAYER_ID) return SendError(playerid, "Нікого немає на лінії.");
@@ -36948,7 +35790,6 @@ CMD:fish(playerid) {
 	RandomYareNforJOBS(playerid);
 	return 1;
 }
-
 CMD:search(playerid) {
 	if(!PlayerToKvadrat(playerid, -809, -2057.5, -706, -1873.5)) return SendError(playerid, "Ви не в зоні для пошуку!");
 	if(Fishing[playerid] == true) return SendError(playerid, "Ви вже шукаєте предмети.");
@@ -36970,7 +35811,6 @@ CMD:search(playerid) {
 	RandomYareNforJOBS(playerid);
 	return 1;
 }
-
 CB: poisk_player(playerid) {
 	new rand_fish = random(80);
 	TogglePlayerControllable(playerid, true);
@@ -37021,7 +35861,6 @@ CB: poisk_player(playerid) {
 	}
 	return 1;
 }
-
 CB: fish_player(playerid) {
 	new rand_fish = random(sizeof(FishName) + 3);
 	new string[150];
@@ -37177,7 +36016,6 @@ CMD:safe(playerid) {
 	ShowPlayerDialog(playerid,dSafeAction,DSL,"Сейф",mes,"Далі","Скасувати");
 	return 1;
 }
-
 CMD:hgps(playerid) {
 	if(!PI[playerid][pHouse]) return SendError(playerid, "Ви не маєте будинку.");
 	if(GetPlayerInterior(playerid) > 0) return SendError(playerid, "Не можна скористатись функцією у приміщенні.");
@@ -37354,12 +36192,10 @@ CMD:business(playerid) {
 		format(string,sizeof(string),f_str,status);
 		ShowPlayerDialog(playerid,D_BIZZ_11,DSL,""P"Керування бізнесом",string,"Обрати","Скасувати");
 	}
-
 		
 	}
 	return 1;
 }
-
 CMD:buyfueling(playerid) {
 	new i = GetNearestTrunckFuel(playerid);
 	if(i == -1) return SendError(playerid, "Ви повинні бути на АЗС.");
@@ -37571,14 +36407,12 @@ CMD:book(playerid) {
 	ShowPlayerDialog(playerid, D_BOOK, DSTH, "Телефонна книга", string, "Обрати", "Скасувати");
 	return 1;
 }
-
 CMD:healme(playerid) {
 	if(!GetInvent(playerid, 1)) return SendError(playerid, "У вас немає аптечки");
 	if(TI[playerid][tDuel] != -1) return SendError(playerid, "Не можна використовувати на дуелях.");
 	if(GetPVarInt(playerid,"anti_sbiv_time") > unix) return 1;
 	new Float:health;
 	GetPlayerHealth(playerid,health);
-
 	if(health + 60.0 < 160.0) health += 60.0;
 	else health = 160.0;
 	SetHealth(playerid, health);
@@ -37598,8 +36432,7 @@ CMD:healme(playerid) {
 	SetPVarInt(playerid, "anti_sbiv_time", unix+7);
 	return 1;
 }
-CMD:frmask(playerid)
-{
+CMD:frmask(playerid) {
 	if(!IsACop(playerid) || !start_work[playerid]) return SendError(playerid, "Доступно тільки правоохоронним органам.");
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 2)) RemovePlayerAttachedObject(playerid, 2);
 	if(GPVI(playerid,"FRMask_Use"))
@@ -37619,7 +36452,6 @@ CMD:frmask(playerid)
 	}
 	return 1;
 }
-
 CMD:mask(playerid) {
 	if(GetPVarInt(playerid,"anti_sbiv_time") > unix) return 1;
 	if(!GetInvent(playerid, 120)) return SendError(playerid, "У вас недостатньо масок.");
@@ -37635,10 +36467,8 @@ CMD:mask(playerid) {
 	new slot = ClickInv[playerid];
 	if(slot != -1) RefreshInv(playerid, slot);
 	else DeleteItem(playerid, 120, 1);
-
 	ApplyAnimation(playerid, "shop","ROB_Shifty",4.0,0,0,0,0,0,1);
 	SetPlayerAttachedObject(playerid, 8, 19801, 2, 0.064999, 0.028999, 0.000000, 0.000000, 80.300003, 178.900009, 1.330000, 1.25, 1.125000);
-
 	TI[playerid][tMaskTime] = 10;
 	SetPlayerChatBubble(playerid, "одягнув маску.", COLOR_ORANGE, 30.0, 10000);
 	//NickName(playerid);
@@ -37685,7 +36515,6 @@ CMD:flowers(playerid, params[]) {
 CB: RemovePlayerAttachedObjectDelay(playerid,slot) {
 	RemovePlayerAttachedObject(playerid,slot);
 }
-
 CMD:loadweste(playerid) {
 	new vehicleid = GetPlayerVehicleID(playerid);
 	if(PI[playerid][pJob] != 6) return SendError(playerid, "Ви не працюєте чистильником каналізацій.");
@@ -37721,9 +36550,7 @@ CMD:sewerage(playerid) {
 	ShowPlayerDialog(playerid, D_JOB_KANAL, DSTH,""P"Каналізації",string,"Обрати","Закрити");
 	return 1;
 }
-
-CMD:free(playerid, params[])
-{
+CMD:free(playerid, params[]) {
 	if (PI[playerid][pMember] != fWHITEHOUSE || !start_work[playerid]) return 1;
 	if (PI[playerid][pRank] < 3) return SendError(playerid, "Ви не адвокат.");
 	if (sscanf(params, "dd", params[0], params[1])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /free [playerid] [prive]");
@@ -37745,7 +36572,6 @@ CMD:free(playerid, params[])
 	SetPVarInt(params[0], "FreePrice", params[1]);
 	return 1;
 }
-
 CMD:svrnt(playerid) {
 	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 	new string[512];
@@ -37788,17 +36614,14 @@ CMD:sellbusiness(playerid,params[]) {
 		return 1;
 	}
 	if(GetPlayerDistanceToPlayer(playerid,params[0]) > 3.0 || GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(params[0])) return SendError(playerid, "Ви далеко один від одного");
-
 	new businessid = -1;
 	for(new i;i<gBusinessCount;i++) {
 		if(GetString(player_name[playerid],gBusiness[i][bizzOwner])) {businessid = i; break;}
 	}
 	if(businessid == -1) return SendError(playerid, "Бізнес не знайдено.");
-
 	SetPVarInt(params[0],"bizzProdaet",playerid + 1);
 	SetPVarInt(playerid,"bizzPokupaet",params[0] + 1);
 	SetPVarInt(params[0],"bizzCena",params[1]);
-
 	new string[144];
 	format(string, sizeof(string), ""P"%s "W"запропонував(а) Вам купити його бізнес за "P"$%i"W".", player_name[playerid], params[1]);
 	SendUse(params[0], string);
@@ -37829,14 +36652,11 @@ CMD:sellsim(playerid,params[]) {
 	if(PlayerToPoint(30.0,playerid,2080.7615, 1710.6829, 1113.5668)) return SendError(playerid, "Заборонена продажа SIM-карти в казино.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	new string[144];
-
 	format(string, sizeof(string), ""P"%s "W"запропонував вам купити SIM-карту за "P"$%i"W".", player_name[playerid], params[1]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"купити SIM-карту за "P"$%i"W".", player_name[params[0]], params[1]);
 	SendUse(playerid, string);
-
 	SetPVarInt(params[0], "sim_id_sell", playerid + 1); 
 	SetPVarInt(params[0], "sim_summ", params[1]);
 	return 1;
@@ -37850,10 +36670,8 @@ CMD:usedrugs(playerid, params[])
 	if (drugs <= 0) return SendError(playerid, "У вас немає наркотиків.");
 	if (TI[playerid][tDuel] != -1) return SendError(playerid,"Не можна використовувати на дуелях.");
 	if(TI[playerid][tDM] != 0) return SendError(playerid,"Не можна використовувати на DM зонах.");
-
 	new Float: PlayerHP;
 	GetPlayerHealth(playerid, PlayerHP);
-
 	if (sscanf(params, "i", params[0]))
 	{
 		if (PI[playerid][pAddiction] < 2000)
@@ -37919,7 +36737,6 @@ CMD:usedrugs(playerid, params[])
 			SetPVarInt(playerid, "DrugsTime", gettime() + 30);
 		}
 		else SendClientMessage(playerid, COLOR_WHITE, "Здоров'я можна поповнювати не частіше, ніж раз в 30 секунд.");
-
 		if (PI[playerid][pAddiction] < 2000)
 		{
 			UsingDrugs[playerid] = 10;
@@ -37936,7 +36753,6 @@ CMD:usedrugs(playerid, params[])
 	
 	PI[playerid][pDrugs] -= params[0];
 	UpdatePlayerData(playerid,"pDrugs",PI[playerid][pDrugs]);
-
 	PI[playerid][pStartLomka] = 0;
 	
 	if(PI[playerid][pNarcoLomka] == 1)
@@ -37965,7 +36781,6 @@ CMD:selldrugs(playerid, params[]) {
 	SetPVarInt(id,"drugoffer",playerid);
 	SetPVarInt(id,"drugprice",price);
 	SetPVarInt(id,"drugvalue",drugs);
-
 	new string[170];
 	format(string, sizeof(string), "Ви запропонували "P"%s"W" купити "W"%d"W" грам наркотиків за "P"$%d"W".",player_name[id],drugs,price);
 	SendUse(playerid, string);
@@ -38155,8 +36970,7 @@ CMD:slimit(playerid,params[]) {
 	SendOK(playerid,"Обмеження швидкості встановлено.");
 	return 1;
 }
-
-alias:engine("e");
+alias:engine("en");
 CMD:engine(playerid, const params[]) {
 	new carid = GetPlayerVehicleID(playerid);
 	if(IsAVelik(carid)) return 0;
@@ -38164,10 +36978,9 @@ CMD:engine(playerid, const params[]) {
 	if(thef_car[playerid] == carid && GetPVarInt(playerid,"theft") > 0) return 0;
 	if(GetPVarInt(playerid,"tank_vfuel")) return 1;
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
-
 	new Float:Health;
 	GetVehicleHealth(carid,Health);
-	// GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
+	GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
 	/*if(VehicleInfo[carid][vFuel] <= 0.5 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid) && !IsAVelik(carid) && Health <= 320) {
 		SendError(playerid, "Не вдалось завести двигун");
 		return 1;
@@ -38180,15 +36993,6 @@ CMD:engine(playerid, const params[]) {
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) ToggleEngine(GetPlayerVehicleID(playerid),playerid);
 	return 1;
 }
-CMD:en(playerid, params[]) {
-	new carid = GetPlayerVehicleID(playerid);
-	if(!IsAPlane(carid) && !IsABoat(carid)) return 0;
-	if(carid == INVALID_VEHICLE_ID) return 1;
-	if(thef_car[playerid] == carid && GetPVarInt(playerid,"theft") > 0) return 0;
-	GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) ToggleEngine(carid,playerid);
-	return 1;
-}
 
 CMD:hi(playerid,params[]) {
 	if(IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Не можна використовувати в машині.");
@@ -38199,18 +37003,14 @@ CMD:hi(playerid,params[]) {
 	if(params[0] == playerid)  return  SendError(playerid, "Ви вказали свій ID.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	new string[144];
-
 	format(string, sizeof(string), ""P"%s "W"запропонував вам потиснути руку.", player_name[playerid]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"потиснути руку.", player_name[params[0]]);
 	SendUse(playerid, string);
-
 	SetPVarInt(params[0],"hi", playerid+1);
 	return 1;
 }
-
 CMD:sellic(playerid, params[]) {
 	if(PI[playerid][pMember] != fINSTRUCTORS) return SendError(playerid, "Ви не є працівником автошколи.");
 	if(!PlayerToPoint(30.0,playerid,4.0519,-81.3692,1026.4091) && GetPlayerInterior(playerid) != 3) return SendError(playerid, "Ви повинні знаходитися в автошколі");
@@ -38222,16 +37022,13 @@ CMD:sellic(playerid, params[]) {
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	if(PI[params[0]][pCash] < params[1]) return SendError(playerid, "У гравця недостатньо грошей.");
 	if(GetPlayerDistanceToPlayer(playerid, params[0]) > 3.0 || GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(params[0])) return SendError(playerid, "Гравець дуже далеко");
-
 	new abz[46];
 	format(abz,sizeof(abz),""P"Видача ліцензії за"W" %i",params[1]);
 	ShowPlayerDialog(playerid,D_LICENSE_GIVE,DSL,abz,"1. Ліцензія на наземний транспорт\n2. Ліцензія на повітряний транспорт\n3. Ліцензія на водний транспорт","Обрати","Закрити");
-
 	SetPVarInt(playerid,"lic", params[0] + 1);
 	SetPVarInt(playerid,"lic_cash",params[1]);
 	return 1;
 }
-
 CMD:givelic(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 	if(sscanf(params,"d",params[0])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /givelic [playerid]");
@@ -38256,14 +37053,11 @@ CMD:pts(playerid,params[]) {
 	else {
 		if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 		new string[144];
-
 		format(string, sizeof(string), ""P"%s "W"хоче показати вам документи на транспорт.", player_name[playerid]);
 		SendUse(params[0], string);
 		SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 		format(string, sizeof(string), "Ви запропонували "P"%s "W"показати документи на транспорт.", player_name[params[0]]);
 		SendUse(playerid, string);
-
 		SetPVarInt(params[0],"pts", playerid + 1);
 	}
 	return 1;
@@ -38276,14 +37070,11 @@ CMD:lic(playerid,params[]) {
 	else {
 		if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 		new string[144];
-
 		format(string, sizeof(string), ""P"%s "W"хоче показати Вам свої ліцензії.", player_name[playerid]);
 		SendUse(params[0], string);
 		SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 		format(string, sizeof(string), "Ви запропонували "P"%s "W"показати ваші ліцензії.", player_name[params[0]]);
 		SendUse(playerid, string);
-
 		SetPVarInt(params[0],"lices", playerid + 1);
 	}
 	return 1;
@@ -38295,16 +37086,12 @@ CMD:pass(playerid, params[]) {
 	if(GetPlayerDistanceToPlayer(playerid, params[0]) > 3.0 || GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(params[0])) return SendError(playerid, "Гравець дуже далеко");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	if(playerid == params[0]) return ShowPass(playerid,playerid);
-
 	new string[144];
-
 	format(string, sizeof(string), ""P"%s "W"хоче показати вам паспорт.", player_name[playerid]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"показати ваш паспорт.", player_name[params[0]]);
 	SendUse(playerid, string);
-
 	SetPVarInt(params[0],"pass", playerid + 1);
 	return 1;
 }
@@ -38417,7 +37204,6 @@ CMD:push(playerid, params[]) {
 	new string[64];
 	format(string,sizeof(string), "%s затащил вас в автомобіль",player_name[playerid]);
 	SendOK(params[0],string);
-
 	format(string,sizeof(string), "Ви затащили в автомобіль %s",player_name[params[0]]);
 	SendOK(playerid,string);
 	
@@ -38439,7 +37225,6 @@ CMD:udjur(playerid, params[]) {
 	format(string, sizeof(string), ""P"%s "W"хоче показати вам посвідчення журналіста.", player_name[playerid]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"показати ваше посвідчення журналіста.", player_name[params[0]]);
 	SendUse(playerid, string);
 	
@@ -38461,7 +37246,6 @@ CMD:ud(playerid, params[]) {
 	format(string, sizeof(string), ""P"%s "W"хоче показати вам посвідчення.", player_name[playerid]);
 	SendUse(params[0], string);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	format(string, sizeof(string), "Ви запропонували "P"%s "W"показати ваше посвідчення.", player_name[params[0]]);
 	SendUse(playerid, string);
 	
@@ -38504,7 +37288,6 @@ CMD:fences(playerid, const params[]) {
 	ShowPlayerDialog(playerid,D_OBJ,DSL,""P"Огородження",""P"1."W" Огородження\n"P"2."W" Дорожні знаки\n"P"3."W" Інше\n"P"4."W" Прибрати найближче загородження","Обрати","Скасувати");
 	return 1;
 }
-
 CMD:fvig(playerid,params[]) {
 	new string[350];
 	if(sscanf(params,"us[128]",params[0], params[1])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /fvig [playerid] [reason]");
@@ -38513,11 +37296,9 @@ CMD:fvig(playerid,params[]) {
 	if(PI[playerid][pRank] < 6) return SendError(playerid, "Доступно з 8 рангу.");
 	if(PI[params[0]][pRank] >= 7) return SendError(playerid, "Не можна понизити гравця з 7 рангом.");
 	if(!IsACop(params[0]) && !IsAArm(params[0]) && !IsAMedic(params[0]) && !IsANews(params[0])) return SendError(playerid, "Гравець не є членом державної організації.");
-
 	PI[params[0]][pfWarn] ++;
 	UpdatePlayerData(params[0],"fwarn",PI[params[0]][pfWarn]);
 	FracLog(LOGS_FWARN,player_name[playerid],player_name[params[0]],params[1]);
-
 	if(PI[params[0]][pfWarn] >= 3) {
 		if(start_work[params[0]]) {
 			SendInfo(params[0],"Робочий день завершено.");
@@ -38545,7 +37326,6 @@ CMD:fvig(playerid,params[]) {
 	SendFamilyMessage(PI[playerid][pMember],0x31cf63FF, string);
 	return 1;
 }
-
 CMD:mark(playerid, params[]) {
 	if (!IsACop(playerid))
 	return SendError(playerid, "У вас немає доступу до цієї команди.");
@@ -38574,12 +37354,10 @@ CMD:mark(playerid, params[]) {
 	}
 	return 1;
 }
-
 CMD:marklist(playerid) {
 	if (!IsACop(playerid))
 	return SendError(playerid, "У вас немає доступу до цієї команди.");
 	new idx = 0, string[300], string_2[300];
-
 	format(STRING_GLOBAL, sizeof (STRING_GLOBAL), " \n"G"Назва моделі т/з - Маркування - Ким встановлена\n");
 	for (new vehicleid = GetVehiclePoolSize() + 1; --vehicleid != 0;) {
 		if (!VehicleInfo[vehicleid][vMarked])
@@ -38593,7 +37371,6 @@ CMD:marklist(playerid) {
 		VehicleInfo[vehicleid][vMarkOwner]
 		);
 		strcat(string_2, string);
-
 		idx++;
 	}
 	if (idx == 0) {
@@ -38607,7 +37384,6 @@ CMD:marklist(playerid) {
 	}
 	return 1;
 }
-
 CMD:alc(playerid) {
 	if(!IsACop(playerid) || !start_work[playerid]) return SendError(playerid, "Доступно тільки правоохоронним органам.");
 	ShowPlayerDialog(playerid, D_ALCATRZ, DSL, ""P"Алькатрас", ""P"1."W" Місце розташування в'язниці\n"P"2."W" Список втікачів з в'язниці\n"P"3."W" Місце розташування 'Накращого друга'\n"P"4."W" Кінцева точка в'язнів", "Обрати", "Закрити");
@@ -38724,25 +37500,20 @@ CMD:arrest(playerid,params[]) {
 	if(!IsPlayerConnected(suspect)) return SendError(playerid,not_id);
 	if(!IsPlayerStream(4.0, playerid, suspect)) return SendError(playerid, "Гравець не поруч з вами.");
 	if(PI[suspect][pSearch] < 1) return SendError(playerid, "Гравець не у розшуку.");
-
 	new search, turma;
 	if(PI[suspect][pSearch] <= 5) search = 600;
 	else search = 750;
-
 	if(TI[suspect][tCuffed] && GotoInfo[playerid][gtID] == suspect) {
 		TogglePlayerControllable(suspect, TI[suspect][tCuffed]);
 		CheckPlayerGoCuff(suspect);
 		CheckPlayerGoCuff(suspect);
 		//return 1;
 	}
-
 	new string[128];
 	format(string, sizeof(string), "Ви посадили у в'язницю %s на %d секунд.", player_name[suspect], (PI[suspect][pSearch] * search));
 	SendClientMessage(playerid, 0x6ab1ffaa, string);
-
 	format(string, sizeof(string), "Вас посадив у в'язницю %s на %d секунд.", player_name[playerid], (PI[suspect][pSearch] * search));
 	SendClientMessage(suspect, CBADINFO, string);
-
 	format(string, sizeof(string), "%s %s(%d) арештував злочинця %s(%d).", GetRankName(PI[playerid][pMember],PI[playerid][pRank]),player_name[playerid],playerid, player_name[suspect],suspect);
 	SendPDMessage(COLOR_MINJUST, string);
 	
@@ -38885,14 +37656,11 @@ CMD:spikes(playerid) {
 	if(!GetPVarInt(playerid,"block")) {
 		if(ObjectShip[playerid] == 0x7F800000) {
 			if(IsValidDynamicObject(ObjectShip[playerid])) DestroyDynamicObject(ObjectShip[playerid]);
-
 			GetVehiclePos(veh, X, Y, Z);
 			GetVehicleZAngle(veh, ANGLE);
-
 			X -= (5.0 * floatsin(-ANGLE, degrees));
 			Y -= (5.0 * floatcos(-ANGLE, degrees));
 			Z -= 0.8;
-
 			ObjectShip[playerid] = CreateDynamicObject(2899, X, Y, Z, 0, 0, ANGLE - 90.0);
 			SetPVarInt(playerid,"Ships",CreateDynamicSphere(X, Y, Z, 3.5, -1, -1, -1));
 			string = "";
@@ -38931,20 +37699,16 @@ CMD:patrul(playerid) {
 	new total_player_online = 0;
 	tick_wanted{total_player_online} = 0;
 	static const dialog_put_fmt[] = "%s\t%i\n";
-
 	const string_length =
 	sizeof(dialog_put_fmt) + 1 +
 	(- 2 + MAX_PLAYER_NAME) + // Им'я гравця
 	(- 2 + 1);  // Уровень розшуку
-
 	goto skip_array_init;
 	new onestring[(string_length * 30) / 4],
 	tempstring[string_length];
 	skip_array_init:
-
 	new Float:pos[3];
 	GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
-
 	onestring = !""W"Ім'я гравця\t"W"Рівень розшуку\n";
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
@@ -39096,7 +37860,6 @@ CMD:divorce(playerid) {
 	strmid(PI[playerid][pMarried], "-", 0, 10);
 	return 1;
 }
-
 CMD:propose(playerid,params[]) {
 	if(strlen(PI[playerid][pMarried]) > 10) return SendError(playerid, "Ви не одружені або заміжні.");
 	if(sscanf(params,"d",params[0])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /propose [playerid]");
@@ -39127,7 +37890,6 @@ CMD:wbook(playerid, params[]) {
 		format(string, sizeof(string), ""P"%s "W"хоче показати вам свою трудову книжку.", player_name[playerid]);
 		SendUse(params[0], string);
 		SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 		format(string, sizeof(string), "Ви запропонували "P"%s "W"показати вашу трудову книжку.", player_name[params[0]]);
 		SendUse(playerid, string);
 		
@@ -39144,14 +37906,11 @@ CMD:medcard(playerid,params[]) {
 	else {
 		if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 		new string[144];
-
 		format(string, sizeof(string), ""P"%s "G"хоче показати вам медичну карту.", player_name[playerid]);
 		SendUse(params[0], string);
 		SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 		format(string, sizeof(string), "Ви запропонували "P"%s "G"показати вашу медичну карту.", player_name[params[0]]);
 		SendUse(playerid, string);
-
 		SetPVarInt(params[0],"medcard", playerid + 1);
 	}
 	return 1;
@@ -39180,9 +37939,7 @@ CMD:cure(playerid, params[]) {
 	if(sscanf(params, "u", giveplayerid)) return SendInfo(playerid, "Використайте: /cure [playerid]");
 	if(giveplayerid == INVALID_PLAYER_ID || giveplayerid == playerid) return SendError(playerid, not_id);
 	if(deathphase[giveplayerid] != 1) return SendError(playerid, "Гравень не в стадії.");
-
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, 0, 1, 1, 1, 0, 0);
-
 	SetTimerEx("CureDeathPlayer", 2670, 0, "ii", playerid, giveplayerid);
 	return 1;
 }
@@ -39269,7 +38026,6 @@ CMD:shd(playerid,params[]) {
 	SendUse(playerid, string);
 	format(string, sizeof(string), ""P"Продавець хот-догів "W"%s"P" запропонував купити вам хот-дог за "P"$%d\n\nВи погоджуєтеся?",player_name[playerid],params[1]);
 	SPD(params[0],dEHotDog,DSM, ""P"Покупка хот-дога",string,"Так","Ні");
-
 	SetPVarInt(playerid,"id_hotdog",params[0] + 1);
 	SetPVarInt(playerid,"price_hotdog", params[1]);
 	SetPVarInt(params[0],"id_hotdog",playerid + 1);
@@ -39298,13 +38054,11 @@ CMD:refill(playerid,params[]) {
 	if(!IsPlayerStream(10.0, playerid, params[0])) return SendError(playerid, "Гравець далеко від вас.");
 	if(GetPlayerState(params[0]) != PLAYER_STATE_DRIVER) return SendError(playerid, "Гравець повинен бути в машині.");
 	if(VehicleInfo[GetPlayerVehicleID(params[0])][vFuel]+params[1] > gTransport[GetVehicleModel(GetPlayerVehicleID(params[0])) - 400][trTank]) return SendError(playerid, "В машині, яку ви хочете заправити, заповнений бак.");
-
 	new string[170];
 	format(string, sizeof(string), "Ви запропонували "P"%s"W" заправити його т/з на "W"%d"G" літрів за "P"$%d.",player_name[params[0]],params[1],params[2]);
 	SendUse(playerid, string);
 	format(string, sizeof(string), ""P"Механік "P"%s"W" запропонував заправити ваше т/з на "P"%d"W" літрів за "P"$%d.\n\nВи погоджуєтеся?",player_name[playerid],params[1],params[2]);
 	SPD(params[0],dRefill,DSM, ""P"Заправка",string,"Так","Ні");
-
 	SetPVarInt(playerid,"id_refill",params[0] + 1);
 	SetPVarInt(playerid,"price_refill", params[2]);
 	SetPVarInt(playerid,"litres_refill", params[1]);
@@ -39377,7 +38131,6 @@ CMD:repairs(playerid) {
 	ShowPlayerDialog(playerid,D_REPAIRS,DSL,""P"Вхідні виклики",string,"Обрати","Скасувати");
 	return 1;
 }
-
 CMD:offgettime(playerid, const params[])  {
 	new input[50];
 	if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
@@ -39414,7 +38167,6 @@ CMD:leaders(playerid) {
 	for(new i = 1;i < MAX_FRACTIONS;i ++) {
 		if(!strcmp(FI[i][fLeader],"None",true)) strmid(leader,"Відсутній", 0, strlen("Відсутній"), 25);
 		else strmid(leader,"Відсутній", 0, strlen("Відсутній"), 25);
-
 		new idFrac = GetCheckID(FI[i][fLeader]);
 		if(!GetString(FI[i][fName],"Зачинено"))
 		{
@@ -39468,7 +38220,6 @@ CMD:fwarn(playerid, params[]) {
 	PI[params[0]][pfWarn] ++;
 	UpdatePlayerData(params[0],"fwarn",PI[params[0]][pfWarn]);
 	FracLog(LOGS_FWARN,player_name[playerid],player_name[params[0]],params[1]);
-
 	if(PI[params[0]][pfWarn]>=3) {
 		if(start_work[params[0]]) {
 			SendInfo(params[0],"Робочий день завершено.");
@@ -39496,7 +38247,6 @@ CMD:fwarn(playerid, params[]) {
 	SendFamilyMessage(PI[playerid][pMember],COLOR_LIGHTRED,string);
 	return 1;
 }
-
 CMD:funwarn(playerid, params[]) {
 	if(!PI[playerid][pMember]) return 1;
 	new string[156];
@@ -39515,7 +38265,6 @@ CMD:funwarn(playerid, params[]) {
 	FracLog(LOGS_FUNWARN,player_name[playerid],player_name[params[0]],params[1]);
 	return 1;
 }
-
 CMD:members(playerid) {
 	if(!PI[playerid][pMember]) return SendError(playerid, "Ви не перебуваєте в організації.");
 	new ids = 0;
@@ -39690,7 +38439,6 @@ CMD:leave(playerid) {
 	ShowPlayerDialog(playerid,D_LEAVE,DSM, ""P"Звільнення", "\n\n"W"Ви дійсно хочете покинути організацію за власним бажанням?\n\n", "Покинути", "Скасувати");
 	return 1;
 }
-
 CMD:truck(playerid) {
 	if(!IsATK(playerid)) return SendError(playerid, "Ви не працівник транспортной компанії");
 	ShowPlayerDialog(playerid,D_TK_TRUCK,DSTH,""P"Меню замовлень",""W"Назва\t"W"Груз\t"W"Вартість\n"G"- Завантажитися на складі\n"P"1."W" Лісопильня\tІнструменти\t"GREEN"$15.000\n"P"2."W" Ферма\tДобрива\t"GREEN"$11.000\n"P"3."W" Будівництво\tБудматеріали\t"GREEN"$12.000\n\
@@ -39749,7 +38497,6 @@ CMD:trinvite(playerid, params[]) {
 	format(mes,sizeof(mes),""P"%s"W" хоче влаштувати вас в транспортну компанію.",player_name[playerid]);
 	SendUse(params[0],mes);
 	SendClientMessage(params[0],COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 	SetPVarInt(params[0], "tk_id", taxi);
 	return 1;
 }
@@ -39776,17 +38523,14 @@ CMD:fare(playerid, params[])
 	new veh = GetPlayerVehicleID(playerid);
 	if(PI[playerid][pJob] != 8) return SendError(playerid, "Ви не водій таксі.");
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(playerid) != GetPVarInt(playerid,"veh_id_taxi")) return SendError(playerid, "Ви повинні бути за кермом таксі.");
-
 	if(!VehicleInfo[veh][vTarif]) format(tar,15,"Не встановлений");
 	else format(tar,15,"%d$",VehicleInfo[veh][vTarif]);
 	if(!VehicleInfo[veh][vSlog]) format(slog,36,"Не встановлений");
 	else format(slog,36,"%s",VehicleInfo[veh][vSlog]);
 	format(string,150,""P"1."W"Змінити тариф\t%s\n"P"2."W" Змінити слоган\t%s",tar, slog);
 	ShowPlayerDialog(playerid,D_TAXI_FARE,DST,""P"TAXI",string,"Обрати","Скасувати");
-
 	return 1;
 }
-
 CMD:untaxi(playerid,params[]) {
 	if(PI[playerid][pJob] != 8) return SendError(playerid, "Ви не водій таксі.");
 	RemovePlayerMapIcon(playerid,iconTaxi);
@@ -39854,7 +38598,6 @@ CMD:lmenu(playerid) {
 	}
 	return 1;
 }
-
 CMD:changecar(playerid,params[]) {
 	if(!PI[playerid][pRoom] && !PI[playerid][pHouse]) return SendError(playerid, "У вас немає т/з.");
 	new giveplayerid,car_1,car_2,price;
@@ -39873,14 +38616,12 @@ CMD:changecar(playerid,params[]) {
 	if(price < 1 || price > 15000000) return SendError(playerid, "Не можна менше $1 і більше $15.000.000.");
 	if(!IsPlayerStream(5.0, playerid, giveplayerid)) return SendError(playerid, "Гравець не поруч з вами.");
 	if(giveplayerid == playerid) return SendError(playerid,not_id);
-
 	SetPVarInt(giveplayerid,"carProdaet",playerid + 1);
 	SetPVarInt(playerid,"carPokupaet",giveplayerid + 1);
 	SetPVarInt(giveplayerid,"carCena",price);
 	SetPVarInt(playerid,"numbercar1",car_1);
 	SetPVarInt(playerid,"numbercar2",car_2);
 	SetPVarInt(playerid,"sellcar_type",1);
-
 	new improve[256];
 	if(CarsInfo[giveplayerid][carVehcom_1][car_2-1]) strcat(improve,"\t\t\t[Спойлер]\n");
 	if(CarsInfo[giveplayerid][carVehcom_2][car_2-1]) strcat(improve,"\t\t\t[Капот]\n");
@@ -39894,7 +38635,6 @@ CMD:changecar(playerid,params[]) {
 	if(CarsInfo[giveplayerid][carVehcom_10][car_2-1]) strcat(improve,"\t\t\t[Гідравліка]\n");
 	if(CarsInfo[giveplayerid][carVehcom_11][car_2-1]) strcat(improve,"\t\t\t[Передній бампер]\n");
 	if(CarsInfo[giveplayerid][carVehcom_12][car_2-1]) strcat(improve,"\t\t\t[Задній бампер]\n");
-
 	new improve2[256];
 	if(CarsInfo[playerid][carVehcom_1][car_1-1]) strcat(improve2,"\t\t\t[Спойлер]\n");
 	if(CarsInfo[playerid][carVehcom_2][car_1-1]) strcat(improve2,"\t\t\t[Капот]\n");
@@ -39908,7 +38648,6 @@ CMD:changecar(playerid,params[]) {
 	if(CarsInfo[playerid][carVehcom_10][car_1-1]) strcat(improve2,"\t\t\t[Гідравліка]\n");
 	if(CarsInfo[playerid][carVehcom_11][car_1-1]) strcat(improve2,"\t\t\t[Передній бампер]\n");
 	if(CarsInfo[playerid][carVehcom_12][car_1-1]) strcat(improve2,"\t\t\t[Задній бампер]\n");
-
 	new model1 = CarsInfo[playerid][carModel][car_1-1]-400;
 	new model2 = CarsInfo[giveplayerid][carModel][car_2-1]-400;
 	new classname[12];
@@ -39957,7 +38696,6 @@ CMD:sellcar(playerid, params[]) {
 	new model_sell = GetVehicleModel(house_car[playerid][params[1]-1]);
 	if(!house_car[playerid][params[1]-1] || model_sell == 481) return SendError(playerid, "Не можна пропонувати обмін на BMX.");
 	if(GetPlayerDistanceToPlayer(playerid,params[0]) > 3.0 || GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(params[0])) return SendError(playerid, "Ви далеко один від одного");
-
 	new slot_car = -1;
 	for(new i = 0; i < 2; i++) {
 		if(CarsInfo[params[0]][carModel][i] != 481) continue;
@@ -39966,14 +38704,11 @@ CMD:sellcar(playerid, params[]) {
 	}
 	if(slot_car == -1) return SendError(playerid, "У гравця немає вільних місць під автомобіль.");
 	if(params[2] <= 0) return SendError(playerid, "Вартість автомобіля не може бути менше $1.");
-
 	SetPVarInt(params[0], "car_prodaet", playerid+1);
 	SetPVarInt(playerid, "car_pokupaet", params[0]+1);
-
 	SetPVarInt(params[0],"carCena",params[2]);
 	SetPVarInt(playerid,"carnumber",params[1]-1);
 	SetPVarInt(playerid,"sellcar",1);
-
 	new improve[256];
 	if(CarsInfo[playerid][carVehcom_1][params[1]-1]) strcat(improve,"\t\t\t[Спойлер]\n");
 	if(CarsInfo[playerid][carVehcom_2][params[1]-1]) strcat(improve,"\t\t\t[Капот]\n");
@@ -39987,7 +38722,6 @@ CMD:sellcar(playerid, params[]) {
 	if(CarsInfo[playerid][carVehcom_10][params[1]-1]) strcat(improve,"\t\t\t[Гідравліка]\n");
 	if(CarsInfo[playerid][carVehcom_11][params[1]-1]) strcat(improve,"\t\t\t[Передній бампер]\n");
 	if(CarsInfo[playerid][carVehcom_12][params[1]-1]) strcat(improve,"\t\t\t[Задній бампер]\n");
-
 	new model = CarsInfo[playerid][carModel][params[1]-1]-400;
 	new classname[12];
 	GetCarClassName(gTransport[model][trClass],classname);
@@ -40003,7 +38737,6 @@ CMD:sellcar(playerid, params[]) {
 	ShowPlayerDialog(playerid,D_SELL_CAR,DSM, ""P"Продаж автомобіля",string,"Так","Скасувати");
 	return 1;
 }
-
 CMD:dropgun(playerid, param[]) {
 	if(!TI[playerid][tLogin] && AntiCheatIsKickedWithDesync(playerid)) return 1;
 	new weaponid = GetPlayerWeapon(playerid);
@@ -40077,7 +38810,6 @@ CMD:rank(playerid, params[]) {
 	if(PI[params[0]][pLeader] >= 1) return SendError(playerid, not_id);
 	if(PI[playerid][pMember] != PI[params[0]][pMember]) return SendError(playerid, "Гравець не знаходиться у вашій організації.");
 	if(PI[playerid][pRank] <= PI[params[0]][pRank]) return SendError(playerid, "Ваш ранг недостатній.");
-
 	if(PI[playerid][pRank] == FI[PI[playerid][pMember]][fMaxRang]) {
 		for(new i = 1; i <= FI[PI[playerid][pMember]][fMaxRang]; i++) {
 			if(i>= PI[playerid][pRank]) break;
@@ -40096,7 +38828,6 @@ CMD:rank(playerid, params[]) {
 	}
 	return 1;
 }
-
 CMD:f(playerid, params[]) {
 	if(!IsAMafia(playerid) && !IsAGang(playerid) && !IsABikers(playerid)) return 1;
 	if(!PI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації (/mn > Налаштування > Чат організації)");
@@ -40105,10 +38836,8 @@ CMD:f(playerid, params[]) {
 	if(sscanf(params, "s[128]",result)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /f [text]");
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-
 	static const f_str[] = "[F] %s %s: %s";
 	new string[sizeof(f_str) +1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-
 	format(string, sizeof(string), f_str,GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], result);
 	SendFamilyMessage(PI[playerid][pMember], 0x6699ccFF, string);
 	foreach(new i:Player) if(GetPVarInt(i,"admin_tipster") == PI[playerid][pMember]) SendClientMessage(i, COLOR_LIGHTRED, string);
@@ -40123,10 +38852,8 @@ CMD:fb(playerid, params[]) {
 	if(sscanf(params, "s[128]",result)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /fb [text]");
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-
 	static const f_str[] = "[F] %s %s[%d]: (( %s ))";
 	new string[sizeof(f_str) +1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-
 	format(string, sizeof(string), f_str,GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid],playerid, result);
 	SendFamilyMessage(PI[playerid][pMember], 0x6699ccFF, string);
 	foreach(new i:Player) if(GetPVarInt(i,"admin_tipster") == PI[playerid][pMember]) SendClientMessage(i, COLOR_LIGHTRED, string);
@@ -40142,7 +38869,6 @@ CMD:rb(playerid,params[]) {
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
 	if(!start_work[playerid]) return 1;
-
 	static const f_str[] = "[R] %s %s[%d]: (( %s ))";
 	new string[sizeof(f_str) +1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
 	
@@ -40162,10 +38888,8 @@ CMD:r(playerid, params[]) {
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
 	if(!start_work[playerid]) return 1;
-
 	static const f_str[] = "[R] %s %s: %s";
 	new string[sizeof(f_str) +1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-
 	format(string, sizeof(string), f_str,GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], result);
 	SendFamilyMessage(PI[playerid][pMember], 0x31cf63FF, string);
 	radio_(playerid,result);
@@ -40182,7 +38906,6 @@ CMD:rr(playerid, params[]) {
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
 	if(!start_work[playerid]) return 1;
-
 	new string[156];
 	if(PI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
 	format(string, sizeof(string), "[%s] %s %s[%d]: %s",FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid],playerid, result);
@@ -40190,7 +38913,6 @@ CMD:rr(playerid, params[]) {
 	if(PI[playerid][pMember] == fWHITEHOUSE && PI[playerid][pRank] == MINISTRE_PD) SendCop(0x54548CFF,string);
 	if(PI[playerid][pMember] == fWHITEHOUSE && PI[playerid][pRank] == MINISTRE_MEDICS) SendMedic(0x54548CFF,string);
 	if(PI[playerid][pMember] == fWHITEHOUSE && PI[playerid][pRank] == MINISTRE_ARMY) SendArmy(0x54548CFF,string);
-
 	if(IsACop(playerid)) SendCop(0x54548CFF,string);
 	if(IsAArm(playerid)) SendArmy(0x54548CFF,string);
 	if(IsAMedic(playerid)) SendMedic(0x54548CFF,string);
@@ -40209,12 +38931,10 @@ CMD:d(playerid, params[]) {
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
 	if(!start_work[playerid]) return 1;
 	new string[156];
-
 	if(PI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
 	if(GetSVarInt("d_timer") > gettime()) return SendError(playerid, "Користуватися рацією департамента можна раз в 5 секунд.");
 	SetSVarInt("d_timer", gettime() + 5);
 	format(string, sizeof(string), "[%s] %s %s: %s",FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], result);
-
 	SendDeptMessage(COLOR_MINJUST, string);
 	SendSpyMessage(PI[playerid][pMember], 0xADFFEFFF, string);
 	foreach(new i:Player) {
@@ -40235,7 +38955,6 @@ CMD:db(playerid, params[]) {
 	if(PI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
 	if(GetSVarInt("d_timer") > gettime()) return SendError(playerid, "Користуватися рацією департамента можна раз в 15 секунд.");
 	SetSVarInt("d_timer", gettime() + 15);
-
 	static const f_str[] = "[%s] %s %s: (( %s ))";
 	new string[sizeof(f_str) +1 + (-2 + 20) + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 100)];
 	
@@ -40292,21 +39011,17 @@ CMD:theftskill(playerid) {
 	Навичка автовикрадача:"ORANGE" [%d/3]\n"W"Викрадено автомобілей:"ORANGE" %d",PI[playerid][pTheftlvl],PI[playerid][pTheftExp]);
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", str, "Закрити", "");
 }
-
 CMD:theft(playerid) {
 	if(thef_timer[playerid] == -1) return SendError(playerid, "Ви не починали викрадення транспорта.");
 	ShowPlayerDialog(playerid, D_THEFT_LIST, DSL, ""P"Автовикрадення", ""P"1."W" Зламати автомобіль відмичкою\n"P"2."W" Завести двигун\n"P"3."W" Оновити координати автомобіля\n"P"4."W" Відлючити сигналізацію", "Обрати", "Скасувати");
 	return 1;
 }
-
 CMD:inv(playerid) {
 	if(GetPVarInt(playerid,"inv")) return 1;
 	if(GetPVarInt(playerid,"get_class")) return 1;
 	if(BJ_PlayerInfo[playerid][pBlackJackTableID] > 0) return 1;
 	if(GhettoInfo[playerid][GhettoGUI]) return 1;
-
 	new str_eat[12],str_health[12],str_thrist[12], Float:health;
-
 	PlayerTextDrawSetString(playerid, inventory_PTD[playerid][7], "PAGE_1");
 	
 	if(GetPVarInt(playerid, "ppkz"))
@@ -40363,91 +39078,36 @@ CMD:inv(playerid) {
 	return 1;
 }
 CMD:lock(playerid, params[]) {
-	new Float:check_pos[3], check_car = INVALID_VEHICLE_ID;
+	new check_car = INVALID_VEHICLE_ID;
 	if(TI[playerid][tMoped] != INVALID_VEHICLE_ID) check_car = TI[playerid][tMoped];
 	if(TI[playerid][tBoat] != INVALID_VEHICLE_ID) check_car = TI[playerid][tBoat];
-	if(GetPVarInt(playerid,"burger_vehid") != 0)
-	{
-		GetVehiclePos(GetPVarInt(playerid,"burger_vehid"), check_pos[0],check_pos[1],check_pos[2]);
-		if(IsPlayerInRangeOfPoint(playerid,4,check_pos[0],check_pos[1],check_pos[2])) {
-			SetVehicleDoorStatus(GetPVarInt(playerid,"burger_vehid"), playerid);
-			SendOK(playerid, "Ви змінили статус дверей в транспорті.");
-			return 1;
+	if(GetPVarInt(playerid,"burger_vehid") != 0) return ToggleDoors(GetPVarInt(playerid,"burger_vehid"), playerid);
+	if(check_car != INVALID_VEHICLE_ID) return ToggleDoors(check_car, playerid);
+	if(GetPlayerVehicles(playerid)) {
+		ToggleDoors(PlayerTrailer[playerVehicleID[playerid]][carVehicle], playerid);
+		trailer_text(playerVehicleID[playerid]);
+		return 1;
+	}
+	if(TI[playerid][tArendKey] != -1) {
+		if(ArendInfo[TI[playerid][tArendKey]][aPlayerID] != playerid) return 1;
+		return ToggleDoors(ArendInfo[TI[playerid][tArendKey]][aID], playerid);
+	}
+	if(PI[playerid][pFamily]) {
+		for(new i = 0; i < 5; i++) {
+			if(CarFamily[PI[playerid][pFamily]-1][i][LoadCar] == INVALID_VEHICLE_ID) return ToggleDoors(CarFamily[PI[playerid][pFamily]-1][i][LoadCar], playerid);
 		}
 	}
-	if(check_car != INVALID_VEHICLE_ID)
-	{
-		GetVehiclePos(check_car, check_pos[0],check_pos[1],check_pos[2]);
-		if(IsPlayerInRangeOfPoint(playerid,4,check_pos[0],check_pos[1],check_pos[2])) {
-			SetVehicleDoorStatus(check_car, playerid);
-			SendOK(playerid, "Ви змінили статус дверей в транспорті.");
-			return 1;
-		}
-	}
-	if(GetPlayerVehicles(playerid))
-	{
-		new player_vehicleid = playerVehicleID[playerid];
-		GetVehiclePos(PlayerTrailer[player_vehicleid][carVehicle], check_pos[0],check_pos[1],check_pos[2]);
-		if(IsPlayerInRangeOfPoint(playerid,4,check_pos[0],check_pos[1],check_pos[2])) {
-			SetVehicleDoorStatus(PlayerTrailer[player_vehicleid][carVehicle], playerid);
-			trailer_text(player_vehicleid);
-			SendOK(playerid, "Ви змінили статус дверей в транспорті.");
-			return 1;
-		}
-	}
-	if(TI[playerid][tArendKey] != -1)
-	{
-		new rc = TI[playerid][tArendKey];
-		if(ArendInfo[rc][aPlayerID] != playerid) return 1;
-		GetVehiclePos(ArendInfo[rc][aID], check_pos[0],check_pos[1],check_pos[2]);
-		if(IsPlayerInRangeOfPoint(playerid,4,check_pos[0],check_pos[1],check_pos[2])) {
-			SetVehicleDoorStatus(ArendInfo[rc][aID], playerid);
-			SendOK(playerid, "Ви змінили статус дверей в транспорті.");
-			return 1;
-		}
-	}
-	if(PI[playerid][pFamily])
-	{
-		new fam = PI[playerid][pFamily]-1;
-		for(new i = 0; i < 5; i++)
-		{
-			if(CarFamily[fam][i][LoadCar] == INVALID_VEHICLE_ID) continue;
-			GetVehiclePos(CarFamily[fam][i][LoadCar], check_pos[0], check_pos[1], check_pos[2]);
-			if(IsPlayerInRangeOfPoint(playerid,4.5,check_pos[0],check_pos[1],check_pos[2]))
-			{
-				SetVehicleDoorStatus(CarFamily[fam][i][LoadCar], playerid);
-				SendOK(playerid, "Ви змінили статус дверей в транспорті.");
-				return 1;
-			}
-		}
-	}
-	if(PI[playerid][pMember] > 0)
-	{
-		new car = GetNearestVehicle(playerid);
-		if(VehicleInfo[car][vTeam] == PI[playerid][pMember])
-		{
-			GetVehiclePos(car, check_pos[0], check_pos[1], check_pos[2]);
-			if(IsPlayerInRangeOfPoint(playerid,4.5,check_pos[0],check_pos[1],check_pos[2])) {
-				SetVehicleDoorStatus(car, playerid);
-				SendOK(playerid, "Ви змінили статус дверей в транспорті.");
-				return 1;
-			}
-		}
-	}
-	new id = GetNearestCar(playerid);
-	if(id == -1) return SendError(playerid, "Ви далеко від свого т/з.");
-	SetVehicleDoorStatus(house_car[playerid][id], playerid);
+	if(PI[playerid][pMember] > 0 && VehicleInfo[GetNearestVehicle(playerid)][vTeam] == PI[playerid][pMember]) return ToggleDoors(GetNearestVehicle(playerid), playerid);
+	ToggleDoors(house_car[playerid][GetNearestCar(playerid)], playerid);
 	return 1;
 }
 alias:light("l");
 CMD:light(playerid, const params[]) {
-	if(!IsPlayerInAnyVehicle(playerid)) return false;
-	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return false;
+	if(!IsPlayerInAnyVehicle(playerid)) return 0;
+	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 0;
 	new carid = GetPlayerVehicleID(playerid);
-	if(IsAVelik(carid) || IsAPlane(carid) || IsABoat(carid)) return false;
-	GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-	if(!lights) lights_status(carid, 1, playerid);
-	else lights_status(carid, 0, playerid);
+	if(IsAVelik(carid)) return 0;
+	ToggleLights(carid, playerid);
 	return 1;
 }
 CMD:unrent(playerid) {
@@ -40495,7 +39155,6 @@ CMD:unrent(playerid) {
 	SetVehicleToRespawn(ArendInfo[rc][aID]);
 	return 1;
 }
-
 CMD:prods(playerid)
 {
 	if (GetPVarInt(playerid, "prod_vehicle_id") == GetPlayerVehicleID(playerid) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
@@ -40506,7 +39165,6 @@ CMD:prods(playerid)
 	else SendError(playerid, "Ви не в машині для розвезення продуктів або палива.");
 	return 1;
 }
-
 CMD:namestore(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new inection[30];
@@ -40536,7 +39194,6 @@ CB: top_talon(playerid) {
 	if(!count) SendError(playerid, "Рейтинг членів сім'ї відсутній.");
 	return 1;
 }
-
 CB: family_offline(playerid) {
 	new rows, string[1500], family, online_s[36], player[24], Cache:result, count = 0, rang;
 	cache_get_row_count(rows);
@@ -40558,7 +39215,6 @@ CB: family_offline(playerid) {
 	cache_delete(result);
 	return 1;
 }
-
 CB: bl_callback_4(playerid) {
 	new rows, string[1500], count, name[24], reason[50],
 Cache:result, date_[30];
@@ -40579,7 +39235,6 @@ Cache:result, date_[30];
 	cache_delete(result);
 	return 1;
 }
-
 CB: bl_callback_2(playerid) {
 	new rows, string[1500], count, name[24], reason[50],
 Cache:result, date_[30];
@@ -40600,19 +39255,15 @@ Cache:result, date_[30];
 	cache_delete(result);
 	return 1;
 }
-
 CB: bl_callback_3(playerid, names[]) {
 	new rows, sql_string[128];
 	cache_get_row_count(rows);
 	if(!rows) return SendError(playerid, "Гравець не знаходиться в чорном списку сім'ї.");
-
 	mysql_format(connects, sql_string, sizeof(sql_string),"DELETE FROM `family_blacklist` WHERE `bl_name` = '%s'",names);
 	mysql_tquery(connects, sql_string,"","");
-
 	SendOK(playerid,"Ви винесли гравця з ЧС.");
 	return 1;
 }
-
 CB: bl_callback_1(playerid, names[]) {
 	new rows, sql_string[128];
 	cache_get_row_count(rows);
@@ -40624,17 +39275,14 @@ CB: bl_callback_1(playerid, names[]) {
 	SendOK(playerid,"Ви винесли гравця з ЧС.");
 	return 1;
 }
-
 CB: bl_callback_family(playerid, targetid)
 {
 	new rows, sql_string[200];
 	cache_get_row_count(rows);
 	new fam = PI[playerid][pFamily] - 1;
 	if(rows) return SendError(playerid, "Гравець вже знаходиться у чорном списку сім'ї.");
-
 	mysql_format(connects, sql_string, sizeof(sql_string),"INSERT INTO `family_blacklist` (`bl_id`,`bl_family`,`bl_name`,`bl_reason`) VALUES ('%d','%d','%s','%s')",PI[targetid][pID], PI[playerid][pFamily], player_name[targetid], bl_reason[playerid]);
 	mysql_tquery(connects, sql_string);
-
 	format(sql_string, sizeof(sql_string), "%s заніс вас в чорний список сім'ї %s. Причина: %s", player_name[playerid], gFamily[PI[playerid][pFamily]-1][famName], bl_reason[playerid]);
 	SendClientMessage(targetid, COLOR_LIGHTRED, sql_string) ;
 	
@@ -40647,7 +39295,6 @@ CB: bl_callback_family(playerid, targetid)
 	FamMSG(fam+1,sql_string);
 	return 1;
 }
-
 CB: bl_callback(playerid, targetid)
 {
 	new rows, sql_string[200];
@@ -40659,20 +39306,16 @@ CB: bl_callback(playerid, targetid)
 	
 	format(sql_string, sizeof(sql_string), "%s заніс вас в чорний список %s. Причина: %s", player_name[playerid], FI[PI[playerid][pMember]][fName], bl_reason[playerid]);
 	SendClientMessage(targetid, COLOR_LIGHTRED, sql_string) ;
-
 	format(sql_string, sizeof(sql_string), "%s заніс %s у чорний список %s. Причина: %s", player_name[playerid], player_name[targetid], FI[PI[playerid][pMember]][fName], bl_reason[playerid]);
 	SendFamilyMessage(PI[playerid][pMember], COLOR_LIGHTRED, sql_string);
-
 	add_jobinfo(targetid,"звільнення + чс");
 	PI[targetid][pAdvert] = 0;
 	UpdatePlayerData(targetid,"Advert", 0);
-
 	PI[targetid][pMember] = 0;
 	PI[targetid][pRank] = 0;
 	PI[targetid][pFracSkin] = 0;
 	PI[targetid][pLeader] = 0;
 	PI[targetid][pMedHeal] = 0;
-
 	UpdatePlayerData(targetid,"MedHeal",0);
 	SetPlayerColor(targetid, TEAM_HIT_COLOR);
 	if(PI[targetid][pHouse] > 0) PI[targetid][pSpawn] = 1;
@@ -40686,7 +39329,6 @@ CB: bl_callback(playerid, targetid)
 	WriteLog(LOG_UVAL,player_name[playerid],player_name[targetid],"звільнення + чс");
 	return 1;
 }
-
 CB: namestore_callback(playerid) {
 	new rows;
 	cache_get_row_count(rows);
@@ -40698,7 +39340,6 @@ CB: namestore_callback(playerid) {
 	mysql_tquery(connects, query, "_namestore_callback", "i", playerid);
 	return 1 ;
 }
-
 CB: _namestore_callback(playerid) {
 	new rows;
 	cache_get_row_count(rows);
@@ -40715,21 +39356,18 @@ CB: _namestore_callback(playerid) {
 		cache_get_value(j,"nh_oldname",oldname, MAX_PLAYER_NAME);
 		cache_get_value(j,"nh_newname",newname, MAX_PLAYER_NAME);
 		cache_get_value(j,"nh_date",dates, 20);
-
 		format(str, sizeof(str), "%d. %s\t%s\t%s\n",j+1, oldname, newname, dates);
 		strcat(string, str);
 	}	
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, ""P"Іторія зміни нікнейму", string, "Закрити", "");
 	return 1 ;
 }
-
 CMD:donate(playerid) {
 	new head[100];
 	format(head,sizeof(head),""P"Донат. Ваш баланс: %d UAH",PI[playerid][pRouble]);
 	ShowPlayerDialog(playerid, D_DONATE, DSTH, head, ""W"Опис\t"W"Вартість\nВнутрішньоігрова валюта\t(1 UAH = $2.000)\nЗміна ігрового нікнейму\t20 UAH\nПреміум-акаунт (на 2 тижня)\t200 UAH\nПреміум-акаунт (на 4 тижня)\t350 UAH\nПреміум-акаунт (на 3 тижня)\t700 UAH\nАнулювати варн\t50 UAH\nЕлітний номер телефона\t250 UAH\nПідвищити навички бойових мистецтв\t200 UAH\nПідвищити навички володіння зброєю\t300 UAH\nІгрові комплекти\nУнікальний скін\t250 UAH\nКомплект лицензій\t70 UAH\nУнікальні аксесуари\nКейси\tВід 30 UAH\nРулетка\t150 UAH\nОновити баланс", "Обрати", "Закрити");
 	return 1;
 }
-
 CMD:label(playerid) {
 	if(GetPVarInt(playerid,"hrieltor")) {
 		new houseid = GetPVarInt(playerid,"hrieltor")-1;
@@ -40795,8 +39433,7 @@ CMD:gps2(playerid) {
 }
 alias:menu("mm","mn"); 
 CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Статистика персонажа\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги", "Обрати", "Скасувати");
-CMD:settings(playerid)
-{
+CMD:settings(playerid) {
 	ShowSettings(playerid);
 	return 1;
 }
@@ -40807,19 +39444,15 @@ CMD:bload(playerid) {
 	if(VG[vehicleid][vgLoading] || VG[vehicleid][vgUnloading]) return SendError(playerid, "Авто вже встановлене на загрузку або разгрузку.");
 	VG[vehicleid][vgID] = vehicleid;
 	VG[vehicleid][vgLoading] = true;
-
 	RemovePlayerFromVehicleAC(playerid);
 	new Float:x, Float:y, Float:z, Float:a;
 	GetVehiclePos(vehicleid,x,y,z);
 	GetVehicleZAngle(vehicleid,a);
 	x = x - (-3.5*floatsin(a,degrees));
 	y = y - 6.0*floatcos(a,degrees);
-
 	VG[vehicleid][vgPickup] = CreateDynamicPickup(1318,1,x,y,z-0.5);
 	VG[vehicleid][vgArea] = CreateDynamicSphere(x,y,z,1.0);
-
 	VG[vehicleid][vgAtm] = 1;
-
 	new string[45];
 	format(string,sizeof(string),"Завантажено: %i/20 мішків",VG[vehicleid][vgAmount][0]);
 	VG[vehicleid][vgText] = CreateDynamic3DTextLabel(string,COLOR_WHITE,x,y,z+0.5,20.0);
@@ -40832,19 +39465,15 @@ CMD:bunload(playerid) {
 	if(VG[vehicleid][vgLoading] || VG[vehicleid][vgUnloading]) return SendError(playerid, "Авто вже встановлене на загрузку або разгрузку.");
 	VG[vehicleid][vgID] = vehicleid;
 	VG[vehicleid][vgLoading] = true;
-
 	RemovePlayerFromVehicleAC(playerid);
 	new Float:x, Float:y, Float:z, Float:a;
 	GetVehiclePos(vehicleid,x,y,z);
 	GetVehicleZAngle(vehicleid,a);
 	x = x - (-3.5*floatsin(a,degrees));
 	y = y - 6.0*floatcos(a,degrees);
-
 	VG[vehicleid][vgPickup] = CreateDynamicPickup(1318,1,x,y,z-0.5);
 	VG[vehicleid][vgArea] = CreateDynamicSphere(x,y,z,1.0);
-
 	VG[vehicleid][vgAtm] = 2;
-
 	new string[45];
 	format(string,sizeof(string),"Завантажено: %i/20 мішків",VG[vehicleid][vgAmount][0]);
 	VG[vehicleid][vgText] = CreateDynamic3DTextLabel(string,COLOR_WHITE,x,y,z+0.5,20.0);
@@ -40914,7 +39543,6 @@ CMD:carm(playerid, params[]) {
 	}
 	return 1;
 }
-
 CMD:load(playerid) {
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 		new vehicleid = GetPlayerVehicleID(playerid);
@@ -40930,17 +39558,14 @@ CMD:load(playerid) {
 				}
 				VG[vehicleid][vgID] = vehicleid;
 				VG[vehicleid][vgLoading] = true;
-
 				RemovePlayerFromVehicleAC(playerid);
 				new Float:x, Float:y, Float:z, Float:a;
 				GetVehiclePos(vehicleid,x,y,z);
 				GetVehicleZAngle(vehicleid,a);
 				x = x - (-6.0*floatsin(a,degrees));
 				y = y - 6.0*floatcos(a,degrees); 
-
 				VG[vehicleid][vgPickup] = CreateDynamicPickup(2358,1,x,y,z-0.5);
 				VG[vehicleid][vgArea] = CreateDynamicSphere(x,y,z,1.0);
-
 				new string[64];
 				switch(GetVehicleModel(vehicleid)) {
 				case 428: format(string,sizeof(string),"Завантажено: %i/10 мішків",VG[vehicleid][vgAmount][0]);
@@ -40965,19 +39590,19 @@ CMD:unloadmat(playerid)
 		switch(PI[playerid][pMember])
 		{
 		case fBALLAS:{
-				if(!IsPlayerInRangeOfPoint(playerid, 50, 2656.3931,-2023.8264,13.5583)) return SendError(playerid, "Ви далеко від The Ballas.");
+				if(!IsPlayerInRangeOfPoint(playerid, 50, 2656.3931,-2023.8264,13.5583)) return SendError(playerid, "Ви далеко від Ballas.");
 			}
 		case fVAGOS: {
-				if(!IsPlayerInRangeOfPoint(playerid, 50, 2745.2463,-1178.5746,69.4022)) return SendError(playerid, "Ви далеко від The Vagos.");
+				if(!IsPlayerInRangeOfPoint(playerid, 50, 2745.2463,-1178.5746,69.4022)) return SendError(playerid, "Ви далеко від Los Santos Vagos.");
 			}
 		case fGROVE: {
-				if(!IsPlayerInRangeOfPoint(playerid, 50, 2492.5398,-1673.5878,13.3359)) return SendError(playerid, "Ви далеко від The Grove.");
+				if(!IsPlayerInRangeOfPoint(playerid, 50, 2492.5398,-1673.5878,13.3359)) return SendError(playerid, "Ви далеко від Grove Street Families.");
 			}
 		case fAZTEC: {
-				if(!IsPlayerInRangeOfPoint(playerid, 50, 1689.2028,-2112.7527,13.4776)) return SendError(playerid, "Ви далеко від The Aztec.");
+				if(!IsPlayerInRangeOfPoint(playerid, 50, 1689.2028,-2112.7527,13.4776)) return SendError(playerid, "Ви далеко від Varrios Los Aztecas.");
 			}
 		case fRIFA: {
-				if(!IsPlayerInRangeOfPoint(playerid, 50, 2187.5928,-1805.4399,13.3710)) return SendError(playerid, "Ви далеко від The Rifa.");
+				if(!IsPlayerInRangeOfPoint(playerid, 50, 2187.5928,-1805.4399,13.3710)) return SendError(playerid, "Ви далеко від San Fierro Rifa.");
 			}
 		case fARMYLS: {
 				if(!IsPlayerInRangeOfPoint(playerid, 100, 2752.4421,-2471.4094,13.6484)) return SendError(playerid, "Ви далеко від складу національної гвардії.");
@@ -41125,7 +39750,6 @@ stock ProxDetectorS(Float:radi, playerid, targetid) {
 	}
 	return 0;
 }
-
 public OnPlayerText(playerid, text[]) {
 	if(!TI[playerid][tLogin]) return 0;
 	new string[150];
@@ -41171,13 +39795,10 @@ public OnPlayerText(playerid, text[]) {
 		new id,mes[128];
 		if(TI[playerid][tPhoneCaller] == playerid) id = TI[playerid][tPhoneCalled];
 		else if(TI[playerid][tPhoneCalled] == playerid) id = TI[playerid][tPhoneCaller];
-
 		format(mes,sizeof(mes),"[Тел.] %s: %s",player_name[playerid], text);
 		SendClientMessage(playerid, COLOR_YELLOW, mes);
-
 		format(mes,sizeof(mes),"[Тел.] %s: %s",player_name[playerid], text);
 		SendClientMessage(id, COLOR_YELLOW, mes);
-
 		SetPlayerChatBubble(playerid, mes, COLOR_WHITE, 10.0, 10000);
 		return false;
 	}
@@ -41241,8 +39862,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	if(newkeys == 4)
-	{
+	if(newkeys == KEY_FIRE) {
 		new animname[32];
 		GetAnimationName(GetPlayerAnimationIndex(playerid),animname,32,animname,32);
 		if((PlayerToPoint(2.0,playerid,768.5205,-2.8860,1000.7214) || PlayerToPoint(2.0,playerid,769.8723,14.4393,1000.6978) || PlayerToPoint(2.0,playerid,768.8607,-2.9548,1000.7222) || PlayerToPoint(2.0,playerid,766.8743,-3.7830,1000.7174))) {
@@ -41285,7 +39905,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	if(newkeys == 16) // casino
+	if(newkeys == KEY_SECONDARY_ATTACK) // casino
 	{
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 298.346527, -137.589859, 1029.644531))
 		{
@@ -41296,7 +39916,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ShowPlayerDialog(playerid, D_CAS_LIFT, DSL, ""P"Ліфт","Викликати ліфт\nНа перший поверх", "Обрати", "Закрити");
 		}
 	}
-	if(newkeys == 4) {
+	if(newkeys == KEY_FIRE) {
 		if(IsPlayerInAnyVehicle(playerid)) return 1;
 		new Float:face_angle;
 		GetPlayerFacingAngle(playerid, face_angle);
@@ -41342,9 +39962,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TextDrawHideForPlayer(playerid, AnimDraw);
 		}
 	}
-	if(!IsPlayerInAnyVehicle(playerid))
-	{
-		if((newkeys & 4) || ((newkeys & 128) && (oldkeys & 128) && (newkeys & 16)))
+	if(!IsPlayerInAnyVehicle(playerid)) {
+		if((newkeys & KEY_FIRE) || ((newkeys & KEY_HANDBRAKE) && (oldkeys & KEY_HANDBRAKE) && (newkeys & KEY_SECONDARY_ATTACK)))
 		{
 			if(!IsACop(playerid) && !IsAArm(playerid) && PI[playerid][pMember] != fWHITEHOUSE && IsAGreenZone(playerid) &&
 				GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_DRINK_SPRUNK && GetPlayerWeapon(playerid) != 43 && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_DRINK_WINE && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_SMOKE_CIGGY && GetPlayerSpecialAction(playerid)!=SPECIAL_ACTION_DRINK_BEER && (PI[playerid][pAdmin] < 1 || dostup[playerid] == 0)) {
@@ -41369,7 +39988,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	if(PRESSED(262144) || GetPlayerState(playerid) == PLAYER_STATE_DRIVER && PRESSED(KEY_CROUCH)) {
+	if(PRESSED(KEY_CTRL_BACK) || PRESSED(KEY_CROUCH) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 		if(TI[playerid][tProcess][0] != -1) {
 			if(GetPVarInt(playerid,"Klavisha") == 2455) MyButtonSystem(playerid);
 			else {
@@ -41379,7 +39998,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			return 1;
 		}
 	}
-	if((newkeys & KEY_JUMP) || (newkeys == KEY_FIRE)) {
+	if((newkeys & KEY_JUMP) || (newkeys & KEY_FIRE)) {
 		if((TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2])) {
 			SendError(playerid, "Ви впустили ящик.");
 			TI[playerid][tJobGun][2] = 0;
@@ -41429,7 +40048,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			DeletePVar(playerid,"bizzrielor");
 		}
 	}
-	if(newkeys == KEY_CROUCH) {
+	if(newkeys & KEY_CROUCH) {
 		new barrierid = IsObjectBarrier(playerid);
 		if(barrierid != -1) CheckBarrier(playerid,barrierid);
 		else if((IsPlayerInRangeOfPoint(playerid, 20.0, 1050.0936,-1868.7532,894.0478) ||
@@ -41459,7 +40078,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулeм тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 5) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
-
 			SendClientMessage(playerid,COLOR_WHITE, "Инструменти були продані за "GREEN"$15.000.");
 			GiveMoney(playerid,15000,"розгрузка лісопилка");
 			
@@ -41469,7 +40087,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			PI[playerid][bizz_cash] += 15000;
 			
 			Delete3DTextLabel(Gruz[playerid]);
-
 			UpdatePlayerData(playerid,"bizz_lcash",PI[playerid][bizz_lcash]);
 			UpdatePlayerData(playerid,"bizz_cash",PI[playerid][bizz_cash]);
 			A_DestroyVehicle(TK_Trailer[playerid]);
@@ -41483,22 +40100,18 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 1) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
-
 			SendClientMessage(playerid,COLOR_WHITE, "Удобрення були продані за "GREEN"$11.000.");
 			GiveMoney(playerid,11000,"розвантаження ферма");
 			
 			bizz_pay(PI[playerid][bizz_work]-1,4500);
-
 			PI[playerid][bizz_lcash] += 11000;
 			PI[playerid][bizz_cash] += 11000;
 			
 			Delete3DTextLabel(Gruz[playerid]);
-
 			UpdatePlayerData(playerid,"bizz_lcash",PI[playerid][bizz_lcash]);
 			UpdatePlayerData(playerid,"bizz_cash",PI[playerid][bizz_cash]);
 			A_DestroyVehicle(TK_Trailer[playerid]);
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
-
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
 		}
@@ -41507,21 +40120,17 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 4) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
-
 			SendClientMessage(playerid,COLOR_WHITE,"Будматеріали були продані за "GREEN"$12.000.");
 			GiveMoney(playerid,12000,"розвантаження будівництво");
 			
 			bizz_pay(PI[playerid][bizz_work]-1,3700);
-
 			PI[playerid][bizz_lcash] += 12000;
 			PI[playerid][bizz_cash] += 12000;
 			Delete3DTextLabel(Gruz[playerid]);
-
 			UpdatePlayerData(playerid,"bizz_lcash",PI[playerid][bizz_lcash]);
 			UpdatePlayerData(playerid,"bizz_cash",PI[playerid][bizz_cash]);
 			A_DestroyVehicle(TK_Trailer[playerid]);
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
-
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
 		}
@@ -41530,20 +40139,16 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулём тягоча");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза");
 			if(TI[playerid][tTrucker][1] != 2) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
-
 			SendClientMessage(playerid,COLOR_WHITE,"Материали були продані за "GREEN"$11.500.");
 			GiveMoney(playerid,11500,"розвантаження материалів");
 			bizz_pay(PI[playerid][bizz_work]-1,3400);
-
 			PI[playerid][bizz_lcash] += 11500;
 			PI[playerid][bizz_cash] += 11500;
 			Delete3DTextLabel(Gruz[playerid]);
-
 			UpdatePlayerData(playerid,"bizz_lcash",PI[playerid][bizz_lcash]);
 			UpdatePlayerData(playerid,"bizz_cash",PI[playerid][bizz_cash]);
 			A_DestroyVehicle(TK_Trailer[playerid]);
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
-
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
 		}
@@ -41552,20 +40157,16 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 3) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
-
 			SendClientMessage(playerid,COLOR_WHITE,"Продукти були продані за "GREEN"$12.500.");
 			GiveMoney(playerid,12500,"розвантаження montgomery");
 			bizz_pay(PI[playerid][bizz_work]-1,3800);
-
 			PI[playerid][bizz_lcash] += 12500;
 			PI[playerid][bizz_cash] += 12500;
 			Delete3DTextLabel(Gruz[playerid]);
-
 			UpdatePlayerData(playerid,"bizz_lcash",PI[playerid][bizz_lcash]);
 			UpdatePlayerData(playerid,"bizz_cash",PI[playerid][bizz_cash]);
 			A_DestroyVehicle(TK_Trailer[playerid]);
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
-
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
 		}
@@ -41574,20 +40175,16 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 3) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
-
 			SendClientMessage(playerid,COLOR_WHITE,"Продукти були продані за "GREEN"$12.200.");
 			GiveMoney(playerid,12200,"розвантаження palomino");
 			bizz_pay(PI[playerid][bizz_work]-1,3200);
-
 			PI[playerid][bizz_lcash] += 12200;
 			PI[playerid][bizz_cash] += 12200;
 			Delete3DTextLabel(Gruz[playerid]);
-
 			UpdatePlayerData(playerid,"bizz_lcash",PI[playerid][bizz_lcash]);
 			UpdatePlayerData(playerid,"bizz_cash",PI[playerid][bizz_cash]);
 			A_DestroyVehicle(TK_Trailer[playerid]);
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
-
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
 		}
@@ -41606,7 +40203,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			A_DestroyVehicle(thef_car[playerid]);
 			thef_timer[playerid] = -1;
 			thef_car[playerid] = INVALID_VEHICLE_ID;
-
 			PI[playerid][pTheftExp]++;
 			if(PI[playerid][pTheftExp] == 15 || PI[playerid][pTheftExp] == 30 || PI[playerid][pTheftExp] == 45) {
 				PI[playerid][pTheftlvl]++;
@@ -41768,7 +40364,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					format(str,64,"TUN[%d][Name]",i);
 					GetGVarString(str,str,64,CustomType[playerid]);
 					format(str,64,"%s~n~$%d",str,value);
-
 					PlayerTextDrawSetString(playerid,CustomTDPl[playerid][1+i],str);
 					PlayerTextDrawShow(playerid,CustomTDPl[playerid][1+i]);
 					format(str,64,"TUN[%d][ModelID]",i);
@@ -41837,16 +40432,15 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	// if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
-	// 	return pc_cmd_radiocar(playerid);
-	// }
+	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
+	 	return pc_cmd_radiocar(playerid);
+	}*/
 	if(newkeys == KEY_WALK && !IsPlayerInAnyVehicle(playerid)) {
 		
 		new barrierid = IsObjectBarrier(playerid);
 		if(barrierid != -1) CheckBarrier(playerid,barrierid);
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1120.8074,-893.6594,1046.0126)) return show_poisk(playerid);
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 86.8335,-235.0523,1.6274) && IsAMafiaAndGang(playerid)&& Accepts == false){
-
             TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			JobTempProcess[playerid] = 27;
@@ -41889,7 +40483,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 		if(PlayerToPoint(1.5,playerid,1.4569,-90.4876,1026.4089) || PlayerToPoint(1.5,playerid,3.9606,-90.4766,1026.4091) ||
 				PlayerToPoint(1.5,playerid,6.3032,-90.4572,1026.4089)) {
-
 			if(TI[playerid][tAutoSchool] == 2 || TI[playerid][tAutoSchool] == 3)
 			{
 				ShowPlayerDialog(playerid,D_AUTOSCHOOL_3,DSM, ""P"Екзамен","\n\n"W"Ви дійсно хочете приступити до екзамену?\n\n","Так","Скасувати");
@@ -42008,7 +40601,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		    /**/
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 2360.8240,1839.1799,1211.6302) && GetPVarInt(playerid, "Ready") == 1) RobBiker(playerid);
-
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 816.1916,-1843.3940,8.3624)) return ShowPlayerDialog(playerid,D_SELFISH,DSL, ""P"Рибак",""P"1."W" Показати перепустку\n"P"2."W" Продати улов","Обрати","Закрити");
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1123.7704,-892.0002,1046.0126)) return ShowPlayerDialog(playerid,D_SELPEDMET,DSL, ""P"Рибак",""P"1."W" Цвяхи\n"P"2."W" Метал\n"P"3."W" Залізни ящик\n"P"4."W" Ящик з патронами\n"P"5."W" Ніж\n"P"6."W" Військова гвинтівка\n"P"7."W" Японський меч\n"P"8."W" Боєголовка\n"P"9."W" Кейс\n"P"10."W" Старинна монета","Обрати","Закрити");
 		if(IsPlayerInRangeOfPoint(playerid,2.0, 885.3270,-1077.4008,24.2946)){
@@ -42027,7 +40619,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		       ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Чаклунка",""W"Ви зустрілись з чаклункою, наступне завдання буде від неї.\n\nВідправляйтеся теперь назад до мерії, щоб завершити виконання квесту!","Закрити","");
 	        }
 		}
-
 		if(IsPlayerInRangeOfPoint(playerid,2.0, 1053.6957,-303.5652,73.9922))
 		{
             SendBotMessage(playerid,"Я радий тебе бачити!");
@@ -42060,7 +40651,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(TI[playerid][tPobeg_Z] != 1) return SendError(playerid, "Ви не виконали перше завдання.");
 			PI[playerid][pJail] = 0;
 			PI[playerid][pJailTime] = 0;
-
 			TI[playerid][tPobeg] = 0;
 			TI[playerid][tPobeg_Z] = 0;
 			
@@ -42348,7 +40938,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(QuestProgress[playerid][51] == 5 && AcceptQuest[playerid][51] != 0) {
 				ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
 			}
-
 			new string[120];
 			format(string,sizeof(string),"Всього принесено мешков з мусором: %i. Загальний заработок: %i$",TI[playerid][tBuildCount],TI[playerid][tJobSalary]);
 			SendClientMessage(playerid, 0xfF5C841ff, string);
@@ -42441,9 +41030,9 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				IsPlayerInRangeOfPoint(playerid,1.0,1465.2758,-113.7661,895.9769) || IsPlayerInRangeOfPoint(playerid,1.0,1465.0853,-118.6356,895.9769))
 		{
 			new u = GetPVarInt(playerid,"id_kanal") - 1;
-			if(GetPVarInt(playerid,"_musor")) return SendError(playerid, "Ви вже зібрали мусор, отнесите його в робочу машину");
-			if(Sewer[u][seAmmout] == 0) return SendError(playerid, "В этой каналізації немає сміття");
-			if(GetPlayerSkin(playerid) != 8) return SendError(playerid, "Ви не переодеты в робочу одежду");
+			if(GetPVarInt(playerid,"_musor")) return SendError(playerid, "Ви вже зібрали мусор, віднесіть його в робочу машину.");
+			if(Sewer[u][seAmmout] == 0) return SendError(playerid, "В цій каналізації немає сміття.");
+			if(GetPlayerSkin(playerid) != 8) return SendError(playerid, "Ви не перевдягнуті в робочий одяг.");
 			JobTempProcess[playerid] = 21;
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 6;
@@ -42470,7 +41059,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 							strcat(str, ""W"Найменування\t"W"Параметр\n");
 							STRING_GLOBAL[0] = 0;
 							format(STRING_GLOBAL,sizeof(STRING_GLOBAL),"%sподивитися можливий виграш\t[{F9C7A1} подивитися"W"]\nКлас контейнера\t[{F9C7A1} %s"W"]\n\
-							Початкова ставка\t%d UAH\nОстання ставка\t%d UAH\n"ORANGE"Приймати участь в аукціоні",str, gContainer[i][cName], gContainer[i][cMoney], gContainer[i][cStavka]);
+							Початкова ставка\t%d UAH\nОстання ставка\t%d UAH\n"ORANGE"Прийняти участь в аукціоні",str, gContainer[i][cName], gContainer[i][cMoney], gContainer[i][cStavka]);
 							ShowPlayerDialog(playerid,D_CONTAINER,DSTH, ""P"Контейнер",STRING_GLOBAL,"Обрати","Закрити");
 							SetPVarInt(playerid,"container",i+1);
 							return 1;
@@ -42500,7 +41089,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 								PI[playerid][pRouble] -= gContainer[i][cStavka];
 								UpdatePlayerData(playerid,"donatemoney",PI[playerid][pRouble]);
 								new str[250];
-								format(str, sizeof(str), "[Банківський чек]: %d UAH Було знято з вашого рахунку за контейнер.");
+								format(str, sizeof(str), "[Банківський чек]: %d UAH було знято з вашого рахунку за контейнер.");
 								SendError(playerid, str);
 								container_win(playerid, i);
 								conteiner[i] = 2;
@@ -42515,7 +41104,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
                             if(!strcmp(player_name[playerid], gContainer[i][cOwned], true))
 							{
 								if(PI[playerid][pCash] < gContainer[i][cStavka]) return SendError(playerid, "У вас недостатньо грошей.");
-								GiveMoney(playerid, -gContainer[i][cStavka], "борьба за контейнер");
+								GiveMoney(playerid, -gContainer[i][cStavka], "боротьба за контейнер");
 								container_win(playerid, i);
 								conteiner[i] = 2;
 								strmid(gContainer[i][cOwned], "None", 0, 30);
@@ -42611,7 +41200,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ShowPlayerDialog(playerid,D_ROB_CAR,DSM, ""P"Пограбування будинків", "\n\n"W"Ти дійсно хочеш пограбувати будинок?\n\n", "Так", "Ні");
 		}
 		else if(IsAGang(playerid) && IsPlayerInDynamicArea(playerid,gAreas[arZavodSklad])) {
-			if(GetPVarInt(playerid,"carrygun")) return SendError(playerid, "У вас вже є ящик з боеприпасами.");
+			if(GetPVarInt(playerid,"carrygun")) return SendError(playerid, "У вас вже є ящик з боєприпасами.");
 			if(zavodsklad < 500) return SendError(playerid, "На складі недостатньо боєприпасів.");
 			if(!GetPVarInt(playerid,"carrygun")) {
 				zavodsklad -= 500;
@@ -42630,7 +41219,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 									Доступно матеріалів на складі мафії: "P"%d"W"\n\n\
 									"YELLOW"Ви дійсно хочете купити "P"10.000"YELLOW" матеріалів за "GREEN"$%d?";
 			new string[sizeof(f_str) +1 + (-2 +6) + (-2 + 7) + (-2 + 7)];
-
 			format(string,sizeof(string),f_str,50000,FI[PI[playerid][pMember]][fMats],50000);
 			ShowPlayerDialog(playerid, D_MATERIALS_BUY, DSM, ""P"Покупка матеріалів",string, "Купити", "Скасувати");
 		}
@@ -42649,7 +41237,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				else if(QuestProgress[playerid][mas[i]] == 100) skr = ""NO"Виконано"W"";
 				else if(QuestProgress[playerid][mas[i]] == QI[mas[i]][LastProgress] && AcceptQuest[playerid][mas[i]]!=0) skr = ""ORANGE"Можна завершити"W"";
 				else if(QuestProgress[playerid][mas[i]] >= 0 && AcceptQuest[playerid][mas[i]] != 0) skr = ""G"У процесі"W"";
-
 				format(string,sizeof(string),"%s%s [%s]\n",string,QI[mas[i]][QuestName],skr);
 				QuestShow[playerid][num] = mas[i];
 				num++;
@@ -42691,7 +41278,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				else if(QuestProgress[playerid][mas[i]] == 100) skr = "\t"NO"Виконано"W"";
 				else if(QuestProgress[playerid][mas[i]] == QI[mas[i]][LastProgress] && AcceptQuest[playerid][mas[i]]!=0) skr = "\t"ORANGE"Можна завершити"W"";
 				else if(QuestProgress[playerid][mas[i]] >= 0 && AcceptQuest[playerid][mas[i]] != 0) skr = "\t"G"У процесі"W"";
-
 				format(string,sizeof(string),"%s%s%s\n",string,QI[mas[i]][QuestName],skr);
 				QuestShow[playerid][num] = mas[i];
 				num++;
@@ -42717,7 +41303,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				if(VehicleInfo[i][vTeam] == fFBI) {
 					new Float:X,Float:Y,Float:Z;
 					GetVehicleShiftPos(i,1,X,Y,Z,3.0);
-
 					if(IsPlayerInRangeOfPoint(playerid,3,X,Y,Z)) {
 						new string[256];
 						SetPVarInt(playerid,"veh", i);
@@ -42882,8 +41467,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		if(IsPlayerInRangeOfPoint(playerid,1.5, 2752.4421,-2471.4094,13.6484))
 		{
 			if((IsAGang(playerid) || IsAMafia(playerid) || PI[playerid][pMember] == fARMYLS)) {
-				if(GetPVarInt(playerid,"carrygun")) return SendError(playerid, "У вас вже є ящик з боеприпасами");
-				if(FI[fARMYLS][fMats] < 500) return SendError(playerid, "На складі недостатньо боєприпасів");
+				if(GetPVarInt(playerid,"carrygun")) return SendError(playerid, "У вас вже є ящик з боєприпасами.");
+				if(FI[fARMYLS][fMats] < 500) return SendError(playerid, "На складі недостатньо боєприпасів.");
 				if(!GetPVarInt(playerid,"carrygun")) {
 					FI[fARMYLS][fMats] -= 500;
 					SetPlayerFacingAngle(playerid,270.0);
@@ -42943,7 +41528,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	if(IsPlayerInAnyVehicle(playerid)) {
 		new carid = GetPlayerVehicleID(playerid);
 		new model = (GetVehicleModel(carid)-400);
-		if(GetPlayerState(playerid) == 2) {
+		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			if(!IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid) && !IsAVelik(carid) && GetEngineStat(carid))  {
 				if(PRESSED(KEY_NUM4)) {
 					DestroyDynamicObject(LightsObject[carid][0]);
@@ -42995,8 +41580,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				}
 			}
 		} 
-		if(PRESSED(KEY_FIRE) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) pc_cmd_light(playerid,"");
-		if(PRESSED(KEY_ACTION) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) pc_cmd_engine(playerid,"");
+		if(PRESSED(KEY_FIRE) && RELEASED(oldkeys) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) pc_cmd_light(playerid,"");
+		if(PRESSED(KEY_ACTION) && RELEASED(oldkeys) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) pc_cmd_engine(playerid,"");
 	}
 	if(hacker_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
 	time_newkeys = GetTickCount() - tickcount1;
@@ -43195,7 +41780,6 @@ public OnVehicleSpawn(vehicleid) {
 		VG[vehicleid][vgLoading] = false;
 		VG[vehicleid][vgUnloading] = false;
 		VG[vehicleid][vgRobHouse] = false;
-
 		if(IsValid3DTextLabel(VG[vehicleid][vgText])) DestroyDynamic3DTextLabelEx(VG[vehicleid][vgText]);
 		DestroyDynamicPickup(VG[vehicleid][vgPickup]);
 		VG[vehicleid][vgPickup] = 0;
@@ -43204,7 +41788,6 @@ public OnVehicleSpawn(vehicleid) {
 		DestroyDynamicArea(VG[vehicleid][vgArea]);
 		VG[vehicleid][vgArea] = 0;
 		VG[vehicleid][vgAtm] = 0;
-
 		if(vehicleid == 482) VG[vehicleid][vgAmount][0] = 0;
 	}
 	if(VehicleInfo[vehicleid][vJob] > 0) {
@@ -43290,7 +41873,6 @@ CB: update_speedometer(playerid) {
 	if(TI[playerid][tAFK] <= 3) {
 		new Float:Health, stext[20];
 		GetVehicleHealth(vehicleid,Health);
-
 		new Float:veloc;
 		GetVehiclePos(vehicleid, X, Y, Z);
 		veloc = PointToPoint3D(X2,Y2,Z2,X,Y,Z)/1000;
@@ -43340,7 +41922,6 @@ CB: update_speedometer(playerid) {
 		VehicleInfo[vehicleid][veX] = X;
 		VehicleInfo[vehicleid][veY] = Y;
 		VehicleInfo[vehicleid][veZ] = Z;
-
 		new Float: Xx, Float: Yy, Float: Zz;
 		GetVehicleVelocity(vehicleid, Xx, Yy, Zz);
 		new Float:speedcar = _GetVehicleSpeed(vehicleid);
@@ -43365,7 +41946,6 @@ CB: update_speedometer(playerid) {
 		PlayerTextDrawSetString(playerid, Speed_PTD[playerid][3], stext);
 		/*format(stext,sizeof(stext),"%.1f_km",VehicleInfo[vehicleid][vDrived]);
 		PlayerTextDrawSetString(playerid,Speed_PTD[playerid][2],stext);*/
-
 		GetVehicleHealth(vehicleid, vhealth);
 		PlayerTextDrawTextSize(playerid,Speed_PTD[playerid][3], vhealth*102.1195/1000, 9.2200);
 		PlayerTextDrawShow(playerid, Speed_PTD[playerid][3]);
@@ -43375,7 +41955,6 @@ CB: update_speedometer(playerid) {
 		
 		format(stext,sizeof(stext),"HP:_%.0f/1000",vhealth);
 		PlayerTextDrawSetString(playerid,Speed_PTD[playerid][1],stext);
-
 		if(TI[playerid][tTaxiGoing]) {
 			new passid = TI[playerid][tTaxiPass];
 			new tarif;
@@ -43537,11 +42116,9 @@ stock IsLegal_Nos_Vehicle(PlayerID) {
 public OnVehicleRespray(playerid, vehicleid, color1, color2) {
 	return 1;
 }
-
 public OnVehiclePaintjob(playerid, vehicleid, paintjobid) {
 	return 1;
 }
-
 new Float:TuningPos[4][6] =
 {
 	{-1935.9622,244.4556,34.0334,617.5304,-1.9891,1000.5530},
@@ -43675,7 +42252,6 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 						PI[playerid][pInventoryKolvo][id] = 0;
 						
 						PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][id], 370810879);
-
 						InvUpdate(playerid, j, PI[playerid][pInventory][j]);
 						
 						if(id < 26 && j < 21)  InvUpdate(playerid, id, PI[playerid][pInventory][id]);
@@ -43683,7 +42259,6 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 						//
 						if(id >= 20 && id <= 25) InvUpdate(playerid, id, PI[playerid][pInventory][id]);
 						if(j >= 20 && j <= 25) InvUpdate(playerid, id, PI[playerid][pInventory][id]); // обновляем прїжідущую ячейку
-
 						SaveInventory(playerid);
 						ClickInv[playerid] = -1;
 						break;
@@ -43703,22 +42278,17 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			TI[playerid][tCodeBank] = 0;
 			MoveDynamicObject(moved_info[27][moved_id],moved_pos_object[27][0],moved_pos_object[27][1],moved_pos_object[27][2],(moved_info[27][moved_modelid] == 968) ? (0.014) : (moved_info[27][moved_modelid] == 2920) ? (0.014) : (moved_info[27][moved_modelid] == 1495) ? (0.034) : (moved_info[27][moved_modelid] == 2949) ? (0.034) : (moved_info[27][moved_modelid] == 2949) ? (10.0) : (1.2),moved_pos_object[27][3],moved_pos_object[27][4],moved_pos_object[27][5]);
 			text_bank = CreateDynamic3DTextLabel("{F7A587}Спрацювала сигналізація двері"W"\n\nЗакриття через{F7A587} 5"W" хв",0xFFFFFFFF,-1146.6598,28.7786,1169.5699+1.5,5,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 			bank_vzlom[1] = 5;
 			
 			bank_vzlom[3] = 5;
-
 			SendPDMessage(CDEPARTMENT,"[Увага] Спрацювала сигналізація сховища в центральному банку ЛС.");
-
 			for(new it = 0; it < 24; it++) TextDrawHideForPlayer(playerid, hack_magaz_TD[it]);
 			
 			for(new i = 0; i < 13; i++) {
 				PlayerTextDrawHide(playerid, hack_numbers[playerid][i]);
 			}
-
 			ApplyAnimation(playerid, "CARRY", "null", 1.0, 0, 0, 0, 0, 0, 0);
 			PlayerClearAnim[playerid] = 1;
-
 			CancelSelectTextDraw(playerid);
 			return 1;
 		}
@@ -43833,7 +42403,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				if (clickedid == Blackjack_TD[2]) {
 					if(PI[playerid][pCasinoChips] < blackjackTableInfo[tableid][blackjackTableMinBet]) return SendError(playerid, "Недостатньо фішок.");
 					ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
-
 					BJ_PlayerInfo[playerid][pBlackJackLastBet] =
 					BJ_PlayerInfo[playerid][pBlackJackBet][BJ_PlayerInfo[playerid][pBlackJackBlockID]] = blackjackTableInfo[tableid][blackjackTableMinBet];
 					return 1;
@@ -43841,7 +42410,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				else if (clickedid == Blackjack_TD[3]) {
 					if(PI[playerid][pCasinoChips] < blackjackTableInfo[tableid][blackjackTableMaxBet]) return SendError(playerid, "Недостатньо фішок.");
 					ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
-
 					BJ_PlayerInfo[playerid][pBlackJackLastBet] =
 					BJ_PlayerInfo[playerid][pBlackJackBet][BJ_PlayerInfo[playerid][pBlackJackBlockID]] = blackjackTableInfo[tableid][blackjackTableMaxBet];
 					return 1;
@@ -44108,9 +42676,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			}
 			if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце");
 			RemovePlayerAttachedObject(playerid, GetPVarInt(playerid, "slot_acs"));
-
 			SendOK(playerid, "Вітаємо з купівлею аксесуара.");
-
 			AddItem(playerid, GetPVarInt(playerid, "id_invent"),1);
 			
 			GiveMoney(playerid,-GetPVarInt(playerid, "price_acs"),"покупка аксессуара");
@@ -44269,7 +42835,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			if(ChangedVinylJob[playerid]) {
 				new str[32];
 				RepaintValue[playerid] -= VYNIL_VALUE;
-
 				format(str,32,"$%d",RepaintValue[playerid]);
 				PlayerTextDrawSetString(playerid,ColorTDPl[playerid][0],str);
 				ChangedVinylJob[playerid] = false;
@@ -44299,7 +42864,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 	}
 	else if(clickedid == ColorTD[15]) {
 		if(RepaintValue[playerid] == 0 && !ChangedVinylJob[playerid]) return SendError(playerid, "Ви не обрали колір транспорта.");
-
 		if(PI[playerid][pCash] < RepaintValue[playerid]) return SendError(playerid, "У вас недостатньо коштів.");
 		GiveMoney(playerid,-RepaintValue[playerid],"фарбування");
 		
@@ -44352,7 +42916,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		CarsInfo[playerid][carColor_one][GetNearestCar(playerid)] = PrimaryColor[playerid];
 		CarsInfo[playerid][carColor_two][GetNearestCar(playerid)] = SecondaryColor[playerid];
 		CarsInfo[playerid][carPaintJob][GetNearestCar(playerid)] = GetPVarInt(playerid, "Paintjob");
-
 		new query[120];
 		mysql_format(connects, query, sizeof(query),"UPDATE `cars` SET `color_one` = '%d',`color_two` = '%d',`paintjob` = '%d' WHERE id = '%d'",CarsInfo[playerid][carColor_one][car],CarsInfo[playerid][carColor_two][car],CarsInfo[playerid][carPaintJob][car],CarsInfo[playerid][carID][car]);
 		mysql_tquery(connects, query,"","");
@@ -44393,7 +42956,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			TextDrawShowForPlayer(playerid,CustomTD[5+i]);
 			format(str,64,"TUN[%d][Value]",i);
 			value = GetGVarInt(str,CustomType[playerid]);
-
 			format(str,64,"TUN[%d][Name]",i);
 			GetGVarString(str,str,64,CustomType[playerid]);
 			format(str,64,"%s~n~$%d",str,value);
@@ -44430,7 +42992,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			for(new i = CustomListNum[playerid]-4, b = 0; b < 5; i++,b++) {
 				format(str,64,"TUN[%d][Value]",i);
 				value = GetGVarInt(str,CustomType[playerid]);
-
 				format(str,64,"TUN[%d][Name]",i);
 				GetGVarString(str,str,64,CustomType[playerid]);
 				format(str,64,"%s~n~$%d",str,value);
@@ -44476,7 +43037,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			for(new i = CustomListNum[playerid], b = 0; b < 5; i++,b++) {
 				format(str,64,"TUN[%d][Value]",i);
 				value = GetGVarInt(str,CustomType[playerid]);
-
 				format(str,64,"TUN[%d][Name]",i);
 				GetGVarString(str,str,64,CustomType[playerid]);
 				format(str,64,"%s~n~$%d",str,value);
@@ -44517,7 +43077,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		PlayerTextDrawSetString(playerid,CustomTDPl[playerid][0],CustomTypeName[CustomType[playerid]]);
 		if(CustomType[playerid] == 0) TextDrawHideForPlayer(playerid,CustomTD[3]);
 		else TextDrawShowForPlayer(playerid,CustomTD[2]);
-
 		TextDrawHideForPlayer(playerid,CustomTD[10+CustomLimitNum[playerid]]);
 		TextDrawShowForPlayer(playerid,CustomTD[10]);
 		TextDrawHideForPlayer(playerid,CustomTD[4]);
@@ -44534,7 +43093,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			TextDrawShowForPlayer(playerid,CustomTD[5+i]);
 			format(str,64,"TUN[%d][Value]",i);
 			value = GetGVarInt(str,CustomType[playerid]);
-
 			format(str,64,"TUN[%d][Name]",i);
 			GetGVarString(str,str,64,CustomType[playerid]);
 			format(str,64,"%s~n~$%d",str,value);
@@ -44552,7 +43110,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		new str[64],value;
 		format(str,64,"TUN[%d][Value]",CustomListNum[playerid]);
 		value = GetGVarInt(str,CustomType[playerid]);
-
 		new string[156];
 		format(string,sizeof(string),"\n\n"W"Ви дійсно хочете встановити деталь за "O"$%d?\n\n",value);
 		ShowPlayerDialog(playerid, D_TUNE_UPDATE, DSM, ""P"Установка деталі", string, "Встановити", "Скасувати");
@@ -44644,7 +43201,6 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 	}
 	return 1;
 }
-
 stock ChosePlayerSkin(playerid) {
 	switch(PI[playerid][pSex]) {
 	case 1: SetPVarInt(playerid,"join_ped_item",Random(0,7));
@@ -44673,7 +43229,6 @@ CB: SpcarsAvto(playerid) {
 	format(string,sizeof(string),"Адміністратор %s[%d] заспавнив транспорт.",player_name[playerid],playerid);
 	AdmMSG(COLOR_LIGHTRED,string);
 }
-
 enum attached_object_data
 {
 Float:ao_x,
@@ -44686,9 +43241,7 @@ Float:ao_sx,
 Float:ao_sy,
 Float:ao_sz
 }
-
 new ao[MAX_PLAYERS][MAX_PLAYER_ATTACHED_OBJECTS][attached_object_data];
-
 public OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, Float:fOffsetX, Float:fOffsetY, Float:fOffsetZ,Float:fRotX, Float:fRotY, Float:fRotZ,Float:fScaleX, Float:fScaleY, Float:fScaleZ) {
 	new string[200];
 	format(string,sizeof(string),"%d,%d,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",index,modelid,boneid,fOffsetX,fOffsetY,fOffsetZ,fRotX,fRotY,fRotZ,fScaleX,fScaleY,fScaleZ);
@@ -44696,7 +43249,6 @@ public OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, Fl
 	if(response)
 	{
 		SendClientMessage(playerid, COLOR_GREEN, "Прикріплений об'єкт збережено.");
-
 		ao[playerid][index][ao_x] = fOffsetX;
 		ao[playerid][index][ao_y] = fOffsetY;
 		ao[playerid][index][ao_z] = fOffsetZ;
@@ -44710,7 +43262,6 @@ public OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, Fl
 	else
 	{
 		SendClientMessage(playerid, COLOR_RED, "Прикріплений об'єкт не збережено.");
-
 		new i = index;
 		SetPlayerAttachedObject(playerid, index, modelid, boneid, ao[playerid][i][ao_x], ao[playerid][i][ao_y], ao[playerid][i][ao_z], ao[playerid][i][ao_rx], ao[playerid][i][ao_ry], ao[playerid][i][ao_rz], ao[playerid][i][ao_sx], ao[playerid][i][ao_sy], ao[playerid][i][ao_sz]);
 	}
@@ -44724,7 +43275,6 @@ stock load_bint() {
 	else for(new i; i < rows;i++) {
 		cache_get_value_name_int(i,"id", gBints[i][bintID]);
 		cache_get_value_name_int(i,"interior", gBints[i][bintInterior]);
-
 		cache_get_value_name_float(i, "x", gBints[i][bintX]);
 		cache_get_value_name_float(i, "y", gBints[i][bintY]);
 		cache_get_value_name_float(i, "z", gBints[i][bintZ]);
@@ -44735,7 +43285,6 @@ stock load_bint() {
 		cache_get_value_name_float(i, "zb", gBints[i][bintZB]);
 		
 		if(gBints[i][bintID] == 26) CreateDynamic3DTextLabel(""O"Яхт-клуб\n"W"Вихід з бізнесу",-1,gBints[i][bintX],gBints[i][bintY],gBints[i][bintZ],15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
-
 		cache_get_value_name(i, "name", gBints[i][bintName], 32);
 		
 		gBintEnterArea[i] = CreateDynamicSphere(gBints[i][bintX],gBints[i][bintY],gBints[i][bintZ],1.0, -1, gBints[i][bintInterior]);
@@ -44763,12 +43312,10 @@ stock load_market() {
 			cache_get_value_index_int(i,3, black_prods[2]);
 			cache_get_value_index_int(i,4, black_prods[3]);
 			cache_get_value_index_int(i,5, black_prods[4]);
-
 			cache_get_value_index_int(i,6, black_prods[5]);
 			cache_get_value_index_int(i,7, black_prods[6]);
 			cache_get_value_index_int(i,8, black_prods[7]);
 			cache_get_value_index_int(i,9, black_prods[8]);
-
 			cache_get_value_index_int(i,10, black_prods[9]);
 		}
 	}
@@ -44803,7 +43350,6 @@ stock load_economy() {
 	result = mysql_query(connects, "SELECT * FROM `economy`");
 	rows = cache_num_rows();
 	if(rows) {
-
 		cache_get_value_name_int(0,"nalog_1", Nalog[0]);// податок на нерухомість
 		cache_get_value_name_int(0,"nalog_2", Nalog[1]);//пенсионный возраст
 		cache_get_value_name_int(0,"nalog_3", Nalog[2]);//розмір пенсии
@@ -44816,7 +43362,6 @@ stock load_economy() {
 	print("[Завантаження] Економика успішно загружена");
 	return 1;
 }
-
 stock load_funcbizz() {
 	new Cache:result, rows;
 	result = mysql_query(connects, "SELECT * FROM `business_func`");
@@ -44830,7 +43375,6 @@ stock load_funcbizz() {
 		cache_get_value_name(i, "name_car", FuncBizz[FuncBizz[i][funcbID]][funcbNameCar], 12);
 		cache_get_value_name_int(i,"number", FuncBizz[FuncBizz[i][funcbID]][funcbNum]);
 		new b_car[256],tarif[128];
-
 		cache_get_value(i, "car", b_car), sscanf(b_car,"p<|>a<i>[20]",FuncBizz[FuncBizz[i][funcbID]][funcbCar]);
 		cache_get_value(i, "tarif", tarif), sscanf(tarif,"p<|>a<i>[4]",FuncBizz[FuncBizz[i][funcbID]][funcbTarif]);
 		cache_get_value_name_int(i,"color", FuncBizz[FuncBizz[i][funcbID]][funcbColor]);
@@ -44854,7 +43398,6 @@ stock load_funcbizz() {
 	printf("[Завантаження] Функции бізнесу успішно загружена (%i шт.)",rows);
 	return 1;
 }
-
 stock load_atm() {
 	new Cache:result, rows;
 	result = mysql_query(connects, "SELECT * FROM `atms`");
@@ -44870,12 +43413,9 @@ stock load_atm() {
 		cache_get_value_float(i, "ATM_ROTZ", ATMData[i][ATM_Pos][5]);
 		
 		ATMData[i][atm_Taken] = 1;
-
 		cache_get_value_int(i, "ATM_VW", ATMData[i][atm_VW]);
 		cache_get_value_int(i, "ATM_INT", ATMData[i][atm_INT]);
-
 		cache_get_value_int(i, "cash", ATMData[i][atm_cash]);
-
 		ATMData[i][atm_Object] = CreateDynamicObject(2754, ATMData[i][ATM_Pos][0], ATMData[i][ATM_Pos][1], ATMData[i][ATM_Pos][2], 0.0, 0.0, ATMData[i][ATM_Pos][5], ATMData[i][atm_VW], ATMData[i][atm_INT]);
 		
 		new str[128];
@@ -44896,8 +43436,6 @@ stock load_fracfreez() {
 	return 1;
 }
 stock SetString(param_1[], const param_2[], size = 300) return strmid(param_1, param_2, 0, strlen(param_2), size);
-
-
 stock load_apartment() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT * FROM `apartment`");
@@ -44925,7 +43463,6 @@ stock load_apartment() {
 	cache_delete(result);
 	return 1;
 }
-
 stock load_business() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT * FROM `business`");
@@ -44935,7 +43472,6 @@ stock load_business() {
 	else if(!gBusinessCount) print("Не обнаружено бізнесів в базі");
 	else for(new i; i<gBusinessCount;i++) {
 		cache_get_value_name_int(i,"id", gBusiness[i][bizzID]);
-
 		cache_get_value_name(i, "name", gBusiness[i][bizzName], 64);
 		
 		cache_get_value_name_int(i,"type", gBusiness[i][bizzType]);
@@ -44945,28 +43481,22 @@ stock load_business() {
 		cache_get_value_name_int(i,"bank", gBusiness[i][bizzBank]);
 		cache_get_value_name_int(i,"price", gBusiness[i][bizzPrice]);
 		cache_get_value_name_int(i,"enter", gBusiness[i][bizzEnter]);
-
 		cache_get_value(i, "upgrade", sqlstring, 65), sscanf (sqlstring, "p<|>iii",
 		gBusiness[i][bizzUpgrade][0], gBusiness[i][bizzUpgrade][1], gBusiness[i][bizzUpgrade][2]);
-
 		cache_get_value_name_int(i,"product", gBusiness[i][bizzProduct]);
 		cache_get_value_name_int(i,"order", gBusiness[i][bizzProdOrder]);
 		cache_get_value_name_int(i,"orderprice", gBusiness[i][bizzProdOrderPrice]);
-
 		cache_get_value_name_int(i,"status", gBusiness[i][bizzStatus]);
-
 		cache_get_value_name_float(i, "x", gBusiness[i][bizzX]);
 		cache_get_value_name_float(i, "y", gBusiness[i][bizzY]);
 		cache_get_value_name_float(i, "z", gBusiness[i][bizzZ]);
 		cache_get_value_name_float(i, "r", gBusiness[i][bizzR]);
-
 		cache_get_value_name_int(i,"deliving", gBusiness[i][bizzDay]);
 		cache_get_value_name_int(i,"mafia", gBusiness[i][bizzMafia]);
 		cache_get_value_name_int(i,"procent", gBusiness[i][bizzPr]);
 		cache_get_value_name(i, "owner", gBusiness[i][bizzOwner], MAX_PLAYER_NAME);
 		
 		if(gBusiness[i][bizzType] != 7 && gBusiness[i][bizzType] != 18) CreateDynamicPickup(19132,1,gBusiness[i][bizzX],gBusiness[i][bizzY],gBusiness[i][bizzZ]);
-
 		if(gBusiness[i][bizzType] == 18) CreateDynamicPickup(1239,1,gBusiness[i][bizzX],gBusiness[i][bizzY],gBusiness[i][bizzZ]);
 		
 		gBusinessText[i] = CreateDynamic3DTextLabel("_",-1,gBusiness[i][bizzX],gBusiness[i][bizzY],gBusiness[i][bizzZ]+1.0,20.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
@@ -45060,18 +43590,15 @@ stock load_bilboards() {
 		cache_get_value_name(idx, "bText", BildInfo[idx][bText], 144);
 		cache_get_value_name(idx, "bPosText", BildInfo[idx][bPosText], 32);
 		cache_get_value_name(idx, "bOwner", BildInfo[idx][bOwner], MAX_PLAYER_NAME);
-
 		cache_get_value_name_int(idx, "bOwned", BildInfo[idx][bOwned]);
 		cache_get_value_name_int(idx, "bBackColor", BildInfo[idx][bBackColor]);
 		cache_get_value_name_int(idx, "bFontFace", BildInfo[idx][bFontFace]);
 		cache_get_value_name_int(idx, "bAligment", BildInfo[idx][bAligment]);
 		cache_get_value_name_int(idx, "bFontSize", BildInfo[idx][bFontSize]);
-
 		cache_get_value_name_float(idx, "PosX", BildInfo[idx][bPos][0]);
 		cache_get_value_name_float(idx, "PosY", BildInfo[idx][bPos][1]);
 		cache_get_value_name_float(idx, "PosZ", BildInfo[idx][bPos][2]);
 		cache_get_value_name_float(idx, "PosA", BildInfo[idx][bPos][3]);
-
 		cache_get_value_name_int(idx, "bDay", BildInfo[idx][bDay]);
 		cache_get_value_name_int(idx, "bModel", BildInfo[idx][bObjectModel]);
 		BildInfo[idx][bObjectID] = CreateDynamicObjectEx(BildInfo[idx][bObjectModel],BildInfo[idx][bPos][0], BildInfo[idx][bPos][1], BildInfo[idx][bPos][2], 0.00000000, 0.00000000, BildInfo[idx][bPos][3],1000.000,1000.000); // bObject
@@ -45094,18 +43621,14 @@ stock load_family() {
 	else if(!TotalFamily) print("сім'ї в базі не знайдені");
 	else for(new i = 1; i < TotalFamily; i++) {
 		cache_get_value_name_int(i,"id", gFamily[i][famID]);
-
 		cache_get_value(i,"cname",gFamily[i][famCName], 32);
 		cache_get_value(i,"name",gFamily[i][famName], 32);
 		cache_get_value(i,"time",gFamily[i][famDate], 32);
-
 		cache_get_value(i,"cowner",gFamily[i][famCOwner], MAX_PLAYER_NAME);
 		cache_get_value(i,"owner",gFamily[i][famOwner], MAX_PLAYER_NAME);
-
 		cache_get_value_int(i,"color",gFamily[i][famColor]);
 		cache_get_value_int(i,"drugs",gFamily[i][famDrugs]);
 		cache_get_value_int(i,"mats",gFamily[i][famMats]);
-
 		cache_get_value_int(i,"invite",gFamily[i][famInvRang]);
 		cache_get_value_int(i,"uninvite",gFamily[i][famUninvRang]);
 		cache_get_value_int(i,"giverank",gFamily[i][famGiveRang]);
@@ -45124,9 +43647,7 @@ stock load_family() {
 		cache_get_value_name(i, "Rank_6", FamRanks[i][5], 24);
 		cache_get_value_name(i, "Rank_7", FamRanks[i][6], 24);
 		cache_get_value_name(i, "Rank_8", FamRanks[i][7], 24);
-
 		cache_get_value_name(i, "message", gFamily[i][famMessage], 71);
-
 		cache_get_value_int(i,"talon",gFamily[i][famTalon]);
 		cache_get_value_int(i,"point",gFamily[i][famPoint]);
 		cache_get_value_int(i,"house",gFamily[i][famHouse]);
@@ -45201,20 +43722,15 @@ stock load_family() {
 		
 		cache_get_value_name(i,"paint_4", sscanf_paint, 128) ;
 		sscanf (sscanf_paint, "p<|>ddd",CarFamily[i][4][famVehColor],CarFamily[i][4][famVehColor_1],CarFamily[i][4][famVehPaint]);
-
 		new sscanf_st[50];
 		cache_get_value_name(i,"poscar1", sscanf_st, 30);
 		sscanf(sscanf_st, "p<,>ffff",CarFamily[i][0][fam_cx],CarFamily[i][0][fam_cy],CarFamily[i][0][fam_cz],CarFamily[i][0][fam_ca]);
-
 		cache_get_value_name(i,"poscar2", sscanf_st, 30);
 		sscanf(sscanf_st, "p<,>ffff",CarFamily[i][1][fam_cx],CarFamily[i][1][fam_cy],CarFamily[i][1][fam_cz],CarFamily[i][1][fam_ca]);
-
 		cache_get_value_name(i,"poscar3", sscanf_st, 30);
 		sscanf(sscanf_st, "p<,>ffff",CarFamily[i][2][fam_cx],CarFamily[i][2][fam_cy],CarFamily[i][2][fam_cz],CarFamily[i][2][fam_ca]);
-
 		cache_get_value_name(i,"poscar4", sscanf_st, 30);
 		sscanf(sscanf_st, "p<,>ffff",CarFamily[i][3][fam_cx],CarFamily[i][3][fam_cy],CarFamily[i][3][fam_cz],CarFamily[i][3][fam_ca]);
-
 		cache_get_value_name(i,"poscar5", sscanf_st, 30);
 		sscanf(sscanf_st, "p<,>ffff",CarFamily[i][4][fam_cx],CarFamily[i][4][fam_cy],CarFamily[i][4][fam_cz],CarFamily[i][4][fam_ca]);
 		
@@ -45262,27 +43778,22 @@ stock load_house() {
 	else if(!gHouseCount) print("будинків в базі не знайдено");
 	else for(new i = 0; i < gHouseCount; i++) {
 		cache_get_value_name_int(i,"id", gHouses[i][houseID]);
-
 		cache_get_value_name_int(i, "class", gHouses[i][houseClass]);
 		cache_get_value_name_int(i, "day", gHouses[i][houseDay]);
 		cache_get_value_name_int(i, "price", gHouses[i][housePrice]);
 		cache_get_value_name_int(i, "hint", gHouses[i][houseHint]);
-
 		cache_get_value(i, "improve", sqlstring, 20), sscanf (sqlstring, "p<|>iiii",
 		gHouses[i][houseImprove][0], gHouses[i][houseImprove][1], gHouses[i][houseImprove][2],
 		gHouses[i][houseImprove][3]);
-
 		cache_get_value(i, "gun", sqlstring, 65), sscanf (sqlstring, "p<|>iiiiiiiii",
 		gHouses[i][houseGun][0], gHouses[i][houseGun][1], gHouses[i][houseGun][2], gHouses[i][houseGun][3]
 		, gHouses[i][houseGun][4], gHouses[i][houseGun][5], gHouses[i][houseGun][6], gHouses[i][houseGun][7], gHouses[i][houseGun][8]);
-
 		cache_get_value_name_int(i, "safecode", gHouses[i][houseSafeCode]);
 		cache_get_value_name_int(i, "safemoney", gHouses[i][houseSafeMoney]);
 		cache_get_value_name_int(i, "drugs", gHouses[i][houseDrugs]);
 		cache_get_value_name_int(i, "medkit", gHouses[i][houseHealth]);
 		cache_get_value_name_int(i, "products", gHouses[i][houseProducts]);
 		cache_get_value_name_int(i, "close", gHouses[i][houseClose]);
-
 		cache_get_value_name_float(i, "x", gHouses[i][houseX]);
 		cache_get_value_name_float(i, "y", gHouses[i][houseY]);
 		cache_get_value_name_float(i, "z", gHouses[i][houseZ]);
@@ -45291,14 +43802,10 @@ stock load_house() {
 		cache_get_value_name_float(i, "parky", gHouses[i][houseParkY]);
 		cache_get_value_name_float(i, "parkz", gHouses[i][houseParkZ]);
 		cache_get_value_name_float(i, "parkr", gHouses[i][houseParkR]);
-
 		cache_get_value_name_int(i, "ownerid", gHouses[i][houseOwnerID]);
-
 		cache_get_value_name(i, "owner", gHouses[i][houseOwner]);
-
 		cache_get_value_name_int(i, "peopleid1", gHouses[i][houseHabitID][0]);
 		cache_get_value_name_int(i, "peopleid2", gHouses[i][houseHabitID][1]);
-
 		cache_get_value_name(i, "people1", gHouseArendator[i][0]);
 		cache_get_value_name(i, "people2", gHouseArendator[i][1]);
 		cache_get_value_name_int(i, "family", gHouses[i][houseFamily]); 
@@ -45319,21 +43826,17 @@ stock load_house() {
 	printf("[Завантаження] Будинки успішно завантажено (%i шт.)", gHouseCount);
 	return 1;
 }
-
 stock load_greenzone() {
 	new Cache:result, rows;
 	result = mysql_query(connects, "SELECT * FROM `"TABLE_GREENZONE"`");
 	rows = cache_num_rows();
 	for(new i = 1; i <= rows; i++) {
 		cache_get_value_name_int(i-1, "id", GREENZONE[i][grid]);
-
 		cache_get_value_name_float(i-1, "grx", GREENZONE[i][grX]);
 		cache_get_value_name_float(i-1, "gry", GREENZONE[i][grY]);
 		cache_get_value_name_float(i-1, "grz", GREENZONE[i][grZ]);
 		cache_get_value_name_float(i-1, "grd", GREENZONE[i][grD]);
-
 		cache_get_value_name(i-1, "grname", GREENZONE[i][grName], 32);
-
 		cache_get_value_name_int(i-1, "grvirt", GREENZONE[i][grVirt]);
 		TOTALZONE++;
 	}
@@ -45346,30 +43849,23 @@ stock load_gangzone()
 	new Cache: result, rows;
 	result = mysql_query(connects, "SELECT * FROM `"TABLE_GANGZONE"`");
 	rows = cache_num_rows();
-
 	for (new i = 0; i < rows; i++)
 	{
 		cache_get_value_name_int(i, "id", GZInfo[i][gID]);
-
 		cache_get_value_name_float(i, "coord_one", GZInfo[i][gCoords][0]);
 		cache_get_value_name_float(i, "coord_two", GZInfo[i][gCoords][1]);
 		cache_get_value_name_float(i, "coord_three", GZInfo[i][gCoords][2]);
 		cache_get_value_name_float(i, "coord_four", GZInfo[i][gCoords][3]);
-
 		cache_get_value_name_int(i, "gang_owner", GZInfo[i][gFrakVlad]);
-
 		GZInfo[i][gZone] = GangZoneCreate(GZInfo[i][gCoords][0], GZInfo[i][gCoords][1], GZInfo[i][gCoords][2], GZInfo[i][gCoords][3]);
-
 		VladGzone[GZInfo[i][gFrakVlad]]++;
 		GZInfo[i][gTime] = -1;
-
 		TOTALGZ++;
 	}
 	cache_delete(result);
 	printf("[Завантаження] Гангзони успішно завантажено. (%i шт.)", TOTALGZ);
 	return 1;
 }
-
 stock load_fractions() {
 	new string[1024];
 	for(new i; i < 15; i ++) RankName[0][i] = "Громадянин";
@@ -45379,12 +43875,10 @@ stock load_fractions() {
 	rows = cache_num_rows();
 	for(new i = 1;i <= rows;i ++) {
 		cache_get_value_name_int(i-1, "ID", FI[i][fID]);
-
 		cache_get_value_name(i-1, "Name", FI[i][fName], 32);
 		cache_get_value_name(i-1, "Leader", FI[i][fLeader], MAX_PLAYER_NAME);
 		cache_get_value_name(i-1, "Admin", FI[i][fAdmin], MAX_PLAYER_NAME);
 		cache_get_value_name(i-1, "Time", FI[i][fTime], 53);
-
 		cache_get_value_name_int(i-1, "Bank", FI[i][fBank]);
 		cache_get_value_name_int(i-1, "BankCash", FI[i][fBankCash]);
 		cache_get_value_name_int(i-1, "Drugs", FI[i][fDrugs]);
@@ -45405,7 +43899,6 @@ stock load_fractions() {
 		cache_get_value_name_int(i-1, "DrugsPrice", FI[i][fDrugsPrice]);
 		cache_get_value_name_int(i-1, "AntiTk", FI[i][fAntiTK]);
 		cache_get_value_name_int(i-1, "fRating", FI[i][fRating]);
-
 		cache_get_value_name(i-1, "Rank_1", RankName[i][0], 24);
 		cache_get_value_name(i-1, "Rank_2", RankName[i][1], 24);
 		cache_get_value_name(i-1, "Rank_3", RankName[i][2], 24);
@@ -45457,7 +43950,6 @@ stock load_diplomation() {
 	cache_delete(result);
 	printf("[Завантаження] Дипломатія успішно завантажена (%i шт.)", rows);
 }
-
 stock load_others() {
 	new Cache:result, rows;
 	result = mysql_query(connects, "SELECT * FROM `"TABLE_OTHERS"`");
@@ -45503,7 +43995,6 @@ stock load_garage() {
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL),"{F9C7A1}Гараж\n\n"W"Клас:{F9C7A1} %s"W"\nВласник:{F9C7A1}%s"W"",
 		GetNameClassG(FG[i][gTypes]), GetOwnerIDGarage(FG[i][gOwnerID]));
-
 	//	UpdateDynamic3DTextLabelText(gContainer[i][cText], -1, STRING_GLOBAL);
 		
 		FGarage[FG[i][gGID]] = Create3DTextLabel(STRING_GLOBAL, 0x008080FF, FG[i][posX], FG[i][posY], FG[i][posZ], 15.0, 0, 0);
@@ -45536,7 +44027,6 @@ stock GetNameClassG(type)
 stock load_graffity() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT * FROM `graffity`");
-
 	CountGraffity = cache_num_rows();
 	if(CountGraffity) {
 		new idx;
@@ -45735,14 +44225,12 @@ stock loading_cars(playerid, car) {
 	}
 	LoadTuning(playerid, house_car[playerid][car], car);
 	SetVehicleParamsEx(house_car[playerid][car],false,false,false,true,false,false,false);
-
 	if(VehicleInfo[house_car[playerid][car]][vNumberAttached]) {
 		DestroyDynamic3DTextLabelEx(VehicleInfo[house_car[playerid][car]][vNumberTextID]);
 		VehicleInfo[house_car[playerid][car]][vNumberTextID] = Text3D:-1;
 		VehicleInfo[house_car[playerid][car]][vNumberAttached] = 0;
 	}
 	SetVehicleNumberText(house_car[playerid][car], NumberVehicle[playerid][car]);
-
 	TrunkInfo[house_car[playerid][car]][tDrugs] = CarsInfo[playerid][carNarko][car];
 	TrunkInfo[house_car[playerid][car]][tMats] = CarsInfo[playerid][carMats][car];
 	TrunkInfo[house_car[playerid][car]][tKanistra] = CarsInfo[playerid][carKanistra][car];
@@ -45755,7 +44243,6 @@ stock loading_cars(playerid, car) {
 	VehicleInfo[house_car[playerid][car]][vFuel] = CarsInfo[playerid][carFuel][car];
 	VehicleInfo[house_car[playerid][car]][vAkum] = CarsInfo[playerid][carAkum][car];
 	VehicleInfo[house_car[playerid][car]][vDrived] = CarsInfo[playerid][carDrived][car];
-
 	if(VehicleInfo[house_car[playerid][car]][vFuel] < 10) VehicleInfo[house_car[playerid][car]][vFuel] = 15;
 	if(VehicleInfo[house_car[playerid][car]][vAkum] < 10) VehicleInfo[house_car[playerid][car]][vAkum] = 30;
 	return 1;
@@ -45781,7 +44268,6 @@ CB: change_name(playerid,const name[]) {
 		SendOK(playerid, "Заявка на зміну нікнейму відправлена адміністрації.");
 		format(string, 127, "[A] %s (ID: %i) просить змінити нікнейм на %s.", player_name[playerid], playerid, name);
 		AdmMSG(COLOR_ISPOLZUY, string);
-
 	}
 	return 1;
 }
@@ -45808,7 +44294,6 @@ stock save_tune(playerid, idx) {
 	format(query, 500, "UPDATE `cars` SET `components` = '%s' WHERE `id` = '%d'",str, CarsInfo[playerid][carID][idx]);
 	mysql_tquery(connects, query, "", "");
 }
-
 stock SaveFamilyCar(fam, idx) {
 	new query[800], str[800];
 	format(str,sizeof(str),"%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i",
@@ -45822,7 +44307,6 @@ stock SaveFamilyCar(fam, idx) {
 	mysql_tquery(connects, query, "", "");
 }
 stock save_skill(playerid) {
-
 	new skills[50];
 	format(skills,sizeof(skills),"%i, %i, %i, %i, %i, %i, %i",PI[playerid][pGunSkill][0], PI[playerid][pGunSkill][1], PI[playerid][pGunSkill][2], PI[playerid][pGunSkill][3],
 	PI[playerid][pGunSkill][4], PI[playerid][pGunSkill][5]);
@@ -45832,7 +44316,6 @@ stock save_skill(playerid) {
 	mysql_tquery(connects,query);
 	return 1;
 }
-
 CB: reg_friend(playerid) {
 	new rows;
 	cache_get_row_count(rows);
@@ -45905,7 +44388,6 @@ stock LoadTuning(playerid,carid,idx) {
 	if(CarsInfo[playerid][carVehcom_14][idx]!=0) ACC_AddVehicleComponent(carid, CarsInfo[playerid][carVehcom_14][idx]);
 	if(CarsInfo[playerid][carPaintJob][idx] != -1) ChangeVehiclePaintjob(carid, CarsInfo[playerid][carPaintJob][idx]);
 }
-
 stock LoadFamilyTuning(fam, carid, idx)
 {
 	if(CarFamily[fam][idx][famVehcom_1]!=0) ACC_AddVehicleComponent(carid, CarFamily[fam][idx][famVehcom_1]);
@@ -45925,7 +44407,6 @@ stock LoadFamilyTuning(fam, carid, idx)
 	
 	if(CarFamily[fam][idx][famVehPaint] != -1) ChangeVehiclePaintjob(carid, CarFamily[fam][idx][famVehPaint]);
 }
-
 stock trailer_checktun(player_vehicleid, model) {
 	if(PlayerTrailer[player_vehicleid][carVehcom][0] == model ||
 			PlayerTrailer[player_vehicleid][carVehcom][1] == model ||
@@ -45960,7 +44441,6 @@ stock CheckTuning(playerid,idx,model) {
 			CarsInfo[playerid][carVehcom_14][idx] == model) return 1;
 	else return 0;
 }
-
 stock family_checktun(fam,idx,model) {
 	if(CarFamily[fam][idx][famVehcom_1] == model ||
 			CarFamily[fam][idx][famVehcom_2] == model ||
@@ -45978,7 +44458,6 @@ stock family_checktun(fam,idx,model) {
 			CarFamily[fam][idx][famVehcom_14] == model) return 1;
 	else return 0;
 }
-
 stock RemoveFamilyComponent(fam, carid, idx)
 {
 	if(CarFamily[fam][idx][famVehcom_1]!=0) RemoveVehicleComponent(carid, CarFamily[fam][idx][famVehcom_1]), CarFamily[fam][idx][famVehcom_1] = 0;
@@ -45997,7 +44476,6 @@ stock RemoveFamilyComponent(fam, carid, idx)
 	if(CarFamily[fam][idx][famVehcom_14]!=0) RemoveVehicleComponent(carid, CarFamily[fam][idx][famVehcom_14]), CarFamily[fam][idx][famVehcom_14] = 0;
 	if(CarFamily[fam][idx][famVehPaint] != -1) ChangeVehiclePaintjob(carid,-1), CarFamily[fam][idx][famVehPaint] = -1;
 }
-
 stock RemoveComponent(c, carid, car)
 {
 	if(CarsInfo[c][carVehcom_1][car]!=0) RemoveVehicleComponent(carid, CarsInfo[c][carVehcom_1][car]), CarsInfo[c][carVehcom_1][car] = 0;
@@ -46014,7 +44492,6 @@ stock RemoveComponent(c, carid, car)
 	if(CarsInfo[c][carVehcom_12][car]!=0) RemoveVehicleComponent(carid, CarsInfo[c][carVehcom_12][car]), CarsInfo[c][carVehcom_12][car] = 0;
 	if(CarsInfo[c][carVehcom_13][car]!=0) RemoveVehicleComponent(carid, CarsInfo[c][carVehcom_13][car]), CarsInfo[c][carVehcom_13][car] = 0;
 	if(CarsInfo[c][carVehcom_14][car]!=0) RemoveVehicleComponent(carid, CarsInfo[c][carVehcom_14][car]), CarsInfo[c][carVehcom_14][car] = 0;
-
 	if(CarsInfo[c][carPaintJob][car] != -1) ChangeVehiclePaintjob(carid,-1); CarsInfo[c][carPaintJob][car] = -1;
 }
 stock AddCheater(playerid) {
@@ -46066,12 +44543,10 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			ATMData[atmID][ATM_Pos][3]   = rx;
 			ATMData[atmID][ATM_Pos][4]   = ry;
 			ATMData[atmID][ATM_Pos][5]   = rz;
-
 			SaveATM(atmID);
 			new string[128];
 			format(string, sizeof(string), "Ви змінили позицію ATM номер %d.", atmID);
 			SendOK(playerid, string);
-
 			UpdateATMLabel(atmID);
 			
 			if(ATMData[atmID][atm_Object]) DestroyDynamicObject(ATMData[atmID][atm_Object]);
@@ -46132,7 +44607,6 @@ stock AddObject(objectid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:r
     SendClientMessage(playerid,COLOR_GREEN,"Об'єкт успішно створено.");
     return 1;
 }
-
 public OnTrailerUpdate(playerid, vehicleid) {
 	return 1;
 }
@@ -46185,7 +44659,6 @@ stock ShowStats(playerid,targetid,idx) {
 	
 	format(str,128,"\n\nТранспорт #1:\t\t%s(%i)",gTransport[CarsInfo[targetid][carModel][0]-400][trName],CarsInfo[targetid][carModel][0]), strcat(string,str);
 	format(str,128,"\nТранспорт #2:\t\t%s(%i)",gTransport[CarsInfo[targetid][carModel][1]-400][trName],CarsInfo[targetid][carModel][1]), strcat(string,str);
-
 	format(str,128,"\n\nЗаконослухняність:\t\t%i",PI[targetid][pZakonp]), strcat(string,str);
 	format(str,128,"\nЗлочинів:\t\t\t%i",PI[targetid][pCrimes]), strcat(string,str);
 	format(str,128,"\nАрештів:\t\t\t%i",PI[targetid][pArrested]), strcat(string,str);
@@ -46194,12 +44667,10 @@ stock ShowStats(playerid,targetid,idx) {
 	format(str,128,"\nМатериалів\t\t\t%i",PI[targetid][pMats]), strcat(string,str);
 	format(str,128,"\nЗалежність:\t\t\t%i",PI[targetid][pAddiction]), strcat(string,str);
 	format(str,128,"\nФішок:\t\t\t\t%i\n",PI[targetid][pCasinoChips]), strcat(string,str);
-
 	if(PI[targetid][pMember]) format(str,128,"\nОрганізація:\t\t\t%s",FI[PI[targetid][pMember]][fName]), strcat(string,str);
 	else strcat(string,"\nОрганізація:\t\t\tВідсутня");
 	if(idx) format(str,128,"\nПосада:\t\t\t%s (%d)",GetRankName(PI[targetid][pMember],PI[targetid][pRank]),PI[targetid][pRank]), strcat(string,str);
 	else format(str,128,"\nПосада:\t\t\t%s",GetRankName(PI[targetid][pMember],PI[targetid][pRank])), strcat(string,str);
-
 	new house = 0;
 	if(PI[targetid][pHouse] && !PI[targetid][pRoom]) {
 		new classname[15];
@@ -46223,17 +44694,14 @@ stock ShowStats(playerid,targetid,idx) {
 	
 	if(GetPlayerVehicles(playerid)) strcat(string,"\nБудинок на колесах\t\tЄ");
 	else strcat(string,"\nБудинок на колесах:\t\tНемає");
-
 	if(PI[targetid][pHacker]) format(str,128,"\nХакер:\t\t\t\t %d",PI[targetid][pHacker]), strcat(string,str);
 	if(PI[targetid][pHacker]) format(str,128,"\nДосвід хакера:\t\t\t %d/20",PI[targetid][pHackProg]), strcat(string,str);
-
 	format(str,128,"\n\n"W"Робота:\t\t\t%s",jtext), strcat(string,str);
 	if(idx) {
 		format(str,128,"\nБанк:\t\t\t\t%i",PI[targetid][pBank]), strcat(string,str);
 		format(str,128,"\nНа руках:\t\t\t%i",PI[targetid][pCash]), strcat(string,str);
 		format(str,128,"\nСкін:\t\t\t\t%i",PI[targetid][pSkin]), strcat(string,str);
 		format(str,128,"\nФракційний скін:\t\t\t%i",PI[targetid][pFracSkin]), strcat(string,str);
-
 		format(str,128,"\nВарнів:\t\t\t%i",PI[targetid][pWarns]), strcat(string,str);
 		
 		format(str,128,"\nДата реєстрації:\t\t%s",PI[targetid][pDataReg]), strcat(string,str);
@@ -46241,7 +44709,6 @@ stock ShowStats(playerid,targetid,idx) {
 	}
 	return ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Статистика",string, "Закрити", "");
 }
-
 stock UpdateSkladFrakGang() {
 	ClearTotalGz();
 	for(new i = 0; i < TOTALGZ; i++) {
@@ -46257,13 +44724,11 @@ stock UpdateSkladFrakGang() {
 	format(string,sizeof(string),"Склад банди {009F00}Grove"W"\n\n- Территорій: "P"%d\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку банди: "P"$%d\n"W"- Прибуток за годину: "P"$%d",TotalGZ[2],FI[fGROVE][fMats],FI[fGROVE][fDrugs],FI[fGROVE][fBank],TotalGZ[2]*65); UpdateDynamic3DTextLabelText(gMenu[2],-1,string);
 	format(string,sizeof(string),"Склад банди {01FCFF}Aztecas"W"\n\n- Территорій: "P"%d\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку банди: "P"$%d\n"W"- Прибуток за годину: "P"$%d",TotalGZ[4],FI[fAZTEC][fMats],FI[fAZTEC][fDrugs],FI[fAZTEC][fBank],TotalGZ[4]*65); UpdateDynamic3DTextLabelText(gMenu[3],-1,string);
 	format(string,sizeof(string),"Склад банди {83BFBF}Rifa"W"\n\n- Территорій: "P"%d\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку банди: "P"$%d\n"W"- Прибуток за годину: "P"$%d",TotalGZ[3],FI[fRIFA][fMats],FI[fRIFA][fDrugs],FI[fRIFA][fBank],TotalGZ[3]*65); UpdateDynamic3DTextLabelText(gMenu[4],-1,string);
-
 	format(string,sizeof(string),"Аптечка банди {8813E7}Ballas"W"\nДоступно аптечок: "P"%d",FI[fBALLAS][fHealth]); UpdateDynamic3DTextLabelText(gHealth[0],-1,string);
 	format(string,sizeof(string),"Аптечка банди {DBD604}Vagos"W"\nДоступно аптечок: "P"%d",FI[fVAGOS][fHealth]); UpdateDynamic3DTextLabelText(gHealth[1],-1,string);
 	format(string,sizeof(string),"Аптечка банди {009F00}Grove"W"\nДоступно аптечок: "P"%d",FI[fGROVE][fHealth]); UpdateDynamic3DTextLabelText(gHealth[2],-1,string);
 	format(string,sizeof(string),"Аптечка банди {01FCFF}Aztecas"W"\nДоступно аптечок: "P"%d",FI[fAZTEC][fHealth]); UpdateDynamic3DTextLabelText(gHealth[3],-1,string);
 	format(string,sizeof(string),"Аптечка банди {83BFBF}Rifa"W"\nДоступно аптечок: "P"%d",FI[fRIFA][fHealth]); UpdateDynamic3DTextLabelText(gHealth[4],-1,string);
-
 	if(black_prods[9] > unix) {
 		new year, month, day, hour, minute, second;
 		timestamp_to_date(black_prods[9]-unix, year, month, day, hour, minute, second);
@@ -46562,7 +45027,6 @@ stock GetCheckID(const name[]) {
 	return INVALID_PLAYER_ID;
 }
 stock check_terrs() {
-
 	DestroyActor(actor[0]);
 	DestroyActor(actor[1]);
 	DestroyActor(actor[2]);
@@ -46627,37 +45091,28 @@ CB: GunReady(playerid) {
 }
 stock update3dtext() {
 	new string[128];
-
 	format(string,sizeof(string),"Риби на складі: "O"%.1f кг",fish_sklad);
 	UpdateDynamic3DTextLabelText(fish_text,-1,string);
-
 	format(string,sizeof(string),"Боєприпасов на складі: "ORANGE"%d",zavodsklad);
 	UpdateDynamic3DTextLabelText(gun_3dtext[0],-1,string);
-
 	format(string,sizeof(string),"Боєприпасів доступно: "ORANGE"%d",zavodsklad);
 	UpdateDynamic3DTextLabelText(gun_3dtext[1],-1,string);
-
 	format(string,sizeof(string),"Боєприпасів на складі: "ORANGE"%d",zavodsklad);
 	UpdateDynamic3DTextLabelText(gun_3dtext[2],-1,string);
-
 	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fARMYLS][fMats]);
 	UpdateDynamic3DTextLabelText(sklad_armysf[0],-1,string);
 	
 	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fARMYLS][fMats]);
 	UpdateDynamic3DTextLabelText(sklad_armysf[1],-1,string);
-
 	format(string,sizeof(string),"Боєприпасів: "ORANGE"%d од",FI[fLSPD][fMats]);
 	UpdateDynamic3DTextLabelText(sklad_cops[0],-1,string);
 	//склад байкеров
-	//format(string,sizeof(string),"Боеприпасов: "ORANGE"%d ед",FI[fBikers][fMats]);
+	//format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fBikers][fMats]);
 //	UpdateDynamic3DTextLabelText(sklad_cops[1],-1,string);
-
-//	format(string,sizeof(string),"Боеприпасов: "ORANGE"%d ед",FI[fLVPD][fMats]);
+//	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fLVPD][fMats]);
 //	UpdateDynamic3DTextLabelText(sklad_cops[2],-1,string);
-
-	format(string,sizeof(string),"Боеприпасов: "ORANGE"%d ед",FI[fFBI][fMats]);
+	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fFBI][fMats]);
 	UpdateDynamic3DTextLabelText(sklad_cops[3],-1,string);
-
 	UpdateSkladFrakGang();
 	UpdateSkladFrakMafia();
 }
@@ -46684,7 +45139,6 @@ SaveRank(rank,farction) {
 	mysql_format(connects, query, sizeof(query),"UPDATE `fractions` SET `Rank_%d` = '%s' WHERE `ID` = '%i'",rank,RankName[farction][rank-1],farction);
 	return mysql_tquery(connects, query, "", "");
 }
-
 stock GiveDonate(playerid, money, const s[]="None") {
 	if(strlen(s)) {
 		new ip[16],query[256];
@@ -46696,7 +45150,6 @@ stock GiveDonate(playerid, money, const s[]="None") {
 	UpdatePlayerData(playerid,"donatemoney",PI[playerid][pRouble]);
 	return 1;
 }
-
 stock GiveMoney(playerid, money, const s[]="None") {
 	if(strlen(s)) {
 		new ip[16],query[256];
@@ -46705,9 +45158,9 @@ stock GiveMoney(playerid, money, const s[]="None") {
 		mysql_tquery(connects, query, "", "");
 	}
 	new string[35];
-	if(money < 0) format(string,sizeof(string), "~r~ %d$", money);
-	else format(string, sizeof(string), "~g~ +%d$", money);
-	GameTextForPlayer(playerid, string, 5000, 1);
+	if(money < 0) format(string,sizeof(string), "~r~-$%d", abs(money));
+	else format(string, sizeof(string), "~g~+$%d", abs(money));
+	GameTextForPlayer(playerid, string, 2500, 1);
 	
 	PI[playerid][pCash] += money;
 	ResetPlayerMoney(playerid);
@@ -46722,11 +45175,9 @@ stock SetPlayerHospital(playerid) {
 	return 0;
 }
 stock GetNearestPolice(playerid) {
-
 	new Float:dist[2], total_police = 1;
 	dist[0] = GetPlayerDistanceFromPoint(playerid, 191.2708,-145.2200,1020.2169); // lspd
 	dist[1] = GetPlayerDistanceFromPoint(playerid, -40.2691,-176.8227,1026.9872); // rcso
-
 	if(dist[0] < dist[1]) total_police = 1;
 	else if(dist[1] < dist[0]) total_police = 2;
 	return total_police;
@@ -46770,8 +45221,6 @@ stock FreezePlayerForTime(playerid, time)
 	PlayerUnFreezeTimerFix[playerid] = (gettime() + time);
 	TogglePlayerControllable(playerid, 0);
 }
-
-
 stock CreateBizVehicle(biz,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_BIZZ);
 	VehicleInfo[carid][vBizz] = biz;
@@ -46793,7 +45242,6 @@ stock CreateBusVehicle(bus,job,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Col
 	VehicleInfo[carid][vBus] = bus;
 	return carid;
 }
-
 stock CreateTaxiVehicle(job,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_JOB);
 	VehicleInfo[carid][vJob] = job;
@@ -46806,7 +45254,6 @@ stock CreateTaxiVehicle(job,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_
 	AttachDynamicObjectToVehicle(VehicleInfo[carid][vTaxi][2], carid, 0.000, -1.681, 0.557, -360.000, -54.999, -90.000);
 	return carid;
 }
-
 stock IsABikeSped(carid){switch(GetVehicleModel(carid)){case 448,435,449,450,457,464,465,481,485,501,509,510,530,564,569,570,584,594,606,607,608,610,611:return 1;}return false;}
 stock IsACarNumber(carid){switch(carid){case 400..402,404,508,405,409..413,415,419,421,422,424,426,429,434,439,444,445,451,459,461..463,466,467,470,478,474,475,477,479,480,482,490,491,492,494,495,496,502..504,506,517,518,521,528,531,533,534,535,539,541..543,545,549,551,554,555..562,566,567,568,571,573,575,576,578,579,580,585..587,589,599,600..603,489:return 1;}return false;}
 stock IsACarModel(carid){
@@ -46819,7 +45266,6 @@ IsAPlane(carid) return (GetVehicleState(carid) == VEHICLE_STATE_PLANE);
 IsAVelik(carid) return (GetVehicleState(carid) == VEHICLE_STATE_VELIK);
 IsABoat(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BOAT);
 IsABike(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BIKE);
-
 stock A_AddStaticVehicleEx(model,Float:x,Float:y,Float:z,Float:a,color_1,color_2,spawntime = 300,type,interior = 0,world = 0, addsiren = 0) {
 	if(IsValidVehicleModel(model)) {
 		new vehicleid = AddStaticVehicleEx(model,x,y,z,a,color_1,color_2,spawntime, addsiren);
@@ -46843,7 +45289,6 @@ stock A_AddStaticVehicleEx(model,Float:x,Float:y,Float:z,Float:a,color_1,color_2
 			}
 			LinkVehicleToInterior(vehicleid, interior);
 			SetVehicleVirtualWorld(vehicleid, world);
-
 			switch(model) {
 			case 472,473,493,595,484,430,452..454,446: VehicleState[vehicleid] = VEHICLE_STATE_BOAT;
 			case 592,577,511,512,593,520,553,476,519,460,513,548,417,487,488,497,563,447,469:  VehicleState[vehicleid] = VEHICLE_STATE_PLANE;
@@ -46862,7 +45307,6 @@ stock A_DestroyVehicle(vehicleid) {
 		VG[vehicleid][vgLoading] = false;
 		VG[vehicleid][vgUnloading] = false;
 		VG[vehicleid][vgRobHouse] = false;
-
 		if(IsValid3DTextLabel(VG[vehicleid][vgText])) DestroyDynamic3DTextLabelEx(VG[vehicleid][vgText]);
 		DestroyDynamicPickup(VG[vehicleid][vgPickup]);
 		VG[vehicleid][vgPickup] = 0;
@@ -46872,7 +45316,6 @@ stock A_DestroyVehicle(vehicleid) {
 		VG[vehicleid][vgArea] = 0;
 		VG[vehicleid][vgAtm] = 0;
 		VehicleInfo[vehicleid][vLocked] = 0;
-
 		if(vehicleid == 482) VG[vehicleid][vgAmount][0] = 0;
 	}
 	if(IsValidVehicle(vehicleid)) {
@@ -46929,95 +45372,12 @@ stock A_CreateVehicle(model,Float:x,Float:y,Float:z,Float:a,color_1,color_2,spaw
 	}
 	return INVALID_VEHICLE_ID;
 }
-
-stock ToggleEngine(vehicleid, playerid = -1) {
-	if(PI[playerid][pMember] != VehicleInfo[vehicleid][vTeam])
-	{
-		if(VehicleInfo[vehicleid][vType] == VEHICLE_TYPE_FRACTION && PI[playerid][pHacker] > 4 && GetPVarInt(playerid, "VehicleHackers") != GetPlayerVehicleID(playerid)){
-			return SendClientMessage(playerid, -1, "У вас немає доступу до цього транспорту.");
-		}
-	}
-	
-	GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
-	if(vehicleid == VehicleWareHouse[0])
-	{
-	    if(TimerRobWeapon > 0 && TimerRobWeaponBool == true){
-            SendError(playerid, "Спочатку відстійте перестрілку.");
-	    	return SetVehicleParamsEx(GetPlayerVehicleID(playerid), 0, lights, alarm, doors, bonnet, boot, objective);
-		}
-	    if(CountMaterialVehicleWH < 1){
-            SendError(playerid, "Ви не можете відвезти пустий транспорт.");
-			return SetVehicleParamsEx(GetPlayerVehicleID(playerid), 0, lights, alarm, doors, bonnet, boot, objective);
-		}
-	}
-    if(GetPVarInt(playerid, "StopEngine") == 1)
-	{
-    	SendClientMessage(playerid, -1, "Завантажте сумки з алкоголем.");
-        return SetVehicleParamsEx(GetPlayerVehicleID(playerid), 0, lights, alarm, doors, bonnet, boot, objective);
-	}
-	// if(engine == 1) {
-	// 	SetVehicleParamsEx(vehicleid,0,lights,alarm,doors,bonnet,boot,objective);
-	// 	PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
-	// 	GameTextForPlayer(playerid, "~r~ENGINE STOPPED", 2500, 4);
-	// } else {
-
-	//     if(VehicleInfo[vehicleid][vAkum] > 0.0 && VehicleInfo[vehicleid][vAkum] <= 30.0 && !IsAPlane(vehicleid) && !IsABoat(vehicleid) && !IsABike(vehicleid) && !IsAVelik(vehicleid)) {
-	// 		switch(random(2))
-	// 		{
-	// 			case 0: SendError(playerid, "Акумулятор майже розряджений. Повторіть спробу завести двигун.");
-	// 			case 1:
-	// 			{
-	// 				SetVehicleParamsEx(vehicleid, 1, lights, alarm, doors, bonnet, boot, objective);
-	// 				PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
-	// 				GameTextForPlayer(playerid, "~g~ENGINE STARTED", 2500, 4);
-	// 			}
-	// 		}
-	// 		return 1;
-	// 	}
-	// 	if(VehicleInfo[vehicleid][vAkum] <= 0.5 && !IsAPlane(vehicleid) && !IsABoat(vehicleid) && !IsABike(vehicleid) && !IsAVelik(vehicleid)) {
-	// 		SendError(playerid, "Акумулятор розрядився.");
-	// 		return 1;
-	// 	}
-	// 	/*if(VehicleInfo[vehicleid][vFuel] <= 0.5 && !IsAPlane(vehicleid) && !IsABoat(vehicleid) && !IsABike(vehicleid) && !IsAVelik(vehicleid)) {
-	// 		SendError(playerid, "Не удалось завести двигун");
-	// 		return 1;
-	// 	}*/
-		
-	// 	SetVehicleParamsEx(vehicleid,1,lights,alarm,doors,bonnet,boot,objective);
-	// 	PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
-	// 	GameTextForPlayer(playerid, "~g~ENGINE STARTED", 2500, 4);
-	// }
-	if(playerid != -1 && !IsAVelik(vehicleid) && !IsAPlane(vehicleid) && !IsABoat(vehicleid) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
-		if(engine == 1) {
-			SetVehicleParamsEx(vehicleid, 0, 0, alarm, doors, bonnet, boot, objective);
-			PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
-			GameTextForPlayer(playerid, "~r~ENGINE STOPPED", 2500, 4);
-		}
-		else
-		{
-			SetVehicleParamsEx(vehicleid, 1, lights, alarm, doors, bonnet, boot, objective);
-			PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
-			GameTextForPlayer(playerid, "~g~ENGINE STARTED", 2500, 4);
-		}
-		PlayerTextDrawShow(playerid, Speed_PTD[playerid][4]);
-	}
-	if(LightsObject[vehicleid][0] != -1) DestroyDynamicObject(LightsObject[vehicleid][0]);
-	if(LightsObject[vehicleid][1] != -1) DestroyDynamicObject(LightsObject[vehicleid][1]);
-	LightsObject[vehicleid][0] = -1;
-	LightsObject[vehicleid][1] = -1;
-	SignalTick[vehicleid][0] = 0;
-	SignalTick[vehicleid][1] = -1;
-	Signal[vehicleid] = 0;
-	return 1;
-}
 CB:check_banned(playerid)
 {
 	new rows;
 	cache_get_row_count(rows);
 	if (!rows) return 1;
-
 	new NAME_ADMIN[24], NAME_PLAYER[24], BAN_REASON[32], UNBAN_DATA = 0;
-
 	cache_get_value_index(0, 1, NAME_PLAYER, 24);
 	cache_get_value_index(0, 2, NAME_ADMIN, 24);
 	cache_get_value_index(0, 3, BAN_REASON, 24);
@@ -47026,7 +45386,6 @@ CB:check_banned(playerid)
 	{
 		new date_ban[6];
 		timestamp_to_date(UNBAN_DATA + 10800, date_ban[0], date_ban[1], date_ban[2], date_ban[3], date_ban[4], date_ban[5]);
-
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), ""W"Ваш ігровий акаунт:\t"NO"%s\n\
 	"W"Разблокування:\t\t"NO"%02d/%02d/%04d %02d:%02d:%02d\n\
@@ -47038,7 +45397,6 @@ CB:check_banned(playerid)
 	}
 	else
 	{
-
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "DELETE FROM `ban` WHERE `Name` = '%s' LIMIT 1", player_name[playerid]);
 		mysql_tquery(connects, MYSQL_GLOBAL);
@@ -47072,8 +45430,6 @@ CB: load_account(playerid) {
 		return 0x1;
 	}
 	cache_get_value_name_int(0,"spawn", PI[playerid][pSpawn]);
-
-
 	cache_get_value_name_int(0, "pID",PI[playerid][pID]);
 	cache_get_value_name(0, "Pame",player_pame[playerid],64);
 	cache_get_value_name(0, "pIpReg",PI[playerid][pIpReg],17);
@@ -47081,7 +45437,6 @@ CB: load_account(playerid) {
 	cache_get_value_name(0, "pDataReg",PI[playerid][pDataReg],32);
 	cache_get_value_name(0, "pMarried",PI[playerid][pMarried],MAX_PLAYER_NAME);
 	cache_get_value_name(0, "pDrug",PI[playerid][pDrug],MAX_PLAYER_NAME);
-
 	cache_get_value_name(0, "pEmail",PI[playerid][pEmail],36);
 	cache_get_value_name(0, "pAccusedof",PI[playerid][pAccusedof],43);
 	cache_get_value_name(0, "pVictim",PI[playerid][pVictim],MAX_PLAYER_NAME);
@@ -47095,21 +45450,17 @@ CB: load_account(playerid) {
 	
 	new skills[50];
 	cache_get_value_name(0, "pGunSkills",skills,50);
-
 	new Hackers[50];
 	cache_get_value_name(0, "pQuestHacker",Hackers,50);
-
 	sscanf(Hackers, 						"p<,>a<i>[4]",	PI[playerid][QuestHacker]);
 	sscanf(skills, 							"p<,>a<i>[6]",	PI[playerid][pGunSkill]);
 	sscanf(lic[playerid],					"p<,>a<i>[4]",	lic[playerid]);
 	sscanf(PI[playerid][pSettings],			"p<|>a<i>[12]",	PI[playerid][pSettings]);
 	sscanf(slotitem,						"p<|>a<i>[8]",	PI[playerid][pSlotItem]);
-
 	cache_get_value_name_float(0,"pHP", PI[playerid][pHP]);
 	cache_get_value_name_int(0,"youtube", PI[playerid][pYoutube]);
 	cache_get_value_name_float(0,"pFish", PI[playerid][pFish]);
 	cache_get_value_name_float(0,"pSnow", PI[playerid][pSnow]);
-
 	cache_get_value_name_int(0,"Skin", PI[playerid][pSkin]);
 	cache_get_value_name_int(0,"pLevel", PI[playerid][pLevel]);
 	cache_get_value_name_int(0, "pHacker", PI[playerid][pHacker]);
@@ -47169,15 +45520,12 @@ CB: load_account(playerid) {
 	cache_get_value_name_int(0,"pAdmKL", PI[playerid][pAdmKL]);
 	cache_get_value_name_int(0,"pMPromo", PI[playerid][pMPromo]);
 	cache_get_value_name_int(0,"pGoogle", PI[playerid][pGoogleSec]);
-
 	cache_get_value_name_int(0, "giveAdmin",PI[playerid][giveAdmin]);
 	cache_get_value_name_int(0, "giveLeader",PI[playerid][giveLeader]);
 	cache_get_value_name_int(0, "giveMoney", PI[playerid][giveMoney]);
 	cache_get_value_name_int(0, "giveObj",PI[playerid][giveObj]);
 	cache_get_value_name_int(0, "giveDonate",PI[playerid][giveDonate]);
-
 	cache_get_value_name(0, "GoogleCode",PI[playerid][pGoogle],63);
-
 	cache_get_value_name_int(0,"homesell", PI[playerid][pSellNeed][0]);
 	cache_get_value_name_int(0,"bizzsell", PI[playerid][pSellNeed][1]);
 	cache_get_value_name_int(0,"airsell", PI[playerid][pSellNeed][3]);
@@ -47231,12 +45579,10 @@ CB: load_account(playerid) {
 	
 	cache_get_value_name_int(0,"event",PI[playerid][pEvent]);
 	cache_get_value_name_int(0,"e_kills", PI[playerid][pEkills]);
-
 	cache_get_value_name_int(0,"ahMenu0",ahMenu[playerid][0]);
 	cache_get_value_name_int(0,"ahMenu1",ahMenu[playerid][1]);
 	cache_get_value_name_int(0,"ahMenu2",ahMenu[playerid][2]);
 	cache_get_value_name_int(0,"ahMenu3",ahMenu[playerid][3]);
-
 	SetString(player_ip[playerid],player_ip_check[playerid]);
 	SetHealth(playerid, PI[playerid][pHP]);
 	
@@ -47251,18 +45597,15 @@ CB: load_account(playerid) {
 	
 	TI[playerid][tLoginTime] = 0;
 	TI[playerid][tLogin] = true;
-
 	new data[256];
 	cache_get_value(0, "phonenumber", data), sscanf(data,"p<|>a<i>[25]",PI[playerid][pPhoneNumber]);
 	
 	new maximum[600];
 	cache_get_value_name(0, "Item", maximum, 600);
 	sscanf(maximum, "p<,>a<i>[46]", PI[playerid][pInventory]);
-
 	new maximum_[600];
 	cache_get_value_name(0, "ItemKolvo", maximum_, 600);
 	sscanf(maximum_, "p<,>a<i>[46]", PI[playerid][pInventoryKolvo]);
-
 	new get_name_store[1024];
 	cache_get_value(0,"phonename",get_name_store, 1024);
 	sscanf(get_name_store,"p<|>s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]",
@@ -47291,7 +45634,6 @@ CB: load_account(playerid) {
 			SendClientMessage(playerid, CGOLD, "Попередження були зняті.");
 			PI[playerid][punWarnstime] = 0;
 			PI[playerid][pWarns] = 0;
-
 			MYSQL_GLOBAL[0] = EOS;
 			mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "UPDATE `accounts` SET `pWarns` = '0', `warntime` = '0' WHERE `pID` = '%d' LIMIT 1", PI[playerid][pID]);
 			mysql_tquery(connects, MYSQL_GLOBAL, "", "");
@@ -47366,19 +45708,15 @@ CB: load_account(playerid) {
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL,"load_cars","i",playerid);
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"SELECT * FROM online_player WHERE date >= CURDATE() AND accountid = %d", PI[playerid][pID]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "load_online_today", "i", playerid);
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"SELECT * FROM online_player WHERE (date >= (CURDATE()-1) AND date < CURDATE()) AND accountid = %d", PI[playerid][pID]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "load_online_yesterday", "i", playerid);
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "SELECT * FROM `questsprogress` WHERE BINARY `name` = '%s' ORDER BY `idquest`;", player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "LoadQuestMysql", "d", playerid);
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `"TABLE_ACCOUNTS"` SET `online_status` = '1' WHERE pID = '%d'",PI[playerid][pID]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
@@ -47386,7 +45724,6 @@ CB: load_account(playerid) {
 	new str_jb[30];
 	cache_get_value_name(0, "acs_job", str_jb, 30);
 	sscanf(str_jb, "p<,>a<i>[9]", PI[playerid][pAcsJob]);
-
 	new str_jskill[40];
 	cache_get_value_name(0, "job_skill", str_jskill, 40);
 	sscanf(str_jskill, "p<,>a<i>[9]", PI[playerid][pExpJob]);
@@ -47398,11 +45735,9 @@ CB: load_account(playerid) {
 	SendInfo(playerid, "Щоб відкрити меню гравця, введіть /menu.");
 	SendInfo(playerid, "Не забувайте виконувати щоденні квести. (/quest)");
     if(PI[playerid][pYoutube]) SendInfo(playerid, "Ви авторизувались, як ютубер серверу. (/yhelp)");
-
 	GetPlayerVehicles(playerid);
 	AddPame(playerid);
 	UpdatePrefixAuto(playerid);
-
 	for(new i = 0; i < TOTALGZ; i++)
 	{
 		if(GZInfo[i][ZoneOnBattle]) 
@@ -47440,13 +45775,11 @@ IsObjectBarrier(playerid){
 	else if(max_rear_object_distance > 3.5 && !IsPlayerInAnyVehicle(playerid)) max_rear_object_id = -1;
 	return max_rear_object_id;
 }
-
 MoveObjectBarrier(id){
 	if(moved_info[id][status_moved]) return 1;
 	if(IsDynamicObjectMoving(moved_info[id][moved_id])) return 1;
 	if(id == 27 || id == 26) MoveDynamicObject(moved_info[id][moved_id],moved_pos_object[id][0],moved_pos_object[id][1],moved_pos_object[id][2],(moved_info[id][moved_modelid] == 968) ? (0.014) : (moved_info[id][moved_modelid] == 2920) ? (0.014) : (moved_info[id][moved_modelid] == 1495) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (10.0) : (1.2),moved_pos_object[id][3],moved_pos_object[id][4],moved_pos_object[id][5]);
 	else MoveDynamicObject(moved_info[id][moved_id],moved_pos_object[id][0],moved_pos_object[id][1],moved_pos_object[id][2]+0.04,(moved_info[id][moved_modelid] == 968) ? (0.014) : (moved_info[id][moved_modelid] == 2920) ? (0.014) : (moved_info[id][moved_modelid] == 1495) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (10.0) : (1.2),moved_pos_object[id][3],moved_pos_object[id][4],moved_pos_object[id][5]);
-
 	moved_info[id][status_moved]=true;
 	return 1;
 }
@@ -47467,7 +45800,6 @@ stock CheckBarrier(playerid,barrierid) {
 	case 6: {
 			if(!IsACop(playerid) && PI[playerid][pMember] != fWHITEHOUSE && PI[playerid][pMember] != fFBI) return 1;
 		}
-
 	case 8: if(!IsPlayerInAnyVehicle(playerid)) return 1;
 	case 9: {
 			if(PI[playerid][pMember] != fFBI && PI[playerid][pMember] != fWHITEHOUSE) return 1;
@@ -47578,16 +45910,12 @@ stock SaveMarket() {
 stock SaveHome(houseid){
 	new strings[100],query[512];
 	query = "UPDATE `houses` SET ";
-
 	acc_str_strcat(query, sizeof(query), "owner",gHouses[houseid][houseOwner]);
 	acc_int_strcat(query, sizeof(query), "close",gHouses[houseid][houseClose]);
 	acc_int_strcat(query, sizeof(query), "day",gHouses[houseid][houseDay]);
-
 	acc_str_strcat(query, sizeof(query), "people1",gHouseArendator[houseid][0]);
 	acc_str_strcat(query, sizeof(query), "people2",gHouseArendator[houseid][1]);
-
 	acc_int_strcat(query, sizeof(query), "safecode", gHouses[houseid][houseSafeCode]);
-
 	strdel(query, strlen(query)-1, strlen(query));
 	mysql_format(connects, query, sizeof(query), "WHERE `id` = '%d' LIMIT 1", gHouses[houseid][houseID]);
 	strcat(query, strings);
@@ -47629,10 +45957,8 @@ stock ShowBusinessInformation(playerid,id,dialogid){
 	new type = gBusiness[id][bizzType] - 1;
 	if(gBusiness[id][bizzStatus]) strcat(status,""GREEN"Працює");
 	else strcat(status,""NO"Не працює");
-
 	new day;
 	day = (gBusiness[id][bizzDay]-gettime())/86400;
-
 	static const f_str[] = ""W"Назва: "YELLOW"%s\n\n\
 								"W"Тип: "P"%s\n\
 								"W"Державна ціна: "ORANGE"$%d\n\
@@ -47723,7 +46049,6 @@ CB: donate_shop(playerid, number, id, price) {
 	}
 	return 1;
 }
-
 CB: sim_donate(playerid, donate, number)
 {
 	new rows;
@@ -47739,7 +46064,6 @@ CB: sim_donate(playerid, donate, number)
 	GiveDonate(playerid, -donate, "купівля номера телефону");
 	return 1;
 }
-
 CB: sim_shop(playerid, number, id, price) {
 	new rows;
 	cache_get_row_count(rows);
@@ -47873,17 +46197,13 @@ CB: sad_temp_1(field) {
 	SI[field][sad_temp] = 2;
 	DestroyDynamicObject(SI[field][sad_object][0]);
 	SI[field][sad_object][0] = CreateDynamicObject(673,sad_objects[field][0],sad_objects[field][1],sad_objects[field][2],sad_objects[field][3],sad_objects[field][4],sad_objects[field][5],-1,-1,-1,90.000);
-
 	new string[128];
 	format(string,sizeof(string),"Дерево\nСтадия - цвітіння\nФермер - %s",SI[field][sad_fermer]);
 	UpdateDynamic3DTextLabelText(SI[field][sad_3dtext],-1,string);
-
 	if(IsPlayerConnected(GetPlayerID(SI[field][sad_fermer]))) Streamer_Update(GetPlayerID(SI[field][sad_fermer]));
-
 	SetTimerEx("sad_temp_2",30000, false, "i", field);
 	return 1;
 }
-
 CB: sad_temp_2(field) {
 	SI[field][sad_temp] = 3;
 	new ID;
@@ -47900,20 +46220,15 @@ CB: sad_temp_2(field) {
 	SI[field][sad_object][5] = CreateDynamicObject(19576,sad_apple[ID+4][a_coordsX],sad_apple[ID+4][a_coordsY],sad_apple[ID+4][a_coordsZ],sad_apple[ID+4][a_coordsAX],sad_apple[ID+4][a_coordsAY],sad_apple[ID+4][a_coordsAZ],-1,-1,-1,20.000);
 	SI[field][sad_object][6] = CreateDynamicObject(19576,sad_apple[ID+5][a_coordsX],sad_apple[ID+5][a_coordsY],sad_apple[ID+5][a_coordsZ],sad_apple[ID+5][a_coordsAX],sad_apple[ID+5][a_coordsAY],sad_apple[ID+5][a_coordsAZ],-1,-1,-1,20.000);
 	SI[field][sad_object][7] = CreateDynamicObject(19576,sad_apple[ID+6][a_coordsX],sad_apple[ID+6][a_coordsY],sad_apple[ID+6][a_coordsZ],sad_apple[ID+6][a_coordsAX],sad_apple[ID+6][a_coordsAY],sad_apple[ID+6][a_coordsAZ],-1,-1,-1,20.000);
-
 	new string[128];
 	format(string,sizeof(string),"Дерево\nСтадия - дозрівання\nФермер - %s",SI[field][sad_fermer]);
 	UpdateDynamic3DTextLabelText(SI[field][sad_3dtext],-1,string);
-
 	if(IsPlayerConnected(GetPlayerID(SI[field][sad_fermer]))) Streamer_Update(GetPlayerID(SI[field][sad_fermer]));
-
 	SetTimerEx("sad_temp_3",30000, false, "i", field);
 	return 1;
 }
-
 CB: sad_temp_3(field) {
 	SI[field][sad_temp] = 4;
-
 	DestroyDynamicObject(SI[field][sad_object][1]);
 	DestroyDynamicObject(SI[field][sad_object][2]);
 	DestroyDynamicObject(SI[field][sad_object][3]);
@@ -47921,7 +46236,6 @@ CB: sad_temp_3(field) {
 	DestroyDynamicObject(SI[field][sad_object][5]);
 	DestroyDynamicObject(SI[field][sad_object][6]);
 	DestroyDynamicObject(SI[field][sad_object][7]);
-
 	new ID;
 	for(new i; i < 833; i ++) {
 		if(sad_apple[i][a_ID] == field) {	
@@ -47936,26 +46250,20 @@ CB: sad_temp_3(field) {
 	SI[field][sad_object][5] = CreateDynamicObject(19575,sad_apple[ID+4][a_coordsX],sad_apple[ID+4][a_coordsY],sad_apple[ID+4][a_coordsZ],sad_apple[ID+4][a_coordsAX],sad_apple[ID+4][a_coordsAY],sad_apple[ID+4][a_coordsAZ],-1,-1,-1,20.000);
 	SI[field][sad_object][6] = CreateDynamicObject(19575,sad_apple[ID+5][a_coordsX],sad_apple[ID+5][a_coordsY],sad_apple[ID+5][a_coordsZ],sad_apple[ID+5][a_coordsAX],sad_apple[ID+5][a_coordsAY],sad_apple[ID+5][a_coordsAZ],-1,-1,-1,20.000);
 	SI[field][sad_object][7] = CreateDynamicObject(19575,sad_apple[ID+6][a_coordsX],sad_apple[ID+6][a_coordsY],sad_apple[ID+6][a_coordsZ],sad_apple[ID+6][a_coordsAX],sad_apple[ID+6][a_coordsAY],sad_apple[ID+6][a_coordsAZ],-1,-1,-1,20.000);
-
 	SI[field][sad_object][8] = CreateDynamicObject(1428,sad_stairs[field][0],sad_stairs[field][1],sad_stairs[field][2],sad_stairs[field][3],sad_stairs[field][4],sad_stairs[field][5],-1,-1,-1,90.000);
-
 	new string[128];
 	format(string,sizeof(string),"Дерево\nСтадия - збір яблук\nФермер - %s",SI[field][sad_fermer]);
 	UpdateDynamic3DTextLabelText(SI[field][sad_3dtext],-1,string);
-
 	if(IsPlayerConnected(GetPlayerID(SI[field][sad_fermer]))) Streamer_Update(GetPlayerID(SI[field][sad_fermer]));
-
 	SI[field][sad_time] = unix + 60*1;
 	return 1;
 }
-
 CB: sad_temp_4(field,playerid){
 	ApplyAnimation(playerid,"CARRY","liftup",1.0,0,1,1,0,0,1);
 	DeletePVar(playerid,"bailer_2");
 	SetPlayerAttachedObject(playerid,4, 19637, 1, 0.016000,0.440000,0.016000,5.000001,93.500000,-96.800010,1.000000,1.000000,1.000000);
 	SetPVarInt(playerid,"bailer_3",1);
 	SetTimerEx("CarryDelay",1000,false,"i",playerid);
-
 	new rand = Random(6,10);
 	TI[playerid][tJobSad][2] =  rand;
 	TI[playerid][tJobSad][3] += rand;
@@ -47975,13 +46283,10 @@ CB: sad_temp_4(field,playerid){
 	}
 	return 1;
 }
-
 stock sad_delete(ID) {
 	if(IsPlayerConnected(GetPlayerID(SI[ID][sad_fermer]))) DeletePVar(GetPlayerID(SI[ID][sad_fermer]),"sad_uxod");
-
 	SI[ID][sad_temp] = 0;
 	SI[ID][sad_time] = 0;
-
 	DestroyDynamicObject(SI[ID][sad_object][0]);
 	DestroyDynamicObject(SI[ID][sad_object][1]);
 	DestroyDynamicObject(SI[ID][sad_object][2]);
@@ -47991,10 +46296,8 @@ stock sad_delete(ID) {
 	DestroyDynamicObject(SI[ID][sad_object][6]);
 	DestroyDynamicObject(SI[ID][sad_object][7]);
 	DestroyDynamicObject(SI[ID][sad_object][8]);
-
 	SI[ID][sad_object][0] = CreateDynamicObject(765,sad_objects[ID][0],sad_objects[ID][1],sad_objects[ID][2],sad_objects[ID][3],sad_objects[ID][4],sad_objects[ID][5],-1,-1,-1,90.000);
 	UpdateDynamic3DTextLabelText(SI[ID][sad_3dtext],-1,"Дерево\nСтадія - сохне\nФермер - Відсутній");
-
 	if(IsPlayerConnected(GetPlayerID(SI[ID][sad_fermer]))) Streamer_Update(GetPlayerID(SI[ID][sad_fermer]));
 	return 1;
 }
@@ -48132,13 +46435,11 @@ stock SetNextJobClearCP(playerid,type) {
 		return 1;
 	}
 	DisablePlayerRaceCheckpoint(playerid);
-
 	SetPlayerRaceCheckpoint(playerid,
 	(gClearCPs[type][id_cp][0] != 1.0) ? (0) : (1),
 	gClearCPs[type][id_cp][1],
 	gClearCPs[type][id_cp][2],
 	gClearCPs[type][id_cp][3],
-
 	gClearCPs[type][id_cp + 1][1],
 	gClearCPs[type][id_cp + 1][2],
 	gClearCPs[type][id_cp + 1][3], 4.0);
@@ -48149,7 +46450,6 @@ stock SetNextBusCP(playerid, stop = false) {
 	if(GetPVarInt(playerid, "busstop")) return 1;
 	new route = GetPVarInt(playerid,"route")-1;
 	new id_cp = GetPVarInt(playerid,"id_cp");
-
 	if(route == -1) route = 0;
 	if(id_cp == -1) id_cp = 0;
 	
@@ -48207,7 +46507,6 @@ stock SetNextBusCP(playerid, stop = false) {
 }
 CB: BusStop(playerid) {
 	DeletePVar(playerid, "busstop");
-
 	SetNextBusCP(playerid, true);
 	return 1;
 }
@@ -48246,10 +46545,8 @@ stock EndBus(playerid) {
 	format(string,sizeof(string),"Ви заробили: "GREEN"%i$."W" Штраф за ремонт:"GREEN" %i$",GetPVarInt(playerid,"bus_salary"),repairprice);
 	SendClientMessage(playerid, COLOR_WHITE,string);
 	SendInfo(playerid,"Робочий день завершено.");
-
 	
 	UpdatePlayerData(playerid,"salary",PI[playerid][pSalary]);
-
 	DeletePVar(playerid,"bus_id");
 	TI[playerid][tSpcarTime] = 0;
 	DeletePVar(playerid,"id_cp");
@@ -48258,7 +46555,6 @@ stock EndBus(playerid) {
 	DeletePVar(playerid, "route");
 	return 1;
 }
-
 stock EndTaxi(playerid) {
 	if(!TI[playerid][tSpcarTime]) return 1;
 	SendInfo(playerid,"Робочий день завершено.");
@@ -48268,7 +46564,6 @@ stock EndTaxi(playerid) {
 	DisablePlayerRaceCheckpoint(playerid);
 	return 1;
 }
-
 stock EndClear(playerid) {
 	DisablePlayerRaceCheckpoint(playerid);
 	if(GetPVarInt(playerid,"clear_salary")) {
@@ -48322,7 +46617,6 @@ stock EndProd(playerid)
 	}
 	if (gPlayerProdCP[playerid] != -1) DestroyDynamicCP(gPlayerProdCP[playerid]);
 	if (Trailer_job[playerid] != INVALID_VEHICLE_ID) A_DestroyVehicle(Trailer_job[playerid]), Trailer_job[playerid] = INVALID_VEHICLE_ID, DeletePVar(playerid, "attach_trailer");
-
 	DeletePVar(playerid, "prod_vehicle_id");
 	DeletePVar(playerid, "count_prod2");
 	DeletePVar(playerid, "count_prod");
@@ -48344,7 +46638,6 @@ stock EndGun(playerid) {
 		SetPlayerColor(playerid,gFractionSpawn[PI[playerid][pMember]][fracColor]);
 	}
 	else A_SetPlayerSkin(playerid,PI[playerid][pSkin]);
-
 	if(GetPVarInt(playerid,"gun_salary") > 0) {
 		static const f_str[] = "Ви заробили "P"$%d"W".";
 		new string[sizeof(f_str) +1 + (-2 + 10)];
@@ -48362,7 +46655,6 @@ stock EndGun(playerid) {
 		PI[playerid][pSalary] += TI[playerid][tJobSalary];
 		UpdatePlayerData(playerid,"salary",PI[playerid][pSalary]);
 	}
-
 	TI[playerid][tJobSalary] = 0;
 	DeletePVar(playerid,"gun_salary");
 	DisablePlayerRaceCheckpoint(playerid);
@@ -48418,7 +46710,6 @@ stock EggEnd(playerid) { // завершение на ферме
 	if(GetPVarInt(playerid,"sad_salary") > 0) {
 		static const f_str[] = "Ви заробили "P"$%d"W".";
 		new string[sizeof(f_str) +1 + (-2 + 5)];
-
 		format(string,sizeof(string),f_str,TI[playerid][tJobSalary]);
 		SendOK(playerid,string);
 		GiveMoney(playerid,TI[playerid][tJobSalary],"ЗП яблуневий сад");
@@ -48426,7 +46717,6 @@ stock EggEnd(playerid) { // завершение на ферме
 	else {
 		static const f_str[] = "Ви заробили "ORANGE"$%d. "W"Гроші будуть зараховані на ваш банківський рахунок під час зарплати. (PayDay)";
 		new string[sizeof(f_str) +1 + (-2 + 5)];
-
 		format(string,sizeof(string),f_str,TI[playerid][tJobSalary]);
 		SendOK(playerid,string);
 		PI[playerid][pSalary] += TI[playerid][tJobSalary];
@@ -48441,7 +46731,6 @@ stock EggEnd(playerid) { // завершение на ферме
 	DeletePVar(playerid,"sad_salary");
 	return 1;
 }
-
 stock EndSad(playerid) {
 	TI[playerid][tJobSad][0] = 0;
 	DeletePVar(playerid, "bailer");
@@ -48502,7 +46791,6 @@ stock GetYearDayCount(year) {
 	if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) return 366;
 	else return 365;
 }
-
 stock GetDayNumber() {
 	new d,m,y,diff,daycount,cdaycount;
 	getdate(y,m,d);	
@@ -48543,7 +46831,6 @@ SavePlayerNumber(playerid) {
 	pPhoneName[playerid][20],pPhoneName[playerid][21],pPhoneName[playerid][22],pPhoneName[playerid][23],pPhoneName[playerid][24],PI[playerid][pID]);
 	mysql_tquery(connects, query, "", "");
 }
-
 SendStreamMessage(Float:radius, playerid, const mes[], color) {
 	new Float:X,
 Float:Y,
@@ -48633,7 +46920,6 @@ stock GetVehicleShiftPos(vehicleid, style, &Float:x, &Float:y, &Float:z, Float:d
 	}
 	return 1;
 }
-
 stock SaveTrunk(playerid, vehicleid)
 {
 	new x = GetNearestCar(playerid);
@@ -48665,7 +46951,6 @@ stock trunk_close(playerid) {
 	InterpolateCameraLookAt(playerid,x + x2,y + y2,z + z2,tX2,tY2,tZ2,1500,CAMERA_MOVE);
 	SetTimerEx("SetCameraBehindPlayerDelay",1501,0,"i",playerid);
 	GetVehicleParamsEx(idaofcar[playerid], engine, lights, alarm, doors, bonnet, boot, objective);
-
 	SetVehicleParamsEx(idaofcar[playerid], engine, lights, alarm, doors, bonnet, VEHICLE_PARAMS_OFF, objective);
 	idaofcar[playerid] = -1;
 	DeletePVar(playerid,"oldtrunkcamposx");
@@ -48721,7 +47006,6 @@ CB: OnPlayerAttachTrailer(playerid, vehicleid, trailerid) {
 	else if(trailerid == TK_Trailer[playerid]) TI[playerid][tTrucker][0] = 0;
 	return 1;
 }
-
 CB: OnPlayerDeattachTrailer(playerid,vehicleid,trailerid) {
 	if(trailerid == Trailer_job[playerid]) {
 		DeletePVar(playerid,"attach_trailer");
@@ -48853,7 +47137,6 @@ CB: password_adm(playerid,const inputtext[]) {
 		}
 		dostup[playerid] = 1;
 		ACLoad(playerid);
-
 		for(new i;i<10;i++) {
 			if(ChetInfo[i][cheatid1]==playerid) {
 				TextDrawSetString(CheatText[i], "-");
@@ -48861,7 +47144,6 @@ CB: password_adm(playerid,const inputtext[]) {
 				if(Cheat1 > 9) Cheat1 = 0;
 			}
 		}
-
 		new Admin[32];
 		switch(PI[playerid][pAdmin]) {
 		case 1: Admin = "Хелпер";
@@ -48874,7 +47156,6 @@ CB: password_adm(playerid,const inputtext[]) {
 		}
 		static const f_str[] = "[A] %s %s авторизувався в адмін панелі.";
 		new str[sizeof(f_str) +1 + (-2 + 32) + (-2 + MAX_PLAYER_NAME)];
-
 		format(str, sizeof(str), f_str,Admin,player_name[playerid],Admin), SendAdminMessage(0xfF0CA31ff, str);
 		if(!GetString(player_ip_check[playerid],player_ip[playerid])) {
 			new str_adm[128];
@@ -48891,7 +47172,6 @@ CB: password_adm(playerid,const inputtext[]) {
 	}
 	return 1;
 }
-
 CB: alogin1(playerid) {
 	new passwords[32];
 	new rows;
@@ -48984,7 +47264,6 @@ stock IsAIP(const text[]) {
 	return false;
 }
 #include "../sourse/other/typelog.inc"
-
 CB: all_referals(playerid,const names[]) {
 	new rows;
 	cache_get_row_count(rows);
@@ -49069,18 +47348,15 @@ CB: get_info_player(playerid) {
 	new ipreg[17];
 	new getonip[17];
 	new datareg[32+1];
-
 	cache_get_value(0,"Name",name, MAX_PLAYER_NAME);
 	cache_get_value(0,"pIpReg",ipreg, 16);
 	cache_get_value(0,"pvIp",getonip, 16);
 	cache_get_value(0,"pDataReg",datareg, 32+1);
-
 	new id,cash,level,donate;
 	cache_get_value_int(0,"pID",id);
 	cache_get_value_int(0,"pCash",cash);
 	cache_get_value_int(0,"pLevel",level);
 	cache_get_value_int(0,"donatemoney",donate);
-
 	new string[512];
 	format(string, sizeof(string), ""W"Номер акаунта: "P"%d\nГроші готівкою: "GREEN"$%d\nРівень: "P"%d\nREG-IP: "P"%s\nLAST-IP: "P"%s\n"W"Донат: "P"%d\nЗареєстровано: "P"%s",
 	id,cash,level,ipreg,getonip,donate,datareg);
@@ -49256,10 +47532,8 @@ CMD:getgun(playerid,params[]) {
 	if(params[1] < 1 || params[1] > 200) return SendError(playerid, "Не можна брати менше 1пт і більше 200пт.");
 	if(!GetPVarInt(playerid,"noneedgun")) FI[PI[playerid][pMember]][fMats] -= MakeGunData[params[0]][mgunamount];
 	SetPVarInt(playerid,"noneedgun",0);
-
 	FI[PI[playerid][pMember]][fMats] -= params[1];
 	UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
-
 	GivePlayerWeapon(playerid,MakeGunData[params[0]][mgunid],params[1]);
 	static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
 	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
@@ -49285,23 +47559,16 @@ stock ghetto_war()
 					
 					PlayerTextDrawColor(m, CaptPlayer[m][0], gang_color(GZInfo[i][gNapad]));
 					PlayerTextDrawColor(m, CaptPlayer[m][1], gang_color(GZInfo[i][gFrakVlad]));
-
 					GangZoneFlashForPlayer(m, GZInfo[i][gID], GetGangColor(GZInfo[i][gNapad]));
-
 					new string[128];
-
 					format(string,sizeof(string),"%s",gang_name(GZInfo[i][gNapad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][0],string);
-
 					
 					TI[m][tAttack] = GZInfo[i][gNapad];
 					TI[m][tDefend] = GZInfo[i][gFrakVlad];
-
 					format(string,sizeof(string),"%s",gang_name(GZInfo[i][gFrakVlad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][1],string);
-
 					PlayerTextDrawShow(m, CaptPlayer[m][1]);
-
 					SetPVarInt(m, "ppkz", true);
                     CreatePlayerCapture(m);
 					for(new z = 0;z < 34;z++) TextDrawShowForPlayer(m, Capture[z]);
@@ -49313,12 +47580,10 @@ stock ghetto_war()
 					format(string,sizeof(string),"%s",Convert(GZInfo[i][gTime]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][2], string);
 					PlayerTextDrawShow(m, CaptPlayer[m][2]);
-
 					new str[10];
 					format(str,sizeof(str),"%d",CountOnZone[GZInfo[i][gFrakVlad]]);
 					PlayerTextDrawSetString(m, CaptPlayer[m][3], str);
 					PlayerTextDrawShow(m, CaptPlayer[m][4]);
-
 					format(str,sizeof(str),"%d",CountOnZone[GZInfo[i][gNapad]]);
 					PlayerTextDrawSetString(m, CaptPlayer[m][4], str);
 					PlayerTextDrawShow(m, CaptPlayer[m][3]);
@@ -49328,7 +47593,6 @@ stock ghetto_war()
 					
 					format(string,sizeof(string),"%s",gang_name(GZInfo[i][gNapad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][0],string);
-
 					format(string,sizeof(string),"%s",gang_name(GZInfo[i][gFrakVlad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][1],string);
 					PlayerTextDrawShow(m, CaptPlayer[m][1]);
@@ -49356,7 +47620,6 @@ stock ghetto_war()
 						format(cstat,250,""ORANGE"[Статистика капта]"W" Kills: %i. Death: %i. K/D: %.1f.",
 						GhettoInfo[x][ghettoKills],GhettoInfo[x][ghettoDeaths], Float:(GhettoInfo[x][ghettoKills] / K_D));
 						SendOK(x, cstat);
-
 						GhettoInfo[x][ghettoKills] = 0;
 						GhettoInfo[x][ghettoDeaths] = 0;
 					}
@@ -49433,7 +47696,6 @@ stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, H
 	year = 1970;
 	month = 1;
 	Timestamp -= 172800;
-
 	new log_amount ;
 	for(;;) {
 		if(log_amount>37) {
@@ -49505,14 +47767,10 @@ CB: check_tickets(playerid) {
 	new text[144], price, item,string[1024];
 	for(new x = 0; x < rows; x++) {
 		cache_get_value_name_int(x, "id", TL[playerid][x][tID]);
-
 		cache_get_value_name(x, "give_name", TL[playerid][x][tName], MAX_PLAYER_NAME);
-
 		cache_get_value_name_int(x, "total", TL[playerid][x][tPrice]);
-
 		cache_get_value_name(x, "reason", TL[playerid][x][tReason], 64);
 		cache_get_value_name(x, "date", TL[playerid][x][tDate], 32);
-
 		price += TL[playerid][x][tPrice];
 		TOTALTICKETS[playerid]++;
 		if(TOTALTICKETS[playerid] == 15) {
@@ -49530,7 +47788,6 @@ CB: check_tickets(playerid) {
 	return ShowPlayerDialog(playerid,D_TICKET,DSTH,"Список штрафів",string,"Далі","Скасувати");
 }
 stock arrest(playerid, turma) {
-
 	ResetPlayerWeapons(playerid);
 	PI[playerid][pJail] = 1;  //GetNearestPolice(playerid);
 	PI[playerid][pJailTime] = turma;
@@ -49593,7 +47850,6 @@ stock SendVip(color, const mes[])
 	}
 	return 1;
 }
-
 SendSpyMessage(fraca, color, mes[]) {
 	new string[144];
 	foreach(new i:Player) {
@@ -49680,7 +47936,6 @@ CB: load_captcha(playerid) {
 			PlayerTextDrawFont(playerid,Captcha[i], 2);
 			PlayerTextDrawSetProportional(playerid,Captcha[i], 1);
 			PlayerTextDrawSetShadow(playerid,Captcha[i], 0);
-
 		}
 		if(i == 1) {
 			Captcha[i] = CreatePlayerTextDraw(playerid,256.666473, 105.377822, "box");
@@ -49830,7 +48085,6 @@ CB: load_captcha(playerid) {
 			if(i == 28) cindex_2 = 0, Captcha[i] = CreatePlayerTextDraw(playerid, 310.333691, 257.600158,string);
 			PlayerTextDrawTextSize(playerid, Captcha[i], 16.0, 16.0);
 			PlayerTextDrawSetSelectable(playerid, Captcha[i], 1);
-
 			PlayerTextDrawFont(playerid, Captcha[i], 2);
 			PlayerTextDrawSetProportional(playerid, Captcha[i], 1);
 			PlayerTextDrawLetterSize(playerid, Captcha[i], 0.341666, 2.151703);
@@ -49857,7 +48111,6 @@ CB: UpdateGameDice(s) {
 	for(new c = 0; c < 5; c++) {
 		if(InfoDice[s][dice_gamer][c] == INVALID_PLAYER_ID) continue;
 		if(Casino_Flag[InfoDice[s][dice_gamer][c]][casino_bet_cash] == 0) continue;
-
 		if(InfoDice[s][dice_score][c]) count_score++;
 		count_players++;
 		GameTextForPlayer(InfoDice[s][dice_gamer][c],wait_game_dice,1200,6);
@@ -49873,7 +48126,6 @@ CB: UpdateGameDice(s) {
 	if(InfoDice[s][dice_game_start_time] <= gettime() || (count_players == count_score)) {
 		new str_win_dice[156];
 		new itogs[3] = -1; itogs[0] = -1; itogs[1] = -1; itogs[2] = -1;
-
 		for(new c = 0; c < 5; c++) {
 			if(InfoDice[s][dice_gamer][c] == INVALID_PLAYER_ID) continue;
 			if(InfoDice[s][dice_score][c] > 1 && InfoDice[s][dice_score][c] > itogs[0]) itogs[0] = InfoDice[s][dice_score][c], itogs[1] = InfoDice[s][dice_gamer][c];
@@ -49900,7 +48152,6 @@ CB: UpdateGameDice(s) {
 			format(str_win_dice,sizeof(str_win_dice),"Гру завершено. Переможець: "W"%s. "GREEN"(Випало: "W"%d)",player_name[itogs[1]],itogs[0]);
 			PI[itogs[1]][pCasinoChips] += floatround(InfoDice[s][dice_bank] - money);
 			UpdatePlayerData(itogs[1],"casino_chips",PI[itogs[1]][pCasinoChips]);
-
 			for(new c = 0; c < 5; c++) {
 				if(InfoDice[s][dice_gamer][c]==INVALID_PLAYER_ID) continue;
 				Casino_Flag[InfoDice[s][dice_gamer][c]][casino_bet_cash] = 0;
@@ -50128,7 +48379,6 @@ CB: CallChangeName(playerid) {
 		DeletePVar(playerid,"WantNickChange");
 		return 1;
 	}
-
 	new playerName[MAX_PLAYER_NAME+1];
 	GetPVarString(playerid, "WantNickChange", playerName, MAX_PLAYER_NAME);
 	new string[156];
@@ -50145,18 +48395,15 @@ CB: GrandChangeName(playerid) {
 	else SendError(playerid, "Цей нікнейм зайнято.");
 	return 1;
 }
-
 stock ChangeName(playerid) {
 	new playerName[MAX_PLAYER_NAME+1];
 	GetPVarString(playerid, "WantNickChange", playerName, MAX_PLAYER_NAME);
 	if(GetPlayerID(playerName) != INVALID_PLAYER_ID) {
 		return SendError(playerid, "У вас присутні заборонені символи в нікнеймі.");
 	}
-
 	MYSQL_GLOBAL[0] = EOS;
 	format(MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `accounts` SET `Name` = '%s' WHERE `pID` = '%d' LIMIT 1",playerName,PI[playerid][pID]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
-
 	MYSQL_GLOBAL[0] = EOS;
 	format(MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `accounts` SET `pDrug` = '%s' WHERE BINARY `pDrug` = '%s'",playerName,player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
@@ -50205,7 +48452,6 @@ stock ChangeName(playerid) {
 		if (strcmp(PlayerTrailer[player_vehicleid][carOwner], player_name[playerid])) continue;
 		SetString(PlayerTrailer[player_vehicleid][carOwner], playerName);
 	}
-
 	if(PI[playerid][pFamily] > 0) {
 		MYSQL_GLOBAL[0] = EOS;
 		if(!strcmp(gFamily[PI[playerid][pFamily]-1][famOwner],player_name[playerid])){
@@ -50228,19 +48474,15 @@ stock ChangeName(playerid) {
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"INSERT INTO `nickname_history` (`nh_owner`,`nh_oldname`,`nh_newname`,`nh_date`) VALUES ('%d','%s','%s',NOW())",
 	PI[playerid][pID], player_name[playerid],playerName);
 	mysql_tquery(connects, MYSQL_GLOBAL);
-
 	MYSQL_GLOBAL[0] = EOS;
 	format(MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `adminlog` SET `NamePlayer` = '%s' WHERE BINARY `NamePlayer` = '%s'",playerName,player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
-
 	MYSQL_GLOBAL[0] = EOS;
 	format(MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `givecash` SET `Name` = '%s' WHERE BINARY `Name` = '%s'",playerName,player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
-
 	MYSQL_GLOBAL[0] = EOS;
 	format(MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `fraclog` SET `Name` = '%s' WHERE BINARY `Name` = '%s'",playerName,player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
-
 	MYSQL_GLOBAL[0] = EOS;
 	format(MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL), "UPDATE `fraclog` SET `NameP` = '%s' WHERE BINARY `NameP` = '%s'",playerName,player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
@@ -50264,7 +48506,6 @@ stock ChangeName(playerid) {
 	
 	DeletePVar(playerid,"grand_fix");
 	DeletePVar(playerid,"WantNickChange");
-
 	return 1;
 }
 bizz_finka(bizz, cash) {
@@ -50331,7 +48572,6 @@ stock bizz_pay(bizz,price) {
 	UpdateBusinessData(bizz+1,"bank",gBusiness[bizz][bizzBank]);
 	gBusiness[bizz][bizzBankDay] += (price-income);
 	UpdateBusinessData(bizz+1,"bankday",gBusiness[bizz][bizzBankDay]);
-
 	UpdateBusinessData(bizz+1,"product",gBusiness[bizz][bizzProduct]);
 }
 stock AddMafiaBank(bizid, sum) {
@@ -50430,20 +48670,17 @@ stock GetNearestATM(playerid) {
 	SetPVarInt(playerid,"atm_id",atmID);
 	return atmID;
 }
-
 SaveATM(atmID) {
 	new query[257];
 	mysql_format(connects, query, sizeof(query),"UPDATE `atms` SET `ATM_X` = '%f', `ATM_Y` = '%f', `ATM_Z` = '%f', `ATM_VW` = '%i'", ATMData[atmID][ATM_Pos][0], ATMData[atmID][ATM_Pos][1], ATMData[atmID][ATM_Pos][2], ATMData[atmID][atm_VW]);
 	mysql_format(connects, query, sizeof(query),"%s, `ATM_ROTX` = '%f', `ATM_ROTY` = '%f', `ATM_ROTZ` = '%f', `ATM_INT` = '%d' WHERE `ID` = '%d'", query, ATMData[atmID][ATM_Pos][3], ATMData[atmID][ATM_Pos][4], ATMData[atmID][ATM_Pos][5], ATMData[atmID][atm_INT], atmID);
 	return mysql_tquery(connects, query);
 }
-
 UpdateATMLabel(atmID) {
 	new str[128];
 	format(str,sizeof(str),"Банкомат\nВ банкоматі:"GREEN" %d$"W"\n\nНатисніть"P" ALT",ATMData[atmID][atm_cash]);
 	Update3DTextLabelText(ATMData[atmID][atm_Label],-1, str);
 }
-
 stock ShowATMMenu(playerid) {
 	ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
 	ShowPlayerDialog(playerid, D_ATM, DSL, ""P"Банкомат",
@@ -50462,7 +48699,6 @@ stock getDay() {
 }
 stock SpecPlayer(playerid,id) {
 	if(!IsPlayerConnected(id) || id == INVALID_PLAYER_ID) return SendError(playerid, "Гравець не знайдений.");
-
 	if(SERIU[playerid][sID] != id && PI[playerid][pAdmin] < 5) {
 		new str[128];
 		format(str,sizeof(str),"[A] %s[%d] почав слідкувати за %s[%d].",player_name[playerid],playerid,player_name[id],id);
@@ -50471,7 +48707,6 @@ stock SpecPlayer(playerid,id) {
 	SpecPl(playerid,true);
 	if(SERIU[playerid][sID] != INVALID_PLAYER_ID) TI[SERIU[playerid][sID]][tSpectr] = INVALID_PLAYER_ID;
 	TI[id][tSpectr] = playerid;
-
 	SERIU[playerid][sID] = id;
 	SetPlayerInterior(playerid,GetPlayerInterior(id));
 	SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(id));
@@ -50498,7 +48733,6 @@ stock recon_update(playerid,id) {
 	PlayerTextDrawSetString(playerid,RECON[playerid],mes2);
 	return 1;
 }
-
 CB: CheckDelAcc(playerid, name[]) {
 	new rows;
 	cache_get_row_count(rows);
@@ -50509,7 +48743,6 @@ CB: CheckDelAcc(playerid, name[]) {
 	if(GetPVarInt(playerid, "delstatus") == acc_id) {
 		
 		new query[128], info[85];
-
 		mysql_format(connects, query, sizeof(query),"SELECT * FROM `"TABLE_HOUSE"` WHERE `ownerid` = '%d'", acc_id);
 		mysql_tquery(connects, query, "check_house", "i", acc_id);
 		
@@ -50528,11 +48761,9 @@ CB: CheckDelAcc(playerid, name[]) {
 		mysql_tquery(connects, query, "", "");
 		mysql_format(connects, query, sizeof(query), "DELETE FROM `promocode_used` WHERE idacca = '%s'",acc_id);
 		mysql_tquery(connects, query, "", "");
-
 		format(info, sizeof(info), "[A] акаунт %s [ID: %d] [LVL: %d] успішно видалено", name, acc_id, acc_lvl);
 		AdmMSG(CADMIN_INFO,info);
 		DeletePVar(playerid, "delstatus");
-
 		WriteLog(LOG_DELACC,player_name[playerid],name,"Видалення акаунта");
 	}
 	else {
@@ -50567,7 +48798,6 @@ CB:check_bizz(id)
 	}
 	return 1;
 }
-
 CB: UpdatePlayerDonate(playerid) {
 	cache_get_value_name_int(0,"donatemoney",PI[playerid][pRouble]);
 	pc_cmd_donate(playerid);
@@ -50576,7 +48806,6 @@ CB: UpdatePlayerDonate(playerid) {
 stock GetArendCarID(vehicleid, &arend_id = INVALID_PLAYER_ID) {
 	// Возвращает ID ячейки в массиве ArendInfo
 	// В переменную "arend_id" записывает ID гравця, арендующйого т/з
-
 	arend_id = INVALID_PLAYER_ID;
 	for(new i = 0; i < sizeof(ArendInfo); i ++) {
 		if(vehicleid == ArendInfo[i][aID]) {
@@ -50588,7 +48817,6 @@ stock GetArendCarID(vehicleid, &arend_id = INVALID_PLAYER_ID) {
 	}
 	return -1;
 }
-
 stock GetVehicleArendID(vehicleid) {
 	new playerid = INVALID_PLAYER_ID, get_rent = GetArendCarID(vehicleid, playerid);
 	if(get_rent != (-1)) {
@@ -50674,7 +48902,6 @@ stock ShowUdJur(playerid,giveplayerid) {
 									"W"Місце роботи: "P"%s\n\
 									"W"Посада: "P"%s(%d)", player_name[playerid],PI[playerid][pLevel],FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]),PI[playerid][pRank]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, ""P"Посвідчення",string,"Закрити","");
-
 	SetPlayerAttachedObject(playerid,2,1581,5,0.092000,0.030999,-0.006000,15.399999,82.499771,178.099761,0.195999,0.114999,0.221000);
 	ApplyAnimation(playerid,"GHANDS","gsign5LH",4.1,0,0,0,0,0,1);
 	SetTimerEx("PlayerUdostover",1000,false,"i",playerid);
@@ -50686,7 +48913,6 @@ stock ShowUd(playerid,giveplayerid) {
 									"W"Підрозділ: "P"%s\n\
 									"W"Звання: "P"%s(%d)", player_name[playerid],PI[playerid][pLevel],FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]),PI[playerid][pRank]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, ""P"Посвідчення",string,"Закрити","");
-
 	SetPlayerAttachedObject(playerid,2,1581,5,0.092000,0.030999,-0.006000,15.399999,82.499771,178.099761,0.195999,0.114999,0.221000);
 	ApplyAnimation(playerid,"GHANDS","gsign5LH",4.1,0,0,0,0,0,1);
 	SetTimerEx("PlayerUdostover",1000,false,"i",playerid);
@@ -50728,7 +48954,6 @@ stock ShowWBook(playerid,giveplayerid) {
 	mysql_format(connects, query, sizeof(query),"SELECT * FROM `jobinfo` WHERE `ji_uid` ='%d' AND (`ji_fraction` < 15 OR `ji_fraction` > 22)", PI[playerid][pID]);
 	mysql_tquery(connects, query, "joblist_callback", "ii", playerid, giveplayerid);	
 }
-
 stock ShowLic(playerid,giveplayerid) {
 	static const f_str[] = ""W"Водійські права: %s\n\
 							"W"Ліцензія пілота: %s\n\
@@ -50772,7 +48997,6 @@ stock ShowPass(playerid,actplayerid) {
 	format(string, sizeof(string), "%s\t"ORANGE"Ім'я та прізвище: "W"%s\n\t"ORANGE"Вік: "W"%d років\n\t"ORANGE"Місце роботи: "W"%s\n\t"ORANGE"%s: "W"%s\n\t"ORANGE"Законослухняність: "W"%d\n\n",
 	string,player_name[playerid],PI[playerid][pLevel],jobname, (PI[playerid][pSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(PI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"),PI[playerid][pZakonp]);
 	format(string, sizeof(string), "%s\t"P"Місце проживання:\n\n\t"ORANGE"Дім: "W"%s\n\t"ORANGE"Клас будинку: "W"%s\n\n", string,housenumber,classname);
-
 	if(PI[playerid][pRank] > 0 && PI[playerid][pMember] > 0) {
 		format(string, sizeof(string), "%s\t"P"Місце праці:\n\n\t"ORANGE"Організація: "W"%s\t"ORANGE"Посада: "W"%s\n\n\n",string, FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]));
 	}
@@ -50889,9 +49113,7 @@ CB:promo_check2(playerid, code[])
 	code_skills = GetPVarInt(playerid, "code_skills_");
 	code_lics = GetPVarInt(playerid, "code_lics_");
 	used_count = GetPVarInt(playerid, "used_count_");
-
 	SendClientMessage(playerid,0xfF1CF46ff,"Ви активували промокод.");
-
 	if(code_skills != 6)
 	{
 		new str2[6][13] = {"SD-Pistol","Deagle","Shotgun","MP5","AK-47","M4"};
@@ -50924,18 +49146,14 @@ CB:promo_check2(playerid, code[])
 		format(str,sizeof(str),"Ви отримали{AFD848} %d$"W" за активацію промокоду", code_money);
 		SendClientMessage(playerid,COLOR_WHITE, str);
 	}
-
 	used_count ++;
-
 	STRING_GLOBAL[0] = EOS;
 	format(STRING_GLOBAL, 120, "UPDATE "T_PROMOCODE" SET used_count = %d WHERE code = '%s'", used_count, code);
 	mysql_tquery(connects, STRING_GLOBAL, "", "");
-
 	DeletePVar(playerid, "code_money_");
 	DeletePVar(playerid, "used_count_");
 	return 1;
 }
-
 CB: promo_create(playerid, code[], player[]) {
 	new rows;
 	cache_get_row_count(rows);
@@ -50963,10 +49181,8 @@ CB: promo_create(playerid, code[], player[]) {
 	new query[350];
 	mysql_format(connects, query, sizeof(query), "INSERT INTO "T_PROMOCODE" (code,money,skills,lics,data,Name) VALUES ('%s',%d,%d,%d,%d,'%s')", code, promomoney, promodays, promoplayers, gettime()+promodays, player);
 	mysql_tquery(connects, query, "", "");
-
 	new str2[7][13] = {"SD-Pistol","Deagle","Shotgun","MP5","AK-47","M4","Не видавати"};
 	new str3[5][20] = {"Водійські права","Польоти","Водний транспорт","Зброя","Не видавати"};
-
 	new string[356];
 	format(string, sizeof(string), "\
 		"W"Промокод "P"%s"W" успішно створено.\n\
@@ -50981,7 +49197,6 @@ CB: promo_create(playerid, code[], player[]) {
 	DeletePVar(playerid, "promomoney");
 	return 1;
 }
-
 CB: promo_show(playerid) {
 	new rows;
 	cache_get_row_count(rows);
@@ -51002,7 +49217,6 @@ CB: promo_show(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_NONE, DST, "Список промокодів", string, "Закрити", "");
 	return 1;
 }
-
 CB: promo_dell(playerid, code[]) {
 	new rows;
 	cache_get_row_count(rows);
@@ -51033,7 +49247,6 @@ stock AdvertTimer() {
 				
 				format(string,sizeof(string),"\t\t\t\tОголошення відредагував: %s.",gAdvert[d][adCheker]);
 				SendClientMessageToAll(0xf08a229ff, string);
-
 				strdel(gAdvert[d][adSender],0,24);
 				gAdvert[d][adPhone] = 0;
 				strdel(gAdvert[d][adText],0,100);
@@ -51115,7 +49328,6 @@ stock active_accept(playerid) {
 			GetPVarInt(playerid, "houseSeller")) return 1;
 	else return 0;
 }
-
 CMD:a(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new string[144],text[130];
@@ -51124,14 +49336,12 @@ CMD:a(playerid, params[]) {
 	SendAdminMessage(0xfDFC05Dff, string);
 	return 1;
 }
-
 CMD:jt(playerid)
 {
 	if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return 1;
 	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_USEJETPACK);
 	return 1;
 }
-
 CMD:dump(playerid) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
 	//Profiler_Dump();
@@ -51155,7 +49365,6 @@ CMD:kick(playerid, params[]) {
 	gAdmin[playerid][ADMIN_KICK] ++;
 	new hour,minute;
 	new year,month,day;
-
 	getdate(year, month, day);
 	gettime(hour,minute);
 	static const f_str[] = "\
@@ -51166,7 +49375,6 @@ CMD:kick(playerid, params[]) {
 			"W"Якщо ви вважаєте, що це була помилка, зробіть скріншот(F8) цього вікна,\n\
 			інакше ваша скарга не буде прийнята.";
 	format(string,sizeof(string),f_str,player_name[playerid], day, month, year,hour, minute, text);
-
 	new str[MAX_PLAYER_NAME+1];
 	format(str,sizeof(str),"%s",player_name[giveplayerid]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
@@ -51189,7 +49397,6 @@ CMD:pm(playerid, params[]) {
 	PlayerPlaySound(giveplayerid, 4203, 0.0, 0.0, 0.0); 
 	return 1;
 }
-
 CMD:reps(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	if(!rep_system) return SendError(playerid, "Тимчасово недоступно, використовуйте /pm.");
@@ -51207,7 +49414,6 @@ CMD:reps(playerid, params[]) {
 	SendError(playerid, "Репорт пустий");
 	return 1;
 }
-
 CMD:gg(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
@@ -51286,7 +49492,6 @@ CMD:unmute(playerid, params[]) {
 CMD:offmute(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new name[MAX_PLAYER_NAME],time,reason[31],giveplayerid;
-
 	if(sscanf(params, "s[20]is[30]",name,time,reason)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /offmute [playername] [minutes] [reason]");
 	if(strlen(reason) > 30) return SendError(playerid, "Причина повинна бути меньше 30 символів");
 	sscanf(name, "u", giveplayerid);
@@ -51303,18 +49508,15 @@ CMD:offmute(playerid, params[]) {
 	mysql_format(connects, query_str, sizeof(query_str),"UPDATE `accounts` SET mute = '%d' WHERE BINARY Name = '%s'",time*60,name);
 	mysql_tquery(connects,query_str);
 	cache_delete(result);
-
 	new string[144];
 	format(string, sizeof(string), "Ви видали мут гравцю %s на %d хвилин.",name,time);
 	SendClientMessage(playerid, COLOR_LIGHTRED, string);
-
 	format(string, sizeof(string), "[A] %s[%d] видав мут без зайвого шуму гравцю %s на %d хвилин. Причина: %s.",player_name[playerid],playerid,name,time,reason);
 	AdmMSG(0xAFAFAFAA, string);
 	gAdmin[playerid][ADMIN_MUTE] ++;
 	WriteLog(LOG_MUTE,player_name[playerid],name,reason);
 	return 1;
 }
-
 CMD:weap(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
@@ -51428,19 +49630,15 @@ CMD:jail(playerid, params[]) {
 	if(IsAIP(text))return 1;
 	format(string, sizeof(string), "Ви посадили %s у в'язницю.",player_name[giveplayerid]);
 	SendClientMessage(playerid, COLOR_LIGHTRED, string);
-
 	format(string, sizeof(string), "Адміністратор %s посадив в ДеМорган %s на %d хвилин. Причина: %s.",player_name[playerid],player_name[giveplayerid],time,text);
 	SendAdminActionMessage(COLOR_LIGHTRED, string);
-
 	ResetPlayerWeapons(giveplayerid);
 	PI[giveplayerid][pJail] = 3;
 	PI[giveplayerid][pJailTime] = time*60;
-
 	UpdatePlayerData(giveplayerid,"pJailTime", PI[giveplayerid][pJailTime]);
 	UpdatePlayerData(giveplayerid,"pJail", 3);
 	
 	start_work[giveplayerid] = 0;
-
 	GameTextForPlayer(giveplayerid, "~w~YOU IN ~R~JAIL", 5000, 4);
 	format(string, sizeof(string), "Ви були посажені у в'язницю адміністратором %s на %i хвилин. Причина: %s.", player_name[playerid], time, text);
 	SendOK(giveplayerid, string);
@@ -51527,7 +49725,6 @@ CMD:unjail(playerid, params[]) {
 }
 CMD:prisoners(playerid, const params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
-
 	new string[(57+MAX_PLAYER_NAME-4+3+11+1)*30];
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
@@ -51596,15 +49793,10 @@ CMD:gettime(playerid, params[]) {
 }
 CMD:alock(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
-	new Float:X,Float:Y, Float:Z;
-	GetVehiclePos(GetNearestVehicle(playerid), X, Y, Z);
-	if(!IsPlayerInRangeOfPoint(playerid,2.5,X, Y, Z)) return SendError(playerid, "Ви не поруч з автомобілем.");
-	GetVehicleParamsEx(GetNearestVehicle(playerid),engine,lights,alarm,doors,bonnet,boot,objective);
 	PlayerPlaySound(playerid, 24600, 0.0, 0.0, 0.0);
-	switch(doors) {
-	case 0: GameTextForPlayer(playerid, "~r~LOCK", 5000, 3), SetVehicleDoorStatus(GetNearestVehicle(playerid), playerid);
-	case 1: GameTextForPlayer(playerid, "~g~UNLOCK", 5000, 3), SetVehicleDoorStatus(GetNearestVehicle(playerid), playerid);
-	}
+	
+	GetVehicleParamsEx(GetNearestVehicle(playerid),engine,lights,alarm,doors,bonnet,boot,objective);
+	ToggleDoors(GetNearestVehicle(playerid), playerid);
 	return 1;
 }
 CMD:tp(playerid, params[]) {
@@ -51845,11 +50037,9 @@ CMD:fv(playerid, const params[]) {
 }
 CMD:atipster(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return 1;
-
 	new fraction_member;		
 	if(sscanf(params,"i", fraction_member)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /atipster [fractionid]");
 	if(!(1 <= fraction_member <= MAX_FRACTIONS)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /atipster [fractionid]");
-
 	if(GetPVarInt(playerid,"admin_tipster")) {
 		SendOK(playerid,"Ви вимкнули прослуховування.");
 		DeletePVar(playerid,"admin_tipster");
@@ -51924,7 +50114,6 @@ CMD:ban(playerid, params[])
 	GetPlayerIp(giveplayerid, ip, sizeof(ip));
 	format(string, sizeof(string), "Name: %s.  R-IP: %s.  L-IP: %s. IP: %s.", player_name[giveplayerid], PI[giveplayerid][pIpReg], player_ip[giveplayerid], ip);
 	SendAdminMessage(COLOR_LIGHTRED, string);
-
 	new time_ban;
 	time_ban = day * 86400;
 	
@@ -51933,7 +50122,6 @@ CMD:ban(playerid, params[])
 	gAdmin[playerid][ADMIN_BAN] ++;
 	new hour, minute;
 	new year, month, days;
-
 	getdate(year, month, days);
 	gettime(hour, minute);
 	string = "";
@@ -51946,11 +50134,9 @@ CMD:ban(playerid, params[])
 	"W"Якщо ви вважаєте, що це помилка, зробіть скріншот(F8) цього вікна,\n\
 	інакше, ваша скарга не буде прийнята.";
 	format(string, sizeof(string), f_str, player_name[playerid], day, days, month, year, hour, minute, text);
-
 	new str[MAX_PLAYER_NAME + 1];
 	format(str, sizeof(str), "%s", player_name[giveplayerid]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
-
 	KickEx(giveplayerid);
 	return 1;
 }
@@ -51975,7 +50161,6 @@ CMD:iban(playerid, params[])
 	gAdmin[playerid][ADMIN_BAN] ++;
 	new hour, minute;
 	new year, month, days;
-
 	getdate(year, month, days);
 	gettime(hour, minute);
 	string = "";
@@ -51987,7 +50172,6 @@ CMD:iban(playerid, params[])
 	"W"Якщо ви вважаєте, що це помилка, зробіть скріншот(F8) цього вікна,\n\
 	інакше ваша скарга не буде прийнята.";
 	format(string, sizeof(string), f_str, player_name[playerid], days, month, year, hour, minute, text);
-
 	new str[MAX_PLAYER_NAME + 1];
 	format(str, sizeof(str), "%s", player_name[giveplayerid]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
@@ -52022,7 +50206,6 @@ CMD:warn(playerid, params[])
 	if (sscanf(params, "us[128]", giveplayerid, text)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /warn [playerid] [причина]");
 	if (PlayerAdminFix[playerid] > gettime()) return SendError(playerid, "Можно раз в 10 секунд");
 	PlayerAdminFix[playerid] = gettime() + 10;
-
 	//if (giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
 	//if (giveplayerid == playerid) return SendError(playerid, "Ви вказали свій ID");
 	if (IsAIP(text))return 1;
@@ -52030,13 +50213,10 @@ CMD:warn(playerid, params[])
 	//if(isAdminStatus(player_name[giveplayerid])) return 1;
 	if (PI[giveplayerid][pAdmin] > PI[playerid][pAdmin]) return SendError(playerid, "Адміністратору не можна видати попередження.");
 	if (PI[giveplayerid][pLeader]) return SendError(playerid, "Лідеру не можна видати попередження.");
-
 	new hour, minute;
 	new year, month, days;
-
 	getdate(year, month, days);
 	gettime(hour, minute);
-
 	if (PI[giveplayerid][pWarns]++ >= 2)
 	{
 		if(PI[giveplayerid][pMember] > 0) {
@@ -52047,7 +50227,6 @@ CMD:warn(playerid, params[])
 			format(string, 500, "Адміністратор %s заблокував гравця (3 попередження) %s на 10 днів. Причина: %s.", player_name[playerid],player_name[giveplayerid], text);
 			SendAdminActionMessage(COLOR_LIGHTRED,string);
 		}
-
 		new time_ban;
 		time_ban = 10 * 86400;
 		
@@ -52064,7 +50243,6 @@ CMD:warn(playerid, params[])
 		"W"Якщо ви вважаєте, що це помилка, зробіть скріншот(F8) цього вікна,\n\
 		інакше ваша скарга не буде прийнята.";
 		format(string, sizeof(string), f_str, player_name[playerid], 30, days, month, year, hour, minute, text);
-
 		new str[MAX_PLAYER_NAME + 1];
 		format(str, sizeof(str), "%s", player_name[giveplayerid]);
 		SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
@@ -52109,7 +50287,6 @@ CMD:warn(playerid, params[])
 		gAdmin[playerid][ADMIN_WARN] ++;
 	}
 	add_jobinfo(giveplayerid, "Недієздатний.");
-
 	new str[MAX_PLAYER_NAME + 1];
 	format(str, sizeof(str), "%s", player_name[giveplayerid]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
@@ -52162,7 +50339,6 @@ CMD:asellbiz(playerid, params[]) {
 	GameTextForPlayer(playerid, "~w~SELL", 5000, 1);
 	return 1;
 }
-
 CMD:houseprice(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
 	new money;
@@ -52180,7 +50356,6 @@ CMD:houseprice(playerid, params[]) {
 	}
 	return 1;
 }
-
 CMD:bizprice(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
 	new money;
@@ -52199,7 +50374,6 @@ CMD:bizprice(playerid, params[]) {
 	}
 	return 1;
 }
-
 CMD:bizid(playerid) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new text_mes[20];
@@ -52213,7 +50387,6 @@ CMD:bizid(playerid) {
 	}
 	return 1;
 }
-
 CMD:bizz(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
 	new bizzid;
@@ -52233,7 +50406,6 @@ CMD:int(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
 	new interior;
 	if(sscanf(params,"i", interior)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /int [1-140]");
-
 	switch(interior) {
 		case 1: SetPlayerPosAC(playerid,-25.884499,-185.868988,1003.549988, TI[playerid][tVirtualWorld], 17, 0);
 		case 2: SetPlayerPosAC(playerid,6.091180,-29.271898,1003.549988, TI[playerid][tVirtualWorld], 10, 0);
@@ -52398,7 +50570,6 @@ Float:A,
 	virtualworld = GetPlayerVirtualWorld(playerid);
 	GetPlayerPos(playerid, X, Y, Z);
 	GetPlayerFacingAngle(playerid, A);
-
 	switch(GetPlayerState(giveplayerid)) {
 	case PLAYER_STATE_ONFOOT: {
 			SetPlayerPosAC(giveplayerid, X,Y+2,Z,virtualworld,interior);
@@ -52419,7 +50590,6 @@ Float:A,
 	new string[128];
 	format(string, sizeof(string), "Ви були телепортовані адміністратором %s.", player_name[playerid]);
 	SendOK(giveplayerid,string);
-
 	format(string, sizeof(string), "Ви телепортували %s до собе.", player_name[giveplayerid]);
 	SendOK(playerid,string);
 	return 1;
@@ -52459,7 +50629,7 @@ CMD:freeze(playerid, params[]) {
 	if(PI[giveplayerid][pAdmin] > PI[playerid][pAdmin]) return SendError(playerid, "Не можна заморозити старшого за вас адміністратора.");
 	TogglePlayerControllable(giveplayerid, 0);
 	new string[128];
-	format(string, sizeof(string), "[A] Адміністратор %s заморозив гравця %s.",player_name[playerid],player_name[giveplayerid]);
+	format(string, sizeof(string), "[A] Адміністратор %s заморозив гравця %s[%d].",player_name[playerid],player_name[giveplayerid],giveplayerid);
 	AdmMSG(0xAFAFAFAA, string);
 	return 1;
 }
@@ -52471,7 +50641,7 @@ CMD:unfreeze(playerid, params[]) {
 	if(PI[giveplayerid][pAdmin] > PI[playerid][pAdmin]) return SendError(playerid, "Не можна заморозити старшого за вас адміністратора.");
 	TogglePlayerControllable(giveplayerid, 1);
 	new string[128];
-	format(string, sizeof(string), "[A] %s розморозив %s",player_name[playerid],player_name[giveplayerid]);
+	format(string, sizeof(string), "[A] %s розморозив %s[%d].",player_name[playerid],player_name[giveplayerid],giveplayerid);
 	AdmMSG(0xAFAFAFAA, string);
 	return 1;
 }
@@ -52480,7 +50650,6 @@ CMD:slap(playerid,params[]) {
 	new giveplayerid;
 	if(sscanf(params,"u", giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /slap [playerid]");
 	if(!IsPlayerConnected(giveplayerid)) return SendError(playerid,not_id);
-
 	new Float:slx, 
 Float:sly, 
 Float:slz;
@@ -52629,14 +50798,12 @@ CMD:rban(playerid, params[])
 	new ban_ip[16], ban_reason_ip [32];
 	if (sscanf (params, "s[16]s[32]", ban_ip, ban_reason_ip)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /rban [playerip] [reason]");
 	if (strfind (ban_ip, "*.*", true) != -1) return SendClientMessage(playerid, COLOR_WHITE,"Ви ввели неправильный IP.");
-
 	new null;
 	for (new i = 0; i < strlen(ban_ip[0]); i++)
 	{
 		if (strfind(ban_ip[i], ".", true) == 0) null++;
 	}
 	if (null != 3) return SendError(playerid, "Неправильний IP. Приклад: 127.0.0. (Повинні бути присутніми 3 точки)");
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "INSERT INTO `banip` (`IP`,`admin`,`reason`) VALUES ('%s','%e','%e')", ban_ip, player_name[playerid], ban_reason_ip);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
@@ -52657,7 +50824,6 @@ CMD:unrban(playerid, params[])
 		if (strfind(params[i], ".", true) == 0) null++;
 	}
 	if (null != 3) return SendError(playerid, "Неправильний IP.");
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof (MYSQL_GLOBAL), "DELETE FROM `banip` WHERE `IP` = '%s'", params);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
@@ -52706,7 +50872,6 @@ CMD:offwarn(playerid, params[])
 	sscanf(name, "u", giveplayerid);
 	if (giveplayerid != INVALID_PLAYER_ID) return SendError(playerid, "Цей гравець онлайн.");
 	if (strlen(text) > 30) return SendError(playerid, "Не більше 30 символів.");
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof (MYSQL_GLOBAL), "SELECT * FROM `accounts` WHERE `Name` = '%e'", name);
 	mysql_tquery(connects, MYSQL_GLOBAL, "offwarn", "dss", playerid, name, text);
@@ -52797,7 +50962,6 @@ CMD:veh(playerid, params[]) {
 	SendOK(playerid,"Щоб видалити весь адмін-транспорт, введіть "P"/alldelveh"W".");
 	return 1;
 }
-
 CMD:plveh(playerid, params[])
 {
 	if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return 1;
@@ -52824,7 +50988,6 @@ CMD:plveh(playerid, params[])
 	t_PutPlayerInVehicle(params[0], vehicleid, 0);
 	return 1;
 }
-
 CMD:delveh(playerid) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new vehicleid = GetPlayerVehicleID(playerid);
@@ -52885,13 +51048,11 @@ CMD:unwarn(playerid, params[])
 	if (sscanf(params, "d", giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /unwarn [playerid]");
 	if (!IsPlayerConnected(giveplayerid)) return SendError(playerid, not_id);
 	if (PI[giveplayerid][pWarns] == 0) return SendError(playerid, "У гравця немає попереджень.");
-
 	PI[giveplayerid][pWarns]--;
 	UpdatePlayerData(giveplayerid, "pWarns", PI[giveplayerid][pWarns]);
 	new string[92];
 	format(string, sizeof(string), "[A] %s[%d] зняв попередження гравцю %s[%d].", player_name[playerid], playerid, player_name[giveplayerid], giveplayerid);
 	AdmMSG(0xAFAFAFAA, string);
-
 	format(string, sizeof(string), "Адміністратор %s зняв вам попередження.", player_name[playerid]);
 	SendClientMessage(giveplayerid, CGOLD, string);
 	
@@ -52918,7 +51079,6 @@ CMD:offunwarn(playerid, params[])
 			if (cache_is_valid(result)) cache_delete(result);
 			return 1;
 		}
-
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof MYSQL_GLOBAL, "UPDATE `accounts` SET `pWarns` = '%d' WHERE `Name` = '%s' LIMIT 1", warns - 1, params);
 		mysql_pquery(connects, MYSQL_GLOBAL);
@@ -52961,19 +51121,14 @@ CMD:uval(playerid, params[]) {
 	if(giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
 	if(!PI[giveplayerid][pMember]) return SendError(playerid, "Гравець не знаходиться в організації.");
 	if(!strcmp(FI[PI[giveplayerid][pMember]][fLeader],player_name[giveplayerid], false)) return SendError(playerid, "Лідера можна зняти тільки через /makeleader.");
-
 	static const f_str[] = "Адміністратор %s[%i] звільнив вас з організації. Причина: %s.";
 	new string[sizeof(f_str) +1 + (-2 + 25) + (-2 + 4) + (-2 + 31)];
-
 	format(string, sizeof(string), f_str, player_name[playerid],playerid, reason);
 	SendClientMessage(giveplayerid, 0xFF182DFF, string);
-
 	format(string, sizeof(string), "[A] %s[%d] вигнав гравця %s[%d] з фракції.",player_name[playerid],playerid,player_name[giveplayerid],giveplayerid);
 	AdmMSG(0xAFAFAFAA, string);
-
 	SetArmour(giveplayerid, 0);
 	ResetPlayerWeapons(giveplayerid);
-
 	if(start_work[giveplayerid]) {
 		SendInfo(giveplayerid,"Робочий день завершено.");
 		start_work[giveplayerid] = 0;
@@ -53082,7 +51237,6 @@ CMD:sban(playerid, params[]) {
 	gAdmin[playerid][ADMIN_BAN] ++;
 	new hour,minute;
 	new year,month,days;
-
 	getdate(year, month, days);
 	gettime(hour,minute);
 	string = "";
@@ -53095,7 +51249,6 @@ CMD:sban(playerid, params[]) {
 			"W"Якщо ви вважаєте, що відбулась помилка, зробіть скріншот (F8) цього вікна,\n\
 			інакше Ваша скарга не буде прийнята.";
 	format(string,sizeof(string),f_str,player_name[playerid], day,days, month, year,hour, minute, text);
-
 	new str[MAX_PLAYER_NAME+1];
 	format(str,sizeof(str),"%s",player_name[giveplayerid]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
@@ -53117,7 +51270,6 @@ CMD:gun(playerid, params[]) {
 	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
 	format(string,sizeof(string),f_str, player_name[giveplayerid]);
 	SendOK(playerid,string);
-
 	WriteLog(LOG_GUN,player_name[playerid],player_name[giveplayerid],"видача зброї");
 	return 1;
 }
@@ -53176,7 +51328,6 @@ CMD:enter(playerid) {
 	}
 	return 1;
 }
-
 CMD:kdd(playerid) {
 	if(TI[playerid][tDM] == 0) return 1;
 	new string[450], number = 0;
@@ -53195,7 +51346,6 @@ CMD:kdd(playerid) {
 	ShowPlayerDialog(playerid,DIALOG_NONE,DSTH, ""P"Статистика",string,"Закрити","");
 	return 1;
 }
-
 CMD:hexit(playerid) {
 	if(hellow[playerid] == 0) return 1;
 	
@@ -53221,7 +51371,6 @@ CMD:hexit(playerid) {
 	hellow[playerid] = 0;
 	return 1;
 }
-
 CMD:exitdm(playerid) {
 	if(TI[playerid][tDM] == 0) return 1;
 	SetPlayerPosAC(playerid, -1143.6364,-283.7115,1128.3345, 2, 2);
@@ -53234,7 +51383,6 @@ CMD:exitdm(playerid) {
 	SetCameraBehindPlayer(playerid);
 	return 1;
 }
-
 CMD:endtune(playerid) {
 	if(IsPlayerInRangeOfPoint(playerid,15.0, -2463.8516,2513.8286,1014.7252))
 	{
@@ -53244,7 +51392,6 @@ CMD:endtune(playerid) {
 	}
 	return 1;
 }
-
 CMD:selltr(playerid, const params[]) {
 	if(!GetPlayerVehicles(playerid)) return SendError(playerid, "Ви не маєте будинку на колесах.");
 	if(!params[0]) {
@@ -53259,8 +51406,6 @@ CMD:selltr(playerid, const params[]) {
 	if(GetPlayerDistanceToPlayer(playerid,params[0]) > 3.0 || GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(params[0])) return SendError(playerid, "Ви далеко один від одного.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	if(GetPlayerVehicles(params[0])) return SendError(playerid, "У гравця вже є будинок на колесах.");
-
-
 	new string[144];
 	format(string, sizeof(string), ""P"%s "W"запропонував вам купити його будинок на колесах за "GREEN"$%i", player_name[playerid], params[1]);
 	SendUse(params[0], string);
@@ -53309,22 +51454,18 @@ CMD:bonus(playerid) {
 CMD:createbonus(playerid)
 {
 	if (PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
-
 	PlayerPromoText[playerid][0] = EOS;
 	PlayerPromoDonate[playerid] = 0;
 	PlayerPromoMoney[playerid] = 0;
 	PlayerPromoCount[playerid] = 0;
-
 	ShowPlayerDialog(playerid, D_FAKE_PROMO_CREATE, DIALOG_STYLE_INPUT, ""P"Створення бонус-коду", "Введіть бонус-код, який Ви хочете створити", "Прийняти", "Скасувати");
 	return 1;
 }
-
 CMD:endtrade(playerid) {
 	if(PI[playerid][pPalatka] == 0) return 1;
 	EndTrade(playerid);
 	return 1;
 }
-
 CMD:gzcolor(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
@@ -53332,7 +51473,6 @@ CMD:gzcolor(playerid, params[]) {
 	if(giveplayerid != fBALLAS && giveplayerid != fVAGOS && giveplayerid != fGROVE && giveplayerid != fAZTEC && giveplayerid != fRIFA) return SendError(playerid, "Банда неправильно вказана");
 	for(new i = 0; i < TOTALGZ; i++) {
 		if(PlayerToKvadrat(playerid,GZInfo[i][gCoords][0], GZInfo[i][gCoords][1],GZInfo[i][gCoords][2],GZInfo[i][gCoords][3])) {
-
 			new str[250];
 			mysql_format(connects, str, sizeof(str),"INSERT INTO `log_zone` (`Name`, `band_old`,`band_new`) VALUES ('%s','%i','%i')",player_name[playerid],GZInfo[i][gFrakVlad], giveplayerid);
 			mysql_pquery(connects, str, "", "");
@@ -53340,7 +51480,6 @@ CMD:gzcolor(playerid, params[]) {
 			new msg[350];
 			format(msg, sizeof(msg), "[A] %s[%d] передав територію %s банді %s.",player_name[playerid],playerid, FI[GZInfo[i][gFrakVlad]][fName],FI[giveplayerid][fName]);
 			AdmMSG(0xAFAFAFAA, msg);
-
 			GZInfo[i][gFrakVlad] = giveplayerid;
 			if(i == 13) {
 				black_prods[0] = giveplayerid;
@@ -53371,14 +51510,14 @@ CMD:getdonate(playerid, params[]) {
 CMD:respv(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
 	new Float: position[3],Float:rad;
-	if(sscanf(params, "f", rad)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /respv [радиус]");
+	if(sscanf(params, "f", rad)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /respv [radius]");
 	if(rad > 100 || rad < 2) return SendError(playerid, "Радіус від 2 до 100");
 	GetPlayerPos(playerid, position[0], position[1], position[2]);
 	for(new i = GetVehiclePoolSize()+1; --i != 0;) {
 		GetVehiclePos(i,position[0],position[1],position[2]);
 		if(IsPlayerInRangeOfPoint(playerid,rad,position[0],position[1],position[2])) SetVehicleToRespawn(i);
 	}
-	SendOK(playerid, "Автомобілі у вибраному радусі заспавнено");
+	SendOK(playerid, "Автомобілі у вибраному радусі заспавнено.");
 	return 1;
 }
 //-----------------------------------------[6 рівень]-------------------------------------------//
@@ -53403,14 +51542,14 @@ CMD:restartservera(playerid,params[]) {
 }
 CMD:delacc(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
-	if(sscanf(params,"s[128]",params[0])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /delacc [Nick Name]");
-	if(GetPlayerID(params[0]) != INVALID_PLAYER_ID) return SendError(playerid, "Не можна видалити акаунт, гравець в мереж");
+	if(sscanf(params,"s[128]",params[0])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /delacc [playername].");
+	if(GetPlayerID(params[0]) != INVALID_PLAYER_ID) return SendError(playerid, "Не можна видалити акаунт, оскільки гравець в мережі.");
 	if(!strlen(params[0])) {
 		if(GetPVarInt(playerid, "delstatus")) {
-			SendClientMessage(playerid, COLOR_YELLOW, "Ви відмінили видалення акаунта");
+			SendClientMessage(playerid, COLOR_YELLOW, "Ви відмінили видалення акаунта.");
 			DeletePVar(playerid, "delstatus");
 		}
-		else SendClientMessage(playerid, COLOR_WHITE,"Використайте: /delacc [Nick Name]");
+		else SendClientMessage(playerid, COLOR_WHITE,"Використайте: /delacc [playerid]");
 	}
 	else {
 		new query[128];
@@ -53427,7 +51566,6 @@ CMD:tpcor(playerid,params[]) {
 	SetPlayerPosAC(playerid,Float:x,Float:y,Float:z,TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
 	return 1;
 }
-
 CMD:addzone(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || !dostup[playerid]) return 1;
 	new string[1024],str[56];
@@ -53441,7 +51579,7 @@ CMD:addzone(playerid, params[]) {
 CMD:svw(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
-	if(sscanf(params, "d",giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /sv [WORLD]");
+	if(sscanf(params, "d",giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /sv [worldid]");
 	SetPlayerVirtualWorld(playerid,giveplayerid);
 	
 	static const f_str[] = "Віртуальний світ: %i";
@@ -53454,12 +51592,11 @@ CMD:svw(playerid,params[]) {
 CMD:si(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
-	if(sscanf(params, "d",giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /si [INTERIOR]");
+	if(sscanf(params, "d",giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /si [interiorid]");
 	SetPlayerInterior(playerid,giveplayerid);
 	
 	static const f_str[] = "Інтер'єр: %i";
 	new string[sizeof(f_str) +1 + (-2 + 4)];
-
 	format(string, sizeof(string), f_str,giveplayerid);
 	SendClientMessage(playerid,-1,string);
 	return 1;
@@ -53516,20 +51653,17 @@ CMD:fuelcars(playerid, params[]) {
 	SendOK(playerid,string);
 	return 1;
 }
-
 CMD:gm(playerid) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	if(gm_player[playerid] == 0) gm_player[playerid] = 1, SendOK(playerid, "Ви увімкнули GM.");
 	else gm_player[playerid] = 0, SendOK(playerid, "Ви вимкнули GM.");
 	return 1;
 }
-
 CMD:apromo(playerid) {
 	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 	ShowPlayerDialog(playerid, D_PROMO, DSL, ""P"Промокоди", ""P"1."W" Список промокодів\n"P"2."W" Створити промокод\n"P"3."W" Видалити промокод", "Обрати", "Назад");
 	return 1;
 }
-
 CMD:setskill(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
 	if(sscanf(params, "u",params[0])) return SendUse(playerid, "Введіть: /setskill [playerid]");
@@ -53546,7 +51680,6 @@ CMD:setskill(playerid, params[]) {
 	SetPlayerSkills(params[0]);
 	return 1;
 }
-
 CMD:givemoney(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 	if(!PI[playerid][giveMoney]) return SendClientMessage(playerid,-1,""cError"У вас немає доступу до цієї команди.");
@@ -53696,7 +51829,6 @@ CMD:gives(playerid,params[]) {
 	SendOK(playerid, "Видано успішно.");
 	return 1;
 }
-
 CMD:setmats(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 	new amount,giveplayerid;
@@ -53711,17 +51843,14 @@ CMD:setmats(playerid,params[]) {
 	case 3: FI[fBikersTwo][fMats] = amount,UpdateFraction(fBikersTwo,"Mats",FI[fBikersTwo][fMats]);
 	case 4: FI[fFBI][fMats] = amount,UpdateFraction(fFBI,"Mats",FI[fFBI][fMats]);
 	case 5: FI[fARMYLS][fMats] = amount,UpdateFraction(fARMYLS,"Mats",FI[fARMYLS][fMats]);
-
 	case 7: FI[fBALLAS][fMats] = amount,UpdateFraction(fBALLAS,"Mats",FI[fBALLAS][fMats]);
 	case 8: FI[fVAGOS][fMats] = amount,UpdateFraction(fVAGOS,"Mats",FI[fVAGOS][fMats]);
 	case 9: FI[fGROVE][fMats] = amount,UpdateFraction(fGROVE,"Mats",FI[fGROVE][fMats]);
 	case 10: FI[fAZTEC][fMats] = amount,UpdateFraction(fAZTEC,"Mats",FI[fAZTEC][fMats]);
 	case 11: FI[fRIFA][fMats] = amount,UpdateFraction(fRIFA,"Mats",FI[fRIFA][fMats]);
-
 	case 12: FI[fLCN][fMats] = amount,UpdateFraction(fLCN,"Mats",FI[fLCN][fMats]);
 	case 13: FI[fYAKUZA][fMats] = amount,UpdateFraction(fYAKUZA,"Mats",FI[fYAKUZA][fMats]);
 	case 14: FI[fRM][fMats] = amount,UpdateFraction(fRM,"Mats",FI[fRM][fMats]);
-
 	case 15: zavodsklad = amount,UpdateOtherData("gun_mats",zavodsklad);
 	case 16: woodsklad = amount,UpdateOtherData("woodsklad",woodsklad);
 	case 17: FI[fRCSO][fMats] = amount,UpdateFraction(fRCSO,"Mats",FI[fRCSO][fMats]);
@@ -53736,10 +51865,8 @@ CMD:getip(playerid, params[]) {
 	if (sscanf(params, "d", params[0])) return SendClientMessage(playerid,COLOR_WHITE, "Введіть: /getip [playerid]");
 	if (params[0] == INVALID_PLAYER_ID) return SendError(playerid, "Цей гравець не авторизований.");
 	if (IsPlayerConnected(params[0]) == 0) return SendError(playerid, "Цей гравець не авторизований.");
-
 	new ip[17];
 	GetPlayerIp(params[0], ip, 16);
-
 	new string[250];
 	format(string, sizeof(string), "Niсk: %s. R-IP: %s. L-IP: %s. IP: %s.", player_name[params[0]], PI[params[0]][pIpReg], player_ip[params[0]], ip);
 	SendClientMessage(playerid, 0x6BB3FFAA, string);
@@ -54094,7 +52221,6 @@ CMD:makeadmin(playerid, params[]) {
 	mysql_pquery(connects, query, "Moderator", "dsd", playerid, Name, Level);
 	return 1;
 }
-
 CMD:last(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return SendError(playerid, "У вас немає доступу до цієї функції.");
 	if(isnull(params) || strlen(params) > 25) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /last [playername]");
@@ -54142,10 +52268,8 @@ CMD:infoips(playerid,params[]) {
 		cache_get_value_name(i, "pvIp", tmpas, 16);
 		cache_get_value_name(i, "pIpReg", regip, 16);
 		cache_get_value_name_int(i,"pLevel", level);
-
 		static const f_str[] = "%s. LAST-IP: %s. REG-IP: %s. LVL: %d";
 		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 16) + (-2 + 16) + (-2 + 4)];
-
 		format(string,sizeof(string),f_str,mname,tmpas, regip,level);
 		SendClientMessage(playerid,COLOR_WHITE,string);
 	}
@@ -54174,13 +52298,10 @@ CMD:agetip(playerid, params[]) {
 	new Cache:result = mysql_query(connects, QUERY),ip[2][17];
 	new rows = cache_num_rows();
 	if(rows == 0) return SendError(playerid, "Акаунт не знайдено.");
-
 	cache_get_value_name(0, "pvIp", ip[0], 16);
 	cache_get_value_name(0, "pIpReg", ip[1], 16);
-
 	static const f_str[] = "Нік: %s. IP: %s. IP при реєстрації: %s.";
 	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 17) + (-2 + 17)];
-
 	format(string,sizeof(string),f_str,params,ip[0],ip[1]);
 	SendClientMessage(playerid,COLOR_BLUE,string);
 	cache_delete(result);
@@ -54264,17 +52385,14 @@ CMD:agiverank(playerid,params[]) {
 	new string[128];
 	format(string, sizeof(string), "[A] %s змінив ранг гравцю %s з %d на %d.", player_name[playerid],player_name[giveplayerid],PI[giveplayerid][pRank],rankid);
 	AdmMSG(0xAFAFAFAA, string);
-
 	format(string, sizeof(string), "Адміністратор "P"%s"W" змінив вам ранг на "P"%d"W".",player_name[playerid],rankid);
 	SendUse(giveplayerid, string);
-
 	PI[giveplayerid][pRank] = rankid;
 	UpdatePlayerData(giveplayerid,"pRank", rankid);
 	return 1;
 }
 CMD:setbizmafia(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
-
 	new mafiaid;
 	if(sscanf(params,"d",mafiaid)) {
 		SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setbizmafia [number]");
@@ -54307,7 +52425,6 @@ CMD:gspawn(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
 	if(sscanf(params,"u", giveplayerid)) return SendInfo(playerid, "Використайте: /gspawn [playerid]");
-
 	if(giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
 	PlayerSpawn(giveplayerid);
 	new string[128];
@@ -54318,7 +52435,6 @@ CMD:gspawn(playerid, params[]) {
 	return 1;
 }
 CMD:acure(playerid, params[]) {
-
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	new giveplayerid;
 	if(sscanf(params, "u", giveplayerid)) return SendInfo(playerid, "Використайте: /acure [playerid]");
@@ -54341,13 +52457,11 @@ CMD:acure(playerid, params[]) {
 	SetPlayerFacingAngle(giveplayerid, deathpos[playerid][5]);
 	SetCameraBehindPlayer(giveplayerid);
 	
-
 	new string[128];
 	format(string, sizeof(string), "Вас підняв зі стадії адміністратор %s[%d].", player_name[playerid], playerid);
 	SendOK(giveplayerid, string);
 	return 1;
 }
-
 CMD:setmykill(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
 	if(sscanf(params, "ud", params[0], params[1])) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setmykill [issuerid] [weaponid]");
@@ -54356,7 +52470,6 @@ CMD:setmykill(playerid, params[]) {
 	SendOK(playerid, "u killed urself");
 	return 1;
 }
-
 CMD:inet(playerid, params[]) {
 	new stats[100], stringstats[70], string[60],giveplayerid;
 	if(sscanf(params, "u",giveplayerid)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /inet [playerid]");
@@ -54400,7 +52513,6 @@ CMD:poscar(playerid, params[]) {
 	new Float: lwx, Float:lwy, Float:lwz,Float:a;
 	GetVehiclePos(carid,lwx, lwy, lwz);
 	GetVehicleZAngle(carid,a);
-
 	gHouses[params[0]-1][houseParkX] = lwx;
 	gHouses[params[0]-1][houseParkY] = lwy;
 	gHouses[params[0]-1][houseParkZ] = lwz;
@@ -54513,7 +52625,6 @@ CMD:bizrasf(playerid, params[]) { // расформ бзов
 	SendClientMessage(playerid, COLOR_BLUE, "Бізнеси у цій мафії успішно розформовані.");
 	return 1;
 }
-
 CMD:bizlist(playerid, params[]) {
 	if(!IsAMafia(playerid)) return SendError(playerid, "Ви не мафіозі.");
 	new count_business = 1,string[3400];
@@ -54780,17 +52891,13 @@ CMD:endcapture(playerid)
 		capture_kd[GZInfo[i][gNapad]] = 0;
 		
 		capture_war[PI[playerid][pMember]] = GZInfo[i][gFrakVlad];
-
 		GZInfo[i][gTime] = 1;
 		
 		CountOnZone[GZInfo[i][gNapad]] = 0;
 		CountOnZone[GZInfo[i][gFrakVlad]] = 0;
-
-
 		format(string, 112, "Капт між %s і %s було зупинено адміністратором %s.",GFrac(PI[playerid][pMember]),GFrac(GZInfo[i][gFrakVlad]),player_name[playerid]);
 		SendClientMessageToAll(COLOR_LIGHTRED, string);
 		GangZoneFlashForAll(GZInfo[i][gID], GetGangColor(GZInfo[i][gNapad]));
-
 		GZInfo[i][ZoneOnBattle] = 0;
 		break;
 	}
@@ -54849,22 +52956,16 @@ CMD:capture(playerid) {
 			capture_kd[GZInfo[i][gNapad]] = 1;
 			
 			capture_war[PI[playerid][pMember]] = GZInfo[i][gFrakVlad];
-
 			GZInfo[i][gTime] = 60*15;
 			
 			CountOnZone[GZInfo[i][gNapad]] = 0;
 			CountOnZone[GZInfo[i][gFrakVlad]] = 0;
-
 			format(string, 112, "%s(%s) почав захоплення терріторії банди %s.",GFrac(PI[playerid][pMember]),player_name[playerid],GFrac(GZInfo[i][gFrakVlad]));
 			SendBand(COLOR_LIGHTRED,string);
-
 			format(string, 144, "[A] Почався капт між бандами %s і %s.",GFrac(PI[playerid][pMember]),GFrac(GZInfo[i][gFrakVlad]));
 			AdmMSG(COLOR_YELLOW, string);
-
 			GangZoneFlashForAll(GZInfo[i][gID], GetGangColor(GZInfo[i][gNapad]));
-
 			GZInfo[i][ZoneOnBattle] = 1;
-
 			if(QuestProgress[playerid][22] < 5 && AcceptQuest[playerid][22] != 0) QuestProgress[playerid][22] ++,save_quest(playerid,22);
 			if(QuestProgress[playerid][22] == 5 && AcceptQuest[playerid][22] != 0) {
 				ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви закінчили виконання квесту 'Завойовник'\n\t"NO"Квест можна завершити в списку квестів (/quest)","Закрити","");
@@ -54888,7 +52989,6 @@ CMD:famsklad(playerid, params[]) {
 	UpdateFamily(fam+1,"sklad_status",gFamily[fam][famskladSt]); 
 	return 1;
 }
-
 CMD:warelock(playerid, params[]) {
 	if((!IsAGang(playerid) && !IsAMafia(playerid) && !IsABikers(playerid)) || PI[playerid][pRank] < FI[PI[playerid][pMember]][fInviteRang]) return SendError(playerid, "У вас немає доступу до цієї команди.");
 	new str[9];
@@ -54896,7 +52996,6 @@ CMD:warelock(playerid, params[]) {
 	else FI[PI[playerid][pMember]][fSklad] = 0,str = "закрив";
 	static const f_str[] = "[F] %s[%d] %s склад.";
 	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 9)];
-
 	format(string,sizeof(string),f_str,player_name[playerid],playerid,str);
 	SendFamilyMessage(PI[playerid][pMember],0x6ab1ffaaff,string);
 	UpdateFraction(PI[playerid][pMember],"Sklad",FI[PI[playerid][pMember]][fSklad]);
@@ -54915,7 +53014,6 @@ CMD:sellgun(playerid,params[]) {
 	if(!IsPlayerConnected(params[2])) return SendError(playerid, not_id);
 	if(params[1] > 50000 || params[1] < 4) return SendError(playerid,"Неправильна вартість/патронів");
 	if(params[0] <= 0 || params[0] > 10000) return SendError(playerid,"За раз можна робити до 10000 патронів");
-
 	if(strcmp(gunname,"sdpistol", true) == 0) SetPVarInt(params[2],"gunid",23), SetPVarInt(params[2],"sell_gunmats",1);
 	else if(strcmp(gunname,"deagle", true) == 0) SetPVarInt(params[2],"gunid",24), SetPVarInt(params[2],"sell_gunmats",3);
 	else if(strcmp(gunname,"shotgun", true) == 0) SetPVarInt(params[2],"gunid",25), SetPVarInt(params[2],"sell_gunmats",3);
@@ -55023,14 +53121,12 @@ CMD:sellzone(playerid,params[]) {
 		else if(giveplayerid == playerid) return SendError(playerid, "Це й так ваша територія.");
 		if(i == 97 || i == 93 || i == 41 || i == 0 || i == 24) return SendError(playerid, "Не можна продати спавн банди.");
 		if(!PI[giveplayerid][pLeader]) return SendError(playerid, "Продаж територій доступний тільки лідерам банд.");
-
 		new string[325];
 		format(string, sizeof(string), "Ви запропонували "P"%s"W" купити територію за "ORANGE"$%d"W".",player_name[giveplayerid],params[1]);
 		SendUse(playerid, string);
 		format(string, sizeof(string), ""P"%s"W" запропонував вам купити територію за "ORANGE"$%d"W".",player_name[playerid],params[1]);
 		SendUse(giveplayerid, string);
 		SendClientMessage(giveplayerid,COLOR_BLUE,"Натисніть "YES"Y "BLUE"щоб погодитися, або "NO"N "BLUE"для відмови.");
-
 		SetPVarInt(giveplayerid,"ZoneOffer", playerid + 1);
 		SetPVarInt(giveplayerid,"ZonePrice", params[1]);
 		SetPVarInt(giveplayerid,"sellzone", PI[playerid][pMember]);
@@ -55038,14 +53134,12 @@ CMD:sellzone(playerid,params[]) {
 	return 1;
 }
 stock TextFind(const text[],const findtext[]) return strfind(text, findtext) != -1;
-
 stock ValidChar(mailchar) {
 	if((mailchar >= 'A' && mailchar <= 'Z') || (mailchar >= 'a' && mailchar <= 'z')
 			|| (mailchar >= '0' && mailchar <= '9') || (mailchar == '-') || (mailchar == '_')
 			|| (mailchar == '@') || (mailchar == '.')) return 1;
 	return 0;
 }
-
 stock IsValidEmail(const email[]) {
 	new bool:Succes = true;
 	new bool:Good;
@@ -55134,7 +53228,6 @@ CB: unitpay_callback(playerid, type) {
 	}
 	return 1;
 }
-
 CB: load_online_today(playerid) {
 	new rows;
 	cache_get_row_count(rows);
@@ -55161,7 +53254,6 @@ CB: load_online_yesterday(playerid) {
 	}
 	return 1;
 }
-
 CMD:quest(playerid) {
 	ShowPlayerDialog(playerid,D_MENU_QUEST,DSL,""P"Завдання",""P"1."W" Активні завдання\n"P"2."W" Початкові квести для новачків\n"P"3."W" Щоденні квести\n"P"4."W" Організаційні квести","Обрати","Скасувати");
 	return 1;
@@ -55244,7 +53336,6 @@ stock save_quest(playerid,id) {
 	mysql_format(connects, query, sizeof(query),"UPDATE `questsprogress` SET `progress`='%d',`accept`='%d' WHERE `idquest`='%d' AND `name`='%s';", QuestProgress[playerid][id], AcceptQuest[playerid][id], id, player_name[playerid]);
 	mysql_tquery(connects, query);
 }
-
 stock SendBotMessage(playerid, const mesage[])
 {
 	new id;
@@ -55565,20 +53656,20 @@ stock MyButtonSystem(playerid) {
 					if(PI[i][pSearch])
 					{
 						if(num == 30) break;
-						format(string, sizeof(string), "%s"W"%s(%i) - %i-й рівень розшуку\n", string, player_name[i], i, PI[i][pSearch]);
+						format(string, sizeof(string), "%s"W"%s(%i) - %i рівень розшуку\n", string, player_name[i], i, PI[i][pSearch]);
 						num++;
 					}
 				}
-				if(num == 0) format(string, sizeof(string), ""W"Список розшукуваних відсутній!");
+				if(num == 0) format(string, sizeof(string), ""W"Список розшукуваних відсутній.");
 				ShowPlayerDialog(playerid, D_QUEST_HACKER_3, DIALOG_STYLE_LIST, ""P"Список розшукуваних", string, "Закрити", "");
 			}
 		case 31:{
 				new pIDss = GetPVarInt(playerid, "WantedID");
-				if(!IsPlayerConnected(pIDss)) return SendClientMessage(playerid,COLOR_GRAY,"Гравець вийшов з гри!");
+				if(!IsPlayerConnected(pIDss)) return SendClientMessage(playerid,COLOR_GRAY,"Гравець вийшов з гри.");
 				PI[pIDss][pSearch] = 0;
 				UpdatePlayerData(playerid,"pSearch",PI[pIDss][pSearch]);
 				SetPlayerWantedLevel(pIDss, PI[pIDss][pSearch]);
-				SendError(playerid, "[Система]: Ви успішно хакнули базу даних ФБР!");
+				SendError(playerid, "[Система]: Ви успішно хакнули базу даних ФБР.");
 				SendClientMessage(playerid, COLOR_GREEN, "[Система]: Відправляйтеся до хакера.");
 				DeletePVar(playerid, "WantedID");
 				SetPVarInt(playerid, "QuesR", 1);
@@ -55586,8 +53677,8 @@ stock MyButtonSystem(playerid) {
 			}
 		case 32:{
 			new vehicleid = GetPlayerVehicleID(playerid);
-			ToggleEngine(vehicleid, playerid);
-			SendError(playerid, "[Думки]: Чудово! Чудово! Тепер би доїхати без всіляких пригод.");
+			if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) ToggleEngine(vehicleid, playerid);
+			SendError(playerid, "[Думки]: Чудово, чудово! Тепер би доїхати без всіляких пригод.");
 			SetPlayerCheckpoint(playerid, 2804.0691,-1430.0247,19.9313, 3.0);
 			}
 		case 33: return HideButton(playerid, 33);
@@ -55627,7 +53718,6 @@ stock System32Weapon(type){
                 Accepts = true;
 				return 1;
 			}
-
 		}
 	}
 	return 1;
@@ -55691,12 +53781,10 @@ public TimerRobb()
 				KillerWarCop = 0;
 				KillerWarGang = 0;
 			
-
 			}
 		}
 	}
 }
-
 stock NonSym(const str[], max = 0, min = 0)  {
 	static BadNameChars[][2] = {"/","\n","`","~","%","^","&","[","]","{","}","|","'"};
 	for(new i = 0; i < sizeof(BadNameChars); i++) {
@@ -55719,7 +53807,6 @@ stock Hunger(playerid,type) {
 		}
 	}
 }
-
 stock SetFullness(playerid, amount) {
 	if(amount > 100) PI[playerid][pSatiety] = 100;
 	else if(amount < 0) PI[playerid][pSatiety] = 0;
@@ -55745,7 +53832,6 @@ stock GetPlayerSpeed(playerid)
 	GetPlayerVelocity(playerid, Velocity[0], Velocity[1], Velocity[2]);
 	return floatround(floatsqroot(Velocity[0] * Velocity[0] + Velocity[1] * Velocity[1] + Velocity[2] * Velocity[2]) * 100);
 }
-
 stock _GetVehicleSpeed(vehicleid) {
 	new Float:X, Float:Y, Float:Z, Float:speed;
 	GetVehicleVelocity(vehicleid, X, Y, Z) ;
@@ -55770,7 +53856,6 @@ CB: NoRoof(playerid) {
 	}
 	return 1;
 }
-
 CB: WoodsPlayer(playerid,wood) {
 	new j = TI[playerid][tJobWood][2];
 	WD::[j][woodUse] = false;
@@ -55817,9 +53902,7 @@ CheckPlayerGoCuff(playerid) {
 	GotoInfo[playerid][gtTPX] = 0.0;
 	GotoInfo[playerid][gtTPY] = 0.0;
 	GotoInfo[playerid][gtTPZ] = 0.0;
-
 	if(GotoInfo[playerid][gtGoID] != INVALID_PLAYER_ID) GotoInfo[GotoInfo[playerid][gtGoID]][gtID] = INVALID_PLAYER_ID;
-
 	GotoInfo[playerid][gtID] = INVALID_PLAYER_ID;
 	GotoInfo[playerid][gtGoID] = INVALID_PLAYER_ID;
 	GotoInfo[playerid][gtState] = 0;
@@ -55871,7 +53954,6 @@ stock DropGun(playerid,weaponid,ammo) {
 		drop_gun[freeslot][dg_gun]  =  weaponid;
 		drop_gun[freeslot][dg_ammo] = ammo;
 		Streamer_Update(playerid);
-
 		new weapons[13][2];
 		for(new S = 0; S<13; S++) {
 			GetPlayerWeaponData(playerid, S, weapons[S][0], weapons[S][1]) ;
@@ -56012,13 +54094,11 @@ BizWarTimer() {
 			MZInfo[bFrakVlad] = 0;
 			MZInfo[bNapad] = 0;
 			MZInfo[bBiz] = 255;
-
 			GangZoneStopFlashForAll(biz_war_gangzone);
 			GangZoneHideForAll(biz_war_gangzone);
 			GangZoneDestroy(biz_war_gangzone);
 			biz_war_gangzone = - 1;
 			war_gangzone = - 1;
-
 			BizWarTime[1] = 0;
 			BizHourTime = 10;
 			MZInfo[bCountDead][MZInfo[bNapad]] = 0;
@@ -56049,7 +54129,6 @@ stock CheatKickEx(playerid,code)
 		new acHour, acMin, acSec,string[600], year, month, day;
 		gettime(acHour, acMin, acSec);
 		getdate(year, month, day);
-
 		format(string,sizeof(string), ""ORANGE"Ви були від'єднані від сервера за підозрою у читерстві.\n\n\
 		"W"Детальна інформація:\n\n\
 		— Код помилки:"ORANGE" #%i"W"\n\
@@ -56115,7 +54194,6 @@ CB: OnCheatDetected(playerid, const ip_address[], type, code) {
 		заявку в тех. розділі на нашому форумі, попередньо зробивши скріншот",
 		AntiCheat[code][acName],code,acHour, acMin, acSec, day, month, year, GetPlayerPing(playerid),NetStats_PacketLossPercent(playerid));
 		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Античіт", string, "Закрити", "");
-
 		format(string, 144, "[ANTICHEAT] %s був кікнутий %s. (#%d)", player_name[playerid],AntiCheat[code][acName],code);
 		SendAdminMessage(COLOR_GREY, string);
 		//
@@ -56139,7 +54217,6 @@ CB: OnCheatDetected(playerid, const ip_address[], type, code) {
 			заявку в тех. розділі на нашому форумі, попередньо зробивши скріншот",
 			AntiCheat[code][acName],code,acHour, acMin, acSec, day, month, year, GetPlayerPing(playerid),NetStats_PacketLossPercent(playerid));
 			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Античіт", string, "Закрити", "");
-
 			format(string, 144, "[ANTICHEAT] %s був кікнутий %s. (#%d)", player_name[playerid],AntiCheat[code][acName],code);
 			SendAdminMessage(COLOR_GREY, string);
 			AntiCheatKickWithDesync(playerid, code);
@@ -56216,7 +54293,6 @@ CB: OnCheckStatsAdmin(playerid, name[]) {
 	check_online_sunday, check_online_allday,
 	check_kicked, check_warned, check_baned, check_muted,
 	check_jail,check_rep,check_pm;
-
 	cache_get_value_name_int(0, "online_monday",check_online_monday);
 	cache_get_value_name_int(0, "online_tuesday",check_online_tuesday);
 	cache_get_value_name_int(0, "online_wednesday",check_online_wednesday);
@@ -56224,7 +54300,6 @@ CB: OnCheckStatsAdmin(playerid, name[]) {
 	cache_get_value_name_int(0, "online_friday",check_online_friday);
 	cache_get_value_name_int(0, "online_saturday",check_online_saturday);
 	cache_get_value_name_int(0, "online_sunday",check_online_sunday);
-
 	cache_get_value_name_int(0, "kick",check_kicked);
 	cache_get_value_name_int(0, "ban",check_baned);
 	cache_get_value_name_int(0, "warn",check_warned);
@@ -56232,7 +54307,6 @@ CB: OnCheckStatsAdmin(playerid, name[]) {
 	cache_get_value_name_int(0, "pm",check_pm);
 	cache_get_value_name_int(0, "jail",check_jail);
 	cache_get_value_name_int(0, "rep",check_rep);
-
 	strcat(stringer, "{FFA200}Тижневий онлайн\n\n");
 	format(string, sizeof(string), ""W"Понеділок:\t\t"P"%s "W"| Норма онлайну - %s\n", ConvertsCmdTime(check_online_monday), (check_online_monday/3600>=3)?("{46CA00}Виконана"):(check_online_monday/3600>=2)?("{FFCC00}Не виконана"):("{F63D00}Не виконана"));
 	strcat(stringer, string);
@@ -56248,12 +54322,9 @@ CB: OnCheckStatsAdmin(playerid, name[]) {
 	strcat(stringer, string);
 	format(string, sizeof(string), ""W"Неділя\t\t"P"%s "W"| Норма онлайну - %s\n", ConvertsCmdTime(check_online_sunday), (check_online_sunday/3600>=3)?("{46CA00}Виконана"):(check_online_sunday/3600>=2)?("{FFCC00}Не виконана"):("{F63D00}Не виконана"));
 	strcat(stringer, string);
-
 	check_online_allday = check_online_monday + check_online_tuesday + check_online_wednesday + check_online_thursday + check_online_friday + check_online_saturday + check_online_sunday;
-
 	format(string, sizeof(string), "\n{AFAFAF}Загальний онлайн:\t"P"%s "W"| Норма онлайну - %s\n\n", ConvertsCmdTime(check_online_allday), (check_online_allday/3600>=21)?("{46CA00}Виконана"):(check_online_allday/3600>=19)?("{FFCC00}Не виконана"):("{F63D00}Не виконана"));
 	strcat(stringer, string);
-
 	strcat(stringer, "{FFA200}Видача покарань\n\n");
 	format(string2, sizeof(string2), ""W"Кікнув:\t\t\t\t"P"%i\n", check_kicked);
 	strcat(stringer, string2);
@@ -56269,7 +54340,6 @@ CB: OnCheckStatsAdmin(playerid, name[]) {
 	strcat(stringer, string2);
 	format(string2, sizeof(string2), ""W"Репутація:\t\t\t\t"P"%i", check_rep);
 	strcat(stringer, string2);
-
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, name, stringer, "Закрити", "");
 	return 1;
 }
@@ -61680,7 +59750,6 @@ IPacket:UNOCCUPIED_SYNC(playerid, BitStream:bs)
 			|| !(-100.00000 <= UNOCCUPIED[PR_velocity][2] <= 100.00000)) return false;
 	return 1;
 }
-
 stock A_SetPlayerSkin(playerid,skin) {
 	SetPlayerSkin(playerid,skin);
 	for(new i=0; i < 10; i++) if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
@@ -61723,7 +59792,6 @@ stock GetCoordBonnetVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	y -= (distance * floatcos(-angle+180, degrees));
 	return 1;
 }
-
 stock GetCoordBootVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	new Float:angle,Float:distance;
 	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);
@@ -61734,7 +59802,6 @@ stock GetCoordBootVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	y += (distance * floatcos(-angle+180, degrees));
 	return 1;
 }
-
 stock GetBoatDoorPos(vehicleid, &Float:x, &Float:y, &Float:z)
 {
 	new Float:v_angle, Float:v_distance_d, Float:v_distance_a ;
@@ -61751,7 +59818,6 @@ stock GetBoatDoorPos(vehicleid, &Float:x, &Float:y, &Float:z)
 	y += v_distance_d * floatcos (v_distance_a - v_angle, degrees) ;
 	return 1 ;
 }
-
 stock GetCoordDoorTrailer(vehicleid, &Float:x, &Float:y, &Float:z)
 {
 	new Float:angle,Float:distance;
@@ -61784,10 +59850,8 @@ stock dialog_diplom(playerid,bool:type) {
 	new string[310];
 	for(new i = 0 ; i < 8; i ++) {
 		if(i + 15 == PI[playerid][pMember]) continue;
-
 		format(pvar_string, 8, "d_%d", step);
 		SetPVarInt(playerid, pvar_string, i + 15);
-
 		strcat(string, "{");
 		strcat(string, GetColorFrac(i + 15));
 		strcat(string, "}");
@@ -61814,12 +59878,10 @@ CB: joblist_callback(playerid, targetid) {
 			ji_fraction,
 			ji_warnings,
 			ji_rang;
-
 			new str[16 + 16 + 48 + 32 + 24];
 			cache_get_value_name_int(i, "ji_fraction", ji_fraction);
 			cache_get_value_name_int(i, "ji_warnings", ji_warnings);
 			cache_get_value_name_int(i, "ji_rang", ji_rang);
-
 			cache_get_value_name(i, "ji_date_invite", ji_dateinvite, 16);
 			cache_get_value_name(i, "ji_date_uninvite", ji_dateuninvite, 16);
 			cache_get_value_name(i, "ji_reason", ji_reason, 48);
@@ -61857,7 +59919,6 @@ stock off_add_jobinfo(const name[],const string[]) {
 		cache_get_value_name_int(0, "fwarn",warn);
 	}
 	cache_delete(result);
-
 	new query[310];
 	mysql_format(connects, query, sizeof(query),"INSERT INTO `jobinfo` (`ji_uid`,`ji_date_invite`,`ji_date_uninvite`,`ji_reason`,`ji_fraction`,`ji_warnings`,`ji_rang`) SELECT `pID`, `fraction_date`, NOW(), '%s','%d','%d','%d' FROM `accounts` WHERE `pID` = '%d'",
 	string, member, warn,rank, id);
@@ -61882,7 +59943,6 @@ stock GetVehicleRotation(vehicleid,&Float:rx,&Float:ry,&Float:rz) {
 	ry = -atan2(qx*qz+qy*qw,0.5-qx*qx-qy*qy);
 	rz = -atan2(qx*qy+qz*qw,0.5-qx*qx-qz*qz);
 }
-
 stock RemovePlayerFromVehicleAC(playerid) {
 	switch(GetVehicleModel(GetPlayerVehicleID(playerid))) {
 	case 0, 441, 464, 465, 501, 564, 594: return 0; 
@@ -61892,7 +59952,6 @@ stock RemovePlayerFromVehicleAC(playerid) {
 	RemovePlayerFromVehicle (playerid) ;
 	return 1;
 }
-
 stock cars_select(playerid, id) { // вибір авто на подіумі
 	A_DestroyVehicle(car_shop[playerid]);
 	switch(GetPVarInt(playerid,"get_class"))
@@ -61955,7 +60014,6 @@ stock cars_select(playerid, id) { // вибір авто на подіумі
 	PlayerTextDrawSetString(playerid, auto_PTD[playerid][0],string);
 	PlayerTextDrawHide(playerid,auto_PTD[playerid][0]);
 	PlayerTextDrawShow(playerid,auto_PTD[playerid][0]);
-
 	format(string,sizeof(string),"$%d", gTransport[modelid][trPrice]);
 	PlayerTextDrawSetString(playerid, auto_PTD[playerid][1],string);
 	
@@ -61963,7 +60021,6 @@ stock cars_select(playerid, id) { // вибір авто на подіумі
 	PlayerTextDrawShow(playerid,auto_PTD[playerid][1]);
 	return 1;
 }
-
 stock accs_select(playerid, id) {
 	if(GetPVarInt(playerid,"buy_accses")) {
 		new price;
@@ -62174,12 +60231,10 @@ stock reputation_family(family,point) {
 	if(gFamily[family][famPoint] < 0) gFamily[family][famPoint] = 0;
 	UpdateFamily(family+1,"point",gFamily[family][famPoint]);
 }
-
 stock t_PutPlayerInVehicle(playerid, carid, seat)
 {
 	return PutPlayerInVehicle(playerid,carid,seat);
 }
-
 stock SetPlayerPosAC(playerid, Float:x, Float:y, Float:z, world, interior, setUP = false) {
 	if(playerid != INVALID_PLAYER_ID) {
 		if(!setUP) {
@@ -62209,15 +60264,12 @@ stock auto_news(slot,playerid) {
 	gAdvert[slot][adBusy] = true;
 	gAdvert[slot][adTime] = gAdvertTime;
 	gAdvertTime += 30;
-
 	SetString(gAdvert[slot][adCheker],"Chiliad Bot");
 	
 	gAdvert[slot][adCheking] = false;
 	gAdvert[slot][adCheked] = true;
-
 	SendOK(playerid,"Оголошення подано до редакції. Очікуйте публікацію");
 }
-
 stock SpeedVehicle(playerid)
 {
 	new Float:ST[4];
@@ -62227,7 +60279,6 @@ stock SpeedVehicle(playerid)
 	ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 100.3;
 	return floatround(ST[3]);
 }
-
 stock Float:GetSpeed(Float:x = 0.0, Float:y = 0.0, Float:z = 0.0) {             // Скорость
 	return floatsqroot((x * x) + (y * y) + (z * z)) * 100.0;
 }
@@ -62273,7 +60324,6 @@ GraffitiDone(playerid) {
 	DestroyDynamicObject(GrafInfo[GetPVarInt(playerid,"Grafity")][gObject]);
 	GrafInfo[GetPVarInt(playerid,"Grafity")][gObject] = CreateDynamicObject(obj, GrafInfo[GetPVarInt(playerid,"Grafity")][gr_x][0], GrafInfo[GetPVarInt(playerid,"Grafity")][gr_x][1], GrafInfo[GetPVarInt(playerid,"Grafity")][gr_x][2], GrafInfo[GetPVarInt(playerid,"Grafity")][gr_x][3], GrafInfo[GetPVarInt(playerid,"Grafity")][gr_x][4], GrafInfo[GetPVarInt(playerid,"Grafity")][gr_x][5]);
 	GrafInfo[GetPVarInt(playerid,"Grafity")][gFrak] = PI[playerid][pMember];
-
 	if(GetPVarInt(playerid, "SettingGraffiti") == 1) DeletePVar(playerid, "SettingGraffiti");
 	GameTextForPlayer(playerid,"~g~GOOD", 1000, 5);
 	Streamer_Update(playerid);
@@ -62283,7 +60333,6 @@ GraffitiDone(playerid) {
 	if(PI[playerid][pMember]) add_gang_points(PI[playerid][pMember],1);
 	return 1;
 }
-
 GraffitiFailed(playerid) {
 	if(GetPVarInt(playerid, "SettingGraffiti") == 1) {
 		DeletePVar(playerid, "SettingGraffiti");
@@ -62295,7 +60344,6 @@ CB: graffity(playerid) {
 	GraffitiDone(playerid);
 	return 1;
 }
-
 public OnPlayerShootDynamicObject(playerid, weaponid, objectid, Float:x, Float:y, Float:z) {
 	new fare = 0;
 	if(PI[playerid][pMember] == fARMYLS && PlayerToPoint(10.0,playerid,2737.7830,-2555.4817,13.6425) && BULLET_HIT_TYPE_OBJECT)
@@ -62406,7 +60454,6 @@ stock gangtops() {
 			if(i == 1) {
 				format(string,sizeof(string),"%s займає 2 місце в Gang-Top за поточний тиждень.",FI[id][fName]);
 				SendBand(COLOR_RED, string);
-
 				FI[id][fMats] += 1000;
 				UpdateFraction(id,"Mats",FI[id][fMats]);
 				UpdateFraction(id,"Bank",FI[id][fBank]);
@@ -62480,26 +60527,22 @@ stock dialog_lmenu(playerid,listitem) {
 	}
 	return 1;
 }
-
 stock SetHealth(playerid, Float:heal) {
 	PI[playerid][pHP] = heal;
 	SetPlayerHealth(playerid, heal);
 	return 1;
 }
-
 stock SetArmour(playerid, Float: Armour)
 {
 	TI[playerid][tArmour] = Armour;
 	return SetPlayerArmour(playerid, Armour);
 }
-
 stock EggUpdate(playerid) {
 	new g = PlayerEgg[playerid];
 	new string[150];
 	format(string,sizeof(string),""YELLOW"Курник\n\n"W"Доглядає:"P" %s\n"W"Курячий корм:"P" [%d/10]\n"W"Знесено яєць:"P" [%d/20]",player_name[playerid],Egg[g][gKorm],Egg[g][gCount]);
 	UpdateDynamic3DTextLabelText(Egg[g][gText], -1, string);
 }
-
 stock EndEgg(playerid) {
 	if(GetPVarInt(playerid,"egg_start") == 1 && PlayerEgg[playerid] != -1) {
 		new g = PlayerEgg[playerid];
@@ -62836,7 +60879,6 @@ stock key_activate(playerid)
 			
 			PI[playerid][pFamTalon] = 0;
 			UpdatePlayerData(playerid, "talon_fam", PI[playerid][pFamTalon]);
-
 			format(string,sizeof(string),"[FAMILY] "W"%s{%s} вступив у сім'ю.",player_name[playerid],FamilyColor[gFamily[PI[playerid][pFamily]-1][famColor]]);
 			FamMSG(PI[playerid][pFamily],string);
 		}
@@ -62939,23 +60981,17 @@ stock key_activate(playerid)
 			return 1;
 		}
 		SetHealth(playerid, 100.0);
-
 		static const f_str_1[] = "Лікар "P"%s"W" вилікував Вас за "P"$%d.";
 		new string_1[sizeof(f_str_1) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
-
 		format(string_1,sizeof(string_1),f_str_1,player_name[HealOffer[playerid]],HealPrice[playerid]);
 		SendUse(playerid,string_1);
 		
 		PI[HealOffer[playerid]][pMedHeal] += 1;
 		UpdatePlayerData(HealOffer[playerid],"MedHeal",PI[HealOffer[playerid]][pMedHeal]);
-
 		GiveMoney(playerid, -HealPrice[playerid], "оплата за лікування медику");
-
 		new price = floatround(HealPrice[playerid]*0.2);
-
 		static const f_str_2[] = "Ви вилікували "P"%s"W" за "P"$%d.";
 		new string_2[sizeof(f_str_2) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
-
 		format(string_2,sizeof(string_2),f_str_2,player_name[playerid],price);
 		SendUse(HealOffer[playerid],string_2);
 		GiveMoney(HealOffer[playerid], price,"оплата за лікування гравця");
@@ -62967,7 +61003,6 @@ stock key_activate(playerid)
 		new price = GetPVarInt(playerid,"gunprice");
 		if(GetPVarInt(offer,"gunoffee") == playerid) {
 			if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
-
 			PI[GetPVarInt(playerid,"gunoffer")][pMats] -= GetPVarInt(playerid,"sell_gunmats");
 			UpdatePlayerData(playerid,"pMats",PI[GetPVarInt(playerid,"gunoffer")][pMats]);
 			
@@ -63008,7 +61043,6 @@ stock key_activate(playerid)
 			PI[offer][pDrugs] -= value;
 			UpdatePlayerData(playerid,"pDrugs",PI[playerid][pDrugs]);
 			UpdatePlayerData(offer,"pDrugs",PI[offer][pDrugs]);
-
 			new string[137];
 			format(string,sizeof(string),""P"%s"W" передав вам "P"%d"W" грам наркотиків за "P"$%d"W".",player_name[offer],value,price);
 			SendUse(playerid,string);
@@ -63039,7 +61073,6 @@ stock key_activate(playerid)
 			GangZoneShowForAll(GZInfo[i][gID],GetGangZoneColor(i));
 			SaveGZ(i);
 		}
-
 		new string[137];
 		format(string,sizeof(string),""P"%s"W" купив у вас територію за "P"$%d.",player_name[playerid],price);
 		SendUse(offter,string);
@@ -63135,10 +61168,8 @@ stock key_activate(playerid)
 		new type = gBusiness[id][bizzType] - 1;
 		if(gBusiness[id][bizzStatus]) strcat(status,"{7FB151}Працює");
 		else strcat(status,"{FF4242}Не працює");
-
 		new day;
 		day = (gBusiness[id][bizzDay]-gettime())/86400;
-
 		static const f_str[] = ""W"Назва: "O"%s\n\n\
 										"W"Тип: "O"%s\n\
 										"W"Державна ціна: "GREEN"$%d\n\
@@ -63156,14 +61187,12 @@ stock key_activate(playerid)
 		format(string,sizeof(string),f_str,gBusiness[id][bizzName],gBusinessTypeName[type],
 		gBusiness[id][bizzSellPrice],gBusiness[id][bizzPrice],gBusiness[id][bizzProduct],gBusiness[id][bizzProdOrder],gBusiness[id][bizzProdOrderPrice],gBusiness[id][bizzBank],gBusiness[id][bizzBankDay]
 		,gBusiness[id][bizzVisitors],day,atext, status,GetPVarInt(playerid,"bizzCena"));
-
 		ShowPlayerDialog(playerid,D_BIZZ_BUY_2,DSM, ""P"Купівля бізнесу",string,"Купити","Скасувати");
 	} 
 	if(GetPVarInt(playerid,"car_prodaet") && GetPVarInt(playerid,"sellcar")) {
 		new id_prodaet = GetPVarInt(playerid,"car_prodaet")-1;
 		new car_cena = GetPVarInt(playerid,"carCena");
 		new car = GetPVarInt(id_prodaet,"carnumber");
-
 		new improve[256];
 		if(CarsInfo[id_prodaet][carVehcom_1][car]) strcat(improve,"\t\t\t[Спойлер]\n");
 		if(CarsInfo[id_prodaet][carVehcom_2][car]) strcat(improve,"\t\t\t[Капот]\n");
@@ -63177,7 +61206,6 @@ stock key_activate(playerid)
 		if(CarsInfo[id_prodaet][carVehcom_10][car]) strcat(improve,"\t\t\t[Гідравліка]\n");
 		if(CarsInfo[id_prodaet][carVehcom_11][car]) strcat(improve,"\t\t\t[Передній бампер]\n");
 		if(CarsInfo[id_prodaet][carVehcom_12][car]) strcat(improve,"\t\t\t[Задній бампер]\n");
-
 		new model = CarsInfo[id_prodaet][carModel][car]-400;
 		new classname[12];
 		GetCarClassName(gTransport[model][trClass],classname);
@@ -63198,7 +61226,6 @@ stock key_activate(playerid)
 		new car_cena = GetPVarInt(playerid,"carCena");
 		new car1 = GetPVarInt(id_prodaet,"numbercar1")-1;
 		new car2 = GetPVarInt(id_prodaet,"numbercar2")-1;
-
 		new improve[256];
 		if(CarsInfo[id_prodaet][carVehcom_1][car1]) strcat(improve,"\t\t\t[Спойлер]\n");
 		if(CarsInfo[id_prodaet][carVehcom_2][car1]) strcat(improve,"\t\t\t[Капот]\n");
@@ -63212,7 +61239,6 @@ stock key_activate(playerid)
 		if(CarsInfo[id_prodaet][carVehcom_10][car1]) strcat(improve,"\t\t\t[Гідравліка]\n");
 		if(CarsInfo[id_prodaet][carVehcom_11][car1]) strcat(improve,"\t\t\t[Передній бампер]\n");
 		if(CarsInfo[id_prodaet][carVehcom_12][car1]) strcat(improve,"\t\t\t[Задній бампер]\n");
-
 		new improve2[256];
 		if(CarsInfo[playerid][carVehcom_1][car2]) strcat(improve2,"\t\t\t[Спойлер]\n");
 		if(CarsInfo[playerid][carVehcom_2][car2]) strcat(improve2,"\t\t\t[Капот]\n");
@@ -63226,7 +61252,6 @@ stock key_activate(playerid)
 		if(CarsInfo[playerid][carVehcom_10][car2]) strcat(improve2,"\t\t\t[Гідравліка]\n");
 		if(CarsInfo[playerid][carVehcom_11][car2]) strcat(improve2,"\t\t\t[Передній бампер]\n");
 		if(CarsInfo[playerid][carVehcom_12][car2]) strcat(improve2,"\t\t\t[Задній бампер]\n");
-
 		new model1 = CarsInfo[playerid][carModel][car2]-400;
 		new model2 = CarsInfo[id_prodaet][carModel][car1]-400;
 		new classname[12];
@@ -63261,7 +61286,6 @@ stock key_activate(playerid)
 	if(GetPVarInt(playerid,"houseSeller")) {
 		new id_prodaet = GetPVarInt(playerid,"houseSeller")-1;
 		new id = PI[id_prodaet][pHouse]-1;
-
 		new classname[20],status[12];
 		switch(gHouses[id][houseClass]) {
 		case 0:classname = "Економ";
@@ -63280,7 +61304,6 @@ stock key_activate(playerid)
 		if(gHouses[id][houseImprove][0]) strcat(improve,"Автоматичні двері\n");
 		if(gHouses[id][houseImprove][1]) strcat(improve,"Зниження субсидій\n");
 		if(gHouses[id][houseImprove][0] == 0 && gHouses[id][houseImprove][1] == 0) strcat(improve,"Відсутні");
-
 		new day;
 		day = (gHouses[id][houseDay]-gettime())/86400;
 		static const f_str[] = ""W"Номер будинку: \t\t"O"%d\n\
@@ -63298,7 +61321,6 @@ stock key_activate(playerid)
 	}
 	return 1;
 }
-
 stock key_dectivate(playerid) {
 	if(TI[playerid][tDiceID] != INVALID_PLAYER_ID) {
 		new id = TI[playerid][tDiceID];
@@ -63307,7 +61329,6 @@ stock key_dectivate(playerid) {
 		new string[128];
 		format(string,sizeof(string),"Ви відмовились грати в кості з %s.",player_name[id]);
 		SendOK(playerid, string);
-
 		format(string,sizeof(string),"%s відмовився грати з вами в кості.",player_name[playerid]);
 		SendOK(id, string);
 		if(TI[id][tDiceIDs] == playerid) TI[playerid][tDiceID] = TI[id][tDiceIDs] = INVALID_PLAYER_ID;
@@ -63431,7 +61452,6 @@ stock key_dectivate(playerid) {
 			DeletePVar(playerid,"drugoffer");
 			DeletePVar(playerid,"drugprice");
 			DeletePVar(offer,"drugoffee");
-
 			new string[128];
 			format(string, sizeof(string), "Ви відмовились від купівлі наркотиків у гравця %s.", player_name[offer]);
 			SendOK(playerid, string);
@@ -63446,7 +61466,6 @@ stock key_dectivate(playerid) {
 			DeletePVar(playerid,"gunoffer");
 			DeletePVar(playerid,"gunprice");
 			DeletePVar(offer,"gunoffee");
-
 			new string[128];
 			format(string, sizeof(string), "Ви відмовились від купівлі зброї у гравця %s.", player_name[offer]);
 			SendOK(playerid, string);
@@ -63492,7 +61511,6 @@ stock key_dectivate(playerid) {
 	}
 	return 1;
 }
-
 CB: check_phone(playerid, telephone) {
 	new rows;
 	cache_get_row_count(rows);
@@ -63523,7 +61541,6 @@ CB: check_phone(playerid, telephone) {
 	}
 	return 1;
 }
-
 CB:bizz_list(playerid)
 {
 	new rows, b_name[35], b_id, b_type, b_st;
@@ -63546,7 +61563,6 @@ CB:bizz_list(playerid)
 	}
 	return 1;
 }
-
 stock get_ref_count(playerid)
 {
 	new ref_count = 0;
@@ -63557,14 +61573,12 @@ stock get_ref_count(playerid)
 	cache_delete (result) ;
 	return ref_count ;
 }
-
 stock update_apart(romid) {
 	DestroyDynamicPickup(Apartment[romid][aPickup]);
 	if(GetString("None",Apartment[romid][aOwner])) Apartment[romid][aPickup] = CreateDynamicPickup(1273,1,Apartment[romid][aX],Apartment[romid][aY],Apartment[romid][aZ],Apartment[romid][apID]);
 	else Apartment[romid][aPickup] = CreateDynamicPickup(1272,1,Apartment[romid][aX],Apartment[romid][aY],Apartment[romid][aZ], Apartment[romid][apID]);
 	return 1;
 }
-
 stock NotFlyingHack(playerid)
 {
 	if(IsPlayerInRangeOfPoint(playerid, 20.0, 1968.3948,-1198.0753,17.4500)) return 1;
@@ -63581,23 +61595,19 @@ stock NotFlyingHack(playerid)
 	else if(IsPlayerInRangeOfPoint(playerid, 150.0, 1993.5868,1601.2623,9.2979)) return 1;
 	return false;
 }
-
 stock SetPlayerWalkingStyle (playerid, style)
 {
 	PI[playerid][pWalk] = style ;
 	UpdatePlayerData(playerid, "walk",PI[playerid][pWalk]) ;
 	return 1 ;
 }
-
 DamageActive(playerid) {
 	if(PI[playerid][pSettings][10]) return 1;
 	return false;
 }
-
 PlayerSpectate(playerid) {
 	return TI[playerid][tSpectr];
 }
-
 stock exp_update(i) {
 	if(PI[i][pExp]+1 >= (PI[i][pLevel])*6) {
 		PI[i][pLevel] += 1;
@@ -63610,7 +61620,6 @@ stock exp_update(i) {
 	}
 	return 1;
 }
-
 CB: job_build(playerid) {
 	SetPlayerAttachedObject(playerid, 8, 1264, 6, 0.222, 0.024, 0.128, 1.90, -90.0, 0.0, 0.5,0.5, 0.5);
 	SetPVarInt(playerid,"job_build",1);
@@ -63621,7 +61630,6 @@ CB: job_build(playerid) {
 	EnableGPSForPlayer(playerid, 1694.1818, 421.9498, 30.6758);
 	return 1;
 }
-
 CB: player_timer(playerid) {
 	if(!IsPlayerConnected(playerid)) {
 		PlayerSecondTimer[playerid] = -1;
@@ -64165,7 +62173,6 @@ CB: player_timer(playerid) {
 	@AntiCheat(playerid);
 	return 1;
 }
-
 CB: @AntiCheat(playerid)
 {
 	if(dostup[playerid] != 1)
@@ -64217,7 +62224,6 @@ CB: @AntiCheat(playerid)
 	}
 	return 1;
 }
-
 stock job_welding(playerid)
 {
 	TI[playerid][tBuildAtt] = 0;
@@ -64263,13 +62269,11 @@ stock job_welding(playerid)
 	PlayerClearAnim[playerid] = 1;
 	return 1;
 }
-
 stock SetPlayerAttachedObjectEx(playerid, index, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0)
 {
 	SetPlayerAttachedObject(playerid, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ);
 	return 1;
 }
-
 CB:car_numbers(playerid, numbers[])
 {
 	new rows, car = GetPVarInt(playerid,"buy_carnumber");
@@ -64323,7 +62327,6 @@ stock GetTheftCar(skill, model)
 	}
 	return car;
 }
-
 CB: callback_offmembers (playerid)
 {
 	new rows;
@@ -64341,7 +62344,6 @@ CB: callback_offmembers (playerid)
 	pl_ofm_name [40],
 	pl_ofm_rank,
 	pl_ofm_online [16] ;
-
 	new dialog_string [10 * sizeof(line_string) + 50] ;
 	strcat (dialog_string, ""W"Нікнейм гравця\t"W"Ранг\t"W"Дата входу\n"G"Попередня страница\n"G"Наступна страница >>\n") ;
 	for (new i = rows_list * 10 ; i <  rows_list * 10 + 10 ; i ++)
@@ -64350,21 +62352,17 @@ CB: callback_offmembers (playerid)
 		cache_get_value_name(i,"Name", pl_ofm_name, 40);
 		cache_get_value_name(i,"pOnline", pl_ofm_online, 20);
 		cache_get_value_name_int(i,"pRank", pl_ofm_rank);
-
 		new pvar_string [8] ;
 		format (pvar_string, sizeof (pvar_string), "ofm_%d", i - rows_list * 10) ;
 		SetPVarString (playerid, pvar_string, pl_ofm_name) ;
-
 		format (line_string, sizeof (line_string), "%s\t%s(%d)\t%s\n", pl_ofm_name,GetRankName(PI[playerid][pMember], pl_ofm_rank), pl_ofm_rank, pl_ofm_online) ;
 		strcat (dialog_string, line_string) ;
-
 	}
 	new list[55];
 	format(list,55,""P"Члени організації офлайн "G"(%d чел)",rows);
 	ShowPlayerDialog(playerid,d_offmembers_list,DSTH,list,dialog_string,"Обрати","Закрити");
 	return 1 ;
 }
-
 CB:callback_offmembers_info (playerid)
 {
 	new rows;
@@ -64376,11 +62374,9 @@ CB:callback_offmembers_info (playerid)
 		cache_get_value_name_int(0,"pRank", pl_rank);
 		cache_get_value_name(0,"pOnline", last_date, 16);
 		cache_get_value_name(0,"fraction_date", fraction_date, 16);
-
 		new pvar_string [20], pl_name [20] ;
 		format (pvar_string, sizeof (pvar_string), "ofm_%d", GetPVarInt (playerid, "ofm_listitem")) ;
 		GetPVarString (playerid, pvar_string, pl_name, 20) ;
-
 		new dialog_string [186] ;
 		format (dialog_string, sizeof (dialog_string), "\n\n"W"Нікнейм:"P" %s"W"\nРанг: "P"%s(%d)"W"\nВ організації з"P" %s"W"\nОстанній вхід:"P" %s", pl_name, GetRankName(PI[playerid][pMember], pl_rank), pl_rank, fraction_date, last_date) ;
 		ShowPlayerDialog(playerid,d_offmembers_pl_menu_info,DSM,""P"Інформація про граця", dialog_string, "Назад", "") ;
@@ -64397,7 +62393,6 @@ CB:callback_offmembers_info (playerid)
 		}
 		mysql_format(connects, query_string, sizeof(query_string),"SELECT `u_name`,`pRank`,`pOnline` FROM `accounts` WHERE `pMember` = '%d' AND `pRank` = '%d' AND `online_status` = '1001'",PI[playerid][pMember], GetPVarInt (playerid, "ofm_type")) ;
 		mysql_tquery(connects, query_string, "callback_offmembers", "i", playerid) ;
-
 	}
 	return 1 ;
 }
@@ -64493,7 +62488,6 @@ CB: second_timer() // global timer
 				\nДо кінця аукціона залишилось ({F9C7A1}%d"W" секунд)"W"\n\nАукціон ["GREEN"Відчинений"W"]", gContainer[i][cName],gContainer[i][cMoney],gContainer[i][cStavka],
 					gContainer[i][cTime]);
 					UpdateDynamic3DTextLabelText(gContainer[i][cText], -1, STRING_GLOBAL);
-
 					if(gContainer[i][cTime] == 0) {
 						new id = GetPlayerID(gContainer[i][cOwned]);
 						if(IsPlayerConnected(id)) SendOK(id,"Аукціон закончен. Заберите свій прз в контейнере!");
@@ -64512,7 +62506,6 @@ CB: second_timer() // global timer
 				\nДо кінця аукціона залишилось ({F9C7A1}%d"W" секунд)"W"\n\nАукціон ["GREEN"Відчинений"W"]", gContainer[i][cName],gContainer[i][cMoney],gContainer[i][cStavka],
 					gContainer[i][cTime]);
 					UpdateDynamic3DTextLabelText(gContainer[i][cText], -1, STRING_GLOBAL);
-
 					if(gContainer[i][cTime] == 0) {
 						new id = GetPlayerID(gContainer[i][cOwned]);
 						if(IsPlayerConnected(id)) SendOK(id,"Аукціон закончен. Заберите свій прз в контейнере!");
@@ -64582,7 +62575,6 @@ CB: second_timer() // global timer
 	// 	}
 	// }
 	if(BizWarTime[1]) BizWarTimer();
-
 	return 1;
 }
 CB: minute_timer()
@@ -64704,7 +62696,6 @@ CB: minute_timer()
 	if(BizHourTime > 0) BizHourTime -= 1;
 	return 1;
 }
-
 stock ReloadAllAnims(playerid)
 {
 	PreloadAnimLib(playerid,"BASEBALL");
@@ -64765,13 +62756,11 @@ stock ReloadAllAnims(playerid)
 	spaned[playerid]=1;
 	return 1;
 }
-
 stock PreloadAnimLib(playerid, const animlib[])
 {
 	ApplyAnimation(playerid,animlib,"null",0.0,0,0,0,0,0);
 	return 1;
 }
-
 stock not_flying (playerid)
 {
 	if (IsPlayerInRangeOfPoint (playerid, 20.0, 1968.3948,-1198.0753,17.4500)) return 1;
@@ -64848,7 +62837,6 @@ stock pay_realty()
 			gHousePickup[i] = CreateDynamicPickup(1273,1,gHouses[i][houseX],gHouses[i][houseY],gHouses[i][houseZ],0,0);
 			DestroyDynamicMapIcon(gHouseIcon[i]);
 			gHouseIcon[i] = CreateDynamicMapIcon(gHouses[i][houseX],gHouses[i][houseY],gHouses[i][houseZ],31,CWHITE);
-
 			new ID = GetCheckID(gHouses[i][houseOwner]);
 			if(ID != INVALID_PLAYER_ID) {
 				if(!strcmp(player_name[ID],gHouses[i][houseOwner],true)) {
@@ -64922,7 +62910,6 @@ stock pay_realty()
 	}
 	return 1;
 }
-
 race_game() {
 	if(race_lv_start != 0) {
 		time_race_lv++;
@@ -65089,14 +63076,12 @@ stock Race_End(playerid) {
 			GiveMoney(playerid,priz_lv_2,"перемога в божевільних гонках"), money_kotleta[1] = priz_lv_2;
 			format(string,sizeof(string),"%s[%d]"G" завершив гонку "P"другим"G". Його час склав "W"%s"G", а виграш - "ORANGE"%d"G".", player_name[playerid],playerid,Convertss(time_race_lv),money_kotleta[1]);
 			SCMToRace(-1,string);
-
 		}
 	case 2: {
 			race_lead_lv = 3;
 			GiveMoney(playerid,priz_lv_3,"перемога в божевільних гонках"), money_kotleta[2] = priz_lv_3;
 			format(string,sizeof(string),"%s[%d]"G" завершив гонку "P"третім"G". Його час склав "W"%s"G", а виграш - "ORANGE"%d"G".", player_name[playerid],playerid,Convertss(time_race_lv),money_kotleta[2]);
 			SCMToRace(-1,string);
-
 		}
 	default: {
 			format(string,sizeof(string),"%s[%d]"G" завершив гонку. Його час склав "W"%s"G".",player_name[playerid],playerid,Convertss(time_race_lv));
@@ -65114,18 +63099,15 @@ stock Race_End(playerid) {
 	SetPlayerInterior(playerid, 2);
 	SetPlayerVirtualWorld(playerid, 2);
 	SetCameraBehindPlayer(playerid);
-
 	ResetPlayerWeapons(playerid);
 	
 	DeletePVar(playerid,"RaceCP");
-
 	if(QuestProgress[playerid][7] < 2 && AcceptQuest[playerid][7] != 0) QuestProgress[playerid][7] ++,save_quest(playerid,7);
 	if(QuestProgress[playerid][7] == 2 && AcceptQuest[playerid][7] != 0)
 	{
 		ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання квесту 'Розваги'\n\t"NO"Квест можна завершити в Лукаса","Закрити","");
 		NextStapQI(playerid,7);
 	}
-
 	if(QuestProgress[playerid][40] < 5 && AcceptQuest[playerid][40] != 0) QuestProgress[playerid][40] ++,save_quest(playerid,40);
 	if(QuestProgress[playerid][40] == 5 && AcceptQuest[playerid][40] != 0) {
 		ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
@@ -65134,7 +63116,6 @@ stock Race_End(playerid) {
 	player_car_race_lv_id[playerid] = INVALID_VEHICLE_ID;
 	return 1;
 }
-
 stock SetNextRaceCP(playerid,type) {
 	new id_cp = PlayerRaceFix[playerid];
 	if(id_cp == -1) id_cp = 0;
@@ -65144,13 +63125,11 @@ stock SetNextRaceCP(playerid,type) {
 		Race_End(playerid);
 		return 1;
 	}
-
 	SetPlayerRaceCheckpoint(playerid,
 	(gRaceCPs[type][id_cp][0] != 1.0) ? (0) : (1),
 	gRaceCPs[type][id_cp][1],
 	gRaceCPs[type][id_cp][2],
 	gRaceCPs[type][id_cp][3],
-
 	gRaceCPs[type][id_cp + 1][1],
 	gRaceCPs[type][id_cp + 1][2],
 	gRaceCPs[type][id_cp + 1][3], 4.0);
@@ -65164,12 +63143,10 @@ stock SetNextRaceCP(playerid,type) {
 	}
 	return 1;
 }
-
 stock SCMToRace(color, const string[]) {
 	foreach(Player,i)if(player_to_race_lv[i] == 1) SendClientMessage(i,color,string);
 	return 1;
 }
-
 stock SCMToDM(color,const string[]) {
 	foreach(Player,i) {
 		if(!player_to_game[i]) continue;
@@ -65247,7 +63224,6 @@ stock game_container() {
 		            continue;
 				}
 			}
-
 		}
 	}
 	if((hour == 11 && minuite == 00 ||
@@ -65276,7 +63252,6 @@ stock game_container() {
 		open_cont_time = 600;
 		open_cont = 1;
 	}
-
 	if((hour == 9 && minuite == 20||
 				hour == 12 && minuite == 20 ||
 				hour == 15 && minuite == 20 ||
@@ -65288,7 +63263,6 @@ stock game_container() {
 	
 	return 1;
 }
-
 stock game_dm() {
 	if(open_game == 1 && time_registr_game > 1){
 		time_registr_game --;
@@ -65324,12 +63298,10 @@ stock game_dm() {
 					TextDrawSetString(td_game[5], string);
 					if(TI[i][tCashDM]) TI[i][tCashDM] = 0;
 					SetPlayerColor(i,0xBC2C2CFF);
-
 					if(QuestProgress[i][40] < 5 && AcceptQuest[i][40] != 0) QuestProgress[i][40] ++,save_quest(i,40);
 					if(QuestProgress[i][40] == 5 && AcceptQuest[i][40] != 0) {
 						SPD(i,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
 					}
-
 					if(QuestProgress[i][7] < 2 && AcceptQuest[i][7] != 0) QuestProgress[i][7] ++,save_quest(i,7);
 					if(QuestProgress[i][7] == 2 && AcceptQuest[i][7] != 0)
 					{
@@ -65456,7 +63428,6 @@ stock End() {
 	cache_delete(result);
 	return 1;
 }
-
 stock UpdateExp(playerid) {
 	if(PI[playerid][pExp]+1 >= (PI[playerid][pLevel])*6) {
 		PI[playerid][pLevel] += 1;
@@ -65467,7 +63438,6 @@ stock UpdateExp(playerid) {
 	UpdatePlayerData(playerid,"pExp",PI[playerid][pExp]);
 	UpdatePlayerData(playerid,"pLevel",PI[playerid][pLevel]);
 }
-
 stock CancelTextDrawBank(playerid) {
 	for(new it = 0; it < 24; it++) TextDrawHideForPlayer(playerid, hack_magaz_TD[it]);
 	for(new i = 0; i < 13; i++) PlayerTextDrawHide(playerid, hack_numbers[playerid][i]);
@@ -65477,17 +63447,14 @@ stock CancelTextDrawBank(playerid) {
 	ApplyAnimation(playerid, "CARRY", "null", 1.0, 0, 0, 0, 0, 0, 0);
 	PlayerClearAnim[playerid] = 1;
 }
-
 stock GetFamilyCar(playerid) {
 	new Float:car_pos[5][3],id = -1;
 	new fam = PI[playerid][pFamily]-1;
-
 	if(CarFamily[fam][0][LoadCar]) GetVehiclePos(CarFamily[fam][0][LoadCar], car_pos[0][0],car_pos[0][1],car_pos[0][2]);
 	if(CarFamily[fam][1][LoadCar]) GetVehiclePos(CarFamily[fam][1][LoadCar], car_pos[1][0],car_pos[1][1],car_pos[1][2]);
 	if(CarFamily[fam][2][LoadCar]) GetVehiclePos(CarFamily[fam][2][LoadCar], car_pos[2][0],car_pos[2][1],car_pos[2][2]);
 	if(CarFamily[fam][3][LoadCar]) GetVehiclePos(CarFamily[fam][3][LoadCar], car_pos[3][0],car_pos[3][1],car_pos[3][2]);
 	if(CarFamily[fam][4][LoadCar]) GetVehiclePos(CarFamily[fam][4][LoadCar], car_pos[4][0],car_pos[4][1],car_pos[4][2]);
-
 	if(PlayerToPoint(3.0, playerid, car_pos[0][0], car_pos[0][1], car_pos[0][2])) id = 0;
 	if(PlayerToPoint(3.0, playerid, car_pos[1][0],car_pos[1][1],car_pos[1][2])) id = 1;
 	if(PlayerToPoint(3.0, playerid, car_pos[2][0],car_pos[2][1],car_pos[2][2])) id = 2;
@@ -65495,20 +63462,16 @@ stock GetFamilyCar(playerid) {
 	if(PlayerToPoint(3.0, playerid, car_pos[4][0],car_pos[4][1],car_pos[4][2])) id = 4;
 	return id;
 }
-
 stock GetNearestCar(playerid) {
 	new Float:car_pos[2][3],id = -1;
-
 	if(house_car[playerid][0]) GetVehiclePos(house_car[playerid][0], car_pos[0][0],car_pos[0][1],car_pos[0][2]);
 	if(house_car[playerid][1]) GetVehiclePos(house_car[playerid][1], car_pos[1][0],car_pos[1][1],car_pos[1][2]);
-
 	if(PlayerToPoint(3.0, playerid, car_pos[0][0], car_pos[0][1], car_pos[0][2])) id = 0;
 	else if(PlayerToPoint(3.0, playerid, car_pos[1][0],car_pos[1][1],car_pos[1][2])) id = 1;
 	return id;
 }
 stock save_car(i,ID) {
 	new temp[0x9e], query[600], str[500];
-
 	format(str,sizeof(str),"%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i|%i",
 	CarsInfo[i][carVehcom_1][ID],CarsInfo[i][carVehcom_2][ID],CarsInfo[i][carVehcom_3][ID],
 	CarsInfo[i][carVehcom_4][ID],CarsInfo[i][carVehcom_5][ID],CarsInfo[i][carVehcom_6][ID],
@@ -65538,32 +63501,25 @@ stock save_car(i,ID) {
 	mysql_tquery(connects, query, "", "");
 	return 1;
 }
-
 stock save_cars(playerid, car)
 {
 	new query[128];
 	format(query, 128, "UPDATE `cars` SET `drived` = '%.2f', `fuel` = '%.2f', `Akum` = '%.02f' WHERE `id` = '%d'",CarsInfo[playerid][carDrived][car],CarsInfo[playerid][carFuel][car],CarsInfo[playerid][carAkum][car],CarsInfo[playerid][carID][car]);
 	mysql_tquery(connects, query, "", "");
 }
-
 stock sell_cars(playerid,car, idx=0) {
 	if(!PI[playerid][pRoom] && !PI[playerid][pHouse] && !PI[playerid][pTempKey]) return 1;
 	if(PI[playerid][pCredit]) return SendError(playerid, "У вас невиплачений кредит. Продаж Т/З заборонено!");
 	if(CarsInfo[playerid][carModel][car] == 481) return SendError(playerid, "Цей т/з не можна продати.");
 	new modelid = CarsInfo[playerid][carModel][car] - 400;
-
 	new procent = floatround((gTransport[modelid][trPrice]/100)*Nalog[4]);
 	new sum = (gTransport[modelid][trPrice]-procent);
-
 	FI[fWHITEHOUSE][fBank] += procent;
 	UpdateFraction(fWHITEHOUSE,"Bank",FI[fWHITEHOUSE][fBank]);
-
 	GiveMoney(playerid,sum,"Продаж ТЗ");
-
 	RemoveComponent(playerid, house_car[playerid][car], car);
 	
 	CarsInfo[playerid][carDrived][car] = 0;
-
 	CarsInfo[playerid][carModel][car] = 481;
 	CarsInfo[playerid][carColor_one][car] = 1;
 	CarsInfo[playerid][carColor_two][car] = 1;
@@ -65593,7 +63549,6 @@ stock sell_cars(playerid,car, idx=0) {
 	}
 	return 1;
 }
-
 stock sellcar_carncel(playerid, id_prodaet) {
 	DeletePVar(playerid,"car_prodaet");
 	DeletePVar(playerid,"carCena");
@@ -65601,7 +63556,6 @@ stock sellcar_carncel(playerid, id_prodaet) {
 	DeletePVar(id_prodaet,"car_pokupaet");
 	DeletePVar(id_prodaet,"carnumber");
 }
-
 stock change_carcancel(playerid,id_prodaet) {
 	DeletePVar(playerid,"carProdaet");
 	DeletePVar(playerid,"carCena");
@@ -65612,14 +63566,12 @@ stock change_carcancel(playerid,id_prodaet) {
 	DeletePVar(id_prodaet,"numbercar2");
 	return 1;
 }
-
 stock GetVehicleID ()
 {
 	new veh_id = AddStaticVehicleEx (400, -100, -100, -100, 0, 0, 0, 0) ;
 	DestroyVehicle (veh_id) ;
 	return veh_id ;
 }
-
 stock duel_delete(id,bool:end) {
 	if(id != -1) {
 		foreach(new i:Player) {
@@ -65662,7 +63614,6 @@ stock duel_enter(playerid,id) {
 	new duel_guns[5][13] = {"Desert Eagle","Shotgun","MP5","AK-47","M4"};
 	new duel_guns_2[6][13] = {"Не обрано","Desert Eagle","Shotgun","MP5","AK-47","M4"};
 	new duel_maps[3][11] = {"Карта #1","Карта #2","Карта #3"};
-
 	format(string,sizeof(string),f_str,player_name[DI[id][duel_owner_id]],duel_types[DI[id][duel_type]],DI[id][duel_raund],DI[id][duel_money],duel_guns[DI[id][duel_gun]],duel_guns_2[DI[id][duel_gun_2]],duel_maps[DI[id][duel_map]],DI[id][duel_health],DI[id][duel_armour]);
 	return ShowPlayerDialog(playerid,D_DUEL_3,DSTH,""P"Інформація про дуелі",string,"Увійти","Скасувати");
 }
@@ -66165,7 +64116,6 @@ stock end_duel(playerid,type) {
 					}
 					if(DI[id][duel_id][3] == playerid) {
 						ResetPlayerWeapons(DI[id][duel_id][3]);
-
 						if(PI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 							A_SetPlayerSkin(DI[id][duel_id][3],PI[DI[id][duel_id][3]][pFracSkin]);
 						}
@@ -66312,7 +64262,6 @@ stock end_duel(playerid,type) {
 					}
 					if(DI[id][duel_id][3] == playerid) {
 						ResetPlayerWeapons(DI[id][duel_id][3]);
-
 						if(PI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 							A_SetPlayerSkin(DI[id][duel_id][3],PI[DI[id][duel_id][3]][pFracSkin]);
 						}
@@ -66341,7 +64290,6 @@ stock end_duel(playerid,type) {
 					}
 					if(DI[id][duel_id][4] == playerid) {
 						ResetPlayerWeapons(DI[id][duel_id][4]);
-
 						if(PI[DI[id][duel_id][4]][pMember] && start_work[DI[id][duel_id][4]]) {
 							A_SetPlayerSkin(DI[id][duel_id][4],PI[DI[id][duel_id][4]][pFracSkin]);
 						}
@@ -66370,7 +64318,6 @@ stock end_duel(playerid,type) {
 					}
 					if(DI[id][duel_id][5] == playerid) {
 						ResetPlayerWeapons(DI[id][duel_id][5]);
-
 						if(PI[DI[id][duel_id][5]][pMember] && start_work[DI[id][duel_id][5]]) {
 							A_SetPlayerSkin(DI[id][duel_id][5],PI[DI[id][duel_id][5]][pFracSkin]);
 						}
@@ -66410,9 +64357,7 @@ stock duel_end_1(playerid) {
 			GiveMoney(DI[id][duel_id][0],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][0],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][0]);
-
 			if(DI[id][duel_id][0]) add_gang_points(PI[DI[id][duel_id][0]][pMember],1);
-
 			if(PI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 				A_SetPlayerSkin(DI[id][duel_id][0],PI[DI[id][duel_id][0]][pFracSkin]);
 			}
@@ -66436,9 +64381,7 @@ stock duel_end_1(playerid) {
 			GiveMoney(DI[id][duel_id][1],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][1],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][1]);
-
 			if(DI[id][duel_id][1]) add_gang_points(PI[DI[id][duel_id][1]][pMember],1);
-
 			if(PI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 				A_SetPlayerSkin(DI[id][duel_id][1],PI[DI[id][duel_id][1]][pFracSkin]);
 			}
@@ -66465,9 +64408,7 @@ stock duel_end_2(playerid) {
 			GiveMoney(DI[id][duel_id][0],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][0],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][0]);
-
 			if(DI[id][duel_id][0]) add_gang_points(PI[DI[id][duel_id][0]][pMember],1);
-
 			if(PI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 				A_SetPlayerSkin(DI[id][duel_id][0],PI[DI[id][duel_id][0]][pFracSkin]);
 			}
@@ -66481,9 +64422,7 @@ stock duel_end_2(playerid) {
 			GiveMoney(DI[id][duel_id][1],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][1],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][1]);
-
 			if(DI[id][duel_id][1]) add_gang_points(PI[DI[id][duel_id][1]][pMember],1);
-
 			if(PI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 				A_SetPlayerSkin(DI[id][duel_id][1],PI[DI[id][duel_id][1]][pFracSkin]);
 			}
@@ -66514,9 +64453,7 @@ stock duel_end_2(playerid) {
 			GiveMoney(DI[id][duel_id][2],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][2],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][2]);
-
 			if(DI[id][duel_id][2]) add_gang_points(PI[DI[id][duel_id][2]][pMember],1);
-
 			if(PI[DI[id][duel_id][2]][pMember] && start_work[DI[id][duel_id][2]]) {
 				A_SetPlayerSkin(DI[id][duel_id][2],PI[DI[id][duel_id][2]][pFracSkin]);
 			}
@@ -66530,9 +64467,7 @@ stock duel_end_2(playerid) {
 			GiveMoney(DI[id][duel_id][3],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][3],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][3]);
-
 			if(DI[id][duel_id][3]) add_gang_points(PI[DI[id][duel_id][3]][pMember],1);
-
 			if(PI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 				A_SetPlayerSkin(DI[id][duel_id][3],PI[DI[id][duel_id][3]][pFracSkin]);
 			}
@@ -66568,9 +64503,7 @@ stock duel_end_3(playerid) {
 			GiveMoney(DI[id][duel_id][0],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][0],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][0]);
-
 			if(DI[id][duel_id][0]) add_gang_points(PI[DI[id][duel_id][0]][pMember],1);
-
 			if(PI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 				A_SetPlayerSkin(DI[id][duel_id][0],PI[DI[id][duel_id][0]][pFracSkin]);
 			}
@@ -66584,9 +64517,7 @@ stock duel_end_3(playerid) {
 			GiveMoney(DI[id][duel_id][1],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][1],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][1]);
-
 			if(DI[id][duel_id][1]) add_gang_points(PI[DI[id][duel_id][1]][pMember],1);
-
 			if(PI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 				A_SetPlayerSkin(DI[id][duel_id][1],PI[DI[id][duel_id][1]][pFracSkin]);
 			}
@@ -66600,9 +64531,7 @@ stock duel_end_3(playerid) {
 			GiveMoney(DI[id][duel_id][2],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][2],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][2]);
-
 			if(DI[id][duel_id][2]) add_gang_points(PI[DI[id][duel_id][2]][pMember],1);
-
 			if(PI[DI[id][duel_id][2]][pMember] && start_work[DI[id][duel_id][2]]) {
 				A_SetPlayerSkin(DI[id][duel_id][2],PI[DI[id][duel_id][2]][pFracSkin]);
 			}
@@ -66640,9 +64569,7 @@ stock duel_end_3(playerid) {
 			GiveMoney(DI[id][duel_id][3],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][3],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][3]);
-
 			if(DI[id][duel_id][3]) add_gang_points(PI[DI[id][duel_id][3]][pMember],1);
-
 			if(PI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 				A_SetPlayerSkin(DI[id][duel_id][3],PI[DI[id][duel_id][2]][pFracSkin]);
 			}
@@ -66655,9 +64582,7 @@ stock duel_end_3(playerid) {
 			GiveMoney(DI[id][duel_id][4],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][4],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][4]);
-
 			if(DI[id][duel_id][4]) add_gang_points(PI[DI[id][duel_id][4]][pMember],1);
-
 			if(PI[DI[id][duel_id][4]][pMember] && start_work[DI[id][duel_id][4]]) {
 				A_SetPlayerSkin(DI[id][duel_id][4],PI[DI[id][duel_id][4]][pFracSkin]);
 			}
@@ -66670,9 +64595,7 @@ stock duel_end_3(playerid) {
 			GiveMoney(DI[id][duel_id][5],DI[id][duel_money]*2,"виграш дуелі");
 			SendOK(DI[id][duel_id][5],"Ви перемогли в дуелі.");
 			ResetPlayerWeapons(DI[id][duel_id][5]);
-
 			if(DI[id][duel_id][5]) add_gang_points(PI[DI[id][duel_id][5]][pMember],1);
-
 			if(PI[DI[id][duel_id][5]][pMember] && start_work[DI[id][duel_id][5]]) {
 				A_SetPlayerSkin(DI[id][duel_id][5],PI[DI[id][duel_id][5]][pFracSkin]);
 			}
@@ -66772,7 +64695,6 @@ stock CarPass(playerid,giveplayerid) {
 	VehicleInfo[vehicleid][vFuel], gTransport[GetVehicleModel(vehicleid)-400][trTank]);
 	SPD(giveplayerid,DIALOG_NONE,DSTH,""P"Документи на т/з",string,"Закрити","");
 }
-
 stock ReportDell(i) {
 	PlayerReport[i] = -1;
 	TextReport[i][0] = EOS;
@@ -66780,7 +64702,6 @@ stock ReportDell(i) {
 	ReportSlot[i] = -1;
 	DeletePVar(i, "report_ac");
 }
-
 stock InvUpdate(playerid, td, jdk)
 {
 	if(GetPVarInt(playerid,"inv"))
@@ -66792,7 +64713,6 @@ stock InvUpdate(playerid, td, jdk)
 	}
 	return 1;
 }
-
 stock HideInvent(playerid) {
 	for(new i = 0; i < 54; i++) TextDrawHideForPlayer(playerid, inventory_TD[i]);
 	for(new i = 0; i < 8; i++) PlayerTextDrawHide(playerid, inventory_PTD[playerid][i]);
@@ -66818,16 +64738,13 @@ stock SaveInventory(playerid)
 		format(saveinv_kolvo, 800, "%s%d,", saveinv_kolvo, PI[playerid][pInventoryKolvo][i]);
 	}
 	MYSQL_GLOBAL[0] = EOS;
-
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"UPDATE `accounts` SET `Item` = '%s' WHERE `Name` = '%s'", saveinv, player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "") ;
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"UPDATE `accounts` SET `ItemKolvo` = '%s' WHERE `Name` = '%s'", saveinv_kolvo, player_name[playerid]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
 	return 1;
 }
-
 stock UseItem(playerid, itemid, item) {
 	switch(itemid) {
 	case 11738:
@@ -67005,7 +64922,6 @@ stock UseItem(playerid, itemid, item) {
 	RefreshInv(playerid, item);
 	return 1;
 }
-
 stock RefreshInv(playerid, slot)
 {
 	if(PI[playerid][pInventoryKolvo][slot] > 0)
@@ -67023,7 +64939,6 @@ stock RefreshInv(playerid, slot)
 	InvUpdate(playerid, slot, PI[playerid][pInventory][slot]);
 	return 1;
 }
-
 stock GetInvSet(playerid)
 {
 	new num;
@@ -67034,7 +64949,6 @@ stock GetInvSet(playerid)
 	}
 	return num;
 }
-
 stock AddItem(playerid, itemid, amount) // видав предмет в Інвентар
 {
 	if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
@@ -67058,7 +64972,6 @@ stock AddItem(playerid, itemid, amount) // видав предмет в Інвентар
 	}
 	return 1;
 }
-
 stock GetInvent(playerid, slot)
 {
 	new colvo = 0;
@@ -67069,7 +64982,6 @@ stock GetInvent(playerid, slot)
 	}
 	return colvo;
 }
-
 stock DeleteItem(playerid, itemid, amount)
 {
 	new item_amount = amount;
@@ -67100,9 +65012,7 @@ stock DeleteItem(playerid, itemid, amount)
 	SaveInventory(playerid);
 	return 1;
 }
-
 stock HideAuto(playerid) {
-
 	A_DestroyVehicle(car_shop[playerid]);
 	car_shop[playerid] = INVALID_VEHICLE_ID;
 	
@@ -67119,7 +65029,6 @@ stock HideAuto(playerid) {
 	PlayerTextDrawHide(playerid, auto_PTD[playerid][1]);
 	CancelSelectTextDraw(playerid);
 }
-
 stock ShowMedcard(playerid,actplayerid) {
 	new string[512];
 	strcat(string, "\n\t"P"Інформація:\n\n");
@@ -67160,19 +65069,16 @@ stock RemovePlayerWeapon(playerid, weaponid)
 	}
 	GivePlayerWeapon(playerid, 0, 1);
 }
-
 stock isAdminStatus(const name[]) {
 	if (GetString(name, "Xavier_Blackwood") || GetString(name, "Brain_Randall")) return 1;
 	return false;
 }
-
 stock SendAdminActionMessage(color, const text[]) {
 	foreach(new i: Player) {
 		if(!PI[i][pSettings][8]) continue;
 		SendClientMessage(i, color, text);
 	}
 }
-
 CB:OnGameModeUpdate() {
 	GlobalSecondTimer = SetTimer("OnGameModeUpdate", 1000, false);
 	gettime(tmphour, tmpminute, tmpsecond);
@@ -67205,10 +65111,8 @@ CB:OnGameModeUpdate() {
 	game_container();
 	seat_player();
 }
-
 stock SetVehicleNumberText(vehicleid, const text[]) {
 	new modelid = GetVehicleModel(vehicleid), Float:offsetPos[3];
-
 	GetVehicleModelInfo(modelid,
 	VEHICLE_MODEL_INFO_SIZE, offsetPos[2], offsetPos[0], offsetPos[1]
 	);
@@ -67238,16 +65142,13 @@ stock SetVehicleNumberText(vehicleid, const text[]) {
 		VehicleInfo[vehicleid][vNumberAttached] = 1;
 	}
 	else UpdateDynamic3DTextLabelText(VehicleInfo[vehicleid][vNumberTextID], 0xA3A3A3FF, str);
-
 	str[0] = EOS;
 }
-
 stock DestroyDynamic3DTextLabelEx(&Text3D: text)
 {
 	DestroyDynamic3DTextLabel(text);
 	text = Text3D:    INVALID_3DTEXT_ID;
 }
-
 SetPlayerPosObjectOffset(objectid, playerid, Float:offset_x, Float:offset_y, Float:offset_z)
 {
 	new Float:object_px,
@@ -67256,23 +65157,18 @@ Float:object_pz,
 Float:object_rx,
 Float:object_ry,
 Float:object_rz;
-
 	GetDynamicObjectPos(objectid, object_px, object_py, object_pz);
 	GetDynamicObjectRot(objectid, object_rx, object_ry, object_rz);
-
 	new Float:cos_x = floatcos(object_rx, degrees),
 Float:cos_y = floatcos(object_ry, degrees),
 Float:cos_z = floatcos(object_rz, degrees),
 Float:sin_x = floatsin(object_rx, degrees),
 Float:sin_y = floatsin(object_ry, degrees),
 Float:sin_z = floatsin(object_rz, degrees);
-
 	new Float:x, Float:y, Float:z;
-
 	x = object_px + offset_x * cos_y * cos_z - offset_x * sin_x * sin_y * sin_z - offset_y * cos_x * sin_z + offset_z * sin_y * cos_z + offset_z * sin_x * cos_y * sin_z;
 	y = object_py + offset_x * cos_y * sin_z + offset_x * sin_x * sin_y * cos_z + offset_y * cos_x * cos_z + offset_z * sin_y * sin_z - offset_z * sin_x * cos_y * cos_z;
 	z = object_pz - offset_x * cos_x * sin_y + offset_y * sin_x + offset_z * cos_x * cos_y;
-
 	SetPlayerPos(playerid, x, y, z);
 	return 1;
 }
@@ -67281,7 +65177,6 @@ CameraRadiusSetPos(playerid, Float:x, Float:y, Float:z, Float:degree = 0.0, Floa
 	new Float:deltaToX = x + radius * floatsin(-degree, degrees);
 	new Float:deltaToY = y + radius * floatcos(-degree, degrees);
 	new Float:deltaToZ = z + height;
-
 	SetPlayerCameraPos(playerid, deltaToX, deltaToY, deltaToZ);
 	SetPlayerCameraLookAt(playerid, x, y, z); return 1;
 }
@@ -67302,9 +65197,7 @@ bool:packed = ispacked(string),
 	return 0;
 	while (-1 != (pos = strfind(string, search, ignorecase, pos))) {
 		strdel(string, pos, pos + sublen);
-
 		len -= sublen;
-
 		if (replen && len + replen < maxlen) {
 			strins(string, replacement, pos, maxlength);
 			pos += replen, len += replen;
@@ -67314,15 +65207,12 @@ bool:packed = ispacked(string),
 	}
 	return count;
 }
-
 #include "../sourse/casino/black_jack.inc"
-
 CMD:cheats(playerid) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
 	dialog_anticheat(playerid);
 	return 1;
 }
-
 stock dialog_anticheat(playerid)
 {
 	new string[2500];
@@ -67334,12 +65224,10 @@ stock dialog_anticheat(playerid)
 	}
 	return ShowPlayerDialog(playerid, D_ANTICHEAT, DSTH, ""P"Античіт", string, "Обрати", "Закрити");
 }
-
 CB: DelGun(playerid) {
 	ResetPlayerWeapons(playerid);
 	return 1;
 }
-
 CB:check_ip_ban(playerid)
 {
 	new rows, reason[35];
@@ -67370,7 +65258,6 @@ CB:check_ip_ban(playerid)
 	}
 	return 1;
 }
-
 CB:offwarn(playerid, const Nick[], const Reason[])
 {
 	new rows;
@@ -67383,10 +65270,8 @@ CB:offwarn(playerid, const Nick[], const Reason[])
 	{
 		format(query, sizeof(query), "UPDATE `accounts` SET `pWarns` = '%i', `warntime` = '%i', `pLeader` = '0', `pMember` = '0', `pRank` = '0' WHERE `Name` = '%s' LIMIT 1", (count_warns + 1), unix + 7 * 86400, Nick);
 		mysql_pquery(connects, query);
-
 		WriteLog(LOG_WARN, player_name[playerid], Nick, Reason);
 		gAdmin[playerid][ADMIN_WARN] ++;
-
 		new string[128];
 		format(string, sizeof(string), "Адміністратор %s видав попередження гравцю %s [%i/3]. Причина: %s.", player_name[playerid], Nick, (count_warns + 1), Reason);
 		SendAdminActionMessage(COLOR_LIGHTRED, string);
@@ -67403,7 +65288,6 @@ CB:offwarn(playerid, const Nick[], const Reason[])
 	off_add_jobinfo(Nick, "Недієспроможний");
 	return 1;
 }
-
 stock wininfo(playerid, id) {
 	switch(id) {
 	case 1: {
@@ -67442,7 +65326,6 @@ stock wininfo(playerid, id) {
 	}
 	return 1;
 }
-
 CMD:contstart(playerid) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
 	SendClientMessageToAll(-1, ""P"[Контейнери]"W" Через 10 хвилин в порту ЛС пройде аукціон контейнерів. (/gps > Розваги > Контейнери)");
@@ -67463,7 +65346,6 @@ CMD:priz(playerid) { // список прзів MySQL
 	mysql_tquery(connects, MYSQL_GLOBAL, "GetPrizes", "d", playerid);
 	return 1;
 }
-
 CB: GetMarket(playerid) {
 	new rows;
 	cache_get_row_count(rows);
@@ -67484,7 +65366,6 @@ CB: GetMarket(playerid) {
 	else ShowPlayerDialog(playerid, D_MARKET_PLAYER_3, DSTH, ""P"Товари у продажу", STRING_GLOBAL, "Купити","Скасувати");
 	return 1;
 }
-
 CB: GetPrizes(playerid) {
 	new rows, type, prize,cash;
 	cache_get_row_count(rows);
@@ -67518,7 +65399,6 @@ CB: GetPrizes(playerid) {
 	ShowPlayerDialog(playerid, D_CONTAINER_2, DSTH, ""P"Призи з контейнера", STRING_GLOBAL, "Обрати","Скасувати");
 	return 1;
 }
-
 stock container_win(playerid, id) {
 	new query[150];
 	if(gContainer[id][cClass] == 1) {
@@ -67572,17 +65452,14 @@ stock load_trailer() {
 		new i = (idx - 1), player_vehicleid = i;
 		if (i >= MAX_VEHICLES_PLAYER) continue;
 		Iter_Add(playerVehicles, player_vehicleid);
-
 		cache_get_value_name_int(i, "id", PlayerTrailer[player_vehicleid][carID]);
 		cache_get_value_name(i, "owner", PlayerTrailer[player_vehicleid][carOwner], MAX_PLAYER_NAME + 2);
 		cache_get_value_name_int(i, "color_one", PlayerTrailer[player_vehicleid][carColor][0]);
 		cache_get_value_name_int(i, "color_two", PlayerTrailer[player_vehicleid][carColor][1]);
-
 		cache_get_value_name_float(i, "x", PlayerTrailer[player_vehicleid][carPos][0]);
 		cache_get_value_name_float(i, "y", PlayerTrailer[player_vehicleid][carPos][1]);
 		cache_get_value_name_float(i, "z", PlayerTrailer[player_vehicleid][carPos][2]);
 		cache_get_value_name_float(i, "angle", PlayerTrailer[player_vehicleid][carPos][3]);
-
 		cache_get_value_name_int(i, "interior", PlayerTrailer[player_vehicleid][carInterior]);
 		cache_get_value_name_int(i, "world", PlayerTrailer[player_vehicleid][carWorld]);
 		
@@ -67600,7 +65477,6 @@ stock load_trailer() {
 		cache_get_value_name_int(i, "vehcom_12", PlayerTrailer[player_vehicleid][carVehcom][11]);
 		cache_get_value_name_int(i, "vehcom_13", PlayerTrailer[player_vehicleid][carVehcom][12]);
 		cache_get_value_name_int(i, "vehcom_14", PlayerTrailer[player_vehicleid][carVehcom][13]);
-
 		cache_get_value_name_int(i, "parked", PlayerTrailer[player_vehicleid][carParked]);
 		cache_get_value_name_int(i, "paintjob", PlayerTrailer[player_vehicleid][carPaintJob]);
 		
@@ -67608,21 +65484,17 @@ stock load_trailer() {
 		cache_get_value_name_int(i,"medkit", PlayerTrailer[player_vehicleid][carHealth]);
 		cache_get_value_name_int(i,"safemoney", PlayerTrailer[player_vehicleid][carMoney]);
 		cache_get_value_name_int(i,"day", PlayerTrailer[player_vehicleid][carDay]);
-
 		new sqlstring[67];
 		cache_get_value(i, "gun", sqlstring, 65), sscanf (sqlstring, "p<|>iiiiiiiii",
 		PlayerTrailer[player_vehicleid][carGun][0], PlayerTrailer[player_vehicleid][carGun][1],PlayerTrailer[player_vehicleid][carGun][2],
 		PlayerTrailer[player_vehicleid][carGun][3],PlayerTrailer[player_vehicleid][carGun][4],PlayerTrailer[player_vehicleid][carGun][5],
 		PlayerTrailer[player_vehicleid][carGun][6],PlayerTrailer[player_vehicleid][carGun][7],PlayerTrailer[player_vehicleid][carGun][8]);
-
 		if (PlayerTrailer[player_vehicleid][carPos][0] == 0.0 && PlayerTrailer[player_vehicleid][carPos][1] == 0.0) {
 			new random_spawn = random(sizeof (ticketVehicleSpawnPos));
-
 			PlayerTrailer[player_vehicleid][carPos][0] = ticketVehicleSpawnPos[random_spawn][0];
 			PlayerTrailer[player_vehicleid][carPos][1] = ticketVehicleSpawnPos[random_spawn][1];
 			PlayerTrailer[player_vehicleid][carPos][2] = ticketVehicleSpawnPos[random_spawn][2];
 			PlayerTrailer[player_vehicleid][carPos][3] = ticketVehicleSpawnPos[random_spawn][3];
-
 			PlayerTrailer[player_vehicleid][carInterior] = 0;
 			PlayerTrailer[player_vehicleid][carWorld] = 0;
 			PlayerTrailer[player_vehicleid][carParked] = 0;
@@ -67637,58 +65509,45 @@ stock load_trailer() {
 		
 		VehicleInfo[vehicleid][vPlayerVehicleID] = player_vehicleid;
 		SetVehicleToRespawn(vehicleid);
-
 		VehicleInfo[vehicleid][vParkingFine] = !PlayerTrailer[player_vehicleid][carParked];
 		VehicleInfo[vehicleid][vLocked] = 1;
-
 		PlayerTrailer[player_vehicleid][carOwnerID] = INVALID_PLAYER_ID;
 	}
 	printf("[Завантаження] Будинки на колесах гравців успішно завантажені (%i шт.)", rows);
-
 	cache_delete(result);
 }
-
 stock UpdatePlayerVehiclePosition(player_vehicleid, update_vehicle = 1, save = 1) {
 	if (!(0 <= player_vehicleid < MAX_VEHICLES_PLAYER))
 	return;
 	if (PlayerTrailer[player_vehicleid][carPos][0] != 0.0 || PlayerTrailer[player_vehicleid][carPos][1] != 0.0)
 	return;
-
 	new random_spawn = random(sizeof (ticketVehicleSpawnPos));
-
 	PlayerTrailer[player_vehicleid][carPos][0] = ticketVehicleSpawnPos[random_spawn][0];
 	PlayerTrailer[player_vehicleid][carPos][1] = ticketVehicleSpawnPos[random_spawn][1];
 	PlayerTrailer[player_vehicleid][carPos][2] = ticketVehicleSpawnPos[random_spawn][2];
 	PlayerTrailer[player_vehicleid][carPos][3] = ticketVehicleSpawnPos[random_spawn][3];
-
 	PlayerTrailer[player_vehicleid][carInterior] = 0;
 	PlayerTrailer[player_vehicleid][carWorld] = 0;
-
 	new vehicleid = PlayerTrailer[player_vehicleid][carVehicle];
 	//SetVehicleParamsEx(vehicleid, engine, lights, alarm, 1, bonnet, boot, objective);
-
 	PlayerTrailer[player_vehicleid][carParked] = 0;
 	VehicleInfo[vehicleid][vParkingFine] = 1;
-
 	if (update_vehicle) {
 		SetVehiclePos(vehicleid,
 		PlayerTrailer[player_vehicleid][carPos][0], PlayerTrailer[player_vehicleid][carPos][1], PlayerTrailer[player_vehicleid][carPos][2]
 		);
 		SetVehicleZAngle(vehicleid, PlayerTrailer[player_vehicleid][carPos][3]);
-
 		LinkVehicleToInterior(vehicleid, PlayerTrailer[player_vehicleid][carInterior]);
 		SetVehicleVirtualWorld(vehicleid, PlayerTrailer[player_vehicleid][carWorld]);
 	}
 	if (save) SavePlayerVehicle(player_vehicleid);
 }
-
 stock ParkPlayerVehicle(playerid) {
 	if (GetPlayerState(playerid) != PLAYER_STATE_DRIVER) {
 		SendError(playerid, "Ви маєте бути за кермом власного т/з.");
 		return;
 	}
 	new vehicleid = GetPlayerVehicleID(playerid), player_vehicleid = VehicleInfo[vehicleid][vPlayerVehicleID];
-
 	if (!GetString(player_name[playerid], PlayerTrailer[player_vehicleid][carOwner])) {
 		SendError(playerid, "Ви маєте бути за кермом власного т/з.");
 		return;
@@ -67706,16 +65565,13 @@ stock ParkPlayerVehicle(playerid) {
 		return;
 	}
 	new Float:vehiclePos[4];
-
 	GetVehiclePos(vehicleid, vehiclePos[0], vehiclePos[1], vehiclePos[2]);
 	GetVehicleZAngle(vehicleid, vehiclePos[3]);
-
 	new Float:vehicle_Pos[3], bool:isReturn = false;
 	for (new x = GetVehiclePoolSize() + 1; --x != 0;) {
 		if (!IsValidVehicle(x)) continue;
 		AntiCheatGetVehicleSpawnPos(x, vehicle_Pos[0], vehicle_Pos[1], vehicle_Pos[2]);
 		if (!IsPlayerInRangeOfPoint(playerid, 4.5, vehicle_Pos[0], vehicle_Pos[1], vehicle_Pos[2])) continue;
-
 		new player_vehicle_id = VehicleInfo[vehicleid][vPlayerVehicleID];
 		if (VehicleInfo[x][vType] == VEHICLE_TYPE_PLAYER && (0 <= player_vehicle_id < MAX_VEHICLES_PLAYER) && GetPlayerVirtualWorld(playerid) == PlayerTrailer[player_vehicle_id][carWorld]) {
 			isReturn = true;
@@ -67726,20 +65582,15 @@ stock ParkPlayerVehicle(playerid) {
 		SendError(playerid, "У цьому місці не можна припаркувати транспорт. (Місце зайняте)");
 		return;
 	} 
-
 	PlayerTrailer[player_vehicleid][carPos][0] = vehiclePos[0];
 	PlayerTrailer[player_vehicleid][carPos][1] = vehiclePos[1];
 	PlayerTrailer[player_vehicleid][carPos][2] = vehiclePos[2];
 	PlayerTrailer[player_vehicleid][carPos][3] = vehiclePos[3];
-
 	PlayerTrailer[player_vehicleid][carInterior] = GetPlayerInterior(playerid);
 	PlayerTrailer[player_vehicleid][carWorld] = GetPlayerVirtualWorld(playerid);
 	PlayerTrailer[player_vehicleid][carParked] = 1;
-
 	PlayerTrailer[player_vehicleid][carStatus] = VehicleInfo[vehicleid][vStatus];
-
 	A_DestroyVehicle(vehicleid);
-
 	PlayerTrailer[player_vehicleid][carVehicle] = vehicleid = A_CreateVehicle(508,
 	PlayerTrailer[player_vehicleid][carPos][0], PlayerTrailer[player_vehicleid][carPos][1],
 	PlayerTrailer[player_vehicleid][carPos][2], PlayerTrailer[player_vehicleid][carPos][3],
@@ -67751,19 +65602,15 @@ stock ParkPlayerVehicle(playerid) {
 	
 	PutPlayerInVehicle(playerid, vehicleid, 0);
 	SavePlayerVehicle(player_vehicleid);
-	SendOK(playerid, "Ви перепаркували свій ТЗ.");
+	SendOK(playerid, "Ви перепаркували свій т/з.");
 }
-
 stock SavePlayerVehicle(player_vehicleid) {
 	if (!(0 <= player_vehicleid < MAX_VEHICLES_PLAYER)) return;
 	MYSQL_GLOBAL[0] = EOS;
-
 	new vehicleid = PlayerTrailer[player_vehicleid][carVehicle];
-
 	new vpanels, vdoors, vlights, vtires, Float:vhealth;
 	GetVehicleHealth(vehicleid, vhealth);
 	GetVehicleDamageStatus(vehicleid, vpanels, vdoors, vlights, vtires);
-
 	PlayerTrailer[player_vehicleid][carVehcom][0] = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_SPOILER);
 	PlayerTrailer[player_vehicleid][carVehcom][1] = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_HOOD);
 	PlayerTrailer[player_vehicleid][carVehcom][2] = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_ROOF);
@@ -67778,7 +65625,6 @@ stock SavePlayerVehicle(player_vehicleid) {
 	PlayerTrailer[player_vehicleid][carVehcom][11] = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_REAR_BUMPER);
 	PlayerTrailer[player_vehicleid][carVehcom][12] = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_VENT_RIGHT);
 	PlayerTrailer[player_vehicleid][carVehcom][13] = GetVehicleComponentInSlot(vehicleid, CARMODTYPE_VENT_LEFT);
-
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "UPDATE `"TABLE_DNK"` SET \
 		`color_one` = %i, `color_two` = %i, \
@@ -67788,14 +65634,12 @@ stock SavePlayerVehicle(player_vehicleid) {
 		`vehcom_1` = '%i', `vehcom_2` = '%i', `vehcom_3` = '%i', `vehcom_4` = '%i', `vehcom_5` = '%i', \
 		`vehcom_6` = '%i', `vehcom_7` = '%i', `vehcom_8` = '%i', `vehcom_9` = '%i', `vehcom_10` = '%i', \
 		`vehcom_11` = '%i', `vehcom_12` = '%i', `vehcom_13` = '%i', `vehcom_14` = '%i' WHERE id = %d LIMIT 1",
-
 	PlayerTrailer[player_vehicleid][carColor][0], PlayerTrailer[player_vehicleid][carColor][1],
 	
 	PlayerTrailer[player_vehicleid][carPos][0], PlayerTrailer[player_vehicleid][carPos][1],
 	PlayerTrailer[player_vehicleid][carPos][2], PlayerTrailer[player_vehicleid][carPos][3],
 	
 	PlayerTrailer[player_vehicleid][carInterior], PlayerTrailer[player_vehicleid][carWorld],
-
 	PlayerTrailer[player_vehicleid][carParked],
 	PlayerTrailer[player_vehicleid][carPaintJob],
 	
@@ -67811,17 +65655,15 @@ stock SavePlayerVehicle(player_vehicleid) {
 	);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
 }
-
 stock trailer_text(vehicleid) {
 	new str[350], status[46];
 	if(VehicleInfo[PlayerTrailer[vehicleid][carVehicle]][vLocked]) format(status,sizeof(status),"{E05864}Зачинені");
 	else format(status,sizeof(status),"{6B8E23}Відчинені");
 	
-	format(str,sizeof(str),""W"Власник:"P" %s\n"W"Двері: %s\n\n"W"Для входу натисніть"ORANGE" 'ALT'", PlayerTrailer[vehicleid][carOwner],
+	format(str,sizeof(str),""W"Власник:"P" %s\n"W"Двері: %s\n\n"W"Для входу натисніть"P" 'ALT'", PlayerTrailer[vehicleid][carOwner],
 	status);
 	SetVehicleNumberText(PlayerTrailer[vehicleid][carVehicle], str);
 }
-
 stock OnPlayerVehicleSpawn(vehicleid, player_vehicleid) {
 	SetVehiclePos(vehicleid,
 	PlayerTrailer[player_vehicleid][carPos][0],
@@ -67829,22 +65671,18 @@ stock OnPlayerVehicleSpawn(vehicleid, player_vehicleid) {
 	PlayerTrailer[player_vehicleid][carPos][2]
 	);
 	SetVehicleZAngle(vehicleid, PlayerTrailer[player_vehicleid][carPos][3]);
-
 	SetVehicleVirtualWorld(vehicleid, PlayerTrailer[player_vehicleid][carWorld]);
 	LinkVehicleToInterior(vehicleid, PlayerTrailer[player_vehicleid][carInterior]);
-
 	ChangeVehicleColor(vehicleid, VehicleInfo[vehicleid][vColor][0], VehicleInfo[vehicleid][vColor][1]);
 	LoadPlayerVehicleTuning(vehicleid, player_vehicleid);
-
 	if (PlayerTrailer[player_vehicleid][carPos][0] == 0.0 && PlayerTrailer[player_vehicleid][carPos][1] == 0.0)
 	VehicleInfo[vehicleid][vParkingFine] = 1;
 	else VehicleInfo[vehicleid][vParkingFine] = 0;
 	
-	SetVehicleDoorStatus(vehicleid, .status = 1);
+	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+	SetVehicleParamsEx(vehicleid, engine, lights, alarm, 1, bonnet, boot, objective);
 	trailer_text(player_vehicleid);
 }
-
-
 stock LoadPlayerVehicleTuning(vehicleid, player_vehicleid) {
 	if (!(0 <= player_vehicleid < MAX_VEHICLES_PLAYER))
 	return;
@@ -67855,7 +65693,6 @@ stock LoadPlayerVehicleTuning(vehicleid, player_vehicleid) {
 		ACC_AddVehicleComponent(vehicleid, PlayerTrailer[player_vehicleid][carVehcom][i]);
 	}
 }
-
 stock CreatePlayerVehicle(playerid, model, Float:x, Float:y, Float:z, Float:angle, color_1, color_2, Float:spawn_x, Float:spawn_y, Float:spawn_z, Float:spawn_angle) {
 	new vehicle_amount = GetPlayerVehicles(playerid);
 	if(vehicle_amount) {
@@ -67868,28 +65705,21 @@ stock CreatePlayerVehicle(playerid, model, Float:x, Float:y, Float:z, Float:angl
 	}
 	new player_vehicleid = Iter_Free(playerVehicles), vehicleid = INVALID_VEHICLE_ID;
 	Iter_Add(playerVehicles, player_vehicleid);
-
 	PlayerTrailer[player_vehicleid][carModel] = model;
-
 	PlayerTrailer[player_vehicleid][carPos][0] = x;
 	PlayerTrailer[player_vehicleid][carPos][1] = y;
 	PlayerTrailer[player_vehicleid][carPos][2] = z;
 	PlayerTrailer[player_vehicleid][carPos][3] = spawn_angle;
 	PlayerTrailer[player_vehicleid][carInterior] = 0;
 	PlayerTrailer[player_vehicleid][carWorld] = 0;
-
 	PlayerTrailer[player_vehicleid][carColor][0] = color_1;
 	PlayerTrailer[player_vehicleid][carColor][1] = color_2;
 	PlayerTrailer[player_vehicleid][carPaintJob] = 3;
 	PlayerTrailer[player_vehicleid][carParked] = 0;
 	
 	PlayerTrailer[player_vehicleid][carDay] = (unix + 86400 * 1);
-
-
 	UpdatePlayerVehiclePosition(player_vehicleid, 0, .save = 0);
-
 	strmid(PlayerTrailer[player_vehicleid][carOwner], player_name[playerid], 0, strlen(player_name[playerid]), MAX_PLAYER_NAME + 2);
-
 	PlayerTrailer[player_vehicleid][carVehicle] = vehicleid = A_CreateVehicle(PlayerTrailer[player_vehicleid][carModel],
 	PlayerTrailer[player_vehicleid][carPos][0], PlayerTrailer[player_vehicleid][carPos][1],
 	PlayerTrailer[player_vehicleid][carPos][2], spawn_angle,
@@ -67899,9 +65729,7 @@ stock CreatePlayerVehicle(playerid, model, Float:x, Float:y, Float:z, Float:angl
 	SetVehicleZAngle(vehicleid, spawn_angle);
 	VehicleInfo[vehicleid][vPlayerVehicleID] = player_vehicleid;
 	SetVehicleToRespawn(vehicleid);
-
 	MYSQL_GLOBAL[0] = EOS;
-
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "INSERT INTO `"TABLE_DNK"` \
 		(`owner`, `color_one`, `color_two`, `x`, `y`, `z`, `angle`,`day`) VALUES \
 		('%s', %i, %i, '%.2f', '%.2f', '%.2f', '%.2f', %i)",
@@ -67914,20 +65742,15 @@ stock CreatePlayerVehicle(playerid, model, Float:x, Float:y, Float:z, Float:angl
 	new Cache:result = mysql_query(connects, MYSQL_GLOBAL);
 	PlayerTrailer[player_vehicleid][carID] = cache_insert_id();
 	if (cache_is_valid(result)) cache_delete(result);
-
 	SetVehiclePos(vehicleid, spawn_x, spawn_y, spawn_z);
 	SetVehicleZAngle(vehicleid, angle);
-
 	GetPlayerVehicles(playerid);
 	SavePlayerVehicle(player_vehicleid);
-
 	MYSQL_GLOBAL[0] = EOS;
 	return player_vehicleid;
 }
-
 stock GetPlayerVehicles(playerid) {
 	playerVehicleAmount[playerid] = 0;
-
 	foreach(new player_vehicleid: playerVehicles) {
 		if (strcmp(PlayerTrailer[player_vehicleid][carOwner], player_name[playerid]))
 		continue;
@@ -67938,35 +65761,27 @@ stock GetPlayerVehicles(playerid) {
 	}
 	return playerVehicleAmount[playerid];
 }
-
 stock DestroyPlayerVehicle(playerid, player_vehicle_id) {
 	if (!(0 <= player_vehicle_id < MAX_VEHICLES_PLAYER))
 	return false;
 	if (!GetString(PlayerTrailer[player_vehicle_id][carOwner], player_name[playerid]))
 	return false;
-
 	new
 	insert_id = PlayerTrailer[player_vehicle_id][carID],
 	vehicleid = PlayerTrailer[player_vehicle_id][carVehicle],
 	PlayerTrailer_NULL[PLAYER_VEHICLE_E];
-
 	PlayerTrailer[player_vehicle_id] = PlayerTrailer_NULL;
-
 	A_DestroyVehicle(vehicleid);
 	Iter_Remove(playerVehicles, player_vehicle_id);
-
 	MYSQL_GLOBAL[0] = EOS;
-
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),
 	"DELETE FROM "TABLE_DNK" WHERE id=%i LIMIT 1",
 	insert_id
 	);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
-
 	GetPlayerVehicles(playerid);
 	return 1;
 }
-
 stock hellow_dm(playerid) {
 	new rand = random(sizeof(hell_map));
     SetPlayerPosAC(playerid, hell_map[rand][0], hell_map[rand][1], hell_map[rand][2], 10, 0);
@@ -67987,7 +65802,6 @@ stock hellow_dm(playerid) {
 	SetCameraBehindPlayer(playerid);
 	return 1;
 }
-
 stock dm_zone(playerid, id_zone)
 {
 	if(TI[playerid][tDM] == 0) return 1;
@@ -68022,7 +65836,6 @@ stock dm_zone(playerid, id_zone)
 	SetCameraBehindPlayer(playerid);
 	return 1;
 }
-
 stock create_family(playerid, inputtext[]) {
 	if(TotalFamily >= FAMILY_COUNT) return SendError(playerid, "На сервері перевищено ліміт сімей");
 	new query[128];
@@ -68058,11 +65871,9 @@ stock create_family(playerid, inputtext[]) {
 	UpdatePlayerData(playerid,"pFamRank",8);
 	strmid(gFamily[TotalFamily][famCOwner],player_name[playerid],0,strlen(player_name[playerid]),MAX_PLAYER_NAME);
 	strmid(gFamily[TotalFamily][famOwner],player_name[playerid],0,strlen(player_name[playerid]),MAX_PLAYER_NAME);
-
 	gFamily[TotalFamily][famSpawnCar] = 7;
 	gFamily[TotalFamily][famBuyCar] = 7;
 	gFamily[TotalFamily][famSkladMoney] = 7;
-
 	new querys[513];
 	mysql_format(connects, querys, sizeof(querys),"INSERT INTO `family`(`id`,`cname`,`name`,`time`,`cowner`,`owner`,`car_rank`,`spawn_rank`,`money_rank`) VALUES ('%i','%s','%s',NOW(),'%s','%s','7','7','7')",
 	PI[playerid][pFamily],gFamily[TotalFamily][famCName],gFamily[TotalFamily][famName],gFamily[TotalFamily][famCOwner],gFamily[TotalFamily][famOwner]);
@@ -68070,7 +65881,6 @@ stock create_family(playerid, inputtext[]) {
 	TotalFamily++;
 	return 1;
 }
-
 stock CheckPlayerRing(playerid)
 {
 	new string[100];
@@ -68088,7 +65898,6 @@ stock CheckPlayerRing(playerid)
 	RingInfo[r][rgLoad][0] = 0;
 	RingInfo[r][rgLoad][1] = 0;
 }
-
 CB:LoadProd(playerid)
 {
 	if (!GetVehicleTrailer(GetPlayerVehicleID(playerid)) && GetVehicleModel(GetPlayerVehicleID(playerid)) == 403)
@@ -68115,9 +65924,7 @@ CB:LoadProd(playerid)
 		new string[144];
 		format(string, sizeof(string), "Завантажено: "GREEN"%d/2000\n"W"Бізнес: "GREEN"Відсутній", GetPVarInt(playerid, "count_prod") + GetPVarInt(playerid, "rand_prod"));
 		UpdateDynamic3DTextLabelText(gPlayerProdText[playerid], -1, string);
-
 		new rand = Random(50, 70);
-
 		if (GetPVarInt(playerid, "count_prod2") > GetPVarInt(playerid, "rand_prod"))
 		{
 			SetPVarInt(playerid, "rand_prod", GetPVarInt(playerid, "rand_prod") + rand);
@@ -68132,19 +65939,15 @@ CB:LoadProd(playerid)
 			format(string, sizeof(string), "Завантажено: "GREEN"%d/2.000\n"W"Бізнес: "GREEN"Відсутній", GetPVarInt(playerid, "count_prod"));
 			UpdateDynamic3DTextLabelText(gPlayerProdText[playerid], -1, string);
 		}
-
 	}
 	return 1;
 }
-
 dialog_mayor(playerid) return ShowPlayerDialog(playerid,D_ECONOMY,DSL,""P"Керування штатом","Інформація про фінанси\nКерування пільгами\
 	\nПерекази на рахунок організації\nПодаток на нерухомість\nПодаток на бізнес\nПодаток на транспорт\n\
 	Змінити стан казни","Обрати","Скасувати");
 	
 dialog_bank(playerid) return ShowPlayerDialog(playerid,D_BANK_MENU,DSL,""P"Послуги банку",""P"1."W" Інформація\n"P"2."W" Зняти з рахунку\n"P"3."W" Покласти на рахунок\n"P"4."W" Переказати іншій людині\n"P"5."W" Оплата будинку\n"P"6."W" Оплата бізнесу\n"P"7."W" Оплата будинку на колесах\n"P"8."W" Оплатити штрафи", "Обрати","Закрити");
-
 stock save_fcar(family, car) {
-
 	new Float:x, Float:y, Float:z, Float:a, posit[76], query[720], str[56];
 	GetVehiclePos(CarFamily[family][car][LoadCar], x,y,z);
 	GetVehicleZAngle(CarFamily[family][car][LoadCar], a);
@@ -68162,7 +65965,6 @@ stock save_fcar(family, car) {
 	CarFamily[family][car][LoadCar] = INVALID_VEHICLE_ID;
 	
 	CarFamily[family][car][LoadCar] = A_CreateVehicle(CarFamily[family][car][carID], x,y,z,a, FamilyColorC[gFamily[family][famColor]], FamilyColorC[gFamily[family][famColor]], -1,VEHICLE_TYPE_FAMILY);
-
 	LoadFamilyTuning(family, CarFamily[family][car][LoadCar], car);
 	ChangeVehicleColor(CarFamily[family][car][LoadCar], CarFamily[family][car][famVehColor], CarFamily[family][car][famVehColor_1]);
 	
@@ -68179,7 +65981,6 @@ stock save_fcar(family, car) {
 	SetVehicleNumberText(CarFamily[family][car][LoadCar], str);
 	return 1;
 }
-
 stock EndCapt(playerid)
 {
 	for(new t = 0;t < 34;t++) {
@@ -68192,23 +65993,17 @@ stock EndCapt(playerid)
 	for(new j = 0; j < 5; j++) SendDeathMessageToPlayer(playerid, MAX_PLAYERS, MAX_PLAYERS, EOF);
 	DeletePVar(playerid, "ppkz");
 }
-
-
 CB:OnMemoryCheckFakePromo(playerid, fake_promo[])
 {
 	new rows;
 	cache_get_row_count(rows);
-
 	if (!rows) return SendError(playerid, "Цей бонус-код не існує.");
-
 	new Money;
 	new Donates;
 	new UseFakeCode;
-
 	cache_get_value_name_int(0, "Money", Money);
 	cache_get_value_name_int(0, "Donate", Donates);
 	cache_get_value_name_int(0, "UseCode", UseFakeCode);
-
 	new string;
 	STRING_GLOBAL[0] = EOS;
 	mysql_format(connects, STRING_GLOBAL, sizeof(STRING_GLOBAL), "SELECT * FROM `fake_promo_use` WHERE `ID` = '%d' AND `Code` = '%s'", PI[playerid][pID], fake_promo);
@@ -68218,7 +66013,6 @@ CB:OnMemoryCheckFakePromo(playerid, fake_promo[])
 	{
 		UseFakeCode -= 1;
 		if (cache_is_valid(result)) cache_delete(result);
-
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "\
 		"W"Ви використали бонус-код "P"%s\n\n\
@@ -68237,7 +66031,6 @@ CB:OnMemoryCheckFakePromo(playerid, fake_promo[])
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "INSERT INTO `fake_promo_use` (`ID`, `Code`) VALUES ('%d', '%s')", PI[playerid][pID], fake_promo);
 		mysql_pquery(connects, MYSQL_GLOBAL, "", "");
-
 		if (UseFakeCode <= 0)
 		{
 			MYSQL_GLOBAL[0] = EOS;
@@ -68261,7 +66054,6 @@ CB:OnMemoryCheckFakePromo(playerid, fake_promo[])
 	}
 	return 1;
 }
-
 stock textdraw_bank(playerid) {
 	// Пограбування банка
 	hack_numbers[playerid][0] = CreatePlayerTextDraw(playerid,343.7333, 130.1963, "1"); // пусто
@@ -68276,7 +66068,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][0], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][0], true);
-
 	hack_numbers[playerid][1] = CreatePlayerTextDraw(playerid,369.4284, 130.1963, "2"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][1], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][1], 10.0000, 19.0000);
@@ -68289,7 +66080,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][1], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][1], true);
-
 	hack_numbers[playerid][2] = CreatePlayerTextDraw(playerid,395.6221, 130.1963, "3"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][2], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][2], 10.0000, 19.0000);
@@ -68302,7 +66092,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][2], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][2], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][2], true);
-
 	hack_numbers[playerid][3] = CreatePlayerTextDraw(playerid,395.2221, 157.1965, "6"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][3], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][3], 10.0000, 19.0000);
@@ -68315,7 +66104,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][3], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][3], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][3], true);
-
 	hack_numbers[playerid][4] = CreatePlayerTextDraw(playerid,395.4220, 185.9981, "9"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][4], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][4], 10.0000, 19.0000);
@@ -68328,7 +66116,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][4], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][4], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][4], true);
-
 	hack_numbers[playerid][5] = CreatePlayerTextDraw(playerid,369.6285, 185.4981, "8"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][5], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][5], 10.0000, 19.0000);
@@ -68341,7 +66128,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][5], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][5], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][5], true);
-
 	hack_numbers[playerid][6] = CreatePlayerTextDraw(playerid,369.6285, 157.4965, "5"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][6], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][6], 10.0000, 19.0000);
@@ -68354,7 +66140,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][6], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][6], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][6], true);
-
 	hack_numbers[playerid][7] = CreatePlayerTextDraw(playerid,369.6285, 213.6999, "0"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][7], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][7], 10.0000, 19.0000);
@@ -68367,7 +66152,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][7], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][7], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][7], true);
-
 	hack_numbers[playerid][8] = CreatePlayerTextDraw(playerid,343.7333, 155.4963, "4"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][8], 0.3066, 2.7074);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][8], 10.0000, 19.0000);
@@ -68380,7 +66164,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][8], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][8], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][8], true);
-
 	hack_numbers[playerid][9] = CreatePlayerTextDraw(playerid,344.1333, 184.3981, "7"); // пусто
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][9], 0.3066, 2.7074);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][9], 10.0000, 19.0000);
@@ -68393,7 +66176,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][9], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][9], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][9], true);
-
 	hack_numbers[playerid][10] = CreatePlayerTextDraw(playerid,395.4220, 213.5998, "E"); //
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][10], 0.3066, 2.7074);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][10], 5.0000, 19.0000);
@@ -68405,7 +66187,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawFont(playerid,hack_numbers[playerid][10], 2);
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][10], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][10], 0);
-
 	hack_numbers[playerid][11] = CreatePlayerTextDraw(playerid,344.1333, 212.0997, "C"); //
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][11], 0.3066, 2.7074);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][11], 5.0000, 19.0000);
@@ -68417,7 +66198,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawFont(playerid,hack_numbers[playerid][11], 2);
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][11], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][11], 0);
-
 	hack_numbers[playerid][12] = CreatePlayerTextDraw(playerid, 227.7998, 230.0075, "LD_SPAC:white"); // Progress
 	PlayerTextDrawTextSize(playerid, hack_numbers[playerid][12], 96.4701, 10.0000);
 	PlayerTextDrawAlignment(playerid, hack_numbers[playerid][12], 1);
@@ -68427,7 +66207,6 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid, hack_numbers[playerid][12], 0);
 	PlayerTextDrawSetShadow(playerid, hack_numbers[playerid][12], 0);
 }
-
 stock CreatePlayerCapture(playerid) {
 	CaptPlayer[playerid][0] = CreatePlayerTextDraw(playerid, 15.1666, 233.3259, "Ballas"); // ?????
 	PlayerTextDrawLetterSize(playerid, CaptPlayer[playerid][0], 0.1159, 0.6417);
@@ -68437,7 +66216,6 @@ stock CreatePlayerCapture(playerid) {
 	PlayerTextDrawFont(playerid, CaptPlayer[playerid][0], 2);
 	PlayerTextDrawSetProportional(playerid, CaptPlayer[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, CaptPlayer[playerid][0], 0);
-
 	CaptPlayer[playerid][1] = CreatePlayerTextDraw(playerid, 107.3335, 233.4260, "Grove"); // ?????
 	PlayerTextDrawLetterSize(playerid, CaptPlayer[playerid][1], 0.1159, 0.6417);
 	PlayerTextDrawAlignment(playerid, CaptPlayer[playerid][1], 3);
@@ -68446,7 +66224,6 @@ stock CreatePlayerCapture(playerid) {
 	PlayerTextDrawFont(playerid, CaptPlayer[playerid][1], 2);
 	PlayerTextDrawSetProportional(playerid, CaptPlayer[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid, CaptPlayer[playerid][1], 0);
-
 	CaptPlayer[playerid][2] = CreatePlayerTextDraw(playerid, 61.0018, 245.6442, "00:00");
 	PlayerTextDrawLetterSize(playerid, CaptPlayer[playerid][2], 0.1489, 0.7662);
 	PlayerTextDrawAlignment(playerid, CaptPlayer[playerid][2], 2);
@@ -68455,7 +66232,6 @@ stock CreatePlayerCapture(playerid) {
 	PlayerTextDrawFont(playerid, CaptPlayer[playerid][2], 2);
 	PlayerTextDrawSetProportional(playerid, CaptPlayer[playerid][2], 1);
 	PlayerTextDrawSetShadow(playerid, CaptPlayer[playerid][2], 0);
-
 	CaptPlayer[playerid][3] = CreatePlayerTextDraw(playerid,92.3002, 245.6442, "0");  // right score
 	PlayerTextDrawLetterSize(playerid,CaptPlayer[playerid][3], 0.1489, 0.7662);
 	PlayerTextDrawAlignment(playerid,CaptPlayer[playerid][3], 2);
@@ -68464,7 +66240,6 @@ stock CreatePlayerCapture(playerid) {
 	PlayerTextDrawFont(playerid,CaptPlayer[playerid][3], 2);
 	PlayerTextDrawSetProportional(playerid,CaptPlayer[playerid][3], 1);
 	PlayerTextDrawSetShadow(playerid,CaptPlayer[playerid][3], 0);
-
 	CaptPlayer[playerid][4] = CreatePlayerTextDraw(playerid, 30.2999, 245.6442, "0"); // Left Score
 	PlayerTextDrawLetterSize(playerid,CaptPlayer[playerid][4], 0.1489, 0.7662);
 	PlayerTextDrawAlignment(playerid,CaptPlayer[playerid][4], 2);
@@ -68483,7 +66258,6 @@ stock CreatePlayerCapture(playerid) {
 	PlayerTextDrawSetProportional(playerid, CaptPlayer[playerid][5], 1);
 	PlayerTextDrawSetShadow(playerid, CaptPlayer[playerid][5], 0);
 }
-
 stock sell_bizztaxi(bizz) {
 	new query[128],querydel[174],names[25],rows;
 	mysql_format(connects, query, sizeof(query),"SELECT * FROM accounts WHERE bizz_work = '%d'", bizz);
@@ -68511,8 +66285,6 @@ stock dialog_mk(playerid, bizz, listitem)
 		case 0:{
 			if(PI[playerid][bizz_status] != 3) return SendError(playerid, "Доступ є тільки у керівника мікрозайму.");
 			new bizid = PI[playerid][pBusiness]-1;
-
-
 			new status[20];
 			new atext[24];
 			switch(gBusiness[bizid][bizzMafia]){
@@ -68551,7 +66323,6 @@ stock dialog_mk(playerid, bizz, listitem)
 					Сума повинна бути, не менше ніж "GREEN"$500.000"W" і не більше ніж "GREEN"$1.000.000",">>>","x");
 					
 				}
-
 			}
 			else{
 				new str[150];
@@ -68584,8 +66355,6 @@ stock dialog_zg(playerid, bizz, listitem)
 	case 0: {
 			if(PI[playerid][bizz_status] != 3) return SendError(playerid, "Тільки для керівника аукціона гаражів.");
 			new bizid = PI[playerid][pBusiness]-1;
-
-
 			new status[20];
 			new atext[24];
 			switch(gBusiness[bizid][bizzMafia]){
@@ -68728,7 +66497,6 @@ stock dialog_tk(playerid,bizz,listitem) {
 	}
 	return 1;
 }
-
 stock showstattk(playerid,bizz) {
 	new id = 0;
 	for(new i; i < 16; i ++) {
@@ -68746,7 +66514,6 @@ stock showstattk(playerid,bizz) {
 	FuncBizz[bizz][funcbPercent],info_funcmembers(bizz),id);
 	ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Транспортна компанія",string,"Закрити","");
 }
-
 CB: members_funcbizz_tk(playerid,bizz) {
 	new names[24],last[30],cash,lcash,status,string[3600],str[128],rows;
 	new query[128];
@@ -68772,7 +66539,6 @@ CB: members_funcbizz_tk(playerid,bizz) {
 	ShowPlayerDialog(playerid,D_BIZZ_TK_MEM,DSTH,""P"Співробітники транспортної компанії",string,"Далі","Закрити");
 	return 1;
 }
-
 stock IsATK(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][bizz_work]) {
@@ -68789,7 +66555,6 @@ CB: info_funcmembers(bizz) {
 	cache_delete(result);
 	return rows;
 }
-
 stock BizzMSG(bizz, color, const str[]) {
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
@@ -68797,7 +66562,6 @@ stock BizzMSG(bizz, color, const str[]) {
 		SendClientMessage(i, color, str);
 	}
 }
-
 stock creare_funccar(bizz,slot) {
 	switch(bizz) {
 	case 61:
@@ -68811,7 +66575,6 @@ stock creare_funccar(bizz,slot) {
 	SetVehicleParamsEx(FuncBizz[bizz][funcbCars][slot],false,false,false,false,false,false,false);
 	return 1;
 }
-
 stock save_funcar(bizz) {
 	new query[320],data[256];
 	for(new i;i<20;i++) {
@@ -68821,7 +66584,6 @@ stock save_funcar(bizz) {
 	mysql_format(connects, query, sizeof(query),"UPDATE business_func SET car = '%s' WHERE bizzID = '%d'", data, bizz);
 	mysql_tquery(connects, query);
 }
-
 stock cancel_selectcolor(playerid) {
 	for(new h = 0;h < 22;h++) {
 		TextDrawHideForPlayer(playerid,func_bcolor[h]);
@@ -68838,7 +66600,6 @@ stock UpdateFuncBizzData(id,const field[],data){
 	mysql_tquery(connects, query,"","");
 	return mysql_errno();
 }
-
 stock load_week()
 {
 	new dayid;
@@ -68926,7 +66687,6 @@ stock EndTrade(playerid) {
 	}
 	PI[playerid][pPalatka] = 0;
 }
-
 stock get_market (playerid)
 {
 	new _market = 0, query_string [78] ;
@@ -68936,16 +66696,13 @@ stock get_market (playerid)
 	cache_delete (result) ;
 	return _market ;
 }
-
 stock ghetto_ShowGUI(playerid) {
 	//if (!zahvat || GhettoInfo[playerid][GhettoGUI]) return false;
 	if(GhettoInfo[playerid][GhettoGUI]) return false;
 	ghetto_UpdateGUI(playerid);
 	ghetto_CreatePTD(playerid);
-
 	GhettoInfo[playerid][GhettoGUI] = true;
 	ghetto_UdatePlayerGUI(playerid);
-
 	for (new td_id = 0; td_id < sizeof (GhettoTableTD); td_id++)
 	TextDrawShowForPlayer(playerid, GhettoTableTD[td_id]);
 	for (new ptd_id = 0; ptd_id < sizeof (GhettoTablePTD[]); ptd_id++)
@@ -68971,14 +66728,11 @@ stock ghetto_UdatePlayerGUI(playerid) {
 	Float:(GhettoInfo[playerid][ghettoKills] / K_D)
 	);
 	PlayerTextDrawSetString(playerid, GhettoTablePTD[playerid][0], STRING_GLOBAL);
-
 	new Float:progress = GhettoInfo[playerid][ghettoLevelDMG] / (GhettoInfo[playerid][ghettoPassLevel] * 1500 / 100.0);
 	PlayerTextDrawTextSize(playerid, GhettoTablePTD[playerid][1], progress * 1.82, 2.000000);
 	PlayerTextDrawShow(playerid, GhettoTablePTD[playerid][1]);
-
 	new pass_level = GhettoInfo[playerid][ghettoPassLevel];
 	if (pass_level < 1) pass_level = 1;
-
 	format(STRING_GLOBAL, sizeof (STRING_GLOBAL), "%.1f / %.1f DMG",
 	GhettoInfo[playerid][ghettoLevelDMG],
 	pass_level * 1500.0
@@ -69003,10 +66757,8 @@ stock ghetto_UpdateGUI(player_id) {
 	}
 	SortDeepArray(attack_players, 1, .order = SORT_DESC);
 	SortDeepArray(defend_players, 1, .order = SORT_DESC);
-
 	for (new i = 0, damageSTR[8], playerid; i < 6; i++) {
 		TextDrawBoxColor(GhettoTableTD[i + 6], ghettoGangBoxTDColors[TI[player_id][tAttack] - fBALLAS]);
-
 		if (attack_players[i][1] == 0) {
 			TextDrawSetString(GhettoTableTD[i + 6], "__");
 			TextDrawSetString(GhettoTableTD[i + 18], "__");
@@ -69014,7 +66766,6 @@ stock ghetto_UpdateGUI(player_id) {
 			playerid = attack_players[i][0];
 			format(STRING_GLOBAL, sizeof (STRING_GLOBAL), "__%s", player_name[playerid]);
 			TextDrawSetString(GhettoTableTD[i + 6], STRING_GLOBAL), STRING_GLOBAL[0] = EOS;
-
 			switch (floatround(GhettoInfo[playerid][ghettoDMG])) {
 			case 0..9: format(damageSTR, sizeof (damageSTR), "___%i", floatround(GhettoInfo[playerid][ghettoDMG]));
 			case 10..99: format(damageSTR, sizeof (damageSTR), "__%i", floatround(GhettoInfo[playerid][ghettoDMG]));
@@ -69023,7 +66774,6 @@ stock ghetto_UpdateGUI(player_id) {
 			}
 			new Float:K_D = GhettoInfo[playerid][ghettoDeaths];
 			if (K_D < 1.0) K_D = 1.0;
-
 			format(STRING_GLOBAL, sizeof (STRING_GLOBAL), "~y~~h~%s%i    ~w~%s%i   %s   %s%i    %.1f",
 			(GhettoInfo[playerid][ghettoPassLevel] < 10 ? " " : ""), GhettoInfo[playerid][ghettoPassLevel],
 			(GhettoInfo[playerid][ghettoKills] < 10 ? " " : ""), GhettoInfo[playerid][ghettoKills],
@@ -69034,7 +66784,6 @@ stock ghetto_UpdateGUI(player_id) {
 			TextDrawSetString(GhettoTableTD[i + 18], STRING_GLOBAL);
 		}
 		TextDrawBoxColor(GhettoTableTD[i + 12], ghettoGangBoxTDColors[TI[player_id][tDefend] - fBALLAS]);
-
 		if (defend_players[i][1] == 0) {
 			TextDrawSetString(GhettoTableTD[i + 12], "__");
 			TextDrawSetString(GhettoTableTD[i + 24], "__");
@@ -69042,7 +66791,6 @@ stock ghetto_UpdateGUI(player_id) {
 			playerid = defend_players[i][0];
 			format(STRING_GLOBAL, sizeof (STRING_GLOBAL), "__%s", player_name[playerid]);
 			TextDrawSetString(GhettoTableTD[i + 12], STRING_GLOBAL);
-
 			switch (floatround(GhettoInfo[playerid][ghettoDMG])) {
 			case 0..9:  format(damageSTR, sizeof (damageSTR), "   %i", floatround(GhettoInfo[playerid][ghettoDMG]));
 			case 10..99: format(damageSTR, sizeof (damageSTR), "  %i", floatround(GhettoInfo[playerid][ghettoDMG]));
@@ -69051,7 +66799,6 @@ stock ghetto_UpdateGUI(player_id) {
 			}
 			new Float:K_D = GhettoInfo[playerid][ghettoDeaths];
 			if (K_D < 1.0) K_D = 1.0;
-
 			format(STRING_GLOBAL, sizeof (STRING_GLOBAL), "~y~~h~%s%i    ~w~%s%i   %s   %s%i    %.1f",
 			(GhettoInfo[playerid][ghettoPassLevel] < 10 ? " " : ""), GhettoInfo[playerid][ghettoPassLevel],
 			(GhettoInfo[playerid][ghettoKills] < 10 ? " " : ""), GhettoInfo[playerid][ghettoKills],
@@ -69098,13 +66845,11 @@ stock ghetto_CreateTD() {
 	TextDrawSetProportional(GhettoTableTD[0], 0);
 	TextDrawSetPreviewModel(GhettoTableTD[0], 2729);
 	TextDrawSetPreviewRot(GhettoTableTD[0], 0.000000, 0.000000, 0.000000, 1.000000);
-
 	GhettoTableTD[1] = TextDrawCreate(235.000000, 165.33000, "NAME");
 	GhettoTableTD[2] = TextDrawCreate(343.333343, 165.33000, "KILLS");
 	GhettoTableTD[3] = TextDrawCreate(368.267089, 165.33000, "DMG");
 	GhettoTableTD[4] = TextDrawCreate(395.600341, 165.33000, "DEATHS");
 	GhettoTableTD[5] = TextDrawCreate(424.583435, 165.33000, "K/D");
-
 	for (new td_id = 1; td_id < 6; td_id++) {
 		TextDrawColor(GhettoTableTD[td_id], td_id % 2 != 0 ? (-1061109505) : (-1));
 		TextDrawLetterSize(GhettoTableTD[td_id], 0.166078, 0.787406);
@@ -69128,7 +66873,6 @@ stock ghetto_CreateTD() {
 	GhettoTableTD[15] = TextDrawCreate(200.000000, 314.550000, "__");
 	GhettoTableTD[16] = TextDrawCreate(200.000000, 328.200000, "__");
 	GhettoTableTD[17] = TextDrawCreate(200.000000, 341.850000, "__");
-
 	for (new td_id = 6; td_id < 18; td_id++) {
 		TextDrawColor(GhettoTableTD[td_id], td_id % 2 == 0 ? (-2139062017) : (-1061109505));
 		TextDrawLetterSize(GhettoTableTD[td_id], 0.210078, 0.967408);
@@ -69154,7 +66898,6 @@ stock ghetto_CreateTD() {
 	GhettoTableTD[27] = TextDrawCreate(312.048461, 314.549987, "__");
 	GhettoTableTD[28] = TextDrawCreate(312.048461, 328.200012, "__");
 	GhettoTableTD[29] = TextDrawCreate(312.048461, 341.850006, "__");
-
 	for (new td_id = 18; td_id < 30; td_id++) {
 		TextDrawLetterSize(GhettoTableTD[td_id], 0.210078, 0.967408);
 		TextDrawTextSize(GhettoTableTD[td_id], 604.000000, 0.000000);
@@ -69176,7 +66919,6 @@ stock ghetto_CreateTD() {
 	TextDrawBackgroundColor(GhettoTableTD[30], 255);
 	TextDrawFont(GhettoTableTD[30], 1);
 	TextDrawSetProportional(GhettoTableTD[30], 1);
-
 	GhettoTableTD[31] = TextDrawCreate(200.000000, 260.199188, "__~>~ ~y~~h~Your personal");
 	TextDrawLetterSize(GhettoTableTD[31], 0.210078, 0.967408);
 	TextDrawTextSize(GhettoTableTD[31], 440.000000, 0.000000);
@@ -69189,7 +66931,6 @@ stock ghetto_CreateTD() {
 	TextDrawBackgroundColor(GhettoTableTD[31], 255);
 	TextDrawFont(GhettoTableTD[31], 1);
 	TextDrawSetProportional(GhettoTableTD[31], 1);
-
 	GhettoTableTD[32] = TextDrawCreate(316.731719, 158.229568, "~y~~h~GHETTO~n~~y~~h~PASS");
 	TextDrawLetterSize(GhettoTableTD[32], 0.166078, 0.787406);
 	TextDrawTextSize(GhettoTableTD[32], 0.000000, 440.000000);
@@ -69200,7 +66941,6 @@ stock ghetto_CreateTD() {
 	TextDrawBackgroundColor(GhettoTableTD[32], 255);
 	TextDrawFont(GhettoTableTD[32], 1);
 	TextDrawSetProportional(GhettoTableTD[32], 1);
-
 	GhettoTableTD[33] = TextDrawCreate(229.166656, 366.163116, "LD_SPAC:white");
 	TextDrawTextSize(GhettoTableTD[33], 182.000000, 2.000000);
 	TextDrawAlignment(GhettoTableTD[33], 1);
@@ -69209,7 +66949,6 @@ stock ghetto_CreateTD() {
 	TextDrawBackgroundColor(GhettoTableTD[33], 255);
 	TextDrawFont(GhettoTableTD[33], 4);
 	TextDrawSetProportional(GhettoTableTD[33], 0);
-
 	GhettoTableTD[34] = TextDrawCreate(316.731719, 153.329269, "SEASON-1");
 	TextDrawLetterSize(GhettoTableTD[34], 0.132074, 0.617406);
 	TextDrawTextSize(GhettoTableTD[34], -0.259999, 442.000000);
@@ -69220,7 +66959,6 @@ stock ghetto_CreateTD() {
 	TextDrawBackgroundColor(GhettoTableTD[34], 255);
 	TextDrawFont(GhettoTableTD[34], 1);
 	TextDrawSetProportional(GhettoTableTD[34], 1);
-
 	GhettoTableTD[35] = TextDrawCreate(229.566665, 358.392333, "LEVEL PROGRESS");
 	TextDrawLetterSize(GhettoTableTD[35], 0.143333, 0.682222);
 	TextDrawTextSize(GhettoTableTD[35], 503.000000, 0.000000);
@@ -69243,7 +66981,6 @@ stock ghetto_CreatePTD(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, GhettoTablePTD[playerid][0], 255);
 	PlayerTextDrawFont(playerid, GhettoTablePTD[playerid][0], 1);
 	PlayerTextDrawSetProportional(playerid, GhettoTablePTD[playerid][0], 0);
-
 	GhettoTablePTD[playerid][1] = CreatePlayerTextDraw(playerid, 229.166656, 366.163116, "LD_SPAC:white");
 	PlayerTextDrawTextSize(playerid, GhettoTablePTD[playerid][1], 20.000000, 2.000000);
 	PlayerTextDrawAlignment(playerid, GhettoTablePTD[playerid][1], 1);
@@ -69252,7 +66989,6 @@ stock ghetto_CreatePTD(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, GhettoTablePTD[playerid][1], 255);
 	PlayerTextDrawFont(playerid, GhettoTablePTD[playerid][1], 4);
 	PlayerTextDrawSetProportional(playerid, GhettoTablePTD[playerid][1], 0);
-
 	GhettoTablePTD[playerid][2] = CreatePlayerTextDraw(playerid, 411.649963, 368.425750, "0 / 1500 DMG");
 	PlayerTextDrawLetterSize(playerid, GhettoTablePTD[playerid][2], 0.143333, 0.682222);
 	PlayerTextDrawTextSize(playerid, GhettoTablePTD[playerid][2], 503.000000, 0.000000);
@@ -69264,7 +67000,6 @@ stock ghetto_CreatePTD(playerid) {
 	PlayerTextDrawFont(playerid, GhettoTablePTD[playerid][2], 1);
 	PlayerTextDrawSetProportional(playerid, GhettoTablePTD[playerid][2], 1);
 }
-
 stock d_sellfish(playerid)
 {
 	if(!PlayerToPoint(10.0,playerid, 817.3759,-1847.1996,8.3775)) return SendError(playerid, "Ви не біля складу для продажу риби.");
@@ -69280,7 +67015,6 @@ stock d_sellfish(playerid)
 	mysql_tquery(connects,query);
 	return 1;
 }
-
 stock d_craft_acs(playerid) {
 	new string[1200];
 	format(string, sizeof(string),""W"Назва\t"W"Унікальність\t"W"Можливість створення\n\
@@ -69309,7 +67043,6 @@ stock d_craft_acs(playerid) {
 	ShowPlayerDialog(playerid, D_CRAFT_1, DSTH, ""P"Створення аксесуара",string, "Далі", "Закрити");
 	return 1;
 }
-
 CB: clothes_timer(playerid)
 {
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 8)) RemovePlayerAttachedObject(playerid, 8);
@@ -69320,12 +67053,10 @@ CB: clothes_timer(playerid)
 	EnableGPSForPlayer(playerid,3627.6726,-733.5646,20.2793);
 	return 1;
 }
-
 stock SaveSpawnData(playerid) {
 	new
 	houseid = TI[playerid][tSelectHouse],
 	businessid = TI[playerid][tSelectedBusinessID];
-
 	PI[playerid][pSpawnTPPick] = 1;
 	if (
 			TI[playerid][tDuel] != -1 || player_to_game[playerid] ||
@@ -69398,7 +67129,6 @@ stock SaveSpawnData(playerid) {
 		PI[playerid][pSpawnInterior] = GetPlayerInterior(playerid);
 		PI[playerid][pSpawnWorld] = GetPlayerVirtualWorld(playerid);
 		PI[playerid][pSpawnTPPick] = 0;
-
 	}
 	switch (GetPlayerState(playerid)) {
 	case PLAYER_STATE_SPECTATING, PLAYER_STATE_NONE: PI[playerid][pSpawnTime] = 0;
@@ -69434,7 +67164,6 @@ CMD:ylist(playerid) {
     if(count == 0) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Список ютуберів", ""W"Список ютуберів відсутній", "Закрити", "");
  	return 1;
 }
-
 CB: make_youtube(playerid, name[], level)
 {
    	new rows;
@@ -69460,7 +67189,6 @@ CB: make_youtube(playerid, name[], level)
 	}
 	return 1;
 }
-
 CMD:fso(playerid, params[])
 {
     GameTextForPlayer(playerid, "!@#$%^&*()_+*-+йфяцычувскамиепрьтитюэхъ[]____=\"\"", 1, gettime());
@@ -69615,7 +67343,6 @@ stock Dialog_Robbit_WareHouse(playerid,response,listitem)
                 DestroyPickup(WareHouse);
 				DestroyDynamic3DTextLabel(WareHouses);
 				SetPVarInt(playerid, "EndReady", 1);
-
 			}
 		}
 		case 1:{
@@ -69646,14 +67373,12 @@ stock CodeSkladOne(playerid)
 		SendClientMessage(playerid, -1, "Зайдіть в приміщення.");
 		new Float:xx, Float:xy, Float:xz;
 		GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, xy, xz);
-
 		if(WHvar == false) WHCar = CreateDynamic3DTextLabel("{FFFFFF}Щоб закинути сумку в багажник\n\n\nНажміть: 'ALT'.", 0xFFFFFFFF, xx,xy,xz, 4.0), WHvar = true;
 		Attach3DTextLabelToVehicle(WHCar, GetPVarInt(playerid, "VehicleID"), xx,xy,xz);
 		SetVehicleParamsEx(GetPVarInt(playerid, "VehicleID"), 0, lights, alarm, doors, bonnet, boot, objective);
 	}
 	return 1;
 }
-
 stock OperationMoney(playerid, bizz, money)
 {
 	PI[playerid][bizz_lcash] += money;
@@ -69698,7 +67423,6 @@ stock System32Garage(playerid)
 	else format(STRING_GLOBAL,sizeof(STRING_GLOBAL),""W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет доданий до списку всіх призів.", GarageInfo[rand][cont_name]);
 	SendInfo(playerid, STRING_GLOBAL);
 	AddItem(playerid, GarageInfo[rand][cont_model], 1);
-
     FG[i][gOwnerID] = -1;
     FG[i][gActive] = 0;
     STRING_GLOBAL[0] = EOS;
@@ -69717,14 +67441,12 @@ CMD:vk(playerid, params[]) {
 	SendClientMessage(playerid, COLOR_RED, "Відправлено");
 	return 1;
 }
-
 stock SendVKMessage(playerid, const message[], const vk_id[]) { 
 	new	inc_string[256];
 	format(inc_string, sizeof inc_string, "artemabw.beget.tech/vk_sender.php?message=%s&to=%s", vk_id, message);
     for(new i, str = strlen(inc_string); i < str; i++) {
         if(inc_string[i] == ' ') inc_string[i] = '+';
     }
-
     HTTP(playerid, HTTP_GET, inc_string, "", ""); 
     return 1;
 }*/
@@ -69744,22 +67466,18 @@ stock load_goscars() {
 	else if(!CarsCount) return print("Не знайдено державних машин в базі.");
 	for(new i=0; i<CarsCount;i++) {
 		cache_get_value_name_int(i,"ID", GC[i][gcID]);
-
 		cache_get_value_name_int(i, "orgs", GC[i][gcOrgs]);
 		
 		cache_get_value_name_int(i,"rank", GC[i][gcRank]);
 		cache_get_value_name_int(i,"model", GC[i][gcModel]);
-
 		cache_get_value_name_float(i, "X", GC[i][gcPosX]);
 		cache_get_value_name_float(i, "Y", GC[i][gcPosY]);
 		cache_get_value_name_float(i, "Z", GC[i][gcPosZ]);
 		cache_get_value_name_float(i, "A", GC[i][gcPosA]);
-
 		cache_get_value_name_int(i,"color1", GC[i][gcColor1]);
 		cache_get_value_name_int(i,"color2", GC[i][gcColor2]);
 		cache_get_value_name_int(i,"spawntime", GC[i][gcSpawntime]);
 		CreateOrgsVehicle(GC[i][gcID],GC[i][gcOrgs],GC[i][gcRank],GC[i][gcModel],GC[i][gcPosX],GC[i][gcPosY],GC[i][gcPosZ],GC[i][gcPosA],GC[i][gcColor1],GC[i][gcColor2],GC[i][gcSpawntime]);
-
 	}
 	printf("[Завантаження] Державні машини завантажено (%i шт.)",CarsCount);
 	cache_delete(result);
@@ -69833,7 +67551,6 @@ stock dialog_goscar(playerid, listitem, id){
 		new query[128];
 		mysql_format(connects, query, sizeof(query),"UPDATE `goscar` SET `model` = '%d' WHERE `ID` = '%d' LIMIT 1",eGC[egID-1][eModel], IDModel+1);
 		mysql_tquery(connects, query, "", "");
-
 		GC[IDModel][gcModel] = eGC[egID-1][eModel];
 		A_DestroyVehicle(VehicleInfo[IDModel+1][vID]);
 		CreateOrgsVehicle(IDModel+1,eGC[egID-1][eOrgs],GC[IDModel][gcRank],GC[IDModel][gcModel],GC[IDModel][gcPosX],GC[IDModel][gcPosY],GC[IDModel][gcPosZ],GC[IDModel][gcPosA],GC[IDModel][gcColor1],GC[IDModel][gcColor2],GC[IDModel][gcSpawntime]);
@@ -69941,7 +67658,6 @@ cmd:vehicle(playerid){
 	VehicleInfo[vehicleid][vAkum] = 100;
 	return 1;
 }
-
 forward SPlayer(playerid);
 public SPlayer(playerid) return TogglePlayerControllable(playerid, 1);
 CMD:vereget(playerid){
@@ -69949,21 +67665,17 @@ CMD:vereget(playerid){
 	for(new i = 0; i < 24; i++) capture_kd[i] = 0;
 	return 1;
 }
-
 forward DeathPhaseTimer(playerid, deathphasetimervar[]);
 public DeathPhaseTimer(playerid)
 {
 	SetPVarInt(playerid, "anti_sbiv_time", GetPVarInt(playerid,"anti_sbiv_time") + 1);
 	if(GetPlayerAnimationIndex(playerid) != 1701) return ApplyAnimation(playerid, "WUZI", "CS_Dead_Guy", 4.1, 0, 1, 1, 1, -1, 0);
 	//if(TI[playerid][tAFK] > 0) return 1;
-
 	deathtimer[playerid][1]--;
-
 	new deathphasetimerstr[32];
 	format(deathphasetimerstr, sizeof(deathphasetimerstr),"%d", deathtimer[playerid][1]);
 	GameTextForPlayer(playerid, deathphasetimerstr, 1000, 4);
 	
-
 	if(deathtimer[playerid][1] == 11)
 	{
 		KillTimer(deathtimer[playerid][0]);
@@ -69981,7 +67693,6 @@ public DeathPhaseTimer(playerid)
 	}
 	return 1;
 }
-
 forward DeathChoiceTimer(playerid);
 public DeathChoiceTimer(playerid)
 {
@@ -69996,7 +67707,6 @@ public DeathChoiceTimer(playerid)
 	SetPlayerHospital(playerid);
 	return 1;
 }
-
 forward CureDeathPlayer(playerid, giveplayerid);
 public CureDeathPlayer(playerid, giveplayerid)
 {
@@ -70007,7 +67717,6 @@ public CureDeathPlayer(playerid, giveplayerid)
 	KillTimer(deathtimer[giveplayerid][2]);
 	Delete3DTextLabel(deathlabel[giveplayerid]);
 	TogglePlayerDynamicArea(giveplayerid, deatharea[giveplayerid], false);
-
 	ShowPlayerDialog(giveplayerid, -1, 0, " ", " ", " ", " ");
 	
 	SetPlayerVirtualWorld(giveplayerid, floatround(deathpos[giveplayerid][0]));
@@ -70018,7 +67727,6 @@ public CureDeathPlayer(playerid, giveplayerid)
 	SetPlayerHealth(giveplayerid, 100);
 	
 	ClearAnimations(playerid);
-
 	new string[128];
 	format(string, sizeof(string), "Вас підняв зі стадії медик %s[%d].", player_name[playerid], playerid);
 	SendOK(giveplayerid, string);
