@@ -87,7 +87,7 @@ new CountMaterialVehicleWH = 0;
 #define MYSQL_USER 	"ch5d055a58"
 #define MYSQL_PASS 	"0e8f0cc01d"
 #define DB_NAME 	"ch5d055a58_server"*/
-#define MYSQL_HOST 	"92.119.113.102"
+#define MYSQL_HOST 	"localhost"
 #define MYSQL_USER 	"chiliad"
 #define MYSQL_PASS 	"cO8kR7kW2k"
 #define DB_NAME 	"chiliad"
@@ -15926,12 +15926,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(rows > 0) {
 							cache_get_value_name_int(0, "Type", control);
 							if(control == 1) ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"E-Mail", "\n\n"W"E-Mail адреса на вашому акаунті вже підтверждена. Змінити її не можна\n\n","Закрити","");
-							else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Вкажіть вашу "GREEN"пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
+							else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Вкажіть вашу пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
 						}
-						else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"E-Mail", "\n\n"W"Підтвердити ваш E-Mail адрес на сайті "YELLOW"chiliad-rp.com\n\n","Закрити","");
+						else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"E-Mail", "\n\n"W"Підтвердити ваш E-Mail адрес на сайті "P"chiliad-rp.com\n\n","Закрити","");
 						cache_delete(result);
 					}
-					else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Вкажіть вашу "GREEN"пошту"W"\n\nВкажіть Ваш реальнийй "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
+					else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Вкажіть вашу пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
 				}
 			case 3: {
 					ShowPlayerDialog(playerid, D_GOOGLE, DSL, ""P"Google Authenticator", ""P"1."W" Запрошувати пароль при кожній зміні IP адресу\n"P"2."W" Відключити Google Authenticator","Обрати","Назад");
@@ -15949,12 +15949,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	      switch(listitem) {
 	        case 0: {          
 	          if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-	          if(!GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви вже прив'язали Discord до Вашого акаунта");
+	          if(!GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви вже прив'язали Discord до вашого акаунта.");
 	          ShowPlayerDialog(playerid, dDiscordLink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть Ваш ID користувача (USER ID) у поле нижче", "Далі", "Назад");
 	        }
 	        case 1: {
 		        if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-		        if(GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви не прив'язували Discord до Вашого акаунта");
+		        if(GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви не прив'язували Discord до вашого акаунта.");
 			    new DCC_User:user;
 		    	user = DCC_FindUserById(PI[playerid][pDiscord]);
 		    	SendDiscordMessage(playerid, user);
@@ -15968,22 +15968,22 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		        DeletePVar(playerid, "dscode");
 		        return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
 			}	    	
-			if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
+			if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
 	      	PI[playerid][pDiscord] = 0;
 	      	new query[200];
 	      	mysql_format(connects, query, sizeof(query),"UPDATE accounts SET pDiscord = '0', pDiscordName = '0' WHERE pID = '%d' LIMIT 1", PI[playerid][pID]);
 	      	mysql_tquery(connects,query);
-          	SendOK(playerid, "Ви відв'язали Discord від Вашого акаунта.");
+          	SendOK(playerid, "Ви відв'язали Discord від вашого акаунта.");
           	SendInfo(playerid, "Наполегливо рекомендуємо прив'язати його назад для забезпечення вищого рівня безпеки акаунта.");   
 	    }
 	  	case dDiscordLink: {
 	      if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-	      if(strlen(inputtext) < 17 || strlen(inputtext) > 18) return ShowPlayerDialog(playerid, dDiscordLink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть Ваш ID користувача (USER ID) у поле нижче\nID користувача повинен містити не менше, ніж 17, і не більше, ніж 18 цифр", "Далі", "Назад");
+	      if(strlen(inputtext) < 17 || strlen(inputtext) > 18) return ShowPlayerDialog(playerid, dDiscordLink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть ваш ID користувача (USER ID) у поле нижче\nID користувача повинен містити не менше, ніж 17, і не більше, ніж 18 цифр", "Далі", "Назад");
 	      new DCC_User:user;
 	      user = DCC_FindUserById(inputtext);
 	      SetPVarString(playerid, "discordID", inputtext);
 	      SendDiscordMessage(playerid, user);
-	      ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
+	      ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
 	  }
 	  case dDiscordLink_2: {
 	      if(!response) {
@@ -15993,7 +15993,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	      }
 	      new discordID[20];
 	      GetPVarString(playerid, "discordID", discordID, 20);
-	      if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
+	      if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
 	      new DCC_User:user, name[32+1];
 	      user = DCC_FindUserById(discordID);
 	      DCC_GetUserName(user, name, sizeof(name));
@@ -51620,7 +51620,7 @@ CMD:restartservera(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 6 || dostup[playerid] == 0) return 1;
 	SendClientMessageToAll(COLOR_YELLOW, "Через дві хвилини відбудеться автоматичний рестарт сервера.");
 	SendClientMessageToAll(COLOR_YELLOW, "Прохання завершити всі свої роботи. Дякуємо за розуміння.");
-	SetTimer("OnServerRestarting", 100000, false);
+	SetTimer("OnServerRestarting", 120000, false);
 	return 1;
 }
 CMD:delacc(playerid, params[]) {
@@ -51915,7 +51915,7 @@ CMD:gives(playerid,params[]) {
 CMD:setmats(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 	new amount,giveplayerid;
-	if(sscanf(params, "dd",giveplayerid,amount)) SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setstat [playerid] [amount]"),
+	if(sscanf(params, "dd",giveplayerid,amount)) SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setmats [playerid] [amount]"),
 	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 1. Поліція м. ЛС; 2. Angels MC; 3. Bandidos MC; 4. ФБР; 5. Нац. Гвардія."),
 	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 7. Ballas; 8. Vagos; 9. Grove; 10. Aztecas; 11. Rifa."),
 	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 12. Коза Ностра; 13. Якудза; 14. Медельїнський картель."),
@@ -52478,8 +52478,8 @@ CMD:setbizmafia(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 	new mafiaid;
 	if(sscanf(params,"d",mafiaid)) {
-		SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setbizmafia [number]");
-		SendClientMessage(playerid,-1, "1 - Коза Ностра | 2 - Якудза | 3 - Медельїнський картель");
+		SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setbizmafia [mafiaid]");
+		SendClientMessage(playerid,-1, "1 - Ла Коза Ностра; 2 - Якудза; 3 - Медельїнський картель.");
 		return 1;
 	}
 	if(mafiaid < 1 || mafiaid > 3) return 1;
@@ -52511,9 +52511,9 @@ CMD:gspawn(playerid, params[]) {
 	if(giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
 	PlayerSpawn(giveplayerid);
 	new string[128];
-	format(string, sizeof(string), "[A] %s[%d] заспавнив гравця %s[%d]",player_name[playerid],playerid,player_name[giveplayerid],giveplayerid);
+	format(string, sizeof(string), "[A] %s[%d] заспавнив гравця %s[%d].",player_name[playerid],playerid,player_name[giveplayerid],giveplayerid);
 	AdmMSG(0xAFAFAFAA, string);
-	format(string, sizeof(string), "Вас заспавнив адміністратор %s[%d]",player_name[playerid],playerid);
+	format(string, sizeof(string), "Вас заспавнив адміністратор %s[%d].",player_name[playerid],playerid);
 	SendOK(giveplayerid, string);
 	return 1;
 }
