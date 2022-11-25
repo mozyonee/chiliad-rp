@@ -87,7 +87,7 @@ new CountMaterialVehicleWH = 0;
 #define MYSQL_USER 	"ch5d055a58"
 #define MYSQL_PASS 	"0e8f0cc01d"
 #define DB_NAME 	"ch5d055a58_server"*/
-#define MYSQL_HOST 	"localhost"
+#define MYSQL_HOST 	"92.119.113.102"
 #define MYSQL_USER 	"chiliad"
 #define MYSQL_PASS 	"cO8kR7kW2k"
 #define DB_NAME 	"chiliad"
@@ -10639,7 +10639,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(gBusiness[bizz][bizzType] == 14) {
 						strcat(string,"#. Модель\tВантажопідйомність\tВартість\n");
 						for(new i; i < sizeof(tk_car); i ++) {
-							format(str, sizeof(str), ""ORANGE"%d."W" %s\t%d\t%d\n", i+1,gTransport[tk_car[i][0]-400][trName],tk_car[i][1],gTransport[tk_car[i][0]-400][trPrice]),strcat(string,str);
+							format(str, sizeof(str), ""P"%d."W" %s\t%d\t%d\n", i+1,gTransport[tk_car[i][0]-400][trName],tk_car[i][1],gTransport[tk_car[i][0]-400][trPrice]),strcat(string,str);
 						}
 					}
 					ShowPlayerDialog(playerid,D_BIZZ_TAXI_CAR_2,DSTH,"Купівля автомобіля",string,"Купити","Скасувати");
@@ -23510,9 +23510,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return 1;
 				}
 				new string[128];
-				format(string, sizeof(string), "Ви купили SIM-карту у "P"%s "W"за "ORANGE"$%i.", player_name[sell_sim_id],sell_sim_sum);
+				format(string, sizeof(string), "Ви купили SIM-карту у "P"%s"W" за "GREEN"$%i.", player_name[sell_sim_id],sell_sim_sum);
 				SendUse(playerid, string);
-				format(string, sizeof(string), ""P"%s "W"купив у вас SIM-карту за "ORANGE"$%i.", player_name[playerid],sell_sim_sum);
+				format(string, sizeof(string), ""P"%s"W" купив у вас SIM-карту за "GREEN"$%i.", player_name[playerid],sell_sim_sum);
 				SendUse(sell_sim_id, string);
 				
 				string[0] = EOS;
@@ -23525,12 +23525,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				PI[sell_sim_id][pPhone] = 0;
 				UpdatePlayerData(playerid,"pPhone",PI[playerid][pPhone]);
 				UpdatePlayerData(sell_sim_id,"pPhone",PI[sell_sim_id][pPhone]);
-				format(string, sizeof(string), "Ваш ноВий номер: "W"%i",PI[playerid][pPhone]);
-				SendClientMessage(playerid, CGOLD, string);
+				format(string, sizeof(string), "Ваш новий номер: "W"%i",PI[playerid][pPhone]);
+				SendInfo(playerid, string);
 			}
 			else {
-				SendOK(GetPVarInt(playerid, "sim_id_sell")-1, "Гравець відмовився від купівлі SIM-карти.");
-				SendOK(playerid, "Ви відмовились від купівлі SIM-карти");
+				SendError(GetPVarInt(playerid, "sim_id_sell")-1, "Гравець відмовився від купівлі SIM-карти.");
+				SendOK(playerid, "Ви відмовились від купівлі SIM-карти.");
 				DeletePVar(playerid, "sim_id_sell");
 				DeletePVar(playerid, "sim_summ");
 			}
@@ -23540,52 +23540,52 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(!response) return 1;
 		switch(listitem) {
 			case 0:{
-				ShowPlayerDialog(playerid,D_GPS_O,DSL,""CS"Общественные місця",""CS"1."W" Центр занятости\n\
-												"CS"2."W" Банк\n\
-												"CS"3."W" Автошкола\n\
-												"CS"4."W" Військомат\n\
-												"CS"5."W" ЗД Вокзал г. ЛС\n\
-												"CS"6."W" Церква\n\
-												"CS"7."W" Казино\n\
-												"CS"8."W" Ловля риби\n\
-												"CS"9."W" Спортзала\n\
-												"CS"10."W" Ріелторское агенство\n\
-												"CS"11."W" Тир\n\
-												"CS"12."W" Озеро 'місце плшуку предметів'","Обрати","Назад");
+				ShowPlayerDialog(playerid,D_GPS_O,DSL,""P"Громадські місця",""P"1."W" Центр занятости\n\
+												"P"2."W" Банк\n\
+												"P"3."W" Автошкола\n\
+												"P"4."W" Військомат\n\
+												"P"5."W" ЗД Вокзал г. ЛС\n\
+												"P"6."W" Церква\n\
+												"P"7."W" Казино\n\
+												"P"8."W" Ловля риби\n\
+												"P"9."W" Спортзала\n\
+												"P"10."W" Ріелторское агенство\n\
+												"P"11."W" Тир\n\
+												"P"12."W" Озеро 'місце плшуку предметів'","Обрати","Назад");
 			}
 			case 1: {
-					ShowPlayerDialog(playerid,D_GPS_WORK,DSL,""CS"Роботи",""CS"1."W" Яблуневий сад\n\
-											"CS"2."W" Збройовий завод\n\
-											"CS"3."W" Лісопильня\n\
-											"CS"4."W" Чистильник каналізацій\n\
-											"CS"5."W" Робота на будівництві\n\
-											"CS"6."W" Робота інкасатора\n\
-											"CS"7."W" Розвізник піци\n\
-											"CS"8."W" Транспортна компанія","Обрати","Назад");
+					ShowPlayerDialog(playerid,D_GPS_WORK,DSL,""P"Роботи",""P"1."W" Яблуневий сад\n\
+											"P"2."W" Збройовий завод\n\
+											"P"3."W" Лісопильня\n\
+											"P"4."W" Чистильник каналізацій\n\
+											"P"5."W" Робота на будівництві\n\
+											"P"6."W" Робота інкасатора\n\
+											"P"7."W" Розвізник піци\n\
+											"P"8."W" Транспортна компанія","Обрати","Назад");
 			}
 			case 2: {
-					ShowPlayerDialog(playerid,D_GPS_WORK_2,DSL,""CS"Оренда транспортного засобу",""CS"1."W" Оренда автобусів\n\
-											"CS"2."W" Оренда розвізників їжі\n\
-											"CS"3."W" Оренда транспорту механіків м. ЛС #1\n\
-											"CS"4."W" Оренда транспорту механіків м. ЛС #2\n\
-											"CS"5."W" Оренда транспорту для уборки улиц\n\
-											"CS"6."W" Оренда розвізників продуктів\n\
-											"CS"7."W" Оренда розвізників палива\n\
-											"CS"8."W" Оренда таксі","Обрати","Назад");
+					ShowPlayerDialog(playerid,D_GPS_WORK_2,DSL,""P"Оренда транспортного засобу",""P"1."W" Оренда автобусів\n\
+											"P"2."W" Оренда розвізників їжі\n\
+											"P"3."W" Оренда транспорту механіків м. ЛС #1\n\
+											"P"4."W" Оренда транспорту механіків м. ЛС #2\n\
+											"P"5."W" Оренда транспорту для уборки улиц\n\
+											"P"6."W" Оренда розвізників продуктів\n\
+											"P"7."W" Оренда розвізників палива\n\
+											"P"8."W" Оренда таксі","Обрати","Назад");
 			}
-			case 3: ShowPlayerDialog(playerid,D_GPS_ORG,DSL,""CS"Органзації", ""CS"1."W" Державні організації\n"CS"2."W" Нелегальні організації","Обрати","Скасувати");
-			case 4: ShowPlayerDialog(playerid,D_GPS_AUTOSALON,DSL,""CS"Автосалони і тюнінг",""CS"1."W" Автосалон економ і середнього класів\n"CS"2."W" Автосалон спорт класу\n"CS"3."W" Мото- та велосалон\n"CS"4."W" Будинку на колесах\n"CS"5."W" Тюнінг м. ЛС\n","Обрати","Назад");
+			case 3: ShowPlayerDialog(playerid,D_GPS_ORG,DSL,""P"Органзації", ""P"1."W" Державні організації\n"P"2."W" Нелегальні організації","Обрати","Скасувати");
+			case 4: ShowPlayerDialog(playerid,D_GPS_AUTOSALON,DSL,""P"Автосалони і тюнінг",""P"1."W" Автосалон економ і середнього класів\n"P"2."W" Автосалон спорт класу\n"P"3."W" Мото- та велосалон\n"P"4."W" Будинку на колесах\n"P"5."W" Тюнінг м. ЛС\n","Обрати","Назад");
 			case 5: {
 					new string[2512];
 					new count_business = 0;
 					for(new i = 0; i < gBusinessCount; i ++) {
 						//if(gBusiness[i][bizzType] == 7 || gBusiness[i][bizzType] == 21 || gBusiness[i][bizzType] == 22 || gBusiness[i][bizzType] == 23 || gBusiness[i][bizzType] == 8 || gBusiness[i][bizzType] == 14 || gBusiness[i][bizzType] == 18) continue;
 						count_business++;
-						format(string,sizeof(string),"%s"CS"%d."W" %s\n",string,count_business,gBusiness[i][bizzName]);
+						format(string,sizeof(string),"%s"P"%d."W" %s\n",string,count_business,gBusiness[i][bizzName]);
 					}
-					ShowPlayerDialog(playerid, D_GPS_BIZZ, DSL, ""CS"Бізнеси", string, "Обрати", "Назад");
+					ShowPlayerDialog(playerid, D_GPS_BIZZ, DSL, ""P"Бізнеси", string, "Обрати", "Назад");
 				}
-			case 6: ShowPlayerDialog(playerid,D_GPS_HOTEL,DSL,""CS"Багатоквартирні будинки",""CS"1."W" Район Ganton\n"CS"2."W" Район Verona Beach","Обрати","Назад");
+			case 6: ShowPlayerDialog(playerid,D_GPS_HOTEL,DSL,""P"Багатоквартирні будинки",""P"1."W" Район Ganton\n"P"2."W" Район Verona Beach","Обрати","Назад");
 			case 7: {
 					EnableGPSForPlayer(playerid,386.0006,-1910.2733,7.8359);
 					SendOK(playerid, "Місце розташування центрального ринку відмічено у вашому GPS.");
@@ -23595,12 +23595,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SendOK(playerid, "Місце розташування сімейного офісу відмічено у вашому GPS.");
 				}
 			case 9:{
-					static const f_str[] = ""CS"1. "W"Контейнери\n\
-											"CS"2. "W"Центр розваг\n\
-											"CS"3. "W"Аукціон гаражів";
+					static const f_str[] = ""P"1. "W"Контейнери\n\
+											"P"2. "W"Центр розваг\n\
+											"P"3. "W"Аукціон гаражів";
 					new string[sizeof(f_str)];
 					format(string,sizeof(string),"%s",f_str);
-					ShowPlayerDialog(playerid, D_GPS_RAZ, DSL, ""CS"Розваги", string, "Обрати", "Назад");
+					ShowPlayerDialog(playerid, D_GPS_RAZ, DSL, ""P"Розваги", string, "Обрати", "Назад");
 			}
 			case 10: {
 					new string[2512];
@@ -23608,21 +23608,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					for(new i = 0; i < gBusinessCount; i ++) {
 						if(gBusiness[i][bizzType] != 7) continue;
 						count_business++;
-						format(string,sizeof(string),"%s"CS"%d."W" %s\n",string,count_business,gBusiness[i][bizzName]);
+						format(string,sizeof(string),"%s"P"%d."W" %s\n",string,count_business,gBusiness[i][bizzName]);
 					}
-					ShowPlayerDialog(playerid, D_GPS_BIZZ_1, DSL, ""CS"АЗС", string, "Обрати", "Назад");
+					ShowPlayerDialog(playerid, D_GPS_BIZZ_1, DSL, ""P"АЗС", string, "Обрати", "Назад");
 			}
 			case 11: {
-					ShowPlayerDialog(playerid,D_GPS_RAZN,DSL,""CS"Різне",""CS"1."W" Аеропорт м. ЛС\n\
-					"CS"2."W" Наркопритон\n\
-					"CS"3."W" Автовикрадення\n\
-					"CS"4."W" Пограбування будинків\n\
-					"CS"5."W" Пограбування банка\n\
-					"CS"6."W" Чорний ринок\n\
-					"CS"7."W" Магазин одягу\n\
-					"CS"8."W" Магазин аксесуарів\n\
-					"CS"9."W" Дуелі\n\
-					"CS"10."W" Квестова лінія хакера", "Обрати", "Назад");
+					ShowPlayerDialog(playerid,D_GPS_RAZN,DSL,""P"Різне",""P"1."W" Аеропорт м. ЛС\n\
+					"P"2."W" Наркопритон\n\
+					"P"3."W" Автовикрадення\n\
+					"P"4."W" Пограбування будинків\n\
+					"P"5."W" Пограбування банка\n\
+					"P"6."W" Чорний ринок\n\
+					"P"7."W" Магазин одягу\n\
+					"P"8."W" Магазин аксесуарів\n\
+					"P"9."W" Дуелі\n\
+					"P"10."W" Квестова лінія хакера", "Обрати", "Назад");
 			}
 		}
 		}
@@ -40768,8 +40768,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ShowPlayerDialog(playerid, D_BIZZ_ZG, DSL, ""P"Аукціон гаражів", ""P"1."W" Інформація\n"P"2."W" Купівля гаражу\n"P"3."W" Керування касою\n"P"4."W" Статистика доходів бізнесу\n"P"5."W" Продати аукціон гаражів", "Обрати", "Скасувати");
 		}
 		if(IsPlayerInRangeOfPoint(playerid,1.0, 1409.3500,-16.6651,1010.3695)) {
-			if(PI[playerid][bizz_status] == 0) return SendError(playerid, "Ви не работнік транспортной компанії");
-			ShowPlayerDialog(playerid, D_BIZZ_TK, DSL, ""P"Транспортна компанія", ""P"1."W" Інформація\n"P"2."W" Керування касою\n"P"3."W" Керування автомобилями\n"P"4."W" Керування кольором\n"P"5."W" Працівники\n"P"6."W" Статистика доходів бізнесу\n"P"7."G" Персональна інформація\n"P"8."W" Продати транспортну компанію", "Обрати", "Скасувати");
+			if(PI[playerid][bizz_status] == 0) return SendError(playerid, "Ви не робітник транспортної компанії.");
+			ShowPlayerDialog(playerid, D_BIZZ_TK, DSL, ""P"Транспортна компанія", ""P"1."W" Інформація\n"P"2."W" Керування касою\n"P"3."W" Керування автомобилями\n"P"4."W" Керування кольором\n"P"5."W" Працівники\n"P"6."W" Статистика доходів бізнесу\n"P"7."W" Персональна інформація\n"P"8."W" Продати транспортну компанію", "Обрати", "Скасувати");
 		}
 		if(IsPlayerInRangeOfPoint(playerid,1.0, -677.4073,1727.0359,1376.6718)) {
 			new Float:c_x,Float:c_y,Float:c_z, Float:a;
@@ -40783,7 +40783,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ShowPlayerDialog(playerid,D_PLAYER_GM,DSL,""P"Реєстрація",""P"1."W" Реєстрація на гонки\n"P"2."W" Реєстрація на божевільні війни\n"P"3."W" Реєстрація на DM зону", "Обрати","Закрити");
 		}
 		if(IsPlayerInRangeOfPoint(playerid,1.0, 793.4836,-1624.0413,13.3828)) {
-			ShowPlayerDialog(playerid,D_EAT_BURGER,DSL,""P"Служба доставки","- Влаштуватися на роботу\n- Орендувати мопед", "Обрати","Закрити");
+			ShowPlayerDialog(playerid,D_EAT_BURGER,DSL,""P"Служба доставки",""P"1."W" Влаштуватися на роботу\n"P"2."W" Орендувати мопед", "Обрати","Закрити");
 		}
 		if(IsPlayerInRangeOfPoint(playerid,1.0, 794.2693,-1625.7371,13.3828)) {
 			if(!GetPVarInt(playerid,"burger_job")) return SendError(playerid,"Ви не працюєте кур'єром.");
@@ -63589,7 +63589,7 @@ stock duel_delete(id,bool:end) {
 			if(!TI[i][tLogin]) continue;
 			if(TI[i][tDuel] != id) continue;
 			if(end == false) {
-				SendOK(i,"Лоббі видалено, всі члени лоббі розпущені.");
+				SendOK(i,"Лобі видалено, всі члени лоббі розпущені.");
 				GiveMoney(i,DI[id][duel_money],"повернення внеску за дуель");
 			}
 			TI[i][tDuel] = -1;
@@ -63639,7 +63639,7 @@ stock duel_lobby_2(playerid,id) {
 	if(DI[id][duel_id][3] != INVALID_PLAYER_ID) format(name_4,sizeof(name_4),"2. %s\n",player_name[DI[id][duel_id][3]]);
 	else format(name_4,sizeof(name_4),"2. ----\n");
 	format(string,sizeof(string),"%s\n%s\n \n%s\n%s",name,name_2,name_3,name_4);
-	ShowPlayerDialog(playerid,D_DUEL_4,DSL,""P"Лоббі",string,"Обрати","Покинути");
+	ShowPlayerDialog(playerid,D_DUEL_4,DSL,""P"Лобі",string,"Обрати","Покинути");
 	return 1;
 }
 stock duel_lobby_3(playerid,id) {
@@ -63657,7 +63657,7 @@ stock duel_lobby_3(playerid,id) {
 	if(DI[id][duel_id][5] != INVALID_PLAYER_ID) format(name_6,sizeof(name_6),"3. %s\n",player_name[DI[id][duel_id][5]]);
 	else format(name_6,sizeof(name_6),"3. ----\n");
 	format(string,sizeof(string),"%s\n%s\n%s\n \n%s\n%s\n%s",name,name_2,name_3,name_4,name_5,name_6);
-	ShowPlayerDialog(playerid,D_DUEL_5,DSL,""P"Лоббі",string,"Обрати","Покинути");
+	ShowPlayerDialog(playerid,D_DUEL_5,DSL,""P"Лобі",string,"Обрати","Покинути");
 	return 1;
 }
 stock duel_exit(playerid,id) {
@@ -64648,7 +64648,7 @@ stock duel_message(playerid,id) {
 							"P"8."W" Здоров'я\t%d\n\
 							"P"9."W" Броня\t%d\n\
 							"P"10."W" Пароль від лоббі\t%s\n\
-							"P"-"YELLOW" Створити кімнату";
+							"P"-"W" Створити кімнату";
 		new string[sizeof(f_str) + 100];
 		new duel_types[3][7] = {"1 VS 1","2 VS 2","3 VS 3"};
 		new duel_guns[5][13] = {"Desert Eagle","Shotgun","MP5","AK-47","M4"};
@@ -64660,7 +64660,7 @@ stock duel_message(playerid,id) {
 		else format(password_duel,sizeof(password_duel),"%d",DI[id][duel_password]);
 		
 		format(string,sizeof(string),f_str,duel_types[DI[id][duel_type]],DI[id][duel_raund],DI[id][duel_money],duel_guns[DI[id][duel_gun]],duel_guns_2[DI[id][duel_gun_2]],duel_maps[DI[id][duel_map]],DI[id][duel_health],DI[id][duel_armour],password_duel);
-		ShowPlayerDialog(playerid,D_DUEL_1,DSTH,""P"Дуелі | Створення Лоббі",string,"Обрати","Скасувати");
+		ShowPlayerDialog(playerid,D_DUEL_1,DSTH,""P"Дуелі. Створення Лобі",string,"Обрати","Скасувати");
 	}
 	else {
 		static const f_str[] = ""W"Найменування\t"W"Значення\n\
@@ -64673,7 +64673,7 @@ stock duel_message(playerid,id) {
 							"P"8."W" Здоров'я\t%d\n\
 							"P"9."W" Броня\t%d\n\
 							"P"10."W" Пароль від лоббі\t%s\n\
-							"P"-"NO" Видалити комнату";
+							"P"-"W" Видалити комнату";
 		new string[sizeof(f_str) + 100];
 		new duel_types[3][7] = {"1 VS 1","2 VS 2","3 VS 3"};
 		new duel_guns[5][13] = {"Desert Eagle","Shotgun","MP5","AK-47","M4"};
@@ -66473,15 +66473,15 @@ stock dialog_tk(playerid,bizz,listitem) {
 	case 2: {
 			if(PI[playerid][bizz_status] != 2 && PI[playerid][bizz_status] != 3) return SendError(playerid, "Доступно з рангу керуючого транспортною компанією.");
 			new string[1512],str[128];
-			strcat(string,"#\tАвтомобіль\tВикористовуєтся співробітником\n");
+			strcat(string,"#. Автомобіль\tВикористовуєтся співробітником\n");
 			for(new i; i < 16; i ++)
 			{
-				if(FuncBizz[bizz][funcbCar][i] == 0) format(str, sizeof(str), "%d\t-\t-\n", i+1),strcat(string,str);
-				else if(FuncBizz[bizz][funcbCarID][i] == -1) format(str, sizeof(str), "%d\t%s\t-\n", i+1,gTransport[FuncBizz[bizz][funcbCar][i]-400][trName]),strcat(string,str);
+				if(FuncBizz[bizz][funcbCar][i] == 0) format(str, sizeof(str), ""P"%d."W" -\t-\n", i+1),strcat(string,str);
+				else if(FuncBizz[bizz][funcbCarID][i] == -1) format(str, sizeof(str), ""P"%d."W" %s\t-\n", i+1,gTransport[FuncBizz[bizz][funcbCar][i]-400][trName]),strcat(string,str);
 				else format(str, sizeof(str), "%d\t%s\t%s\n", i+1,gTransport[FuncBizz[bizz][funcbCar][i]-400][trName],player_name[FuncBizz[bizz][funcbCarID][i]]),strcat(string,str);
 			}
 			SetPVarInt(playerid,"func_car_taxi",listitem-1);
-			ShowPlayerDialog(playerid, D_BIZZ_TAXI_CAR, DSTH, "Транспортна компанія", string, "Обрати", "Скасувати");
+			ShowPlayerDialog(playerid, D_BIZZ_TAXI_CAR, DSTH, ""P"Транспортна компанія", string, "Обрати", "Скасувати");
 		}
 	case 3: {
 			if(PI[playerid][bizz_status] != 2 && PI[playerid][bizz_status] != 3) return SendError(playerid, "Доступно з рангу керуючого транспортною компанією.");
@@ -66514,12 +66514,12 @@ stock showstattk(playerid,bizz) {
 		if(FuncBizz[bizz][funcbCar][i] == 0) continue;
 		id++;
 	}
-	static const f_str[] = "\n\n"ORANGE"Назва:\t\t"W"%s\n\
-						"ORANGE"Власник:\t\t"W"%s\n\
-						"ORANGE"Державна ціна:\t\t"W"%d\n\n\n\
-						"ORANGE"Відсоток стягнення з далекобійників:\t"W"%d%\n\
-						"ORANGE"Співробітників:\t\t\t\t"W"%d\n\
-						"ORANGE"Вантажівок:\t\t"W"%d";
+	static const f_str[] = "\n\n"W"Назва:\t\t"P"%s\n\
+						"W"Власник:\t\t"P"%s\n\
+						"W"Державна ціна:\t\t"P"%d\n\n\n\
+						"W"Відсоток стягнення з далекобійників:\t"P"%d%\n\
+						"W"Співробітників:\t\t\t\t"P"%d\n\
+						"W"Вантажівок:\t\t"P"%d";
 	new string[sizeof(f_str) +1 + (-2 + 20) + (-2 + MAX_PLAYER_NAME) + (-2 + 8) + (-2 + 5) + (-2 + 4) + (-2 + 6) + (-2 + 6) + (-2 + 6) + (-2 + 6) + (-2 + 4) + (-2 + 4)];
 	format(string,sizeof(string),f_str,FuncBizz[bizz][funcbName],gBusiness[bizz-1][bizzOwner],gBusiness[bizz-1][bizzSellPrice],
 	FuncBizz[bizz][funcbPercent],info_funcmembers(bizz),id);
