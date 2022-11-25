@@ -244,10 +244,10 @@ CMD:reoff(playerid,params[]) {
 }
 CMD:getskills(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return true;
-    if(sscanf(params,"d",giveplayerid)) return SendEsp(playerid, "/skills [id игрока]");
+    if(sscanf(params,"d",giveplayerid)) return SendEsp(playerid, "/skills [playerid]");
     if(!IsPlayerConnected(giveplayerid)) return ErrorMessage(playerid, not_id);
 	new strname[56];
-	format(strname, sizeof(strname), "{ffcf00}Навыки владения оружия %s", player_name[giveplayerid]);
+	format(strname, sizeof(strname), "{ffcf00}Навички володіння оружия %s.", player_name[giveplayerid]);
 	new strkill[1006];
 	new points[6];
     points[0] = 100 - PI[giveplayerid][pGunSkill][0];
@@ -256,7 +256,7 @@ CMD:getskills(playerid, params[]) {
 	points[3] = 100 - PI[giveplayerid][pGunSkill][3];
 	points[4] = 100 - PI[giveplayerid][pGunSkill][4];
 	points[5] = 100 - PI[giveplayerid][pGunSkill][5];
-	format(strkill,1000,""W"SD-Pistol:\t"BLUE"%s "W"%d/100%%\nDesert Eagle:\t"BLUE"%s "W"%d/100%%\nShotGun:\t"BLUE"%s "W"%d/100%%\nMP5\t\t"BLUE"%s "W"%d/100%%\nAK47:\t\t"BLUE"%s "W"%d/100%%\nM4:\t\t"BLUE"%s "W"%d/100%%",
+	format(strkill,1000,""W"SD-Pistol:\t"BLUE"%s "W"%d/100%%\nDesert Eagle:\t"BLUE"%s "W"%d/100%%\nShotgun:\t"BLUE"%s "W"%d/100%%\nMP5\t\t"BLUE"%s "W"%d/100%%\nAK47:\t\t"BLUE"%s "W"%d/100%%\nM4:\t\t"BLUE"%s "W"%d/100%%",
 	ToDevelopSkills(PI[giveplayerid][pGunSkill][0],points[0]),PI[giveplayerid][pGunSkill][0],
 	ToDevelopSkills(PI[giveplayerid][pGunSkill][1],points[1]),PI[giveplayerid][pGunSkill][1],
 	ToDevelopSkills(PI[giveplayerid][pGunSkill][2],points[2]),PI[giveplayerid][pGunSkill][2],
@@ -269,7 +269,7 @@ CMD:getskills(playerid, params[]) {
 //-----------------------------------------[2 уровень]-------------------------------------------//
 CMD:get(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return true;
-	if(isnull(params) || strlen(params) > 23)  return SendEsp(playerid,"/get [Nick Name]");
+	if(isnull(params) || strlen(params) > 23)  return SendEsp(playerid,"/get [playername]");
 	new query[256];
 	format(query, sizeof(query), "SELECT `pID`, `Name`, `pCash`, `pLevel`, `pIpReg`, `pvIp`, `pDataReg`, `donatemoney` FROM `accounts` WHERE `Name` = '%s' LIMIT 1", params);
 	mysql_tquery(connects, query, "get_info_player", "i", playerid);
@@ -298,7 +298,7 @@ CMD:goto(playerid,params[]) {
 			GetPlayerPos(giveplayerid, X, Y, Z);
 			GetPlayerFacingAngle(giveplayerid, A);
 		}
-		default: return ErrorMessage(playerid, "Игрок не заспавнился");
+		default: return ErrorMessage(playerid, "Гравець не заспавнився.");
 	}
 	switch(GetPlayerState(playerid)) {
 		case PLAYER_STATE_ONFOOT, PLAYER_STATE_PASSENGER: {
@@ -336,9 +336,9 @@ CMD:fv(playerid, params[]) {
 		RepairVehicle(GetPlayerVehicleID(playerid));
 		return true;
 	}
-	if(sscanf(params,"u", giveplayerid)) return SendEsp(playerid, "/fv [ID авто]");
+	if(sscanf(params,"u", giveplayerid)) return SendEsp(playerid, "/fv [vehicleid]");
 	new model = GetVehicleModel(giveplayerid);
-	if(!model) return ErrorMessage(playerid,"Неверный ID авто");
+	if(!model) return ErrorMessage(playerid,"Неправильний ID транспорту.");
 	SetVehicleHealth(giveplayerid, 1000.0);
 	RepairVehicle(giveplayerid);
 	return 1;
@@ -347,19 +347,19 @@ CMD:atipster(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return true;
 
 	new fraction_member;		
-	if(sscanf(params,"i", fraction_member)) return SendEsp(playerid, "/atipster [ID фракции]");
-	if(!(1 <= fraction_member <= MAX_FRACTIONS)) return SendEsp(playerid, "/atipster [ID фракции]");
+	if(sscanf(params,"i", fraction_member)) return SendEsp(playerid, "/atipster [fractionid]");
+	if(!(1 <= fraction_member <= MAX_FRACTIONS)) return SendEsp(playerid, "/atipster [fractionid]");
 
 	if(GetPVarInt(playerid,"admin_tipster")) {
-		SendClientMessage(playerid,COLOR_ORANGE,"Вы отключили прослушку");
+		SendClientMessage(playerid,COLOR_ORANGE,"Ви відключили прослушку.");
 		DeletePVar(playerid,"admin_tipster");
 	}
 	else {
 		SetPVarInt(playerid,"admin_tipster", fraction_member);
 		new string[70];
-		format(string, sizeof(string),"Вы начали прослушку фракции "W"%s", FI[fraction_member][fName]);
+		format(string, sizeof(string),"Ви почали прослушку фракции "W"%s", FI[fraction_member][fName]);
 		SendClientMessage(playerid,COLOR_ORANGE,string);
-		SendClientMessage(playerid,-1,"Используйте /tipster еще раз чтобы отключить прослушку");
+		SendClientMessage(playerid,-1,"Щоб вимкнути прослушку, введіть "P"/tipster"W" ще раз.");
 	}	
 	return 1;
 }
@@ -374,25 +374,25 @@ CMD:astats(playerid, params[]) {
 CMD:skin(playerid, params[]) {
     if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return true;
 	new skin;
-    if(sscanf(params, "ud", giveplayerid,skin)) return SendEsp(playerid, "/skin [id игрока] [id скина]");
-	if(skin > 311 || skin < 1) return ErrorMessage(playerid, "Неправильный ID скина!");
+    if(sscanf(params, "ud", giveplayerid,skin)) return SendEsp(playerid, "/skin [playerid] [skinid]");
+	if(skin > 311 || skin < 1) return ErrorMessage(playerid, "Неправильний ID скіна.");
 	SetPlayerSkin(giveplayerid, skin);
-	SendClientMessage(giveplayerid,COLOR_GREEN,"Администратор выдал Вам временный скин");
+	SendClientMessage(giveplayerid,COLOR_GREEN,"Администратор видав вам тимчасовий скін.");
 	return true;
 }
 CMD:ban(playerid, params[]) {
     if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return true;
 	new day,text[37],string[415];
-	if(sscanf(params, "uds[36]",giveplayerid,day,text)) return SendEsp(playerid, "/ban [playerid] [дни] [причина]");
+	if(sscanf(params, "uds[36]",giveplayerid,day,text)) return SendEsp(playerid, "/ban [playerid] [days] [reason]");
 	if(!IsPlayerConnected(giveplayerid)) return ErrorMessage(playerid,not_id);
 	if(IsAIP(text)) return 1;
 	if(GetString(player_name[giveplayerid],"Oscar_Floyd")) return 1;
-	if(day > 30 || 7 > day) return ErrorMessage(playerid,"От 7 до 30 дней");
-	format(string, 128, "Администратор %s забанил игрока %s на %d дней. Причина: %s",player_name[playerid],player_name[giveplayerid],day,text);
+	if(day > 30 || 7 > day) return ErrorMessage(playerid,"Від 7 до 30 днів.");
+	format(string, 128, "Адміністратор %s забанив гравця %s на %d днів. Причина: %s.",player_name[playerid],player_name[giveplayerid],day,text);
 	SendClientMessageToAll(COLOR_LIGHTRED,string);
 	new ip[17];
 	GetPlayerIp(giveplayerid,ip,sizeof(ip));
-	format(string, sizeof(string), "Name [%s]  R-IP [%s]  L-IP [%s]  IP [%s]",player_name[giveplayerid],PI[giveplayerid][pIpReg],PI[giveplayerid][pvIp],ip);
+	format(string, sizeof(string), "Name: %s. R-IP: %s. L-IP: %s. IP: %s.",player_name[giveplayerid],PI[giveplayerid][pIpReg],PI[giveplayerid][pvIp],ip);
 	SendAdminMessage(COLOR_LIGHTRED,string);
 	BanName(player_name[giveplayerid], player_name[playerid], day, text);
 	WriteLog(LOG_BAN,player_name[playerid],player_name[giveplayerid],text);
@@ -1858,7 +1858,7 @@ CMD:changeprice(playerid, params[]) {
 CMD:getvw(playerid) {
 	if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return true;
 	new str[64];
-	format(str, sizeof(str), "Виртуальный мир: %i, %i",GetPlayerVirtualWorld(playerid),PI[playerid][pHotel]);
+	format(str, sizeof(str), "Віртуальний світ: %i, %i.",GetPlayerVirtualWorld(playerid),PI[playerid][pHotel]);
  	SendClientMessage(playerid,-1,str);
 	return 1;
 }
@@ -1871,7 +1871,7 @@ CMD:createatm(playerid, params[]) {
 			break;
 		}
 	}
-	if(atmID == -1) return ErrorMessage(playerid, "Максимальное количество банкоматов достигнуто");
+	if(atmID == -1) return ErrorMessage(playerid, "Максимальна кількість банкоматів досягнута.");
 	CreateATM(playerid, atmID);
 	return 1;
 }
@@ -1880,23 +1880,23 @@ CMD:editatm(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return true;
 	new atmID, title[29];
 	if(!sscanf(params, "i", atmID)) {
-		if(atmID < 1 || atmID > MAX_ATM) return ErrorMessage(playerid, "Указан неверный банкомат!");
+		if(atmID < 1 || atmID > MAX_ATM) return ErrorMessage(playerid, "Вказано неправильний банкомат.");
 
-		if(ATMData[atmID][atm_Taken] == 0) return ErrorMessage(playerid, "Банкомат, который Вы хотите редактировать, не активен");
+		if(ATMData[atmID][atm_Taken] == 0) return ErrorMessage(playerid, "Банкомат, який ви хочете відредагувати, не активний.");
 
 		EdittingATM[playerid] = atmID;
 
-		format(title, sizeof(title), "Изменение ATM: (ID: %d)", atmID);
-		D(playerid, DIALOG_ATM_EDIT, DSL, title, "Изменение позиции(редактор)\nПеренести позицию на свои координаты\nУдаление ATM", "Далее", "Отмена");
+		format(title, sizeof(title), "Зміна ATM (ID: %d)", atmID);
+		D(playerid, DIALOG_ATM_EDIT, DSL, title, "Зміні позиції (редактор)\nПеренести позицію на свої координати\nВидалення ATM", "Далі", "Отмена");
 	}
-	else SendEsp(playerid, "/editatm [atmID]");
+	else SendEsp(playerid, "/editatm [atmid]");
 	return 1;
 }
 CMD:poscar(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return true;
-	if(sscanf(params, "d",params[0])) return SendEsp(playerid, "/poscar [дом]");
+	if(sscanf(params, "d",params[0])) return SendEsp(playerid, "/poscar [house]");
 	new carid = GetPlayerVehicleID(playerid);
-	if(GetVehicleModel(carid) != 560) return ErrorMessage(playerid, "Сядьте в султан");
+	if(GetVehicleModel(carid) != 560) return ErrorMessage(playerid, "Сядьте в султан.");
 	
 	new Float: lwx, Float:lwy, Float:lwz,Float:a;
 	GetVehiclePos(carid,lwx, lwy, lwz);
@@ -1907,7 +1907,7 @@ CMD:poscar(playerid, params[]) {
 	gHouses[params[0]-1][houseParkZ] = lwz;
 	gHouses[params[0]-1][houseParkR] = a;
 	SetVehicleToRespawn(GetPlayerVehicleID(playerid));
-	SendClientMessage(playerid, COLOR_GREEN, "Координаты машины установлены(Я надеюсь ты поставил машину ровно)");
+	SendClientMessage(playerid, COLOR_GREEN, "Координати машини встановлені.");
 	new query[256];
 	format(query,sizeof(query),"UPDATE `houses` SET `parkx` = '%.2f',`parky` = '%.2f',`parkz` = '%.2f',`parkr` = '%.2f' WHERE id = '%d'",gHouses[params[0]-1][houseParkX],gHouses[params[0]-1][houseParkY],gHouses[params[0]-1][houseParkZ],gHouses[params[0]-1][houseParkR],params[0]);
 	mysql_tquery(connects, query);
@@ -1915,35 +1915,35 @@ CMD:poscar(playerid, params[]) {
 }
 CMD:useint(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return true;
-	if(edit_int[playerid] == -1) return ErrorMessage(playerid, "Интерьер не выбран");
-	D(playerid, D_HOUSE_INT_1,DSM,"Редактор дома | Интерьер","Вы действительно хотите поставить данный интерьер в дом?","Поставить","Отмена");
+	if(edit_int[playerid] == -1) return ErrorMessage(playerid, "Интер'єр не обрано.");
+	D(playerid, D_HOUSE_INT_1,DSM,"Редактор будинку. Інтер'єр","Ви дійсно хочете обрати цей інтер'єр в дім?","Обрати","Отмена");
 	return 1;
 }
 CMD:edithouse(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return true;
-	if(sscanf(params, "i", params[0])) return SendEsp(playerid, "/edithouse [ид дома]");
+	if(sscanf(params, "i", params[0])) return SendEsp(playerid, "/edithouse [houseid]");
 	new classname[15];
 	switch(gHouses[params[0]-1][houseClass]) {
-		case 0: classname = "Эконом";
-		case 1: classname = "Cредний";
-		case 2: classname = "Элитный";
+		case 0: classname = "Економ";
+		case 1: classname = "Cередній";
+		case 2: classname = "Елітний";
 		case 3: classname = "Особняк";
 	}	
-	static const f_str[] = ""YELLOW" ДОМ № %d\n\
-							"ORANGE"1."W" Класс дома\t"BLUE"%s\n\
-							"ORANGE"2."W" Интерьер дома\t"BLUE"%s\n\
-							"ORANGE"3."W" Стоимость дома\t"BLUE"%d\n\
-							"ORANGE"4."W" Парковка автомобиля\t"BLUE"%f %f %f %f\n\
-							"ORANGE"5."W" ТП к дому";
+	static const f_str[] = ""P" Дім #%d\n\
+							"P"1."W" Клас будинку\t"BLUE"%s\n\
+							"P"2."W" Інтер'єр будинку\t"BLUE"%s\n\
+							"P"3."W" Вартість будинку\t"BLUE"%d\n\
+							"P"4."W" Парковка автомобіля\t"BLUE"%f %f %f %f\n\
+							"P"5."W" ТП к дому";
 	new string[500];
 	format(string,sizeof(string),f_str,params[0],classname,gHints[gHouses[params[0]-1][houseHint]][hintDescription],gHouses[params[0]-1][housePrice],gHouses[params[0]-1][houseParkX],gHouses[params[0]-1][houseParkY],gHouses[params[0]-1][houseParkZ],gHouses[params[0]-1][houseParkR]);
-	D(playerid,D_ADDHOUSE,DSL,"Редактор дома",string,"Изменить","Отмена");
+	D(playerid,D_ADDHOUSE,DSL,"Редактор будинку",string,"Змінити","Отмена");
 	SetPVarInt(playerid,"select_house",params[0]);
     return true;
 } 
 CMD:addradar(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return true;
-    if(sscanf(params, "i", params[0])) return SendEsp(playerid, "/addradar [скорость]");
+    if(sscanf(params, "i", params[0])) return SendEsp(playerid, "/addradar [speed]");
     new Float:X, Float:Y, Float:Z;
     GetPlayerPos(playerid, X, Y, Z);
 	new query[156];
@@ -1957,7 +1957,7 @@ CMD:addradar(playerid, params[]) {
 	gRadar[gRadarCount][radarZ] = Z;
 	gRadar[gRadarCount][radarSpeed] = params[0];
 	IsRadar[gRadarCount] = CreateDynamicSphere(X,Y,Z, 100, 0, 0);
-	static const f_str[] = "Радар "GREEN"№%d"W"\nМаксимальная скорость: "NO"%d "W"км/ч";
+	static const f_str[] = "Радар "P"№%d"W"\nМаксимальна швидкість: "NO"%d "W"км/год.";
 	new string[sizeof(f_str) +1 + (-2 + 3) + (-2 + 5)];
 	format(string,sizeof(string),f_str,gRadar[gRadarCount][radarid],gRadar[gRadarCount][radarSpeed]);
 	Is3DRadar[gRadarCount] = CreateDynamic3DTextLabel(string,-1,gRadar[gRadarCount][radarX], gRadar[gRadarCount][radarY], gRadar[gRadarCount][radarZ]+5,20.0);
@@ -1965,7 +1965,7 @@ CMD:addradar(playerid, params[]) {
 } 
 CMD:editradar(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return true;
-    if(sscanf(params, "ii", params[0],params[1])) return SendEsp(playerid, "/editradar [id радара] [скорость]");
+    if(sscanf(params, "ii", params[0],params[1])) return SendEsp(playerid, "/editradar [radarid] [speed]");
 	SetPVarInt(playerid, "addrad", 1);
 	SetPVarInt(playerid,"radar_edit",params[0]);
 	SetPVarInt(playerid, "speed", params[1]);
@@ -1974,13 +1974,13 @@ CMD:editradar(playerid, params[]) {
 }
 CMD:mp(playerid, params[]) {
     if(Teleport == 0) return 1;
-    if(PI[playerid][pJailTime] >= 1) return ErrorMessage(playerid, "Вы в тюрьме");
-    D(playerid, D_MP_3, DSM, "Телепортация", "\n\n"W"Вы уверены, что хотите попасть в место проведения мероприятия?\n\n", "Да", "Нет");
+    if(PI[playerid][pJailTime] >= 1) return ErrorMessage(playerid, "Ви у в'язниці.");
+    D(playerid, D_MP_3, DSM, "Телепортація", "\n\n"W"Ви впевнені, що хочете попасти у місце проведення ігрового заходу?\n\n", "Так", "Ні");
     return 1;
 }
 CMD:gomp(playerid, params[]) {
     if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return true;
-    if(Teleport == 0) D(playerid, D_MP, DSL, "МЕРОПРИЯТИЕ", "1. Создать телепорт\n2. Раздать оружие\n3. Раздать жизнь\n4. Раздать броню\n5. Обезоружить всех\n6. Забрать броню\n7. Ввести название", "Выбрать", "Отмена");
-	else D(playerid, D_MP, DSL, "МЕРОПРИЯТИЕ", "1. Удалить телепорт\n2. Раздать оружие\n3. Раздать жизнь\n4. Раздать броню\n5. Обезоружить всех\n6. Забрать броню", "Выбрать", "Отмена");
+    if(Teleport == 0) D(playerid, D_MP, DSL, "Ігровий захід", "1. Створити телепорт\n2. Роздати зброю\n3. Роздати здоров'я\n4. Роздати броню\n5. Обеззброїти всіх\n6. Забрати броню\n7. Ввести назву", "Выбрать", "Отмена");
+	else D(playerid, D_MP, DSL, "Ігровий захід", "1. Видалити телепорт\n2. Роздати зброю\n3. Роздати здоров'я\n4. Роздати броню\n5. Обеззброїти всіх\n6. Забрати броню", "Обрати", "Отмена");
     return 1;
 }
