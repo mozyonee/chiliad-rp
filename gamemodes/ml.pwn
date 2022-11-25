@@ -83,10 +83,14 @@ new InLoadFrac[23] = false;
 new VehicleWareHouse[2];
 new CountMaterialVehicleWH = 0;
 // Підключення до БД
-#define MYSQL_HOST 	"leaf.cityhost.com.ua"
+/*#define MYSQL_HOST 	"leaf.cityhost.com.ua"
 #define MYSQL_USER 	"ch5d055a58"
 #define MYSQL_PASS 	"0e8f0cc01d"
-#define DB_NAME 	"ch5d055a58_server"
+#define DB_NAME 	"ch5d055a58_server"*/
+#define MYSQL_HOST 	"localhost"
+#define MYSQL_USER 	"chiliad"
+#define MYSQL_PASS 	"cO8kR7kW2k"
+#define DB_NAME 	"chiliad"
 //============================================
 #define pName(%0)      					fPlayer[%0][nname]
 #define IP(%0)							fPlayer[%0][fip]
