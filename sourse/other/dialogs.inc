@@ -40,6 +40,10 @@ enum dialogs {
 	dRentMenu,
 
 	dTelegram,
+	dDiscord,
+	dDiscordLink,
+	dDiscordLink_2,
+	dDiscordUnlink,
 	
 	OGLOC_MAIN,
 	OGLOC_BUY_1,
