@@ -5795,6 +5795,7 @@ enum pInfo {
 	pEvent,
 	pEkills,
 	pDiscord[20],
+	pDiscordName[33],
 	pTelegram[20]
 };
 new PI[MAX_PLAYERS][pInfo],
@@ -15948,48 +15949,63 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	      switch(listitem) {
 	        case 0: {          
 	          if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-	          if(PI[playerid][pDiscord]) return SendError(playerid, "Ви вже прив'язали Discord до Вашого акаунта");
+	          if(!GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви вже прив'язали Discord до Вашого акаунта");
 	          ShowPlayerDialog(playerid, dDiscordLink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть Ваш ID користувача (USER ID) у поле нижче", "Далі", "Назад");
 	        }
 	        case 1: {
-	          if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-	          if(!PI[playerid][pDiscord]) return SendError(playerid, "Ви не прив'язували Discord до Вашого акаунта");
-	          PI[playerid][pDiscord] = 0;
-	          UpdatePlayerData(playerid, "pDiscord", PI[playerid][pDiscord]);
-	          SendOK(playerid, "Ви відв'язали Discord від Вашого акаунта.");
-	          SendInfo(playerid, "Наполегливо рекомендуємо прив'язати його назад для забезпечення вищого рівня безпеки акаунта.");        }
-	      }
-	    }
-		  case dDiscordLink: {
-		      if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-		      if(strlen(inputtext) < 17 || strlen(inputtext) > 18) return ShowPlayerDialog(playerid, dDiscordLink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть Ваш ID користувача (USER ID) у поле нижче\nID користувача повинен містити не менше, ніж 17, і не більше, ніж 18 цифр", "Далі", "Назад");
-		      new DCC_User:user;
-		      user = DCC_FindUserById(inputtext);
-		      SetPVarString(playerid, "discordID", inputtext);
-		      SendDiscordMessage(playerid, user);
-		      ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
-		  }
-		  case dDiscordLink_2: {
-		      if(!response) {
+		        if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
+		        if(GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви не прив'язували Discord до Вашого акаунта");
+			    new DCC_User:user;
+		    	user = DCC_FindUserById(PI[playerid][pDiscord]);
+		    	SendDiscordMessage(playerid, user);
+		      	ShowPlayerDialog(playerid, dDiscordUnlink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
+	        		}
+	      		}
+	    	}
+	    case dDiscordUnlink: 
+	    {
+			if(!response) {
 		        DeletePVar(playerid, "dscode");
-		        DeletePVar(playerid, "discordID");
 		        return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-		      }
-		      new discordID[20];
-		      GetPVarString(playerid, "discordID", discordID, 20);
-		      if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
-		      new DCC_User:user, name[32+1];
-		      user = DCC_FindUserById(discordID);
-		      DCC_GetUserName(user, name, sizeof(name));
-		      new string[256];
-		      format(string, sizeof(string), "Ви успішно прив'язали Discord. Ваш Discord ID: %s, Discord Name: %s", discordID, name);
-		      PI[playerid][pDiscord] = discordID;
-		      UpdatePlayerData(playerid, "pDiscord", PI[playerid][pDiscord]);
-		      /*(new query[200];
-		      mysql_format(connects, query, sizeof(query),"UPDATE accounts SET pDiscord = '%s' WHERE pID = '%d' LIMIT 1", discordID, PI[playerid][pID]);
-		      mysql_tquery(connects,query);*/
-		      SendOK(playerid, string);
-		  }
+			}	    	
+			if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
+	      	PI[playerid][pDiscord] = 0;
+	      	new query[200];
+	      	mysql_format(connects, query, sizeof(query),"UPDATE accounts SET pDiscord = '0', pDiscordName = '0' WHERE pID = '%d' LIMIT 1", PI[playerid][pID]);
+	      	mysql_tquery(connects,query);
+          	SendOK(playerid, "Ви відв'язали Discord від Вашого акаунта.");
+          	SendInfo(playerid, "Наполегливо рекомендуємо прив'язати його назад для забезпечення вищого рівня безпеки акаунта.");   
+	    }
+	  	case dDiscordLink: {
+	      if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
+	      if(strlen(inputtext) < 17 || strlen(inputtext) > 18) return ShowPlayerDialog(playerid, dDiscordLink, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть Ваш ID користувача (USER ID) у поле нижче\nID користувача повинен містити не менше, ніж 17, і не більше, ніж 18 цифр", "Далі", "Назад");
+	      new DCC_User:user;
+	      user = DCC_FindUserById(inputtext);
+	      SetPVarString(playerid, "discordID", inputtext);
+	      SendDiscordMessage(playerid, user);
+	      ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
+	  }
+	  case dDiscordLink_2: {
+	      if(!response) {
+	        DeletePVar(playerid, "dscode");
+	        DeletePVar(playerid, "discordID");
+	        return ShowPlayerDialog(playerid, dDiscord, DSL, ""P"Discord", ""P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
+	      }
+	      new discordID[20];
+	      GetPVarString(playerid, "discordID", discordID, 20);
+	      if(isNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DIALOG_STYLE_INPUT, ""P"Discord", ""W"Введіть код підтвердження, що Вам було надіслано приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
+	      new DCC_User:user, name[32+1];
+	      user = DCC_FindUserById(discordID);
+	      DCC_GetUserName(user, name, sizeof(name));
+	      new string[256];
+	      format(string, sizeof(string), "Ви успішно прив'язали Discord. Ваш Discord ID: %s, Discord Name: %s", discordID, name);
+	      PI[playerid][pDiscord] = discordID;
+	      //UpdatePlayerData(playerid, "pDiscord", discordID);
+	      new query[200];
+	      mysql_format(connects, query, sizeof(query),"UPDATE accounts SET pDiscord = '%s', pDiscordName = '%s' WHERE pID = '%d' LIMIT 1", discordID, name, PI[playerid][pID]);
+	      mysql_tquery(connects,query);
+	      SendOK(playerid, string);
+	  }
 	case D_GOOGLE: {
 			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
 			switch(listitem) {
@@ -45646,6 +45662,7 @@ CB: load_account(playerid) {
 	cache_get_value_name_int(0,"ahMenu2",ahMenu[playerid][2]);
 	cache_get_value_name_int(0,"ahMenu3",ahMenu[playerid][3]);
 	cache_get_value_name(0, "pDiscord",PI[playerid][pDiscord],20);
+	cache_get_value_name(0, "pDiscordName",PI[playerid][pDiscordName],33);
 	cache_get_value_name(0, "pTelegram",PI[playerid][pTelegram],20);
 	SetString(player_ip[playerid],player_ip_check[playerid]);
 	SetHealth(playerid, PI[playerid][pHP]);
@@ -51103,6 +51120,7 @@ CMD:templeader(playerid, params[])
 		UpdatePlayerData(playerid,"fwarn",PI[playerid][pfWarn]);
 		UpdatePlayerData(playerid,"FracDuty",start_work[playerid]);
 		SendInfo(playerid, "Щоб вийти зі фракції, введіть "P"/templeader 0"W".");
+		GiveDiscordRoleForPlayer(playerid);
 	}
 	return 1;
 }
@@ -67821,4 +67839,20 @@ public SendDiscordMessage(playerid, DCC_User:user)
 
     DCC_CreatePrivateChannel(DCC_User:user, "GetPrivateChannel", "i", playerid);
     return 1;
+}
+
+stock GiveDiscordRoleForPlayer(playerid)
+{
+	new DCC_Role:Role, DCC_Guild:Server, DCC_User:user;
+ 	Server = DCC_FindGuildById("1030899908166823948");
+ 	user = DCC_FindUserById(PI[playerid][pDiscord]);
+	switch(PI[playerid][pMember])
+	{
+		case 1:
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+
+	}
 }
