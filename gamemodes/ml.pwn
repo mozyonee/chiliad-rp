@@ -86,7 +86,6 @@ new CountMaterialVehicleWH = 0;
 /*#define MYSQL_HOST 	"leaf.cityhost.com.ua"
 #define MYSQL_USER 	"ch5d055a58"
 #define MYSQL_PASS 	"0e8f0cc01d"
-#define DB_NAME 	"ch5d055a58_server"
 #define DB_NAME 	"ch5d055a58_server"*/
 #define MYSQL_HOST 	"localhost"
 #define MYSQL_USER 	"chiliad"
