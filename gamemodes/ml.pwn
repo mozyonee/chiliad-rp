@@ -8888,6 +8888,11 @@ public OnPlayerConnect(playerid) {
 	if (playerid == 65535) return KickEx(playerid);
 	GetPlayerName(playerid, fPlayer[playerid][nname], MAX_PLAYER_NAME);
 	GetPlayerIp(playerid, fPlayer[playerid][fip], 32);
+
+	new verstring[24];
+    GetPlayerVersion(playerid, verstring, sizeof(verstring));
+    format(verstring, sizeof(verstring), "Your version of SA-MP: %s", verstring);
+    SendClientMessage(playerid, 0xFFFFFFFF, verstring);
    
 	PI[playerid][pID] = 0;
 	ahMenu[playerid][0] = ahMenu[playerid][1] = ahMenu[playerid][2] = ahMenu[playerid][3] = 0;
@@ -41657,9 +41662,9 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		// if(RELEASED(KEY_ACTION) pc_cmd_engine(playerid,"");
 		if(RELEASED(newkeys, KEY_FIRE)) pc_cmd_light(playerid,"");
 		if(RELEASED(newkeys, KEY_ACTION)) pc_cmd_engine(playerid,"");
-		new str[64];
-		format(str, sizeof(str), "%d ||| %d", newkeys, oldkeys);
-		SendClientMessage(playerid, -1, str);
+		//new str[64];
+		//format(str, sizeof(str), "%d ||| %d", newkeys, oldkeys);
+		//SendClientMessage(playerid, -1, str);
 	}
 	if(hacker_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
 	time_newkeys = GetTickCount() - tickcount1;
@@ -41713,7 +41718,7 @@ public OnVehicleDeath(vehicleid, killerid) {
 		ArendInfo[GetArendCarID(vehicleid)][aPlayerID] = INVALID_PLAYER_ID;
 		VehicleInfo[vehicleid][vFuel] = gTransport[GetVehicleModel(vehicleid-400)][trTank];
 		if(IsPlayerConnected(playerid) && TI[playerid][tArendKey] == GetArendCarID(vehicleid)) {
-			SendClientMessage(playerid, COLOR_LIGHTRED, "Транспорт, який ви орендовали, було знищено. Контракт розірвано.");
+			SendClientMessage(playerid, COLOR_LIGHTRED, "Транспорт, який ви орендували, було знищено. Контракт розірвано.");
 			TI[playerid][tArendKey] = -1;
 		}
 	}
