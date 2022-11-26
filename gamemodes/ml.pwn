@@ -27549,27 +27549,27 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				}
 				else ShowPlayerDialog(playerid,D_JOB_INC,DSM,""P"Робота інкасатора",""W"Ви хочете завершити робочий день?", "Так", "Ні");
 			}
-		case 1: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\t"W"Необхідний рівень\n1. Водій автобуса\t"P"2 рівень\n2. Механік\t"P"3 рівень\n3. Розвізник їжі\t"P"3 рівень\t"P"4 рівень\n4. Мийщик доріг\t"P"4 рівень\n5. Чистильник каналізацій\t"P"3 рівень\n6. Таксист\t"P"2 лвл\n7. Інкасатор\t"P"2 рівень\n8. Розвізник продуктів або палива\t"P"2 рівень\n{F0BF39}Звільнитися з роботи", "Обрати", "Закрити");
+		case 1: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\t"W"Необхідний рівень\n"P"1."W" Водій автобуса\t2 рівень\n"P"2."W" Механік\t3 рівень\n"P"3."W" Розвізник їжі\t3 рівень\t4 рівень\n"P"4."W" Мийщик доріг\t"P"4 рівень\n"P"5."W" Чистильник каналізацій\t3 рівень\n"P"6."W" Таксист\t2 лвл\n"P"7."W" Інкасатор\t2 рівень\n"P"8."W" Розвізник продуктів або палива\t2 рівень\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
 		case 2: {
 				new price_car,price_boat,price_air;
 				price_car = 500;
 				price_air = 15000;
 				price_boat = 10000;
 				new string[512];
-				format(string,sizeof(string),""P"1."W" Ліцензія на наземний транспорт [%s] - "ORANGE"$%d\n"P"2."W" Ліцензія на повітряний транспорт [%s] - "ORANGE"$%d\n"P"3."W" Лицензія на водний транспорт [%s] - "ORANGE"$%d",lic[playerid][0] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_car,lic[playerid][1] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_air,lic[playerid][2] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_boat,lic[playerid][3] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""));
+				format(string,sizeof(string),""P"1."W" Ліцензія на наземний транспорт [%s] - "GREEN"$%d\n"P"2."W" Ліцензія на повітряний транспорт [%s] - "GREEN"$%d\n"P"3."W" Лицензія на водний транспорт [%s] - "ORANGE"$%d",lic[playerid][0] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_car,lic[playerid][1] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_air,lic[playerid][2] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_boat,lic[playerid][3] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""));
 				ShowPlayerDialog(playerid,D_LICENSES,DSL,""P"Купівля ліцензій",string, "Купити", "Скасувати");
 			}
 		case 3: {
-				ShowPlayerDialog(playerid,D_TRAILER_BUY,DSM, ""P"Будинок на колесах",""W"\n\nВартість: "ORANGE"1.000.000$"W"\n\nУ домі на колесах можна користуватися шкафом, його можна паркувати у зручному місці,\nа также використовувати його, як основное місце проживання\n\nВи дійсно хочете купити"GREEN" будинок на колесах?\n\n", "Купити", "Закрити");
+				ShowPlayerDialog(playerid,D_TRAILER_BUY,DSM, ""P"Будинок на колесах",""W"\n\nВартість: "GREEN"1.000.000$"W"\n\nУ домі на колесах можна користуватися шкафом, його можна паркувати у зручному місці,\nа также використовувати його, як основное місце проживання\n\nВи дійсно хочете купити"GREEN" будинок на колесах?\n\n", "Купити", "Закрити");
 			}
 		case 4: {
 				if(PI[playerid][pJob] != 6) return SendError(playerid, "Ви не працюєте чистильником каналзацій.");
-				if(GetPVarInt(playerid,"kanal_skin") == 0) ShowPlayerDialog(playerid,D_JOB_KANAL_2,DSM, ""P"Роздягальня",""W"Ви хочете переодягнутися у робочий одяг?","Так","Ні");
-				else ShowPlayerDialog(playerid,D_JOB_KANAL_2,DSM, ""P"Роздягальня",""W"Ви хочете переодягнутися у повсякденний одяг?","Так","Ні");
+				if(GetPVarInt(playerid,"kanal_skin") == 0) ShowPlayerDialog(playerid,D_JOB_KANAL_2,DSM, ""P"Роздягальня",""W"Ви хочете перевдягнутися у робочий одяг?","Так","Ні");
+				else ShowPlayerDialog(playerid,D_JOB_KANAL_2,DSM, ""P"Роздягальня",""W"Ви хочете перевдягнутися у повсякденний одяг?","Так","Ні");
 			}
 		case 5: {
 				if(TI[playerid][tBuild] > 0 || PI[playerid][pJob] == 3) {
-					ShowPlayerDialog(playerid, D_JOB_CONST, DSM, ""P"Робота", ""W"Ви дійсно хочете закінчити роботу на будівництві?", "Так", "Ні");
+					ShowPlayerDialog(playerid, D_JOB_CONST, DSM, ""P"Робота", ""W"Ви дійсно хочете завершити роботу на будівництві?", "Так", "Ні");
 					return 1;
 				}
 				ShowPlayerDialog(playerid, D_JOB_CONST, DSTH, ""P"Список доступних робіт", ""W"Назва роботи\t"W"Досвід роботи\nПрибиральник\tНе потребується\nГрузчик\t100 досвіду\nЗварщик\t300 досвіду", "Далі", "Закрити");
@@ -27635,7 +27635,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			}
 		case 16: {
 				if(!GetPVarInt(playerid,"gun_weap")) ShowPlayerDialog(playerid, D_AMMOSG, DSM, ""P"Тир",""W"Ви дійсно хочете розпочати тренування?", "Так", "Ні");
-				else ShowPlayerDialog(playerid, D_AMMOSG, DSM, ""P"Тир",""W"Ви дійсно хочете закінчити тренування?", "Так", "Ні");
+				else ShowPlayerDialog(playerid, D_AMMOSG, DSM, ""P"Тир",""W"Ви дійсно хочете завершити тренування?", "Так", "Ні");
 			}
 		case 19: {
 				if(!TI[playerid][tJobGun][0]) {
@@ -27645,7 +27645,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					ShowPlayerDialog(playerid,D_JOB_GUNS,DSM, ""P"Складальник зброї",string,"Так","Ні");
 				}
 				else {
-					static const f_str[] = "\n\n"W"Ви хочете закінчити роботу і забрати "GREEN"$%d?\n\n";
+					static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
 					new string[sizeof(f_str) +1 + (-2 + 7)];
 					format(string,sizeof(string),f_str,TI[playerid][tJobSalary]);
 					ShowPlayerDialog(playerid,D_JOB_GUNS,DSM, ""P"Завершення роботи",string,"Так","Ні");
@@ -27677,7 +27677,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			{
 				if(TI[playerid][tJobSad][0] == 1)
 				{
-					static const f_str[] = "\n\n"W"Ви хочете закінчити роботу і забрати "GREEN"$%d?\n\n";
+					static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
 					new string[sizeof(f_str) +1 + (-2 + 7)];
 					format(string,sizeof(string),f_str,TI[playerid][tJobSalary]);
 					ShowPlayerDialog(playerid,D_JOB_SAD,DSM, ""P"Завершення роботи",string,"Так","Ні");
@@ -27771,7 +27771,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		case 40: {
 				if(PI[playerid][pMember] != fWHITEHOUSE) return 1;
 				new string[128];
-				format(string,sizeof(string),""P"1."W" %s робочий день\n"P"2."W" Взяти зброю",(!start_work[playerid]) ? ("Почати") : ("Закінчити"));
+				format(string,sizeof(string),""P"1."W" %s робочий день\n"P"2."W" Взяти зброю",(!start_work[playerid]) ? ("Почати") : ("Завершити"));
 				ShowPlayerDialog(playerid,D_MAYOR_INFO, DSL, ""P"Уряд",string, "Обрати", "Закрити");
 			}
 		case 41: {
@@ -27971,7 +27971,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					ShowPlayerDialog(playerid,D_JOB_PORTN,DSM, ""P"Работа кравця",string,"Так","Ні");
 				}
 				else {
-					static const f_str[] = "\n\n"W"Ви хочете закінчити роботу і забрати "GREEN"$%d?\n\n";
+					static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
 					new string[sizeof(f_str) +1 + (-2 + 7)];
 					format(string,sizeof(string),f_str,GetPVarInt(playerid,"zp_clothes"));
 					ShowPlayerDialog(playerid,D_JOB_PORTN,DSM, ""P"Закінчення роботи",string,"Так","Ні");
@@ -28251,9 +28251,9 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					format(string, 1500, "%s\t%s\t$%i\n",string, gun_name, gSellGunPrice[i] * gBusiness[id][bizzPrice]);
 				}
 				new str[90];
-				format(str, sizeof(str), "Armour\t$%i\n"O"Перепустка в тир\t$%i", gSellGunPrice[11] * gBusiness[id][bizzPrice], gSellGunPrice[12] * gBusiness[id][bizzPrice]);
+				format(str, sizeof(str), "Броня\t$%i\n"O"Перепустка в тир\t$%i", gSellGunPrice[11] * gBusiness[id][bizzPrice], gSellGunPrice[12] * gBusiness[id][bizzPrice]);
 				strcat(string, str);
-				ShowPlayerDialog(playerid, D_AMMO, DSTH, "Меню аммо", string, "Далі", "Скасувати");
+				ShowPlayerDialog(playerid, D_AMMO, DSTH, "Аммонації", string, "Далі", "Скасувати");
 			}
 		case 7: return 1;//авиа
 		case 9: show_fish(playerid);
@@ -28261,13 +28261,13 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		case 12: ShowPlayerDialog(playerid, D_RIELTOR, DSL, ""P"Ріелторське агентство", ""P"1."W" Будинки\n"P"2."W" Бізнеси\n"P"3."W" Інформація", "Обрати", "Скасувати");
 		case 13: {
 				if(TI[playerid][tGym]) {
-					static const f_str[] = ""P"Найменування\t"P"Вартість\n"P"1."W" Спортивна форма\t"ORANGE"$%d\n"P"2."W" Стиль бою бокс\t"ORANGE"$5000\n"P"3."W" Стиль бою кунг-фФу\t"ORANGE"$5000\n"P"4."W" Стиль боя кік-бокс\t"ORANGE"$5.000\n"P"5."W" Шейкер Smart [0.25л/250ударів]\t"ORANGE"$200\n"P"6."W" Шейкер BSN [0.5л/500ударів]\t"ORANGE"$350\n"P"7."W" Шейкер Biotech [0.75л/750ударів]\t"ORANGE"$500\n"P"-"W" Інформація\n"P"-"W" Закінчити тренування";
+					static const f_str[] = ""P"Найменування\t"P"Вартість\n"P"1."W" Спортивна форма\t"GREEN"$%d\n"P"2."W" Стиль бою бокс\t"GREEN"$5.000\n"P"3."W" Стиль бою кунг-фФу\t"GREEN"$5.000\n"P"4."W" Стиль боя кік-бокс\t"GREEN"$5.000\n"P"5."W" Шейкер Smart [0.25л/250ударів]\t"GREEN"$200\n"P"6."W" Шейкер BSN [0.5л/500ударів]\t"GREEN"$350\n"P"7."W" Шейкер Biotech [0.75л/750ударів]\t"GREEN"$500\n"P"-"W" Інформація\n"P"-"W" Завершити тренування";
 					new string[sizeof(f_str) +1 + (-2 + 6)];
 					format(string,sizeof(string),f_str,gBusiness[id][bizzPrice]*150);
 					ShowPlayerDialog(playerid,D_BOX_2,DSTH, "Спортзал",string,"Обрати","Скасувати");
 				}
 				else {
-					static const f_str[] = ""P"Найменування\t"P"Вартість\n"P"1."W" Спортивна форма\t"ORANGE"$%d\n"P"2."W" Стиль бою бокс\t"ORANGE"$5000\n"P"3."W" Стиль бою кунг-фу\t"ORANGE"$5000\n"P"4."W" Стиль боя кік-бокс\t"ORANGE"$5.000\n"P"5."W" Шейкер Smart [0.25л/250ударів]\t"ORANGE"$200\n"P"6."W" Шейкер BSN [0.5л/500ударів]\t"ORANGE"$350\n"P"7."W" Шейкер Biotech [0.75л/750ударів]\t"ORANGE"$500\n"P"-"W" Інформація";
+					static const f_str[] = ""P"Найменування\t"P"Вартість\n"P"1."W" Спортивна форма\t"GREEN"$%d\n"P"2."W" Стиль бою бокс\t"GREEN"$5.000\n"P"3."W" Стиль бою кунг-фу\t"GREEN"$5.000\n"P"4."W" Стиль боя кік-бокс\t"GREEN"$5.000\n"P"5."W" Шейкер Smart [0.25л/250ударів]\t"GREEN"$200\n"P"6."W" Шейкер BSN [0.5л/500ударів]\t"GREEN"$350\n"P"7."W" Шейкер Biotech [0.75л/750ударів]\t"GREEN"$500\n"P"-"W" Інформація";
 					new string[sizeof(f_str) +1 + (-2 + 6)];
 					format(string,sizeof(string),f_str,gBusiness[id][bizzPrice]*150);
 					ShowPlayerDialog(playerid,D_BOX_2,DSTH, "Спортзал",string,"Обрати","Скасувати");
@@ -35788,7 +35788,7 @@ CMD:ether(playerid) {
 		new str[10];
 		switch(TI[playerid][tEther]) {
 		case 0: str = "Почати";
-		case 1: str = "Закінчити";
+		case 1: str = "Завершити";
 		}
 		new string[128];
 		format(string,sizeof(string),""P"1."W" %s прямий ефір\n"P"2."W" Прийом дзвінків",str);
@@ -36416,7 +36416,7 @@ CMD:call(playerid,params[]) {
 			
 			SendClientMessage(playerid,CGOLD,"Ви у прямому ефірі.");
 			SendOK(calls_news[0],"Гравець дозвонився у прямий ефір.");
-			SendOK(calls_news[0],"Щоб закінчити розмову, введіть "P"/skip"W".");
+			SendOK(calls_news[0],"Щоб завершити розмову, введіть "P"/skip"W".");
 			SetPlayerSpecialAction(playerid,SPECIAL_ACTION_USECELLPHONE);
 			PhoneStatus(playerid,true);
 			calls_ether[0] = playerid;
@@ -62474,7 +62474,7 @@ CB: second_timer() // global timer
 {
 	if(tmphour == 05 && tmpminute == 03 && tmpsecond == 00) {
 		SendClientMessageToAll(COLOR_YELLOW, "Через дві хвилини відбудеться автоматичний рестарт сервера.");
-		SendClientMessageToAll(COLOR_YELLOW, "Просимо вам закінчити усі свої справи. Дякуємо за розуміння.");
+		SendClientMessageToAll(COLOR_YELLOW, "Просимо вам завершити усі свої справи. Дякуємо за розуміння.");
 	}
 	if(tmphour == 05 && tmpminute == 05 && tmpsecond == 00) {
 		SendClientMessageToAll(COLOR_REDD,"Chiliad Role Play | Restart...");
