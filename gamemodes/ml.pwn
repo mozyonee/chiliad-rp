@@ -118,7 +118,7 @@ native 		IsValidVehicle(vehicleid);
 #define 	RELEASED(%0) 							(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 #define 	KEY_NUM4								(8192)
 #define 	KEY_NUM6 								(16384)
-#define		MAX_TELEPORTS                       	35
+#define		MAX_TELEPORTS                       	36
 #define 	MAX_ACTORSS                             53
 #define 	MAX_ADVERT_COUNT 						35
 #define 	RES_CAR_TIME    						1800
@@ -3418,8 +3418,8 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0,1355.1908,-1425.0554,13.4918}, // АВЛС - ЖДЛВ
 		{0.0,1307.0311,-1398.9163,13.3520}, // АВЛС - ЖДЛВ
 		{0.0,1231.1937,-1397.5558,13.2136}, // АВЛС - ЖДЛВ
-		{1.0,1211.2694,-1335.3163,13.5800}, // АВЛС - ЖДЛВ ОСТ Лікарня ЛС
-		{0.0,1211.2694,-1335.3163,13.5800}, // АВЛС - ЖДЛВ ОСТ Лікарня ЛС
+		{1.0,1211.2694,-1335.3163,13.5800}, // АВЛС - ЖДЛВ ОСТ Лікарня м. ЛС
+		{0.0,1211.2694,-1335.3163,13.5800}, // АВЛС - ЖДЛВ ОСТ Лікарня м. ЛС
 		{0.0,1218.1603,-1167.0958,23.0242}, // АВЛС - ЖДЛВ
 		{0.0,1312.0769,-1147.6741,23.7577}, // АВЛС - ЖДЛВ
 		{0.0,1375.0165,-965.0331,33.8391}, // АВЛС - ЖДЛВ
@@ -4978,8 +4978,9 @@ new TPLIST[MAX_TELEPORTS][TPList] = {
 	{"Національна гвардія", 	{2778.5317,-2417.1230,13.6359},0},
 	{"Мерія м. ЛС",				{1481.2506,-1739.8961,13.5469},0},
 	{"Автошкола",				{744.4413,-1415.2373,13.5169},0},
-	{"Лікарня ЛС", 				{1177.6864,-1323.2448,14.0830},0},
-	{"Радіоцентр ЛС", 			{1578.6501,-1326.6104,16.4844},0},
+	{"Лікарня м. ЛС", 				{1177.6864,-1323.2448,14.0830},0},
+	{"Лікарня м. СФ", 				{1688.2734,-1144.9609,24.2891},0},
+	{"Радіоцентр м. ЛС", 			{1578.6501,-1326.6104,16.4844},0},
 	{"Ла Коза Ностра", 			{665.1582,-476.9240,16.3359},0},
 	{"Якудза",					{720.4109,-1257.1036,13.6429},0},
 	{"Медельїнський картель",	{1375.2839,396.7043,19.7138},0},
@@ -5235,10 +5236,10 @@ enum enter_info {
 new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*0*/{"Завод з виготовлення зброї",-86.3748,-299.3630,2.7646,0,0,974.6744,-430.3956,1471.5420,177.9552,2,1}, // завод з виготовлення зброї
 	/*1*/{"Вихід",974.8273,-428.4263,1471.5420,2,1,-90.0241,-300.4619,2.7646,91.1611,0,0},
-	/*2*/{"Лікарня м. ЛС",1172.5408,-1325.2740,15.4040,0,0,2187.5295,586.6940,1080.4542,177.1751,93,20}, // МЧС ЛС
-	/*3*/{"Вихід на вулицю",2187.6035,588.1922,1080.4542,93,20,1174.0408,-1325.2740,14.9922,270.0000,0,0}, // МЧС ЛС
-	/*4*/{"Вхід на дах",1556.2736,489.0876,1070.4316,92,20,1161.5529,-1328.3661,31.4985,358.4099,0,0}, // МЧС ЛС Дах
-	/*5*/{"Спуск з даху",1161.5112,-1329.8655,31.4943,0,0,1556.3342,490.5883,1070.4316,359.5603,92,20}, // МЧС ЛС Дах
+	/*2*/{"Лікарня м. ЛС",1172.5408,-1325.2740,15.4040,0,0,2187.5295,586.6940,1080.4542,177.1751,93,20}, // Лікарня м. ЛС
+	/*3*/{"Вихід на вулицю",2187.6035,588.1922,1080.4542,93,20,1174.0408,-1325.2740,14.9922,270.0000,0,0}, // Лікарня м. ЛС
+	/*4*/{"Вхід на дах",1556.2736,489.0876,1070.4316,92,20,1161.5529,-1328.3661,31.4985,358.4099,0,0}, // Лікарня м. ЛС Дах
+	/*5*/{"Спуск з даху",1161.5112,-1329.8655,31.4943,0,0,1556.3342,490.5883,1070.4316,359.5603,92,20}, // Лікарня м. ЛС Дах
 	/*6*/{"Радіоцентр м. ЛС",1569.6614,-1334.6711,16.4844,0,0,2846.7087,1080.5653,1052.5673,89.1133,2,1}, // LS News
 	/*7*/{"Вихід",2848.8918,1080.5110,1052.5673,2,1,1570.6003,-1333.5015,16.4844,321.2440,0,0}, // LS News
 	/*8*/{"Вхід у офіс",1548.6804,-1363.7773,326.2183,0,0,2846.7087,1080.5653,1052.5673,89.1133,2,1}, // LS News Дах
@@ -9557,7 +9558,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			{
 				string = ""W"Ім'я гравця\t"W"Зібрано гарбузів\n";
 				static const f_str[] = "%i. %s\t%d\n";
-				new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+				new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 				for(new i; i < rows; i ++)
 				{
 				cache_get_value_name(i, "Name", name, 44);
@@ -10365,7 +10366,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(rows) {
 						string = ""W"Ім'я гравця\t"W"Вбивств\n";
 						static const f_str[] = "%i. %s\t%d\n";
-						new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 						for(new i; i < rows; i ++)
 						{
 							cache_get_value_name(i, "Name", name, 44);
@@ -10441,7 +10442,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(rows) {
 						string = ""W"Ім'я гравця\t"W"Вбивств\n";
 						static const f_str[] = "%i. %s\t%d\n";
-						new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 						for(new i; i < rows; i ++)
 						{
 							cache_get_value_name(i, "Name", name, 44);
@@ -10879,7 +10880,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 										%s- На след ранги\n\
 										%s- На след ранги\n\
 										"P"2. "NO"звільнити";
-				new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
+				new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
 				format(str,sizeof(str),f_str,names,(status == 1) ? (""P"") : (""W""),(status == 2) ? (""P"") : (""W""));
 				ShowPlayerDialog(playerid,D_BIZZ_FERMA_MEM_2,DSL,""P"Сотруднік",str,"Далі","Закрити");
 			}
@@ -10905,7 +10906,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							mysql_tquery(connects, query, "", "");
 						}
 						static const f_str[] = "Ви змінили Посада для сотрудніка "ORANGE"%s"W" на "ORANGE"%s";
-						new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
+						new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
 						format(string,sizeof(string),f_str,select_member[playerid],ferma_class[listitem-2]);
 						SendUse(playerid,string);
 						return 1;
@@ -10924,7 +10925,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							mysql_tquery(connects, query, "", "");
 						}
 						static const f_str[] = "Ви уволили сотрудніка фермы "ORANGE"%s";
-						new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+						new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 						format(string,sizeof(string),f_str,select_member[playerid]);
 						SendUse(playerid,string);
 						members_funcbizz_ferma(playerid,PI[playerid][bizz_work]);
@@ -10949,7 +10950,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 														\t%s- Водій воды\n\
 														\t%s- Тракторист\n\
 														"P"2. "NO"звільнити";
-								new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
+								new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
 								format(str,sizeof(str),f_str,names,(status == 1) ? (""P"") : (""W""),(status == 2) ? (""P"") : (""W""));
 								ShowPlayerDialog(playerid,D_BIZZ_FERMA_MEM_2,DSL,""P"Сотруднік",str,"Далі","Закрити");
 							}
@@ -10984,7 +10985,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 											\t%s- Водій\n\
 											\t%s- Керуючий\n\
 											"P"2. "NO"Звільнити";
-					new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
+					new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
 					format(str,sizeof(str),f_str,names,(status == 1) ? (""P"") : (""W""),(status == 2) ? (""P"") : (""W""));
 					ShowPlayerDialog(playerid,D_BIZZ_TK_MEM_2,DSL,""P"Працівнік",str,"Далі","Закрити");
 				}
@@ -11010,7 +11011,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							mysql_tquery(connects, query, "", "");
 						}
 						static const f_str[] = "Ви змінили посаду для працівніка "ORANGE"%s"W" на "ORANGE"%s";
-						new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
+						new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
 						format(string,sizeof(string),f_str,select_member[playerid],tk_class[listitem-2]);
 						SendUse(playerid,string);
 						return 1;
@@ -11029,7 +11030,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							mysql_tquery(connects, query, "", "");
 						}
 						static const f_str[] = "Ви звільнили працівніка транспортної компанії "ORANGE"%s.";
-						new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+						new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 						format(string,sizeof(string),f_str,select_member[playerid]);
 						SendUse(playerid,string);
 						members_funcbizz_tk(playerid,PI[playerid][bizz_work]);
@@ -11054,7 +11055,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 														\t%s- Водій\n\
 														\t%s- Керуючий\n\
 														"P"2. "NO"Звільнити";
-								new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
+								new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 40)];
 								format(str,sizeof(str),f_str,names,(status == 1) ? (""P"") : (""W""),(status == 2) ? (""P"") : (""W""));
 								ShowPlayerDialog(playerid,D_BIZZ_TK_MEM_2,DSL,""P"Працівнік",str,"Далі","Закрити");
 							}
@@ -11100,7 +11101,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(rows) {
 						string = ""W"Ім'я гравця\t"W"Рівень\n";
 						static const f_str[] = "%i. %s\t%d\n";
-						new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 						for(new i; i < rows; i ++)
 						{
 							cache_get_value_name(i, "Name", name, 44);
@@ -14849,7 +14850,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(!response) return 1;
 		GivePlayerWeapon(playerid,5,1);
 		static const f_str[] = "[F] %s[%d] взяв зброю зі складу.";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -14884,7 +14885,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 		GivePlayerWeapon(playerid,MakeGunData[1][mgunid],gun);
 		static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -14919,7 +14920,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 		GivePlayerWeapon(playerid,25,gun);
 		static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -14934,7 +14935,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
 		GiveMoney(playerid, -dengi,"поклав на рахунок банди");
 		static const f_str[] = "[F] %s[%d] Положив(ла) в банк MC: "GREEN"$%d";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,strval(inputtext));
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		}
@@ -14960,7 +14961,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		UpdateFraction(PI[playerid][pMember],"BankCash",FI[PI[playerid][pMember]][fBankCash]);
 		GiveMoney(playerid, dengi,"зняв з рахунку банди");
 		static const f_str[] = "[F] %s[%d] зняв з банку MC: "GREEN"$%d.";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,dengi);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		return 1;
@@ -14975,7 +14976,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		FI[PI[playerid][pMember]][fMats] += mats;
 		UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 		static const f_str[] = "[F] %s[%d] поклав %d матеріалів на склад.";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,mats);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		PI[playerid][pMats] -= mats;
@@ -15016,7 +15017,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		FI[PI[playerid][pMember]][fDrugs] += drugs;
 		UpdateFraction(PI[playerid][pMember],"Drugs",FI[PI[playerid][pMember]][fDrugs]);
 		static const f_str[] = "[F] %s[%d] поклав %d наркотиків на склад.";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 		format(string,sizeof(string),f_str,player_name[playerid],playerid,drugs);
 		SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 		PI[playerid][pDrugs] -= drugs;
@@ -15156,7 +15157,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[0][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15190,7 +15191,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[1][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15224,7 +15225,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[2][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15258,7 +15259,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[3][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15292,7 +15293,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[4][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15326,7 +15327,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[5][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15360,7 +15361,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			GivePlayerWeapon(playerid,MakeGunData[6][mgunid],gun);
 			static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,gun);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15377,7 +15378,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid, -dengi,"поклав на рахунок банди");
 			
 			static const f_str[] = "[F] %s[%d] поклав в банк банди "GREEN"$%d"W".";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,strval(inputtext));
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15406,7 +15407,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid, dengi,"зняв з банку банди.");
 			
 			static const f_str[] = "[F] %s[%d] зняв з банку банди "GREEN"$%d"W".";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,dengi);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15423,7 +15424,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			
 			static const f_str[] = "[F] %s[%d] поклав %d матеріалів на склад.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,mats);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15468,7 +15469,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[PI[playerid][pMember]][fDrugs] += drugs;
 			UpdateFraction(PI[playerid][pMember],"Drugs",FI[PI[playerid][pMember]][fDrugs]);
 			static const f_str[] = "[F] %s[%d] поклав %d наркотиків на склад.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,drugs);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15534,7 +15535,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid, -dengi,"поклав на банк мафії");
 			
 			static const f_str[] = "[F] %s[%d] поклав(-ла) в банк мафії: "GREEN"$%d";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,strval(inputtext));
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15562,7 +15563,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid, dengi,"зняв со счета мафії");
 			
 			static const f_str[] = "[F] %s[%d] зняв з банку фракції "GREEN"$%d"W".";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 6)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,dengi);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15579,7 +15580,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdateFraction(PI[playerid][pMember],"Drugs",FI[PI[playerid][pMember]][fDrugs]);
 			
 			static const f_str[] = "[F] %s[%d] Поклав(-ла) %d наркотиків на склад.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,drugs);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -15619,7 +15620,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[PI[playerid][pMember]][fMats] += mats;
 			UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 			static const f_str[] = "[F] %s[%d] поклав(-ла) %d матеріалів на склад";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 +3)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],playerid,mats);
 			SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -17112,7 +17113,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				Текст: {FFD700}%s"W"\n\n\
 				Для публикації оголошення, натисніть: {73B461}'Відправити'"W"\n\
 				Щоб відхилити чи відправити повідомлення адміністрації, натисніть {E11C1C}'Редагувати'";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 100)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 100)];
 			
 			format(string,sizeof(string), f_str,gAdvert[id][adSender],gAdvert[id][adText],gAdvert[id][adText]);
 			ShowPlayerDialog(playerid,D_ADVERT_LIST_EDIT,DSI, ""P"Редагування",string,"Відправити","Редагувати");
@@ -17135,7 +17136,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			
 			static const f_str[] = "Ваше оголошення було відхилено редактором {33AA33}%s.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 100)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 100)];
 			format(string,sizeof(string),f_str,player_name[playerid]);
 			SendOK(player,string);
 			
@@ -17515,7 +17516,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				"W"Рівень розшуку:\t\t"P"%d\n\
 				"W"Сповістив:\t\t\t"P"%s\n\
 				"W"Причина:\t\t\t"P"%s";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 2) + (-2 + MAX_PLAYER_NAME) + (-2 + 42)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 2) + (-2 + MAX_PLAYER_NAME) + (-2 + 42)];
 			format(string,sizeof(string), f_str, player_name[id], PI[id][pSearch], PI[id][pVictim],PI[id][pAccusedof]);
 			ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"База даних",string,"Закрити","");
 		}
@@ -17559,7 +17560,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				"W"Рівень розшуку:\t\t"P"%d\n\
 				"W"Повідомив:\t\t\t"P"%s\n\
 				"W"Причина:\t\t\t"P"%s";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 2) + (-2 + MAX_PLAYER_NAME) + (-2 + 32)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 2) + (-2 + MAX_PLAYER_NAME) + (-2 + 32)];
 			format(string,sizeof(string), f_str, player_name[patrul_id[playerid]], PI[patrul_id[playerid]][pSearch], PI[patrul_id[playerid]][pVictim],PI[patrul_id[playerid]][pAccusedof]);
 			ShowPlayerDialog(playerid,D_OBC_PATRUL,DSM, ""P"Бортовий комп'ютер",string,"Слежка","Назад");
 		}
@@ -17568,7 +17569,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(GetPlayerInterior(patrul_id[playerid]) != 0) return SendError(playerid, "Не вдалося виявити ціль. (Об'єкт в приміщенні)");
 			if(patrul_id[playerid] == playerid) return SendError(playerid, "Ви не можете стежити за собою.");
 			static const f_str[] = G"%s[%d] почав переслідування за %s.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + MAX_PLAYER_NAME)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + MAX_PLAYER_NAME)];
 			
 			format(string, sizeof(string), f_str, player_name[playerid],playerid,player_name[patrul_id[playerid]]);
 			SendFamilyMessage(PI[playerid][pMember], 0x99CC00FF, string);
@@ -17604,7 +17605,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 1: {
 					if(strcmp(FI[GetPVarInt(playerid, "use_frac")][fLeader],"None",true)) return SendError(playerid, "У цій організації вже є лідер.");
 					static const f_str[] = ""W"Укажіть ID гравця, якого хочете назначити на посаду лідера "P"%s"W".";
-					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + 24];
+					new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + 24];
 					
 					format(string,sizeof(string),f_str,FI[GetPVarInt(playerid, "use_frac")][fName]);
 					ShowPlayerDialog(playerid,D_MAKELEADER_ADD,DSI, ""P"Назначення",string,"Обрати","Скасувати");
@@ -17612,7 +17613,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 2: {
 					if(!strcmp(FI[GetPVarInt(playerid, "use_frac")][fLeader],"None",true)) return SendError(playerid, "У цій організації немає лідера.");
 					static const f_str[] = ""W"Ви дійсно хочете зняти "P"%s "W"з посади лідера організації "P"%s"W".";
-					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + 24];
+					new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + 24];
 					
 					format(string,sizeof(string),f_str,FI[GetPVarInt(playerid, "use_frac")][fLeader],FI[GetPVarInt(playerid, "use_frac")][fName]);
 					ShowPlayerDialog(playerid,D_MAKELEADER_CLEAR,DSM, ""P"Зняття",string,"Обрати","Скасувати");
@@ -17631,7 +17632,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(PI[playerid][pfWarn] > 0) PI[playerid][pfWarn] = 0;
 					UpdatePlayerData(playerid,"fwarn",PI[playerid][pfWarn]);
 					static const f_str[] = ""W"Ви успішно вступили в організацію "P"%s"W". (ID: %d)";
-					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 3)];
+					new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 3)];
 					
 					format(string, sizeof(string), f_str, FI[frac][fName], frac);
 					SendOK(playerid, string);
@@ -17650,7 +17651,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			if(!strlen(inputtext)) {
 				static const f_str[] = ""W"Вкажіть ID гравця, якого хочете назначити на посаду лідера "P"%s"W".";
-				new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+				new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 				
 				format(string,sizeof(string),f_str,FI[GetPVarInt(playerid, "use_frac")][fName]);
 				ShowPlayerDialog(playerid,D_MAKELEADER_ADD,DSI, ""P"Назначення",string,"Обрати","Скасувати");
@@ -17663,7 +17664,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarInt(playerid, "use_leader", strval(inputtext));
 			
 			static const f_str[] = ""W"Ви дійсно хочете назначити "P"%s"W" на посаду лідера організації "P"%s"W"?";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
 			
 			format(string,sizeof(string),f_str,player_name[GetPVarInt(playerid, "use_leader")],FI[GetPVarInt(playerid, "use_frac")][fName]);
 			ShowPlayerDialog(playerid,D_MAKELEADER,DSM, ""P"Назначення",string,"Назначити","Скасувати");
@@ -17686,7 +17687,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[ID][pfWarn] > 0) PI[ID][pfWarn] = 0;
 			UpdatePlayerData(ID,"fwarn",PI[ID][pfWarn]);
 			static const f_str[] = "%s назначив вас лідером організації %s.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],FI[frac][fName]);
 			SendOK(ID,string);
@@ -17729,7 +17730,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				ResetPlayerWeapons(ID);
 				UpdatePlayerData(ID,"MedHeal",0);
 				static const f_str[] = "%s забрав у вас повновження лідера організації.";
-				new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+				new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + 24];
 				
 				format(string,sizeof(string),f_str,player_name[playerid]);
 				SendOK(ID,string);
@@ -22172,11 +22173,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!TI[i][tLogin] && PI[i][pJob] != 8) continue;
 				if(GetPlayerVirtualWorld(i) != 0) continue;
 				if(GetPlayerState(i) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(i) != GetPVarInt(i,"veh_id_taxi")) continue;
-				static const f_str[] = ""W"%s"YELLOW" Викликає таксі. "YELLOW"Відстань: "W"%.2f м";
-				new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 12) + (-2 + 6)];
+				static const f_str[] = ""P"%s"W" Викликає таксі. Відстань: "P"%.2f м"W".";
+				new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 12) + (-2 + 6)];
 				format(str,sizeof(str),f_str,player_name[playerid],GetDistanceBetweenPlayers(playerid,i));
 				SendClientMessage(i,COLOR_YELLOW,str);
-				SendClientMessage(i,COLOR_YELLOW,"Введіть "W"/taxilist"YELLOW" для перегляду замовлень.");
+				SendClientMessage(i,COLOR_YELLOW,"Щоб переглянути список замовлень, введіть "P"/taxilist"W".");
 			}
 			SetPVarInt(playerid,"taxi_st",1);
 			SetPVarInt(playerid,"taxi_time",gettime()+60);
@@ -22187,8 +22188,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			DeletePVar(id,"taxi_st");
 			DeletePVar(id,"taxi_time");
 			if(playerid == id) return SendError(playerid, "Ви не можете прийняти власне замовлення.");
-			static const f_str[] = "Диспетчер: "W"%s"YELLOW" на "W"%s"YELLOW" прийняв ваше замовлення, залишайтесь на своєму місці.";
-			new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 12)];
+			static const f_str[] = "Диспетчер: "P"%s"W" на "P"%s"W" прийняв ваше замовлення, залишайтесь на своєму місці.";
+			new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 12)];
 			format(str,sizeof(str),f_str,player_name[playerid],gTransport[GetVehicleModel(GetPlayerVehicleID(playerid))-400][trName]);
 			SendClientMessage(id,COLOR_YELLOW,str);
 			new Float:X, Float:Y, Float:Z;
@@ -22202,7 +22203,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			TI[playerid][tTaxiPass] = id;
 			TI[playerid][tTaxiStart] = VehicleInfo[GetPlayerVehicleID(playerid)][vDrived];
 			SendOK(playerid,"Ви ввмікнули таксометр.");
-			SendOK(playerid,""ORANGE"/taxi"W" запросити у пасажира місце призначення.");
+			SendOK(playerid,"Щоб запросити у пасажира місце призначення, введіть "P"/taxi"W".");
 		}
 	case D_TOW: {
 			if(!response) return 1;
@@ -23792,6 +23793,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 											"P"2."W" Поліція м. ЛС\n\
 											"P"3."W" Шерифи о. Ред\n\
 											"P"4."W" Лікарня м. ЛС\n\
+											"P"5."W" Лікарня м. СФ\n\
 											"P"5."W" ФБР\n\
 											"P"6."W" Нац. Гвардія\n\
 											"P"7."W" Радіоцентр м. ЛС\n\
@@ -23890,11 +23892,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 0: EnableGPSForPlayer(playerid,1481.4768,-1744.2710,13.5469), str = "уряду";
 			case 1: EnableGPSForPlayer(playerid,1539.1508,-1675.5208,13.5469), str = "поліції м. ЛС";
 			case 2: EnableGPSForPlayer(playerid,634.6371,-571.4913,16.3359), str = "шерифів о. Ред";
-			case 3: EnableGPSForPlayer(playerid,1188.2722,-1325.6403,13.5595-0.5), str = "лікарні м. лс";
-			case 4: EnableGPSForPlayer(playerid,1539.4984,-1276.7616,17.4080), str = "ФБР";
-			case 5: EnableGPSForPlayer(playerid,2704.6938,-2399.0684,13.6328), str = "нац. гвардии";
-			case 6: EnableGPSForPlayer(playerid,1589.3326,-1317.3939,17.5201), str = "радіоцентра м. лс";
-			case 7: EnableGPSForPlayer(playerid,739.0844,-1412.1852,13.5292), str = "автошколи";
+			case 3: EnableGPSForPlayer(playerid,1188.2722,-1325.6403,13.0595), str = "лікарні м. лс";
+			case 4: EnableGPSForPlayer(playerid,1688.2734,-1144.9609,23.7891), str = "лікарні м. сф";
+			case 5: EnableGPSForPlayer(playerid,1539.4984,-1276.7616,17.4080), str = "ФБР";
+			case 6: EnableGPSForPlayer(playerid,2704.6938,-2399.0684,13.6328), str = "нац. гвардії";
+			case 7: EnableGPSForPlayer(playerid,1589.3326,-1317.3939,17.5201), str = "радіоцентра м. лс";
+			case 8: EnableGPSForPlayer(playerid,739.0844,-1412.1852,13.5292), str = "автошколи";
 			}
 			format(string,sizeof(string),"Місцезнаходження %s успішно позначено у вашому GPS.",str);
 			SendOK(playerid,string);
@@ -24002,7 +24005,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(rows) {
 						string = ""W"Сім'я\t"W"Рейтинг\n";
 						static const f_str[] = "%i. %s\t%d\n";
-						new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 						for(new i; i < rows; i ++)
 						{
 							cache_get_value_name(i, "name", name, 44);
@@ -24026,7 +24029,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(rows) {
 						string = ""W"Сім'я\t"W"Талонов\n";
 						static const f_str[] = "%i. %s\t%d\n";
-						new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 						for(new i; i < rows; i ++)
 						{
 							cache_get_value_name(i, "name", name, 44);
@@ -24050,45 +24053,45 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			switch(listitem) {
 			case 0: {
 					static const f_str[] = ""W"Поточний стан казни: "GREEN"$%d\n\n\
-											"P"Заработок в казну штата:\n\
-											"W"Процент при продаже бізнесу в государство: "GREEN"%d%%\n\
-											"W"Процент при продаже будинку в государство: "GREEN"%d%%\n\
-											"W"Процент при продаже автомобиля в государство: "GREEN"%d%%\n\
-											"W"Процент адвокатских услуг: "GREEN"15%%";
+											"P"Зарабіток в казну штата:\n\
+											"W"Процент при продажі бізнесу в державі: "P"%d%%\n\
+											"W"Процент при продажі будинку в державі: "P"%d%%\n\
+											"W"Процент при продажі автомобиля державі: "P"%d%%\n\
+											"W"Процент адвокатских услуг: "P"15%%";
 					new string[sizeof(f_str) +1 + (-2 + 13) + (-2 + 3) + (-2 + 3) + (-2 + 3) + (-2 + 3) + (-2 + 3) + (-2 + 3) + (-2 + 3)];
 					format(string,sizeof(string),f_str,FI[fWHITEHOUSE][fBank],Nalog[3],Nalog[0], Nalog[4]);
 					ShowPlayerDialog(playerid,D_ECONOMY_MENU,DSM, ""P"Інформація",string,"Назад","");
 				}
 			case 1: {
 					new string[150];
-					format(string,sizeof(string),"Пособие каждый час %s\nвСтановити суму пособия "P"[%d$]",Nalog[1] ? (""GREEN"[Включено]") : ("{C34D45}[Виключено]"),Nalog[2]);
-					ShowPlayerDialog(playerid,D_ECONOMY_POSOBIE,DSL, ""P"Пособие",string,"Обрати","Закрити");
+					format(string,sizeof(string),"Щогодинна допомога %s\nВстановити суму допомоги "P"[$%d]",Nalog[1] ? (""GREEN"[Ввімкнено]") : (""R"[Вимкнено]"),Nalog[2]);
+					ShowPlayerDialog(playerid,D_ECONOMY_POSOBIE,DSL, ""P"Допомога",string,"Обрати","Закрити");
 				}
-			case 2: ShowPlayerDialog(playerid,D_ECONOMY_PREM,DSL,""P"Переказ грошей","Поліція м. ЛС\nШерифи о. Ред\nФБР\nНац. Гвардія\nЛікарня м. ЛС\nРадіоцентр ЛС","Обрати", "Скасувати");
+			case 2: ShowPlayerDialog(playerid,D_ECONOMY_PREM,DSL,""P"Переказ грошей","Поліція м. ЛС\nШерифи о. Ред\nФБР\nНац. Гвардія\nЛікарня м. ЛС\nЛікарня м. СФ\nРадіоцентр ЛС","Обрати", "Скасувати");
 			case 3: {
-					static const f_str[] = ""W"Сейчас податок на нерухомість складає: "GREEN"%d%%\n\
-					"G"Введіть нижче розмір податку на имущество (від "GREEN"40%%"G" до"GREEN" 60%%"G")";
+					static const f_str[] = ""W"Зараз податок на нерухомість складає: "P"%d%%\n\
+					"G"Введіть нижче розмір податку на имущество (від "P"40%%"G" до"P" 60%%"G")";
 					new string[sizeof(f_str) +1 + (-2 + 3)];
 					format(string,sizeof(string),f_str,Nalog[0]);
 					ShowPlayerDialog(playerid,D_ECONOMY_HOUSE,DSI, ""P"Налог на бізнес",string,"Прийняти", "Назад");
 				}
 			case 4: {
-					static const f_str[] = ""W"Сейчас податок на бізнес складає: "GREEN"%d%%\n\
-					"G"Введіть нижче розмір податку на бізнес (від "GREEN"40%%"G" до"GREEN" 60%%"G")";
+					static const f_str[] = ""W"Зараз податок на бізнес складає: "P"%d%%\n\
+					"G"Введіть нижче розмір податку на бізнес (від "P"40%%"G" до"P" 60%%"G")";
 					new string[sizeof(f_str) +1 + (-2 + 3)];
 					format(string,sizeof(string),f_str,Nalog[3]);
-					ShowPlayerDialog(playerid,D_ECONOMY_BIZZ,DSI, ""P"Налог на бізнес",string,"Прийняти", "Назад");
+					ShowPlayerDialog(playerid,D_ECONOMY_BIZZ,DSI, ""P"Податок на бізнес",string,"Прийняти", "Назад");
 				}
 			case 5: {
-					static const f_str[] = ""W"Сейчас податок на транспорт складає: "GREEN"%d%%\n\
-					"G"Введіть нижче розмір податку на транспорт (від "GREEN"40%%"G" до"GREEN" 60%%"G")";
+					static const f_str[] = ""W"Зараз податок на транспорт складає: "P"%d%%\n\
+					"G"Введіть нижче розмір податку на транспорт (від "P"40%%"G" до"P" 60%%"G")";
 					new string[sizeof(f_str) +1 + (-2 + 3)];
 					format(string,sizeof(string),f_str,Nalog[4]);
 					ShowPlayerDialog(playerid,D_ECONOMY_CAR,DSI, ""P"Налог на транспорт",string,"Прийняти", "Назад");
 				}
 			case 6:  ShowPlayerDialog(playerid,D_ECONOMY_PUT_MENU,DSL,""P"Казна","Покласти гроші в казну\nЗняти гроші з казни","Обрати", "Скасувати");
-			case 55: ShowPlayerDialog(playerid,D_ECONOMY_PUT,DSI,""P"Керування штатом","\n\n"W"Укажите суму, на яку хочете поПолнить казну штата\n\n","ПоПолнить", "Скасувати");
-			case 56: ShowPlayerDialog(playerid,D_ECONOMY_INPUT,DSI,""P"Керування штатом","\n\n"W"Укажите суму, яку хочете зняти з казны штата\n\n","зняти", "Скасувати");
+			case 55: ShowPlayerDialog(playerid,D_ECONOMY_PUT,DSI,""P"Керування штатом","\n\n"W"Укажіть суму, на яку хочете поповнити казну штата\n\n","Поповнити", "Скасувати");
+			case 56: ShowPlayerDialog(playerid,D_ECONOMY_INPUT,DSI,""P"Керування штатом","\n\n"W"Укажіть суму, яку хочете зняти з казни штата\n\n","Зняти", "Скасувати");
 			}
 		}
 	case D_ECONOMY_PUT_MENU: {
@@ -24212,7 +24215,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 2: frac = fFBI;
 			case 3: frac = fARMYLS;
 			case 4: frac = fMEDICLS;
-			case 5: frac = fLSNEWS;
+			case 5: frac = fMEDICSF;
+			case 6: frac = fLSNEWS;
 			}
 			SetPVarInt(playerid,"prem_fration",frac);
 			new string[450];
@@ -24225,7 +24229,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new salary = strval(inputtext);
 			if(salary < 50000 || salary > 500000) {
 				new string[450];
-				format(string,sizeof(string),""W"Ви збираєтесь переказати гроші в організацію: "ORANGE"%s\n"G"Введіть нижче кількість грошей для переказу (від "GREEN"$50.000"G" до"GREEN" $500.000"G")",FI[GetPVarInt(playerid,"prem_fration")][fName]);
+				format(string,sizeof(string),""W"Ви збираєтесь переказати гроші в організацію "P"%s\n"G"Введіть нижче кількість грошей для переказу (від "GREEN"$50.000"G" до"GREEN" $500.000"G")",FI[GetPVarInt(playerid,"prem_fration")][fName]);
 				ShowPlayerDialog(playerid,D_ECONOMY_PREM_1,DSI, ""P"Переказ грошей",string,"Перевести", "Назад");
 				return 1;
 			}
@@ -24353,7 +24357,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					{
 						string = ""W"# Им'я\t"W"Пожертвував\n\n";
 						static const f_str[] = ""YELLOW"%i. "W"%s\t"GREEN"%d$\n";
-						new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+						new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 						for(new i; i < rows; i ++) {
 							cache_get_value_name(i, "Name", name, MAX_PLAYER_NAME);
 							cache_get_value_name_int(i, "pBlago",blago);
@@ -25813,15 +25817,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 2: TI[playerid][tMasked] = fWHITEHOUSE;
 			case 3: TI[playerid][tMasked] = fARMYLS;
 			case 4: TI[playerid][tMasked] = fMEDICLS;
-			case 5: TI[playerid][tMasked] = fLSNEWS;
-			case 6: TI[playerid][tMasked] = fLCN;
-			case 7: TI[playerid][tMasked] = fYAKUZA;
-			case 8: TI[playerid][tMasked] = fRM;
-			case 9: TI[playerid][tMasked] = fBALLAS;
-			case 10: TI[playerid][tMasked] = fVAGOS;
-			case 11: TI[playerid][tMasked] = fGROVE;
-			case 12: TI[playerid][tMasked] = fAZTEC;
-			case 13: TI[playerid][tMasked] = fRIFA;
+			case 5: TI[playerid][tMasked] = fMEDICSF;
+			case 6: TI[playerid][tMasked] = fLSNEWS;
+			case 7: TI[playerid][tMasked] = fLCN;
+			case 8: TI[playerid][tMasked] = fYAKUZA;
+			case 9: TI[playerid][tMasked] = fRM;
+			case 10: TI[playerid][tMasked] = fBALLAS;
+			case 11: TI[playerid][tMasked] = fVAGOS;
+			case 12: TI[playerid][tMasked] = fGROVE;
+			case 13: TI[playerid][tMasked] = fAZTEC;
+			case 14: TI[playerid][tMasked] = fRIFA;
 			}
 			for(new i = 0; i < 14; i++) {
 				if(!gFractionSkin[TI[playerid][tMasked]][i]) continue;
@@ -25852,7 +25857,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						return 1;
 					}
 					if(PI[playerid][pRank] < 3) return SendError(playerid, "Доступно з посади агента ФБР.");
-					ShowPlayerDialog(playerid, D_SPY, DSL, ""P"Оберіть фракцію","Поліція м. ЛС\nШерифи о. Ред\nУряд\nНац. Гвардія\nЛікарня м. ЛС\nРадіоцентр м. ЛС\nКоза Ностра\n\
+					ShowPlayerDialog(playerid, D_SPY, DSL, ""P"Оберіть фракцію","Поліція м. ЛС\nШерифи о. Ред\nУряд\nНац. Гвардія\nЛікарня м. ЛС\nЛікарня м. СФ\nРадіоцентр м. ЛС\nКоза Ностра\n\
 					Якудза\nМедельїнський картель\nBallas\nLos Santos Vagos\nGrove Street Families\nVarrios Los Aztecas\nSan Fierro Rifa", "Обрати", "Закрити");
 				}
 			case 1: ShowGetGun(playerid);
@@ -27797,7 +27802,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					FI[PI[playerid][pMember]][fBank] += 75000;
 					UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
 					static const f_str[] = "[F] %s[%d] поклав(ла) в банк банди: "GREEN"$%d";
-					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+					new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 					format(string,sizeof(string),f_str,player_name[playerid],playerid,75000);
 					SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 					return 1;
@@ -27823,7 +27828,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					FI[PI[playerid][pMember]][fBank] += 75000;
 					UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
 					static const f_str[] = "[F] %s[%d] поклав(ла) в банк MC: "GREEN"$%d.";
-					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+					new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 					format(string,sizeof(string),f_str,player_name[playerid],playerid,75000);
 					SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 					return 1;
@@ -27875,7 +27880,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					FI[PI[playerid][pMember]][fBank] += 75000;
 					UpdateFraction(PI[playerid][pMember],"Bank",FI[PI[playerid][pMember]][fBank]);
 					static const f_str[] = "[F] %s[%d] поклав в банк банди "GREEN"$%d.";
-					new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+					new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 					format(string,sizeof(string),f_str,player_name[playerid],playerid,75000);
 					SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
 					return 1;
@@ -27946,7 +27951,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				UpdateFraction(PI[playerid][pMember],"Health",FI[PI[playerid][pMember]][fHealth]);
 				SetPVarInt(playerid, "gang_heal", gettime()+15);
 				static const f_str[] = "[F] %s[%d] використав аптечку.";
-				new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+				new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
 				
 				format(string,sizeof(string),f_str,player_name[playerid],playerid);
 				SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -28867,7 +28872,7 @@ public OnPlayerDisconnect(playerid, reason) {
 			UpdatePlayerData(playerid,"pArrested",PI[playerid][pArrested]);
 			UpdatePlayerData(playerid,"pSearch",PI[playerid][pArrested]);
 			static const f_str[] = "%s вийшов під час затримання і автоматично потрапив у в'язницю.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 			format(string,sizeof(string), f_str, player_name[playerid]);
 			SendClientMessageToAll(CBADINFO,string);
 		}
@@ -29416,11 +29421,11 @@ public OnPlayerDeath(playerid, killerid, reason) {
 					arrest(playerid, src*search);
 					
 					static const f_str_1[] = "Ви були посаджені у в'язницю офіцером %s на %d секунд.";
-					new string_1[sizeof(f_str_1)  +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+					new string_1[sizeof(f_str_1)  + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 					format(string_1,sizeof(string_1),f_str_1,player_name[killerid],(src * search));
 					SendClientMessage(playerid,COLOR_LIGHTRED,string_1);
 					static const f_str_2[] = "Ви посадили у в'язницю злочинця %s на %d секунд.";
-					new string_2[sizeof(f_str_2) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+					new string_2[sizeof(f_str_2) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 					format(string_2,sizeof(string_2),f_str_2,player_name[playerid],(src * search));
 					SendClientMessage(killerid,COLOR_LIGHTRED,string_2);
 				}
@@ -41657,9 +41662,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		// if(RELEASED(KEY_ACTION) pc_cmd_engine(playerid,"");
 		if(RELEASED(newkeys, KEY_FIRE)) pc_cmd_light(playerid,"");
 		if(RELEASED(newkeys, KEY_ACTION)) pc_cmd_engine(playerid,"");
-		new str[64];
-		format(str, sizeof(str), "%d ||| %d", newkeys, oldkeys);
-		SendClientMessage(playerid, -1, str);
 	}
 	if(hacker_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
 	time_newkeys = GetTickCount() - tickcount1;
@@ -47167,7 +47169,7 @@ CB: alogin(playerid,const giveplayerid[]) {
 	dostup[playerid] = 1; 
 	ACLoad(playerid);
 	static const f_str[] = "[A] Молодший модератор %s авторизувався в адмін панелі.";
-	new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+	new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 	format(str, sizeof(str), f_str,player_name[playerid]), SendAdminMessage(0xfF0CA31ff, str);
 	query = "";
 	mysql_format(connects, query, sizeof(query),"UPDATE `admin` SET online_status = 1 WHERE `Name` = '%s' LIMIT 1",player_name[playerid]);
@@ -47361,7 +47363,7 @@ CB: all_referals(playerid,const names[]) {
 							"W"Гравці досягнувші 3 рівня: "ORANGE"[%d]\n\
 							"W"Гравці досягнувші 4+ рівня: "ORANGE"[%d]\n\n\
 							"W"Всього гравців запрошено: "P"[%d]";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4) + (-2 + 4) + (-2 + 4) + (-2 + 4)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4) + (-2 + 4) + (-2 + 4) + (-2 + 4)];
 	format(string,sizeof(string),f_str,names,stats[0],stats[1],stats[2],rows);
 	ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Реферали",string,"Закрити","");
 	return 1 ;
@@ -47617,7 +47619,7 @@ CMD:getgun(playerid,params[]) {
 	UpdateFraction(PI[playerid][pMember],"Mats",FI[PI[playerid][pMember]][fMats]);
 	GivePlayerWeapon(playerid,MakeGunData[params[0]][mgunid],params[1]);
 	static const f_str[] = "[F] %s[%d] взяв зброю зі складу. (%d пт.)";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 4)];
 	InLoadFrac[PI[playerid][pMember]] = false;
 	format(string,sizeof(string),f_str,player_name[playerid],playerid,params[1]);
 	SendFamilyMessage(PI[playerid][pMember],0x6699ccFF,string);
@@ -51350,7 +51352,7 @@ CMD:gun(playerid, params[]) {
 	GivePlayerWeapon(giveplayerid,gun,ammo);
 	
 	static const f_str[] = "Зброю було видано гравцю %s.";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 	format(string,sizeof(string),f_str, player_name[giveplayerid]);
 	SendOK(playerid,string);
 	WriteLog(LOG_GUN,player_name[playerid],player_name[giveplayerid],"видача зброї");
@@ -52314,7 +52316,7 @@ CMD:last(playerid, params[]) {
 	if(rows == 0) return SendError(playerid, "Акаунт не знайдено.");
 	cache_get_value_name(0, "pOnline",query,30);
 	static const f_str[] = "Нік: %s. Останній вхід: %s.";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 9)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 9)];
 	format(string,sizeof(string),f_str,params,query);
 	SendClientMessage(playerid,COLOR_BLUE,string);
 	cache_delete(result);
@@ -52352,7 +52354,7 @@ CMD:infoips(playerid,params[]) {
 		cache_get_value_name(i, "pIpReg", regip, 16);
 		cache_get_value_name_int(i,"pLevel", level);
 		static const f_str[] = "%s. LAST-IP: %s. REG-IP: %s. LVL: %d";
-		new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 16) + (-2 + 16) + (-2 + 4)];
+		new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 16) + (-2 + 16) + (-2 + 4)];
 		format(string,sizeof(string),f_str,mname,tmpas, regip,level);
 		SendClientMessage(playerid,COLOR_WHITE,string);
 	}
@@ -52384,7 +52386,7 @@ CMD:agetip(playerid, params[]) {
 	cache_get_value_name(0, "pvIp", ip[0], 16);
 	cache_get_value_name(0, "pIpReg", ip[1], 16);
 	static const f_str[] = "Нік: %s. IP: %s. IP при реєстрації: %s.";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 17) + (-2 + 17)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 17) + (-2 + 17)];
 	format(string,sizeof(string),f_str,params,ip[0],ip[1]);
 	SendClientMessage(playerid,COLOR_BLUE,string);
 	cache_delete(result);
@@ -53066,7 +53068,7 @@ CMD:famsklad(playerid, params[]) {
 	if(gFamily[fam][famskladSt] == 0) gFamily[fam][famskladSt] = 1,str = "закрив";
 	else gFamily[fam][famskladSt] = 0,str = "відкрив";
 	static const f_str[] = "%s[%d] %s збереження сім'ї.";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 9)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 9)];
 	format(string,sizeof(string),f_str,player_name[playerid],playerid,str);
 	FamMSG(fam+1,string);
 	UpdateFamily(fam+1,"sklad_status",gFamily[fam][famskladSt]); 
@@ -53078,7 +53080,7 @@ CMD:warelock(playerid, params[]) {
 	if(FI[PI[playerid][pMember]][fSklad] == 0) FI[PI[playerid][pMember]][fSklad] = 1,str = "відкрив";
 	else FI[PI[playerid][pMember]][fSklad] = 0,str = "закрив";
 	static const f_str[] = "[F] %s[%d] %s склад.";
-	new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 9)];
+	new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4) + (-2 + 9)];
 	format(string,sizeof(string),f_str,player_name[playerid],playerid,str);
 	SendFamilyMessage(PI[playerid][pMember],0x6ab1ffaaff,string);
 	UpdateFraction(PI[playerid][pMember],"Sklad",FI[PI[playerid][pMember]][fSklad]);
@@ -61057,7 +61059,7 @@ stock key_activate(playerid)
 		if(PI[playerid][pCash] < HealPrice[playerid]) {
 			SendError(playerid, "У вас немає стільки грошей.");
 			static const f_str[] = "У %s недостатньо коштів для лікування.";
-			new string[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
 			format(string,sizeof(string),f_str,player_name[playerid]);
 			SendOK(HealOffer[playerid],string);
 			HealOffer[playerid] = INVALID_PLAYER_ID;
@@ -61065,7 +61067,7 @@ stock key_activate(playerid)
 		}
 		SetHealth(playerid, 100.0);
 		static const f_str_1[] = "Лікар "P"%s"W" вилікував Вас за "P"$%d.";
-		new string_1[sizeof(f_str_1) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+		new string_1[sizeof(f_str_1) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 		format(string_1,sizeof(string_1),f_str_1,player_name[HealOffer[playerid]],HealPrice[playerid]);
 		SendUse(playerid,string_1);
 		
@@ -61074,7 +61076,7 @@ stock key_activate(playerid)
 		GiveMoney(playerid, -HealPrice[playerid], "оплата за лікування медику");
 		new price = floatround(HealPrice[playerid]*0.2);
 		static const f_str_2[] = "Ви вилікували "P"%s"W" за "P"$%d.";
-		new string_2[sizeof(f_str_2) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+		new string_2[sizeof(f_str_2) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
 		format(string_2,sizeof(string_2),f_str_2,player_name[playerid],price);
 		SendUse(HealOffer[playerid],string_2);
 		GiveMoney(HealOffer[playerid], price,"оплата за лікування гравця");
@@ -67233,7 +67235,7 @@ CMD:ylist(playerid) {
     if(rows)
     {
        static const f_str[] = "%i. %s\n";
-       new str[sizeof(f_str) +1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+       new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
        for(new i; i < rows; i ++)
        {
 	       cache_get_value_name(i, "Name", name, 44);
