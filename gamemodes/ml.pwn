@@ -30512,25 +30512,9 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 				SendInfo(playerid, "ўоб завести чи заглушити двигун, натисн≥ть "P"LCTRL"W" або введ≥ть "P"/engine"W".");
 			}
 			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
-			new str[32];
 			if(engine == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
-			else {
-				format(str, sizeof(str), "%d", lights);
-				SendClientMessage(playerid, -1, str);
-				PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], 8388863);
-			}
 			if(lights == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], -347323649);
-			else {
-				format(str, sizeof(str), "%d", lights);
-				SendClientMessage(playerid, -1, str);
-				PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], 8388863);
-			}
 			if(doors == 1) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], -347323649);
-			else  {
-				format(str, sizeof(str), "%d", lights);
-				SendClientMessage(playerid, -1, str);
-				PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], 8388863);
-			}
 			for(new i = 0; i < 7; i++) {
 				PlayerTextDrawShow(playerid, Speed_PTD[playerid][i]);
 			}
@@ -41660,8 +41644,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 		// if(RELEASED(KEY_FIRE) pc_cmd_light(playerid,"");
 		// if(RELEASED(KEY_ACTION) pc_cmd_engine(playerid,"");
-		if(RELEASED(newkeys, KEY_FIRE)) pc_cmd_light(playerid,"");
-		if(RELEASED(newkeys, KEY_ACTION)) pc_cmd_engine(playerid,"");
+		if(RELEASED(newkeys, KEY_FIRE)) pc_cmd_light(playerid, "");
+		if(RELEASED(newkeys, KEY_ACTION)) pc_cmd_engine(playerid, "");
 	}
 	if(hacker_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
 	time_newkeys = GetTickCount() - tickcount1;
