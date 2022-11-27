@@ -30495,8 +30495,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 	}
 	if(newstate == PLAYER_STATE_DRIVER) {
 		new carid = GetPlayerVehicleID(playerid);
-		if(VehicleInfo[carid][vAkum] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid)&&!IsAVelik(carid))
-		{
+		if(VehicleInfo[carid][vAkum] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid)&&!IsAVelik(carid)) {
 			SendError(playerid, "В транспорті розрядився акумулятор.");
 			VehicleInfo[carid][vAkum] = 0;
 		}
@@ -30504,8 +30503,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			SendError(playerid, "В транспорті закінчився бензин.");
 			VehicleInfo[carid][vFuel] = 0;
 		}
-		if(thef_car[playerid] == carid)
-		{
+		if(thef_car[playerid] == carid) {
 			SetPVarInt(playerid, "theft", 2);
 			RemovePlayerMapIcon(playerid, 12);
 		}
@@ -30521,7 +30519,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
 			if(engine == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
 			if(lights == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], -347323649);
-			if(doors == 1) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], -347323649);
+			if(doors == 1) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], 8388863);
 			for(new i = 0; i < 7; i++) {
 				PlayerTextDrawShow(playerid, Speed_PTD[playerid][i]);
 			}
