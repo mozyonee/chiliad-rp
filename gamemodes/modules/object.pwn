@@ -21379,7 +21379,7 @@
     SetDynamicObjectMaterial(tmpobjid, 0, 7555, "bballcpark1", "ws_carparknew2", 0xFFFFFFFF);
     tmpobjid = CreateDynamicObject(19479, -1147.877197, 7.192996, 1168.800170, 0.000000, 0.000000, 450.000000, 2, 78, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 0, 18646, "matcolours", "grey-90-percent", 0x00000000);
-    SetDynamicObjectMaterialText(tmpobjid, 0, "CENTRAL BANK", 130, "Garamond", 45, 0, 0xFFFFFFFF, 0x00000000, 0);
+    SetDynamicObjectMaterialText(tmpobjid, 0, "BANK OF SAN ANDREAS", 130, "Garamond", 45, 0, 0xFFFFFFFF, 0x00000000, 0);
     tmpobjid = CreateDynamicObject(19479, -1151.938598, 7.182997, 1168.149536, 0.000007, 0.000000, 89.999977, 2, 78, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 0, 18646, "matcolours", "grey-90-percent", 0x00000000);
     SetDynamicObjectMaterialText(tmpobjid, 0, "G", 130, "Webdings", 100, 0, 0xFFFFFFFF, 0x00000000, 0);
@@ -22189,7 +22189,7 @@
     SetDynamicObjectMaterial(tmpobjid, 0, 12853, "cunte_gas01", "starspangban1_256", 0x00000000);
     tmpobjid = CreateDynamicObject(19477, -1138.742187, 9.942968, 1171.107055, -0.000007, 0.000000, 179.999969, 2, 78, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 0, 10101, "2notherbuildsfe", "ferry_build14", 0x00000000);
-    SetDynamicObjectMaterialText(tmpobjid, 0, "ATM CB", 140, "Trebuchet MS", 100, 1, 0xFFFFFFFF, 0x00000000, 0);
+    SetDynamicObjectMaterialText(tmpobjid, 0, "ATM CCB", 140, "Trebuchet MS", 100, 1, 0xFFFFFFFF, 0x00000000, 0);
     tmpobjid = CreateDynamicObject(2059, -1149.272338, 10.511720, 1169.600952, 0.000000, 0.000000, 0.000000, 2, 78, -1, 300.00, 300.00);
     SetDynamicObjectMaterial(tmpobjid, 1, 19962, "samproadsigns", "materialtext1", 0x00000000);
     tmpobjid = CreateDynamicObject(19477, -1138.742187, 10.622969, 1171.217163, -0.000007, 0.000000, 179.999969, 2, 78, -1, 300.00, 300.00);
