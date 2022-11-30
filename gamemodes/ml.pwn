@@ -2263,7 +2263,7 @@ new capture_war[24];
 new Text:Capture[34];
 new PlayerText:CaptPlayer[MAX_PLAYERS][6];
 new fracmoroz [8]={0,...};
-new const stock fracmorozName [8][32]={"The Ballas","The Vagos","The Grove","The Rifa","The Aztecas","Ла Коза Ностра","Якудза","Медельїнський картель"};
+new const stock fracmorozName [8][32]={"Ballas","Los Santos Vagos","Grove Street Families","San Fierro Rifa","Varrios Los Aztecas","Ла Коза Ностра","Тріада","Медельїнський картель"};
 new BizWarTime[2] = 0,
 BizHourTime = 0,
 Text:Bizwar[3],
@@ -4981,7 +4981,7 @@ new TPLIST[MAX_TELEPORTS][TPList] = {
 	{"Пожежна служба Лос-Сантоса", {1712.27, -1154.47, 23.83},0},
 	{"Лос-Сантос Таймс", 		{1578.6501,-1326.6104,16.4844},0},
 	{"Ла Коза Ностра", 			{665.1582,-476.9240,16.3359},0},
-	{"Якудза",					{720.4109,-1257.1036,13.6429},0},
+	{"Тріада",					{720.4109,-1257.1036,13.6429},0},
 	{"Медельїнський картель",	{1375.2839,396.7043,19.7138},0},
 	{"Ballas Gang",				{2644.2698,-2015.2579,13.5592},0},
 	{"Vagos Gang",				{2756.3188,-1180.4659,69.3984},0},
@@ -5261,7 +5261,7 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*25*/{"Вихід",-199.6374,-17.7011,1011.1747,1,1,1413.4899,-1700.9507,13.5395,237.0885,0,0}, // Вихід з центру занятості
 	/*26*/{"Ла Коза Ностра",1261.1034,-871.6332,42.9528,0,0,1393.1777,-5.5639,1000.9218,176.8710,73,49}, // LCN
 	/*27*/{"Вихід на вулицю",1393.3514,-3.6810,1000.9218,73,49,1261.7031,-873.9026,42.9528,185.6838,0,0}, // LCN
-	/*28*/{"Якудза",735.5452,-1262.6732,13.6429,0,0,28.9218,-53.5375,2001.4811,87.4315,73,50}, // Yakuza
+	/*28*/{"Тріада",735.5452,-1262.6732,13.6429,0,0,28.9218,-53.5375,2001.4811,87.4315,73,50}, // Yakuza
 	/*29*/{"Вихід на вулицю",30.6420,-53.6667,2001.4811,73,50,733.5668,-1262.5682,13.6429,91.5969,0,0}, // Yakuza
 	/*30*/{"Медельїнський картель",1382.7435,408.0285,19.7607,0,0,1406.2349,-11.6639,1000.9285,89.5999,73,51}, // RM
 	/*31*/{"Вихід на вулицю",1408.2738,-11.6748,1000.9285,73,51,1381.1564,408.7311,19.7590,69.6867,0,0}, // RM
@@ -5301,7 +5301,7 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*62*/{"Ліфт",2185.3337,568.6909,1080.4542,93,20,1552.2980,490.5710,1070.4316,359.2470,92,20}, // МЧС ЛС 2 поверх
 	/*63*/{"Ліфт",1552.2783,489.0711,1070.4316,92,20,2185.3396,570.1909,1080.4542,359.7798,93,20}, // МЧС ЛС 2 этаж
 	/*64*/{"Вихід",-61.4258,-185.3417,1026.9924,9,6,630.5340,-571.8819,16.3359,270.3563,0,0}, // Вихід з rcso
-	/*65*/{"Дах",694.0915,-1284.4480,13.6429,0,0,706.6178,-1293.1959,21.2401,270.5118,0,0}, // даї Якудзи
+	/*65*/{"Дах",694.0915,-1284.4480,13.6429,0,0,706.6178,-1293.1959,21.2401,270.5118,0,0}, // дах Тріади
 	/*66*/{"Вихід",318.6144,1114.5029,1083.8828,5,1,2169.2759,-1674.1080,15.0859,242.2984,0,0}, // лабораторія RM
 	/*67*/{"Тир",305.3506,-141.8417,1004.0625,7,66,344.4562,-182.4450,987.6703,2.0303,7,500}, // ТИР ЛС
 	/*68*/{"Вихід",344.3913,-183.9476,987.6703,7,500,307.0656,-141.2360,1004.0625,293.4333,7,66}, // ТИР ЛС Виход
@@ -5528,11 +5528,11 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"FAQ",COLOR_WHITE},//10
 	{"FAQ",COLOR_WHITE},//11
 	{"Безкоштовна їжа",COLOR_WHITE},//12 6666FF
-	{"{299273}Rifa\n"W"Допомога гравцю",COLOR_WHITE},//13
+	{"{299273}San Fierro Rifa\n"W"Допомога гравцю",COLOR_WHITE},//13
 	{"None",COLOR_WHITE},//14
 	{"Вихід у під'їзд\nКерування квартирою:"ORANGE" ALT",COLOR_WHITE},//15
 	{"Початок стрілянини",COLOR_WHITE},//16
-	{"{08fbff}Aztec\n"W"Допомога гравцю",COLOR_WHITE},//17
+	{"{08fbff}Varrios Los Aztecas\n"W"Допомога гравцю",COLOR_WHITE},//17
 	{"None",COLOR_WHITE},//18
 	{"Прийом робочих",COLOR_WHITE},//19
 	{"Заготовка",COLOR_WHITE},//20
@@ -5558,7 +5558,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"Інформація",COLOR_WHITE},//40
 	{"None",COLOR_WHITE},//41
 	{"Роздягальня",COLOR_WHITE},//42
-	{"{009a00}Grove Street\n"W"Допомога гравцю",COLOR_WHITE},//43
+	{"{009a00}Grove Street Families\n"W"Допомога гравцю",COLOR_WHITE},//43
 	{"None",COLOR_WHITE},//44
 	{"None",COLOR_WHITE},//45
 	{"None",COLOR_WHITE},//46
@@ -5566,7 +5566,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE},//48
 	{"None",COLOR_WHITE},//49
 	{"None",COLOR_WHITE},//50
-	{"{dbd705}Vagos\n"W"Допомога гравцю",COLOR_WHITE},//51
+	{"{dbd705}Los Santos Vagos\n"W"Допомога гравцю",COLOR_WHITE},//51
 	{"None",COLOR_WHITE},//52
 	{"None",COLOR_WHITE},//53
 	{"None",COLOR_WHITE},//54
@@ -5575,7 +5575,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE},//57
 	{"None",COLOR_WHITE},//58
 	{"Працевлаштування",COLOR_WHITE},//59
-	{"{d6a200}Коза Ностра\n"W"Допомога гравцю",COLOR_WHITE},//60
+	{"{d6a200}Ла Коза Ностра\n"W"Допомога гравцю",COLOR_WHITE},//60
 	
 	{"Вхід на парковку",COLOR_WHITE},//61
 	{"Багатоквартирний дім",COLOR_WHITE},//62
@@ -5588,7 +5588,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE},//69
 	{"None",COLOR_WHITE},//70
 	
-	{"{ff0000}Якудза\n"W"Допомога гравцю",COLOR_WHITE},//71
+	{"{ff0000}Тріада\n"W"Допомога гравцю",COLOR_WHITE},//71
 	{"{b5b6b5}Медельїнський картель\n"W"Допомога гравцю",COLOR_WHITE},//72
 	{"None",COLOR_WHITE}, // 73
 	{"Працевлаштування",COLOR_WHITE}, // 74
@@ -13313,7 +13313,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new control[32];
 			switch(gBusiness[id][bizzMafia]) {
 			case fLCN: control = "Ла Коза Ностра";
-			case fYAKUZA: control = "Якудза";
+			case fYAKUZA: control = "Тріада";
 			case fRM: control = "Медельїнський картель";
 			default: control = "Відсутній";
 			}
@@ -13452,7 +13452,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new control[32];
 					switch(gBusiness[56][bizzMafia]) {
 					case fLCN: control = "Ла Коза Ностра";
-					case fYAKUZA: control = "Якудза";
+					case fYAKUZA: control = "Тріада";
 					case fRM: control = "Медельїнський картель";
 					default: control = "Відсутній";
 					}
@@ -17194,7 +17194,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 														Офіс шерифа округу Ред\t%d\nНаціональна гвардія\t%d\n\
 														Центральна лікарня Всіх Святих\t%d\nПожежна служба Лос-Сантоса\t%d\nЛікарня м. ЛВ\t%d\n\
 														Лос-Сантос Таймс\t%d\nРадіоцентр м. СФ\t%d\nРадіоцентр м. ЛВ\t%d\n\
-														Автошкола\t%d\nКоза Ностра\t%d\nЯкудза\t%d\n\
+														Автошкола\t%d\nКоза Ностра\t%d\nТріада\t%d\n\
 														Медельїнський картель\t%d\nBallas\t%d\nLos Santos Vagos\t%d\n\
 														Grove Street Families\t%d\nVarrios Los Aztecas\t%d\nSan Fierro Rifa\t%d\nУряд\t%d";
 						new string[sizeof(f_str) +1 + (31)];
@@ -17245,14 +17245,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							timestamp_to_date(fracmoroz[7]-unix, year[7], month[7], day[7], hour[7], minute[7], second[7]);
 						}
 						else hour[7] = minute[7] = second[7] = 0;
-						static const f_str[] = ""P"1."W" The Ballas\t\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"2."W" The Vagos\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"3."W" The Grove\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"4."W" The Rifa\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"5."W" The Aztec\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"6."W" Коза Ностра\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"7."W" Якудза\t\t"ORANGE"%dч %dмин %dсек\n\
-												"P"8."W" Медельїнський картель\t\t\t"ORANGE"%dч %dмин %dсек";
+						static const f_str[] = ""P"1."W" Ballas\t\t\t"P"%dгод %dхв %dсек\n\
+												"P"2."W" Los Santos Vagos\t\t"P"%dгод %dхв %dсек\n\
+												"P"3."W" Grove Street Families\t\t"P"%dгод %dхв %dсек\n\
+												"P"4."W" San Fierro Rifa\t\t"P"%dгод %dхв %dсек\n\
+												"P"5."W" Varrios Los Aztecas\t\t"P"%dгод %dхв %dсек\n\
+												"P"6."W" Ла Коза Ностра\t\t"P"%dгод %dхв %dсек\n\
+												"P"7."W" Тріада\t\t"P"%dгод %dхв %dсек\n\
+												"P"8."W" Медельїнський картель\t\t\t"P"%dгод %dхв %dсек";
 						new string[sizeof(f_str) + 90];
 						format(string,sizeof(string),f_str,hour[0], minute[0], second[0],hour[1], minute[1], second[1],hour[2], minute[2], second[2],hour[3], minute[3], second[3],
 						hour[4], minute[4], second[4],hour[5], minute[5], second[5],hour[6], minute[6], second[6],hour[7], minute[7], second[7], hour[8], minute[8], second[8]);
@@ -23738,7 +23738,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 											"P"4."W" Varrios Los Aztecas\n\
 											"P"5."W" San Fierro Rifa\n\
 											"P"6."W" Ла Коза Ностра\n\
-											"P"7."W" Якудза\n\
+											"P"7."W" Тріада\n\
 											"P"8."W" Медельїнський картель\n\
 											"P"9."W" Angels MC\n\
 											"P"10."W"Bandidos MC","Обрати","Назад");
@@ -23842,7 +23842,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 3: EnableGPSForPlayer(playerid,1696.4821,-2112.6555,13.4739), str = "The Aztecas Gang";
 			case 4: EnableGPSForPlayer(playerid,2181.6118,-1806.0558,13.3716), str = "The Rifa Gang";
 			case 5: EnableGPSForPlayer(playerid,1270.2561,-917.3580,42.3488), str = "Ла Коза Ностра";
-			case 6: EnableGPSForPlayer(playerid,664.7656,-1306.5183,13.4609), str = "Якудзи";
+			case 6: EnableGPSForPlayer(playerid,664.7656,-1306.5183,13.4609), str = "Тріади";
 			case 7: EnableGPSForPlayer(playerid,1362.6654,401.4814,19.5706), str = "Медельїнського картелю";
 			case 8: EnableGPSForPlayer(playerid, 320.6742,-65.9639,1.5781), str = "Angels MC";
 			case 9: EnableGPSForPlayer(playerid, 2348.8169,247.4270,26.3359), str = "Bandidos MC";
@@ -25788,7 +25788,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 					if(PI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
 					ShowPlayerDialog(playerid, D_SPY, DSL, ""P"Оберіть фракцію","Департамент поліції Лос-Сантоса\nОфіс шерифа округу Ред\nУряд\nНаціональна гвардія\nЦентральна лікарня Всіх Святих\nПожежна служба Лос-Сантоса\nЛос-Сантос Таймс\nКоза Ностра\n\
-					Якудза\nМедельїнський картель\nBallas\nLos Santos Vagos\nGrove Street Families\nVarrios Los Aztecas\nSan Fierro Rifa", "Обрати", "Закрити");
+					Тріада\nМедельїнський картель\nBallas\nLos Santos Vagos\nGrove Street Families\nVarrios Los Aztecas\nSan Fierro Rifa", "Обрати", "Закрити");
 				}
 			case 1: ShowGetGun(playerid);
 			case 2: {
@@ -26653,7 +26653,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_AUTONEWS_SERVICES: {
 			if(!response) return 1;
 			switch(listitem) {
-			case 0: ShowPlayerDialog(playerid, D_AUTONEWS_SERVICES_2, DSL, ""P"Оголошення | Послуги | Співбесіди", ""P"1."W" Медельїнський картель\n"P"2."W" Якудза\n"P"3."W" Коза Ностра\n"P"4."W" The Ballas\n"P"5."W" The Vagos\n"P"6."W" The Grove\n"P"7."W" The Aztec\n"P"8."W" The Rifa", "Обрати", "Скасувати");
+			case 0: ShowPlayerDialog(playerid, D_AUTONEWS_SERVICES_2, DSL, ""P"Оголошення | Послуги | Співбесіди", ""P"1."W" Медельїнський картель\n"P"2."W" Тріада\n"P"3."W" Ла Коза Ностра\n"P"4."W" The Ballas\n"P"5."W" The Vagos\n"P"6."W" The Grove\n"P"7."W" The Aztec\n"P"8."W" The Rifa", "Обрати", "Скасувати");
 			}
 		}
 	case D_AUTONEWS_SERVICES_2: {
@@ -31906,11 +31906,11 @@ public CreateSphree() {
 	
 	actor[9] = CreateActor(29, 1768.1006,-1935.9192,13.5691,180.6560);//
 	ApplyActorAnimation(actor[9],"BD_FIRE","M_smklean_loop",4.1,0,0,0,1,1);
-	actor[10] = CreateActor(6, 1611.4192,999.5148,1475.6283,184.6588);//[Коза Ностра] босс нарко
+	actor[10] = CreateActor(6, 1611.4192,999.5148,1475.6283,184.6588);//[Ла Коза Ностра] босс нарко
 	SetActorVirtualWorld(actor[10], 49);
 	ApplyActorAnimation(actor[10],"MISC","seat_LR",4.1,0,0,0,1,1);
 	
-	actor[11] = CreateActor(6, 1611.4192,999.5148,1475.6283,184.6588);//[Якудза] босс нарко
+	actor[11] = CreateActor(6, 1611.4192,999.5148,1475.6283,184.6588);//[Тріада] босс нарко
 	SetActorVirtualWorld(actor[11], 50);
 	ApplyActorAnimation(actor[11],"MISC","seat_LR",4.1,0,0,0,1,1);
 	
@@ -39590,10 +39590,10 @@ CMD:unloadmat(playerid)
 				if(!IsPlayerInRangeOfPoint(playerid, 100, 2752.4421,-2471.4094,13.6484)) return SendError(playerid, "Ви далеко від складу Національної гвардії.");
 			}
 		case fLCN: {
-				if(!IsPlayerInRangeOfPoint(playerid, 50, 673.9420,-451.9697,16.2080)) return SendError(playerid, "Ви далеко від Коза Ностра.");
+				if(!IsPlayerInRangeOfPoint(playerid, 50, 673.9420,-451.9697,16.2080)) return SendError(playerid, "Ви далеко від Ла Коза Ностра.");
 			}
 		case fYAKUZA: {
-				if(!IsPlayerInRangeOfPoint(playerid, 100, 713.9637,-1282.1886,13.6430)) return SendError(playerid, "Ви далеко від Якудзи.");
+				if(!IsPlayerInRangeOfPoint(playerid, 100, 713.9637,-1282.1886,13.6430)) return SendError(playerid, "Ви далеко від Тріади.");
 			}
 		case fRM: {
 				if(!IsPlayerInRangeOfPoint(playerid, 100, 1389.5990,403.9182,25.4422)) return SendError(playerid, "Ви далеко від Медельїнського картелю.");
@@ -39663,10 +39663,10 @@ CMD:unload(playerid, params[]) {
 						if(!IsPlayerInRangeOfPoint(playerid, 100, 2752.4421,-2471.4094,13.6484)) return SendError(playerid, "Ви далеко від складу Національної гвардії.");
 					}
 				case fLCN: {
-						if(!IsPlayerInRangeOfPoint(playerid, 50, 673.9420,-451.9697,16.2080)) return SendError(playerid, "Ви далеко від Коза Ностра.");
+						if(!IsPlayerInRangeOfPoint(playerid, 50, 673.9420,-451.9697,16.2080)) return SendError(playerid, "Ви далеко від Ла Коза Ностра.");
 					}
 				case fYAKUZA: {
-						if(!IsPlayerInRangeOfPoint(playerid, 100, 713.9637,-1282.1886,13.6430)) return SendError(playerid, "Ви далеко від Якудзи.");
+						if(!IsPlayerInRangeOfPoint(playerid, 100, 713.9637,-1282.1886,13.6430)) return SendError(playerid, "Ви далеко від Тріади.");
 					}
 				case fRM: {
 						if(!IsPlayerInRangeOfPoint(playerid, 100, 1389.5990,403.9182,25.4422)) return SendError(playerid, "Ви далеко від Медельїнського картелю.");
@@ -43527,7 +43527,7 @@ stock UpdateBusinessText(id) {
 			new control[32];
 			switch(gBusiness[id][bizzMafia]) {
 			case fLCN: control = "Ла Коза Ностра";
-			case fYAKUZA: control = "Якудза";
+			case fYAKUZA: control = "Тріада";
 			case fRM: control = "Медельїнський картель";
 			default: control = "Відсутній";
 			}
@@ -43545,7 +43545,7 @@ stock UpdateBusinessText(id) {
 		new control[32];
 		switch(gBusiness[id][bizzMafia]) {
 		case fLCN: control = "Ла Коза Ностра";
-		case fYAKUZA: control = "Якудза";
+		case fYAKUZA: control = "Тріада";
 		case fRM: control = "Медельїнський картель";
 		default: control = "Відсутній";
 		}
@@ -44725,8 +44725,8 @@ stock UpdateSkladFrakGang() {
 }
 stock UpdateSkladFrakMafia() {
 	new string[250];
-	format(string,sizeof(string),"Склад {DDA701}Коза Ностра"W"\n\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку мафії: "P"$%d",FI[fLCN][fMats],FI[fLCN][fDrugs],FI[fLCN][fBank]); UpdateDynamic3DTextLabelText(mMenu[0],-1,string);
-	format(string,sizeof(string),"Склад {FF0000}Якудзи"W"\n\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку мафії: "P"$%d",FI[fYAKUZA][fMats],FI[fYAKUZA][fDrugs],FI[fYAKUZA][fBank]); UpdateDynamic3DTextLabelText(mMenu[1],-1,string);
+	format(string,sizeof(string),"Склад {DDA701}Ла Коза Ностра"W"\n\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку мафії: "P"$%d",FI[fLCN][fMats],FI[fLCN][fDrugs],FI[fLCN][fBank]); UpdateDynamic3DTextLabelText(mMenu[0],-1,string);
+	format(string,sizeof(string),"Склад {FF0000}Тріади"W"\n\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку мафії: "P"$%d",FI[fYAKUZA][fMats],FI[fYAKUZA][fDrugs],FI[fYAKUZA][fBank]); UpdateDynamic3DTextLabelText(mMenu[1],-1,string);
 	format(string,sizeof(string),"Склад {B4B5B7}Медельїнського картелю"W"\n\n"W"- Матеріалів: "P"%d\n"W"- Наркотиків: "P"%d\n"W"- В банку мафії: "P"$%d",FI[fRM][fMats],FI[fRM][fDrugs],FI[fRM][fBank]); UpdateDynamic3DTextLabelText(mMenu[2],-1,string);
 	return 1;
 }
@@ -45932,7 +45932,7 @@ stock ShowBusinessInformation(playerid,id,dialogid){
 	switch(gBusiness[id][bizzMafia]){
 	case fRM: atext = "Медельїнський картель";
 	case fLCN: atext = "Ла Коза Ностра";
-	case fYAKUZA: atext = "Якудза";
+	case fYAKUZA: atext = "Тріада";
 	default: atext = "---";
 	}
 	new type = gBusiness[id][bizzType] - 1;
@@ -45962,7 +45962,7 @@ stock ShowHotelInformation(playerid,id,dialogid){
 	switch(gBusiness[id][bizzMafia]){
 	case fRM: atext = "Медельїнський картель";
 	case fLCN: atext = "Ла Коза Ностра";
-	case fYAKUZA: atext = "Якудза";
+	case fYAKUZA: atext = "Тріада";
 	default: atext = "---";
 	}
 	new type = gBusiness[id][bizzType] - 1;
@@ -50742,8 +50742,8 @@ CMD:awarehouse(playerid, const params[]) {
 							"W"На складі Департаменту поліції м. Лос-Сантос: \t\t\t"P"%i\n\
 							"W"На складі Angels MC: \t\t\t"P"%i\n\
 							"W"На складі Bandidos MC: \t\t"P"%i\n\
-							"W"На складі Коза Ностри: \t\t"P"%i\n\
-							"W"На складі Якудзи: \t\t\t"P"%i\n\
+							"W"На складі Ла Коза Ностри: \t\t"P"%i\n\
+							"W"На складі Тріади: \t\t\t"P"%i\n\
 							"W"На складі Медельїнського картелю: \t"P"%i\n\
 							"W"На складі Ballas: \t\t\t"P"%i\n\
 							"W"На складі Vagos: \t\t\t"P"%i\n\
@@ -51816,7 +51816,7 @@ CMD:setmats(playerid,params[]) {
 	if(sscanf(params, "dd",giveplayerid,amount)) SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setmats [playerid] [amount]"),
 	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 1. Департамент поліції Лос-Сантоса; 2. Angels MC; 3. Bandidos MC; 4. Федеральне бюро розслідувань; 5. Національна гвардія."),
 	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 7. Ballas; 8. Vagos; 9. Grove; 10. Aztecas; 11. Rifa."),
-	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 12. Коза Ностра; 13. Якудза; 14. Медельїнський картель."),
+	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 12. Ла Коза Ностра; 13. Тріада; 14. Медельїнський картель."),
 	SendClientMessage(playerid, COLOR_WHITE,"Використайте: 15. Завод з виготовлення зброї; 16. Лісопильня; 17. Офіс шерифа округу Ред.");
 	switch(giveplayerid) {
 	case 1: FI[fLSPD][fMats] = amount,UpdateFraction(fLSPD,"Mats",FI[fLSPD][fMats]);
@@ -52293,16 +52293,16 @@ CMD:captfreeze(playerid,params[]) {
 	new gang_id, time,string[128], band[16];
 	if(sscanf(params,"ii",gang_id, time)) {
 		SendClientMessage(playerid,COLOR_WHITE,"/captfreeze [playerid] [hours]");
-		SendClientMessage(playerid,COLOR_WHITE,"1 - Ballas; 2 - Los Santos Vagos; 3 - Grove Street Families");
-		SendClientMessage(playerid,COLOR_WHITE,"4 - San Fierro Rifa;  5 - Varrios Los Aztecas ; 6 - Коза Ностра");
-		SendClientMessage(playerid,COLOR_WHITE,"7 - Якудза; 8 - Медельїнський картель");
+		SendClientMessage(playerid,COLOR_WHITE,"1 - Ballas; 2 - Los Santos Vagos; 3 - Grove Street Families;");
+		SendClientMessage(playerid,COLOR_WHITE,"4 - San Fierro Rifa;  5 - Varrios Los Aztecas ; 6 - Ла Коза Ностра;");
+		SendClientMessage(playerid,COLOR_WHITE,"7 - Тріада; 8 - Медельїнський картель.");
 		return 1;
 	}
 	if(gang_id < 1 || gang_id > 8 || time < 0) {
 		SendClientMessage(playerid,COLOR_WHITE,"/captfreeze [playerid] [hours]");
-		SendClientMessage(playerid,COLOR_WHITE,"1 - Ballas; 2 - Los Santos Vagos; 3 - Grove Street Families");
-		SendClientMessage(playerid,COLOR_WHITE,"4 - San Fierro Rifa; 5 - Varrios Los Aztecas; 6 - Коза Ностра");
-		SendClientMessage(playerid,COLOR_WHITE,"7 - Якудза; 8 - Медельїнський картель");
+		SendClientMessage(playerid,COLOR_WHITE,"1 - Ballas; 2 - Los Santos Vagos; 3 - Grove Street Families;");
+		SendClientMessage(playerid,COLOR_WHITE,"4 - San Fierro Rifa; 5 - Varrios Los Aztecas; 6 - Ла Коза Ностра;");
+		SendClientMessage(playerid,COLOR_WHITE,"7 - Тріада; 8 - Медельїнський картель.");
 		return 1;
 	}
 	switch(gang_id)
@@ -52377,7 +52377,7 @@ CMD:setbizmafia(playerid, params[]) {
 	new mafiaid;
 	if(sscanf(params,"d",mafiaid)) {
 		SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setbizmafia [mafiaid]");
-		SendClientMessage(playerid, COLOR_WHITE, "1 - Ла Коза Ностра; 2 - Якудза; 3 - Медельїнський картель.");
+		SendClientMessage(playerid, COLOR_WHITE, "1 - Ла Коза Ностра; 2 - Тріада; 3 - Медельїнський картель.");
 		return 1;
 	}
 	if(mafiaid < 1 || mafiaid > 3) return 1;
@@ -52390,7 +52390,7 @@ CMD:setbizmafia(playerid, params[]) {
 		}
 		static const mafia_name[][] = {
 			"Ла Коза Ностра",
-			"Якудза",
+			"Тріада",
 			"Медельїнський картель"
 		};
 		new string[128];
@@ -52583,7 +52583,7 @@ CMD:bizrasf(playerid, params[]) { // расформ бзов
 	if(PI[playerid][pAdmin] < 6 || dostup[playerid] == 0) return 1;
 	if(sscanf(params,"i",params[0])) {
 		SendClientMessage(playerid, COLOR_WHITE,"Використайте: /bizrasf [mafiaid]");
-		SendClientMessage(playerid, COLOR_WHITE, "15 - Коза Ностра | 16 - Якудза | 17 - Медельїнський картель");
+		SendClientMessage(playerid, COLOR_WHITE, "15 - Ла Коза Ностра; 16 - Тріада; 17 - Медельїнський картель.");
 		return 1;
 	}
 	if(params[0] != 15 && params[0] != 16 && params[0] != 17) return 1;
@@ -61137,7 +61137,7 @@ stock key_activate(playerid)
 		switch(gBusiness[id][bizzMafia]) {
 		case fRM: atext = "Медельїнський картель";
 		case fLCN: atext = "Ла Коза Ностра";
-		case fYAKUZA: atext = "Якудза";
+		case fYAKUZA: atext = "Тріада";
 		default: atext = "---";
 		}
 		new type = gBusiness[id][bizzType] - 1;
@@ -66265,7 +66265,7 @@ stock dialog_mk(playerid, bizz, listitem)
 			switch(gBusiness[bizid][bizzMafia]){
 			case fRM: atext = "Медельїнський картель";
 			case fLCN: atext = "Ла Коза Ностра";
-			case fYAKUZA: atext = "Якудза";
+			case fYAKUZA: atext = "Тріада";
 			default: atext = "---";
 			}
 			if(gBusiness[bizid][bizzStatus]) strcat(status,""GREEN"Працює");
@@ -66335,7 +66335,7 @@ stock dialog_zg(playerid, bizz, listitem)
 			switch(gBusiness[bizid][bizzMafia]){
 			case fRM: atext = "Медельїнський картель";
 			case fLCN: atext = "Ла Коза Ностра";
-			case fYAKUZA: atext = "Якудза";
+			case fYAKUZA: atext = "Тріада";
 			default: atext = "---";
 			}
 			if(gBusiness[bizid][bizzStatus]) strcat(status,""GREEN"Працює");
@@ -66403,7 +66403,7 @@ stock dialog_tk(playerid,bizz,listitem) {
 			switch(gBusiness[bizid][bizzMafia]){
 			case fRM: atext = "Медельїнський картель";
 			case fLCN: atext = "Ла Коза Ностра";
-			case fYAKUZA: atext = "Якудза";
+			case fYAKUZA: atext = "Тріада";
 			default: atext = "---";
 			}
 			new type = gBusiness[bizid][bizzType] - 1;
