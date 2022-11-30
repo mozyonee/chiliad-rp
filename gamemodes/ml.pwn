@@ -35641,18 +35641,18 @@ CMD:audience(playerid, params[]) {
 	return 1;
 }
 CMD:edit(playerid) {
-	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник радіоцентру.");
+	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник новинного видання.");
 	if(!start_work[playerid]) return SendError(playerid, "Необхідно розпочати робочий день.");
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чата.");
 	if(PI[playerid][pRank] < 2) return SendError(playerid, "Доступно з 2 рангу.");
 	new veh = GetPlayerVehicleID(playerid);
 	if(!PlayerToPoint(10.0,playerid,2823.2854,1067.2120,1052.5973) && !PlayerToPoint(10.0,playerid,2842.2258,1068.7367,1052.5673) &&
-			VehicleInfo[veh][vTeam] != fLSNEWS && VehicleInfo[veh][vTeam] != fSFNEWS && VehicleInfo[veh][vTeam] != fLVNEWS) return SendError(playerid, "Необхідно знаходитись на робочому місці/у службовому автомобілі");
+			VehicleInfo[veh][vTeam] != fLSNEWS && VehicleInfo[veh][vTeam] != fSFNEWS && VehicleInfo[veh][vTeam] != fLVNEWS) return SendError(playerid, "Необхідно знаходитись на робочому місці у службовому автомобілі.");
 	ShowAdvertList(playerid);
 	return 1;
 }
 CMD:adv(playerid) {
-	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник радіоцентру.");
+	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник новинного видання.");
 	if(!start_work[playerid]) return SendError(playerid, "Необхідно розпочати робочий день.");
 	new str[150];
 	format(str,sizeof(str),""W"Всього відредаговано оголошень:"O" %d",PI[playerid][pAdvert]);
@@ -35683,7 +35683,7 @@ CMD:topmed(playerid) {
 	return 1;
 }
 CMD:topnews(playerid) {
-	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не є працівником радіоцентру.");
+	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не є працівником новинного видання.");
 	new query[128], string[400], name[24], advert;
 	mysql_format(connects, query, sizeof(query), "SELECT `Name`, `Advert` FROM `accounts` WHERE `pMember` = %d ORDER BY `Advert` DESC LIMIT 10", PI[playerid][pMember]);
 	new Cache:result = mysql_query(connects, query);
@@ -35704,7 +35704,7 @@ CMD:topnews(playerid) {
 	return 1;
 }
 CMD:ether(playerid) {
-	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник радіоцентру.");
+	if(!IsANews(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник новинного видання.");
 	if(PI[playerid][pRank] < 5) return SendError(playerid, "Доступно з 5 рангу.");
 	new veh = GetPlayerVehicleID(playerid);
 	if(VehicleInfo[veh][vTeam] == fLSNEWS) {
