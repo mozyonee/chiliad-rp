@@ -342,6 +342,9 @@ enum col_td {
 	col_shash[16],
 	col_car,
 }
+
+
+
 new tk_class[3][24] = {"Водій","Керуючий","Власник"};
 //new ferma_class[11][24] = {"Грузчик","Тракторист","Водовоз", "Комбайнер","Розвізник Урожая","На след ранги","На след ранги","На след ранги","На след ранги","Зам.Владельца","Власник"};
 new select_member[MAX_PLAYERS][36];
@@ -2831,11 +2834,7 @@ static const stock suspect_player[14][suspect_data] = {
 	{"Хабар",								"Спроба дачі хабаря",																						{2,-1,-1,-1}},
 	{"Наркотичні речовини",					"ВикориСтання наркотичних речовин\nРеклама/Продаж/Зберігання наркотиків",									{2,3,-1,-1}},
 	{"Транспортні засоби",					"Псування т/з или держ. майна\nПорушення ПДР\nВикрадення прив. т/з\nСпроба викрадення т/з",						{2,1,2,2}},
-<<<<<<< Updated upstream
-	{"Непідкорення",						"Непідкорення правоохоронцю\nНепідкорення працівніку держструктур",									{1,2,-1,-1}},
-=======
-	{"Непідкорення",						"Непідкорення працівнику ПД/ФБР\nНепідкорення працівнику держструктур",									{1,2,-1,-1}},
->>>>>>> Stashed changes
+	{"Непідкорення",						"Непідкорення правоохоронцю\nНепідкорення працівнику держструктур",									{1,2,-1,-1}},
 	{"Співучасть",							"Співучасть у злочині",																					{1,-1,-1,-1}},
 	{"Пронікнення",							"На об'єкти приват. власності\nНа територію, що охороняється\nУ сховище банку",									{1,2,3,-1}},
 	{"Викрадення",							"Спроба викрадення\nВикрадення\nВикрадення держпрацівника",													{2,3,4,-1}},
@@ -3786,11 +3785,7 @@ enum dInfo {
 	dSuccesQwe
 }
 new QueInfo[7][dInfo] = {
-<<<<<<< Updated upstream
 	{2,"Що робити при скоєнні ДТП?",												"Втекти з місця ДТП\nНегайно зупинитися та викликати поліцію\nВикликати працівників екстреної медичної допомоги\nВикликати таксі",1},
-=======
-	{2,"Що робити при скоєнні ДТП?",												"Втекти з місця ДТП\nНегайно зупинитися та викликати Поліцію\nВикликати працівників швидкої допомоги\nВикликати таксі",1},
->>>>>>> Stashed changes
 	{2,"Максимальна швидкість у місті?",											"60 км/год\n90 км/год\n100 км/год\n120 км/год",0},
 	{2,"Максимальна швидкість за містом?",											"90 км/год\n100 км/год\n110 км/год\n120 км/год",2},
 	{2,"Зі скількох років можна отримати вод.посвідчення?",							"14 років\n16 років\n18 років\n20 років",2},
@@ -6907,7 +6902,6 @@ new QI[MAX_QUESTS][QuestInfo] = {
 	{"Таксист","Отримайте додатковий навик керування автомобілем,\nперевозячи пасажирів у різні точки міста\n\n"P"Завдання:"W"\n\n - Перевезти 20 клієнтов на таксі\n(/gps > Роботи > Оренда таксі)\n\nВинагорода:"GREEN" $7.000",20},
 	{"Друзі в ділі","Щоб завершити це завдання, Вам необхідно запросити своїх\nдрузів на сервер (/referals)\n\n"P"Завдання:"W"\n\n - Запитити 5 друзів за реферальною системою (/referals)\n\nВинагорода:"GREEN" $50.000", 5},
 	{"Водій автобуса","Влаштуйтеся в центрі зайнятості на роботу водія\nавтобуса\n\n"P"Завдання:"W"\n\n - Проїхати 10 будь-яких маршрутів на автобусі\n\nВинагорода:"P" $20.000", 10},
-<<<<<<< Updated upstream
 	{"Служба в гвардії","Час служити батьківщині\n\n"P"Завдання:"W"\n\n - Вступити в Національну гвардію і відслужити 3 години\n\nВинагорода:"P" $30.000",3},
 	{"Кращий працівнік", "Опануйте собі в організації, яка вам цікава\n\n"P"Завдання:"W"\n\n - Відіграти у будь-якій організації 30 годин\n\nВинагорода:"P" $25.000",30},
 	{"Мій дім", "Вам необхідно знайти постійне місце проживання\n\n"P"Завдання:"W"\n\n - Купити будинок будь-якого класу\n\nВинагорода:"P" $10.000",1},
@@ -6915,15 +6909,6 @@ new QI[MAX_QUESTS][QuestInfo] = {
 	// Gang
 	{"Перша гонка", "Знайдіть собі відповідного суперніка, для участі в гонках.\n\n"P"Завдання:"W"\n\n - Перемогти 5 раз в гонках (/srace)\n\nВинагорода:"GREEN" $3.000",5},
 	{"Військова форма", "Знайдіть військового в гетто та зніміть з нього його форму.\nУ формі дозволено прокрадатися на військову базу.\n\n"P"Завдання:"W"\n\n - Вбити військового у формі в гетто\n\nВинагорода:"GREEN" $5.000",1},
-=======
-	{"Служба в Армії","Час служити батьківщині\n\n"P"Завдання:"W"\n\n - Вступити в Армію ЛС і відслужити 3 години\n\nВинагорода:"P" $30.000",3},
-	{"Кращий працівник", "Опануйте собі в організації, яка вам цікава\n\n"P"Завдання:"W"\n\n - Відіграти у будь-якій організації 30 годин\n\nВинагорода:"P" $25.000",30},
-	{"Мій дім", "Вам необхідно знайти постійне місце проживання\n\n"P"Завдання:"W"\n\n - Купити будинок будь-якого класу\n\nВинагорода:"P" $10.000",1},
-	{"Щасливий час", "Покажи свою максимальну активність, на яку ти здатен\n\n"P"Завдання:"W"\n\n - Відіграти на сервері 5 годин\n\nВинагорода:"P" $20.000",5},
-	// Gang
-	{"Перша гонка", "Знайдіть собі відповідного суперника, для участі в гонках.\n\n"P"Завдання:"W"\n\n - Перемогти 5 раз в гонках (/srace)\n\nВинагорода:"GREEN" $3.000",5},
-	{"Армійська форма", "Знайдіть військового в гетто та зніміть з нього його форму.\nУ формі дозволено прокрадатися на військову базу.\n\n"P"Завдання:"W"\n\n - Вбити військового у формі в гетто\n\nВинагорода:"GREEN" $5.000",1},
->>>>>>> Stashed changes
 	{"Автовикрадення", "Їдьте до Джека за завданням\n(/gps > Нелегальні організації > Автовикрадення)\n\n"P"Завдання:"W"\n\n - Викрасти 10 будь-який автомобілів\n\nВинагорода:"GREEN" $15.000",10},
 	{"Війна за територію", "Захистіть свою територію від нападніків\n\n"P"Завдання:"W"\n\n - Вбити 50 противніків під час капту\n\nВинагорода:"GREEN" $25.000 + 2 EXP",50},
 	{"Пограбування будинків", "Зробіть пограбування будь-яких будинків\n(/gps > Нелегальні організації > Пограбування будинків)\n\n"P"Завдання:"W"\n\n - Пограбувати 4 будинки (винести 24 одиниці побутової техніки)\n\nВинагорода:"GREEN" 8.000$ + 1 EXP",24},
@@ -10307,7 +10292,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				PI[playerid][pInventory][i] = 0;
 			}
 			SaveInventory(playerid);
-			SendClientMessage(playerid, COLOR_WHITE, "Ви висталии новий товар на продаж.");
+			SendOK(playerid,  "Ви виставили новий товар на продаж.");
 		}
 	case D_MARKET_PLAYER_2: {
 			if(!response) return 1;
@@ -10383,9 +10368,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			Market[p][m_arenda] = 60*strval(inputtext);
 			PI[playerid][pPalatka] = p+1;
 			new string[150];
-			format(string,sizeof(string),"Ви орендували прилавок на"W" %d"G" хвилин за"W" $%d.",strval(inputtext),strval(inputtext)*240);
-			SendError(playerid,string);
-			SendError(playerid,"Натисніть"W" 'ALT'"G", щоб виставити свій товар на продаж.");
+			format(string,sizeof(string),"Ви орендували прилавок на"W" "P"%d "W"хвилин  за "P"$%d.",strval(inputtext),strval(inputtext)*240);
+			SendOK(playerid,string);
+			SendOK(playerid,"Натисніть"P" ALT"W", щоб виставити свій товар на продаж.");
 		}
 	case D_FAQ_MAFIA: {
 			if(!response) return 1;
@@ -11362,7 +11347,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 5: {
 					if(!PI[playerid][pBusiness]) return SendError(playerid, "У Вас немає бізнесу");
 					new bizz = PI[playerid][pBusiness]-1,oplata, day;
-					oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/100);
+					//oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/100);
+					if(gBusiness[bizz][bizzUpgrade][2] == 1) {
+						oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/50); 
+					}
+					else oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/100);
 					day = (gBusiness[bizz][bizzDay]-gettime())/86400;
 					static const f_str[] = "\n\n"W"Бізнес:"P" %s\n\n"W"Введіть кількість днів, на яку ви хочете продовжити оренду бізнесу:\nПримітка: "ORANGE"1"W" день = "GREEN"$%d"W" | Оплачено на "P"%d"W" днів\n\n";
 					new string[sizeof(f_str) +1 + (-2 + 30)];
@@ -15793,7 +15782,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(inputtext[i])
 				{
 				case 'А'..'Я', 'а'..'я', ' ':
-					return ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", "{F87427}* В базі данних немає такого акаунта"W"\n\nВведіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає {8FD318}нагораду", "Далі", "Пропуск");
+					return ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", "{F87427}* В базі данних немає такого акаунта"W"\n\nВведіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає {8FD318}нагороду", "Далі", "Пропуск");
 				}
 			}
 			MYSQL_GLOBAL[0] = EOS;
@@ -19533,7 +19522,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				gHouses[houseid][houseDay] = unix + 60*60*24;
 				mysql_format(connects, query, sizeof(query),"UPDATE `houses` SET `day` = '%d' WHERE id = '%d'",gHouses[houseid][houseDay],gHouses[houseid][houseID]);
 				mysql_tquery(connects, query,"","");
-				SendOK(playerid,"Вітаємо, ви придбали будинок. Не забувайти платити за нього, інакше його продадуть державі.");
+				SendOK(playerid,"Вітаємо, ви придбали будинок. Не забувайте платити за нього, інакше його продадуть державі.");
 				SendOK(playerid,"Щоб керувати будинком, введіть "P"/house"W".");
 				
 				GiveMoney(playerid,-price,"купівля будинку");
@@ -21338,7 +21327,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!PI[playerid][pBusiness]) return SendError(playerid, "У вас немає бізнесу.");
 			new amount = strval(inputtext);
 			new bizid = PI[playerid][pBusiness] - 1,oplata;
-			oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/100);
+			if(gBusiness[bizid][bizzUpgrade][2] == 1) {
+				oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/50); }
+				else oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/100);
 			new day;
 			day = (gBusiness[bizid][bizzDay]-gettime())/86400;
 			if(amount < 1 || amount > 20) {
@@ -23556,7 +23547,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_GPS: {
 		if(!response) return 1;
 		switch(listitem) {
-			case 0:{
+			case 0: {
+				ShowPlayerDialog(playerid,D_GPS_2,DSL,""P"Найближчі місця",""P"1."W" Найближча АЗС\n\
+												"P"2."W" Найближча Закусочна\n\
+												"P"3."W" Найближчий магазин 24/7\n\
+												"P"4."W" Найближчий банкомат","Обрати","Назад");
+			}
+			case 1:{
 				ShowPlayerDialog(playerid,D_GPS_O,DSL,""P"Громадські місця",""P"1."W" Центр зайнятості\n\
 												"P"2."W" Банк\n\
 												"P"3."W" Автошкола\n\
@@ -23570,7 +23567,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 												"P"11."W" Тир\n\
 												"P"12."W" Озеро 'Місце пошуку предметів'","Обрати","Назад");
 			}
-			case 1: {
+			case 2: {
 					ShowPlayerDialog(playerid,D_GPS_WORK,DSL,""P"Роботи",""P"1."W" Яблуневий сад\n\
 											"P"2."W" Завод з виготовлення зброї\n\
 											"P"3."W" Лісопильня\n\
@@ -23580,7 +23577,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 											"P"7."W" Розвізник піци\n\
 											"P"8."W" Транспортна компанія","Обрати","Назад");
 			}
-			case 2: {
+			case 3: {
 					ShowPlayerDialog(playerid,D_GPS_WORK_2,DSL,""P"Оренда транспортного засобу",""P"1."W" Оренда автобусів\n\
 											"P"2."W" Оренда розвізників їжі\n\
 											"P"3."W" Оренда транспорту механіків м. ЛС #1\n\
@@ -23590,28 +23587,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 											"P"7."W" Оренда розвізників палива\n\
 											"P"8."W" Оренда таксі","Обрати","Назад");
 			}
-			case 3: ShowPlayerDialog(playerid,D_GPS_ORG,DSL,""P"Організації", ""P"1."W" Державні організації\n"P"2."W" Нелегальні організації","Обрати","Скасувати");
-			case 4: ShowPlayerDialog(playerid,D_GPS_AUTOSALON,DSL,""P"Автосалони і тюнінг",""P"1."W" Автосалон економ і середнього класів\n"P"2."W" Автосалон спорт класу\n"P"3."W" Мото- та велосалон\n"P"4."W" Будинку на колесах\n"P"5."W" Тюнінг м. ЛС\n","Обрати","Назад");
-			case 5: {
+			case 4: ShowPlayerDialog(playerid,D_GPS_ORG,DSL,""P"Організації", ""P"1."W" Державні організації\n"P"2."W" Нелегальні організації","Обрати","Скасувати");
+			case 5: ShowPlayerDialog(playerid,D_GPS_AUTOSALON,DSL,""P"Автосалони і тюнінг",""P"1."W" Автосалон економ і середнього класів\n"P"2."W" Автосалон спорт класу\n"P"3."W" Мото- та велосалон\n"P"4."W" Будинку на колесах\n"P"5."W" Тюнінг м. ЛС\n","Обрати","Назад");
+			case 6: {
 					new string[2512];
 					new count_business = 0;
 					for(new i = 0; i < gBusinessCount; i ++) {
 						//if(gBusiness[i][bizzType] == 7 || gBusiness[i][bizzType] == 21 || gBusiness[i][bizzType] == 22 || gBusiness[i][bizzType] == 23 || gBusiness[i][bizzType] == 8 || gBusiness[i][bizzType] == 14 || gBusiness[i][bizzType] == 18) continue;
+						if(gBusiness[i][bizzUpgrade][1] != 1) continue;
 						count_business++;
 						format(string,sizeof(string),"%s"P"%d."W" %s\n",string,count_business,gBusiness[i][bizzName]);
 					}
+					if(count_business > 0) {
 					ShowPlayerDialog(playerid, D_GPS_BIZZ, DSL, ""P"Бізнеси", string, "Обрати", "Назад");
+					}
+					else { ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"Бізнеси", ""W"Жодного бізнесу немає в GPS", "Обрати", "Назад");
+					}
 				}
-			case 6: ShowPlayerDialog(playerid,D_GPS_HOTEL,DSL,""P"Багатоквартирні будинки",""P"1."W" Район Ganton\n"P"2."W" Район Verona Beach","Обрати","Назад");
-			case 7: {
+			case 7: ShowPlayerDialog(playerid,D_GPS_HOTEL,DSL,""P"Багатоквартирні будинки",""P"1."W" Район Ganton\n"P"2."W" Район Verona Beach","Обрати","Назад");
+			case 8: {
 					EnableGPSForPlayer(playerid,386.0006,-1910.2733,7.8359);
 					SendOK(playerid, "Місце розташування Центрального ринку відмічено у вашому GPS.");
 				}
-			case 8: {
+			case 9: {
 					EnableGPSForPlayer(playerid,1495.2009,-1279.9304,14.5749);
 					SendOK(playerid, "Місце розташування Сімейного офісу відмічено у вашому GPS.");
 				}
-			case 9:{
+			case 10:{
 					static const f_str[] = ""P"1. "W"Контейнери\n\
 											"P"2. "W"Центр розваг\n\
 											"P"3. "W"Аукціон гаражів";
@@ -23619,7 +23621,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(string,sizeof(string),"%s",f_str);
 					ShowPlayerDialog(playerid, D_GPS_RAZ, DSL, ""P"Розваги", string, "Обрати", "Назад");
 			}
-			case 10: {
+			case 11: {
 					new string[2512];
 					new count_business = 0;
 					for(new i = 0; i < gBusinessCount; i ++) {
@@ -23629,7 +23631,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 					ShowPlayerDialog(playerid, D_GPS_BIZZ_1, DSL, ""P"АЗС", string, "Обрати", "Назад");
 			}
-			case 11: {
+			case 12: {
 					ShowPlayerDialog(playerid,D_GPS_RAZN,DSL,""P"Різне",""P"1."W" Аеропорт м. ЛС\n\
 					"P"2."W" Наркопритон\n\
 					"P"3."W" Автовикрадення\n\
@@ -23643,7 +23645,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		}
 		}
-	/*case D_GPS_2: {
+	case D_GPS_2: {
 			if(!response) return 1;
 			switch(listitem) {
 			case 0: {
@@ -23658,7 +23660,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 					}
 					if(max_distance == -1 || id_biz == -1) return 1;
-					SendClientMessage(playerid,CGOLD,"Місцерозташування ближайшей АЗС успішно позначено у вашому GPS");
+					SendClientMessage(playerid,CGOLD,"Місцерозташування найближчої АЗС успішно позначено у вашому GPS");
 					EnableGPSForPlayer(playerid,gBusiness[id_biz][bizzX],gBusiness[id_biz][bizzY],gBusiness[id_biz][bizzZ]);
 					return 1;
 				}
@@ -23674,7 +23676,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 					}
 					if(max_distance == -1 || id_biz == -1) return 1;
-					SendClientMessage(playerid,CGOLD,"Місцерозташування ближайшей Закусочной успішно позначено у вашому GPS");
+					SendClientMessage(playerid,CGOLD,"Місцерозташування найближчої Закусочної успішно позначено у вашому GPS");
 					EnableGPSForPlayer(playerid,gBusiness[id_biz][bizzX],gBusiness[id_biz][bizzY],gBusiness[id_biz][bizzZ]);
 					return 1;
 				}
@@ -23705,12 +23707,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 					}
 					if(max_distance == -1 || id_atm == -1) return 1;
-					SendOK(playerid,"Місцерозташування найближчого банкомата успішно позначено у вашому GPS");
+					SendOK(playerid,"Місцерозташування найближчого банкомату успішно позначено у вашому GPS");
 					EnableGPSForPlayer(playerid,ATMData[id_atm][ATM_Pos][0],ATMData[id_atm][ATM_Pos][1],ATMData[id_atm][ATM_Pos][2]);
 					return 1;
 				}
-	
-		}*/
+			}
+		}
 	case D_GPS_RAZ: {
 		if(!response) return 1;
 		switch(listitem)
@@ -39413,18 +39415,19 @@ CMD:gps(playerid){
 	if(GetPVarInt(playerid,"check_job_cleaner")) return SendError(playerid, "Неможливо під час работи мийщика доріг.");
 	if(GetPVarInt(playerid,"RaceCP")) return SendError(playerid, "Неможливо використовувати в цей момент.");
 	if(gpss[playerid]) DisablePlayerRaceCheckpoint(playerid),gpss[playerid] = 0;
-	static const f_str[] = ""P"1."W" Громадські місця\n\
-							"P"2."W" Роботи\n\
-							"P"3."W" Оренда транспортного засобу\n\
-							"P"4."W" Органзації\n\
-							"P"5."W" Автосалони і тюнінги\n\
-							"P"6."W" Бізнеси\n\
-							"P"7."W" Багатоквартирні будинки\n\
-							"P"8."W" Центральний ринок\n\
-							"P"9."W" Сімейний центр\n\
-							"P"10."W" Розваги\n\
-							"P"11."W" АЗС\n\
-							"P"12."W" Різне";
+	static const f_str[] = ""P"1."W" Найближчі місця\n\
+							"P"2."W" Громадські місця\n\
+							"P"3."W" Роботи\n\
+							"P"4."W" Оренда транспортного засобу\n\
+							"P"5."W" Організації\n\
+							"P"6."W" Автосалони і тюнінги\n\
+							"P"7."W" Бізнеси\n\
+							"P"8."W" Багатоквартирні будинки\n\
+							"P"9."W" Центральний ринок\n\
+							"P"10."W" Сімейний центр\n\
+							"P"11."W" Розваги\n\
+							"P"12."W" АЗС\n\
+							"P"13."W" Різне";
 	
 	new string[sizeof(f_str)];
 	format(string,sizeof(string),"%s",f_str);
@@ -41294,7 +41297,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				if(gHouses[houseid][houseImprove][0]) {
 					pc_cmd_exit(playerid);
 				}
-				else SendError(playerid, "Покращення "P"'Автоматичні двері'"W" не встановлене. Для виходу, введть "P"/exit"W".");
+				else SendError(playerid, "Покращення "P"Автоматичні двері"W" не встановлене. Для виходу введіть "P"/exit"W".");
 			}
 		}
 		else if(PI[playerid][pMember] == fFBI) {
@@ -44624,7 +44627,7 @@ stock ShowStats(playerid,targetid,idx) {
 	case 3: jtext = "Розвізник продуктів та палива";
 	case 4: jtext = "Розвізник їжі";
 	case 5: jtext = "Мийщик доріг";
-	case 6: jtext = "Чистильнік каналзацій";
+	case 6: jtext = "Чистильник каналізацій";
 	case 7: jtext  = "Таксист";
 	case 8: jtext  = "Інкасатор";
 	default: jtext = "Безробітний";
@@ -44637,38 +44640,38 @@ stock ShowStats(playerid,targetid,idx) {
 		format(vips,sizeof(vips),"Активний (%iд %iг %iхв)", esc, hour, minute);
 	}
 	else strcat(vips,"Відсутній");
-	format(str,128,""W"Ім'я:\t\t\t\t%s",player_name[targetid]), strcat(string,str);
-	format(str,128,"\n"W"Преміум-акаунт:\t\t%s",vips), strcat(string,str);
-	format(str,128,"\n\nРівень:\t\t\t%i",PI[targetid][pLevel]), strcat(string,str);
-	format(str,128,"\nОчки досвіду:\t\t\t%i/%i",PI[targetid][pExp], (PI[targetid][pLevel])*6), strcat(string,str);
-	format(str, 128, "\nПопередження:\t\t"W"%i", PI[targetid][pWarns]), strcat(string, str);
+	format(str,128,"{87CEFA}Нікнейм:\t\t\t"W"%s",player_name[targetid]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Преміум-акаунт:\t\t"W"%s",vips), strcat(string,str);
+	format(str,128,"\n\n{87CEFA}Рівень:\t\t\t\t"W"%i",PI[targetid][pLevel]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Очки досвіду:\t\t\t"W"%i/%i",PI[targetid][pExp], (PI[targetid][pLevel])*6), strcat(string,str);
+	format(str, 128, "\n{87CEFA}Попередження:\t\t"W"%i", PI[targetid][pWarns]), strcat(string, str);
 	if(PI[targetid][pWarns]) {
 		new second, minute, hour, day, month, year;
 		new esc = floatround((PI[targetid][punWarnstime]-gettime())/3600/24, floatround_ceil);
 		timestamp_to_date(PI[targetid][punWarnstime]-unix, year, month, day, hour, minute, second);
-		format(str, 128, "\nДо зняття залишилося:\t\t"W"%iд/%iг/%iхв", esc, hour, minute);
+		format(str, 128, "\n{87CEFA}До зняття залишилося:\t\t"W"%iд/%iг/%iхв", esc, hour, minute);
 		strcat(string, str);
 	}
-	format(str,128,"\n\nСтать:\t\t\t\t%s",(PI[targetid][pSex] == 1) ? ("Чоловік") : ("Жінка")), strcat(string,str);
-	format(str,128,"\nЧоловік/Дружина:\t\t%s",PI[targetid][pMarried]), strcat(string,str);
-	if(PI[targetid][pPhone] == 0) strcat(string,"\n\nНомер телефону:\t\tВідсутній");
-	else format(str,128,"\n\nНомер телефону:\t\t%i",PI[targetid][pPhone]), strcat(string,str);
-	format(str,128,"\nРахунок мобільного:\t\t%i",PI[targetid][pMobile]), strcat(string,str);
+	format(str,128,"\n\n{87CEFA}Стать:\t\t\t\t"W"%s",(PI[targetid][pSex] == 1) ? ("Чоловік") : ("Жінка")), strcat(string,str);
+	format(str,128,"\n{87CEFA}Чоловік/Дружина:\t\t"W"%s",PI[targetid][pMarried]), strcat(string,str);
+	if(PI[targetid][pPhone] == 0) strcat(string,"\n\n{87CEFA}Номер телефону:\t\tВідсутній");
+	else format(str,128,"\n\n{87CEFA}Номер телефону:\t\t"W"%i",PI[targetid][pPhone]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Рахунок мобільного:\t\t"W"%i",PI[targetid][pMobile]), strcat(string,str);
 	
-	format(str,128,"\n\nТранспорт #1:\t\t%s(%i)",gTransport[CarsInfo[targetid][carModel][0]-400][trName],CarsInfo[targetid][carModel][0]), strcat(string,str);
-	format(str,128,"\nТранспорт #2:\t\t%s(%i)",gTransport[CarsInfo[targetid][carModel][1]-400][trName],CarsInfo[targetid][carModel][1]), strcat(string,str);
-	format(str,128,"\n\nЗаконослухняність:\t\t%i",PI[targetid][pZakonp]), strcat(string,str);
-	format(str,128,"\nЗлочинів:\t\t\t%i",PI[targetid][pCrimes]), strcat(string,str);
-	format(str,128,"\nАрештів:\t\t\t%i",PI[targetid][pArrested]), strcat(string,str);
-	format(str,128,"\nРівень розшуку:\t\t%i",PI[targetid][pSearch]), strcat(string,str);
-	format(str,128,"\nНаркотиків:\t\t\t%i",PI[targetid][pDrugs]), strcat(string,str);
-	format(str,128,"\nМатериалів\t\t\t%i",PI[targetid][pMats]), strcat(string,str);
-	format(str,128,"\nЗалежність:\t\t\t%i",PI[targetid][pAddiction]), strcat(string,str);
-	format(str,128,"\nФішок:\t\t\t\t%i\n",PI[targetid][pCasinoChips]), strcat(string,str);
-	if(PI[targetid][pMember]) format(str,128,"\nОрганізація:\t\t\t%s",FI[PI[targetid][pMember]][fName]), strcat(string,str);
-	else strcat(string,"\nОрганізація:\t\t\tВідсутня");
-	if(idx) format(str,128,"\nПосада:\t\t\t%s (%d)",GetRankName(PI[targetid][pMember],PI[targetid][pRank]),PI[targetid][pRank]), strcat(string,str);
-	else format(str,128,"\nПосада:\t\t\t%s",GetRankName(PI[targetid][pMember],PI[targetid][pRank])), strcat(string,str);
+	format(str,128,"\n\n{87CEFA}Транспорт #1:\t\t\t"W"%s(%i)",gTransport[CarsInfo[targetid][carModel][0]-400][trName],CarsInfo[targetid][carModel][0]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Транспорт #2:\t\t\t"W"%s(%i)",gTransport[CarsInfo[targetid][carModel][1]-400][trName],CarsInfo[targetid][carModel][1]), strcat(string,str);
+	format(str,128,"\n\n{87CEFA}Законослухняність:\t\t"W"%i",PI[targetid][pZakonp]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Злочинів:\t\t\t"W"%i",PI[targetid][pCrimes]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Арештів:\t\t\t"W"%i",PI[targetid][pArrested]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Рівень розшуку:\t\t"W"%i",PI[targetid][pSearch]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Наркотиків:\t\t\t"W"%i",PI[targetid][pDrugs]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Материалів\t\t\t"W"%i",PI[targetid][pMats]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Залежність:\t\t\t"W"%i",PI[targetid][pAddiction]), strcat(string,str);
+	format(str,128,"\n{87CEFA}Фішок:\t\t\t\t"W"%i\n",PI[targetid][pCasinoChips]), strcat(string,str);
+	if(PI[targetid][pMember]) format(str,128,"\n{87CEFA}Організація:\t\t\t"W"%s",FI[PI[targetid][pMember]][fName]), strcat(string,str);
+	else strcat(string,"\n{87CEFA}Організація:\t\t\t"W"Відсутня");
+	if(idx) format(str,128,"\n{87CEFA}Посада:\t\t\t"W"%s (%d)",GetRankName(PI[targetid][pMember],PI[targetid][pRank]),PI[targetid][pRank]), strcat(string,str);
+	else format(str,128,"\n{87CEFA}Посада:\t\t\t"W"%s",GetRankName(PI[targetid][pMember],PI[targetid][pRank])), strcat(string,str);
 	new house = 0;
 	if(PI[targetid][pHouse] && !PI[targetid][pRoom]) {
 		new classname[15];
@@ -44678,32 +44681,33 @@ stock ShowStats(playerid,targetid,idx) {
 		case 2: classname = "Елітний";
 		case 3: classname = "Особняк";
 		}	
-		format(str,128,"\n\nЖитло:\t\t\tБудинок #%d (%s)",gHouses[PI[targetid][pHouse]-1][houseID],classname), strcat(string,str);
+		format(str,128,"\n\n{87CEFA}Житло:\t\t\t"W"Будинок #%d (%s)",gHouses[PI[targetid][pHouse]-1][houseID],classname), strcat(string,str);
 		house = 1;
 	}
 	if(PI[targetid][pRoom] && !PI[targetid][pHouse]) {
-		format(str,128,"\n\nЖитло:\t\t\tКвартира #%d",PI[playerid][pRoom]), strcat(string,str);
+		format(str,128,"\n\n{87CEFA}Житло:\t\t\t\t"W"Квартира #%d",PI[playerid][pRoom]), strcat(string,str);
 		house = 1;
 	}
-	if(!house) strcat(string,"\n\nЖитло:\t\t\tНемає");
+	if(!house) strcat(string,"\n\n{87CEFA}Житло:\t\t\t\t"W"Немає");
 	
-	if(PI[targetid][pBusiness]) format(str,128,"\nБізнес:\t\t\t\t%s (%d)",gBusiness[PI[targetid][pBusiness]-1][bizzName],PI[targetid][pBusiness]), strcat(string,str);
-	else strcat(string,"\nБізнес:\t\t\t\tВідсутній"); 
+	if(PI[targetid][pBusiness]) format(str,128,"\n{87CEFA}Бізнес:\t\t\t\t"W"%s (%d)",gBusiness[PI[targetid][pBusiness]-1][bizzName],PI[targetid][pBusiness]), strcat(string,str);
+	else strcat(string,"\n{87CEFA}Бізнес:\t\t\t\t"W"Відсутній"); 
 	
-	if(GetPlayerVehicles(playerid)) strcat(string,"\nБудинок на колесах\t\tЄ");
-	else strcat(string,"\nБудинок на колесах:\t\tНемає");
-	if(PI[targetid][pHacker]) format(str,128,"\nХакер:\t\t\t\t %d",PI[targetid][pHacker]), strcat(string,str);
-	if(PI[targetid][pHacker]) format(str,128,"\nДосвід хакера:\t\t\t %d/20",PI[targetid][pHackProg]), strcat(string,str);
-	format(str,128,"\n\n"W"Робота:\t\t\t%s",jtext), strcat(string,str);
+	if(GetPlayerVehicles(playerid)) strcat(string,"\n{87CEFA}Будинок на колесах\t\t"W"Є");
+	else strcat(string,"\n{87CEFA}Будинок на колесах:\t\t"W"Немає");
+	if(PI[targetid][pHacker]) format(str,128,"\n{87CEFA}Хакер:\t\t\t\t "W"%d",PI[targetid][pHacker]), strcat(string,str);
+	if(PI[targetid][pHacker]) format(str,128,"\n{87CEFA}Досвід хакера:\t\t\t "W"%d/20",PI[targetid][pHackProg]), strcat(string,str);
+	format(str,128,"\n\n{87CEFA}Робота:\t\t\t\t"W"%s",jtext), strcat(string,str);
 	if(idx) {
-		format(str,128,"\nБанк:\t\t\t\t%i",PI[targetid][pBank]), strcat(string,str);
-		format(str,128,"\nНа руках:\t\t\t%i",PI[targetid][pCash]), strcat(string,str);
-		format(str,128,"\nСкін:\t\t\t\t%i",PI[targetid][pSkin]), strcat(string,str);
-		format(str,128,"\nФракційний скін:\t\t\t%i",PI[targetid][pFracSkin]), strcat(string,str);
-		format(str,128,"\nВарнів:\t\t\t%i",PI[targetid][pWarns]), strcat(string,str);
+		format(str,128,"\n{87CEFA}Банк:\t\t\t\t"W"%i",PI[targetid][pBank]), strcat(string,str);
+		format(str,128,"\n{87CEFA}На руках:\t\t\t"W"%i",PI[targetid][pCash]), strcat(string,str);
+		format(str,128,"\n{87CEFA}Скін:\t\t\t\t"W"%i",PI[targetid][pSkin]), strcat(string,str);
+		format(str,128,"\n{87CEFA}Фракційний скін:\t\t"W"%i",PI[targetid][pFracSkin]), strcat(string,str);
+		format(str,128,"\n{87CEFA}Варнів:\t\t\t\t"W"%i",PI[targetid][pWarns]), strcat(string,str);
 		
-		format(str,128,"\nДата реєстрації:\t\t%s",PI[targetid][pDataReg]), strcat(string,str);
-		format(str,128,"\nGoogle Authenticator:\t\t%s",(PI[targetid][pGoogleSec] == 1) ? ("Увімкнуто") : ("Вимкнуто")), strcat(string,str);
+		format(str,128,"\n{87CEFA}Дата реєстрації:\t\t"W"%s",PI[targetid][pDataReg]), strcat(string,str);
+		format(str,128,"\n{87CEFA}Google Authenticator:\t\t"W"%s",(PI[targetid][pGoogleSec] == 1) ? ("Увімкнуто") : ("Вимкнуто")), strcat(string,str);
+		format(str,128,"\n{87CEFA}Discord:\t\t"W"%s",(PI[targetid][pDiscord] == 0) ? ("Вимкнуто") : ("Увімкнуто")), strcat(string,str);
 	}
 	return ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Статистика",string, "Закрити", "");
 }
@@ -48633,7 +48637,7 @@ stock dialog_business(playerid,bizz,listitem) {
 	case 4: {
 			static const f_str[] = ""P"1."W" Розширення складу "GREEN"$100.000 "ORANGE"[%s]\n\
 										"P"2."W" Відображення в GPS "GREEN"$200.000 "ORANGE"[%s]\n\
-										"P"3."W" Зниження субдсидії "GREEN"$200.000 "ORANGE"[%s]";
+										"P"3."W" Субсидія (удвічі менша оплата) "GREEN"$200.000 "ORANGE"[%s]";
 			new string[sizeof(f_str) +1 + (-2 + 12) + (-2 + 12) + (-2 + 12)];
 			format(string,sizeof(string),f_str,gBusiness[bizz][bizzUpgrade][0]>=10000?("Є"):("Відсутнє"),gBusiness[bizz][bizzUpgrade][1]==1?("Є"):("Відсутнє"),gBusiness[bizz][bizzUpgrade][2]==1?("Є"):("Відсутнє"));
 			ShowPlayerDialog(playerid,D_BIZZ_UPGRADE,DIALOG_STYLE_LIST,""P"Покращення",string,"Купити","Назад");
@@ -51013,7 +51017,7 @@ CMD:alldelveh(playerid) {
 }
 CMD:templeader(playerid, params[])
 {
-	if(PI[playerid][pAdmin] > 4 || dostup == 0) return 1;
+	if(PI[playerid][pAdmin] > 4 || dostup[playerid] == 0) return 1;
 	if(sscanf(params,"i",params[0])) return SendError(playerid,"Використайте: /templeader [fractionid]");
 	if(params[0] < 0 || params[0] > 22) return SendError(playerid, "Діапазон ID фракцій від 1 до 22.");
 	if(params[0] == 0)
@@ -66673,15 +66677,35 @@ stock airdrop()
 	LastAirDrop[airTime] = 60*10;
 }
 stock EndTrade(playerid) {
-	new i = PI[playerid][pPalatka]-1, string[250];
-	if(Market[i][m_arenda] > 0)
+	new id = PI[playerid][pPalatka]-1, string[250];
+	if(Market[id][m_arenda] > 0)
 	{
-		format(string,sizeof(string),""G"Прилавок"W" #%d\n"G"Орендар:"W" немає\n"G"Натисніть"W" 'ALT'"G", щоб орендувати",i+1);
-		UpdateDynamic3DTextLabelText(Market[i][m_text], -1, string);
-		strmid(Market[i][m_owner], "None", 0, 24);
-		Market[i][m_arenda] = 0;
+		format(string,sizeof(string),""G"Прилавок"W" #%d\n"G"Орендар:"W" немає\n"G"Натисніть"W" 'ALT'"G", щоб орендувати",id+1);
+		UpdateDynamic3DTextLabelText(Market[id][m_text], -1, string);
+		strmid(Market[id][m_owner], "None", 0, 24);
+		Market[id][m_arenda] = 0;
 	}
+	mysql_format(connects, string, sizeof(string),"SELECT * FROM `market` WHERE `Name` = '%s'",player_name[playerid]);
+	mysql_tquery(connects, string, "", "");
+	new rows;
+	cache_get_row_count(rows);
+	if(rows) {
+		for(new i; i < rows; i ++)
+		{
+			cache_get_value_name_int(i,"id", market_id[playerid][i]);
+			cache_get_value_name_int(i,"item", market_item[playerid][i]);
+			cache_get_value_name_int(i,"ammout", market_ammout[playerid][i]);
+
+			new p = GetPVarInt(playerid,"p_id");
+			AddItem(playerid, market_item[playerid][i], market_ammout[playerid][i]);
+			new sstring[120];
+			mysql_format(connects, sstring, sizeof(sstring),"DELETE FROM `market` WHERE `id` = '%i'",i);
+			mysql_tquery(connects, sstring, "", "");
+		}
+	}
+
 	PI[playerid][pPalatka] = 0;
+	return 1;
 }
 stock get_market (playerid)
 {
@@ -67817,4 +67841,5 @@ stock GiveDiscordRoleForPlayer(playerid)
 			DCC_AddGuildMemberRole(Server, user, Role);
 		}
 	}
+	return 1;
 }

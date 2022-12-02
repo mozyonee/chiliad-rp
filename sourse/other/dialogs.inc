@@ -383,6 +383,7 @@ enum dialogs {
 	D_TAXI_COUNT,
 	
 	D_GPS,
+	D_GPS_2,
 	D_GPS_O,
 	D_GPS_WORK,
 	D_GPS_GOS,
