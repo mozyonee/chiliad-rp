@@ -2196,6 +2196,9 @@ new ArendInfo[][aInfo] =
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 491, 2100,533.1170, -1278.3557, 17.0001, 220.0000,-1,-1,68 }, // Авторинок ЛС 5
 	{ INVALID_VEHICLE_ID, INVALID_PLAYER_ID, 410, 1000,529.7689, -1280.4216, 16.9001, 220.0000,-1,-1,68 } // Авторинок ЛС 6
 };
+
+new LOTTOPRICE = 500;
+
 new Float:med_heal[12][4]={
 	{1560.5155,496.3742,1070.9421,272.3593}, // кровать 1
 	{1563.1982,496.3743,1070.9421,270.4559}, // кровать 2
@@ -6051,7 +6054,7 @@ enum fgarage{
 new FG[MAX_GARAGE][fgarage], Text3D:FGarage[MAX_GARAGE];
 enum _fInfo {
 	fID,
-	fName[24],
+	fName[50],
 	fLeader[MAX_PLAYER_NAME],
 	fAdmin[24],
 	fTime[53],
@@ -8902,6 +8905,7 @@ public OnPlayerCommandReceived(playerid, cmd[], params[], flags) {
 	return TI[playerid][tLogin];
 }
 public OnPlayerConnect(playerid) {
+	RemoveBuildings(playerid);
 	new ip[2][16];
 	GetPlayerIp(playerid, ip[0], 16);
 	if (playerid == 65535) return KickEx(playerid);
@@ -8970,7 +8974,6 @@ public OnPlayerConnect(playerid) {
 	PlayerWarningSilent[playerid] = 0;
 	
 	TI[playerid][tDM] = 0;
-	RemoveBuildings(playerid);
 	textdraw_bank(playerid);
 	new gpciStr[64];
 	gpci(playerid, gpciStr);
@@ -15973,6 +15976,81 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		}
+		case dLotto:
+		{
+			if(!response)
+			{
+				return 1;
+			}
+			new String1024[1024];
+			if(listitem == 0) {
+				if(GetPlayerMoneyEx(playerid) < LOTTOPRICE) {
+					SendError(playerid,"У Вас недостатньо коштів");
+					return 1;
+				}
+				format(String1024, sizeof(String1024), "SELECT `id` FROM `lottob` WHERE `id` = '%d'", PI[playerid][pID]);
+				new Cache:r = mysql_query(connects, String1024);
+				if(cache_num_rows() >= 50) return cache_delete(r), SendError(playerid, "Ви купили максимальну кількість лотерейних білетів");
+				cache_delete(r);
+
+				format(String1024, sizeof(String1024), "SELECT `bilet`,`money` FROM `lotto` WHERE `id` = '1'", PI[playerid][pID]);
+				new Cache:rdd = mysql_query(connects, String1024);
+				new lotom;
+				new lotonum;
+				if(cache_num_rows()) {
+					cache_get_value_index_int(0,0,lotonum);
+					cache_get_value_index_int(0,1,lotom);
+				}
+				cache_delete(rdd);
+				lotonum ++;
+				new String512[512];
+				format(String512,sizeof(String512),"INSERT INTO `lottob`(`id`,`lotto`) VALUES ('%d','%d')", PI[playerid][pID],lotonum );
+				mysql_query(connects, String512);
+
+				GiveMoney(playerid, -LOTTOPRICE, "Лотто");
+
+
+				lotom += LOTTOPRICE;
+				format(String512,sizeof(String512),"UPDATE `lotto` SET `money` = '%d', `bilet` = '%d' WHERE `id` = '1'", lotom,lotonum );
+				mysql_query(connects, String512);
+				new String64[64];
+				format(String64,sizeof(String64),"Ви купили лотерейний білет з номером {4362AF}%d",lotonum);
+				SendOK(playerid, String64);
+				new String256[256];
+				format(String256, sizeof(String256),"{4362AF}1."W" Купити білет - %dр\n{4362AF}2."W" Подивитися свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
+				ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", String256 ,"Далі","Вихід");
+
+			}
+			else if(listitem == 1) {
+				format(String1024, sizeof(String1024), "SELECT `lotto` FROM `lottob` WHERE `id` = '%d'", PI[playerid][pID]);
+				new Cache:r = mysql_query(connects, String1024);
+				new rowss =cache_num_rows();
+				if(!rowss) return cache_delete(r), SendError(playerid, "У Вас немає лотерейних білетів");
+				new String2048[2048];
+				format(String2048,sizeof(String2048),""W"Список білетів:\n\n");
+				for(new i=0; i< rowss; i++)
+				{
+					new lottonn;
+					cache_get_value_index_int(i, 0, lottonn);
+					format(String2048,sizeof(String2048),"%s{4362AF}%d."W" Білет № %d\n",String2048,i+1,lottonn);
+				}
+				cache_delete(r);
+				ShowPlayerDialog(playerid,dLotto2,DIALOG_STYLE_MSGBOX,"{FFFD72}Державна лотерея", String2048 ,"Закрити","");
+			}
+			else if(listitem == 2) {
+				new String2048[2048];
+				format(String2048, sizeof(String2048),""W"Щотижнева лотерея від {FFFD72}Державного Лото"W"\n\nВи можете придбати до {FFB272}50"W" білетів і прийняти участь в лотереї\n\
+					Чим більше білетів у Вас придбано, тим більшим є шанс на перемогу.\nРозіграш відбувається кожної неділі о {FFB272}18:00"W"\nПереможець отримує всю суму зібрану за тиждень\n\
+					Якщо переможця не визначено, вся сума додається до наступного розіграшу");
+				ShowPlayerDialog(playerid,dLotto2,DIALOG_STYLE_MSGBOX,"{FFFD72}Державна лотерея", String2048 ,"Закрити","");
+			}
+		}
+		case dLotto2:
+		{
+			new String256[256];
+			format(String256, sizeof(String256),"{4362AF}1."W" Купить білет - %dр\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
+			ShowPlayerDialog(playerid,dLotto,2,"{FFFD72}Державна лотерея", String256 ,"Далі","Вихід");
+		}
 	case D_MAIL_CONTROL: {
 			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисник ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
 			if(strfind(inputtext,"|") != -1) {
@@ -17197,7 +17275,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							case fWHITEHOUSE: frac_online[fWHITEHOUSE] ++;
 							}
 						}
-						static const f_str[] = "Фракція\tГравці\nДепартамент поліції Лос-Сантоса\t%d\nAngels MC\t%d\nBandidos MC\t%d\nФедеральне Бюро Розслідувань\t%d\n\
+						static const f_str[] = "Фракція\tГравці\nДепартамент поліції Лос-Сантоса\t%d\nBandidos MC\t%d\nAngels MC\t%d\nФедеральне Бюро Розслідувань\t%d\n\
 														Офіс шерифа округу Ред\t%d\nНаціональна гвардія\t%d\n\
 														Центральна лікарня Всіх Святих\t%d\nПожежна служба Лос-Сантоса\t%d\nЛікарня м. ЛВ\t%d\n\
 														Лос-Сантос Таймс\t%d\nРадіоцентр м. СФ\t%d\nРадіоцентр м. ЛВ\t%d\n\
@@ -23760,8 +23838,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 											"P"6."W" Ла Коза Ностра\n\
 											"P"7."W" Тріада\n\
 											"P"8."W" Медельїнський картель\n\
-											"P"9."W" Angels MC\n\
-											"P"10."W"Bandidos MC","Обрати","Назад");
+											"P"9."W" Bandidos MC\n\
+											"P"10."W"Andels MC","Обрати","Назад");
 				}
 			}
 		}
@@ -23864,8 +23942,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 5: EnableGPSForPlayer(playerid,1270.2561,-917.3580,42.3488), str = "Ла Коза Ностра";
 			case 6: EnableGPSForPlayer(playerid,664.7656,-1306.5183,13.4609), str = "Тріади";
 			case 7: EnableGPSForPlayer(playerid,1362.6654,401.4814,19.5706), str = "Медельїнського картелю";
-			case 8: EnableGPSForPlayer(playerid, 320.6742,-65.9639,1.5781), str = "Angels MC";
-			case 9: EnableGPSForPlayer(playerid, 2348.8169,247.4270,26.3359), str = "Bandidos MC";
+			case 8: EnableGPSForPlayer(playerid, 320.6742,-65.9639,1.5781), str = "Bandidos MC";
+			case 9: EnableGPSForPlayer(playerid, 2348.8169,247.4270,26.3359), str = "Angels MC";
 			}
 			format(string,sizeof(string),"Місцезнаходження %s успішно позначено у вашому GPS.",str);
 			SendOK(playerid,string);
@@ -31205,7 +31283,7 @@ public OnGameModeInit() {
 	mysql_set_option(option_id, AUTO_RECONNECT, true);
     connects = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, DB_NAME, option_id);
 	mysql_log(ERROR | WARNING);
-	SendRconCommand("hostname Chiliad Role Play. Los Santos.");
+	SendRconCommand("hostname Chiliad Role Play | Los Santos.");
 	/*============================================================================*/
 	
 	mysql_set_charset("cp1251");
@@ -31245,6 +31323,10 @@ public OnGameModeInit() {
 	load_trailer();
 	load_garage();
 	load_goscars();
+
+
+	LotteryMap();
+
 	#if defined _roulette_included
 		roulette_CreateTD();
 	#endif
@@ -32106,6 +32188,9 @@ stock CreatePickups() {
 	CreateDynamicPickup(3632,23,-2193.4939,-234.2975,35.2970,0,0);//[нефть] пікап бочки
 	CreateDynamicPickup(19131,23,2357.3328,-2023.5265,13.8836); // чорний ринок пікап
 	
+	CreateDynamicPickup(19135,23,1763.6942,-1887.8494,13.5547); //лотерея
+	CreateDynamic3DTextLabel("{FEFF91}Державна лотерея\n\n"W"Для взаємодії натисніть {FEFF91}ALT",0xFFFFFFFF,1763.6942,-1887.8494,13.5547,5.0);
+
 	CreateDynamicPickup(19134,23,2292.8179,-1786.3413,13.5469); // пікап заезда в гараж квартир
 	CreateDynamicPickup(19134,23,855.7083,-1662.6046,13.5547); // пікап заезда в гараж квартир
 	CreateDynamicPickup(19135,23,2488.0916,-1463.9087,24.0205); // пікап сдачи автомобилей
@@ -34792,6 +34877,16 @@ stock PayDay() {
 	pay_realty();
 	UpdateFraction(fWHITEHOUSE,"Bank",FI[fWHITEHOUSE][fBank]);
 	if(bank_vzlom[3] > 0) bank_vzlom[3]--;
+
+	if(h == 18)
+	{
+		SetTimer("LottoInf2", 1000*20, false);
+	}
+	else
+	{
+		SetTimer("LottoInf", 1000*60*5, false);
+	}
+
 	return 1;
 }
 stock split(const strsrc[], strdest[][], delimiter) {
@@ -38220,14 +38315,24 @@ CMD:testleaders(playerid) {
 		//if(PI[i][pLeader] != 0) continue; 
 		if(PI[i][pRank] < FI[PI[i][pMember]][fMaxRang]) continue;
 		//if(PI[i][pAdmin]) continue;
-		format(string, sizeof(string), "%s"G"%s [%d] - [т. %d] - %s %s\n", string, player_name[i], i,PI[i][pPhone], FI[PI[i][pMember]][fName],TI[i][tAFK]>=3?("{ffa800}[AFK]"):(""));
+		//format(string, sizeof(string), "%s"G"%s [%d] - [т. %d] - %s %s\n", string, player_name[i], i,PI[i][pPhone], FI[PI[i][pMember]][fName],TI[i][tAFK]>=3?("{ffa800}[AFK]"):(""));
+		format(string, sizeof(string), "%s"W"%s\t"W"%s[%d]\t"W"т. %d %s\n", string, FI[PI[i][pMember]][fName], player_name[i], i,PI[i][pPhone],TI[i][tAFK]>=3?("{ffa800}[AFK]"):(""));
 		countleader++;
 	}
 	if(countleader > 0) {
-		format(string, sizeof(string), "%s\n"ORANGE"В мережі %i лідерів", string,countleader);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Лідери організацій",string, "Закрити", "");
+		new stringd[128];
+		format(stringd, sizeof(stringd), ""W"Фракція\t"W"Лідер\t"W"Номер\n");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, stringd ,string, "Закрити", "");
 	}
 	else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Лідери організацій",""W"Немає лідерів у мережі", "Закрити", "");
+	return 1;
+}
+CMD:lottoinf(playerid){
+	LottoInf();
+	return 1;
+}
+CMD:lottoinf2(playerid){
+	LottoInf2();
 	return 1;
 }
 CMD:subleaders(playerid) {
@@ -40451,6 +40556,15 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					}
 				}
 			}
+		}
+	}
+	if(newkeys == KEY_WALK)
+	{
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1763.6942,-1887.8494,13.5547))
+		{
+			new lotto[256];
+			format(lotto, sizeof(lotto),"{4362AF}1."W" Купити білет - %dр\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
+			ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", lotto ,"Далі","Вихід");
 		}
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
@@ -45710,7 +45824,7 @@ CB: load_account(playerid) {
 			PI[playerid][pJailTime] = 60*60;
 			PlayerSpawn(playerid);
 			new query[64];
-			mysql_format(connects, query, sizeof(query),"UPDATE `business` SET `bank`='%d' WHERE `id` = '64'",gBusiness[bint][bizzBank]);
+			mysql_format(connects, query, sizeof(query),"UPDATE `business` SET `pBank`='%d' WHERE `id` = '64'",gBusiness[bint][bizzBank]);
 			mysql_tquery(connects, query,"","");
 			PI[playerid][pCreditDay] = 0;
 			PI[playerid][pCredit] = 0;
@@ -45902,7 +46016,7 @@ stock UpdateHotelData(id,const field[],data){
 }
 stock SaveBusiness(bint) {
 	new query[512];
-	mysql_format(connects, query, sizeof(query),"UPDATE `business` SET `owner` = '%s', `bank`='%d',`visitors`='%d', `price`='%d', `product`='%d', `order`='%d', `orderprice`='%d', `procent`='%d' WHERE `id` = '%d'",
+	mysql_format(connects, query, sizeof(query),"UPDATE `business` SET `owner` = '%s', `pBank`='%d',`visitors`='%d', `price`='%d', `product`='%d', `order`='%d', `orderprice`='%d', `procent`='%d' WHERE `id` = '%d'",
 	gBusiness[bint][bizzOwner],
 	gBusiness[bint][bizzBank],
 	gBusiness[bint][bizzVisitors],
@@ -66705,10 +66819,10 @@ stock EndTrade(playerid) {
 		strmid(Market[id][m_owner], "None", 0, 24);
 		Market[id][m_arenda] = 0;
 	}
-	mysql_format(connects, string, sizeof(string),"SELECT * FROM `market` WHERE `Name` = '%s'",player_name[playerid]);
-	mysql_tquery(connects, string, "", "");
-	new rows;
-	cache_get_row_count(rows);
+	format(string, sizeof(string),"SELECT * FROM `market` WHERE `Name` = '%s'",player_name[playerid]);
+	mysql_query(connects, string);
+	new rows =cache_num_rows();
+
 	if(rows) {
 		for(new i; i < rows; i ++)
 		{
@@ -66716,13 +66830,13 @@ stock EndTrade(playerid) {
 			cache_get_value_name_int(i,"item", market_item[playerid][i]);
 			cache_get_value_name_int(i,"ammout", market_ammout[playerid][i]);
 
-			//new p = GetPVarInt(playerid,"p_id");
 			AddItem(playerid, market_item[playerid][i], market_ammout[playerid][i]);
-			new sstring[120];
-			mysql_format(connects, sstring, sizeof(sstring),"DELETE FROM `market` WHERE `id` = '%i'",i);
-			mysql_tquery(connects, sstring, "", "");
+
+			format(string, sizeof(string),"DELETE FROM `market` WHERE `Name` = '%s'",player_name[playerid]);
+			mysql_query(connects, string);
 		}
 	}
+	//cache_delete(result);
 
 	PI[playerid][pPalatka] = 0;
 	return 1;
@@ -67840,26 +67954,210 @@ stock GiveDiscordRoleForPlayer(playerid)
 			Role = DCC_FindRoleById("1030907761111859280");
 			DCC_AddGuildMemberRole(Server, user, Role);
 		}
-		case 9: //Лікарня м. ЛС
+		case 9: //Лікарня м. SF
 		{
 			Role = DCC_FindRoleById("1030907761111859280");
 			DCC_AddGuildMemberRole(Server, user, Role);
 		}
-		case 10: //Лікарня м. ЛС
+		case 10: //Лікарня м. LV
 		{
 			Role = DCC_FindRoleById("1030907761111859280");
 			DCC_AddGuildMemberRole(Server, user, Role);
 		}
-		case 11: //Лікарня м. ЛС
+		case 11: //LS News
 		{
 			Role = DCC_FindRoleById("1030907761111859280");
 			DCC_AddGuildMemberRole(Server, user, Role);
 		}
-		case 12: //Лікарня м. ЛС
+		case 12: //SF News
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 13: //LV News
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 14: //Instructors
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 15: //LCN
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 16: //Yakuza
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 17: //Columbian Mafia
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 18: //Ballas
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 19: //Vagos
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 20: //Grove
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}	
+		case 21: //Aztec
+		{
+			Role = DCC_FindRoleById("1030907761111859280");
+			DCC_AddGuildMemberRole(Server, user, Role);
+		}
+		case 22: //Rifa
 		{
 			Role = DCC_FindRoleById("1030907761111859280");
 			DCC_AddGuildMemberRole(Server, user, Role);
 		}
 	}
+	return 1;
+}
+
+new lottery_map;
+LotteryMap()
+{
+	lottery_map = CreateDynamicObject(19477, 1763.573242, -1886.990723, 15.011596, -0.000022, 0.000000, -89.999931, -1, -1);
+	SetDynamicObjectMaterialText(lottery_map, 0, "ЛОТЕРЕЯ", 130, "Ariel", 44, 1, 0xFF2356A1, 0, 1);
+	lottery_map = CreateDynamicObject(19939, 1763.611084, -1886.969727, 14.971588, -0.000015, 270.000000, -89.999962, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 0, 3096, "bbpcpx", "blugrad32", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(19939, 1763.611084, -1886.969727, 15.051588, -0.000015, 270.000000, -89.999962, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 0, 3096, "bbpcpx", "blugrad32", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(19939, 1763.571045, -1886.971680, 15.011589, -0.000015, 270.000000, -89.999962, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 0, 3980, "cityhall_lan", "LAcityhwal1", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(19939, 1763.531006, -1886.969727, 14.971588, -0.000015, 270.000000, -89.999962, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 0, 3096, "bbpcpx", "blugrad32", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(19939, 1763.531006, -1886.968750, 15.051588, -0.000015, 270.000000, -89.999962, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 0, 3096, "bbpcpx", "blugrad32", 0xFFFFFFFF);
+	CreateDynamicObject(2911, 1765.361328, -1886.069092, 12.561580, 0.000022, 0.000000, 89.999931, -1, -1);
+	lottery_map = CreateDynamicObject(1571, 1763.385742, -1885.858765, 13.641586, 0.000000, 0.000022, 0.000000, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 2, 3096, "bbpcpx", "blugrad32", 0);
+	SetDynamicObjectMaterial(lottery_map, 1, 3603, "bevmans01_la", "hottop5d_law", 0);
+	lottery_map = CreateDynamicObject(2493, 1761.920410, -1886.255005, 13.921596, 0.000022, 0.000000, 89.999931, -1, -1);
+	lottery_map = CreateDynamicObject(1571, 1763.385742, -1885.858765, 11.301586, 0.000000, 0.000022, 0.000000, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 2, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(lottery_map, 1, 14534, "ab_wooziea", "walp72S", 0);
+	SetDynamicObjectMaterial(lottery_map, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(19825, 1763.571289, -1885.581909, 14.907428, 89.999992, 180.000015, -89.999969, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 0, 10811, "airportbits_sfse", "ap_fuel4", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(2494, 1761.916138, -1885.548340, 13.917434, 0.000022, 0.000000, 89.999931, -1, -1);
+	lottery_map = CreateDynamicObject(2581, 1763.565186, -1884.496826, 12.818475, -0.000000, 0.000022, -0.000000, -1, -1);
+	SetDynamicObjectMaterial(lottery_map, 3, 3116, "kei_wnchx", "trilby04", 0);
+	SetDynamicObjectMaterial(lottery_map, 1, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(lottery_map, 0, 3116, "kei_wnchx", "trilby04", 0xFFFFFFFF);
+	lottery_map = CreateDynamicObject(2493, 1761.920410, -1884.874756, 13.921596, 0.000022, 0.000000, 89.999931, -1, -1);
+}
+
+
+forward LottoInf2();
+public LottoInf2()
+{
+	new String1024[1024];
+	format(String1024, sizeof(String1024), "SELECT `bilet`,`money` FROM `lotto` WHERE `id` = '1'" );
+	new Cache:rdd = mysql_query(connects, String1024);
+	new lotom;
+	new lotonum;
+	if(cache_num_rows()) {
+		cache_get_value_index_int(0,0,lotonum);
+		cache_get_value_index_int(0,1,lotom);
+	}
+	cache_delete(rdd);
+	new winn = 1+random(lotonum);
+	format(String1024, sizeof(String1024), "SELECT `id` FROM `lottob` WHERE `lotto` = '%d'", winn);
+	new Cache:r = mysql_query(connects, String1024);
+	if(cache_num_rows())
+	{
+		new PID;
+		cache_get_value_index_int(0,0,PID);
+		new pppname[24];
+		new String256[256];
+		new String256f[256];
+	   	format(String256, sizeof(String256), "SELECT `Name` FROM `accounts` WHERE `id` = '%d'", PID);
+	   	new Cache:zr = mysql_query(connects, String256);
+		if(cache_num_rows())
+		{
+			cache_get_value_name(0, "Name", pppname);
+			format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Номер {758AA8}%d (%s)"W" виграв в лотерею. Сума виграшу склала: {76D35D}%d$"W"",winn,pppname,lotom);
+			SendClientMessageToAll(-1, String256);
+			new to_break;
+			foreach(new i: Player)
+			{
+				if(PI[i][pID] == PID)
+				{
+					PI[i][pBank] += lotom;
+					to_break = 1;
+				   	format(String256f,sizeof(String256f),"UPDATE `accounts` SET `pBank` = '%d' WHERE `id` = '%i'", PI[i][pBank], PID);
+				   	mysql_query(connects, String256f);
+				   	SendInfo(i, "Виграш було переведено на Ваш банківський рахунок");
+					break;
+				}
+			}
+			if(!to_break)
+			{
+			   	format(String256f,sizeof(String256f),"UPDATE `accounts` SET `pBank` = bank + %i WHERE `id` = '%i'", lotom, PID);
+			   	mysql_query(connects, String256f);
+			}
+			lotom = 0;
+			lotonum = 0;
+			new String512[512];
+			format(String512,sizeof(String512),"UPDATE `lotto` SET `money` = '%d', `bilet` = '%d' WHERE `id` = '1'", lotom,lotonum );
+			mysql_query(connects, String512);
+			format(String256,sizeof(String256),"DELETE FROM `lottob`");
+			mysql_query(connects, String256);
+
+		}
+		else
+		{
+			format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Випав номер {758AA8}%d"W", переможця не визначено.",winn);
+			SendClientMessageToAll(-1, String256);
+			format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Сума в розмірі {76D35D}%dр"W" переноситься на наступний розіграш.",lotom);
+			SendClientMessageToAll(-1, String256);
+		}
+		cache_delete(zr);
+
+	}
+	else
+	{
+		new String256[256];
+		format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Випав номер {758AA8}%d"W", переможця не визначено.",winn);
+		SendClientMessageToAll(-1, String256);
+		format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Сума в розмірі {76D35D}%dр"W" переноситься на наступний розіграш.",lotom);
+		SendClientMessageToAll(-1, String256);
+	}
+	cache_delete(r);
+	return 1;
+}
+
+forward LottoInf();
+public LottoInf()
+{
+	new String1024[1024];
+	format(String1024, sizeof(String1024), "SELECT `bilet`,`money` FROM `lotto` WHERE `id` = '1'");
+	new Cache:rdd = mysql_query(connects, String1024);
+	new lotom;
+	if(cache_num_rows()) {
+		cache_get_value_index_int(0,1,lotom);
+	}
+	cache_delete(rdd);
+
+	new String256[256];
+	SendClientMessageToAll(0xFFFFFFFF, "{FEFF91}Державна Лотерея"W": Шановні жителі штату, Вам необхідний всього один крок до багатства!");
+	SendClientMessageToAll(0xFFFFFFFF, "{FEFF91}Державна Лотерея"W": Беріть участь в Державній Лотереї, купляйте квиток у найближчому кіоску!");
+	format(String256,sizeof(String256),"{FEFF91}Державна Лотерея"W": Призовий фонд лотереї: {76D35D}%d долларів.",lotom);
+	SendClientMessageToAll(0xFFFFFFFF, String256);
 	return 1;
 }

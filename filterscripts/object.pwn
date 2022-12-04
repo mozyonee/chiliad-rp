@@ -1,11 +1,12 @@
 #include <a_samp>
 #include <streamer>
 
-public  OnGameModeInit()
+public OnGameModeInit()
 {
 	LSPDExterior();
 	LSFDExterior();
     CPExterior();
+    LSFDInterior();
 	return 1;
 }
 

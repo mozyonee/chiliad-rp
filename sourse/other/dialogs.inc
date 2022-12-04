@@ -44,6 +44,8 @@ enum dialogs {
 	dDiscordLink,
 	dDiscordLink_2,
 	dDiscordUnlink,
+	dLotto,
+	dLotto2,
 	
 	OGLOC_MAIN,
 	OGLOC_BUY_1,
