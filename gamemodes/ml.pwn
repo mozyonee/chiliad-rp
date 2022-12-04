@@ -126,7 +126,7 @@ native 		IsValidVehicle(vehicleid);
 #define 	MAX_HOUSE_COUNT 						437 //Кількість будинків
 #define 	FAMILY_COUNT 							500	//Кількість сімей
 #define 	SHOP_OBJECTS 							12	//Кількість предметів в 24/7
-#define 	BINT_COUNT 								30	//Кількість Інтер'єров бізнесів
+#define 	BINT_COUNT 								32	//Кількість Інтер'єров бізнесів
 #define 	MAX_BUSINESS_COUNT 						65	//Кількість бізнесів
 #define 	MAX_CARS_COUNT 							171	//Кількість гос.машин
 #define 	MAX_APARTMENT 						    32	//Кількість кватир
@@ -11349,9 +11349,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new bizz = PI[playerid][pBusiness]-1,oplata, day;
 					//oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/100);
 					if(gBusiness[bizz][bizzUpgrade][2] == 1) {
-						oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/50); 
+						oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/100); 
 					}
-					else oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/100);
+					else oplata = floatround(gBusiness[bizz][bizzSellPrice]*0.1/50);
 					day = (gBusiness[bizz][bizzDay]-gettime())/86400;
 					static const f_str[] = "\n\n"W"Бізнес:"P" %s\n\n"W"Введіть кількість днів, на яку ви хочете продовжити оренду бізнесу:\nПримітка: "ORANGE"1"W" день = "GREEN"$%d"W" | Оплачено на "P"%d"W" днів\n\n";
 					new string[sizeof(f_str) +1 + (-2 + 30)];
@@ -18024,35 +18024,35 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[playerid][pJob] == listitem) return SendError(playerid, "Ви вже влаштовані на цю роботу.");
 			switch(listitem) {
 				case 1: {
-						if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
+						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						PI[playerid][pJob] = 1;
 					}
 				case 2: {
-						if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
+						//if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
 						PI[playerid][pJob] = 2;
 					}
 				case 3: {
-						if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
+						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						PI[playerid][pJob] = 3;
 					}
 				case 4: {
-						if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
+						//if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
 						PI[playerid][pJob] = 4;
 					}
 				case 5: {
-						if(PI[playerid][pLevel] < 4) return SendError(playerid, "Доступно з 4 рівня.");
+						//if(PI[playerid][pLevel] < 4) return SendError(playerid, "Доступно з 4 рівня.");
 						PI[playerid][pJob] = 5;
 					}
 				case 6: {
-						if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
+						//if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
 						PI[playerid][pJob] = 6;
 					}
 				case 7: {
-						if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
+						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						PI[playerid][pJob] = 7;
 					}
 				case 8: {
-						if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
+						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						if(IsAGang(playerid)) return SendError(playerid, "Ви знаходитеся в банді. Вам не можна тут працювати.");
 						PI[playerid][pJob] = 8;
 					}
@@ -21328,8 +21328,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new amount = strval(inputtext);
 			new bizid = PI[playerid][pBusiness] - 1,oplata;
 			if(gBusiness[bizid][bizzUpgrade][2] == 1) {
-				oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/50); }
-				else oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/100);
+				oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/100); }
+				else oplata = floatround(gBusiness[bizid][bizzSellPrice]*0.1/50);
 			new day;
 			day = (gBusiness[bizid][bizzDay]-gettime())/86400;
 			if(amount < 1 || amount > 20) {
@@ -27494,7 +27494,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				}
 				else ShowPlayerDialog(playerid,D_JOB_INC,DSM,""P"Робота інкасатора",""W"Ви хочете завершити робочий день?", "Так", "Ні");
 			}
-		case 1: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\t"W"Необхідний рівень\n"P"1."W" Водій автобуса\t2 рівень\n"P"2."W" Механік\t3 рівень\n"P"3."W" Розвізник продуктів та палива\t2 рівень\n"P"4."W" Розвізник їжі\t3 рівень\n"P"5."W" Мийщик доріг\t4 рівень\n"P"6."W" Чистильник каналізацій\t3 рівень\n"P"7."W" Таксист\t2 рівень\n"P"8."W" Інкасатор\t2 рівень\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
+		case 1: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\n"P"1."W" Водій автобуса\n"P"2."W" Механік\n"P"3."W" Розвізник продуктів та палива\n"P"4."W" Розвізник їжі\n"P"5."W" Мийщик доріг\n"P"6."W" Чистильник каналізацій\n"P"7."W" Таксист\n"P"8."W" Інкасатор\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
 		case 2: {
 				new price_car,price_boat,price_air;
 				price_car = 500;
@@ -38209,6 +38209,25 @@ CMD:leaders(playerid) {
 	}
 	format(string, sizeof(string), "%s\n"ORANGE"В мережі %i лідерів", string,countleader);
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, ""P"Лідери організацій",string, "Закрити", "");
+	return 1;
+}
+CMD:testleaders(playerid) {
+	new countleader = 0;
+	new string[1650];
+	foreach(new i:Player) {
+		if(!TI[i][tLogin]) continue;
+		if(PI[i][pMember] == 0) continue;
+		//if(PI[i][pLeader] != 0) continue; 
+		if(PI[i][pRank] < FI[PI[i][pMember]][fMaxRang]) continue;
+		//if(PI[i][pAdmin]) continue;
+		format(string, sizeof(string), "%s"G"%s [%d] - [т. %d] - %s %s\n", string, player_name[i], i,PI[i][pPhone], FI[PI[i][pMember]][fName],TI[i][tAFK]>=3?("{ffa800}[AFK]"):(""));
+		countleader++;
+	}
+	if(countleader > 0) {
+		format(string, sizeof(string), "%s\n"ORANGE"В мережі %i лідерів", string,countleader);
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Лідери організацій",string, "Закрити", "");
+	}
+	else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Лідери організацій",""W"Немає лідерів у мережі", "Закрити", "");
 	return 1;
 }
 CMD:subleaders(playerid) {
@@ -65335,6 +65354,7 @@ CMD:contstart(playerid) {
 }
 CMD:garagestart(playerid){
 	if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
+	if(open_zg == 1) return SendError(playerid, "Аукціон гаражів вже запущено.");
 	SendClientMessageToAll(-1, ""P"[Аукціон гаражів]"W" Через 10 хвилин можна буде придбати закинуті гаражі. (/gps > Розваги > Аукціон гаражів)");
 	open_zg_time = 600;
 	open_zg = 1;
@@ -66696,7 +66716,7 @@ stock EndTrade(playerid) {
 			cache_get_value_name_int(i,"item", market_item[playerid][i]);
 			cache_get_value_name_int(i,"ammout", market_ammout[playerid][i]);
 
-			new p = GetPVarInt(playerid,"p_id");
+			//new p = GetPVarInt(playerid,"p_id");
 			AddItem(playerid, market_item[playerid][i], market_ammout[playerid][i]);
 			new sstring[120];
 			mysql_format(connects, sstring, sizeof(sstring),"DELETE FROM `market` WHERE `id` = '%i'",i);
