@@ -11576,7 +11576,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetPVarInt(playerid,"end_quest",num);
 					strcat(STRING_GLOBAL,"{C34D45}Скасувати поточний квест");
 					if(num) ShowPlayerDialog(playerid,D_QUEST_2,DSL,""P"Квест",STRING_GLOBAL,"Обрати","Скасувати");
-					else SendError(playerid, "Активних квестівих ліній не знайдено");
+					else SendError(playerid, "Активних квестових ліній не знайдено");
 				}
 			case 1: {
 					SendOK(playerid,"Взяти квест можна на вокзалі в Лукаса"NO" (відмічено на карті червоної міткою)");
@@ -16017,7 +16017,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				format(String64,sizeof(String64),"Ви купили лотерейний білет з номером {4362AF}%d",lotonum);
 				SendOK(playerid, String64);
 				new String256[256];
-				format(String256, sizeof(String256),"{4362AF}1."W" Купити білет - %dр\n{4362AF}2."W" Подивитися свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
+				format(String256, sizeof(String256),"{4362AF}1."W" Купити білет - %d$\n{4362AF}2."W" Подивитися свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
 				ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", String256 ,"Далі","Вихід");
 
 			}
@@ -31297,7 +31297,8 @@ public OnGameModeInit() {
 	AddPlayerClass(36, 0.0, 0.0, 5.0, 0.0, 0, 0, 0, 0, 0, 0);
 	new hor, m, s; 
 	gettime(hor, m, s);
-    SetTimer("min_timer", 60000, 1);
+    //SetTimer("min_timer", 60000, 1);
+    SetTimer("hour_timer", 3600000 ,1);
 	load_vehicles();
 	CreateVehicless();
 	CreatePickups();
@@ -40563,7 +40564,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1763.6942,-1887.8494,13.5547))
 		{
 			new lotto[256];
-			format(lotto, sizeof(lotto),"{4362AF}1."W" Купити білет - %dр\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
+			format(lotto, sizeof(lotto),"{4362AF}1."W" Купити білет - %d$\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
 			ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", lotto ,"Далі","Вихід");
 		}
 	}
@@ -45841,7 +45842,7 @@ CB: load_account(playerid) {
 	}
 	GetPlayerIp(playerid,player_ip_check[playerid],16);
 	
-	ReloadAllAnims(playerid);
+	//ReloadAllAnims(playerid);
 	
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[playerid]);
@@ -59885,7 +59886,12 @@ IPacket:UNOCCUPIED_SYNC(playerid, BitStream:bs)
 }
 stock A_SetPlayerSkin(playerid,skin) {
 	SetPlayerSkin(playerid,skin);
-	for(new i=0; i < 10; i++) if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+	for(new i=0; i < 10; i++) {
+		if(IsPlayerAttachedObjectSlotUsed(playerid, i))
+		{
+			RemovePlayerAttachedObject(playerid, i);
+		}
+	}
 	for(new i = 0; i < 8; i++) {
 		if(!PI[playerid][pSlotItem][i]) continue;
 		AtachPlayerAcces(playerid, PI[playerid][pSlotItem][i],GetPlayerSkin(playerid));
@@ -65227,7 +65233,7 @@ CB:OnGameModeUpdate() {
 		SendClientMessageToAll(COLOR_WHITE, CHAT_GLOBAL);
 		PayDay();
 	}
-	if(tmpminute == 13 && tmpsecond == 0 || tmpminute == 45 && tmpsecond == 0) SendClientMessageToAll(COLOR_WHITE, ""P"[Інформація]"W" Щоб переглянути список доступних вакансій, введіть "P"/vacancy"W".");
+	//if(tmpminute == 13 && tmpsecond == 0 || tmpminute == 45 && tmpsecond == 0) SendClientMessageToAll(COLOR_WHITE, ""P"[Інформація]"W" Щоб переглянути список доступних вакансій, введіть "P"/vacancy"W".");
 	
 	second_timer();
 	if (++GlobalTimer_1MIN >= (1 * 60)) {
@@ -68159,5 +68165,12 @@ public LottoInf()
 	SendClientMessageToAll(0xFFFFFFFF, "{FEFF91}Державна Лотерея"W": Беріть участь в Державній Лотереї, купляйте квиток у найближчому кіоску!");
 	format(String256,sizeof(String256),"{FEFF91}Державна Лотерея"W": Призовий фонд лотереї: {76D35D}%d долларів.",lotom);
 	SendClientMessageToAll(0xFFFFFFFF, String256);
+	return 1;
+}
+
+forward hour_timer();
+public hour_timer()
+{
+	SendClientMessageToAll(COLOR_WHITE, ""P"[Інформація]"W" Щоб переглянути список доступних вакансій, введіть "P"/vacancy"W".");
 	return 1;
 }
