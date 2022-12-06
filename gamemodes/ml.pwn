@@ -5349,7 +5349,7 @@ new TeleportPickup[sizeof(gTeleportsToD)] = {-1, ...};
 new Float:gPickup[PICKUPS_COUNT][3] ={// saneka
 	/*0*/{-1140.0588,28.7084,1169.5699},// інкасатор
 	/*1*/{-196.5150,-33.0343,1011.1747},// центр зайнятості влаштування
-	/*2*/{8.0855,-75.5049,1026.4089},// АШ купівля ліцензій
+	/*2*/{51.0478,-3.8024,1225.5107},// автосалон пікап купівлі
 	/*3*/{1999.4419,1342.7190,878.4910},// купівля будинку на колесах
 	/*4*/{2208.7278,-2529.0493,13.5469},// роздягальня утилізація смяття
 	/*5*/{1680.8625,406.1147,30.6469},// робота на будівництві
@@ -5523,7 +5523,7 @@ enum pick3dtext {
 new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE},//0
 	{"Працевлаштування",COLOR_WHITE},//1
-	{"Купівля ліцензій",COLOR_WHITE},//2
+	{"Придбати автомобіль",COLOR_WHITE},//2
 	{"Будинок на колесах",COLOR_WHITE},//3
 	{"Роздягальня",COLOR_WHITE},//4
 	{"Роздягальня",COLOR_WHITE},//5
@@ -6040,7 +6040,7 @@ new RankName[MAX_FRACTIONS][15][24];
 #define house_rent 	0.001
 #define hotel_rent 	0.003
 #define bizz_rent 	0.002
-new Nalog[8];
+new Nalog[10];
 enum fgarage{
 	gGID,
 	gOwnerID,
@@ -16619,7 +16619,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							strcat(string,""P"/rb"W" - ООС рація\n");
 							strcat(string,""P"/d"W" - рація держ. департаменту\n");
 							strcat(string,""P"/db"W" - ООС рація держ. департаменту\n");
-							strcat(string,""P"/lmayor"W" - керування штатом\n");
+							strcat(string,""P"/economy"W" - керування економікою штату\n");
 							strcat(string,""P"/members"W" - подивитися онлайн фракції\n");
 							strcat(string,""P"/gnews"W" - держ. новини\n");
 							strcat(string, ""P"/free"W" - випустить з в'язниці\n");
@@ -18152,7 +18152,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 8: jtext  = "Інкасатором"; }
 			format(string, sizeof(string), "Ви працевлаштувалися %s.", jtext);
 			SendOK(playerid, string);
-			SendInfo(playerid,"Для перегляду доступних команд, введіть "P"/menu"W". (Команди сервера > По роботі)");
+			SendHint(playerid,"Для перегляду доступних команд, введіть "P"/menu"W". (Команди сервера > По роботі)");
 		}
 	case D_FARM: {
 			if(!response) return 1;
@@ -24125,10 +24125,94 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					ShowPlayerDialog(playerid,D_ECONOMY_CAR,DSI, ""P"Податок на транспорт.",string,"Прийняти", "Назад");
 				}
 			case 6:  ShowPlayerDialog(playerid,D_ECONOMY_PUT_MENU,DSL,""P"Казна.","Покласти гроші в казну\nЗняти гроші з казни","Обрати", "Скасувати");
+			case 7:  ShowPlayerDialog(playerid,D_ECONOMY_LICENSES,DIALOG_STYLE_LIST, ""P"Ліцензії",""P"1."W"Ліцензія на наземний транспорт\n"P"2."W"Ліцензія на польоти\n"P"3."W"Ліцензія на водний транспорт","Обрати","Скасувати");
 			case 55: ShowPlayerDialog(playerid,D_ECONOMY_PUT,DSI,""P"Керування штатом.","\n\n"W"Укажіть суму, на яку хочете поповнити казну штата\n\n","Поповнити", "Скасувати");
 			case 56: ShowPlayerDialog(playerid,D_ECONOMY_INPUT,DSI,""P"Керування штатом.","\n\n"W"Укажіть суму, яку хочете зняти з казни штата\n\n","Зняти", "Скасувати");
 			}
 		}
+	case D_ECONOMY_LICENSES:{
+		if(!response) return 1;
+		switch(listitem){
+			case 0:{
+				static const f_str[] = ""W"Зараз вартість ліцензії на наземний транспорт складає: "P"%d%%\n\
+				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"500$"G", максимум - "GREEN"2500$"G")";
+				new string[sizeof(f_str) +1 + (-2 + 3)];
+				format(string,sizeof(string),f_str,Nalog[7]);
+				ShowPlayerDialog(playerid,D_ECONOMY_LICENSE_CAR,DSI, ""P"Ліцензія на наземний транспорт",string,"Прийняти", "Назад");
+			}
+			case 1:{
+				static const f_str[] = ""W"Зараз вартість ліцензії на польоти складає: "P"%d%%\n\
+				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
+				new string[sizeof(f_str) +1 + (-2 + 3)];
+				format(string,sizeof(string),f_str,Nalog[7]);
+				ShowPlayerDialog(playerid,D_ECONOMY_LICENSE_AIR,DSI, ""P"Ліцензія на польоти",string,"Прийняти", "Назад");
+			}
+			case 2:{
+				static const f_str[] = ""W"Зараз вартість ліцензії на водний транспорт складає: "P"%d%%\n\
+				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
+				new string[sizeof(f_str) +1 + (-2 + 3)];
+				format(string,sizeof(string),f_str,Nalog[7]);
+				ShowPlayerDialog(playerid,D_ECONOMY_LICENSE_BOAT,DSI, ""P"Ліцензія на водний транспорт",string,"Прийняти", "Назад");
+			}
+		}
+	}
+	case D_ECONOMY_LICENSE_CAR: {
+			if(!response) return dialog_mayor(playerid);
+			if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
+			new price = strval(inputtext);
+			if(price < 500 || price > 2500) {
+				static const f_str[] = ""W"Зараз вартість ліцензії на наземний транспорт складає: "P"%d%%\n\
+				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"500$"G", максимум - "GREEN"2500$"G")";
+				new string[sizeof(f_str) +1 + (-2 + 3)];
+				format(string,sizeof(string),f_str,Nalog[7]);
+				ShowPlayerDialog(playerid,DIALOG_NONE,DSI, ""P"Ліцензія на наземний транспорт",string,"Прийняти", "Назад");
+				return 1;
+			}
+			Nalog[7] = price;
+			UpdateEconomyData("nalog_7",price);
+			static const f_string[] = "Встановлено нову вартість ліцензії на наземний транспорт: "GREEN"%d$";
+			new str[sizeof(f_string) +1 + (-2 + 4)];
+			format(str,sizeof(str),f_string,Nalog[7]);
+			SendOK(playerid,str);
+	}
+	case D_ECONOMY_LICENSE_AIR: {
+			if(!response) return dialog_mayor(playerid);
+			if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
+			new price = strval(inputtext);
+			if(price < 15000 || price > 25000) {
+				static const f_str[] = ""W"Зараз вартість ліцензії на польоти складає: "P"%d%%\n\
+				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
+				new string[sizeof(f_str) +1 + (-2 + 3)];
+				format(string,sizeof(string),f_str,Nalog[8]);
+				ShowPlayerDialog(playerid,DIALOG_NONE,DSI, ""P"Ліцензія на польоти",string,"Прийняти", "Назад");
+				return 1;
+			}
+			Nalog[8] = price;
+			UpdateEconomyData("nalog_8",price);
+			static const f_string[] = "Встановлено нову вартість ліцензії на польоти: "GREEN"%d$";
+			new str[sizeof(f_string) +1 + (-2 + 4)];
+			format(str,sizeof(str),f_string,Nalog[8]);
+			SendOK(playerid,str);
+	}
+	case D_ECONOMY_LICENSE_BOAT: {
+			if(!response) return dialog_mayor(playerid);
+			if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
+			new price = strval(inputtext);
+			if(price < 15000 || price > 25000) {
+				static const f_str[] = ""W"Зараз вартість ліцензії на водний транспорт складає: "P"%d%%\n\
+				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
+				new string[sizeof(f_str) +1 + (-2 + 3)];
+				format(string,sizeof(string),f_str,Nalog[9]);
+				ShowPlayerDialog(playerid,DIALOG_NONE,DSI, ""P"Ліцензія на водний транспорт",string,"Прийняти", "Назад");
+				return 1;
+			}
+			Nalog[9] = price;
+			UpdateEconomyData("nalog_9",price);
+			static const f_string[] = "Встановлено нову вартість ліцензії на водний транспорт: "GREEN"%d$";
+			new str[sizeof(f_string) +1 + (-2 + 4)];
+			format(str,sizeof(str),f_string,Nalog[9]);
+			SendOK(playerid,str);
+	}
 	case D_ECONOMY_PUT_MENU: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -25963,8 +26047,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			switch(listitem) {
 			case 0: {
 					if(lic[playerid][0]) {
-						format(string,sizeof(string),"%s у вас вже є ця ліцензія.",player_name[playerid]);
+						format(string,sizeof(string),"Шановний %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 						SendBotMessage(playerid,string);
+						SendError(playerid, "Ви вже маєте цю ліцензію.");
 						return 1;
 					}
 					if(PI[playerid][pCash] < 500) {
@@ -27580,7 +27665,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				else ShowPlayerDialog(playerid,D_JOB_INC,DSM,""P"Робота інкасатора",""W"Ви хочете завершити робочий день?", "Так", "Ні");
 			}
 		case 1: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\n"P"1."W" Водій автобуса\n"P"2."W" Механік\n"P"3."W" Розвізник продуктів та палива\n"P"4."W" Розвізник їжі\n"P"5."W" Мийщик доріг\n"P"6."W" Чистильник каналізацій\n"P"7."W" Таксист\n"P"8."W" Інкасатор\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
-		case 2: {
+		/*case 2: {
 				new price_car,price_boat,price_air;
 				price_car = 500;
 				price_air = 15000;
@@ -27588,7 +27673,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				new string[512];
 				format(string,sizeof(string),""P"1."W" Ліцензія на наземний транспорт [%s] - "GREEN"$%d\n"P"2."W" Ліцензія на повітряний транспорт [%s] - "GREEN"$%d\n"P"3."W" Лицензія на водний транспорт [%s] - "ORANGE"$%d",lic[playerid][0] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_car,lic[playerid][1] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_air,lic[playerid][2] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),price_boat,lic[playerid][3] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""));
 				ShowPlayerDialog(playerid,D_LICENSES,DSL,""P"Купівля ліцензій",string, "Купити", "Скасувати");
-			}
+			}*/
 		case 3: {
 				ShowPlayerDialog(playerid,D_TRAILER_BUY,DSM, ""P"Будинок на колесах",""W"\n\nВартість: "GREEN"1.000.000$"W"\n\nУ домі на колесах можна користуватися шкафом, його можна паркувати у зручному місці,\nа также використовувати його, як основное місце проживання\n\nВи дійсно хочете купити"GREEN" будинок на колесах?\n\n", "Купити", "Закрити");
 			}
@@ -27776,7 +27861,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				ShowPlayerDialog(playerid, D_BIZZ_BAR, DSTH, ""P"Меню", string, "Купити", "Скасувати");
 				return 1;
 			}
-		case 875: {
+		case 2: {
 				if(GetPlayerVirtualWorld(playerid) == 59) {
 					ShowPlayerDialog(playerid,D_VIEW_CARS,DSM, ""P"Автосалон",""W"Ласкаво просимо в "P"автосалон спорт класу"W"!\n\nВ нашому автосалоні присутній великий асортимент транспорту\n"W"Ви хочете перейти до вибору транспорту?","Далі","Закрити");
 					SetPVarInt(playerid,"get_class",1);
@@ -30559,7 +30644,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		if(!IsABikeSped(carid)) { 
 			if(thef_car[playerid] != carid)
 			{
-				SendInfo(playerid, "Щоб завести чи заглушити двигун, натисніть "P"LCTRL"W" або введіть "P"/engine"W".");
+				SendHint(playerid, "Щоб завести чи заглушити двигун, натисніть "P"LCTRL"W" або введіть "P"/engine"W".");
 			}
 			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
 			if(engine == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
@@ -32306,6 +32391,8 @@ stock Create3dText() {
 	CreateDynamic3DTextLabel("Вихід:\n"P" ALT",0xFFFFFFFF,1356.3823-0.3,1068.3185,1626.4896+0.5,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Продаж техніки\n1 од = "P"$250\n\n"P" Натисніть 'H'",0xFFFFFFFF,2357.3328,-2023.5265,13.8836,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
+	CreateDynamic3DTextLabel(""P"Працівник Автошколи"W"\nДля взаємодії натисніть 'ALT'",-1,7.9640,-73.9655,1026.4089,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+
 	CreateDynamic3DTextLabel(""P"Склад автомобілів\n"W"Натисніть 'H'",0xFFFFFFFF,2488.0916,-1463.9087,24.0205,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel(""P"Jack Waze"W"\nДля взаємодії натисніть 'ALT'",-1,2493.9104,-1464.7085,24.0253,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
@@ -35076,7 +35163,7 @@ CMD:areferals(playerid, params[]) {
 	mysql_pquery(connects, query, "all_referals", "is", playerid, params);
 	return 1;
 }
-CMD:lmayor(playerid) {
+CMD:economy(playerid) {
 	if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
 	dialog_mayor(playerid);
 	return 1;
@@ -40571,6 +40658,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			format(lotto, sizeof(lotto),"{4362AF}1."W" Купити білет - %d$\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
 			ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", lotto ,"Далі","Вихід");
 		}
+		if(IsPlayerInRangeOfPoint(playerid, 4.0, 7.9640,-73.9655,1026.4089))
+		{
+			new string[512];
+			format(string,sizeof(string),""P"1."W" Ліцензія на наземний транспорт [%s] - "GREEN"$%d\n"P"2."W" Ліцензія на повітряний транспорт [%s] - "GREEN"$%d\n"P"3."W" Ліцензія на водний транспорт [%s] - "GREEN"$%d",lic[playerid][0] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),Nalog[7],lic[playerid][1] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),Nalog[8],lic[playerid][2] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),Nalog[9],lic[playerid][3] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""));
+			ShowPlayerDialog(playerid,D_LICENSES,DSL,""P"Купівля ліцензій",string, "Купити", "Скасувати");
+		}
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
 	 	return pc_cmd_radiocar(playerid);
@@ -43497,6 +43590,9 @@ stock load_economy() {
 		cache_get_value_name_int(0,"nalog_5", Nalog[4]);//процент від доходу бізнесу мафії
 		cache_get_value_name_int(0,"nalog_6", Nalog[5]);//податок при переказі гравцю віртуальної валюти через банк
 		cache_get_value_name_int(0,"nalog_7", Nalog[6]);//20 % від гос. Стоимости будинку і 50% від куплених улучшений (при слёте) – 80 % возвращается гравцю.
+		cache_get_value_name_int(0,"price_car", Nalog[7]);//ціна ліцензії на авто
+		cache_get_value_name_int(0,"price_air", Nalog[8]);//ціна ліцензії на польоти
+		cache_get_value_name_int(0,"price_boat", Nalog[9]);//ціна ліцензії на водний транспорт
 	}
 	cache_delete(result);
 	print("[Завантаження] Економіка успішно завантажно");
@@ -50104,7 +50200,7 @@ CMD:getherecar(playerid, params[]) {
 	GetPlayerPos(playerid,X,Y,Z);
 	SetVehicleVirtualWorld(id,GetPlayerVirtualWorld(playerid));
 	SetVehiclePos(id, X-4, Y, Z+1);
-	format(string,sizeof(string),"Ви телепортували до собе авто. (ID: %d)",id);
+	format(string,sizeof(string),"Ви телепортували до себе авто. (ID: %d)",id);
 	SendOK(playerid,string);
 	return 1;
 }
@@ -50737,7 +50833,7 @@ Float:A,
 	new string[128];
 	format(string, sizeof(string), "Ви були телепортовані адміністратором %s.", player_name[playerid]);
 	SendOK(giveplayerid,string);
-	format(string, sizeof(string), "Ви телепортували %s до собе.", player_name[giveplayerid]);
+	format(string, sizeof(string), "Ви телепортували гравця %s до сбе.", player_name[giveplayerid]);
 	SendOK(playerid,string);
 	return 1;
 }
@@ -53504,8 +53600,9 @@ stock SendBotMessage(playerid, const mesage[])
 			actortime[minA] = 10;
 			id = minA;
 		}
+		ApplyActorAnimation(actor[i],"PED","IDLE_chat",4.1,0,0,0,1,3);
 	}
-	if(strfind(mesage, "\n")==-1) SendClientMessage(playerid, COLOR_WHITE, mesage);
+	//if(strfind(mesage, "\n")==-1) SendClientMessage(playerid, COLOR_WHITE, mesage);
 	return id;
 }
 CB: LoadQuestMysql(playerid) {
@@ -63323,7 +63420,7 @@ stock game_container() {
 		if(open_cont_time == 1)
 		{
 			open_cont = 0;
-			SendClientMessageToAll(-1, ""P"[Контейнери]"W" В порту ЛС почався аукціон за контейнери. (/gps > Розваги > контейнери)");
+			SendClientMessageToAll(-1, ""P"[Контейнери]"W" В порту ЛС почався аукціон за контейнери. (/gps > Розваги > Контейнери)");
 			for(new i = 0; i < MAX_CONTAINER; i++)
 			{
 			    switch(gContainer[i][cClass])
@@ -63394,7 +63491,7 @@ stock game_container() {
 				hour == 20 && minuite == 00 ||
 				hour == 22 && minuite == 00 ||
 				hour == 00 && minuite == 00) && open_cont == 0) {
-		SendClientMessageToAll(-1, ""P"[Контейнери]"W" Через 10 хвилин в порту ЛС пройде аукціон контейнерів. (/gps > Розваги > контейнери)");
+		SendClientMessageToAll(-1, ""P"[Контейнери]"W" Через 10 хвилин в порту ЛС пройде аукціон контейнерів. (/gps > Розваги > Контейнери)");
 		open_cont_time = 600;
 		open_cont = 1;
 	}
@@ -66091,7 +66188,7 @@ CB:LoadProd(playerid)
 }
 dialog_mayor(playerid) return ShowPlayerDialog(playerid,D_ECONOMY,DSL,""P"Керування штатом",""P"1."W" Інформація про фінанси\n"P"2."W" Керування пільгами\
 	\n"P"3."W" Перекази на рахунок організації\n"P"4."W" Податок на нерухомість\n"P"5."W" Податок на бізнес\n"P"6."W" Податок на транспорт\n\
-	"P"7."W" Змінити стан казни","Обрати","Скасувати");
+	"P"7."W" Змінити стан казни\n"P"8."W" Змінити вартість ліцензій","Обрати","Скасувати");
 	
 dialog_bank(playerid) return ShowPlayerDialog(playerid,D_BANK_MENU,DSL,""P"Послуги банку",""P"1."W" Інформація\n"P"2."W" Зняти з рахунку\n"P"3."W" Покласти на рахунок\n"P"4."W" Переказати іншій людині\n"P"5."W" Оплата будинку\n"P"6."W" Оплата бізнесу\n"P"7."W" Оплата будинку на колесах\n"P"8."W" Оплатити штрафи", "Обрати","Закрити");
 stock save_fcar(family, car) {

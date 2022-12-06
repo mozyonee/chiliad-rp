@@ -38,6 +38,9 @@ enum dialogs {
 	dArendatorAction,
 	dArendatorSettings,
 	dRentMenu,
+	D_ECONOMY_LICENSE_CAR,
+	D_ECONOMY_LICENSE_AIR,
+	D_ECONOMY_LICENSE_BOAT,
 
 	dTelegram,
 	dDiscord,
@@ -46,6 +49,7 @@ enum dialogs {
 	dDiscordUnlink,
 	dLotto,
 	dLotto2,
+	D_ECONOMY_LICENSES,
 	
 	OGLOC_MAIN,
 	OGLOC_BUY_1,
