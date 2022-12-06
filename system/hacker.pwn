@@ -555,7 +555,7 @@ stock System32Hacker(playerid, id){
 }
 stock GosCar(vehicleid){
 	switch(VehicleInfo[vehicleid][vTeam]){
-		case fLSPD,fFBI,fRCSO,fMEDICLS,fMEDICSF,fMEDICLV,fARMYLS,fLSNEWS,fSFNEWS,fLVNEWS,fWHITEHOUSE: return 1;
+		case fLSPD,fFBI,fRCSO,fMEDICLS,fMEDICSF,fARMYLS,fLSNEWS,fWHITEHOUSE: return 1;
 	}
 	return 0;
 }

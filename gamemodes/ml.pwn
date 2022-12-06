@@ -146,7 +146,7 @@ native 		IsValidVehicle(vehicleid);
 #define     MAX_CONTAINER                           10
 #define     MAX_SEWER                               10
 #define     MAX_ATM                                 8
-#define 	USUAL_HOSTNAME							"Chiliad Role Play. Los Santos."
+#define 	USUAL_HOSTNAME							"Chiliad Role Play | Los Santos."
 #define 	COLOR_GRAY          					0xAFAFAFAA
 #define     ALKO_MAX                                30
 #define		MAX_GARAGE            					13
@@ -2809,11 +2809,11 @@ new Float:gFractionSpawn[MAX_FRACTIONS][fracspawn] = {//saneka
 	{9,4,0x114D71FF,2048.4553,1737.1294,1026.7609,180.8006},//WhiteHouse
 	{93,20,0xA52A2AFF,2174.6411,578.7777,1080.4542,270.2591}, //Medics Ls
 	{93,21,0xA52A2AFF,4.36,2503.67,4000.97,180.0}, //LSFD
-	{93,22,0xA52A2AFF,2174.6411,578.7777,1080.4542,270.2591}, //Medics Lv
+	//{93,22,0xA52A2AFF,2174.6411,578.7777,1080.4542,270.2591}, //Medics Lv
 	{2,1,0x40848BAA,2826.3652,1091.6660,1052.5673,270.6145}, // LSn
 	{74,11,0x40848BAA,759.5918,-1505.2585,1417.8119,207.1667},//SFn
-	{74,12,0x40848BAA,759.5918,-1505.2585,1417.8119,207.1667},//LVn
-	{3,5,0x139BECFF,-1.9447,-74.6883,1026.4089,269.4837},//Instructors
+	//{74,12,0x40848BAA,759.5918,-1505.2585,1417.8119,207.1667},//LVn
+	//{3,5,0x139BECFF,-1.9447,-74.6883,1026.4089,269.4837},//Instructors
 	{73,49,0xDDA701FF,1394.7969,-17.5138,1005.0829,270.1765},//LCN
 	{73,50,COLOR_REDD,20.4320,-42.7630,2006.0120,178.9022},//Yakuza
 	{73,51,COLOR_GRAD1,1400.3679,-24.3161,1000.9285,358.1112},//RM
@@ -5386,7 +5386,7 @@ new Float:gPickup[PICKUPS_COUNT][3] ={// saneka
 	/*36*/{255.6401,108.7532,1024.3394},// [Роздягальня] Національна гвардія
 	/*37*/{2831.7214,1089.4333,1052.5673},// [Роздягальня] NEWS
 	/*38*/{446.5062,-1950.6898,8.5650},// бар на улице яхт-клуб
-	/*39*/{51.2602,-3.7538,1225.5107},//роздягальня rcso
+	/*39*/{-45.0826,-195.2633,1026.9850},//роздягальня rcso
 	/*40*/{765.9391,11.4027,1000.7066},//[Спорт-Зал] Инфо
 	/*41*/{2050.2842,1735.9808,1026.7609},//[Правительство] Одяг
 	/*42*/{1106.5482,-299.7957,74.5391},//[Лісопильня] Роздягальня
@@ -5517,7 +5517,7 @@ new gPickupData[PICKUPS_COUNT][3] ={//int | world || id
 	{92,92,19130}//81
 };
 enum pick3dtext {
-	picName[64],
+	picName[128],
 	picColor[36]
 }
 new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
@@ -5580,7 +5580,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"None",COLOR_WHITE},//56
 	{"None",COLOR_WHITE},//57
 	{"None",COLOR_WHITE},//58
-	{"Працевлаштування",COLOR_WHITE},//59
+	{"Працевлаштування\nу державні організації\n\n{FEFF91}Список доступних вакансій",COLOR_WHITE},//59
 	{"{d6a200}Ла Коза Ностра\n"W"Допомога гравцю",COLOR_WHITE},//60
 	
 	{"Вхід на парковку",COLOR_WHITE},//61
@@ -6054,7 +6054,7 @@ enum fgarage{
 new FG[MAX_GARAGE][fgarage], Text3D:FGarage[MAX_GARAGE];
 enum _fInfo {
 	fID,
-	fName[50],
+	fName[32],
 	fLeader[MAX_PLAYER_NAME],
 	fAdmin[24],
 	fTime[53],
@@ -6092,10 +6092,10 @@ gFractionSkin[MAX_FRACTIONS][14] = {
 	{255,98,57,163,228,305,304,17,76,147,153,165,187,295}, //MAYOR
 	{276,275,274,70,219,308,0,0,0,0,0,0,0,0}, //MEDICS LS
 	{274,275,276,308,277,278,279,0,0,0,0,0,0,0}, //MEDICS SF
-	{276,275,274,70,219,308,0,0,0,0,0,0,0,0}, //MEDICS LV
+	//{276,275,274,70,219,308,0,0,0,0,0,0,0,0}, //MEDICS LV
 	{188,170,217,261,211,0,0,0,0,0,0,0,0,0}, //LS News
-	{188,170,217,261,211,0,0,0,0,0,0,0,0,0}, //SF News
-	{188,170,217,261,211,0,0,0,0,0,0,0,0,0}, //LV News
+	//{188,170,217,261,211,0,0,0,0,0,0,0,0,0}, //SF News
+	//{188,170,217,261,211,0,0,0,0,0,0,0,0,0}, //LV News
 	{59,185,240,148,9,17,0,0,0,0,0,0,0,0}, //Instructors
 	{124,223,127,113,214,43,46,0,0,0,0,0,0,0}, //LCN
 	{117,118,123,186,120,169,121,294,0,0,0,0,0,0}, //Yakuza
@@ -7058,7 +7058,7 @@ stock IsABikers(playerid) {
 stock IsANews(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
-	case fLSNEWS,fSFNEWS,fLVNEWS: return 1;
+	case fLSNEWS: return 1;
 	}
 	return 0;
 }
@@ -7066,7 +7066,7 @@ stock DollahScoreUpdate(playerid) return SetPlayerScore(playerid, PI[playerid][p
 stock IsAMedic(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
-	case fMEDICLS,fMEDICSF,fMEDICLV: return 1;
+	case fMEDICLS: return 1;
 	}
 	return 0;
 }
@@ -7087,7 +7087,7 @@ stock IsACop(playerid) {
 stock IsAGos(playerid){
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
-	case fLSPD,fFBI,fRCSO,fMEDICLS,fMEDICSF,fMEDICLV,fARMYLS,fLSNEWS,fSFNEWS,fLVNEWS,fWHITEHOUSE: return 1;
+	case fLSPD,fFBI,fRCSO,fMEDICLS,fMEDICSF,fARMYLS,fLSNEWS,fWHITEHOUSE: return 1;
 	}
 	return 0;
 }
@@ -12236,7 +12236,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			"P"3."W" На будівництві за разви можете заробити"P" 1"W" талон\n\
 			"P"4."W" На роботі інкасатора за один разви можете заробити"P" 1"W" талон\n\
 			"P"5."W" Чистильнік каналізай "P" 10 "W" талонів за 15 утилізованих мішків\n\
-			"P"6."W" Прибиральнік вулиць за колови можете заробити "P" 5 "W" талонів\n\
+			"P"6."W" Прибиральнік вулиць за круг можете заробити "P" 5 "W" талонів\n\
 			"P"7."W" Водій автобуса за колови можете заробити "P" 20 "W" талонів\n\
 			"P"8."W" В PAYDAY видається "P"1"W" талон кожному учаснику сім'ї\n\n");
 					ShowPlayerDialog(playerid,DIALOG_NONE,DSM,""P"Інформація про отримання талонів",STRING_GLOBAL,"Закрити","");
@@ -16511,7 +16511,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							}
 						}
 					
-					case fMEDICLS,fMEDICSF,fMEDICLV: {
+					case fMEDICLS: {
 							strcat(string,""P"/r"W" - рація\n");
 							strcat(string,""P"/rb"W" - ООС рація\n");
 							strcat(string,""P"/d"W" - рация держ. департаменту\n");
@@ -16527,7 +16527,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						{
 							strcat(string,""P"/sellic"W" - видати ліцензію\n");
 						}
-					case fLSNEWS,fSFNEWS,fLVNEWS: {
+					case fLSNEWS: {
 							strcat(string,""P"/r"W" - рація\n");
 							strcat(string,""P"/rb"W" - ООС рація\n");
 							strcat(string,""P"/d"W" - рація держ. департаменту\n");
@@ -17075,14 +17075,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							if(calls_news[0] == INVALID_PLAYER_ID) str = "Прийом дзвінків - ["GREEN"Відсутній"W"]";
 							else format(str,sizeof(str),"Прийом дзвінків - ["P"%s]",player_name[calls_news[0]]);
 						}
-					case fSFNEWS: {
+					/*case fSFNEWS: {
 							if(calls_news[1] == INVALID_PLAYER_ID) str = "Прийом дзвінків - ["GREEN"Відсутній"W"]";
 							else format(str,sizeof(str),"Прийом дзвінків - ["P"%s]",player_name[calls_news[1]]);
 						}
 					case fLVNEWS: {
 							if(calls_news[2] == INVALID_PLAYER_ID) str = "Прийом дзвінків - ["GREEN"Відсутній"W"]";
 							else format(str,sizeof(str),"Прийом дзвінків - ["P"%s]",player_name[calls_news[2]]);
-						}
+						}*/
 					}
 					new string[128];
 					format(string,sizeof(string),""W"1. %s\n"W"2. Вартість за дзвінки - ["GREEN"%d"W"]",str,FI[PI[playerid][pMember]][fPrice]);
@@ -17179,8 +17179,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new id = GetPVarInt(playerid,"editadvert");
 			switch(PI[playerid][pMember]) {
 			case fLSNEWS: gAdvert[id][adNews] = "LS";
-			case fSFNEWS: gAdvert[id][adNews] = "SF";
-			case fLVNEWS: gAdvert[id][adNews] = "LV";
+			//case fSFNEWS: gAdvert[id][adNews] = "SF";
+			//case fLVNEWS: gAdvert[id][adNews] = "LV";
 			}
 			if(strlen(inputtext)) format(gAdvert[id][adText],100,"%s",inputtext);
 			format(gAdvert[id][adCheker],24,"%s",player_name[playerid]);
@@ -17227,8 +17227,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new mes[90];
 			format(mes, sizeof mes, "Надійшло нове оголошенння від %s. Щоб відредагувати його, ведіть "P"/edit"W".", gAdvert[slot][adSender]);
 			SendFamilyMessage(fLSNEWS, 0x139BECFF, mes);
-			SendFamilyMessage(fSFNEWS, 0x139BECFF, mes);
-			SendFamilyMessage(fLVNEWS, 0x139BECFF, mes);
+			//SendFamilyMessage(fSFNEWS, 0x139BECFF, mes);
+			//SendFamilyMessage(fLVNEWS, 0x139BECFF, mes);
 			SendOK(playerid,"Оголошення подано у редакцію. Очікуйте перевірки.");
 		}
 	case D_ADMIN_PANEL: {
@@ -17259,10 +17259,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							case fARMYLS: frac_online[fARMYLS] ++;
 							case fMEDICLS: frac_online[fMEDICLS] ++;
 							case fMEDICSF: frac_online[fMEDICSF] ++;
-							case fMEDICLV: frac_online[fMEDICLV] ++;
+							//case fMEDICLV: frac_online[fMEDICLV] ++;
 							case fLSNEWS: frac_online[fLSNEWS] ++;
-							case fSFNEWS: frac_online[fSFNEWS] ++;
-							case fLVNEWS: frac_online[fLVNEWS] ++;
+							//case fSFNEWS: frac_online[fSFNEWS] ++;
+							//case fLVNEWS: frac_online[fLVNEWS] ++;
 							case fINSTRUCTORS: frac_online[fINSTRUCTORS] ++;
 							case fLCN: frac_online[fLCN] ++;
 							case fYAKUZA: frac_online[fYAKUZA] ++;
@@ -17277,14 +17277,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 						static const f_str[] = "Фракція\tГравці\nДепартамент поліції Лос-Сантоса\t%d\nBandidos MC\t%d\nAngels MC\t%d\nФедеральне Бюро Розслідувань\t%d\n\
 														Офіс шерифа округу Ред\t%d\nНаціональна гвардія\t%d\n\
-														Центральна лікарня Всіх Святих\t%d\nПожежна служба Лос-Сантоса\t%d\nЛікарня м. ЛВ\t%d\n\
-														Лос-Сантос Таймс\t%d\nРадіоцентр м. СФ\t%d\nРадіоцентр м. ЛВ\t%d\n\
-														Автошкола\t%d\nКоза Ностра\t%d\nТріада\t%d\n\
+														Центральна лікарня Всіх Святих\t%d\nПожежна служба Лос-Сантоса\t%d\n\
+														Лос-Сантос Таймс\t%d\nАвтошкола\t%d\nКоза Ностра\t%d\nТріада\t%d\n\
 														Медельїнський картель\t%d\nBallas\t%d\nLos Santos Vagos\t%d\n\
 														Grove Street Families\t%d\nVarrios Los Aztecas\t%d\nSan Fierro Rifa\t%d\nУряд\t%d";
 						new string[sizeof(f_str) +1 + (31)];
-						format(string,sizeof(string),f_str,frac_online[fLSPD],frac_online[fBikers],frac_online[fBikersTwo],frac_online[fFBI],frac_online[fRCSO],frac_online[fARMYLS],frac_online[fMEDICLS],frac_online[fMEDICSF],frac_online[fMEDICLV],
-						frac_online[fLSNEWS],frac_online[fSFNEWS],frac_online[fLVNEWS],frac_online[fINSTRUCTORS],frac_online[fLCN],frac_online[fYAKUZA],frac_online[fRM],frac_online[fBALLAS],frac_online[fVAGOS],frac_online[fGROVE],
+						format(string,sizeof(string),f_str,frac_online[fLSPD],frac_online[fBikers],frac_online[fBikersTwo],frac_online[fFBI],frac_online[fRCSO],frac_online[fARMYLS],frac_online[fMEDICLS],frac_online[fMEDICSF],
+						frac_online[fLSNEWS],frac_online[fINSTRUCTORS],frac_online[fLCN],frac_online[fYAKUZA],frac_online[fRM],frac_online[fBALLAS],frac_online[fVAGOS],frac_online[fGROVE],
 						frac_online[fAZTEC],frac_online[fRIFA],frac_online[fWHITEHOUSE]);
 						ShowPlayerDialog(playerid, D_AMEMBERS, DSTH, "Онлайн організацій", string, "Закрити", "");
 						
@@ -17711,12 +17710,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdatePlayerData(ID,"pRank",PI[ID][pRank]);
 			if(PI[ID][pfWarn] > 0) PI[ID][pfWarn] = 0;
 			UpdatePlayerData(ID,"fwarn",PI[ID][pfWarn]);
-			static const f_str[] = "%s назначив вас лідером організації %s.";
+			static const f_str[] = "Адміністратор %s назначив вас лідером організації %s.";
 			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],FI[frac][fName]);
 			SendOK(ID,string);
-			format(string, sizeof(string), "[A] %s[%d] назначив %s[%d] на посаду лідера %s.",player_name[playerid],playerid,player_name[ID],ID,FI[frac][fName]);
+			format(string, sizeof(string), "[A] Адміністратор %s[%d] назначив %s[%d] на посаду лідера %s.",player_name[playerid],playerid,player_name[ID],ID,FI[frac][fName]);
 			AdmMSG(0xAFAFAFAA, string);
 			
 			PI[ID][pFracSkin] = FI[frac][fSkin];
@@ -18097,44 +18096,42 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_JOB: {
 			if(!response) return 1;
 			if(start_work[playerid]) return SendError(playerid, "Необхідно завершити робочий день в організації.");
-			
-			listitem++;
 			if(PI[playerid][pJob] == listitem) return SendError(playerid, "Ви вже влаштовані на цю роботу.");
 			switch(listitem) {
-				case 1: {
+				case 0: {
 						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						PI[playerid][pJob] = 1;
 					}
-				case 2: {
+				case 1: {
 						//if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
 						PI[playerid][pJob] = 2;
 					}
-				case 3: {
+				case 2: {
 						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						PI[playerid][pJob] = 3;
 					}
-				case 4: {
+				case 3: {
 						//if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
 						PI[playerid][pJob] = 4;
 					}
-				case 5: {
+				case 4: {
 						//if(PI[playerid][pLevel] < 4) return SendError(playerid, "Доступно з 4 рівня.");
 						PI[playerid][pJob] = 5;
 					}
-				case 6: {
+				case 5: {
 						//if(PI[playerid][pLevel] < 3) return SendError(playerid, "Доступно з 3 рівня.");
 						PI[playerid][pJob] = 6;
 					}
-				case 7: {
+				case 6: {
 						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						PI[playerid][pJob] = 7;
 					}
-				case 8: {
+				case 7: {
 						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
 						if(IsAGang(playerid)) return SendError(playerid, "Ви знаходитеся в банді. Вам не можна тут працювати.");
 						PI[playerid][pJob] = 8;
 					}
-				case 9: {
+				case 8: {
 						if(!PI[playerid][pJob]) return SendError(playerid, "Ви не влаштовані на роботу.");
 						PI[playerid][pJob] = 0;
 						SendOK(playerid,"Ви звільнилися з роботи.");
@@ -18142,10 +18139,20 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						return 1;
 					}
 			}
-			PI[playerid][pJob] = listitem;
 			UpdatePlayerData(playerid,"pJob",PI[playerid][pJob]);
-			SendOK(playerid,"Ви працевлаштувалися.");
-			SendOK(playerid,"Для перегляду доступних команд, введіть "P"/menu"W". (Команди сервера > По роботі)");
+			new jtext[56], string[128];
+			switch(PI[playerid][pJob]) {
+			case 1: jtext = "Водієм автобуса";
+			case 2: jtext = "Механіком";
+			case 3: jtext = "Розвізником продуктів та палива";
+			case 4: jtext = "Розвізником їжі";
+			case 5: jtext = "Мийником доріг";
+			case 6: jtext = "Чистильником каналізацій";
+			case 7: jtext  = "Таксистом";
+			case 8: jtext  = "Інкасатором"; }
+			format(string, sizeof(string), "Ви працевлаштувалися %s.", jtext);
+			SendOK(playerid, string);
+			SendInfo(playerid,"Для перегляду доступних команд, введіть "P"/menu"W". (Команди сервера > По роботі)");
 		}
 	case D_FARM: {
 			if(!response) return 1;
@@ -23150,7 +23157,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!strlen(inputtext)) return ShowPlayerDialog(playerid,D_LMENU_BANK_INPUT,DSI, ""P"Керування банком фракції","\n\n"W"Введіть суму, яку хочете взяти з банку фракції:\n\n","Взяти","Скасувати");
 			new dengi = strval(inputtext),maxmoney = 0;
 			switch(PI[playerid][pMember]) {
-			case fLSPD, fFBI, fRCSO, fARMYLS, fMEDICLS, fMEDICSF, fMEDICLV, fLSNEWS, fSFNEWS, fLVNEWS, fINSTRUCTORS: maxmoney = 300000;
+			case fLSPD, fFBI, fRCSO, fARMYLS, fMEDICLS, fMEDICSF, fLSNEWS, fINSTRUCTORS: maxmoney = 300000;
 		    case fRM, fBikers, fBikersTwo, fLCN, fYAKUZA, fBALLAS, fVAGOS, fGROVE, fAZTEC, fRIFA: maxmoney = 200000;
 		    case fWHITEHOUSE: maxmoney = 500000;
 			}
@@ -27750,11 +27757,11 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				new vw = GetPlayerVirtualWorld(playerid);
 				if(pick == 34 && vw == 20 && PI[playerid][pMember] != fMEDICLS) return SendError(playerid, "Ви не є працівником Центральної лікарні Всіх Святих.");
 				if(pick == 35 && vw == 21 && PI[playerid][pMember] != fMEDICSF) return SendError(playerid, "Ви не є працівником Пожежної служби Лос-Сантоса.");
-				if(pick == 34 && vw == 22 && PI[playerid][pMember] != fMEDICLV) return SendError(playerid, "Ви не є працівником лікарні м. ЛВ.");
+				//if(pick == 34 && vw == 22 && PI[playerid][pMember] != fMEDICLV) return SendError(playerid, "Ви не є працівником лікарні м. ЛВ.");
 				if(pick == 36 && vw == 59 && PI[playerid][pMember] != fARMYLS) return SendError(playerid, "Ви не є працівником Національної гвардії.");
 				if(pick == 37 && PI[playerid][pMember] != fLSNEWS) return SendError(playerid, "Ви не є працівником Лос-Сантос Таймс.");
-				if(pick == 37 && vw == 11 && PI[playerid][pMember] != fSFNEWS) return SendError(playerid, "Ви не є працівником радіоцентру м. СФ.");
-				if(pick == 37 && vw == 12 && PI[playerid][pMember] != fLVNEWS) return SendError(playerid, "Ви не є працівником радіоцентру м. ЛВ.");
+				//if(pick == 37 && vw == 11 && PI[playerid][pMember] != fSFNEWS) return SendError(playerid, "Ви не є працівником радіоцентру м. СФ.");
+				//if(pick == 37 && vw == 12 && PI[playerid][pMember] != fLVNEWS) return SendError(playerid, "Ви не є працівником радіоцентру м. ЛВ.");
 				if(pick == 21 && PI[playerid][pMember] != fINSTRUCTORS) return SendError(playerid, "Ви не є працівником автошколи.");
 
 				new string[128];
@@ -31403,7 +31410,7 @@ public OnGameModeInit() {
 	weeklast = weekcurrent;
 	
 	gettime(tmphour, tmpminute, tmpsecond);
-	SetWorldTime(12);
+	SetWorldTime(tmphour);
 	
     gateopen[0] = CreateDynamicObject(968, 1544.69763, -1630.99084, 13.402827, 0.00000, 90.00000, 90.00000, -1, -1, -1, 300.00);
 	CreateDynamic3DTextLabel(""G"'N'"W" (в транспорті)\n"G"'ALT'"W" (пішки)", -1, 1544.69763, -1627.324707, 13.402827, 10.0);
@@ -31683,22 +31690,22 @@ stock CreateVehicless() {
 	CreateJobVehicle(3, 456, 1336.3118, 326.0703, 20.0286, 66.2697, 1, 1, RES_CAR_TIME); // razvoz4ikiiki
 	//
 	//інкасатор
-	CreateJobVehicle(9, 428, 580.5,-1271.1,16.9,90.0, 1, 189, RES_CAR_TIME);
-	CreateJobVehicle(9, 428, 580.5,-1277.1,16.9,90.0, 1, 189, RES_CAR_TIME);
-	CreateJobVehicle(9, 428, 580.5,-1283.1,13.9,90.0, 1, 189, RES_CAR_TIME);
-	CreateJobVehicle(9, 428, 580.5,-1289.1,13.9,90.0, 1, 189, RES_CAR_TIME);
+	CreateJobVehicle(8, 428, 580.5,-1271.1,16.9,90.0, 1, 189, RES_CAR_TIME);
+	CreateJobVehicle(8, 428, 580.5,-1277.1,16.9,90.0, 1, 189, RES_CAR_TIME);
+	CreateJobVehicle(8, 428, 580.5,-1283.1,13.9,90.0, 1, 189, RES_CAR_TIME);
+	CreateJobVehicle(8, 428, 580.5,-1289.1,13.9,90.0, 1, 189, RES_CAR_TIME);
 	
 	// таксі лс
-	CreateTaxiVehicle(8, 420, 1062.1842,-1743.2438,13.2278,270.7118, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1062.2380,-1749.0417,13.2146,270.5598, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1062.1853,-1754.8960,13.1958,270.9721, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1062.2166,-1760.8433,13.1685,270.5042, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1062.3025,-1766.7914,13.1437,271.2455, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1062.5063,-1772.6552,13.1185,269.7003, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1098.9478,-1772.6052,13.1102,89.1220, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1099.0879,-1766.7766,13.1112,89.8205, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1098.7244,-1760.8503,13.1155,90.5744, 50, 0, RES_CAR_TIME);
-	CreateTaxiVehicle(8, 420, 1098.8611,-1754.9343,13.1156,89.7019, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1062.1842,-1743.2438,13.2278,270.7118, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1062.2380,-1749.0417,13.2146,270.5598, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1062.1853,-1754.8960,13.1958,270.9721, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1062.2166,-1760.8433,13.1685,270.5042, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1062.3025,-1766.7914,13.1437,271.2455, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1062.5063,-1772.6552,13.1185,269.7003, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1098.9478,-1772.6052,13.1102,89.1220, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1099.0879,-1766.7766,13.1112,89.8205, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1098.7244,-1760.8503,13.1155,90.5744, 50, 0, RES_CAR_TIME);
+	CreateTaxiVehicle(7, 420, 1098.8611,-1754.9343,13.1156,89.7019, 50, 0, RES_CAR_TIME);
 	
 	//автобуси лс
 	CreateBusVehicle(1,1,431, 1275.2385, -1799.5630, 13.5189, 180.0000, 162, 162, RES_CAR_TIME);
@@ -31742,10 +31749,11 @@ stock CreateVehicless() {
 	CreateJobVehicle(6,552,2212.1840, -2532.5749, 13.324, 270.0, -1, -1, RES_CAR_TIME);//чистка каналзаций
 	CreateJobVehicle(6,552,2212.1840, -2537.0109, 13.324, 270.0, -1, -1, RES_CAR_TIME);//чистка каналзаций
 	
-	CreateJobVehicle(105,430, 3353.3655,-657.5939,0.1088,94.9636, 0, 0, 900);
+	//лодки біля блядського алькатраса, який нахуй треба видалити, бо він блять na воді, де кікає блять
+	/*CreateJobVehicle(105,430, 3353.3655,-657.5939,0.1088,94.9636, 0, 0, 900);
 	CreateJobVehicle(105,430, 3356.4080,-672.0045,-1.0868,83.6326, 0, 0, 900);
 	CreateJobVehicle(105,430, 3359.2803,-682.6005,-0.6158,86.6194, 0, 0, 900);
-	CreateJobVehicle(105,430, 3358.7075,-696.5663,-0.0489,92.0380, 0, 0, 900);
+	CreateJobVehicle(105,430, 3358.7075,-696.5663,-0.0489,92.0380, 0, 0, 900);*/
 	
 	/*CreateOrgsVehicle(fAZTEC,1,482, 1668.1003,-2115.3198,13.6635,269.9154, 2, 1,RES_CAR_TIME);
 	CreateOrgsVehicle(fAZTEC,1,567, 1693.7133,-2106.5117,13.2558,217.7382, 2, 1,RES_CAR_TIME);
@@ -34682,8 +34690,8 @@ stock PayChecks(i) {
 	switch(PI[i][pMember]) {
 	case fLSPD: PI[i][pSalary] += salary_pd[PI[i][pRank]-1];
 	case fFBI: PI[i][pSalary] += salary_fbi[PI[i][pRank]-1];
-	case fMEDICLS,fMEDICSF,fMEDICLV: PI[i][pSalary] += salary_medics[PI[i][pRank]-1];
-	case fLSNEWS,fSFNEWS,fLVNEWS: PI[i][pSalary] += salary_news[PI[i][pRank]-1];
+	case fMEDICLS,fMEDICSF: PI[i][pSalary] += salary_medics[PI[i][pRank]-1];
+	case fLSNEWS: PI[i][pSalary] += salary_news[PI[i][pRank]-1];
 	case fBALLAS,fVAGOS,fGROVE,fAZTEC,fRIFA: PI[i][pSalary] += salary_gang[PI[i][pRank]-1];
 	case fLCN,fYAKUZA,fRM: PI[i][pSalary] += salary_mafia[PI[i][pRank]-1];
 	case fWHITEHOUSE: PI[i][pSalary] += salary_wh[PI[i][pRank]-1];
@@ -35762,8 +35770,7 @@ CMD:edit(playerid) {
 	if(PI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чата.");
 	if(PI[playerid][pRank] < 2) return SendError(playerid, "Доступно з 2 рангу.");
 	new veh = GetPlayerVehicleID(playerid);
-	if(!PlayerToPoint(10.0,playerid,2823.2854,1067.2120,1052.5973) && !PlayerToPoint(10.0,playerid,2842.2258,1068.7367,1052.5673) &&
-			VehicleInfo[veh][vTeam] != fLSNEWS && VehicleInfo[veh][vTeam] != fSFNEWS && VehicleInfo[veh][vTeam] != fLVNEWS) return SendError(playerid, "Необхідно знаходитись на робочому місці у службовому автомобілі.");
+	if(!PlayerToPoint(10.0,playerid,2823.2854,1067.2120,1052.5973) && !PlayerToPoint(10.0,playerid,2842.2258,1068.7367,1052.5673) && VehicleInfo[veh][vTeam] != fLSNEWS) return SendError(playerid, "Необхідно знаходитись на робочому місці у службовому автомобілі.");
 	ShowAdvertList(playerid);
 	return 1;
 }
@@ -38289,18 +38296,15 @@ CMD:leaders(playerid) {
 		if(!strcmp(FI[i][fLeader],"None",true)) strmid(leader,"Відсутній", 0, strlen("Відсутній"), 25);
 		else strmid(leader,"Відсутній", 0, strlen("Відсутній"), 25);
 		new idFrac = GetCheckID(FI[i][fLeader]);
-		if(!GetString(FI[i][fName],"Зачинено"))
+		if(idFrac != INVALID_PLAYER_ID)
 		{
-			if(idFrac != INVALID_PLAYER_ID)
-			{
-				format(string, sizeof(string),"%s"W"%s\t"W"%s[%d]%s\t"W"т. %d\t"GREEN"Онлайн\n",string,FI[i][fName],player_name[idFrac],idFrac,TI[idFrac][tAFK]>=3?("{ffa800}[AFK]"):(""),PI[idFrac][pPhone]);
-				countleader++;
-			}
-			else
-			{
-				if(!strcmp(FI[i][fLeader],"None",true)) format(string, sizeof(string),"%s"W"%s\t"ORANGE"Відсутній лідер\n",string,FI[i][fName]);
-				else format(string, sizeof(string),"%s"W"%s\t"W"%s\t"W"-\t"NO"офлайн\n",string,FI[i][fName],FI[i][fLeader]);
-			}
+			format(string, sizeof(string),"%s"W"%s\t"W"%s[%d]%s\t"W"т. %d\t"GREEN"Онлайн\n",string,FI[i][fName],player_name[idFrac],idFrac,TI[idFrac][tAFK]>=3?("{ffa800}[AFK]"):(""),PI[idFrac][pPhone]);
+			countleader++;
+		}
+		else
+		{
+			if(!strcmp(FI[i][fLeader],"None",true)) format(string, sizeof(string),"%s"W"%s\t"ORANGE"Відсутній лідер\n",string,FI[i][fName]);
+			else format(string, sizeof(string),"%s"W"%s\t"W"%s\t"W"-\t"NO"офлайн\n",string,FI[i][fName],FI[i][fLeader]);
 		}
 	}
 	format(string, sizeof(string), "%s\n"ORANGE"В мережі %i лідерів", string,countleader);
@@ -38310,6 +38314,7 @@ CMD:leaders(playerid) {
 CMD:testleaders(playerid) {
 	new countleader = 0;
 	new string[1650];
+	format(string, sizeof(string), ""W"Фракція\t"W"Лідер\t"W"Номер\n");
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
 		if(PI[i][pMember] == 0) continue;
@@ -38320,10 +38325,9 @@ CMD:testleaders(playerid) {
 		format(string, sizeof(string), "%s"W"%s\t"W"%s[%d]\t"W"т. %d %s\n", string, FI[PI[i][pMember]][fName], player_name[i], i,PI[i][pPhone],TI[i][tAFK]>=3?("{ffa800}[AFK]"):(""));
 		countleader++;
 	}
-	if(countleader > 0) {
-		new stringd[128];
-		format(stringd, sizeof(stringd), ""W"Фракція\t"W"Лідер\t"W"Номер\n");
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, stringd ,string, "Закрити", "");
+	if(countleader > 0) 
+	{
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, ""P"Лідери організацій",string, "Закрити", "");
 	}
 	else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Лідери організацій",""W"Немає лідерів у мережі", "Закрити", "");
 	return 1;
@@ -38474,14 +38478,14 @@ CMD:invite(playerid, params[]) {
 				return 1;
 			}
 		}
-	case fMEDICLS,fMEDICSF,fMEDICLV: {
+	case fMEDICLS: {
 			if(PI[params[0]][pLevel] < invite_frac[3]) {
 				format(string,sizeof(string),"У гравця повинен бути %i рівень.", invite_frac[3]);
 				SendError(playerid,string);
 				return 1;
 			}
 		}
-	case fLSNEWS,fSFNEWS,fLVNEWS: {
+	case fLSNEWS: {
 			if(PI[params[0]][pLevel] < invite_frac[4]) {
 				format(string,sizeof(string),"У гравця повинен бути %i рівень.", invite_frac[4]);
 				SendError(playerid,string);
@@ -45138,7 +45142,7 @@ CB: CopsWanted(playerid,player_id) {
 }
 stock SendOK(playerid, const text[]) {
   new string[256];
-  format(string, 256, "{479FF2}[Успіх] "W"%s", text);
+  format(string, 256, "{228B22}[Успіх] "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 stock SendError(playerid, const text[]) {
@@ -45149,6 +45153,11 @@ stock SendError(playerid, const text[]) {
 stock SendInfo(playerid, const text[]) {
   new string[256];
   format(string, 256, "{479ff2}[Інформація] "W"%s", text);
+  return SendClientMessage(playerid, COLOR_WHITE, string);
+}
+stock SendHint(playerid, const text[]) {
+  new string[256];
+  format(string, 256, "{FFD700}[Підказка] "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 stock SendUse(playerid, const text[]) {
@@ -47538,7 +47547,7 @@ stock ether_closed(playerid) {
 				SendFamilyMessage(PI[playerid][pMember], 0x139BECFF, string);
 			}
 		}
-	case fSFNEWS: {
+	/*case fSFNEWS: {
 			if(calls_news[1] == playerid) {
 				calls_news[1] = INVALID_PLAYER_ID;
 				new string[128];
@@ -47553,7 +47562,7 @@ stock ether_closed(playerid) {
 				format(string,sizeof(string),"%s завершив прийом дзвінків.",player_name[playerid]);
 				SendFamilyMessage(PI[playerid][pMember], 0x139BECFF, string);
 			}
-		}
+		}*/
 	}
 }
 CB: ShowNumber(playerid,str[]) {
@@ -51151,15 +51160,15 @@ CMD:alldelveh(playerid) {
 }
 CMD:templeader(playerid, params[])
 {
-	if(PI[playerid][pAdmin] > 4 || dostup[playerid] == 0) return 1;
+	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 	if(sscanf(params,"i",params[0])) return SendError(playerid,"Використайте: /templeader [fractionid]");
-	if(params[0] < 0 || params[0] > 22) return SendError(playerid, "Діапазон ID фракцій від 1 до 22.");
+	if(params[0] < 0 || params[0] > 19) return SendError(playerid, "Діапазон ID фракцій від 1 до 19.");
 	if(params[0] == 0)
 	{
 		PI[playerid][pLeader] = params[0];
 		PI[playerid][pMember] = params[0];
 		PI[playerid][pRank] = 0;
-		return SendInfo(playerid, "Ви вийшли зі фракції.");
+		return SendInfo(playerid, "Ви вийшли з-під фракції.");
 	}
 	else
 	{
@@ -52380,16 +52389,14 @@ CMD:last(playerid, params[]) {
 CMD:makeleader(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 	if(!PI[playerid][giveLeader]) return SendError(playerid,"У вас немає доступу до цієї команди.");
-	new string[64], strings[600], count_leader = 0;
+	new string[256], strings[600], count_leader = 0;
 	strcat(strings,"#\tОрганізація\tЛідер\n");
-	for(new i = 0;i < MAX_FRACTIONS;i ++)
+	for(new i = 1;i < MAX_FRACTIONS;i ++)
 	{
-		if(!GetString(FI[i][fName],"Закрито"))
-		{
-			count_leader++;
-			format(string,sizeof(string),"%i\t%s\t%s\n",count_leader,FI[i][fName],FI[i][fLeader]);
-			strcat(strings,string);
-		}
+
+		count_leader++;
+		format(string,sizeof(string),"%i\t%s\t%s\n",count_leader,FI[i][fName],FI[i][fLeader]);
+		strcat(strings,string);
 	}
 	ShowPlayerDialog(playerid,D_MAKELEADER_INFO,DSTH,"Лідери організацій",strings,"Обрати","Скасувати");
 	return 1;
@@ -67739,8 +67746,8 @@ stock CreateOrgsVehicle(carid,orgs,rank,model,Float:X,Float:Y,Float:Z,Float:A,Co
 	case fWHITEHOUSE: 	SetVehicleNumberPlate(VehicleInfo[carid][vID], "MAYOR");
 	case fARMYLS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "ARMY SF");
 	case fLSNEWS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "LS TIMES");
-	case fSFNEWS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "SF CHRONICLE");
-	case fLVNEWS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "LV JOURNAL");
+	//case fSFNEWS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "SF CHRONICLE");
+	//case fLVNEWS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "LV JOURNAL");
 	case fINSTRUCTORS: 	SetVehicleNumberPlate(VehicleInfo[carid][vID], "AUTOSCHOOL");
 	case fBALLAS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "BALLAS");
 	case fVAGOS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "VAGOS");
@@ -67751,7 +67758,7 @@ stock CreateOrgsVehicle(carid,orgs,rank,model,Float:X,Float:Y,Float:Z,Float:A,Co
 	case fYAKUZA: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "JAPAN");
 	case fMEDICLS: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "LS MEDICS");
 	case fMEDICSF: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "SF MEDICS");
-	case fMEDICLV: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "LV MEDICS");
+	//case fMEDICLV: 		SetVehicleNumberPlate(VehicleInfo[carid][vID], "LV MEDICS");
 	
 	}
 	return VehicleInfo[carid][vID];

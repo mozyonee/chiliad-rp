@@ -1,4 +1,4 @@
-#define MAX_FRACTIONS 23
+#define MAX_FRACTIONS 20
 
 enum _:frac_ids {
     fNONE = 0,
@@ -11,17 +11,14 @@ enum _:frac_ids {
 	fWHITEHOUSE = 7,
 	fMEDICLS = 8,
 	fMEDICSF = 9,
-	fMEDICLV = 10,
-	fLSNEWS = 11,
-	fSFNEWS = 12,
-	fLVNEWS = 13,
-	fINSTRUCTORS = 14,
-	fLCN = 15,
-	fYAKUZA = 16,
-	fRM = 17,
-	fBALLAS = 18,
-	fVAGOS = 19,
-	fGROVE = 20,
-	fAZTEC = 21,
-	fRIFA = 22
+	fLSNEWS = 10,
+	fINSTRUCTORS = 11,
+	fLCN = 12,
+	fYAKUZA = 13,
+	fRM = 14,
+	fBALLAS = 15,
+	fVAGOS = 16,
+	fGROVE = 17,
+	fAZTEC = 18,
+	fRIFA = 19
 };
