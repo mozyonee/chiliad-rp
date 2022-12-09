@@ -8904,6 +8904,16 @@ public OnPlayerCommandReceived(playerid, cmd[], params[], flags) {
 	SetPVarInt(playerid, "AntiFlood", GetTickCount());
 	return TI[playerid][tLogin];
 }
+
+public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)
+{
+  if (result == -1)
+  {
+        return SendError(playerid, "Ви ввели неіснуючу команду."), SendHint(playerid, "Для перегляду доступних команд використайте "P"/mn - Команди сервера");
+  }
+
+  return 1;
+}
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
 	new ip[2][16];
@@ -24134,24 +24144,24 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(!response) return 1;
 		switch(listitem){
 			case 0:{
-				static const f_str[] = ""W"Зараз вартість ліцензії на наземний транспорт складає: "P"%d%%\n\
+				static const f_str[] = ""W"Зараз вартість ліцензії на наземний транспорт складає: "GREEN"%d$\n\
 				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"500$"G", максимум - "GREEN"2500$"G")";
 				new string[sizeof(f_str) +1 + (-2 + 3)];
 				format(string,sizeof(string),f_str,Nalog[7]);
 				ShowPlayerDialog(playerid,D_ECONOMY_LICENSE_CAR,DSI, ""P"Ліцензія на наземний транспорт",string,"Прийняти", "Назад");
 			}
 			case 1:{
-				static const f_str[] = ""W"Зараз вартість ліцензії на польоти складає: "P"%d%%\n\
+				static const f_str[] = ""W"Зараз вартість ліцензії на польоти складає: "GREEN"%d$\n\
 				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
 				new string[sizeof(f_str) +1 + (-2 + 3)];
-				format(string,sizeof(string),f_str,Nalog[7]);
+				format(string,sizeof(string),f_str,Nalog[8]);
 				ShowPlayerDialog(playerid,D_ECONOMY_LICENSE_AIR,DSI, ""P"Ліцензія на польоти",string,"Прийняти", "Назад");
 			}
 			case 2:{
-				static const f_str[] = ""W"Зараз вартість ліцензії на водний транспорт складає: "P"%d%%\n\
+				static const f_str[] = ""W"Зараз вартість ліцензії на водний транспорт складає: "GREEN"%d$\n\
 				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
 				new string[sizeof(f_str) +1 + (-2 + 3)];
-				format(string,sizeof(string),f_str,Nalog[7]);
+				format(string,sizeof(string),f_str,Nalog[9]);
 				ShowPlayerDialog(playerid,D_ECONOMY_LICENSE_BOAT,DSI, ""P"Ліцензія на водний транспорт",string,"Прийняти", "Назад");
 			}
 		}
@@ -24161,7 +24171,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
 			new price = strval(inputtext);
 			if(price < 500 || price > 2500) {
-				static const f_str[] = ""W"Зараз вартість ліцензії на наземний транспорт складає: "P"%d%%\n\
+				static const f_str[] = ""W"Зараз вартість ліцензії на наземний транспорт складає: "GREEN"%d$\n\
 				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"500$"G", максимум - "GREEN"2500$"G")";
 				new string[sizeof(f_str) +1 + (-2 + 3)];
 				format(string,sizeof(string),f_str,Nalog[7]);
@@ -24169,7 +24179,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 			Nalog[7] = price;
-			UpdateEconomyData("nalog_7",price);
+			UpdateEconomyData("price_car",price);
 			static const f_string[] = "Встановлено нову вартість ліцензії на наземний транспорт: "GREEN"%d$";
 			new str[sizeof(f_string) +1 + (-2 + 4)];
 			format(str,sizeof(str),f_string,Nalog[7]);
@@ -24180,7 +24190,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
 			new price = strval(inputtext);
 			if(price < 15000 || price > 25000) {
-				static const f_str[] = ""W"Зараз вартість ліцензії на польоти складає: "P"%d%%\n\
+				static const f_str[] = ""W"Зараз вартість ліцензії на польоти складає: "GREEN"%d$\n\
 				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
 				new string[sizeof(f_str) +1 + (-2 + 3)];
 				format(string,sizeof(string),f_str,Nalog[8]);
@@ -24188,7 +24198,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 			Nalog[8] = price;
-			UpdateEconomyData("nalog_8",price);
+			UpdateEconomyData("price_air",price);
 			static const f_string[] = "Встановлено нову вартість ліцензії на польоти: "GREEN"%d$";
 			new str[sizeof(f_string) +1 + (-2 + 4)];
 			format(str,sizeof(str),f_string,Nalog[8]);
@@ -24199,7 +24209,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[playerid][pLeader] != fWHITEHOUSE) return 1;
 			new price = strval(inputtext);
 			if(price < 15000 || price > 25000) {
-				static const f_str[] = ""W"Зараз вартість ліцензії на водний транспорт складає: "P"%d%%\n\
+				static const f_str[] = ""W"Зараз вартість ліцензії на водний транспорт складає: "GREEN"%d$\n\
 				"G"Введіть нижче нову вартість ліцензії (мінімум - "GREEN"15000$"G", максимум - "GREEN"50000$"G")";
 				new string[sizeof(f_str) +1 + (-2 + 3)];
 				format(string,sizeof(string),f_str,Nalog[9]);
@@ -24207,7 +24217,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 			Nalog[9] = price;
-			UpdateEconomyData("nalog_9",price);
+			UpdateEconomyData("price_boat",price);
 			static const f_string[] = "Встановлено нову вартість ліцензії на водний транспорт: "GREEN"%d$";
 			new str[sizeof(f_string) +1 + (-2 + 4)];
 			format(str,sizeof(str),f_string,Nalog[9]);
@@ -26030,9 +26040,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			ResetPlayerWeapons(playerid);
 			FracLog(LOGS_LEAVE,player_name[playerid],player_name[playerid],"Власне бажання LEAVE");
 		}
-	case D_LICENSES: {
+	case D_LICENSES_LIST: {
 			if(!response) return 1;
-			new string[144], lic_name[24];
+			new string[256], lic_name[24];
 			if(TI[playerid][tAutoSchool])
 			{
 				switch(TI[playerid][tAutoSchool]-1) {
@@ -26045,62 +26055,99 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 			switch(listitem) {
-			case 0: {
-					if(lic[playerid][0]) {
+				case 0:
+				{
+					if(response) 
+					{
+						//new string[128];
+						format(string, sizeof(string), ""P"1. "W"Як отримати ліцензію ?\n"P"2. "W"Записати на складання іспиту з водіння\n"P"3. "W"Придбати ліцензію");
+						return ShowPlayerDialog(playerid, D_LICENSES_LIST, DIALOG_STYLE_LIST, ""P"Послуги Автошколи", string, "Обрати", "Скасувати");
+					} 
+					new info[768];
+					format(info, sizeof(info), ""W"Вітаємо Вас, "P"%s, "W"у Автошколі !\n\n\
+												"W"Ми займаємося оформленням трьох ліцензій для керування транспортом: водійські права, ліцензії на польоти та на водний транспорт.\n\
+												"W"Щоб отримати водійська права (ліцензію на наземний транспорт), Вам необхідно скласти безкоштовні теоретичні та практичні іспити.\n\
+												"W"Ліцензії на польоти та на водний транспорт можна отримати, лише придбавши їх.\n\n\
+												"P"Прайс-лист Автошколи:\n\
+												"W"Водійські права: "GREEN"безкоштовно\n\
+												"W"Ліцензія на польоти: "GREEN"%d$\n\
+												"W"Ліцензія на водний транспорт: "GREEN"%d$", player_name[playerid], Nalog[8], Nalog[9]);
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"Інформація", info, "Назад", "");
+				}
+				case 1:
+				{
+					if(lic[playerid][0]) 
+					{
 						format(string,sizeof(string),"Шановний %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 						SendBotMessage(playerid,string);
 						SendError(playerid, "Ви вже маєте цю ліцензію.");
 						return 1;
 					}
-					if(PI[playerid][pCash] < 500) {
-						format(string,sizeof(string),"%s у вас недостатньо коштів для купівлі цієї ліцензії.",player_name[playerid]);
-						SendBotMessage(playerid,string);
-						return 1;
-					}
-					GiveMoney(playerid,-500,"купівля ліцензії");
-					FI[fINSTRUCTORS][fBank] += 250;
-					format(string,sizeof(string),"%s займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
+					//GiveMoney(playerid,-500,"купівля ліцензії");
+					//FI[fINSTRUCTORS][fBank] += 250;
+					format(string,sizeof(string),"%s, займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
 					SendBotMessage(playerid,string);
+					SendHint(playerid, "Підійдіть до одного зі столів, що позаду Вас, та розпочніть складання теоретичного іспиту.");
 				}
-			case 1: {
-					if(lic[playerid][1]) {
-						format(string,sizeof(string),"%s у вас вже є ця ліцензія.",player_name[playerid]);
-						SendBotMessage(playerid,string);
-						return 1;
-					}
-					if(PI[playerid][pCash] < 15000) {
-						format(string,sizeof(string),"%s у вас недостатньо коштів для купівлі цієї ліцензії.",player_name[playerid]);
-						SendBotMessage(playerid,string);
-						return 1;
-					}
-					GiveMoney(playerid,-15000,"покупка лицензии");
-					FI[fINSTRUCTORS][fBank] += 7500;
-					format(string,sizeof(string),"%s займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
-					SendBotMessage(playerid,string);
+				case 2:
+				{
+					if(response) 
+					{
+						//new string[128];
+						format(string, sizeof(string), ""P"1. "W"Як отримати ліцензію ?\n"P"2. "W"Записати на складання іспиту з водіння\n"P"3. "W"Придбати ліцензію");
+						return ShowPlayerDialog(playerid, D_LICENSES_LIST, DIALOG_STYLE_LIST, ""P"Послуги Автошколи", string, "Обрати", "Скасувати");
+					} 
+					//new string[512];
+					format(string,sizeof(string),""P"1."W" Ліцензія на польоти [%s] - "GREEN"$%d\n"P"2."W" Ліцензія на водний транспорт [%s] - "GREEN"$%d",lic[playerid][1] == 1 ? (""P"Отримана"W""):(""G"Відсутня"W""),Nalog[8],lic[playerid][2] == 1 ? (""P"Отримана"W""):(""G"Відсутня"W""),Nalog[9]);
+					ShowPlayerDialog(playerid,D_LICENSES,DSL,""P"Купівля ліцензій", string, "Купити", "Скасувати");
 				}
-			case 2: {
-					if(lic[playerid][2]) {
-						format(string,sizeof(string),"%s у вас вже є ця ліцензія.",player_name[playerid]);
-						SendBotMessage(playerid,string);
-						return 1;
-					}
-					if(PI[playerid][pCash] < 10000) {
-						format(string,sizeof(string),"%s у вас недостатньо коштів для купівлі цієї ліцензії.",player_name[playerid]);
-						SendBotMessage(playerid,string);
-						return 1;
-					}
-					GiveMoney(playerid,-10000,"покупка лицензии");
-					FI[fINSTRUCTORS][fBank] += 5000;
-					format(string,sizeof(string),"%s займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
-					SendBotMessage(playerid,string);
-				}
-			}
-			if(listitem != 4)
-			{
-				if(listitem != 3) TI[playerid][tAutoSchool] = listitem + 1;
-				UpdateFraction(fWHITEHOUSE,"Bank",FI[fWHITEHOUSE][fBank]);
 			}
 		}
+	case D_LICENSES:
+		{
+				if(response) 
+				{
+					new string[128];
+					format(string, sizeof(string), ""P"1. "W"Як отримати ліцензію ?\n"P"2. "W"Записати на складання іспиту з водіння\n"P"3. "W"Придбати ліцензію");
+					return ShowPlayerDialog(playerid, D_LICENSES_LIST, DIALOG_STYLE_LIST, ""P"Послуги Автошколи", string, "Обрати", "Скасувати");
+				} 
+				new string[128];
+				switch(listitem)
+				{
+					case 0: {
+						if(lic[playerid][1]) {
+							format(string,sizeof(string),"%s у вас вже є ця ліцензія.",player_name[playerid]);
+							SendBotMessage(playerid,string);
+							return 1;
+						}
+						if(PI[playerid][pCash] < 15000) {
+							format(string,sizeof(string),"%s у вас недостатньо коштів для купівлі цієї ліцензії.",player_name[playerid]);
+							SendBotMessage(playerid,string);
+							return 1;
+						}
+						GiveMoney(playerid,-15000,"покупка лицензии");
+						FI[fINSTRUCTORS][fBank] += 7500;
+						format(string,sizeof(string),"%s займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
+						SendBotMessage(playerid,string);
+					}
+					case 1: {
+						if(lic[playerid][2]) {
+							format(string,sizeof(string),"%s у вас вже є ця ліцензія.",player_name[playerid]);
+							SendBotMessage(playerid,string);
+							return 1;
+						}
+						if(PI[playerid][pCash] < 10000) {
+							format(string,sizeof(string),"%s у вас недостатньо коштів для купівлі цієї ліцензії.",player_name[playerid]);
+							SendBotMessage(playerid,string);
+							return 1;
+						}
+						GiveMoney(playerid,-10000,"покупка лицензии");
+						FI[fINSTRUCTORS][fBank] += 5000;
+						format(string,sizeof(string),"%s займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
+						SendBotMessage(playerid,string);
+					}
+				}
+			}
 	case D_BILL_ADMIN: {
 			if(!response) return pc_cmd_apanel(playerid,"");
 			SetPVarInt(playerid,"SelectBildID",listitem);
@@ -32391,7 +32438,7 @@ stock Create3dText() {
 	CreateDynamic3DTextLabel("Вихід:\n"P" ALT",0xFFFFFFFF,1356.3823-0.3,1068.3185,1626.4896+0.5,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Продаж техніки\n1 од = "P"$250\n\n"P" Натисніть 'H'",0xFFFFFFFF,2357.3328,-2023.5265,13.8836,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
-	CreateDynamic3DTextLabel(""P"Працівник Автошколи"W"\nДля взаємодії натисніть 'ALT'",-1,7.9640,-73.9655,1026.4089,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel(""P"Працівник Автошколи"W"\nДля взаємодії натисніть 'ALT'",-1,8.0738,-75.4945,1026.4089,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 
 	CreateDynamic3DTextLabel(""P"Склад автомобілів\n"W"Натисніть 'H'",0xFFFFFFFF,2488.0916,-1463.9087,24.0205,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel(""P"Jack Waze"W"\nДля взаємодії натисніть 'ALT'",-1,2493.9104,-1464.7085,24.0253,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
@@ -40658,11 +40705,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			format(lotto, sizeof(lotto),"{4362AF}1."W" Купити білет - %d$\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
 			ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", lotto ,"Далі","Вихід");
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 4.0, 7.9640,-73.9655,1026.4089))
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 8.0738,-75.4945,1026.4089))
 		{
-			new string[512];
-			format(string,sizeof(string),""P"1."W" Ліцензія на наземний транспорт [%s] - "GREEN"$%d\n"P"2."W" Ліцензія на повітряний транспорт [%s] - "GREEN"$%d\n"P"3."W" Ліцензія на водний транспорт [%s] - "GREEN"$%d",lic[playerid][0] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),Nalog[7],lic[playerid][1] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),Nalog[8],lic[playerid][2] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""),Nalog[9],lic[playerid][3] == 1 ? (""P"Наявний"W""):(""G"Відсутній"W""));
-			ShowPlayerDialog(playerid,D_LICENSES,DSL,""P"Купівля ліцензій",string, "Купити", "Скасувати");
+			new string[256];
+			format(string, sizeof(string), ""P"1. "W"Як отримати ліцензію ?\n"P"2. "W"Записати на складання іспиту з водіння\n"P"3. "W"Придбати ліцензію");
+			ShowPlayerDialog(playerid, D_LICENSES_LIST, DIALOG_STYLE_LIST, ""P"Послуги Автошколи", string, "Обрати", "Скасувати");
 		}
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
@@ -45947,7 +45994,7 @@ CB: load_account(playerid) {
 	}
 	GetPlayerIp(playerid,player_ip_check[playerid],16);
 	
-	//ReloadAllAnims(playerid);
+	ReloadAllAnims(playerid);
 	
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"SELECT * FROM `"TABLE_CARS"` WHERE BINARY `owner` = '%s'",player_name[playerid]);

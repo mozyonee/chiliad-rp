@@ -41,6 +41,7 @@ enum dialogs {
 	D_ECONOMY_LICENSE_CAR,
 	D_ECONOMY_LICENSE_AIR,
 	D_ECONOMY_LICENSE_BOAT,
+	D_LICENSES_LIST,
 
 	dTelegram,
 	dDiscord,
