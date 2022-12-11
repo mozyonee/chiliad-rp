@@ -118,7 +118,7 @@ native 		IsValidVehicle(vehicleid);
 #define 	KEY_NUM4								(8192)
 #define 	KEY_NUM6 								(16384)
 #define		MAX_TELEPORTS                       	36
-#define 	MAX_ACTORSS                             53
+#define 	MAX_ACTORSS                             54
 #define 	MAX_ADVERT_COUNT 						35
 #define 	RES_CAR_TIME    						1800
 #define 	dActorAnim 								7865
@@ -294,77 +294,59 @@ enum ENUM_AUTO_SCHOOL_TEST
 static const school_test_active_dialog[][ENUM_AUTO_SCHOOL_TEST] =
 {
 	{
-		"Теоретический тест\n\n-При движении по двухполосной дороге за грузовым автомобилем\nу Вас появилась возможность совершить обгон. Ваши действия?",
-		"Какие действия?", "Поеду по обочине", "Не буду совершать обгон", "Перестроюсь на встречную полосу и завершу маневр",
+		"- Рухаючись дорогою з двома полосами за вантажним автомобілем\nу Вас з'явилася можливість здійснити обгін. Ваші дії?",
+		"Я маю якісь дії?", "Поїду по убіччі", "Не буду здійнювати обгін", "Перелаштуюся на зустрічну полосу і завершу маневр",
   		4
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- В тоннеле с искусственным освещением должны быть включены:",
-		"Фары ближнего света или габаритные огни", "Фары ближнего света", "Прожектор", "Фары ближнего и дальнего света",
+		"- У тунелі зі штучним освітленням повинні бути ввімкнені:",
+		"Фари ближнього світла чи габарити", "Фари ближнього світла", "Прожектор", "Фари ближнього та дальнього світла",
   		4
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Когда следует включать указатели поворота?",
-		"Непосредственно перед поворотом или разворотом", "Заблаговременно до начала маневра", "По усмотрению водителя", "Я на BMW, у нас так не принято",
+		"- Коли варто вмикати показчики повороту?",
+		"Безпосередньо перед поворотом чи розворотом", "Завчасно до початку маневру", "На розсуд водія", "Я на BMW, у нас так не прийнято",
   		2
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Чем необходимо руководствоваться, если нанесенные на проезжей части белые\n\
-		и оранжевые линии разметки противоречат друг другу?",
-		"Оранжевым линиям", "Белым линиям", "Я не смотрю на разметку", "В правилах такого нет",
+		"- Чим необхідно керуватися, коли, нанесені на дорозі, білі\n\
+		та оранжеві лінії розмітки суперечать один одному?",
+		"Оранжевим лініям", "Білим лініям", "Я не дивлюся на розмітку", "У правилах такого немає",
   		1
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Разрешается ли устанавливать на транспортном средстве \n\
-		ошипованные шины совместно с неошипованными?",
-		"Только на разные оси", "Запрещается", "Если никто не видит", "В правилах такого нет",
+		"- Чи дозволяється встановлювати на автомобілі \n\
+		шиповані шини разом із нешипованими?",
+		"Лише на різні вісі", "Забороняється", "Можна, якщо ніхто не бачить", "У правилах такого немає",
   		2
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Исключает ли антиблокировочная тормозная система возможность\n\
-		возникновения заноса или сноса при прохождении поворота?",
-		"Полностью исклучает возникновение заноса", "Полностью исклучает возникновение сноса", "Не исключает", "Исключает оба варианта",
+		"- Чи виключає антиблокувальна гальмівна система можливість\n\
+		виникнення заносу чи зносу при проходжені повороту?",
+		"Повністю виключає виникнення заносу", "Повністю виключає виникнення зносу", "Не виключає", "Виключає обидва варіанти",
   		3
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Как необходимо обозначить буксируемый автомобиль\n\
-		при отсутствии или неисправности аварийной сигнализации?",
-		"Установить на задней части автомобиля знак аварийной остановки", "Включить габаритные огни", "Включить противотуманные фонари", "Никак",
+		"- Як необхідно позначати автомобіль-буксир\n\
+		при відсутності або несправності аваріайної сигналізації?",
+		"Встановити на задній частині автомобіля знак аварійної зупинки", "Увімкнути габаритні вогні", "Увімкнути протитуманні ліхтарі", "Ніяк",
   		1
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Должны ли Вы переключить дальний свет на ближний, \n\
-		если водитель встречного транспортного средства периодическим \n\
-		переключением света фар покажет необходимость этого?",
-		"Обязан", "Не обязан, его проблемы", "Если расстояние менее 150 м", "Обязан во всех случаях",
+		"- Чи зобов'язані Ви перемкнути дальнє світло на ближнє, \n\
+		якщо водій зустрічного транспортного засобу періодично\n\
+		вкаже на цю необхідність, перемкнувши світло фар?",
+		"Зобов'язаний", "Не зобов'язаний, це його проблеми", "Якщо вістань менша, ніж 150м", "Зобов'язаний у будь-яких випадках",
   		1
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Водитель обгоняемого транспортного средства:",
-		"Обязан снизить скорость", "Обязан не повышать скорость", "На своё усмотрение", "Ничего не обязан",
+		"- Водій транспортного засобу, що обганяється:",
+		"Повинен знизити швидкість", "Повинен не підвищувати швидкість", "На свій розсуд", "Нічого не повинен",
   		2
 	},
 	{
-		"\
-		Теоретический тест\n\n\
-		- Максимальная скорость движения в городе?",
-		"90 км/ч", "40 км/ч", "50 км/ч", "60 км/ч",
+		"- Максимальна швидкість руху в місті?",
+		"90 км/год", "40 км/год", "50 км/год", "60 км/год",
   		4
 	}
 };
@@ -9007,6 +8989,11 @@ public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)
 }
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
+
+	new str[56];
+	GetPlayerVersion(playerid, str, sizeof(str));
+	format(str, sizeof(str), "Version: %s", str);
+	SendInfo(playerid, str);
 	new ip[2][16];
 	GetPlayerIp(playerid, ip[0], 16);
 	if (playerid == 65535) return KickEx(playerid);
@@ -9082,7 +9069,7 @@ public OnPlayerConnect(playerid) {
 	else TI[playerid][tMobile] = 0;
 	GetPlayerName(playerid,player_name[playerid],MAX_PLAYER_NAME);
 	TI[playerid][tLoginTime] = 180;
-	for(new l = 0; l < 2; l++)
+	//for(new l = 0; l < 2; l++)
 	//TextDrawShowForPlayer(playerid, logo334_TD[l]);//показ логотипа*/
 	for(new i = 0; i < 4; i++) TextDrawShowForPlayer(playerid, logo_TD[i]);
 	PlayerSecondTimer[playerid] = SetTimerEx("player_timer", 1000, false, "i",playerid);
@@ -25083,7 +25070,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_PROMO_3: {
 			if(!response) return 1;
 			SetPVarInt(playerid, "promoskills", listitem);
-			ShowPlayerDialog(playerid, D_PROMO_4, DSL, ""P"Створення промокода.", ""P"1."W" Водійське посвідчення\n"P"2."W" Ліцензія на польоти\n"P"3."W" Ліцензія на водний транспорт\n"P"4."W" Ліцензія на зброю\n"NO"5. Не видавати", "Обрати", "Скасувати");
+			ShowPlayerDialog(playerid, D_PROMO_4, DSL, ""P"Створення промокода.", ""P"1."W" Водійське посвідчення\n"P"2."W" Ліцензія на польоти\n"P"3."W"Ліцензія на водний транспорт\n"P"4."W" Ліцензія на зброю\n"NO"5. Не видавати", "Обрати", "Скасувати");
 		}
 	case D_PROMO_4: {
 			if(!response) return 1;
@@ -26205,15 +26192,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SendHint(playerid, string);
 					return 1;
 				}
-				if(GetPVarInt(playerid, "examen")) 
+				/*if(GetPVarInt(playerid, "examen")) 
 				{
 					SendError(playerid, "Ви вже записалися на складання іспиту."); 
 					return SendHint(playerid, "Підійдіть до одного зі столів, що позаду Вас, та розпочніть складання теоретичного іспиту.");
-				}
+				}*/
 				//GiveMoney(playerid,-500,"купівля ліцензії");
 				//FI[fINSTRUCTORS][fBank] += 250;
 				TI[playerid][tAutoSchool] = 1;
-				SetPVarInt(playerid, "examen", 1);
+				//SetPVarInt(playerid, "examen", 1);
 				format(string,sizeof(string),"Шановний(-а) %s, займіть вільний стіл для проходження теоретичної частини.",player_name[playerid]);
 				SendBotMessage(playerid,string);
 				SendHint(playerid, "Підійдіть до одного зі столів, що позаду Вас, та розпочніть складання теоретичного іспиту.");
@@ -26394,9 +26381,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SCM(playerid, -1, "");
 						SendInf(playerid, "Вы начали практическую часть экзамена на водительские права");
 						SendInf(playerid, "Выйдите на улице, подойдите к Пётру Степанову для получения автомобиля!");*/
-						SendOK(playerid, "Ви склали теорію. Залишилась практика.");
-						SendHint(playerid, "У цей момент з'являється бот біля автомобіля.");
-						SendOK(playerid,"Вийдіть на вулицю, займіть вільний автомобіль.");
+						SendOK(playerid, "Вітаємо! Ви склали теоретичний іспит.");
+						SendHint(playerid, "Вийдіть на задній двір Автошколи та підійдіть до інструктора, щоб розпочати практику.");
+						SetPlayerCheckpoint(playerid, 716.8337,-1426.9216,13.5234, 1);
 						SetPVarInt(playerid,"WaitExam", true);
 						SetPVarInt(playerid,"pWaitingExam", true);
 						DeletePVar(playerid,"use_test");
@@ -26405,9 +26392,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					else 
 					{
 						SendClientMessage(playerid, -1, "");
-						SendInfo(playerid, "Вы не набрали удовлетворительное количество баллов!");
-						SendInfo(playerid, "Вам придется пройти теоритическую часть повторно!");
-						SendInfo(playerid, "Изучите ПДД более подробно, чтобы не допускать ошибок!");
+						SendInfo(playerid, "Ви не набрали достатньої кількості балів!");
+						SendInfo(playerid, "Вам прийдеться повторно складати теоретичний іспит!");
+						SendHint(playerid, "Вивчіть ПДР більш детально, щоб не робити помилок!");
 					}
 
 					DeletePVar(playerid, "AH_TEST");
@@ -26418,13 +26405,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SetPVarInt(playerid, "AH_TEST", qID+1);
 		    }
 		    format(tmpstr, sizeof(tmpstr), "\
-		    	"W"Вопрос "P"№%d\n\n\
-				"GREEN"%s\n\n\
+		    	"W"Запитання "P"№%d\n\n\
+				{FEFF91}%s\n\n\
 				"P"1. "W"%s\n\
 				"P"2. "W"%s\n\
 				"P"3. "W"%s\n\
 				"P"4. "W"%s\n\n\
-				Ваш вариант ответа (Введите цифру ответа):",
+				Ваш варіант відповіді (введіть цифру відповіді у поле нижче):",
 				qID+1,
 				school_test_active_dialog[qID][as_Question],
 				school_test_active_dialog[qID][as_Asnw1],
@@ -26432,11 +26419,34 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				school_test_active_dialog[qID][as_Asnw3],
 				school_test_active_dialog[qID][as_Asnw4]);
 
-			ShowPlayerDialog(playerid, D_LICENSE_CAR_EXAM, DIALOG_STYLE_INPUT, !""P"Экзамен по теории", tmpstr, !"Далее", !"");
+			ShowPlayerDialog(playerid, D_LICENSE_CAR_EXAM, DIALOG_STYLE_INPUT, !""P"Теоретичний іспит", tmpstr, !"Далі", !"");
 
 			tmpstr[0] = EOS;
 
 		}
+	case D_START_EXAMEN_CAR:
+	{
+		if(!response)
+		{
+			SendInfo(playerid, "Ви скасували проходження практичного іспиту. Ви маєте 15 секунд, щоб повернутися і розпочати його.");
+			SendHint(playerid, "Якщо Ви не розпочнете іспит, то Вам прийдеться складати все з самого початку (з теорії).");
+			SendHint(playerid, "Поверніться до актора (бота), натисніть "P"ALT "W"та розпочніть іспит.");
+		}
+		DisablePlayerCheckpoint(playerid);
+		new 
+		c1 = 3,
+		c2 = 3;	
+		new exam_veh = CreateVehicle(426, 709.6470, -1427.0521, 13.2576, 1.0913, c1, c2, 600);	
+		new vw = playerid+random(500);
+		SetPlayerVirtualWorld(playerid, vw);
+		SetVehicleVirtualWorld(exam_veh, vw);
+		SetPVarInt(playerid, "first_enter_veh", 1);
+		PutPlayerInVehicle(playerid, exam_veh, 0);
+		SetVehicleNumberPlate(exam_veh, "Examen");
+		VehicleInfo[exam_veh][vFuel] = gTransport[GetVehicleModel(exam_veh)-400][trTank];
+		VehicleInfo[exam_veh][vAkum] = 100;
+		VehicleInfo[exam_veh][vTeam] = fINSTRUCTORS;
+	}
 	case D_BILL_ADMIN: {
 			if(!response) return pc_cmd_apanel(playerid,"");
 			SetPVarInt(playerid,"SelectBildID",listitem);
@@ -30752,7 +30762,7 @@ public OnPlayerEnterRaceCheckpoint(playerid) {
 			new Float:health;
 			GetVehicleHealth(GetPlayerVehicleID(playerid),health);
 			if(health >= 850) {
-				SendClientMessage(playerid,CGOLD,"Вітаємо з отриманням водійського посвідчення.");
+				SendOK(playerid,"Вітаємо Вас з отриманням водійського посвідчення.");
 				
 				if(QuestProgress[playerid][3] == 0 && AcceptQuest[playerid][3] != 0)
 				{
@@ -30765,8 +30775,11 @@ public OnPlayerEnterRaceCheckpoint(playerid) {
 				UpdateLicenses(playerid);
 			}
 			else SendOK(playerid,"Тест провалено. Ви ще погано керуєте автомобілем.");
-			SetVehicleToRespawn(GetPlayerVehicleID(playerid));
+			//SetVehicleToRespawn(GetPlayerVehicleID(playerid));
 			DisablePlayerRaceCheckpoint(playerid);
+			DestroyVehicle(GetPlayerVehicleID(playerid));
+			SetPlayerVirtualWorld(playerid, 0);
+			DeletePVar(playerid, "first_enter_veh");
 			DeletePVar(playerid,"LessonSlot");
 			DeletePVar(playerid,"WaitExam");
 			DeletePVar(playerid,"pWaitingExam");
@@ -31028,7 +31041,9 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			SendInfo(playerid,"Використайте: /carm");
 		}
 		if(VehicleInfo[carid][vTeam] == fINSTRUCTORS && GetVehicleModel(carid) == 426) {
-			if(GetPVarInt(playerid,"WaitExam")) {
+			if(GetPVarInt(playerid,"WaitExam")) 
+			{
+				
 				new slot = GetPVarInt(playerid,"LessonSlot");
 				if(!slot) SetPlayerRaceCheckpoint(playerid, 0, AutoCP[slot][0], AutoCP[slot][1], AutoCP[slot][2], AutoCP[slot+1][0], AutoCP[slot+1][1], AutoCP[slot+1][2], 3.0);
 				else SetPlayerRaceCheckpoint(playerid, 0, AutoCP[slot - 1][0], AutoCP[slot - 1][1], AutoCP[slot - 1][2], AutoCP[slot][0], AutoCP[slot][1], AutoCP[slot][2], 3.0);
@@ -31319,6 +31334,18 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		if(TI[playerid][tEther]) {
 			TI[playerid][tEther] = false;
 			SendOK(playerid,"Ви вийшли з прямого ефіру.");
+		}
+		new carid = GetPlayerVehicleID(playerid);
+		if(GetPVarInt(playerid, "first_enter_veh") && GetPVarInt(playerid, "WaitExam") && carid == 426)
+		{
+			SetPlayerPos(playerid, 702.8336,-1420.9506,13.5391);
+			SetPlayerFacingAngle(playerid, 271.7353);
+			SetPlayerVirtualWorld(playerid, 0);
+			DestroyVehicle(carid);
+			DeletePVar(playerid, "first_enter_veh");
+			DeletePVar(playerid, "WaitExam");
+			SendInfo(playerid, "Ви вийшли з автомобіля і були повернуті до Автошколи.");
+			SendHint(playerid, "Вам необхідно розпочати складання іспитів з початку (з теорії).");
 		}
 	}
 	return 1;
@@ -32582,6 +32609,12 @@ public CreateSphree() {
 	actor[52] = CreateActor(29, 208.7502,-225.6151,1.7786, 180.0);
 	SetActorVirtualWorld(actor[52], 0);
 	// SetActorInterior(actor[51], 92);
+
+	actor[53] = CreateActor(185, 716.8337,-1426.9216,13.5234,136.6106);
+	SetActorVirtualWorld(actor[52], 0);
+	Create3DTextLabel(""P"Інструктор\n\n"W"Для взаємодії натисніть: "P"'ALT'", 0xFFFFFFFF, 716.8337,-1426.9216,13.5234, 7.0, 0);
+
+
 	for(new i;i<MAX_ACTORSS;i++) {
 		new Float: x,Float:y,Float:z;
 		GetActorPos(actor[i], x, y,z);
@@ -40999,6 +41032,14 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			new string[256];
 			format(string, sizeof(string), ""P"1. "W"Як отримати ліцензію?\n"P"2. "W"Реєстрація на складання іспитів\n"P"3. "W"Придбання ліцензій");
 			ShowPlayerDialog(playerid, D_LICENSES_LIST, DIALOG_STYLE_LIST, ""P"Послуги Автошколи", string, "Обрати", "Скасувати");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 3.0, 716.8337,-1426.9216,13.5234) && GetPVarInt(playerid,"WaitExam"))
+		{
+			new string[256];
+			format(string, sizeof(string), ""W"Вітаю Вас, "P"%s!\n\n"W"Вам залишилося лише пройти практичний іспит. Для цього потрібен автомобіль, правда ж?\nНе дарма я тут працюю, буде Вам автомобіль. Але є одна умова.\nЯ поїду разом з Вами. І попереджаю, я інколи багато говорю.\n\n"P"Ну що ж, розпочнемо?", player_name[playerid]);
+			ShowPlayerDialog(playerid, D_START_EXAMEN_CAR, DIALOG_STYLE_MSGBOX, "Інструктор", string, "Почати", "Скасувати");
+			format(string, sizeof(string), "Вітаю Вас, %s. Розпочнемо практичний іспит?", player_name[playerid]);
+			SendBotMessage(playerid, string);
 		}
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
@@ -68637,11 +68678,10 @@ stock dialog_autoschool_exam(playerid)
 		tmp_string[500];
 
 	format(tmp_string, 500, "\
-		"W"Перед началом сдачи советуем вам изучить внимательно ПДД\n\
-		Каждая неудачная попытка будет стоить Вам денег, поэтому будьте внимательны\n\n\
-		Стоимость получения лицензии: "GREEN"%d рублей", Nalog[7]);
+		"W"Перш ніж розпочати складання теорії, радимо Вам ретельно ознайомитися з ПДР.\n\
+		Кожна невдала спроба складання іспиту буде вартувати Вам грошей, тому будьте уважними.");
 
-	SPD(playerid, D_LICENSE_CAR_EXAM, DIALOG_STYLE_MSGBOX, ""P"Водительские права", tmp_string, "Да", "Нет");
+	SPD(playerid, D_LICENSE_CAR_EXAM, DIALOG_STYLE_MSGBOX, ""P"Теоретичний іспит з водіння", tmp_string, "Розпочати", "Скасувати");
 	tmp_string[0] = EOS;
 	return true;
 }

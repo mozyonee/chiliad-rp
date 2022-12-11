@@ -44,6 +44,7 @@ enum dialogs {
 	D_LICENSES_LIST,
 	D_LICENSES_EXAMS,
 	D_LICENSE_CAR_EXAM,
+	D_START_EXAMEN_CAR,
 
 	dTelegram,
 	dDiscord,
