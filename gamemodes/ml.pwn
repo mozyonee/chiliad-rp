@@ -26617,7 +26617,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		BRob[azsID] = id_biz;
 		format(string, sizeof(string), "Ви успішно розпочали пограбування АЗС "P"'%s'. "W"i = %d.", gBusiness[id_biz][bizzName], id_biz);
 		SendOK(playerid, string);
-		SendHint(playerid, "Місцезнаходження АЗС позначено на Вашій карті. У Вас є всього 10 хвилин на пограбування.");
+		SendHint(playerid, "Місцезнаходження АЗС позначено на Вашій карті. У Вас 5 хвилин для того, щоб прибути на АЗС.");
  		format(stringinfo, sizeof(stringinfo), "Увага! %s %s (%d) розпочав пограбування АЗС %s.", GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], playerid, gBusiness[id_biz][bizzName]);
 		foreach(new i:Player)
 		{
@@ -41251,9 +41251,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(GetPVarInt(playerid, "is_on_rob") && GetPVarInt(playerid, "biker_rob"))
 			{
 				new string[128], money;
-				money = 30*BRobbed[playerid];
+				money = 300*BRobbed[playerid];
 				GiveMoney(playerid, money, "пограбування АЗС");
-				format(string, sizeof(string), "Ви успішно злили бензин в загальну бочку. Зароблено: "GREEN"%d", money);
+				DeletePVar(playerid, "is_on_rob");
+				DeletePVar(playerid, "biker_rob");
+				format(string, sizeof(string), "Ви успішно злили бензин в загальну бочку. Зароблено: "GREEN"%d$", money);
 				SendOK(playerid, string);
 			}
 		}
@@ -63123,7 +63125,7 @@ CB: player_timer(playerid) {
 				BRobbed[playerid] ++;
 				gBusiness[BRob[azsID]][bizzProduct] --;
 				new string[32];
-				format(string, sizeof(string), "~y~KAмiCЏPA_€AЊO‹мEмA_мA: %d#", BRobbed[playerid]);
+				format(string, sizeof(string), "~y~KAмiCЏPA_€AЊO‹мEмA_мA: %d", BRobbed[playerid]);
 				GameTextForPlayer(playerid, string, 1000, 4);
 				SendInfo(playerid, "Ти в ареа пограбування.");
 			}
