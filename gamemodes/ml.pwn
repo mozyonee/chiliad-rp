@@ -133,7 +133,7 @@ native 		IsValidVehicle(vehicleid);
 #define     BUSINESS_TYPE_COUNT 					25	//Кількість типов бізнесів
 #define 	AUTO_CP_COUNT 							28	//Кількість чекпоинтов АШ
 #define	 	MAX_OBJECT_MOVED 						35	//Кількість MOVED
-#define 	TP_COUNT 								99	//Кількість пікапів входи/виходи
+#define 	TP_COUNT 								101	//Кількість пікапів входи/виходи
 #define 	PICKUPS_COUNT 							82	//Кількість пікапов
 #define 	MOROZ_BALLAS 							0	//ballas
 #define 	MOROZ_VAGOS 							1	//vagos
@@ -2316,10 +2316,12 @@ new Float:Woods[MAX_WOODS][6] = {
 	
 };
 new Text3D:wood_3dtext;
+new Text3D:biker_3dtext[2];
 new woodsklad;
 new casino;
 new tk_unloading[4];
 new invite_frac[8];
+new biker_benz[2];
 enum FS_PINFO
 {
 	nname[MAX_PLAYER_NAME],
@@ -2874,7 +2876,7 @@ enum fracspawn {
 new Float:gFractionSpawn[MAX_FRACTIONS][fracspawn] = {//saneka
 	{0,0,0xFFFFFF11,0.0,0.0,0.0,0.0},
 	{6,1,0x1b00e6AA,194.7242,-154.9572,1020.2178,1.8092}, //LSPD
-	{0,0,0xf78700AA,806.2020,2517.2783,1502.0144,88.3695}, //Biker
+	{102,102,0xf78700AA,2218.4695,2053.3352,96.8735,93.7203}, //Biker
 	{92,92,0xf78700AA,806.2020,2517.2783,1502.0144,88.3695}, //Biker2
 	{75,43,0x313131AA,14.9880,1409.4287,1069.3866,270.4024}, //FBI
 	{9,6,0xf4169E1ff,-44.1854,-191.8418,1026.9832,89.3389}, //RCSO
@@ -5334,8 +5336,8 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*19*/{"Вихід на вулицю",14.2864,1395.2013,1070.0265,75,43,1545.2954,-1270.5740,17.4063,137.3024,0,0}, // Федеральне бюро розслідувань
 	/*20*/{"Уряд",1481.0220,-1772.2487,18.7958,0,0,1424.7102,-22.5558,1000.8815,269.1614,9,4}, // МЕРІЯ
 	/*21*/{"Вихід на вулицю",1422.9574,-22.6177,1000.8815,9,4,1481.0292,-1770.7487,18.7958,359.7233,0,0}, // МЕРІЯ
-	/*22*/{"Автошкола",739.0198,-1418.5115,13.5234,0,0,-4.9542,-82.0579,1026.4089,268.2304,3,5}, // АШ
-	/*23*/{"Вихід на вулицю",-6.7732,-82.0673,1026.4089,3,5,738.8711,-1415.8932,13.5234,359.9961,0,0}, // АШ
+	/*22*/{"Автошкола",739.0198,-1418.5115,13.5234,0,0,1510.2205,1448.8972,10.8543,357.5313,3,5}, // АШ
+	/*23*/{"Вихід на вулицю",1510.1191,1446.9553,10.8540,3,5,738.8711,-1415.8932,13.5234,359.9961,0,0}, // АШ
 	/*24*/{"Центр зайнятості",1411.5740,-1699.5056,13.5395,0,0,-199.6864,-19.5057,1011.1747,180.2063,1,1}, // Центр занятості
 	/*25*/{"Вихід",-199.6374,-17.7011,1011.1747,1,1,1413.4899,-1700.9507,13.5395,237.0885,0,0}, // Вихід з центру занятості
 	/*26*/{"Ла Коза Ностра",1261.1034,-871.6332,42.9528,0,0,1393.1777,-5.5639,1000.9218,176.8710,73,49}, // LCN
@@ -5394,14 +5396,14 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*76*/{"Вихід на вулицю",757.3700,-2.7630,1151.9795,89,61,2758.7786,-2366.4626,13.6328,178.8397,0,0}, // штаб Національна гвардія
 	/*77*/{"Другий поверх",1441.6046,-28.2108,1000.8815,9,4,2036.2454,1731.3547,1026.7548,269.1614,9,4}, // мэрия другий поверх
 	/*78*/{"Вихід у хол",2034.4934,1731.3552,1026.7548,9,4,1439.7360,-28.1538,1000.8815,89.9332,9,4}, // Вихід в холл
-	/*79*/{"Автошкола",739.0618,-1428.7749,13.8984,0,0,8.9392,-85.1196,1026.4089,91.8455,3,5}, // автошкола запаска
-	/*80*/{"Вихід на вулицю",11.3942,-85.0066,1026.4089,3,5,739.1464,-1430.3296,13.5234,181.7311,0,0}, // автошкола запаска
+	/*79*/{"Автошкола",739.0618,-1428.7749,13.8984,0,0,1509.2291,1472.0244,10.8519,178.7650,3,5}, // автошкола запаска
+	/*80*/{"Вихід на вулицю",1509.1754,1473.7394,10.8519,3,5,739.1464,-1430.3296,13.5234,181.7311,0,0}, // автошкола запаска
 	/*81*/{"Банк Сан-Андреас",597.16,-1249.51,18.30,0,0,-1149.6382,18.0627,1169.5699,270.9629,78,2}, // банк головний
 	/*82*/{"Вихід",-1151.3610,18.1216,1169.5699,78,2,597.16,-1248.51,18.30,0.0,0,0}, // банк головний
 	/*83*/{"Сімейний центр",1495.2009,-1279.9304,14.5749,0,0,132.5267,122.9989,1003.0500,91.2281,6,6}, // сімейний центр
 	/*84*/{"Вихід",134.9722,123.0491,1003.0480,6,6,1495.3472,-1282.1987,14.5601,196.7817,0,0}, // сімейний центр
-	/*85*/{"Вхід в Бар",325.9570,-38.1070,1.6448,0,0,789.3809,2507.1846,1502.0000,1.2855,0,0}, // вхід в байкери
-	/*86*/{"Вихід",789.2207,2505.4590,1502.0000,0,0,327.4407,-39.0937,1.6421,229.3942,0,0}, // Вихід
+	/*85*/{"Вхід в Бар",325.9570,-38.1070,1.6448,0,0,290.9880,-85.8641,1601.1084,356.7074,102,102}, // вхід в байкери
+	/*86*/{"Вихід",291.2353,-88.0056,1601.1084,102,102,327.4407,-39.0937,1.6421,229.3942,0,0}, // Вихід
 	/*87*/{"Вхід на склад",SkladOne,0,0,2361.6567,1848.2925,1211.6302,268.2010,1,1}, // склад 1
 	/*88*/{"Вихід на вулицю",2358.7620,1847.9172,1211.6302,1,1,2256.8005,79.3929,26.4844,76.4862,0,0},
 	/*89*/{"Вхід на склад",SkladTwo,0,0,2361.6567,1848.2925,1211.6302,268.2010,2,2}, // склад 2
@@ -5415,7 +5417,9 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*97{"вхід в Бар",2355.6836,247.3056,26.7145,0,0,789.3809,2507.1846,1502.0000,1.2855,92,92},*/ // вхід в байкери 2
 	/*98{"Вихід",789.2207,2505.4590,1502.0000,92,92,2353.5300,247.3599,26.4466,92.5602,0,0}*/ // Вихід
     /*99*/{"Вихід на вулицю", 1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0},// вхід в байкери 2
-	/*100*/{"Вхід в аеропорт",1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0}
+	/*100*/{"Вхід в аеропорт",1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0},
+	/*101*/{"Вхід в підвал",280.5261,-81.1672,1601.1084,102,102,2212.2065,2070.3745,100.3735,179.0927,102,102},
+	/*102*/{"Вихід з підвалу",2212.2205,2072.5239,100.3735,102,102,282.0350,-80.0893,1601.1084,315.6841,102,102}
 };
 new TeleportPickup[sizeof(gTeleportsToD)] = {-1, ...};
 // ПіКАПи
@@ -5445,10 +5449,10 @@ new Float:gPickup[PICKUPS_COUNT][3] ={// saneka
 	/*22*/{-109.3552,11.8434,3.1257},// [Ферма] ящик
 	/*23*/{-110.8474,12.3870,3.1257},// [Ферма] лейка
 	/*24*/{-81.0051,37.4192,3.1172},// [Ферма] роздягальня
-	/*25*/{-5.8096,-89.7808,1026.4089}, // metro | spawn
+	/*25*/{1500.1443,1455.7406,10.8519}, // пдр автошкола
 	/*26*/{1390.3114,-24.3432,1005.0829},// [Mafia] LCN склад
 	/*27*/{1390.4547,-7.2559,1000.9417},// [Mafia] RM склад
-	/*28*/{312.3183,-166.1407,999.6010},// [Армии] Видача зброї
+	/*28*/{249.3212,108.6463,1024.3394},// [Армии] Видача зброї
 	/*29*/{196.7760,-169.0280,1019.3028},// [LSPD] Департамент поліції Лос-Сантоса меню
 	/*30*/{1297.9482,2464.1494,1011.8739},// [Alcotraz] заготовка
 	/*31*/{1296.6395,2441.2144,1011.8739},// [Alcotraz] склад
@@ -5498,7 +5502,7 @@ new Float:gPickup[PICKUPS_COUNT][3] ={// saneka
 	/*75*/{3527.1494,-670.3874,20.2564}, // побіг з тюрьми
 	/*76*/{2009.3759,1029.7954,1069.0499}, // чердак exit
 	/*77*/{2833.4377,1080.5173,1052.5673}, // новини білборди
-	/*78*/{802.7189,2513.2903,1502.0144},//склад байкерів
+	/*78*/{2205.1257,2058.6157,96.8735},//склад байкерів
 	/*79*/{802.7189,2513.2903,1502.0144},
  	/*80*/{2355.6836,247.3056,26.7145},//вхід
  	/*81*/{789.2207,2505.4590,1502.0000}//Вихід
@@ -5534,7 +5538,7 @@ new gPickupData[PICKUPS_COUNT][3] ={//int | world || id
 	{3,5,1239},//25
 	{73,49,11745},//26
 	{73,51,11745},//27
-	{6,-1,1239},//28
+	{87,-1,1239},//28
 	{-1,-1,1239},//29
 	{88,200,1239},//30
 	{88,200,2386},//31
@@ -5584,7 +5588,7 @@ new gPickupData[PICKUPS_COUNT][3] ={//int | world || id
 	{0,0,19804}, // 75
 	{25,-1,1318}, // 76
 	{2,1,1239}, // 77
-    {0,0,11745},//78
+    {102,102,11745},//78
     {92,92,11745},//79
 	{0,0, 19130},//80
 	{92,92,19130}//81
@@ -5619,7 +5623,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={//3dText || color
 	{"Ящик для збору яблук",COLOR_WHITE},//22
 	{"Лійка",COLOR_WHITE},//23
 	{"Роздягальня",COLOR_WHITE},//24
-	{"ПДР",COLOR_WHITE},//25
+	{"Правила Дорожнього Руху",COLOR_WHITE},//25
 	{"None",COLOR_WHITE},//26
 	{"None",COLOR_WHITE},//27
 	{"Зброя",COLOR_WHITE},//28
@@ -5882,7 +5886,11 @@ enum pInfo {
 	pEkills,
 	pDiscord[20],
 	pDiscordName[33],
-	pTelegram[20]
+	pTelegram[20],
+	pTLicCar,
+	pTLicAir,
+	pTLicBoat,
+	pTLicWeapon
 };
 new PI[MAX_PLAYERS][pInfo],
 pPhoneName[MAX_PLAYERS][25][MAX_PLAYER_NAME],
@@ -6113,7 +6121,7 @@ new RankName[MAX_FRACTIONS][15][24];
 #define house_rent 	0.001
 #define hotel_rent 	0.003
 #define bizz_rent 	0.002
-new Nalog[10];
+new Nalog[11];
 enum fgarage{
 	gGID,
 	gOwnerID,
@@ -6282,6 +6290,18 @@ enum AP_DATA {
 	aLock,
 	aDay
 };
+enum Biker_Rob
+{
+	azsID,
+	Float:azsX,
+	Float:azsY,
+	Float:azsZ
+};
+new BRob[Biker_Rob];
+new BRobPickup;
+new BRobTimeForEnter;
+new BRobbed[MAX_PLAYERS];
+//new BRobTime;
 new Apartment[MAX_APARTMENT][AP_DATA];
 new aArea[MAX_APARTMENT];
 new gAparmentCount;
@@ -7287,10 +7307,18 @@ new Float:comp_club[15][3] = {
 	{847.200,-210.169,1000.190},
 	{845.210,-210.169,1000.190}
 };
-new Float:auto_exam[3][3] = {
-	{1.4569,-90.4876,1026.4089},
-	{3.9606,-90.4766,1026.4091},
-	{6.3032,-90.4572,1026.4089}
+new Float:auto_exam[10][3] = {
+	{1502.8370,1451.5856,10.8519},
+	{1500.8699,1451.5847,10.8519},
+	{1498.8397,1451.5840,10.8519},
+	{1496.8237,1451.5856,10.8519},
+	{1494.8538,1451.5857,10.8519},
+	{1494.8167,1448.2251,10.8519},
+	{1496.7567,1448.2239,10.8519},
+	{1498.8098,1448.2241,10.8519},
+	{1500.7648,1448.2249,10.8519},
+	{1502.8033,1448.2252,10.8519}
+
 };
 #include "../logic/roulette.inc"
 new TotalGZ[6], Text3D:black_market, black_prods[10];
@@ -13578,7 +13606,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			case 1: {
 					if(lic[playerid][3]) return SendError(playerid, "Ви вже отримали цю ліцензію.");
-					ShowPlayerDialog(playerid,D_COP_DIALOG_2,DSM, ""P"Ліцензія на зброю",""W"Ви дійсно хочете купити ліцензію на зброю за "GREEN"$50.000?","Так","Скасувати");
+					new string[128];
+					format(string, sizeof(string), ""W"Ви дійсно хочете купити ліцензію на зброю за "GREEN"%d$", Nalog[10]);
+					ShowPlayerDialog(playerid, D_COP_DIALOG_2, DIALOG_STYLE_MSGBOX, ""P"Ліцензія на зброю", string, "Так", "Скасувати");
 				}
 			case 2:
 				{
@@ -13597,10 +13627,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_COP_DIALOG_2: {
 			if(!response) return 1;
-			if(PI[playerid][pCash] < 50000) return SendError(playerid, "У вас недостатньо грошей.");
+			if(PI[playerid][pCash] < Nalog[10]) return SendError(playerid, "У вас недостатньо грошей.");
 			SendOK(playerid,"Ви придбали ліцензію на зброю. Тепер ви можете володіти зброєю.");
 			lic[playerid][3] = 1;
 			UpdateLicenses(playerid);
+			PI[playerid][pTLicWeapon] = gettime()+(30*24*60*60);
+			UpdatePlayerData(playerid, "TLicWeapon", PI[playerid][pTLicWeapon]);
 			GiveMoney(playerid,-50000, "ліцензія на зброю");
 		}
 	case D_AMMOSG: {
@@ -16223,7 +16255,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_MENU: {
 			if(!response) return 1;
 			switch(listitem) {
-			case 0: ShowStats(playerid,playerid,0);
+			case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DIALOG_STYLE_LIST, ""P"Інформація про персонаж", ""P"1. "W"Статистикa\n"P"2. "W"Паспорт\n"P"3. "W"Ліцензії\n"P"4. "W"Медична карта", "Обрати", "Назад");
 			case 1: ShowPlayerDialog(playerid,D_MENU_COMMANDS,DSL, ""P"Команди", ""P"1."W" Загальні команди\n"P"2."W" Чати\n"P"3."W" По роботі\n"P"4."W" Фракційні\n"P"5."W" Дім\n"P"6."W" Бізнес\n"P"7."W" Автомобіль\n"P"8."W" Сім'я\n"P"9."W" Лідер\n"P"10."W" Автовикрадення\n"P"11."W" Будинок на колесах", "Обрати", "Назад");
 			case 2: pc_cmd_jobskill(playerid);
 			case 3: {
@@ -16244,6 +16276,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 11: return pc_cmd_donate(playerid);
 			}
 		}
+	case D_PLAYER_STATS:
+	{
+		if(!response) return 1;
+		switch(listitem)
+		{
+			case 0: ShowStats(playerid,playerid,0);
+			case 1:	ShowPass(playerid,playerid);
+			case 2: ShowLic(playerid,playerid);
+			case 3: ShowMedcard(playerid, playerid);
+		}
+	}
 	case D_CASES: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -21426,12 +21469,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_AUTOSCHOOL_3: {
 			if(!response) return 1;
 			if(TI[playerid][tAutoSchool] == 2) {
-				car_autoschool[playerid] = A_CreateVehicle(447, 723.2933,-1462.0024,22.1908,269.4681, -1, -1, -1,VEHICLE_TYPE_AUTOSCHOOL);
+				car_autoschool[playerid] = A_CreateVehicle(487, 723.2933,-1462.0024,22.1908,269.4681, -1, -1, -1,VEHICLE_TYPE_AUTOSCHOOL);
 				SetPlayerVirtualWorld(playerid,playerid+1);
 				SetVehicleVirtualWorld(car_autoschool[playerid],playerid+1);
 				SetPlayerInterior(playerid,0);
 				t_PutPlayerInVehicle(playerid, car_autoschool[playerid], 0);
 				SetPlayerRaceCheckpoint(playerid, 3, AutoCPMav[0][0], AutoCPMav[0][1], AutoCPMav[0][2], AutoCPMav[1][0], AutoCPMav[1][1], AutoCPMav[1][2], 5.0);
+				SendHint(playerid, "Вам необхідно пролетіти по червоних мітках у повітрі.");
+				SendHint(playerid, "Старайтеся на врізатися у будівлі та не покидати транспорт, інакше екзамен буде провалено.");
 			}
 			else if(TI[playerid][tAutoSchool] == 3) {
 				car_autoschool[playerid] = A_CreateVehicle(452, 729.7314,-1498.4343,-0.6426,180.3360, -1, -1, -1,VEHICLE_TYPE_AUTOSCHOOL);
@@ -26188,7 +26233,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(string,sizeof(string),"Шановний(-а) %s, Ви вже маєте цю ліцензію.", player_name[playerid]);
 					SendBotMessage(playerid,string);
 					SendError(playerid, "Ви вже маєте цю ліцензію.");
-					format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+					format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 					SendHint(playerid, string);
 					return 1;
 				}
@@ -26212,7 +26257,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(string,sizeof(string),"Шановний(-a) %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 					SendBotMessage(playerid,string);
 					SendError(playerid, "Ви вже маєте цю ліцензію.");
-					format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+					format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 					SendHint(playerid, string);
 					return 1;
 				}
@@ -26242,7 +26287,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(string,sizeof(string),"Шановний(-a) %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 					SendBotMessage(playerid,string);
 					SendError(playerid, "Ви вже маєте цю ліцензію.");
-					format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+					format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 					SendHint(playerid, string);
 					return 1;
 				}
@@ -26285,7 +26330,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							format(string,sizeof(string),"Шановний(-a) %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 							SendBotMessage(playerid,string);
 							SendError(playerid, "Ви вже маєте цю ліцензію.");
-							format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 							SendHint(playerid, string);
 							return 1;
 						}
@@ -26298,8 +26343,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						GiveMoney(playerid,-Nalog[7],"купівля ліцензії на водіння");
 						lic[playerid][0] = 1;
 						UpdateLicenses(playerid);
+						PI[playerid][pTLicCar] = gettime()+(30*24*60*60);
+						UpdatePlayerData(playerid,"TLicCar",PI[playerid][pTLicCar]);
 						SendOK(playerid, "Ви придбали ліцензію на водіння.");
-						format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 						SendHint(playerid, string);
 					}
 					case 1: 
@@ -26309,7 +26356,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							format(string,sizeof(string),"Шановний(-a) %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 							SendBotMessage(playerid,string);
 							SendError(playerid, "Ви вже маєте цю ліцензію.");
-							format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 							SendHint(playerid, string);
 							return 1;
 						}
@@ -26322,8 +26369,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						GiveMoney(playerid,-Nalog[8],"купівля ліцензії на польоти");
 						lic[playerid][1] = 1;
 						UpdateLicenses(playerid);
+						PI[playerid][pTLicAir] = gettime()+(30*24*60*60);
+						UpdatePlayerData(playerid,"TLicAir",PI[playerid][pTLicAir]);
 						SendOK(playerid, "Ви придбали ліцензію на польоти.");
-						format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 						SendHint(playerid, string);
 					}
 					case 2: 
@@ -26333,7 +26382,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							format(string,sizeof(string),"Шановний(-a) %s, Ви вже маєте цю ліцензію.",player_name[playerid]);
 							SendBotMessage(playerid,string);
 							SendError(playerid, "Ви вже маєте цю ліцензію.");
-							format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 							SendHint(playerid, string);
 							return 1;
 						}
@@ -26346,8 +26395,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						GiveMoney(playerid,-Nalog[9],"купівля ліцензії на воду");
 						lic[playerid][2] = 1;
 						UpdateLicenses(playerid);
+						PI[playerid][pTLicBoat] = gettime()+(30*24*60*60);
+						UpdatePlayerData(playerid,"TLicBoat",PI[playerid][pTLicBoat]);
 						SendOK(playerid, "Ви придбали ліцензію на керування водним транспортом.");
-						format(string, sizeof(string), "Для перегляду наявних ліцензій введіть "P"/lic %d", playerid);
+						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
 						SendHint(playerid, string);
 					}
 				}
@@ -26358,6 +26409,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		    {
 		    	DeletePVar(playerid, "AH_TEST");
 		    	DeletePVar(playerid, "AH_TEST_BALANCE");
+		    	TI[playerid][tAutoSchool] = 0;
+				SetPVarInt(playerid, "examen", 0);
+				SendInfo(playerid, "Ви відмовилися від складання теоретичного іспиту.");
+				SendHint(playerid, "Зареєструйтеся повторно на рецепції для складання теорії.");
 		    	return 1;
 		    }
 		    if(!GetPVarInt(playerid, "AH_TEST"))
@@ -26447,7 +26502,138 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		VehicleInfo[exam_veh][vAkum] = 100;
 		VehicleInfo[exam_veh][vTeam] = fINSTRUCTORS;
 	}
-	case D_BILL_ADMIN: {
+	case D_AS_THEORY:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_2, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" У темний час доби та в умовах недостатньої видимості незалежно від освітлення дороги, \n\
+		а також у тунелях на транспортному засобі, що рухається, повинні бути включені наступні світлові прилади:\n\n\
+		"P"-"W" На всіх механічних транспортних засобах - фари далекого чи ближнього світла \n\
+		"P"-"W" На велосипедах - фари або ліхтарі, на гужових візках - ліхтарі (за наявності)\n\
+		"P"-"W" На причепах і механічних транспортних засобах, що буксируються, - габаритні вогні.\
+		\n\
+		", !"Далі", !"Відміна");
+	}
+	case D_AS_THEORY_2:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_3, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" Подача сигналу покажчиками повороту або рукою має проводитися завчасно\n\
+		до початку виконання маневру та припинятися негайно після його завершення \n\
+		(подача сигналу рукою може бути закінчена безпосередньо перед виконанням маневру) \n\n\
+		При цьому сигнал не повинен вводити в оману інших учасників руху\n\
+		Подача сигналу не дає водієві переваги і не звільняє його від вжиття запобіжних заходів\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_3:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_4, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" При присутності помаранчевої та білої дорожньої розмітки\n\
+		Водії повинні керуватися тимчасовою розміткою оранжевого кольору, \n\
+		яка застосовується при зміні організації руху, наприклад, \n\
+		у зв'язку з проведенням ремонтних робіт на дорозі\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_4:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_5, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" На осі транспортного засобу заборонено встановлювати шини різних розмірів, \n\
+		конструкцій (радіальної, діагональної, камерної, безкамерної), моделей з різними малюнками протектора, \n\
+		морозостійкі та неморозостійкі, нові та відновлені, нові та з поглибленим малюнком протектора. \n\
+		А так само ошиповані та неошиповані шини!\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_5:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_6, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" При проходженні повороту на ТЗ діє відцентрова сила, \n\
+		яка зростає зі збільшенням швидкості та прагне змістити ТЗ до зовнішньої сторони закруглення дороги. \n\
+		Занесення або знос ТЗ може виникнути при проїзді повороту через велику швидкість руху, \n\
+		гальмування або низький коефіцієнт зчеплення. \n\
+		Антиблокувальна гальмівна система, призначена для запобігання блокуванню коліс ТЗ, може знизити ймовірність \n\
+		виникнення занесення або зносу при гальмуванні, але не може виключити можливість їх виникнення.\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_6:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_7, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" При отсутствии или неисправности аварийной сигнализации на буксируемом \n\
+		механическом транспортном средстве на его задней части должен быть закреплен знак аварийной остановки.\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_7:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_8, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" Водієві транспортного засобу, що обганяється, забороняється перешкоджати обгону \n\
+		за допомогою підвищення швидкості руху чи іншими діями.\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_8:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, D_AS_THEORY_9, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"-"W" Дальнє світло має бути переключене на ближнє:\n\n\
+		"P"-"W" У населених пунктах, якщо дорога освітлена\n\
+		"P"-"W" При зустрічному роз'їзді на відстані не менше ніж за 150м до транспортного засобу, \n\
+		а також і за більшого, якщо водій зустрічного транспортного засобу періодичним перемиканням \n\
+		світла фар покаже необхідність цього\n\
+		"P"-"W" У будь-яких інших випадках для виключення можливості засліплення водіїв як зустрічних, так і попутних транспортних засобів.\n\
+		При засліпленні водій повинен увімкнути аварійну сигналізацію і, не змінюючи смугу руху, знизити швидкість і зупинитися.\
+		\n\
+		", !"Далі", !"Назад");
+	}
+	case D_AS_THEORY_9:
+	{
+		if(!response) return 1;
+		ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, !""P"Правила дорожнього руху", !"\
+		"P"Додаткова інформація:\n\n\
+		"P"'Дорога'"W" - облаштована або пристосована та використовувана для руху транспортних засобів смуга землі \n\
+		або поверхнею штучної споруди. \n\
+		Дорога включає одну або кілька проїжджих частин, а також трамвайні колії, \n\
+		тротуари, узбіччя та розділові смуги за їх наявності.\
+		\n\
+		", !"Закрити", !"");
+	}
+	case D_BIKER_ROB:
+	{
+		if(!response) return 1;
+		new id_biz = RandomEx(27,33);
+		new string[128], stringinfo[256];
+		EnableGPSForPlayer(playerid,gBusiness[id_biz][bizzX],gBusiness[id_biz][bizzY],gBusiness[id_biz][bizzZ]);
+		BRob[azsX] = gBusiness[id_biz][bizzX];
+		BRob[azsY] = gBusiness[id_biz][bizzY];
+		BRob[azsZ] = gBusiness[id_biz][bizzZ];
+		BRob[azsID] = id_biz;
+		format(string, sizeof(string), "Ви успішно розпочали пограбування АЗС "P"'%s'. "W"i = %d.", gBusiness[id_biz][bizzName], id_biz);
+		SendOK(playerid, string);
+		SendHint(playerid, "Місцезнаходження АЗС позначено на Вашій карті. У Вас є всього 10 хвилин на пограбування.");
+ 		format(stringinfo, sizeof(stringinfo), "Увага! %s %s (%d) розпочав пограбування АЗС %s.", GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], playerid, gBusiness[id_biz][bizzName]);
+		foreach(new i:Player)
+		{
+			if(IsABikers(i))
+			{
+				SendClientMessage(i, 0x6699ccFF, stringinfo);
+				SendHint(i, "Введіть "P"/azswar "W"для встановлення мітки АЗС на Вашій карті.");
+				SetPVarInt(i, "biker_rob", 1);
+				SetPVarInt(i, "give_item", 1);
+			}
+		}
+		BRobTimeForEnter = 60*5;
+		BRobPickup = CreateDynamicPickup(1650, 23, gBusiness[id_biz][bizzX],gBusiness[id_biz][bizzY],gBusiness[id_biz][bizzZ]);
+	}
+	case D_BILL_ADMIN: 
+	{
 			if(!response) return pc_cmd_apanel(playerid,"");
 			SetPVarInt(playerid,"SelectBildID",listitem);
 			new Float:pos[3];
@@ -26457,7 +26643,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarFloat(playerid, "bild_z", pos[2]);
 			BildIntro(playerid, listitem, -30);
 			ShowPlayerDialog(playerid,D_BILL_AUNRENT,DSM,""P"Оренда білборда","\n\n"W"Ви впевнені, що хочете скасувати оренду у цього білборда?\n\n","Так","Ні");
-		}
+	}
 	case D_BILL_MAIN: {
 			if(!response) return 1;
 			//new id = TI[playerid][tSelectedBusinessID];
@@ -27897,7 +28083,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				return 1;
 			} 
 		case 20: if(PI[playerid][pMember] != fFBI && PI[playerid][pMember] != fWHITEHOUSE && !TI[playerid][tEnter][fFBI]) return SendError(playerid, "Ви не є членом цієї організації або у вас немає перепустки.");
-		case 44: {
+		case 43: {
 				if(!IsACop(playerid) && PI[playerid][pMember] != fWHITEHOUSE && !TI[playerid][tEnter][fWHITEHOUSE]) return SendError(playerid, "Ви не є членом цієї організації або у вас немає перепустки.");
 				SetPlayerWeather(playerid,27);
 			}
@@ -27979,7 +28165,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		case 50,78: if(!IsAArm(playerid) && !IsAMafiaAndGang(playerid)) return SendError(playerid, "Ви не можете увійти в службове приміщення.");
 		case 70: if(!TI[playerid][tTir]) return SendError(playerid, "У вас немає перепустки в тир.");
 		case 72: if(PI[playerid][pMember] != fLSPD) return SendError(playerid, "Ви не можете увійти в службове приміщення.");
-		case 52: if(!TI[playerid][tTir]) return SendError(playerid, "У вас немає перепустки.");
+		case 51: if(!TI[playerid][tTir]) return SendError(playerid, "У вас немає перепустки.");
 		case 53: {
 				if(GetPVarInt(playerid,"gun_weap")) return SendError(playerid, "Ви не закінчили тренування.");
 				TI[playerid][tTir] = false;
@@ -28147,30 +28333,12 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				if(GetPVarInt(playerid,"egg_start") == 1) return ShowPlayerDialog(playerid,D_FARM_END_1,DSM, ""P"Завершення роботи.","\n\n\t"P"Оберіть спосіб оплати\n\n"G"При виборі оплати на банківський рахунок,\nзарабітна плата прийде під час PayDay\n\n","Готівка","Банк");
 				ShowPlayerDialog(playerid,D_FARM,DSL, ""P"Ферма.",""P"1."W" Робота у яблучному саду\n"P"2."W" Збирач яєць","Далі","Закрити");
 			}
-		case 25: {
-				static const f_str[] =
-				""P"1. Загальні положення:"W"\n\
-				1.1. Учасники дорожнього руху зобов'язані знати і неухильно виконувати вимоги цих правил,\n\
-				\tа також бути взаємно ввічливими.\n\
-				1.2. Обгін транспортного засобу дозволено тільки з лівого боку, при цьому водій зобов'язаний переконатися,\n\
-				\tщо зустрічна смуга вільна на достатній для обгону відстані.\n\
-				1.3. Керувати транспортним засобом має право особа, яка досягла віку 18 років при цьому маючи водійське посвідчення.\n\
-				1.4. У разі ДТП водії зобов'язані негайно зупинитися на місці, викликати і дочекатися поліцію.\n\
-				1.5. Ближнє світло фар потрібно вмикати в будь-який час доби.\n\
-				1.6. Державні номери мають бути завжди видимими спереду і ззаду.\n\n\
-				"P"2. Швидкість руху:"W"\n\
-				2.1. У межах міста дозволяється рух транспортних засобів зі швидкістю не більше ніж 60 км/год.\n\
-				2.2. За межами міста дозволяється рух транспортних засобів зі швидкістю не більше ніж 120 км/год.\n\n\
-				"P"3. Зупинка і стоянка:"W"\n\
-				3.1. Зупинка на магістралі дозволена тільки на спеціальних майданчиках для стоянки.\n\n\
-				"P"4. Спеціальні сигнали:"W"\n\
-				4.1. В у разі наближення транспортного засобу з увімкненим проблисковим маячком і/або\n\
-				\tспеціальним звуковим сигналом водії інших транспортних засобів,\n\
-				\tякі можуть створювати йому перешкоду для руху, зобов'язані дати йому дорогу.";
-				new strings[sizeof(f_str)];
-				format(strings,sizeof(strings),"%s",f_str);
-				ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Правила дорожнього руху",strings,"Закрити","");
-			}
+		case 25: 
+		{	
+			new string[128];
+			format(string, sizeof(string), ""W"Вітаємо Вас, "P"%s, "W"у Автошколі!\n\nБажаєте ознайомитися з Правилами Дорожнього Руху?", player_name[playerid]);
+			ShowPlayerDialog(playerid,D_AS_THEORY,DIALOG_STYLE_MSGBOX, ""P"Правила дорожнього руху", string, "Так", "Ні");
+		}
 		case 28: ShowGetGun(playerid);
 		case 29: ShowPlayerDialog(playerid,D_COP_DIALOG,DSL,""P"Департамент поліції Лос-Сантоса",""P"1."W" Отримати номерні знаки\n"P"2."W" Купити ліцензію на зброю ("O"50.000$"W")\n"P"3."W" Здатися з повинною","Обрати","Закрити");
 		case 30: return 1;
@@ -28323,15 +28491,14 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					SetPlayerPos(playerid, 789.3809,2507.1846,1502.0000);
 					SetPlayerVirtualWorld(playerid, 92);
 					SetPlayerInterior(playerid, 92);
-					
 				}
 			}
 		case 81: {
 				if(IsABikers(playerid))
 				{
 					SetPlayerPos(playerid, 2353.5300,247.3599,26.4466);
-					SetPlayerVirtualWorld(playerid, 0);
-					SetPlayerInterior(playerid, 0);
+					SetPlayerVirtualWorld(playerid, 93);
+					SetPlayerInterior(playerid, 93);
 				}
 			}
 		case 26,50,27: {
@@ -30008,6 +30175,16 @@ public OnPlayerDamage(&playerid, &Float: amount, &issuerid, &weapon, &bodypart)
 				}
 			}
 		}
+		if(!IsPlayerInAnyVehicle(playerid)) {
+			if(!IsACop(playerid) && !IsAArm(playerid) && PI[playerid][pMember] != fWHITEHOUSE && IsAGreenZone(playerid) &&
+				GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_DRINK_SPRUNK && GetPlayerWeapon(playerid) != 43 && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_DRINK_WINE && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_SMOKE_CIGGY && GetPlayerSpecialAction(playerid)!=SPECIAL_ACTION_DRINK_BEER && (PI[playerid][pAdmin] < 1 || dostup[playerid] == 0)) {
+				anti_dm{playerid} = 7;
+				FreezePlayerForTime(playerid,6);
+				new str[120];
+				format(str,sizeof(str),""W"У цьому місці заборонено "P"битись або стріляти"W"\n\nВи будете розморожені через"P" %d"W" секунд", anti_dm{playerid});
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Зелена зона",str, "Закрити", "");
+			}
+		}
 	}
 	return 1;
 }
@@ -30773,6 +30950,8 @@ public OnPlayerEnterRaceCheckpoint(playerid) {
 				
 				lic[playerid][0] = 1;
 				UpdateLicenses(playerid);
+				PI[playerid][pTLicCar] = gettime()+(30*24*60*60);
+				UpdatePlayerData(playerid,"TLicCar",PI[playerid][pTLicCar]);
 			}
 			else SendOK(playerid,"Тест провалено. Ви ще погано керуєте автомобілем.");
 			//SetVehicleToRespawn(GetPlayerVehicleID(playerid));
@@ -30801,6 +30980,8 @@ public OnPlayerEnterRaceCheckpoint(playerid) {
 				SendClientMessage(playerid,CGOLD,"Вітаємо з отриманням ліцензії на польоти.");
 				lic[playerid][1] = 1;
 				UpdateLicenses(playerid);
+				PI[playerid][pTLicAir] = gettime()+(30*24*60*60);
+				UpdatePlayerData(playerid,"TLicAir",PI[playerid][pTLicAir]);
 			}
 			else SendOK(playerid,"Тест провалено. Ви ще погано керуєте повітряним транспортом.");
 			SetPlayerPosAC(playerid,9.5551,-84.9727,1026.4089,5,3, true);
@@ -30830,6 +31011,8 @@ public OnPlayerEnterRaceCheckpoint(playerid) {
 				lic[playerid][2] = 1;
 				DisablePlayerRaceCheckpoint(playerid);
 				UpdateLicenses(playerid);
+				PI[playerid][pTLicBoat] = gettime()+(30*24*60*60);
+				UpdatePlayerData(playerid,"TLicBoat",PI[playerid][pTLicBoat]);
 			}
 			else SendOK(playerid,"Тест провалено. Ви ще погано керуєте водним транспортом.");
 			SetPlayerPosAC(playerid,9.5551,-84.9727,1026.4089,5,3, true);
@@ -31030,8 +31213,8 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			new string[sizeof(f_str) +4];
 			format(string,sizeof(string),f_str,VG[carid][vgAmount][0]);
 			SendInfo(playerid,string);
-			if(PI[playerid][pMember] == fARMYLS) SendInfo(playerid,"Використайте: /carm");
-			if(IsAGang(playerid)) SendInfo(playerid,"Для завантаження боєприпасів введіть: "P"/load"W".");
+			if(PI[playerid][pMember] == fARMYLS) SendHint(playerid,"Використайте: /carm");
+			if(IsAGang(playerid)) SendHint(playerid,"Для завантаження боєприпасів введіть: "P"/load"W".");
 		} 
 		if(GetVehicleModel(carid) == 548) {
 			static const f_str[] = "Завантажено боєприпасів: "P"%d"W".";
@@ -31154,7 +31337,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 							return RemovePlayerFromVehicleAC(playerid);
 						}
 						new string[128];
-						format(string, sizeof(string), ""W"Ви хочете орендовать цей автобус за "GREEN"$%i"W"?",BUS_PRICE_RENT);
+						format(string, sizeof(string), ""W"Ви хочете орендовати цей автобус за "GREEN"$%i"W"?",BUS_PRICE_RENT);
 						ShowPlayerDialog(playerid,dBusRent,DSM, ""P"Оренда",string,"Так","Ні");
 					}
 					TI[playerid][tSpcarTime] = 0;
@@ -31335,18 +31518,6 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			TI[playerid][tEther] = false;
 			SendOK(playerid,"Ви вийшли з прямого ефіру.");
 		}
-		new carid = GetPlayerVehicleID(playerid);
-		if(GetPVarInt(playerid, "first_enter_veh") && GetPVarInt(playerid, "WaitExam") && carid == 426)
-		{
-			SetPlayerPos(playerid, 702.8336,-1420.9506,13.5391);
-			SetPlayerFacingAngle(playerid, 271.7353);
-			SetPlayerVirtualWorld(playerid, 0);
-			DestroyVehicle(carid);
-			DeletePVar(playerid, "first_enter_veh");
-			DeletePVar(playerid, "WaitExam");
-			SendInfo(playerid, "Ви вийшли з автомобіля і були повернуті до Автошколи.");
-			SendHint(playerid, "Вам необхідно розпочати складання іспитів з початку (з теорії).");
-		}
 	}
 	return 1;
 }
@@ -31481,6 +31652,17 @@ public OnPlayerExitVehicle(playerid, vehicleid) {
 			if(vehicleid == FuncBizz[VehicleInfo[vehicleid][vBizz]][funcbCars][i]) FuncBizz[VehicleInfo[vehicleid][vBizz]][funcbCarID][i] = -1;
 		}
 	}
+	if(GetPVarInt(playerid, "first_enter_veh") && GetPVarInt(playerid, "WaitExam") && vehicleid == 426)
+		{
+			SetPlayerPos(playerid, 702.8336,-1420.9506,13.5391);
+			SetPlayerFacingAngle(playerid, 271.7353);
+			SetPlayerVirtualWorld(playerid, 0);
+			DestroyVehicle(vehicleid);
+			DeletePVar(playerid, "first_enter_veh");
+			DeletePVar(playerid, "WaitExam");
+			SendInfo(playerid, "Ви вийшли з автомобіля і були повернуті до Автошколи.");
+			SendHint(playerid, "Вам необхідно розпочати складання іспитів з початку (з теорії).");
+		}
 	if(vehicleid == car_autoschool[playerid]) {
 		SetPlayerPosAC(playerid,9.5551,-84.9727,1026.4089,5,3, true);
 		SetPlayerFacingAngle(playerid, 90.8821);
@@ -32460,7 +32642,7 @@ public CreateSphree() {
 	actor[7] = CreateActor(91, 1441.9052,696.7106,1087.9011,353.7388);//[автосалони]
 	SetActorVirtualWorld(actor[7], 59);
 	
-	actor[8] = CreateActor(240, 7.9640,-73.9655,1026.4089,177.9895);//[АШ] купівля ліцензій (реєстратура)
+	actor[8] = CreateActor(141, 1516.2834,1459.8016,10.8706,177.6762);//[АШ] купівля ліцензій (реєстратура)
 	SetActorVirtualWorld(actor[8], 5);
 	
 	actor[9] = CreateActor(29, 1768.1006,-1935.9192,13.5691,180.6560);//
@@ -32582,9 +32764,9 @@ public CreateSphree() {
 	actor[47] = CreateActor(95, 816.1916,-1843.3940,8.3624,133.5137);
 	SetActorVirtualWorld(actor[47], 0);
 	
-	CreateDynamic3DTextLabel("{FFFFFF}Бармен\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 775.3139,2518.5359,1502.0100, 4.0);
-	actor[48] = CreateActor(249, 775.3139,2518.5359,1502.0100,6.1540);
-	SetActorVirtualWorld(actor[48], 0);
+	CreateDynamic3DTextLabel(""P"Бармен\n\n"W"Для взаємодії натисніть "P"ALT", 0xFFFFFFFF, 2219.8818,2058.8755,96.8735, 4.0);
+	actor[48] = CreateActor(249, 2219.8818,2058.8755,96.8735,128.5546);
+	SetActorVirtualWorld(actor[48], 102);
 	
 	CreateDynamic3DTextLabel("{FFFFFF}Грузчик\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 317.5285,-29.1859,1.5781, 4.0);
 	actor[48] = CreateActor(184, 317.5285,-29.1859,1.5781,273.2614);
@@ -32651,13 +32833,17 @@ stock CreatePickups() {
 	CreateDynamicPickup(3632,23,-2193.4939,-234.2975,35.2970,0,0);//[нефть] пікап бочки
 	CreateDynamicPickup(19131,23,2357.3328,-2023.5265,13.8836); // чорний ринок пікап
 	
-	CreateDynamicPickup(19135,23,1763.6942,-1887.8494,13.5547); //лотерея
+	CreateDynamicPickup(19135,23,1516.3621,1458.1116,10.8708);//автошкола
+
+	CreateDynamicPickup(19135,23,1763.6942,-1887.8494,13.5547);//лотерея
 	CreateDynamic3DTextLabel("{FEFF91}Державна лотерея\n\n"W"Для взаємодії натисніть {FEFF91}ALT",0xFFFFFFFF,1763.6942,-1887.8494,13.5547,5.0);
 
 	CreateDynamicPickup(19134,23,2292.8179,-1786.3413,13.5469); // пікап заезда в гараж квартир
 	CreateDynamicPickup(19134,23,855.7083,-1662.6046,13.5547); // пікап заезда в гараж квартир
 	CreateDynamicPickup(19135,23,2488.0916,-1463.9087,24.0205); // пікап сдачи автомобилей
 	
+	CreateDynamicPickup(1650,23,312.3390,-27.9522,1.5781); //пікап бензин бандидос
+
 	CreateDynamicPickup(19135,23,2800.3972,-2481.9619,13.6349); // ЧС армии LS
 	
 	CreateDynamicPickup(1239,23,1782.5869,-1885.4102,13.3912); // скутер spawn ls
@@ -32754,13 +32940,17 @@ stock Create3dText() {
 	// sklad_cops[2] = CreateDynamic3DTextLabel(string,-1,1374.6270,1056.6377,1626.4896,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 42);
 	format(string,sizeof(string),"Боєприпасів: "P"%d од",FI[fFBI][fMats]);
 	sklad_cops[3] = CreateDynamic3DTextLabel(string,-1,18.8650,1407.6656,1069.3866,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, 43);
+
+	format(string,sizeof(string),"Бензину в бочці: "P"%d л\n\n"W"Для взаємодії натисніть "P"ALT", biker_benz[0]);
+	biker_3dtext[0] = CreateDynamic3DTextLabel(string,-1,312.3390,-27.9522,1.5781,3.0);
+
 	CreateDynamic3DTextLabel("Для взаємодії з вишкою використайте команду: \n"P"/hacker",0xFFFFFFFF,1643.3060,-1681.9083,21.4215,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Для взаємодії з вишкою використайте команду:\n"P"/hacker",0xFFFFFFFF,1462.8285,-775.3546,92.8073,15.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Вхід:\n"P" ALT",0xFFFFFFFF,1359.5322-0.3,1065.0143,1626.4896+0.5,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Вихід:\n"P" ALT",0xFFFFFFFF,1356.3823-0.3,1068.3185,1626.4896+0.5,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel("Продаж техніки\n1 од = "P"$250\n\n"P" Натисніть 'H'",0xFFFFFFFF,2357.3328,-2023.5265,13.8836,10.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	
-	CreateDynamic3DTextLabel(""P"Працівник Автошколи"W"\nДля взаємодії натисніть 'ALT'",-1,8.0738,-75.4945,1026.4089,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
+	CreateDynamic3DTextLabel(""P"Рецепція Автошколи"W"\nДля взаємодії натисніть "P"ALT",-1,1516.3621,1458.1116,10.8708,4.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 
 	CreateDynamic3DTextLabel(""P"Склад автомобілів\n"W"Натисніть 'H'",0xFFFFFFFF,2488.0916,-1463.9087,24.0205,5.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
 	CreateDynamic3DTextLabel(""P"Jack Waze"W"\nДля взаємодії натисніть 'ALT'",-1,2493.9104,-1464.7085,24.0253,8.0,INVALID_PLAYER_ID,INVALID_VEHICLE_ID,1, -1, -1);
@@ -37622,6 +37812,14 @@ CMD:givelic(playerid, params[]) {
 	lic[params[0]][2] =
 	lic[params[0]][3] = 1;
 	UpdateLicenses(params[0]);
+	PI[playerid][pTLicCar] = gettime()+(30*24*60*60);
+	UpdatePlayerData(playerid,"TLicCar",PI[playerid][pTLicCar]);
+	PI[playerid][pTLicAir] = gettime()+(30*24*60*60);
+	UpdatePlayerData(playerid,"TLicAir",PI[playerid][pTLicAir]);
+	PI[playerid][pTLicBoat] = gettime()+(30*24*60*60);
+	UpdatePlayerData(playerid,"TLicBoat",PI[playerid][pTLicBoat]);
+	PI[playerid][pTLicWeapon] = gettime()+(30*24*60*60);
+	UpdatePlayerData(playerid,"TLicWeapon",PI[playerid][pTLicWeapon]);
 	SendOK(params[0],"Ліцензії отримано.");
 	SendOK(playerid,"Ліцензії видано.");
 	return 1;
@@ -38765,6 +38963,12 @@ CMD:leaders(playerid) {
 	}
 	format(string, sizeof(string), "%s\n"ORANGE"В мережі %i лідерів", string,countleader);
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, ""P"Лідери організацій",string, "Закрити", "");
+	return 1;
+}
+cmd:azswar(playerid)
+{
+	EnableGPSForPlayer(playerid,BRob[azsX],BRob[azsY],BRob[azsZ]);
+	SendOK(playerid, "Мітку на АЗС, що грабується, успішно встановлено.");
 	return 1;
 }
 CMD:testleaders(playerid) {
@@ -40020,7 +40224,7 @@ CMD:gps(playerid){
 	return 1;
 }
 alias:menu("mm","mn"); 
-CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Статистика персонажа\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги", "Обрати", "Скасувати");
+CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги", "Обрати", "Скасувати");
 CMD:settings(playerid) {
 	ShowSettings(playerid);
 	return 1;
@@ -40110,7 +40314,7 @@ CMD:fhelp(playerid, params[]) {
 			SendDeptMessage(COLOR_MINJUST, string);
 			SendDeptMessage(COLOR_MINJUST, "Просимо підтримки всіх силових структур!");
 			GangZoneFlashForAll(SFa,COLOR_RED);
-			UpdateDynamic3DTextLabelText(army_text,-1,""NO"Оголошеня надзвичайна ситуація"W"\nДля відключення, введіть: "P"/fhelp.");
+			UpdateDynamic3DTextLabelText(army_text,-1,""NO"Оголошено надзвичайну ситуацію"W"\nДля відключення, введіть: "P"/fhelp.");
 			army_chs[0] = true;
 		}
 		else {
@@ -40127,7 +40331,7 @@ CMD:carm(playerid, params[]) {
 	if(!IsAArm(playerid)) return 1;
 	new veh = GetPlayerVehicleID(playerid);
 	switch(GetVehicleModel(veh)) {
-	case 433: if(VehicleInfo[veh][vTeam] == fARMYLS) ShowPlayerDialog(playerid, D_ARMY_CARM, DSL, ""P"Розвезення боєприпасів",""P"1."W" Завантажитися на збройовому заводі\n"P"2."W" Розвантажити на склад Департаменту поліції Лос-Сантоса\n"P"3."W" Розвантажити на склад Федерального бюро розслідувань\n"P"4."W" Розвантажити на склад нац. гвардії\n"P"5."W" Розвантажити на склад Офісу шерифа округу Редn"P"6."W" Стан складів\n"P"7."W" Завантажити боєприпаси", "Обрати", "Скасувати");
+	case 433: if(VehicleInfo[veh][vTeam] == fARMYLS) ShowPlayerDialog(playerid, D_ARMY_CARM, DSL, ""P"Розвезення боєприпасів",""P"1."W" Завантажитися на збройовому заводі\n"P"2."W" Розвантажити на склад Департаменту поліції Лос-Сантоса\n"P"3."W" Розвантажити на склад Федерального бюро розслідувань\n"P"4."W" Розвантажити на склад нац. гвардії\n"P"5."W" Розвантажити на склад Офісу шерифа округу Ред\n"P"6."W" Стан складів\n"P"7."W" Завантажити боєприпаси", "Обрати", "Скасувати");
 	}
 	return 1;
 }
@@ -40549,7 +40753,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TextDrawHideForPlayer(playerid, AnimDraw);
 		}
 	}
-	if(!IsPlayerInAnyVehicle(playerid)) {
+	/*if(!IsPlayerInAnyVehicle(playerid)) {
 		if((newkeys & KEY_FIRE) || ((newkeys & KEY_HANDBRAKE) && (oldkeys & KEY_HANDBRAKE) && (newkeys & KEY_SECONDARY_ATTACK)))
 		{
 			if(!IsACop(playerid) && !IsAArm(playerid) && PI[playerid][pMember] != fWHITEHOUSE && IsAGreenZone(playerid) &&
@@ -40561,7 +40765,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Зелена зона",str, "Закрити", "");
 			}
 		}
-	}
+	}*/
 	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
 		switch(GetPlayerWeapon(playerid)) {
 		case 23..25, 29..31: {
@@ -41027,7 +41231,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			format(lotto, sizeof(lotto),"{4362AF}1."W" Купити білет - %d$\n{4362AF}2."W" Переглянути свої білети\n{4362AF}3."W" Інформація про лотерею",LOTTOPRICE);
 			ShowPlayerDialog(playerid,dLotto,DIALOG_STYLE_LIST,"{FFFD72}Державна лотерея", lotto ,"Далі","Вихід");
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 1.0, 8.0738,-75.4945,1026.4089))
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 1516.3621,1458.1116,10.8708))
 		{
 			new string[256];
 			format(string, sizeof(string), ""P"1. "W"Як отримати ліцензію?\n"P"2. "W"Реєстрація на складання іспитів\n"P"3. "W"Придбання ліцензій");
@@ -41035,11 +41239,23 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 3.0, 716.8337,-1426.9216,13.5234) && GetPVarInt(playerid,"WaitExam"))
 		{
-			new string[256];
+			new string[300];
 			format(string, sizeof(string), ""W"Вітаю Вас, "P"%s!\n\n"W"Вам залишилося лише пройти практичний іспит. Для цього потрібен автомобіль, правда ж?\nНе дарма я тут працюю, буде Вам автомобіль. Але є одна умова.\nЯ поїду разом з Вами. І попереджаю, я інколи багато говорю.\n\n"P"Ну що ж, розпочнемо?", player_name[playerid]);
 			ShowPlayerDialog(playerid, D_START_EXAMEN_CAR, DIALOG_STYLE_MSGBOX, "Інструктор", string, "Почати", "Скасувати");
 			format(string, sizeof(string), "Вітаю Вас, %s. Розпочнемо практичний іспит?", player_name[playerid]);
 			SendBotMessage(playerid, string);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 312.3390,-27.9522,1.5781))
+		{
+			if(!GetPVarInt(playerid, "biker_rob") && IsABikers(playerid)) ShowPlayerDialog(playerid, D_BIKER_ROB, DIALOG_STYLE_MSGBOX, ""P"Пограбування АЗС", ""W"Бажаєте розпочати пограбування АЗС?", "Так", "Ні");
+			if(GetPVarInt(playerid, "is_on_rob") && GetPVarInt(playerid, "biker_rob"))
+			{
+				new string[128], money;
+				money = 30*BRobbed[playerid];
+				GiveMoney(playerid, money, "пограбування АЗС");
+				format(string, sizeof(string), "Ви успішно злили бензин в загальну бочку. Зароблено: "GREEN"%d", money);
+				SendOK(playerid, string);
+			}
 		}
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
@@ -41091,32 +41307,35 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
 		}
-		if(PlayerToPoint(1.5,playerid,1.4569,-90.4876,1026.4089) || PlayerToPoint(1.5,playerid,3.9606,-90.4766,1026.4091) ||
-				PlayerToPoint(1.5,playerid,6.3032,-90.4572,1026.4089)) {
-			if(TI[playerid][tAutoSchool] == 2 || TI[playerid][tAutoSchool] == 3)
+		for(new i; i < sizeof(auto_exam); i ++)
+		{
+			if(PlayerToPoint(1.5,playerid,auto_exam[i][0],auto_exam[i][1],auto_exam[i][2])) 
 			{
-				ShowPlayerDialog(playerid,D_AUTOSCHOOL_3,DSM, ""P"Екзамен","\n\n"W"Ви дійсно хочете приступити до екзамену?\n\n","Так","Скасувати");
-				return 1;
-			}
-			if(TI[playerid][tAutoSchool] == 1)
-			{
-				if(GetPVarInt(playerid,"use_test") == 1) return 1;
-				if(GetPVarInt(playerid,"pWaitingExam") == 1) return SendError(playerid, "Ви вже здали теоретичну частину.");
-				/*static const f_str[] = ""W"Ласкаво просимо в автошколу!\n\n\
-				Для отримання доступу до практичного екзамену,\n\
-				Вам необхідно відповісти "GREEN"правильно"W" на 5 теоретичних питань.\n\
-				Вартість проходження тесту складатиме "GREEN"$%d.\n\n\
-				"W"Ви хочете приступити до вирішення тесту?";
-				new string[sizeof(f_str) +1 + (-2 + 5)];
-				format(string,sizeof(string),f_str,500);
-				ShowPlayerDialog(playerid,D_AUTOSCHOOL_1,DSM, ""P"Екзамен",string,"Так","Скасувати");
-				SetPVarInt(playerid,"use_test", 1);
-				DeletePVar(playerid,"error_test");
-				DeletePVar(playerid,"pTestQNumber");
-				TestASKMassive[playerid] = { 0, 1, 2, 3, 4, 5, 6};
-				RandomMassive(TestASKMassive[playerid], 7);*/
-				dialog_autoschool_exam(playerid);
-				SetPVarInt(playerid,"use_test", 1);
+				if(TI[playerid][tAutoSchool] == 2 || TI[playerid][tAutoSchool] == 3)
+				{
+					ShowPlayerDialog(playerid,D_AUTOSCHOOL_3,DSM, ""P"Екзамен","\n\n"W"Ви дійсно хочете приступити до екзамену?\n\n","Так","Скасувати");
+					return 1;
+				}
+				if(TI[playerid][tAutoSchool] == 1)
+				{
+					if(GetPVarInt(playerid,"use_test") == 1) return 1;
+					if(GetPVarInt(playerid,"pWaitingExam") == 1) return SendError(playerid, "Ви вже здали теоретичну частину.");
+					/*static const f_str[] = ""W"Ласкаво просимо в автошколу!\n\n\
+					Для отримання доступу до практичного екзамену,\n\
+					Вам необхідно відповісти "GREEN"правильно"W" на 5 теоретичних питань.\n\
+					Вартість проходження тесту складатиме "GREEN"$%d.\n\n\
+					"W"Ви хочете приступити до вирішення тесту?";
+					new string[sizeof(f_str) +1 + (-2 + 5)];
+					format(string,sizeof(string),f_str,500);
+					ShowPlayerDialog(playerid,D_AUTOSCHOOL_1,DSM, ""P"Екзамен",string,"Так","Скасувати");
+					SetPVarInt(playerid,"use_test", 1);
+					DeletePVar(playerid,"error_test");
+					DeletePVar(playerid,"pTestQNumber");
+					TestASKMassive[playerid] = { 0, 1, 2, 3, 4, 5, 6};
+					RandomMassive(TestASKMassive[playerid], 7);*/
+					dialog_autoschool_exam(playerid);
+					SetPVarInt(playerid,"use_test", 1);
+				}
 			}
 		}
 		new Float:playerPos[3], Float:vehiclePos[3];
@@ -41192,7 +41411,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SendInfo(playerid, "Через 15 секунд ворота закриються.");
 			return 1;
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 5.0, 775.3139,2518.5359,1502.0100) && IsABikers(playerid)){
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 2219.8818,2058.8755,96.8735) && IsABikers(playerid)){
 			if(GetPVarInt(playerid, "Toms") == 1) return SendClientMessage(playerid, COLOR_WHITE, "Бармен: Чого стоїмо то? Вперед!");
             ShowPlayerDialog(playerid,BARMEN_READY,DSM, "P""Бармен",""W"Вам необхідно пограбувати алкогольний склад. Готові? ","Готов","Закрити");
 		}
@@ -43972,6 +44191,7 @@ stock load_economy() {
 		cache_get_value_name_int(0,"price_car", Nalog[7]);//ціна ліцензії на авто
 		cache_get_value_name_int(0,"price_air", Nalog[8]);//ціна ліцензії на польоти
 		cache_get_value_name_int(0,"price_boat", Nalog[9]);//ціна ліцензії на водний транспорт
+		cache_get_value_name_int(0, "price_weapon", Nalog[10]);//ціна ліцензії на зброю
 	}
 	cache_delete(result);
 	print("[Завантаження] Економіка успішно завантажно");
@@ -44589,6 +44809,8 @@ stock load_others() {
 			cache_get_value_index_int(i,16, invite_frac[5]);//MAFIA
 			cache_get_value_index_int(i,17, invite_frac[6]);//BAND
 			cache_get_value_index_int(i,18, invite_frac[7]);//WH
+			cache_get_value_index_int(i,19, biker_benz[0]);//бензин бандидос
+			cache_get_value_index_int(i,20, biker_benz[1]);//бензин ангели
 		}
 	}
 	cache_delete(result);
@@ -46206,6 +46428,11 @@ CB: load_account(playerid) {
 	cache_get_value_name(0, "pDiscord",PI[playerid][pDiscord],20);
 	cache_get_value_name(0, "pDiscordName",PI[playerid][pDiscordName],33);
 	cache_get_value_name(0, "pTelegram",PI[playerid][pTelegram],20);
+	cache_get_value_name_int(0,"TLicCar", PI[playerid][pTLicCar]);
+	cache_get_value_name_int(0,"TLicAir", PI[playerid][pTLicAir]);
+	cache_get_value_name_int(0,"TLicBoat", PI[playerid][pTLicBoat]);
+	cache_get_value_name_int(0,"TLicWeapon", PI[playerid][pTLicWeapon]);
+
 	SetString(player_ip[playerid],player_ip_check[playerid]);
 	SetHealth(playerid, PI[playerid][pHP]);
 	
@@ -46284,6 +46511,30 @@ CB: load_account(playerid) {
 		SendClientMessage(playerid,COLOR_REDD,"У вас закінчився термін дії преміум-акаунта.");
 		PI[playerid][pPremium] = 0;
 		UpdatePlayerData(playerid, "premium", 0);
+	}
+	if(PI[playerid][pTLicCar] <= unix && lic[playerid][0])
+	{
+		SendInfo(playerid, "У Вас завершився термін дії ліцензії на водіння.");
+		lic[playerid][0] = 0;
+		UpdateLicenses(playerid);
+	}
+	if(PI[playerid][pTLicAir] <= unix && lic[playerid][1])
+	{
+		SendInfo(playerid, "У Вас завершився термін дії ліцензії на польоти.");
+		lic[playerid][1] = 0;
+		UpdateLicenses(playerid);
+	}
+	if(PI[playerid][pTLicBoat] <= unix && lic[playerid][2])
+	{
+		SendInfo(playerid, "У Вас завершився термін дії ліцензії на керування водним транспортом.");
+		lic[playerid][2] = 0;
+		UpdateLicenses(playerid);
+	}
+	if(PI[playerid][pTLicWeapon] <= unix && lic[playerid][3])
+	{
+		SendInfo(playerid, "У Вас завершився термін дії ліцензії на зброю.");
+		lic[playerid][3] = 0;
+		UpdateLicenses(playerid);
 	}
 	if(PI[playerid][pCreditDay] <= unix && PI[playerid][pCreditDay])
 	{
@@ -46940,6 +47191,13 @@ CB: use_medsex(playerid) {
 		UpdatePlayerData(playerid,"Skin",PI[playerid][pSkin]);
 		A_SetPlayerSkin(playerid,PI[playerid][pSkin]);
 	}
+	return 1;
+}
+stock Save_BikerBenz()
+{
+	new query[512];
+	mysql_format(connects, query, sizeof(query),"UPDATE `others` SET `bandidos_benz` = '%d',`angels_benz` = '%d'",biker_benz[0], biker_benz[1]);
+	mysql_pquery(connects,query);
 	return 1;
 }
 stock save_other() {
@@ -48377,6 +48635,13 @@ stock UpdateLicenses(playerid) {
 	mysql_pquery(connects, query, "", "");
 	return 1;
 }
+stock UpdateLicensesTime(playerid)
+{
+	new query[156];
+	mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `licenses` = '%d,%d,%d,%d' WHERE `pID` = '%d'", lic[playerid][0],lic[playerid][1],lic[playerid][2],lic[playerid][3],PI[playerid][pID]);
+	mysql_pquery(connects, query, "", "");
+	return 1;
+}
 stock GetTickets(playerid) {
 	TOTALTICKETS[playerid] = 0;
 	new query[256];
@@ -49578,13 +49843,40 @@ stock ShowWBook(playerid,giveplayerid) {
 	mysql_tquery(connects, query, "joblist_callback", "ii", playerid, giveplayerid);	
 }
 stock ShowLic(playerid,giveplayerid) {
-	static const f_str[] = ""W"Водійські права: %s\n\
-							"W"Ліцензія пілота: %s\n\
-							"W"Ліцензія на водний транспорт: %s\n\
-							"W"Ліцензія на зброю: %s";
-	new string[sizeof(f_str) +100];
-	format(string,sizeof(string),f_str,(lic[playerid][0]) ? (""GREEN"Є") : (""NO"Немає"),(lic[playerid][1]) ? (""GREEN"Є") : (""NO"Немає"),(lic[playerid][2]) ? (""GREEN"Є") : (""NO"Немає"),(lic[playerid][3]) ? (""GREEN"Є") : (""NO"Немає"));
-	SPD(giveplayerid, DIALOG_NONE, DSM, ""P"Ліцензії.", string, "Закрити", "");
+	new stringcar[128], stringair[128], stringboat[128], stringweapon[128];
+	new second, minute, hour, day, month, year;
+
+	if(lic[playerid][0])
+	{
+		new car = floatround((PI[playerid][pTLicCar]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
+		format(stringcar,sizeof(stringcar),"(%iд %iг %iхв)", car, hour, minute);
+	}
+	if(lic[playerid][1])
+	{
+		new air = floatround((PI[playerid][pTLicAir]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
+		format(stringair,sizeof(stringair),"(%iд %iг %iхв)", air, hour, minute);
+	}
+	if(lic[playerid][2])
+	{
+		new boat = floatround((PI[playerid][pTLicBoat]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
+		format(stringboat,sizeof(stringboat),"(%iд %iг %iхв)", boat, hour, minute);
+	}
+	if(lic[playerid][3])
+	{
+		new weapon = floatround((PI[playerid][pTLicWeapon]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
+		format(stringweapon,sizeof(stringweapon),"%iд %iг %iхв", weapon, hour, minute);
+	}
+	static const f_str[] = ""W"Водійські права: %s %s\n\
+							"W"Ліцензія пілота: %s %s\n\
+							"W"Ліцензія на водний транспорт: %s %s\n\
+							"W"Ліцензія на зброю: %s %s";
+	new string[sizeof(f_str) +300];
+	format(string,sizeof(string),f_str,(lic[playerid][0]) ? (""GREEN"Є") : (""NO"Немає"), stringcar,(lic[playerid][1]) ? (""GREEN"Є") : (""NO"Немає"), stringair, (lic[playerid][2]) ? (""GREEN"Є") : (""NO"Немає"), stringboat, (lic[playerid][3]) ? (""GREEN"Є") : (""NO"Немає"), stringweapon);
+	SPD(giveplayerid, DIALOG_NONE, DSM, ""P"Ліцензії", string, "Закрити", "");
 }
 stock ShowPass(playerid,actplayerid) {
 	new jobname[32],classname[15],string[1024];
@@ -51212,7 +51504,7 @@ Float:A,
 	new string[128];
 	format(string, sizeof(string), "Ви були телепортовані адміністратором %s.", player_name[playerid]);
 	SendOK(giveplayerid,string);
-	format(string, sizeof(string), "Ви телепортували гравця %s до сбе.", player_name[giveplayerid]);
+	format(string, sizeof(string), "Ви телепортували гравця %s до себе.", player_name[giveplayerid]);
 	SendOK(playerid,string);
 	return 1;
 }
@@ -62806,6 +63098,42 @@ CB: player_timer(playerid) {
 				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Зелена зона",str, "Закрити", "");
 			}
 		}
+		if(IsPlayerInRangeOfPoint(playerid, 3.0, BRob[azsX], BRob[azsY], BRob[azsZ]) && IsABikers(playerid) && GetPVarInt(playerid, "biker_rob"))
+		{
+			if(BRobTimeForEnter > 0)
+			{
+				BRobTimeForEnter = 0;
+				//BRobTime = 60*10;
+				SendInfo(playerid, "Таймер приїзду на АЗС вимкнуто.");
+			}
+			if(GetPVarInt(playerid, "give_item"))
+			{
+				SetPlayerAttachedObject(playerid, 2, 1650, 6, 0.120999, 0.017999, 0.069000, 0.000000, -100.400024, 0.000000, 1.000000, 1.000000, 1.000000, 0, 0);
+				DeletePVar(playerid, "give_item");
+			}
+			if(!GetPVarInt(playerid, "is_on_rob")) SetPVarInt(playerid, "is_on_rob", 1);
+			if(BRobbed[playerid] < 100)
+			{
+				if(BRobbed[playerid] == 99)
+				{
+					SendInfo(playerid, "Ваша каністра заповнена на 100 відсотків.");
+					SendHint(playerid, "Доставте каністру з бензином до клубу та злийте в загальну бочку. Мітку встановлено на карті.");
+					EnableGPSForPlayer(playerid, 312.3390,-27.9522,1.5781);
+				}
+				BRobbed[playerid] ++;
+				gBusiness[BRob[azsID]][bizzProduct] --;
+				new string[32];
+				format(string, sizeof(string), "~y~KAмiCЏPA_€AЊO‹мEмA_мA: %d#", BRobbed[playerid]);
+				GameTextForPlayer(playerid, string, 1000, 4);
+				SendInfo(playerid, "Ти в ареа пограбування.");
+			}
+		}
+		if(BRobTimeForEnter > 0 && IsABikers(playerid) && GetPVarInt(playerid, "biker_rob")) 
+		{
+			new string[32];
+			format(string, sizeof(string), "~y~%s", Convert(BRobTimeForEnter));
+			GameTextForPlayer(playerid, string, 1000, 4);
+		}
 	}
 	@AntiCheat(playerid);
 	return 1;
@@ -63212,6 +63540,8 @@ CB: second_timer() // global timer
 	// 	}
 	// }
 	if(BizWarTime[1]) BizWarTimer();
+	if(BRobTimeForEnter > 0) BRobTimeForEnter--;
+	//if(BRobTime > 0) BRobTime--;
 	return 1;
 }
 CB: minute_timer()
@@ -65727,7 +66057,7 @@ CB:OnGameModeUpdate() {
 	if ((tmphour > ghour) || (tmphour == 0 && ghour == 23))
 	{
 		ghour = tmphour;
-		format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), ""P"[Інформація]"W" Поточний час: "P" %d:00"W".", tmphour);
+		format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), ""P"[Інформація]"W" Поточний час: "P"%d:00"W".", tmphour);
 		SendClientMessageToAll(COLOR_WHITE, CHAT_GLOBAL);
 		PayDay();
 	}
@@ -68684,4 +69014,9 @@ stock dialog_autoschool_exam(playerid)
 	SPD(playerid, D_LICENSE_CAR_EXAM, DIALOG_STYLE_MSGBOX, ""P"Теоретичний іспит з водіння", tmp_string, "Розпочати", "Скасувати");
 	tmp_string[0] = EOS;
 	return true;
+}
+forward rob_enter(playerid);
+public rob_enter(playerid)
+{
+	return 1;
 }

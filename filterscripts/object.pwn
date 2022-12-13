@@ -8,6 +8,9 @@ public OnGameModeInit()
     CPExterior();
     LSFDInterior();
     BankInterior();
+    BikerInt();
+    BikerInt2();
+    AS_Int();
 	return 1;
 }
 
@@ -5007,4 +5010,3796 @@ BankInterior()
 	bank_int= CreateDynamicObject(19456, 498.662567, 2611.031982, 1133.734863, 0.000000, 0.000000, 360.000000, -1, 3, -1, STREAMER_OBJECT_SD, 150.0); // 1
 	SetDynamicObjectMaterial(bank_int, 0, 4829, "airport_las", "liftdoorsac256", 0);
 	CreateDynamicObject(1654, 508.078003, 2619.098145, 1082.634033, 0.000000, 0.000000, 90.000000, -1, 3, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+}
+
+BikerInt()
+{
+	new biker;
+	biker = CreateDynamicObject(19378, 281.955383, -87.681969, 1600.000000, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "carpbroth1", 0);
+	biker = CreateDynamicObject(19378, 281.955414, -78.049797, 1600.000000, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "carpbroth1", 0);
+	biker = CreateDynamicObject(19378, 281.955414, -68.416496, 1600.000000, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16322, "a51_stores", "des_ghotwood1", 0);
+	biker = CreateDynamicObject(19378, 299.713715, -81.712006, 1600.040039, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14420, "dr_gsbits", "mp_gs_carpet", 0);
+	biker = CreateDynamicObject(19378, 292.453796, -68.416496, 1600.000000, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16322, "a51_stores", "des_ghotwood1", 0);
+	biker = CreateDynamicObject(19446, 297.492493, -89.563202, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 286.438080, -89.563171, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 289.741608, -93.527802, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 291.262909, -88.794502, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 292.781311, -93.527100, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 297.432983, -85.706779, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 285.511475, -86.608681, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 280.779205, -81.877998, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(14387, 282.994598, -70.771103, 1602.548584, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(19446, 279.316528, -77.640167, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 297.433014, -76.073402, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19378, 282.727814, -84.405602, 1603.482910, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0);
+	biker = CreateDynamicObject(19378, 276.386902, -74.799591, 1603.482910, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0);
+	biker = CreateDynamicObject(14387, 285.824310, -70.798103, 1600.584839, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(19446, 282.025330, -73.122437, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	biker = CreateDynamicObject(19378, 293.222504, -90.826797, 1603.482910, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0);
+	biker = CreateDynamicObject(14726, 288.710999, -83.153397, 1602.234619, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 286.384308, -83.506401, 1602.234619, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 291.512695, -87.873596, 1602.234619, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 290.576996, -85.548103, 1602.234619, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 284.515015, -81.073303, 1602.234619, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 283.710907, -78.754799, 1602.234619, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 281.851990, -76.171402, 1602.234619, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 279.515808, -76.698799, 1602.234619, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(19446, 284.938110, -89.563202, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 297.492493, -89.563202, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 291.262909, -88.794502, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 292.781311, -93.527100, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 289.741608, -93.527802, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 297.433014, -85.706802, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 285.512299, -93.027298, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 280.779205, -81.877998, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 277.949127, -79.350327, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 297.433014, -76.073402, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 298.641846, -71.269478, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 286.759186, -73.842796, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	biker = CreateDynamicObject(19446, 282.025604, -74.560699, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 285.238312, -74.560699, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 285.238312, -73.122398, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 282.028198, -73.122398, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 282.028198, -74.560699, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19386, 279.349335, -74.559036, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0);
+	biker = CreateDynamicObject(19442, 286.759186, -73.842796, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0);
+	biker = CreateDynamicObject(19442, 280.507294, -73.839798, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0);
+	biker = CreateDynamicObject(19386, 292.225891, -71.269501, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	biker = CreateDynamicObject(19446, 285.806000, -71.269501, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 298.641815, -71.269501, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 285.806000, -71.269501, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 292.225891, -71.269501, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 276.178589, -71.269501, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19386, 277.741150, -72.947403, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0);
+	biker = CreateDynamicObject(19446, 277.741089, -79.366898, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 272.959717, -79.283173, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 271.588593, -75.440842, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 285.512299, -83.399101, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(3498, 287.589813, -80.073219, 1604.518066, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(3498, 280.637390, -79.788963, 1604.518066, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(3498, 287.506592, -86.606339, 1604.518066, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(3498, 294.528748, -86.813499, 1604.518066, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(19386, 285.512299, -86.607498, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0);
+	biker = CreateDynamicObject(19378, 282.727814, -94.037598, 1603.482910, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0);
+	biker = CreateDynamicObject(19377, 280.313110, -87.053459, 1603.488892, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 280.670563, -89.251297, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 280.708282, -82.866859, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 278.872437, -87.009003, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11686, 294.568268, -84.619324, 1600.039795, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 5
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(biker, 2, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(biker, 3, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	SetDynamicObjectMaterial(biker, 4, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(11686, 294.568298, -79.828400, 1600.039795, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 5
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(biker, 2, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(biker, 3, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	SetDynamicObjectMaterial(biker, 4, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(11686, 296.567413, -86.727097, 1600.037842, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 5
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(biker, 2, 19480, "signsurf", "sign", 0);
+	SetDynamicObjectMaterial(biker, 3, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	SetDynamicObjectMaterial(biker, 4, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(19446, 298.883545, -77.429443, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 294.149811, -72.696098, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 298.883514, -77.429398, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 294.149811, -72.696098, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 293.978424, -66.491257, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 286.697388, -66.466225, 1601.796143, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 290.612274, -65.318199, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 287.464905, -61.090401, 1601.794067, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 286.746887, -65.821938, 1601.794067, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 293.945801, -65.821899, 1601.794067, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 290.384888, -65.821899, 1601.794067, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 289.665588, -61.088902, 1601.794067, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 291.102997, -61.088299, 1601.794067, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 293.226593, -61.089802, 1601.794067, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 272.162292, -75.345200, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 272.162292, -71.168297, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 272.162292, -79.373001, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 267.424408, -71.886002, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 267.429810, -74.627197, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 267.428894, -76.064003, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 267.427185, -78.654800, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 279.466461, -83.015541, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 279.466492, -89.122803, 1605.295288, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 274.733704, -83.733902, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 274.733887, -88.406998, 1605.295288, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19378, 299.372528, -81.195213, 1603.482910, 0.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0);
+	biker = CreateDynamicObject(14726, 295.781219, -82.926270, 1602.234619, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 293.448517, -83.792847, 1602.234619, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(14726, 295.786285, -79.451080, 1602.234619, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(1502, 291.439301, -71.295799, 1600.028687, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 14738, "whorebar", "AH_whoredoor", 0);
+	biker = CreateDynamicObject(1502, 285.531189, -87.356400, 1603.527832, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 8423, "pirateship01", "tislandwdbox01_128", 0);
+	biker = CreateDynamicObject(1502, 277.771393, -73.694504, 1603.527832, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 8423, "pirateship01", "tislandwdbox01_128", 0);
+	biker = CreateDynamicObject(1502, 278.563293, -74.589302, 1603.527832, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 8423, "pirateship01", "tislandwdbox01_128", 0);
+	biker = CreateDynamicObject(1569, 287.804016, -65.363876, 1600.563354, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3241, "conhooses", "des_whitewin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1569, 291.405487, -65.363747, 1600.563354, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3241, "conhooses", "des_whitewin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1569, 271.643463, -78.131317, 1604.103882, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3241, "conhooses", "des_whitewin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1569, 271.631958, -74.000687, 1604.103882, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3241, "conhooses", "des_whitewin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1569, 278.910065, -85.820351, 1604.103882, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17503, "furniture_lae2", "inwindow4", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1569, 278.919403, -87.822884, 1604.103882, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17503, "furniture_lae2", "inwindow4", 0xFFFFFFFF);
+	biker = CreateDynamicObject(3260, 283.847748, -81.469337, 1604.506836, -10.200002, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11688, 297.249298, -79.311028, 1602.107544, 0.000000, 270.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 3, 14537, "pdomebar", "club_bottles1_SFW", 0);
+	biker = CreateDynamicObject(19071, 286.444427, -73.722694, 1599.108398, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 290.041687, -81.873817, 1608.925903, 180.000000, 90.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16326, "des_byoffice", "des_bywin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11714, 291.255249, -88.701248, 1601.303955, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3187, "cxref_quarrytest", "gs_door1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2588, 297.280945, -84.829628, 1602.088501, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18028, "cj_bar2", "GB_nastybar17", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11714, 285.605225, -84.161301, 1601.303955, 0.000007, -0.000007, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2988, "kcomp_gx", "kmwood_gate", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11714, 285.605225, -87.161301, 1601.303955, -0.000007, 0.000007, -0.000007, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2988, "kcomp_gx", "kmwood_gate", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 314.074615, -73.722694, 1607.947510, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 267.434662, -73.722694, 1607.947510, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 275.784729, -115.202629, 1607.950439, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 267.564667, -73.722694, 1608.007568, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 313.984833, -73.722694, 1608.007568, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 268.384735, -106.102684, 1608.007568, 360.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19071, 268.384735, -54.792679, 1608.007568, 360.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 290.041687, -85.993851, 1608.925903, 180.000000, 90.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16326, "des_byoffice", "des_bywin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 290.041687, -87.063835, 1608.915894, 180.000000, 90.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16326, "des_byoffice", "des_bywin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 290.041687, -77.763809, 1608.925903, 180.000000, 90.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16326, "des_byoffice", "des_bywin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2799, 291.278137, -82.748474, 1600.601318, 0.000000, 0.000007, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 291.278137, -82.748474, 1600.599365, 0.000007, 0.000000, 93.599953, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 289.548309, -79.858490, 1600.601318, 0.000000, 0.000014, -37.100002, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 289.548309, -79.858490, 1600.599365, 0.000014, 0.000000, 56.499935, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 292.308380, -79.038506, 1600.601318, -0.000003, 0.000019, -11.199995, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 292.308380, -79.038506, 1600.599365, 0.000019, 0.000003, 82.399918, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 282.772766, -77.639397, 1600.601318, -0.000006, 0.000028, 24.499989, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 282.806580, -77.672119, 1600.599365, 0.000029, 0.000003, 118.099884, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 285.188538, -76.358444, 1600.601318, -0.000000, 0.000035, 53.399975, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2799, 285.188538, -76.358444, 1600.599365, 0.000035, 0.000000, 146.999863, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 13590, "kickstart", "ah_logend", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 3895, "inditaly", "Plaindoor_64V", 0);
+	SetDynamicObjectMaterial(biker, 2, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(19325, 290.041687, -81.873817, 1608.925903, 180.000000, 90.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16326, "des_byoffice", "des_bywin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 290.041687, -77.763809, 1608.925903, 180.000000, 90.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16326, "des_byoffice", "des_bywin1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 279.432159, -78.253830, 1601.414917, 720.000000, 180.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16098, "des_boneyard", "Was_meshfence", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 292.991730, -81.843811, 1606.836182, 540.000000, 180.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8423, "pirateship01", "tislndshpmast", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 292.991730, -81.843811, 1606.836182, 540.000000, 180.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8423, "pirateship01", "tislndshpmast", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 292.991730, -81.843811, 1606.836182, 540.000000, 180.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8423, "pirateship01", "tislndshpmast", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 292.991730, -81.843811, 1606.836182, 540.000000, 180.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8423, "pirateship01", "tislndshpmast", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 292.991730, -81.843811, 1606.836182, 540.000000, 180.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8423, "pirateship01", "tislndshpmast", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11688, 297.249298, -80.301010, 1602.107544, 0.000000, 270.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 3, 12844, "cos_liquorstore", "cos_beercab", 0);
+	biker = CreateDynamicObject(11688, 297.249298, -81.300972, 1602.107544, 0.000000, 270.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 3, 14537, "pdomebar", "club_bottles1_SFW", 0);
+	biker = CreateDynamicObject(19378, 291.196930, -65.999580, 1603.603027, 0.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 17005, "farmhouse", "sjmbigold2", 0);
+	biker = CreateDynamicObject(19446, 298.048584, -71.241257, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19446, 286.358582, -71.241257, 1601.796143, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14407, "carter_block", "mp_carter_sep", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2641, 287.698212, -89.419441, 1605.711914, 0.000000, 270.000000, 179.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 287.698212, -89.419441, 1604.881104, 0.000000, 270.000000, 179.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 295.298157, -89.419441, 1605.711914, 0.000000, 270.000000, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 295.298157, -89.419441, 1604.881104, 0.000000, 270.000000, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 297.298035, -79.609398, 1605.711914, -0.000007, 270.000000, -90.000053, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 297.298035, -79.609398, 1604.881104, -0.000007, 270.000000, -90.000053, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 297.298035, -87.399391, 1605.711914, -0.000014, 270.000000, -90.000031, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 297.298035, -87.399391, 1604.881104, -0.000014, 270.000000, -90.000031, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 297.298035, -83.659401, 1605.711914, -0.000022, 270.000000, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(2641, 297.298035, -83.659401, 1604.881104, -0.000022, 270.000000, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 3900, "station", "ledge2_64H", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 17503, "furniture_lae2", "inwindow4", 0);
+	biker = CreateDynamicObject(19968, 291.873077, -85.944435, 1602.022583, 0.000000, 179.999985, 144.700012, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 6865, "vgndwntwn23", "steaksign1_256", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2948, 297.355835, -83.820358, 1600.099243, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18028, "cj_bar2", "GB_nastybar15", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.095612, -78.500549, 1600.743164, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.095612, -78.500549, 1600.743164, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.095612, -78.500549, 1600.743164, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.095612, -78.500549, 1600.743164, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.525574, -78.720543, 1601.173584, 270.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.525574, -78.720543, 1601.173584, 270.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.525574, -78.720543, 1601.173584, 270.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 294.525574, -78.720543, 1601.173584, 270.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberschr3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1486, 294.561707, -81.194252, 1601.270142, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1486, 294.321594, -79.974266, 1601.270142, 0.000000, 0.000000, -48.099998, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1486, 294.347015, -83.686287, 1601.270142, 0.000000, 0.000000, 25.099997, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1486, 294.613068, -85.527283, 1601.270142, 0.000000, 0.000000, 125.699997, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1486, 294.478943, -85.340523, 1601.270142, 0.000000, 0.000000, 50.099998, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1486, 294.395081, -82.572243, 1601.270142, 0.000000, 0.000000, -15.900005, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1520, 294.386963, -79.836670, 1601.181641, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1520, 294.386963, -79.836670, 1601.181641, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1520, 294.596985, -84.546677, 1601.181641, 0.000000, 0.000000, 66.599998, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1520, 294.481567, -86.022255, 1601.181641, 0.000000, 0.000000, 144.899994, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2588, 297.280945, -82.069641, 1602.088501, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18028, "cj_bar2", "bbar_stuff2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1541, 294.934357, -81.973572, 1601.296509, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 5, 3961, "lee_kitch", "SinkL", 0);
+	biker = CreateDynamicObject(1541, 294.934357, -85.053574, 1601.296509, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 2, 14811, "lee_strip2_1", "VodkaBottle", 0);
+	SetDynamicObjectMaterial(biker, 5, 3961, "lee_kitch", "SinkL", 0);
+	biker = CreateDynamicObject(2662, 294.002136, -73.148590, 1605.332275, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 12937, "sw_oldshack", "sw_cabshut01", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2685, 297.238312, -79.988792, 1602.784912, -13.600000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 12960, "sw_church", "sw_confess", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2661, 297.249969, -79.114876, 1602.855713, -9.800000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 6865, "vgndwntwn23", "steaksign1_256", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2894, 294.531219, -83.178177, 1601.134277, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14802, "lee_bdupsflat", "Bdup_punters", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19325, 290.272186, -71.393875, 1606.025879, 900.000000, 180.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 16098, "des_boneyard", "Was_meshfence", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2662, 294.002136, -75.418587, 1605.332275, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 12937, "sw_oldshack", "sw_cabshut01", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2404, 293.696350, -73.970154, 1601.226074, 13.400003, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 15046, "svcunthoose", "ab_flakeywall", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2715, 285.439606, -88.253380, 1605.400269, 0.000000, -2.999999, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14737, "whorewallstuff", "ah_painting1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1759, 283.221985, -83.682465, 1603.552979, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 13003, "ce_racestart", "CJ_TARTAN", 0);
+	SetDynamicObjectMaterial(biker, 1, 1453, "break_farm", "CJ_DarkWood", 0);
+	biker = CreateDynamicObject(2069, 287.067352, -70.789352, 1600.207764, 0.000000, 12.899996, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker, 1, 2903, "kmb_chute", "parachute", 0);
+	SetDynamicObjectMaterial(biker, 2, 14707, "labig3int2", "Soil", 0);
+	SetDynamicObjectMaterial(biker, 3, 14708, "labig1int2", "HS_vase", 0);
+	biker = CreateDynamicObject(2063, 288.753754, -70.836777, 1600.946777, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 12937, "sw_oldshack", "sw_cabshut01", 0);
+	SetDynamicObjectMaterial(biker, 1, 8423, "pirateship01", "tislandwall01_128", 0);
+	biker = CreateDynamicObject(2065, 290.577271, -70.701820, 1600.080811, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 18265, "w_town3cs_t", "inddoor5", 0);
+	SetDynamicObjectMaterial(biker, 1, 14760, "sfhosemed2", "ah_marcorn1", 0);
+	biker = CreateDynamicObject(2060, 288.741638, -70.880539, 1600.972168, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3904, "libertyfar", "redbuild06a", 0);
+	biker = CreateDynamicObject(2058, 288.709320, -70.429260, 1600.133667, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 7981, "vgssairport02", "drivecare_64", 0);
+	biker = CreateDynamicObject(2057, 289.302704, -70.846443, 1601.897827, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 1, 17944, "lngblok_lae2", "downtsign14_LA", 0);
+	biker = CreateDynamicObject(2056, 288.843201, -67.558350, 1600.901123, 270.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2060, 287.754242, -70.382072, 1600.491699, 6.899989, -70.300011, -78.000015, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1328, "labins01_la", "bins7_LAe2", 0);
+	biker = CreateDynamicObject(2043, 289.469391, -70.814865, 1600.484375, 0.000000, 0.000000, 94.600006, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 2936, "kmb_rckx", "larock256", 0);
+	SetDynamicObjectMaterial(biker, 1, 2942, "kmb_atmx", "kmb_chip1", 0);
+	biker = CreateDynamicObject(2029, 288.562866, -68.587578, 1600.081909, 0.000000, 0.000000, 76.799934, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2988, "kcomp_gx", "kmwood_gate", 0);
+	biker = CreateDynamicObject(2056, 288.843201, -67.558350, 1600.901123, 270.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 288.843201, -67.558350, 1600.901123, 270.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 288.413239, -68.558350, 1600.901123, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 288.413239, -68.558350, 1600.901123, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 288.413239, -68.558350, 1600.901123, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 288.413239, -68.558350, 1600.901123, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(3111, 288.895111, -67.677834, 1600.118042, 0.000000, 0.000000, 24.500004, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14735, "newcrak", "ab_rug", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1758, 287.062012, -67.405357, 1600.078491, 0.000000, 0.000000, 52.899994, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 18058, "mp_diner2", "mp_diner_table", 0);
+	SetDynamicObjectMaterial(biker, 1, 14482, "motel_skuzwin", "motel_curt1", 0);
+	biker = CreateDynamicObject(19371, 293.952820, -68.464523, 1601.796143, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 4849, "ground3_las", "rubbish", 0xFFFFFFFF);
+	biker = CreateDynamicObject(14875, 292.409363, -68.419960, 1600.918823, 0.000000, 0.000000, 630.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2891, "kmb_packet", "kmb_packet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19918, 288.728333, -68.298714, 1600.881714, 0.000000, 0.000000, 103.699997, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2891, "kmb_packet", "kmb_packet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1851, 288.510956, -67.888527, 1601.015991, 3.799998, -3.399997, -37.100014, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14802, "lee_bdupsflat", "mp_Gen_Bin_Bag", 0);
+	biker = CreateDynamicObject(1951, 288.617584, -67.222435, 1601.055786, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "BeerGlass2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1956, 288.704468, -68.825264, 1600.882813, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 5
+	SetDynamicObjectMaterial(biker, 0, 14832, "lee_stripclub", "Strip_wood_floor", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 14735, "newcrak", "AH_flrwllM", 0);
+	SetDynamicObjectMaterial(biker, 2, 14832, "lee_stripclub", "Strip_wood_floor", 0);
+	SetDynamicObjectMaterial(biker, 3, 14832, "lee_stripclub", "Strip_wood_floor", 0);
+	SetDynamicObjectMaterial(biker, 4, 14832, "lee_stripclub", "Strip_wood_floor", 0);
+	biker = CreateDynamicObject(2050, 286.834991, -69.843475, 1601.876709, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8421, "pirateland", "tislndskullrock_256", 0);
+	biker = CreateDynamicObject(1736, 287.105408, -67.614838, 1602.449341, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 8423, "pirateship01", "tislandwdbox02_64", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2055, 286.851013, -68.519997, 1601.540527, 0.000000, -15.399997, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 5716, "sunrise02_lawn", "manndoorc_law", 0);
+	biker = CreateDynamicObject(2120, 289.877594, -67.689919, 1600.666138, 0.000000, 0.000000, 69.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2120, 289.949066, -69.484802, 1600.666138, 0.000000, 0.000000, -56.599995, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(3077, 276.494568, -76.290230, 1603.519165, 0.000000, 0.000000, 81.599983, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 5154, "dkcargoshp_las2", "bandingblue_64", 0);
+	SetDynamicObjectMaterial(biker, 1, 14859, "gf1", "mp_cooch_frame", 0);
+	biker = CreateDynamicObject(1670, 291.275513, -82.829468, 1600.795166, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "Liquer", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 6, 14811, "lee_strip2_1", "BeerGlass2", 0);
+	biker = CreateDynamicObject(1670, 292.405640, -79.079498, 1600.795166, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "Liquer", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 6, 14811, "lee_strip2_1", "BeerGlass2", 0);
+	biker = CreateDynamicObject(1670, 289.685699, -79.979515, 1600.795166, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "Liquer", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 6, 14811, "lee_strip2_1", "BeerGlass2", 0);
+	biker = CreateDynamicObject(1670, 285.255676, -76.369514, 1600.795166, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "Liquer", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 6, 14811, "lee_strip2_1", "BeerGlass2", 0);
+	biker = CreateDynamicObject(1670, 282.885681, -77.649506, 1600.795166, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14811, "lee_strip2_1", "Liquer", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 6, 14811, "lee_strip2_1", "BeerGlass2", 0);
+	biker = CreateDynamicObject(2350, 293.751099, -85.151802, 1600.451294, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "motel_wall2", 0);
+	biker = CreateDynamicObject(2350, 293.391113, -83.301811, 1600.451294, 0.000000, 0.000000, -27.999998, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "motel_wall2", 0);
+	biker = CreateDynamicObject(2350, 293.751099, -81.411789, 1600.451294, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 1, 14500, "imm_roomss", "motel_wall2", 0);
+	biker = CreateDynamicObject(3017, 292.725311, -77.063728, 1601.778809, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18901, "matclothes", "bandanared", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11289, 283.889221, -74.662346, 1604.548340, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18901, "matclothes", "bandanaflag", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 283.829163, -73.942802, 1605.576172, 180.000000, 90.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	biker = CreateDynamicObject(11289, 291.249176, -88.642769, 1605.319092, 0.000007, 0.000000, 179.999878, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 11469, "des_steakhouse", "des_bullsign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19442, 291.309235, -89.362312, 1606.346924, 0.000007, -89.999992, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14771, "int_brothelint3", "Bow_bar_panelfront", 0);
+	biker = CreateDynamicObject(2599, 294.477478, -80.472549, 1601.588257, 0.000000, 0.000000, -77.099960, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 18055, "genintsmlrst_split", "GB_restaursmll22", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1211, "dynhydrent", "firehydrant_yell", 0);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876328, 1601.871704, 89.999992, 89.999992, -125.299957, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014992, 1601.871704, 89.999992, -90.000000, -125.299973, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043564, 1601.871704, 89.999992, 154.471191, -99.771202, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847717, 1601.871704, 89.999992, -25.528778, -99.771179, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876312, 1600.201538, -89.999992, 103.368477, 68.068512, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014977, 1600.201538, -89.999992, -84.355019, 60.344906, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847710, 1600.201538, -89.999992, 191.817825, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043571, 1600.201538, -89.999992, 11.817858, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19968, 291.873077, -85.944435, 1602.022583, 0.000000, 179.999985, 144.700012, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 6865, "vgndwntwn23", "steaksign1_256", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876328, 1601.871704, 89.999992, 89.999992, -125.299957, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014992, 1601.871704, 89.999992, -90.000000, -125.299973, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043564, 1601.871704, 89.999992, 154.471191, -99.771202, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847717, 1601.871704, 89.999992, -25.528778, -99.771179, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876312, 1600.201538, -89.999992, 103.368477, 68.068512, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014977, 1600.201538, -89.999992, -84.355019, 60.344906, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847710, 1600.201538, -89.999992, 191.817825, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847717, 1601.871704, 89.999992, -25.528778, -99.771179, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876312, 1600.201538, -89.999992, 103.368477, 68.068512, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014977, 1600.201538, -89.999992, -84.355019, 60.344906, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847710, 1600.201538, -89.999992, 191.817825, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043571, 1600.201538, -89.999992, 11.817858, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19968, 288.217773, -76.936340, 1602.022583, 0.000003, 179.999985, -162.399948, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 6865, "vgndwntwn23", "steaksign1_256", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19836, 288.097870, -76.981956, 1601.871704, 89.999992, 73.884483, -56.284435, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.326630, -76.909401, 1601.871704, 89.999992, -106.115517, -56.284443, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.248505, -77.060051, 1601.871704, 89.999992, 149.620865, -42.020863, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.175964, -76.831314, 1601.871704, 89.999992, -30.379099, -42.020851, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.097870, -76.981949, 1600.201538, -89.999992, 113.946548, 131.546555, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.326599, -76.909393, 1600.201538, -89.999992, -70.459671, 127.140228, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.175964, -76.831306, 1600.201538, -89.999992, 203.085403, 130.685440, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.248505, -77.060059, 1600.201538, -89.999992, 23.085445, 130.685440, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.175964, -76.831306, 1600.201538, -89.999992, 203.085403, 130.685440, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.326599, -76.909393, 1600.201538, -89.999992, -70.459671, 127.140228, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.097870, -76.981949, 1600.201538, -89.999992, 113.946548, 131.546555, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(2705, 288.123871, -76.842224, 1601.430664, 0.000000, 0.000000, 40.899986, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14760, "sfhosemed2", "ah_marcorn1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 2819, "gb_bedroomclths01", "GB_clothesbed01", 0);
+	biker = CreateDynamicObject(19475, 297.304413, -85.737305, 1601.817627, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14654, "ab_trukstpe", "bbar_stuff9", 0);
+	biker = CreateDynamicObject(2588, 295.950928, -77.629639, 1602.088501, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberspic3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 295.698669, -79.329498, 1603.052002, 0.000000, 179.999985, -179.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14650, "ab_trukstpc", "bras_base", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2074, 295.684143, -79.328362, 1603.154419, 0.000000, 0.000007, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14651, "ab_trukstpd", "Bow_bar_metal_cabinet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 295.698669, -84.749451, 1603.052002, 0.000000, 179.999985, -179.999939, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14650, "ab_trukstpc", "bras_base", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2074, 295.684143, -84.748314, 1603.154419, 0.000000, 0.000014, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14651, "ab_trukstpd", "Bow_bar_metal_cabinet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 295.698669, -82.169426, 1603.052002, 0.000000, 179.999985, -179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14650, "ab_trukstpc", "bras_base", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2074, 295.684143, -82.168289, 1603.154419, 0.000000, 0.000022, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14651, "ab_trukstpd", "Bow_bar_metal_cabinet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1759, 284.931915, -84.532448, 1603.552979, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 13003, "ce_racestart", "CJ_TARTAN", 0);
+	SetDynamicObjectMaterial(biker, 1, 1453, "break_farm", "CJ_DarkWood", 0);
+	biker = CreateDynamicObject(2120, 274.896576, -77.829376, 1604.155273, 0.000000, 0.000000, -76.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2188, 274.166473, -75.436058, 1604.524170, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 5
+	SetDynamicObjectMaterial(biker, 2, 14738, "whorebar", "AH_cheapwhoremainwall", 0);
+	SetDynamicObjectMaterial(biker, 3, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 4, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 5, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 6, 14859, "gf1", "mp_cooch_frame", 0);
+	biker = CreateDynamicObject(2188, 274.216492, -75.426056, 1604.524170, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 7
+	SetDynamicObjectMaterial(biker, 0, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 1, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 2, 14738, "whorebar", "AH_cheapwhoremainwall", 0);
+	SetDynamicObjectMaterial(biker, 3, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 4, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 5, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 6, 14859, "gf1", "mp_cooch_frame", 0);
+	biker = CreateDynamicObject(2120, 273.469086, -77.572227, 1604.155273, 0.000000, 0.000000, -111.899979, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2120, 273.229858, -73.369354, 1604.155273, 0.000000, 0.000000, 119.700012, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2120, 275.297516, -73.421829, 1604.155273, 0.000000, 0.000000, 61.000027, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(14455, 271.533112, -79.061287, 1605.197266, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2588, 272.351257, -75.439629, 1605.649536, 0.000000, -9.099994, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberspic3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1417, 276.635712, -71.705780, 1603.817749, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(1759, 274.872192, -71.872505, 1603.552979, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 13003, "ce_racestart", "CJ_TARTAN", 0);
+	SetDynamicObjectMaterial(biker, 1, 1453, "break_farm", "CJ_DarkWood", 0);
+	biker = CreateDynamicObject(1416, 273.607391, -71.644341, 1604.073486, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(3052, 273.968994, -71.683067, 1604.754639, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2925, "dyno_box", "dyno_crate", 0);
+	biker = CreateDynamicObject(3052, 273.478546, -71.683067, 1604.916016, 0.000000, -27.899975, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2925, "dyno_box", "dyno_crate", 0);
+	biker = CreateDynamicObject(2660, 273.665771, -71.380524, 1605.804810, 360.000000, 90.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14420, "dr_gsbits", "mp_apt1_pic2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2386, 276.609741, -71.671585, 1604.963379, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18901, "matclothes", "bandanared", 0);
+	biker = CreateDynamicObject(2029, 281.412903, -86.599220, 1603.550659, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 15041, "bigsfsave", "ah_wrnplnks", 0);
+	biker = CreateDynamicObject(1821, 283.265350, -89.284805, 1603.526489, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(1822, 283.254791, -85.402969, 1603.522949, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 1, 2212, "burger_tray", "drinktop_cb", 0);
+	biker = CreateDynamicObject(1823, 282.916107, -85.406548, 1603.093628, 0.000000, 0.000000, 16.600000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19882, "marcossteak2", "cj_steak", 0);
+	biker = CreateDynamicObject(2803, 282.437164, -88.250610, 1603.647461, -25.800003, 51.799995, 110.700020, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2281, 281.228210, -83.476295, 1605.025513, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 18368, "cs_mountaintop", "des_flatlogs", 0);
+	SetDynamicObjectMaterial(biker, 1, 14420, "dr_gsbits", "mp_apt1_pic1", 0);
+	biker = CreateDynamicObject(1735, 279.737915, -86.071526, 1603.545532, 0.000000, 0.000000, 71.500015, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 1716, "cj_seating", "cj_cushion1", 0);
+	SetDynamicObjectMaterial(biker, 1, 3241, "conhooses", "des_woodfence1", 0);
+	biker = CreateDynamicObject(2124, 282.369934, -86.762428, 1604.392456, 0.000000, 0.000000, -88.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2124, 282.435669, -85.209229, 1604.392456, 0.000000, 0.000000, 76.500008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2661, 283.453491, -83.033264, 1605.481201, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14603, "bikeskool", "lw_pistol_128", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 285.346710, -84.407303, 1605.501831, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14603, "bikeskool", "artish1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 281.236206, -86.147636, 1604.356445, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14805, "bdupsfurn", "Bdup_Ashtray", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2804, 281.298157, -86.178680, 1604.448364, 0.000000, 0.000000, 24.699997, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14668, "711c", "forumstand1_LAe", 0);
+	SetDynamicObjectMaterial(biker, 1, 19882, "marcossteak2", "cj_steak", 0);
+	biker = CreateDynamicObject(11704, 283.445831, -83.002686, 1606.251099, 0.000000, -4.999998, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 7088, "casinoshops1", "GB_nastybar19", 0);
+	biker = CreateDynamicObject(1742, 281.007233, -82.884659, 1602.360596, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 2, 8423, "pirateship01", "tislandwdbox01_128", 0);
+	biker = CreateDynamicObject(2023, 284.779907, -83.626091, 1603.526367, 0.000000, 0.000000, 33.099998, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3502, "vgsncircon", "woodsuport2_128", 0);
+	biker = CreateDynamicObject(2803, 282.404907, -88.275581, 1603.653442, -165.900024, 112.900024, 114.700035, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2803, 282.373962, -88.233704, 1603.611450, -165.900024, 112.900024, 114.700035, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2803, 282.481415, -88.210289, 1603.669922, -165.900024, 160.399979, 114.700035, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2803, 282.261169, -88.332504, 1603.271851, -165.900024, 91.700035, 128.900070, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2056, 281.827484, -87.770836, 1603.590942, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 281.827484, -87.770836, 1603.590942, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 281.827484, -87.770836, 1603.590942, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 282.283478, -87.565308, 1603.590942, 270.000000, 0.000000, -178.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 282.283478, -87.565308, 1603.590942, 270.000000, 0.000000, -178.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 282.283478, -87.565308, 1603.590942, 270.000000, 0.000000, -178.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(14875, 284.449341, -89.069962, 1603.267212, 0.000000, 0.000000, 630.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2925, "dyno_box", "dyno_crate", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 280.768402, -77.950691, 1605.295288, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 280.768402, -76.140709, 1605.295288, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 282.578308, -79.890701, 1605.295288, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 285.758331, -79.890701, 1605.295288, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 287.698334, -81.950699, 1605.295288, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 287.698334, -84.880730, 1605.295288, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 289.328278, -86.580719, 1605.295288, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 292.588287, -86.580719, 1605.295288, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 294.598358, -85.010712, 1605.295288, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 294.598358, -81.660690, 1605.295288, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 294.598358, -78.420677, 1605.295288, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	CreateDynamicObject(14875, 288.939301, -84.579910, 1600.918823, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 292.359375, -76.139915, 1600.918823, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 281.119324, -75.859940, 1600.918823, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 281.179321, -77.379875, 1599.967896, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 283.829407, -80.689964, 1600.918823, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 288.599396, -74.419914, 1599.937866, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 294.515900, -80.940048, 1601.152954, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 294.515900, -84.030052, 1601.152954, 0.000000, 0.000000, -129.800003, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1833, 287.285919, -69.834999, 1600.101563, 0.000000, 0.000000, 120.400002, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1667, 288.759827, -68.683022, 1600.984863, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 288.686005, -68.910042, 1600.912720, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1833, 293.479309, -72.763657, 1600.101563, 0.000000, 0.000000, -77.099976, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 281.448547, -86.689484, 1604.368164, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2061, 290.553650, -70.838966, 1601.749146, 0.000000, 0.000000, -37.799995, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2059, 290.456329, -70.063309, 1600.128296, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 288.712219, -68.161751, 1601.308105, 79.100021, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(11745, 289.149933, -66.766525, 1600.230225, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(11745, 289.771637, -66.656281, 1600.230225, 0.000000, 0.000000, 47.299995, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2318, 288.202576, -70.795891, 1602.001587, 0.000000, 0.000000, -171.800049, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2286, 284.338226, -74.689499, 1601.978760, 0.000000, -7.099998, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19626, 293.634583, -77.415916, 1600.838501, -10.599998, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1902, 273.982635, -74.563576, 1604.508545, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1902, 274.772552, -75.963570, 1604.508545, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1901, 273.531525, -74.920044, 1604.495728, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1901, 274.841431, -75.840004, 1604.495728, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1900, 274.383484, -74.624527, 1604.532959, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2726, 274.564178, -71.697929, 1603.902710, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2048, 275.550171, -71.370049, 1605.789795, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19823, 281.418762, -85.582291, 1604.346436, 0.000000, 0.000000, -59.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19819, 281.226257, -86.501312, 1604.422607, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	biker = CreateDynamicObject(19371, 382.376648, -86.836853, 1605.296021, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043571, 1600.201538, -89.999992, 11.817858, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19968, 291.873077, -85.944435, 1602.022583, 0.000000, 179.999985, 144.700012, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 6865, "vgndwntwn23", "steaksign1_256", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876328, 1601.871704, 89.999992, 89.999992, -125.299957, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014992, 1601.871704, 89.999992, -90.000000, -125.299973, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043564, 1601.871704, 89.999992, 154.471191, -99.771202, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847717, 1601.871704, 89.999992, -25.528778, -99.771179, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 291.764374, -85.876312, 1600.201538, -89.999992, 103.368477, 68.068512, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.960205, -86.014977, 1600.201538, -89.999992, -84.355019, 60.344906, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.931610, -85.847710, 1600.201538, -89.999992, 191.817825, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 291.792938, -86.043571, 1600.201538, -89.999992, 11.817858, 66.517876, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19968, 288.217773, -76.936340, 1602.022583, 0.000003, 179.999985, -162.399948, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 6865, "vgndwntwn23", "steaksign1_256", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19836, 288.097870, -76.981956, 1601.871704, 89.999992, 73.884483, -56.284435, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.326630, -76.909401, 1601.871704, 89.999992, -106.115517, -56.284443, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.248505, -77.060051, 1601.871704, 89.999992, 149.620865, -42.020863, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.175964, -76.831314, 1601.871704, 89.999992, -30.379099, -42.020851, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3801, "sfxref", "sfxref_lite2a", 0);
+	biker = CreateDynamicObject(19836, 288.097870, -76.981949, 1600.201538, -89.999992, 113.946548, 131.546555, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.326599, -76.909393, 1600.201538, -89.999992, -70.459671, 127.140228, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.175964, -76.831306, 1600.201538, -89.999992, 203.085403, 130.685440, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.248505, -77.060059, 1600.201538, -89.999992, 23.085445, 130.685440, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.175964, -76.831306, 1600.201538, -89.999992, 203.085403, 130.685440, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.326599, -76.909393, 1600.201538, -89.999992, -70.459671, 127.140228, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(19836, 288.097870, -76.981949, 1600.201538, -89.999992, 113.946548, 131.546555, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14533, "pleas_dome", "ws_corner_iron1", 0);
+	biker = CreateDynamicObject(2705, 288.123871, -76.842224, 1601.430664, 0.000000, 0.000000, 40.899986, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14760, "sfhosemed2", "ah_marcorn1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 2819, "gb_bedroomclths01", "GB_clothesbed01", 0);
+	biker = CreateDynamicObject(19475, 297.304413, -85.737305, 1601.817627, 360.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14654, "ab_trukstpe", "bbar_stuff9", 0);
+	biker = CreateDynamicObject(2588, 295.950928, -77.629639, 1602.088501, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberspic3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 295.698669, -79.329498, 1603.052002, 0.000000, 179.999985, -179.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14650, "ab_trukstpc", "bras_base", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2074, 295.684143, -79.328362, 1603.154419, 0.000000, 0.000007, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14651, "ab_trukstpd", "Bow_bar_metal_cabinet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 295.698669, -84.749451, 1603.052002, 0.000000, 179.999985, -179.999939, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14650, "ab_trukstpc", "bras_base", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2074, 295.684143, -84.748314, 1603.154419, 0.000000, 0.000014, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14651, "ab_trukstpd", "Bow_bar_metal_cabinet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 295.698669, -82.169426, 1603.052002, 0.000000, 179.999985, -179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14650, "ab_trukstpc", "bras_base", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2074, 295.684143, -82.168289, 1603.154419, 0.000000, 0.000022, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14651, "ab_trukstpd", "Bow_bar_metal_cabinet", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1759, 284.931915, -84.532448, 1603.552979, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 13003, "ce_racestart", "CJ_TARTAN", 0);
+	SetDynamicObjectMaterial(biker, 1, 1453, "break_farm", "CJ_DarkWood", 0);
+	biker = CreateDynamicObject(2120, 274.896576, -77.829376, 1604.155273, 0.000000, 0.000000, -76.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2188, 274.166473, -75.436058, 1604.524170, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 5
+	SetDynamicObjectMaterial(biker, 2, 14738, "whorebar", "AH_cheapwhoremainwall", 0);
+	SetDynamicObjectMaterial(biker, 3, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 4, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 5, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 6, 14859, "gf1", "mp_cooch_frame", 0);
+	biker = CreateDynamicObject(2188, 274.216492, -75.426056, 1604.524170, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 7
+	SetDynamicObjectMaterial(biker, 0, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 1, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 2, 14738, "whorebar", "AH_cheapwhoremainwall", 0);
+	SetDynamicObjectMaterial(biker, 3, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 4, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 5, 14859, "gf1", "mp_cooch_frame", 0);
+	SetDynamicObjectMaterial(biker, 6, 14859, "gf1", "mp_cooch_frame", 0);
+	biker = CreateDynamicObject(2120, 273.469086, -77.572227, 1604.155273, 0.000000, 0.000000, -111.899979, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2120, 273.229858, -73.369354, 1604.155273, 0.000000, 0.000000, 119.700012, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(2120, 275.297516, -73.421829, 1604.155273, 0.000000, 0.000000, 61.000027, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14754, "sfhsb3", "ah_wpaper10", 0);
+	SetDynamicObjectMaterial(biker, 1, 3900, "station", "ledge2_64H", 0);
+	biker = CreateDynamicObject(14455, 271.533112, -79.061287, 1605.197266, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2588, 272.351257, -75.439629, 1605.649536, 0.000000, -9.099994, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18081, "cj_barb", "barberspic3", 0xFFFFFFFF);
+	biker = CreateDynamicObject(1417, 276.635712, -71.705780, 1603.817749, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(1759, 274.872192, -71.872505, 1603.552979, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 13003, "ce_racestart", "CJ_TARTAN", 0);
+	SetDynamicObjectMaterial(biker, 1, 1453, "break_farm", "CJ_DarkWood", 0);
+	biker = CreateDynamicObject(1416, 273.607391, -71.644341, 1604.073486, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(3052, 273.968994, -71.683067, 1604.754639, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2925, "dyno_box", "dyno_crate", 0);
+	biker = CreateDynamicObject(3052, 273.478546, -71.683067, 1604.916016, 0.000000, -27.899975, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2925, "dyno_box", "dyno_crate", 0);
+	biker = CreateDynamicObject(2660, 273.665771, -71.380524, 1605.804810, 360.000000, 90.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14420, "dr_gsbits", "mp_apt1_pic2", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2386, 276.609741, -71.671585, 1604.963379, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 18901, "matclothes", "bandanared", 0);
+	biker = CreateDynamicObject(2029, 281.412903, -86.599220, 1603.550659, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 15041, "bigsfsave", "ah_wrnplnks", 0);
+	biker = CreateDynamicObject(1821, 283.265350, -89.284805, 1603.526489, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(1822, 283.254791, -85.402969, 1603.522949, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	SetDynamicObjectMaterial(biker, 1, 2212, "burger_tray", "drinktop_cb", 0);
+	biker = CreateDynamicObject(1823, 282.916107, -85.406548, 1603.093628, 0.000000, 0.000000, 16.600000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19882, "marcossteak2", "cj_steak", 0);
+	biker = CreateDynamicObject(2803, 282.437164, -88.250610, 1603.647461, -25.800003, 51.799995, 110.700020, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2281, 281.228210, -83.476295, 1605.025513, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 18368, "cs_mountaintop", "des_flatlogs", 0);
+	SetDynamicObjectMaterial(biker, 1, 14420, "dr_gsbits", "mp_apt1_pic1", 0);
+	biker = CreateDynamicObject(1735, 279.737915, -86.071526, 1603.545532, 0.000000, 0.000000, 71.500015, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 1716, "cj_seating", "cj_cushion1", 0);
+	SetDynamicObjectMaterial(biker, 1, 3241, "conhooses", "des_woodfence1", 0);
+	biker = CreateDynamicObject(2124, 282.369934, -86.762428, 1604.392456, 0.000000, 0.000000, -88.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2124, 282.435669, -85.209229, 1604.392456, 0.000000, 0.000000, 76.500008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker = CreateDynamicObject(2661, 283.453491, -83.033264, 1605.481201, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14603, "bikeskool", "lw_pistol_128", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2660, 285.346710, -84.407303, 1605.501831, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14603, "bikeskool", "artish1", 0xFFFFFFFF);
+	biker = CreateDynamicObject(11744, 281.236206, -86.147636, 1604.356445, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 14805, "bdupsfurn", "Bdup_Ashtray", 0xFFFFFFFF);
+	biker = CreateDynamicObject(2804, 281.298157, -86.178680, 1604.448364, 0.000000, 0.000000, 24.699997, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker, 0, 14668, "711c", "forumstand1_LAe", 0);
+	SetDynamicObjectMaterial(biker, 1, 19882, "marcossteak2", "cj_steak", 0);
+	biker = CreateDynamicObject(11704, 283.445831, -83.002686, 1606.251099, 0.000000, -4.999998, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 7088, "casinoshops1", "GB_nastybar19", 0);
+	biker = CreateDynamicObject(1742, 281.007233, -82.884659, 1602.360596, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 2, 8423, "pirateship01", "tislandwdbox01_128", 0);
+	biker = CreateDynamicObject(2023, 284.779907, -83.626091, 1603.526367, 0.000000, 0.000000, 33.099998, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 3502, "vgsncircon", "woodsuport2_128", 0);
+	biker = CreateDynamicObject(2803, 282.404907, -88.275581, 1603.653442, -165.900024, 112.900024, 114.700035, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2803, 282.373962, -88.233704, 1603.611450, -165.900024, 112.900024, 114.700035, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2803, 282.481415, -88.210289, 1603.669922, -165.900024, 160.399979, 114.700035, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1706, "kbcouch1", "kb_sofa_256", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2803, 282.261169, -88.332504, 1603.271851, -165.900024, 91.700035, 128.900070, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 4
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker, 1, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 2, 1827, "kbmiscfrn2", "man_mny1", 0);
+	SetDynamicObjectMaterial(biker, 12, 1826, "kbmiscfrn1", "bank_mny_LR", 0);
+	biker = CreateDynamicObject(2056, 281.827484, -87.770836, 1603.590942, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 281.827484, -87.770836, 1603.590942, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 281.827484, -87.770836, 1603.590942, 270.000000, 0.000000, -54.200001, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 282.283478, -87.565308, 1603.590942, 270.000000, 0.000000, -178.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 282.283478, -87.565308, 1603.590942, 270.000000, 0.000000, -178.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(2056, 282.283478, -87.565308, 1603.590942, 270.000000, 0.000000, -178.299988, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 1827, "kbmiscfrn2", "man_mny1", 0);
+	biker = CreateDynamicObject(14875, 284.449341, -89.069962, 1603.267212, 0.000000, 0.000000, 630.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 2925, "dyno_box", "dyno_crate", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 280.768402, -77.950691, 1605.295288, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 280.768402, -76.140709, 1605.295288, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 282.578308, -79.890701, 1605.295288, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 285.758331, -79.890701, 1605.295288, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 287.698334, -81.950699, 1605.295288, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 287.698334, -84.880730, 1605.295288, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 289.328278, -86.580719, 1605.295288, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 292.588287, -86.580719, 1605.295288, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 294.598358, -85.010712, 1605.295288, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 294.598358, -81.660690, 1605.295288, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	biker = CreateDynamicObject(19371, 294.598358, -78.420677, 1605.295288, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0xFFFFFFFF);
+	CreateDynamicObject(14875, 288.939301, -84.579910, 1600.918823, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 292.359375, -76.139915, 1600.918823, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 281.119324, -75.859940, 1600.918823, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 281.179321, -77.379875, 1599.967896, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 283.829407, -80.689964, 1600.918823, 0.000000, 0.000000, 540.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14875, 288.599396, -74.419914, 1599.937866, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 294.515900, -80.940048, 1601.152954, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 294.515900, -84.030052, 1601.152954, 0.000000, 0.000000, -129.800003, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1833, 287.285919, -69.834999, 1600.101563, 0.000000, 0.000000, 120.400002, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1667, 288.759827, -68.683022, 1600.984863, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 288.686005, -68.910042, 1600.912720, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1833, 293.479309, -72.763657, 1600.101563, 0.000000, 0.000000, -77.099976, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1665, 281.448547, -86.689484, 1604.368164, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2061, 290.553650, -70.838966, 1601.749146, 0.000000, 0.000000, -37.799995, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2059, 290.456329, -70.063309, 1600.128296, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 288.712219, -68.161751, 1601.308105, 79.100021, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(11745, 289.149933, -66.766525, 1600.230225, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(11745, 289.771637, -66.656281, 1600.230225, 0.000000, 0.000000, 47.299995, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2318, 288.202576, -70.795891, 1602.001587, 0.000000, 0.000000, -171.800049, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2286, 284.338226, -74.689499, 1601.978760, 0.000000, -7.099998, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19626, 293.634583, -77.415916, 1600.838501, -10.599998, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1902, 273.982635, -74.563576, 1604.508545, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1902, 274.772552, -75.963570, 1604.508545, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1901, 273.531525, -74.920044, 1604.495728, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1901, 274.841431, -75.840004, 1604.495728, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1900, 274.383484, -74.624527, 1604.532959, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2726, 274.564178, -71.697929, 1603.902710, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2048, 275.550171, -71.370049, 1605.789795, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19823, 281.418762, -85.582291, 1604.346436, 0.000000, 0.000000, -59.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19819, 281.226257, -86.501312, 1604.422607, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19802, 279.687988, -81.856003, 1600.067993, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	biker = CreateDynamicObject(19371, 382.376648, -86.836853, 1605.296021, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(biker, 0, 19480, "signsurf", "sign", 0);
+}
+
+BikerInt2()
+{
+	new biker2;
+	biker2 = CreateDynamicObject(8661, 2208.505127, 2078.046143, 99.373505, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14407, "carter_block", "ab_stripped_floor2", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19445, 2209.907715, 2076.081299, 101.093483, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19445, 2214.722656, 2076.081299, 101.093483, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19445, 2214.722656, 2073.266357, 101.093483, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(14877, 2213.563232, 2067.376465, 97.283562, 0.000014, 0.000000, 89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14407, "carter_block", "ab_stripped_floor2", 0);
+	biker2 = CreateDynamicObject(14877, 2210.565186, 2067.376465, 97.283562, 0.000014, 0.000000, 89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14407, "carter_block", "ab_stripped_floor2", 0);
+	biker2 = CreateDynamicObject(19445, 2209.907715, 2066.451416, 101.093483, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19445, 2214.722656, 2066.451416, 101.093483, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19445, 2209.907715, 2066.451416, 97.593483, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19445, 2214.722656, 2066.451416, 97.593483, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(8661, 2212.224609, 2053.775146, 95.873505, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14407, "carter_block", "ab_stripped_floor2", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(8661, 2208.505127, 2076.641357, 102.873505, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 13081, "ce_ground13", "dustyconcrete", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(8661, 2208.505127, 2069.940186, 105.039536, -145.199753, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 13081, "ce_ground13", "dustyconcrete", 0xFFDDDDDD);
+	biker2 = CreateDynamicObject(19479, 2212.720703, 2066.072998, 102.863495, 180.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2212.720703, 2074.338867, 102.863495, 180.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2214.632568, 2074.578613, 102.863495, 270.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2210.002441, 2074.578613, 102.863495, 270.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2214.632080, 2066.785889, 103.588470, -145.099991, 180.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2210.002197, 2066.638916, 103.801712, -145.099991, 180.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2212.720703, 2067.128174, 103.068542, 180.000000, 124.799911, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2212.720703, 2073.173828, 99.383469, 180.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19479, 2212.720703, 2073.157227, 104.083588, 180.000000, 180.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x80000000);
+	biker2 = CreateDynamicObject(19426, 2209.907715, 2061.713379, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2210.628418, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2209.907715, 2060.271973, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2209.187012, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2214.722656, 2061.713379, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2215.443359, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2214.722656, 2060.271973, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2214.001953, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19445, 2204.335693, 2061.062744, 97.593475, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19426, 2203.487793, 2061.713379, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2204.208496, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2203.487793, 2060.271973, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2202.767090, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2221.142578, 2061.713379, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2221.863281, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2221.142578, 2060.271973, 97.593475, 180.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2220.421875, 2060.992676, 97.593475, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19482, 2203.982178, 2060.959961, 97.473541, 89.999992, 179.999985, -89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19482, 2203.459229, 2060.499023, 99.303589, 360.000000, 270.000000, -89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19445, 2219.883545, 2061.062744, 97.593475, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19482, 2215.197998, 2060.959961, 97.473541, 89.999992, 179.999985, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19482, 2220.668701, 2060.959961, 97.473541, 89.999992, 179.999985, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19445, 2207.471436, 2060.029785, 99.403503, 0.000000, 270.000000, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14846, "genintintpoliceb", "p_floor2", 0xFF707070);
+	biker2 = CreateDynamicObject(19482, 2209.540771, 2060.499023, 99.303589, -0.000000, 270.000000, -89.999962, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19482, 2215.122803, 2060.499023, 99.303589, -0.000000, 270.000000, -89.999962, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19445, 2217.101318, 2060.029785, 99.403503, 0.000000, 270.000000, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14846, "genintintpoliceb", "p_floor2", 0xFF707070);
+	biker2 = CreateDynamicObject(19445, 2207.471436, 2058.368164, 101.073593, -0.000000, 180.000000, 89.999977, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFF909090);
+	biker2 = CreateDynamicObject(19445, 2217.101318, 2058.368164, 101.073593, -0.000000, 180.000000, 89.999977, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFF909090);
+	biker2 = CreateDynamicObject(19482, 2209.452881, 2060.959961, 97.473541, 89.999992, 179.999985, -89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19482, 2210.103271, 2049.892578, 97.473541, 89.999992, 269.960419, 0.039518, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19445, 2202.604004, 2055.403564, 97.593483, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFDDDDDD);
+	biker2 = CreateDynamicObject(19445, 2222.013672, 2055.403564, 97.593483, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFDDDDDD);
+	biker2 = CreateDynamicObject(14578, 2212.808594, 2050.512451, 100.413452, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(19426, 2215.122803, 2049.139160, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2214.402100, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2215.122803, 2050.580566, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2215.843506, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2209.507568, 2049.139160, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2208.786865, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2209.507568, 2050.580566, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2210.228271, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19445, 2220.294678, 2049.789795, 97.593475, 0.000000, 0.000000, -89.999969, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19426, 2221.142578, 2049.139160, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2220.421875, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2221.142578, 2050.580566, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2221.863281, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2203.487793, 2049.139160, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2202.767090, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19426, 2203.487793, 2050.580566, 97.593475, -0.000007, 179.999985, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFFCCCCCC);
+	biker2 = CreateDynamicObject(19426, 2204.208496, 2049.859863, 97.593475, -0.000000, 179.999985, -0.000045, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10891, "bakery_sfse", "ws_altz_wall4", 0xFF808080);
+	biker2 = CreateDynamicObject(19482, 2220.644775, 2049.892578, 97.473541, 89.999992, 269.950500, 0.049418, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19482, 2215.694336, 2049.892578, 97.473541, 89.999992, 269.950500, 0.049418, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19445, 2204.746826, 2049.789795, 97.593475, 0.000000, 0.000000, -89.999969, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19482, 2208.952148, 2049.892578, 97.473541, 89.999992, 269.960419, 0.039518, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19482, 2203.961670, 2049.892578, 97.473541, 89.999992, 269.960419, 0.039518, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19445, 2217.158936, 2050.822754, 99.403503, 0.000000, 270.000000, 89.999931, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14846, "genintintpoliceb", "p_floor2", 0xFF707070);
+	biker2 = CreateDynamicObject(19482, 2203.459229, 2050.134521, 99.303589, -0.000000, 270.000000, -89.999962, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19445, 2207.529053, 2050.822754, 99.403503, 0.000000, 270.000000, 89.999931, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14846, "genintintpoliceb", "p_floor2", 0xFF707070);
+	biker2 = CreateDynamicObject(19445, 2217.158936, 2052.484375, 101.073593, 0.000000, 180.000000, -89.999992, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFF909090);
+	biker2 = CreateDynamicObject(19445, 2207.529053, 2052.484375, 101.073593, 0.000000, 180.000000, -89.999992, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFF909090);
+	biker2 = CreateDynamicObject(19482, 2209.540771, 2050.134521, 99.303589, -0.000007, 270.000000, -89.999939, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19482, 2215.122803, 2050.134521, 99.303589, -0.000007, 270.000000, -89.999939, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19479, 2202.699219, 2055.057861, 100.573547, 180.000000, 179.999985, 0.000015, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19479, 2221.915283, 2055.057861, 100.573547, 180.000000, 179.999985, 0.000015, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19445, 2202.945068, 2056.496338, 99.408501, -0.000007, 270.000000, -0.000015, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14846, "genintintpoliceb", "p_floor2", 0xFF707070);
+	biker2 = CreateDynamicObject(19445, 2204.606689, 2056.496338, 101.078590, 0.000007, 180.000000, 179.999832, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(19445, 2221.675049, 2056.496338, 99.408501, -0.000007, 270.000000, 179.999878, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14846, "genintintpoliceb", "p_floor2", 0xFF707070);
+	biker2 = CreateDynamicObject(19445, 2220.013428, 2056.496338, 101.078590, 0.000007, 180.000000, -0.000183, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(14578, 2220.915283, 2054.463135, 100.413452, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(14578, 2214.114746, 2053.552246, 100.413452, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(14578, 2206.843262, 2050.432129, 100.413452, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(8661, 2212.224609, 2053.034424, 100.253510, 180.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11100, "bendytunnel_sfse", "ws_altz_wall10b", 0xFF404040);
+	biker2 = CreateDynamicObject(971, 2208.552979, 2055.546143, 99.453545, 89.999992, 179.999985, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 6
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 2, 4003, "cityhall_tr_lan", "sl_griddyfence_sml", 0xFF505050);
+	SetDynamicObjectMaterial(biker2, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 5, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(14397, 2205.671387, 2057.218506, 99.153511, 270.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_Black_metal", 0);
+	biker2 = CreateDynamicObject(14397, 2218.933350, 2043.588135, 99.153511, 270.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_Black_metal", 0);
+	biker2 = CreateDynamicObject(14397, 2215.444824, 2057.218506, 99.153511, 270.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_Black_metal", 0);
+	biker2 = CreateDynamicObject(14397, 2210.671387, 2057.218506, 99.153511, 270.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_Black_metal", 0);
+	biker2 = CreateDynamicObject(971, 2215.552979, 2055.546143, 99.453545, 89.999992, 179.999985, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 6
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 2, 4003, "cityhall_tr_lan", "sl_griddyfence_sml", 0xFF505050);
+	SetDynamicObjectMaterial(biker2, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 5, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(14397, 2204.753906, 2053.547119, 99.151512, 270.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_Black_metal", 0);
+	biker2 = CreateDynamicObject(14397, 2204.753906, 2058.818604, 99.151512, 270.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_Black_metal", 0);
+	biker2 = CreateDynamicObject(971, 2222.552979, 2055.546143, 99.453545, 89.999992, 179.999985, -90.000008, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 6
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 2, 4003, "cityhall_tr_lan", "sl_griddyfence_sml", 0xFF505050);
+	SetDynamicObjectMaterial(biker2, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 5, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(14578, 2217.880615, 2054.200928, 100.408455, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(14578, 2209.435547, 2057.183594, 100.408455, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(19445, 2211.968994, 2049.779785, 97.593475, 0.000000, 0.000000, -89.999969, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11092, "burgalrystore_sfse", "ws_altz_wall2bluetop", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(19482, 2221.405029, 2060.499023, 99.303589, -0.000000, 270.000000, -89.999962, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19482, 2214.366211, 2049.892578, 97.473541, 89.999992, 269.960419, 0.039518, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x60000000);
+	biker2 = CreateDynamicObject(19482, 2221.405029, 2050.134521, 99.303589, -0.000007, 270.000000, -89.999939, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x40000000);
+	biker2 = CreateDynamicObject(19479, 2208.291260, 2054.997314, 100.223480, 180.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19063, "xmasorbs", "sphere", 0x80FFFFFF);
+	biker2 = CreateDynamicObject(19479, 2215.342529, 2054.997314, 100.223480, 180.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19063, "xmasorbs", "sphere", 0x80FFFFFF);
+	biker2 = CreateDynamicObject(937, 2218.008545, 2056.151855, 96.343460, 0.000000, -0.000015, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(936, 2216.127197, 2056.131836, 96.343460, 0.000000, -0.000015, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2214.237549, 2056.151855, 96.343460, 0.000000, -0.000015, 179.999908, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2214.217529, 2054.910645, 96.343460, -0.000000, 0.000000, -0.000061, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(936, 2216.098877, 2054.930664, 96.343460, -0.000000, 0.000000, -0.000061, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2217.988525, 2054.910645, 96.343460, -0.000000, 0.000000, -0.000061, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2210.424805, 2056.151855, 96.343460, 0.000000, -0.000022, 179.999863, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(936, 2208.543457, 2056.131836, 96.343460, 0.000000, -0.000022, 179.999863, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2206.653809, 2056.151855, 96.343460, 0.000000, -0.000022, 179.999863, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2206.633789, 2054.910645, 96.343460, -0.000000, 0.000007, -0.000061, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(936, 2208.515137, 2054.930664, 96.343460, -0.000000, 0.000007, -0.000061, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(937, 2210.404785, 2054.910645, 96.343460, -0.000000, 0.000007, -0.000061, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(2431, 2216.651611, 2056.594238, 98.950043, 89.999992, 89.999992, -89.999992, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2213.781250, 2056.594238, 98.950043, 89.999992, 89.999992, -89.999977, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2209.014160, 2056.594238, 98.950043, 89.999992, 89.999992, -89.999977, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2206.143799, 2056.594238, 98.950043, 89.999992, 90.000000, -89.999969, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2208.085693, 2054.590820, 98.950043, 89.999992, 224.950516, -44.950569, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2210.956055, 2054.590820, 98.950043, 89.999992, 224.934021, -44.934055, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2215.723145, 2054.590820, 98.950043, 89.999992, 224.934021, -44.934055, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(2431, 2218.593506, 2054.590820, 98.950043, 89.999992, 224.934021, -44.934055, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 3
+	SetDynamicObjectMaterial(biker2, 0, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	SetDynamicObjectMaterial(biker2, 2, 17555, "eastbeach3c_lae2", "eastwall1_LAe2", 0);
+	biker2 = CreateDynamicObject(19480, 2212.390137, 2055.584229, 95.880493, 180.000000, 90.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 3694, "ryderholes", "ryd_holes", 0x90000000);
+	biker2 = CreateDynamicObject(2972, 2218.176025, 2049.241943, 97.653526, 0.000000, 0.000000, 450.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3355, "cxref_savhus", "sw_wind07", 0);
+	SetDynamicObjectMaterial(biker2, 1, 15034, "genhotelsave", "AH_windows", 0);
+	biker2 = CreateDynamicObject(2975, 2218.156006, 2049.271973, 97.423492, 0.000000, 0.000000, 360.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 10864, "bridgeland_sfse", "ws_altz_wall1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 1, 15034, "genhotelsave", "AH_windows", 0);
+	biker2 = CreateDynamicObject(2972, 2212.241943, 2049.241943, 97.653526, 0.000007, 0.000000, 89.999977, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3355, "cxref_savhus", "sw_wind07", 0);
+	SetDynamicObjectMaterial(biker2, 1, 15034, "genhotelsave", "AH_windows", 0);
+	biker2 = CreateDynamicObject(2975, 2212.221924, 2049.271973, 97.423492, -0.000000, 0.000007, -0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 10864, "bridgeland_sfse", "ws_altz_wall1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 1, 15034, "genhotelsave", "AH_windows", 0);
+	biker2 = CreateDynamicObject(2972, 2206.479004, 2049.241943, 97.653526, 0.000015, 0.000000, 89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3355, "cxref_savhus", "sw_wind07", 0);
+	SetDynamicObjectMaterial(biker2, 1, 15034, "genhotelsave", "AH_windows", 0);
+	biker2 = CreateDynamicObject(2975, 2206.458984, 2049.271973, 97.423492, -0.000000, 0.000015, -0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 10864, "bridgeland_sfse", "ws_altz_wall1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 1, 15034, "genhotelsave", "AH_windows", 0);
+	biker2 = CreateDynamicObject(16734, 2206.338379, 2037.008545, 96.323563, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10765, "airportgnd_sfse", "white", 0);
+	biker2 = CreateDynamicObject(16734, 2212.061768, 2037.008545, 96.323563, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10765, "airportgnd_sfse", "white", 0);
+	biker2 = CreateDynamicObject(14578, 2211.268311, 2071.072510, 102.913422, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(2558, 2218.641846, 2050.284180, 97.563515, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 14443, "ganghoos", "ah_curtains1", 0);
+	biker2 = CreateDynamicObject(18766, 2212.045410, 2050.282959, 96.133484, 180.000000, 90.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2559, 2206.969971, 2050.284180, 97.563515, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 14443, "ganghoos", "ah_curtains1", 0);
+	biker2 = CreateDynamicObject(14578, 2209.977051, 2069.964844, 104.053360, 90.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 10226, "sfeship1", "sf_ship_generic8", 0);
+	biker2 = CreateDynamicObject(936, 2207.342285, 2060.433105, 96.343460, -0.000000, 0.000000, -0.000122, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(936, 2205.460449, 2060.433105, 96.343460, -0.000000, 0.000000, -0.000122, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(19172, 2206.737061, 2060.980225, 97.833458, 0.000000, -1.299999, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14853, "gen_pol_vegas", "mp_cop_pinboard", 0);
+	biker2 = CreateDynamicObject(2924, 2211.612549, 2073.230713, 100.573509, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 12805, "ce_loadbay", "sw_waredoor", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(3111, 2207.353027, 2060.956055, 97.664055, 87.699974, 90.000000, -90.199997, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 65535, "none", "none", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(3761, 2202.927490, 2055.195801, 97.123482, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 3, 2589, "ab_ab", "ab_sheetSteel", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(3761, 2201.966553, 2055.195801, 97.123482, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 3, 2589, "ab_ab", "ab_sheetSteel", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(3761, 2221.691650, 2055.195801, 97.123482, 0.000000, 0.000000, 179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 3, 2589, "ab_ab", "ab_sheetSteel", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(3761, 2222.652588, 2055.195801, 97.123482, 0.000000, 0.000000, 179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 3, 2589, "ab_ab", "ab_sheetSteel", 0xFFAAAAAA);
+	biker2 = CreateDynamicObject(1431, 2203.083252, 2057.081055, 95.943542, 0.000000, 0.000000, 275.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 12821, "alleystuff", "Gen_Crate", 0);
+	biker2 = CreateDynamicObject(1431, 2203.083252, 2055.149170, 95.943542, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 9583, "bigshap_sfw", "freight_crate5", 0);
+	biker2 = CreateDynamicObject(1431, 2203.083252, 2053.427490, 95.943542, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 1414, "break_street1", "cj_crates", 0);
+	biker2 = CreateDynamicObject(1348, 2203.178955, 2059.162842, 96.533447, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 2, 3241, "conhooses", "ws_corr_metal1", 0);
+	biker2 = CreateDynamicObject(930, 2209.850098, 2059.890381, 96.343513, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 2, 3241, "conhooses", "ws_corr_metal1", 0);
+	biker2 = CreateDynamicObject(2478, 2203.187744, 2057.428223, 97.833496, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 9583, "bigshap_sfw", "freight_crate5", 0);
+	biker2 = CreateDynamicObject(2478, 2203.187744, 2053.738037, 97.833496, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14612, "ab_abattoir_box", "ab_boxStack2", 0);
+	biker2 = CreateDynamicObject(2478, 2203.187744, 2055.459473, 97.013535, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 2567, "ab", "Box_Texturepage", 0);
+	biker2 = CreateDynamicObject(922, 2217.933594, 2060.437744, 96.763466, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 65535, "none", "none", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(biker2, 1, 14800, "gen_otb_bits", "ab_boxStack", 0);
+	biker2 = CreateDynamicObject(930, 2217.981201, 2060.460205, 97.283463, 0.000000, 0.000000, -171.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 2, 3241, "conhooses", "ws_corr_metal1", 0);
+	biker2 = CreateDynamicObject(1756, 2219.766113, 2050.467773, 95.873505, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 18028, "cj_bar2", "GB_nastybar09", 0);
+	biker2 = CreateDynamicObject(2648, 2221.225586, 2052.749512, 97.013512, 0.000000, 0.000000, -60.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 2, 14859, "gf1", "mp_apt1_pos1", 0);
+	biker2 = CreateDynamicObject(2234, 2217.792969, 2051.508057, 95.873505, 0.000000, 0.000000, -15.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14500, "imm_roomss", "Bow_bar_top", 0);
+	biker2 = CreateDynamicObject(1670, 2218.362061, 2051.942871, 96.403526, 0.000000, 0.000000, 75.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 3, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(1670, 2218.797363, 2051.826172, 96.403526, 0.000000, 0.000000, 2.999976, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(biker2, 3, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2674, 2217.154785, 2051.162354, 95.883507, 0.000000, 0.000000, 155.400009, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 65535, "none", "none", 0xFFFFFFFF);
+	biker2 = CreateDynamicObject(1767, 2216.947754, 2050.499023, 95.873505, 0.000000, 0.000000, 131.699982, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 18028, "cj_bar2", "GB_nastybar09", 0);
+	biker2 = CreateDynamicObject(936, 2207.453125, 2050.450684, 96.343460, -0.000000, -0.000007, 179.999832, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(936, 2205.572998, 2050.450684, 96.343460, -0.000000, -0.000007, 179.999832, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 3988, "civic06_lan", "Bow_stained_wall", 0);
+	SetDynamicObjectMaterial(biker2, 1, 8391, "ballys01", "CJ_blackplastic", 0);
+	biker2 = CreateDynamicObject(1650, 2206.386230, 2060.627930, 97.123466, 0.000000, 0.000000, 1115.300049, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 12986, "sw_well1", "Bio_64", 0);
+	biker2 = CreateDynamicObject(19328, 2214.726074, 2060.177734, 97.861778, 0.000000, -1.700000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14802, "lee_bdupsflat", "Bdup_Poster", 0);
+	biker2 = CreateDynamicObject(19328, 2215.116455, 2050.687012, 97.850174, 0.000000, -1.700000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14742, "mp3", "GB_rapposter05", 0);
+	biker2 = CreateDynamicObject(17969, 2210.040527, 2064.829834, 98.697220, -35.900017, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 5998, "sunstr_lawn", "ganggraf02_LA", 0);
+	biker2 = CreateDynamicObject(19328, 2209.461914, 2050.687012, 97.787956, 0.000000, -1.700000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14801, "lee_bdupsmain", "Bdup_graf1", 0);
+	biker2 = CreateDynamicObject(19477, 2217.960449, 2060.972168, 98.453468, -5.000002, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14801, "lee_bdupsmain", "Bdup_graf5", 0);
+	biker2 = CreateDynamicObject(1431, 2221.588867, 2053.427734, 95.943542, -0.000015, 0.000001, 94.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 12821, "alleystuff", "Gen_Crate", 0);
+	biker2 = CreateDynamicObject(1431, 2221.588867, 2055.359619, 95.943542, -0.000015, 0.000000, 89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 9583, "bigshap_sfw", "freight_crate5", 0);
+	biker2 = CreateDynamicObject(1431, 2221.588867, 2057.081299, 95.943542, -0.000015, 0.000000, 89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 1414, "break_street1", "cj_crates", 0);
+	biker2 = CreateDynamicObject(19893, 2208.005371, 2060.238281, 96.813507, 0.000000, 0.000000, -40.799999, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 1, 3881, "apsecurity_sfxrf", "WIN_DESKTOP", 0);
+	biker2 = CreateDynamicObject(2922, 2214.602783, 2070.624268, 100.573524, 0.000015, 0.000000, 89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 18646, "matcolours", "grey-80-percent", 0);
+	SetDynamicObjectMaterial(biker2, 1, 10765, "airportgnd_sfse", "white", 0);
+	biker2 = CreateDynamicObject(2002, 2213.395020, 2055.546387, 95.573502, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2002, 2210.673584, 2055.546387, 95.573502, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2002, 2205.702393, 2055.546387, 95.573502, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2002, 2221.136719, 2054.365234, 96.303497, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2002, 2221.136719, 2052.753662, 96.303497, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(2002, 2221.366943, 2053.604248, 96.303497, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 19962, "samproadsigns", "materialtext1", 0);
+	biker2 = CreateDynamicObject(1431, 2214.219971, 2071.983887, 99.893517, 0.000000, 0.000000, 270.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 9583, "bigshap_sfw", "freight_crate5", 0);
+	biker2 = CreateDynamicObject(19482, 2212.157227, 2061.039063, 97.613510, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 14481, "sweets_bit2", "ab_curtain_shwr", 0);
+	biker2 = CreateDynamicObject(1348, 2221.490723, 2059.162842, 96.533447, 0.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 2, 3241, "conhooses", "ws_corr_metal1", 0);
+	biker2 = CreateDynamicObject(1219, 2212.242188, 2049.714844, 98.133499, 270.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 11631, "mp_ranchcut", "mpCJ_DarkWood", 0);
+	biker2 = CreateDynamicObject(2345, 2208.681152, 2056.718262, 96.552208, 26.000002, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 726, "gtatreesh", "oakleaf2", 0xFF808080);
+	biker2 = CreateDynamicObject(2345, 2217.794678, 2056.718262, 96.552208, 26.000002, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 726, "gtatreesh", "oakleaf2", 0xFF808080);
+	biker2 = CreateDynamicObject(2255, 2214.137695, 2068.768066, 100.693527, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 16146, "des_ufoinn", "electricbox256", 0);
+	SetDynamicObjectMaterial(biker2, 1, 18646, "matcolours", "grey-80-percent", 0);
+	biker2 = CreateDynamicObject(2255, 2214.142578, 2067.987305, 100.693527, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 14392, "dr_gsstudio", "rec_mix2", 0);
+	SetDynamicObjectMaterial(biker2, 1, 18646, "matcolours", "grey-80-percent", 0);
+	biker2 = CreateDynamicObject(2255, 2213.967773, 2067.521973, 100.693527, 0.000000, 0.000000, -45.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 16146, "des_ufoinn", "electricbox256", 0);
+	SetDynamicObjectMaterial(biker2, 1, 18646, "matcolours", "grey-80-percent", 0);
+	biker2 = CreateDynamicObject(2255, 2214.654297, 2068.208496, 100.693527, 0.000000, 0.000000, 135.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 2
+	SetDynamicObjectMaterial(biker2, 0, 16146, "des_ufoinn", "electricbox256", 0xFF808080);
+	SetDynamicObjectMaterial(biker2, 1, 18646, "matcolours", "grey-80-percent", 0);
+	biker2 = CreateDynamicObject(19478, 2214.602783, 2068.963379, 101.063492, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 1
+	SetDynamicObjectMaterial(biker2, 0, 18365, "sawmillcs_t", "electricity_64", 0xFFCCCCCC);
+	CreateDynamicObject(1893, 2211.807373, 2069.652832, 103.063492, 0.000000, 0.000007, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1893, 2211.807373, 2064.301514, 101.403519, 0.000000, 0.000007, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1893, 2206.205566, 2059.530273, 99.533585, 0.000000, 0.000037, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1893, 2217.417969, 2059.530273, 99.533585, 0.000000, 0.000029, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1893, 2212.783447, 2051.322266, 99.533585, 0.000000, 0.000037, 179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1893, 2218.624756, 2051.322266, 99.533585, 0.000000, 0.000037, 179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1893, 2207.012451, 2051.322266, 99.533585, 0.000000, 0.000029, 179.999893, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1687, 2205.816406, 2055.239990, 100.373421, 180.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1687, 2218.229004, 2055.430176, 100.373421, 180.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1687, 2210.916504, 2055.520264, 100.373421, 180.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2214.752197, 2056.012451, 98.928932, 180.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2209.818604, 2056.012451, 98.928932, 180.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2209.823975, 2056.012451, 99.188919, -0.000030, 359.999939, 89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2214.757568, 2056.012451, 99.188919, -0.000030, 359.999939, 89.999985, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2209.985107, 2055.172607, 98.928932, 0.000015, 179.999985, 89.999947, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2214.918701, 2055.172607, 98.928932, 0.000015, 179.999985, 89.999947, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2214.913330, 2055.172607, 99.188919, -0.000038, 359.999939, -89.999962, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2209.979736, 2055.172607, 99.188919, -0.000038, 359.999939, -89.999962, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2066, 2208.812988, 2060.488525, 95.873505, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2066, 2208.812988, 2060.488525, 97.263466, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(3017, 2205.394043, 2060.109375, 96.833504, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(3633, 2203.437988, 2051.388428, 96.343452, -0.000000, -0.000000, 0.000068, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(3633, 2203.437988, 2051.388428, 97.283424, -0.000000, -0.000000, 0.000068, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(3632, 2221.502197, 2057.373047, 97.043503, 90.000000, 180.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(3632, 2221.440186, 2055.908936, 97.043503, 90.000000, -176.399994, 5.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(935, 2215.351074, 2051.071045, 96.433472, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(935, 2214.380127, 2051.191162, 96.223450, 90.000000, -14.500000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1430, 2214.292480, 2059.789795, 96.173424, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1430, 2215.209717, 2059.701416, 96.173424, 0.000000, 0.000000, 10.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1650, 2207.927246, 2060.673340, 97.123466, 0.000000, 0.000000, -21.199999, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19328, 2209.896973, 2060.177734, 98.013504, 0.000000, 1.799999, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(17969, 2214.601563, 2064.453613, 98.252777, 34.599998, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1577, 2207.380859, 2060.761230, 96.793503, 0.000000, 0.000000, -10.400000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2976, 2205.464600, 2060.475830, 96.813477, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1644, 2206.505615, 2060.174072, 96.953453, 90.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1644, 2206.944580, 2060.613037, 96.953453, 90.000000, 0.000000, 45.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2059, 2207.166504, 2060.300537, 96.833504, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2059, 2205.587402, 2060.300537, 96.843483, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2059, 2205.997803, 2050.325195, 96.843483, 0.000000, 0.000000, -156.800018, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(2690, 2215.329834, 2050.970215, 97.293526, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(918, 2204.856201, 2050.219482, 97.163498, 0.000000, 0.000000, 0.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(927, 2214.635010, 2069.932617, 100.833511, 0.000015, 0.000000, 89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(927, 2214.636475, 2068.486084, 98.963348, 0.000015, 180.000000, 89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18074, 2210.078857, 2061.044434, 98.928932, 180.000000, 0.000000, 90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(14600, 2210.053223, 2050.069580, 95.853500, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 2207.060791, 2060.263672, 96.833511, 0.000000, 0.000000, 180.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 2207.060791, 2056.353027, 96.823509, 0.000000, 0.000000, 109.799973, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 2209.959229, 2056.576904, 96.823509, 0.000000, 0.000000, 68.199966, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 2214.380127, 2056.540527, 96.823509, 0.000000, 0.000000, 68.199966, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(19583, 2217.148926, 2054.604004, 96.823509, 0.000000, 0.000000, 68.199966, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(1462, 2221.407959, 2051.866699, 95.873505, 0.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(3092, 2204.894043, 2056.366699, 99.817032, 33.399960, 449.999939, -89.999954, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+	CreateDynamicObject(18706, 2215.770996, 2068.150879, 99.903717, 45.000000, 0.000000, -90.000000, -1, 102, -1, STREAMER_OBJECT_SD, 150.0); // 0
+}
+
+AS_Int()
+{
+
+	new auto;
+	auto = CreateDynamicObject(6959, 1506.649414, 1462.375732, 9.883185, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15055, "svlamid", "AH_flroortile3", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19929, 1513.508179, 1460.745483, 9.869047, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19353, 1521.477661, 1457.176270, 11.603181, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19353, 1519.956787, 1458.695923, 11.603181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19937, 1513.545776, 1459.714844, 9.957022, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19929, 1514.501099, 1458.886597, 9.869047, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19929, 1517.361328, 1458.886597, 9.869047, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19353, 1513.567017, 1463.436768, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1512.036377, 1464.957520, 11.603181, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19353, 1506.948364, 1447.546265, 11.603181, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(7913, 1523.458496, 1454.695068, 13.740748, -0.000022, 270.000000, -89.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 13461, "ce_nitelite", "ws_boxhouse_wins6nite", 0);
+	auto = CreateDynamicObject(7913, 1523.468506, 1448.256348, 13.740748, -0.000022, 270.000000, -89.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 13461, "ce_nitelite", "ws_boxhouse_wins6nite", 0);
+	auto = CreateDynamicObject(7913, 1520.637329, 1445.602417, 13.740748, 0.000000, 270.000000, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 13461, "ce_nitelite", "ws_boxhouse_wins6nite", 0);
+	auto = CreateDynamicObject(19426, 1505.537964, 1455.571167, 11.603181, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1513.368286, 1447.546265, 11.603181, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(7913, 1517.498047, 1445.592407, 13.740748, 0.000000, 270.000000, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 13461, "ce_nitelite", "ws_boxhouse_wins6nite", 0);
+	auto = CreateDynamicObject(19426, 1511.833008, 1446.825562, 11.603181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19426, 1514.894043, 1446.825562, 11.603181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19426, 1508.472290, 1446.825562, 11.603181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19757, 1515.074707, 1446.027588, 9.855398, 0.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 9.855398, 0.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1520.485107, 1446.067627, 9.855398, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1517.334595, 1446.067627, 9.855398, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1448.116943, 9.855398, 0.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1457.004883, 9.855398, 0.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1454.630981, 9.855398, 0.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19866, 1517.537720, 1456.360352, 13.342956, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19866, 1519.938354, 1458.770752, 13.342956, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFB09200);
+	auto = CreateDynamicObject(19866, 1512.537720, 1456.360352, 13.342956, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19866, 1507.537720, 1456.360352, 13.342956, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19353, 1521.477661, 1457.176270, 15.103181, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19353, 1519.956787, 1458.695923, 15.103181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1521.477661, 1457.176270, 18.603184, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19353, 1519.956787, 1458.695923, 18.603184, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19866, 1522.908203, 1454.620483, 13.342956, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19866, 1522.908203, 1449.620483, 13.342956, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19866, 1517.306274, 1446.105591, 13.342956, 0.000000, -0.000007, 269.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19866, 1522.306274, 1446.105591, 13.342956, 0.000000, -0.000007, 269.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 9.905399, 90.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 13.325405, 90.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 13.325405, 90.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 9.905397, 90.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 14.145401, 89.999992, 89.999992, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 14.145401, 89.999992, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 18.335402, 89.999992, 89.999992, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1522.935059, 1446.067627, 18.335400, 89.999992, 0.000011, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19426, 1510.092407, 1446.825562, 13.383188, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19445, 1510.158325, 1447.546265, 15.103181, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19353, 1505.427856, 1445.941284, 15.103181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1514.894043, 1446.825562, 15.103181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19445, 1510.158325, 1447.546265, 18.603184, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19353, 1505.427856, 1445.941284, 18.603184, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1514.894043, 1446.825562, 18.603184, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(16734, 1528.415649, 1442.711914, 10.362912, 0.000000, 0.000000, 135.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1449.141724, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19426, 1506.252808, 1456.291870, 11.603181, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1505.537964, 1457.011230, 15.088182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1506.252808, 1452.256958, 15.088182, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19325, 1505.343018, 1448.721680, 10.057112, 89.999992, -89.999992, -90.000023, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1453.811646, 13.170928, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19325, 1505.343018, 1454.392578, 10.057112, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1447.601318, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1455.402710, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1501.507202, 1457.011230, 11.603181, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(2004, 1505.376099, 1450.797852, 12.936408, 0.000014, 179.999969, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(975, 1505.353149, 1449.141724, 5.470912, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1453.811646, 5.470912, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19426, 1505.532959, 1453.751709, 13.423177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1505.532959, 1450.251709, 13.423177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1505.532959, 1446.751709, 13.423177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1505.537964, 1457.011230, 18.588182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1506.252808, 1452.256958, 18.588182, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19866, 1522.908203, 1444.620483, 13.342956, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19757, 1522.935059, 1451.360596, 9.855398, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19940, 1505.351440, 1449.805298, 10.549350, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1447.804932, 10.549350, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1455.325928, 10.549350, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1453.325562, 10.549350, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19325, 1506.642700, 1451.852417, 16.157124, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF606060);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 17.635401, 89.999992, 90.000000, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 17.635399, 89.999992, 0.000025, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 14.895350, 89.999992, 90.000015, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 14.895347, 89.999992, 0.000045, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 12.575343, 89.999992, 90.000031, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 12.575341, 89.999992, 0.000063, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 10.645318, 89.999992, 90.000046, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19757, 1523.105225, 1445.957520, 10.645316, 89.999992, 0.000082, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "CsCrackpipe01", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19325, 1506.352417, 1451.852417, 15.907116, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 17588, "lae2coast_alpha", "LAShad1", 0xFF606060);
+	auto = CreateDynamicObject(2393, 1505.171143, 1455.078613, 14.879793, 89.999992, 179.999985, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2393, 1505.171143, 1455.078613, 15.879793, 89.999992, 179.999985, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2393, 1505.171143, 1455.078613, 16.879793, 89.999992, 179.999985, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2393, 1505.171143, 1455.078613, 17.879793, 89.999992, 179.999985, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2393, 1505.171143, 1449.136719, 14.879793, 89.999992, 179.999985, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(19866, 1522.908203, 1454.620483, 18.342957, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19866, 1522.908203, 1449.620483, 18.342957, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19866, 1517.306274, 1446.105591, 18.342957, 0.000000, -0.000007, 269.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19866, 1522.306274, 1446.105591, 18.342957, 0.000000, -0.000007, 269.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19866, 1522.908203, 1444.620483, 18.342957, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(2393, 1505.171143, 1449.136719, 15.879793, 89.999992, 179.999985, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2393, 1505.171143, 1449.136719, 16.879793, 89.999992, 179.999985, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2393, 1505.171143, 1449.136719, 17.879793, 89.999992, 179.999985, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14584, "ab_abbatoir01", "cj_sheetmetal", 0);
+	auto = CreateDynamicObject(2790, 1506.553345, 1451.862061, 16.157772, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-95-percent", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-20-percent", 0);
+	auto = CreateDynamicObject(19482, 1506.708130, 1451.835815, 15.650618, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "LICENSE CENTER OF", 130, "Trebuchet MS", 62, 0, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1451.855835, 15.090670, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "SAN ANDREAS", 130, "Trebuchet MS", 88, 1, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1451.885864, 16.730753, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "v", 130, "Webdings", 130, 1, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1450.214966, 16.990725, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "o", 130, "Webdings", 130, 1, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1453.486206, 16.680752, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "j", 130, "Webdings", 120, 0, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1450.224976, 16.750586, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "c", 130, "Webdings", 140, 0, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1453.495850, 16.750586, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "c", 130, "Webdings", 140, 0, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(19482, 1506.708130, 1451.854614, 16.750586, -0.000007, 0.000022, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "c", 130, "Webdings", 140, 0, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(18980, 1510.400146, 1456.266724, 19.569790, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFF909090);
+	auto = CreateDynamicObject(3850, 1519.943848, 1458.025513, 14.618367, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10871, "blacksky_sfse", "ws_glass_balustrade", 0);
+	auto = CreateDynamicObject(3850, 1518.222900, 1456.305054, 14.618367, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10871, "blacksky_sfse", "ws_glass_balustrade", 0);
+	auto = CreateDynamicObject(3850, 1514.762939, 1456.305054, 14.618367, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10871, "blacksky_sfse", "ws_glass_balustrade", 0);
+	auto = CreateDynamicObject(3850, 1511.302979, 1456.305054, 14.618367, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10871, "blacksky_sfse", "ws_glass_balustrade", 0);
+	auto = CreateDynamicObject(3850, 1507.843018, 1456.305054, 14.618367, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10871, "blacksky_sfse", "ws_glass_balustrade", 0);
+	auto = CreateDynamicObject(19426, 1505.537964, 1465.041138, 11.603182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(975, 1505.353149, 1458.611694, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19426, 1506.252808, 1465.761841, 11.603182, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19325, 1505.343018, 1458.191650, 10.057112, 89.999992, -89.999992, -90.000023, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1463.281616, 13.170928, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19325, 1505.343018, 1463.862549, 10.057112, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1457.071289, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1464.872681, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1501.517944, 1466.481201, 11.603182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(2004, 1505.371094, 1451.488525, 12.936408, 0.000014, 179.999969, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(975, 1505.353149, 1458.611694, 5.470912, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1463.281616, 5.470912, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1459.275269, 10.549349, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1457.274902, 10.549349, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1464.795898, 10.549349, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1462.795532, 10.549349, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19426, 1505.537964, 1471.374023, 11.603182, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(975, 1505.353149, 1468.071655, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19426, 1512.766357, 1466.478394, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19325, 1505.343018, 1467.651611, 10.057112, 270.000000, -89.999992, -90.000023, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1472.741577, 13.170928, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19325, 1505.343018, 1473.322510, 10.057112, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1466.531250, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1474.332642, 13.170928, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19353, 1513.485962, 1464.957520, 11.603181, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(2004, 1505.376099, 1460.267090, 12.936408, 0.000014, 179.999969, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(975, 1505.353149, 1468.071655, 5.470912, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.355103, 1449.143677, 8.900914, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1468.735229, 10.549349, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1466.734863, 10.549349, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19426, 1505.537964, 1465.041138, 15.838183, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1506.252808, 1465.761841, 15.838183, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19445, 1512.036377, 1476.107910, 11.603182, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1512.750244, 1471.379028, 11.603182, -0.000014, 0.000000, -89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(975, 1512.565430, 1468.071655, 13.170928, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1506.256104, 1476.107910, 11.603182, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19325, 1512.555298, 1467.651611, 10.057111, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1512.565430, 1472.741577, 13.170928, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1505.387939, 1461.083618, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(3089, 1505.341431, 1450.811035, 11.143421, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	auto = CreateDynamicObject(3089, 1505.341431, 1460.281006, 15.378418, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	auto = CreateDynamicObject(975, 1512.565430, 1466.531250, 13.170928, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1505.387939, 1470.713623, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1512.919678, 1461.083618, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(2004, 1505.371094, 1460.957764, 12.936408, 0.000014, 179.999969, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(975, 1512.565430, 1468.071655, 5.470912, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.355103, 1453.813599, 8.900914, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19940, 1512.563721, 1468.735229, 10.549350, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1512.563721, 1466.734863, 10.549350, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19445, 1516.419678, 1461.083618, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1518.259766, 1461.083618, 13.424288, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1509.419678, 1457.063721, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1508.419678, 1457.063721, 13.424288, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1511.503174, 1473.242310, 14.347955, 180.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1506.783325, 1459.300659, 14.347955, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1522.503418, 1457.480347, 14.347955, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(19445, 1508.744507, 1474.502930, 11.603182, 0.000000, 0.000007, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19445, 1512.919678, 1470.083618, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1508.652954, 1473.232300, 14.347955, 180.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(19426, 1509.419678, 1473.665894, 13.429289, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1508.419678, 1473.665894, 13.424288, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(3037, 1509.217041, 1462.463013, 13.671648, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1509.217041, 1469.543701, 13.671648, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1509.082520, 1462.285522, 17.857876, 89.999992, 180.000061, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1509.082520, 1470.995239, 17.857876, 89.999992, 180.000061, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1516.086548, 1462.285522, 17.857876, 89.999992, 180.000061, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(16734, 1488.772461, 1478.044434, 10.362912, 0.000000, 0.000000, -45.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(19480, 1509.076416, 1464.496948, 9.855040, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x80FFFFFF);
+	auto = CreateDynamicObject(19866, 1517.537720, 1456.360352, 17.587959, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19866, 1519.938354, 1458.770752, 17.587959, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFB09200);
+	auto = CreateDynamicObject(19866, 1512.537720, 1456.360352, 17.587959, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19866, 1507.537720, 1456.360352, 17.587959, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19445, 1505.387939, 1461.083618, 17.674294, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1505.387939, 1470.713623, 17.674294, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1515.985474, 1464.184570, 17.669294, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1511.919678, 1457.063721, 17.669292, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1515.419678, 1457.063721, 17.669292, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1518.269043, 1457.063721, 17.664293, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1508.419678, 1457.063721, 17.669292, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1511.503174, 1477.812622, 18.592958, 180.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1506.783325, 1459.300659, 18.592958, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1522.503418, 1457.510376, 18.592958, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(19445, 1512.919678, 1469.645020, 17.674294, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1508.652954, 1473.232300, 18.592958, 180.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(19426, 1509.419678, 1473.665894, 17.674294, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1508.419678, 1473.665894, 17.669292, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(3037, 1509.217041, 1462.463013, 17.916653, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1509.217041, 1469.543701, 17.916653, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1510.126099, 1452.476196, 19.457909, 89.999992, 180.000076, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1517.129639, 1452.476196, 19.457909, 89.999992, 180.000076, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1524.134277, 1452.476196, 19.457909, 89.999992, 180.000076, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(7666, 1511.929565, 1464.949341, 12.501951, 60.000000, -89.999969, 89.999947, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "License Cost", 140, "Trebuchet MS", 40, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(6959, 1500.038940, 1476.933594, 14.123185, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15055, "svlamid", "AH_flroortile3", 0xFFAAAAAA);
+	auto = CreateDynamicObject(19480, 1509.076416, 1467.309692, 14.095037, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x80FFFFFF);
+	auto = CreateDynamicObject(975, 1505.355103, 1458.613647, 8.900914, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.355103, 1463.283569, 8.900914, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.355103, 1468.073608, 8.900914, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1512.567383, 1468.073608, 8.900914, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2004, 1505.376099, 1469.727783, 12.936408, 0.000000, 179.999969, -89.999947, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(2004, 1505.371094, 1470.418457, 12.936408, 0.000000, 179.999969, -89.999947, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(2004, 1512.598755, 1469.727783, 12.936408, 0.000022, -179.999969, -89.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(2004, 1512.593750, 1470.418457, 12.936408, 0.000022, -179.999969, -89.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(11714, 1509.216187, 1474.419434, 11.082228, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "dts_elevator_door", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19482, 1506.319580, 1474.407349, 11.462158, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19482, 1511.940063, 1474.407349, 11.462158, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19482, 1511.940063, 1474.622559, 11.462158, 90.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19482, 1506.349487, 1474.622559, 11.462158, 90.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19445, 1501.506470, 1466.481201, 15.838183, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19940, 1505.351440, 1459.275269, 14.784350, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1457.274902, 14.784350, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1464.795898, 14.784350, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1462.795532, 14.784350, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19426, 1505.537964, 1471.379028, 15.838183, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(2004, 1505.376099, 1460.267090, 17.171412, 0.000014, 179.999969, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(19940, 1505.351440, 1468.735229, 14.784350, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19940, 1505.351440, 1466.734863, 14.784350, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14569, "traidman", "darkgrey_carpet_256", 0);
+	auto = CreateDynamicObject(19445, 1512.036377, 1476.107910, 15.838183, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1512.750244, 1471.379028, 15.838183, -0.000014, 0.000000, -89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1506.256104, 1476.107910, 15.838183, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(2004, 1505.371094, 1460.957764, 17.171412, 0.000014, 179.999969, -89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1511.064941, 1474.502930, 15.838183, 0.000000, 0.000007, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(11714, 1509.216187, 1474.419434, 15.317229, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "dts_elevator_door", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19482, 1506.319580, 1474.412354, 15.697156, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19482, 1511.940063, 1474.412354, 15.697155, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19482, 1511.940063, 1474.622559, 15.697156, 90.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19482, 1506.349487, 1474.622559, 15.697156, 90.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAA000000);
+	auto = CreateDynamicObject(19325, 1505.343018, 1458.191650, 17.327122, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(19325, 1505.343018, 1463.862549, 17.327122, 89.999992, -90.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(19325, 1505.343018, 1467.651611, 17.327122, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1505.353149, 1458.611694, 18.520969, -0.000037, 449.999969, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1463.281616, 18.520969, -0.000007, 809.999878, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1505.353149, 1468.071655, 18.520969, -0.000037, 449.999969, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19866, 1517.537720, 1456.360352, 18.337959, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19866, 1519.938354, 1458.770752, 18.337959, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFB09200);
+	auto = CreateDynamicObject(19866, 1512.537720, 1456.360352, 18.337959, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19866, 1507.537720, 1456.360352, 18.337959, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 3979, "civic01_lan", "airportwall_256128", 0xFFE8C100);
+	auto = CreateDynamicObject(19480, 1523.979492, 1457.076660, 13.778911, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x90000000);
+	auto = CreateDynamicObject(2004, 1505.376099, 1469.739380, 17.171412, 0.000007, 179.999969, -89.999947, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(2004, 1505.371094, 1470.430054, 17.171412, 0.000007, 179.999969, -89.999947, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(18980, 1510.400146, 1457.266724, 19.569790, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFF909090);
+	auto = CreateDynamicObject(18980, 1510.400146, 1456.256714, 19.579790, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFCCCCCC);
+	auto = CreateDynamicObject(18980, 1506.323608, 1456.261719, 19.564791, 89.999992, 224.999985, -45.000027, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFF909090);
+	auto = CreateDynamicObject(18980, 1506.333618, 1456.261719, 19.579790, 89.999992, 224.999985, -45.000027, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFCCCCCC);
+	auto = CreateDynamicObject(18980, 1522.844849, 1456.261719, 19.564791, 89.999992, 154.471191, -154.471268, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFF909090);
+	auto = CreateDynamicObject(18980, 1522.834839, 1456.261719, 19.579790, 89.999992, 154.471191, -154.471268, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFCCCCCC);
+	auto = CreateDynamicObject(18980, 1510.400146, 1447.595337, 19.569790, 89.999992, 269.802124, 0.197833, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFF909090);
+	auto = CreateDynamicObject(18980, 1510.400146, 1447.605347, 19.579790, 89.999992, 269.802124, 0.197833, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFCCCCCC);
+	auto = CreateDynamicObject(18980, 1510.400146, 1446.595337, 19.569790, 89.999992, 269.802124, 0.197833, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFF909090);
+	auto = CreateDynamicObject(19480, 1520.568359, 1445.307007, 19.063908, 360.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x90000000);
+	auto = CreateDynamicObject(3037, 1509.076904, 1452.568359, 19.516687, 0.000000, 270.000000, -179.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1513.476440, 1452.568359, 19.516687, 0.000000, 270.000000, -179.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1517.805542, 1452.568359, 19.516687, 0.000000, 270.000000, -179.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1520.396362, 1452.568359, 19.516687, 0.000000, 270.000000, -179.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1515.147827, 1452.568359, 19.516687, 0.000000, 270.000000, -179.999847, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(3037, 1521.218628, 1452.568359, 19.516687, 0.000000, 270.000000, -179.999802, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19480, 1520.948486, 1458.457153, 19.063908, 360.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x90000000);
+	auto = CreateDynamicObject(19426, 1512.270264, 1454.023804, 19.534302, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1512.270264, 1450.523804, 19.534302, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1512.270264, 1447.023804, 19.534302, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1516.851563, 1454.023804, 19.534302, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1516.851563, 1450.523804, 19.534302, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19426, 1516.851563, 1447.023804, 19.534302, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1523.951294, 1451.244507, 19.534302, -0.000007, 270.000000, 0.000014, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1505.219482, 1451.244507, 19.534302, -0.000007, 270.000000, 0.000014, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1511.538452, 1457.375000, 19.529303, -0.000007, 270.000000, 90.000015, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1521.168457, 1457.375000, 19.529303, -0.000007, 270.000000, 90.000015, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1511.538452, 1446.481934, 19.529303, 0.000000, 270.000000, 89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1521.168457, 1446.481934, 19.529303, 0.000000, 270.000000, 89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19606, 1512.298096, 1450.459351, 16.962765, 0.000000, 179.999985, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-50-percent", 0);
+	auto = CreateDynamicObject(1362, 1512.304321, 1450.438843, 17.697424, 0.000000, 540.000000, 0.000052, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1362, 1512.304321, 1450.438843, 16.592422, 0.000007, 179.999969, 0.000052, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(16101, 1512.304321, 1450.438843, 28.697424, 0.000000, 540.000000, 0.000052, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19606, 1512.298096, 1453.459351, 15.962763, 0.000000, 179.999985, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-50-percent", 0);
+	auto = CreateDynamicObject(1362, 1512.304321, 1453.438843, 16.697424, 0.000000, 540.000000, 0.000052, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1362, 1512.304321, 1453.438843, 15.592421, 0.000007, 179.999969, 0.000052, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(16101, 1512.304321, 1453.438843, 27.697424, 0.000000, 540.000000, 0.000051, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19606, 1516.846802, 1453.438843, 16.962765, 0.000000, 179.999985, 0.000091, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-50-percent", 0);
+	auto = CreateDynamicObject(1362, 1516.840576, 1453.459351, 17.697424, 0.000000, 540.000000, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1362, 1516.840576, 1453.459351, 16.592422, 360.000000, 540.000000, 540.000122, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(16101, 1516.840576, 1453.459351, 28.697424, 0.000000, 540.000000, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19606, 1516.846802, 1450.438843, 15.962763, 0.000000, 179.999985, 0.000091, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-50-percent", 0);
+	auto = CreateDynamicObject(1362, 1516.840576, 1450.459351, 16.697424, 0.000000, 540.000000, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1362, 1516.840576, 1450.459351, 15.592421, 0.000007, 179.999969, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 8618, "ceasersign", "ceaserspillar01_128", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(16101, 1516.840576, 1450.459351, 27.697424, 0.000000, 540.000000, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19527, 1512.309204, 1450.449341, 17.062765, 0.000000, 179.999985, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19527, 1512.309204, 1453.449341, 16.062765, 0.000000, 179.999985, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19527, 1516.835693, 1453.450806, 17.062765, 0.000000, 179.999985, 0.000091, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19527, 1516.835693, 1450.450806, 16.062765, 0.000000, 179.999985, 0.000091, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19479, 1510.234009, 1450.509521, 9.867582, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x80FFFFFF);
+	auto = CreateDynamicObject(19477, 1516.788940, 1453.374634, 19.437593, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xFF000000);
+	auto = CreateDynamicObject(19477, 1516.788940, 1450.443848, 19.437593, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xFF000000);
+	auto = CreateDynamicObject(19477, 1512.318237, 1453.374634, 19.437593, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xFF000000);
+	auto = CreateDynamicObject(19477, 1512.318237, 1450.443848, 19.437593, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xFF000000);
+	auto = CreateDynamicObject(19929, 1520.220947, 1458.886597, 9.869047, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19930, 1513.508179, 1462.765869, 9.869047, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19937, 1514.286255, 1458.954712, 9.957022, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19937, 1516.186768, 1458.954712, 9.957022, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19937, 1518.096802, 1458.954712, 9.957022, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19937, 1519.986206, 1458.954712, 9.957022, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19937, 1513.545776, 1461.624512, 9.957022, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19937, 1513.545776, 1462.385254, 9.957022, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19929, 1513.508179, 1461.935059, 13.739076, -0.000014, -1979.999878, 0.000319, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19929, 1517.361206, 1458.886597, 13.739076, 0.000052, -899.999878, -90.000038, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19929, 1514.500977, 1458.886597, 13.739076, 0.000052, -899.999878, -90.000038, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19929, 1520.220947, 1458.886597, 13.739076, 0.000045, -899.999878, -89.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19930, 1513.508179, 1459.914673, 13.739076, -0.000014, -1979.999878, 0.000319, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2707, 1513.498047, 1460.373901, 12.795708, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2707, 1513.498047, 1461.873901, 12.795708, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2707, 1513.498047, 1458.873901, 12.795708, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(957, 1512.218872, 1457.424438, 13.321696, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(957, 1514.218872, 1457.424438, 13.321696, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2707, 1514.998047, 1458.873901, 12.795708, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2707, 1516.498047, 1458.873901, 12.795708, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2707, 1517.998047, 1458.873901, 12.795708, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(957, 1516.218872, 1457.424438, 13.321696, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(957, 1518.218872, 1457.424438, 13.321696, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(957, 1512.218872, 1459.424438, 13.321696, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(957, 1512.218872, 1461.424438, 13.321696, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(19482, 1515.063477, 1458.568726, 13.330827, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAAFFFFFF);
+	auto = CreateDynamicObject(19482, 1519.564209, 1458.568726, 13.330827, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAAFFFFFF);
+	auto = CreateDynamicObject(19482, 1513.203491, 1461.108398, 13.330827, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAAFFFFFF);
+	auto = CreateDynamicObject(19353, 1519.946777, 1460.864868, 11.603181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14661, "int_tatoo", "tattoo_wall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19383, 1516.776978, 1463.426758, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14661, "int_tatoo", "tattoo_wall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19353, 1519.986938, 1463.426758, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14661, "int_tatoo", "tattoo_wall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19930, 1520.741333, 1458.886597, 12.269054, 270.000000, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19930, 1513.508179, 1464.205200, 12.269056, 630.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19930, 1513.510132, 1464.207153, 11.369049, 630.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19930, 1520.743286, 1458.888550, 11.359043, 270.000000, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19595, "lsappartments1", "carpet4-256x256", 0);
+	SetDynamicObjectMaterial(auto, 1, 18029, "genintintsmallrest", "GB_restaursmll15", 0);
+	auto = CreateDynamicObject(19353, 1519.951782, 1461.935913, 11.603181, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14661, "int_tatoo", "tattoo_wall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1514.366333, 1463.426758, 11.603181, -0.000007, 0.000000, 90.000023, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14661, "int_tatoo", "tattoo_wall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(2165, 1513.954346, 1461.027588, 9.872594, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2165, 1518.705322, 1459.396851, 9.872594, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2165, 1516.765747, 1459.396851, 9.872594, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2263, 1517.754028, 1459.476318, 11.157705, -9.999964, -0.000068, 164.999680, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1517.464478, 1458.533936, 10.983877, 9.999964, 0.000043, -14.999984, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1517.599731, 1458.990967, 10.984853, -89.999992, 272.820831, 77.820793, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1517.597168, 1458.981323, 11.064930, 0.000006, -0.000044, 164.999741, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(2263, 1515.753784, 1459.476318, 11.157705, -9.999961, -0.000075, 164.999634, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1515.464233, 1458.533936, 10.983877, 9.999961, 0.000050, -14.999984, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1515.599487, 1458.990967, 10.984853, -89.999992, 278.842407, 83.842361, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1515.596924, 1458.981323, 11.064930, 0.000007, -0.000050, 164.999695, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(2263, 1514.039185, 1461.999756, 11.157705, -9.999952, -0.000080, 74.999603, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1513.096802, 1462.289307, 10.983877, 9.999952, 0.000056, -104.999931, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1513.553833, 1462.154053, 10.984853, -89.999992, 326.870728, 41.870705, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1513.544189, 1462.156616, 11.064930, 0.000018, -0.000057, 74.999687, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(1715, 1516.297363, 1460.606812, 9.870768, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1518.227539, 1460.606812, 9.870768, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1515.216919, 1461.517212, 9.870768, 0.000000, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(2161, 1514.450195, 1463.339966, 9.872147, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2161, 1514.450195, 1463.339966, 11.222148, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2161, 1518.571045, 1463.339966, 9.872147, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2161, 1518.571045, 1463.339966, 11.222148, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2161, 1519.821045, 1462.849487, 9.872147, -0.000014, 0.000014, -89.999924, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2161, 1519.821045, 1462.849487, 11.222148, -0.000014, 0.000014, -89.999924, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(19172, 1519.845215, 1460.671265, 11.631052, 0.000000, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14842, "genintintpolicea", "cop_notice", 0);
+	auto = CreateDynamicObject(19482, 1516.844116, 1461.329224, 13.330827, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0xAAFFFFFF);
+	auto = CreateDynamicObject(2714, 1515.708374, 1461.285645, 13.311207, 89.999992, 179.999985, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2714, 1518.208374, 1461.285645, 13.311207, 89.999992, 179.999985, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19483, 1514.179565, 1458.515625, 9.866621, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(19483, 1516.479614, 1458.515625, 9.866621, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(957, 1516.448853, 1458.365356, 9.851685, 0.000000, 179.999985, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(957, 1514.148804, 1458.365356, 9.851685, 0.000000, 179.999985, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19483, 1518.779663, 1458.515625, 9.866621, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(957, 1518.748901, 1458.365356, 9.851685, 0.000000, 179.999985, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19483, 1513.063354, 1462.086426, 9.866621, 0.000014, 0.000007, -0.000014, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(19483, 1513.063354, 1459.786377, 9.866621, 0.000014, 0.000007, -0.000014, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(957, 1512.913086, 1459.817139, 9.851685, 0.000007, 179.999985, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(957, 1512.913086, 1462.117188, 9.851685, 0.000007, 179.999985, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19426, 1504.812744, 1456.291870, 11.603181, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1504.527588, 1447.550781, 11.603181, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1503.807129, 1446.830566, 11.603181, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19445, 1489.317139, 1447.051880, 11.603181, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19445, 1493.528442, 1442.735107, 11.603181, -0.000007, -0.000007, -179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19445, 1498.947144, 1447.051880, 11.603181, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19795, 1503.185791, 1447.052856, 11.561949, -0.000029, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1500.734863, 1447.072876, 11.561949, -0.000022, 0.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1498.174927, 1447.052856, 11.561949, -0.000029, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(16734, 1490.475830, 1442.477417, 10.362912, 0.000000, 0.000000, 45.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(19445, 1493.528442, 1452.365112, 11.603181, -0.000007, -0.000007, -179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1493.529419, 1448.126465, 11.561949, -0.000037, -0.000007, -179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1493.549438, 1450.577393, 11.561949, -0.000029, -0.000007, -179.999893, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1493.529419, 1453.137329, 11.561949, -0.000037, -0.000007, -179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19445, 1491.877197, 1457.011230, 11.603181, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(3077, 1499.662109, 1456.913330, 9.854389, 0.000007, 0.000029, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2163, 1498.486328, 1457.056274, 9.825337, 0.000007, 0.000045, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2163, 1501.092407, 1457.059204, 9.825339, 0.000007, 0.000045, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2430, 1494.242188, 1457.069702, 11.816257, -14.900006, 0.000007, 0.000001, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "arrownoleftsign", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "arrownorightsign", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "chevronrightsign2", 0);
+	SetDynamicObjectMaterial(auto, 3, 14577, "casinovault01", "cof_wood1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "arrownostraightsign", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "chevronleftsign2", 0);
+	auto = CreateDynamicObject(3077, 1503.012573, 1456.913330, 9.854389, 0.000007, 0.000029, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1715, 1503.397827, 1456.705322, 9.870768, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(2163, 1499.791748, 1457.064209, 9.827337, 0.000007, 0.000045, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(18066, 1503.091919, 1456.942871, 12.991935, 450.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(18066, 1499.650757, 1456.942871, 12.991935, 450.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2166, 1504.240601, 1456.442993, 9.851935, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2430, 1494.242188, 1457.069702, 10.846248, -14.900004, 0.000014, 0.000003, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "leftcurvesign", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "leftturnsign", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "crossinterssign", 0);
+	SetDynamicObjectMaterial(auto, 3, 14577, "casinovault01", "cof_wood1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "rightturnsign", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "chevronleftsign2", 0);
+	auto = CreateDynamicObject(2430, 1494.242188, 1457.069702, 9.876242, -14.900003, 0.000023, 0.000006, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "speedlimit5sign", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "speedlimit10sign", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "stopsign", 0);
+	SetDynamicObjectMaterial(auto, 3, 14577, "casinovault01", "cof_wood1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "speedlimit15sign", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "chevronleftsign2", 0);
+	auto = CreateDynamicObject(18066, 1495.810669, 1456.942871, 12.991935, 450.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(19997, 1498.808716, 1449.200317, 9.851935, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1498.858643, 1447.422729, 9.870768, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1498.808716, 1452.560669, 9.851935, 0.000022, 0.000000, 89.999931, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1498.858643, 1450.783081, 9.870768, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1496.808716, 1449.200317, 9.851935, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1496.858643, 1447.422729, 9.870768, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19482, 1499.243652, 1456.872070, 12.291154, -0.000037, 0.000007, -89.999855, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "f", 130, "Webdings", 50, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1500.294678, 1456.872070, 11.901263, -0.000037, 0.000007, -89.999855, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "h", 130, "Webdings", 50, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1500.395020, 1456.872070, 11.811176, -0.000037, 0.000007, -89.999855, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "_ _ _ _ _ _ _", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.394531, 1456.872070, 12.381242, 89.999992, 3.398883, -93.398750, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "_ _ _ _", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.885010, 1456.872070, 12.461320, 89.999992, 3.398883, -93.398750, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "________", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.885010, 1456.872070, 11.041154, 89.999992, 3.398883, -93.398750, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "________", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1498.914795, 1456.872070, 12.461320, 89.999992, 3.398883, -93.398750, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "________", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.394531, 1456.872070, 11.161273, 89.999992, 3.398883, -93.398750, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "_ _ _ _", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1498.914063, 1456.872070, 11.041154, 89.999992, 3.398883, -93.398750, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "________", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1500.324463, 1456.872070, 12.031146, 0.000037, 179.999985, 89.999901, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "________", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1498.523682, 1456.872070, 11.811176, -0.000037, 0.000007, -89.999855, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "_ _ _ _ _ _ _", 130, "Calibri", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.764893, 1456.872070, 11.871232, -0.000037, 0.000007, -89.999855, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "c", 130, "Wingdings", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.134521, 1456.872070, 11.971331, -0.000037, 0.000007, -89.999855, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "i", 130, "Wingdings", 20, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19482, 1499.424805, 1456.872070, 11.621232, -15.300032, 0.000006, -91.799858, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterialText(auto, 0, "?", 130, "Calibri", 30, 0, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19997, 1496.808716, 1452.560669, 9.851935, 0.000022, 0.000000, 89.999931, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1496.858643, 1450.783081, 9.870768, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1494.808716, 1449.200317, 9.851935, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1494.858643, 1447.422729, 9.870768, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1494.808716, 1452.560669, 9.851935, 0.000022, 0.000000, 89.999931, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1494.858643, 1450.783081, 9.870768, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1500.808716, 1449.200317, 9.851935, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1500.858643, 1447.422729, 9.870768, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1500.808716, 1452.560669, 9.851935, 0.000022, 0.000000, 89.999931, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1500.858643, 1450.783081, 9.870768, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1502.808716, 1449.200317, 9.851935, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1502.858643, 1447.422729, 9.870768, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19997, 1502.808716, 1452.560669, 9.851935, 0.000022, 0.000000, 89.999931, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1502.858643, 1450.783081, 9.870768, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(19426, 1504.821533, 1465.761841, 11.603182, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19445, 1499.922607, 1456.302979, 13.413178, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1490.292603, 1456.302979, 13.413178, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1499.922607, 1446.459839, 13.423177, 0.000000, -89.999985, 90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1490.292603, 1446.459839, 13.423177, 0.000000, -89.999985, 90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1492.611450, 1449.771973, 13.418177, 0.000000, -89.999985, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(14397, 1494.024780, 1438.959961, 14.347955, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1505.044800, 1453.080444, 14.347955, 180.000000, 0.000000, 450.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1503.035278, 1447.887573, 14.347955, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1489.065674, 1454.889282, 14.347955, 180.000000, 0.000000, 540.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1498.621460, 1451.798340, 13.691942, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2938, 1498.621460, 1450.817993, 13.691942, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1501.213379, 1451.413696, 13.627861, 89.999992, 180.000031, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1494.210083, 1451.413696, 13.627861, 89.999992, 180.000031, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(984, 1498.026123, 1455.721436, 13.311938, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 10
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 6, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 7, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 8, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 9, 14561, "triad_neon", "kbneon", 0);
+	auto = CreateDynamicObject(19445, 1493.538452, 1461.854980, 11.603181, -0.000007, -0.000014, -179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1493.539429, 1457.616333, 11.561949, -0.000037, -0.000014, -179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1493.559448, 1460.067261, 11.561949, -0.000029, -0.000014, -179.999847, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1493.539429, 1462.627197, 11.561949, -0.000037, -0.000014, -179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19445, 1491.887939, 1466.481201, 11.603182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1504.513306, 1456.302979, 13.418177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1504.523926, 1459.803833, 13.418177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1504.523926, 1463.303833, 13.418177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1499.922607, 1465.696533, 13.423177, 0.000000, -89.999985, 90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1490.292603, 1465.696533, 13.423177, 0.000000, -89.999985, 90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1492.611450, 1461.817383, 13.418177, 0.000000, -89.999985, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(14397, 1502.187012, 1457.712280, 14.337956, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1494.024780, 1459.669556, 14.337956, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1504.025391, 1473.569092, 14.337956, 180.000000, 0.000000, 450.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1488.075562, 1464.266846, 14.337956, 180.000000, 0.000000, 540.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1498.621460, 1461.350952, 13.691942, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2938, 1498.621460, 1460.370605, 13.691942, 0.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1501.213379, 1460.966309, 13.627861, 89.999992, 180.000046, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1494.210083, 1460.966309, 13.627861, 89.999992, 180.000046, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(984, 1498.026123, 1465.142456, 13.311938, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 10
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 6, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 7, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 8, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 9, 14561, "triad_neon", "kbneon", 0);
+	auto = CreateDynamicObject(7709, 1499.411011, 1457.091919, 11.601930, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14842, "genintintpolicea", "cop_notice", 0);
+	auto = CreateDynamicObject(2164, 1504.712891, 1457.107544, 9.851935, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1503.917114, 1457.112549, 13.351943, 0.000000, 180.000000, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1502.937378, 1457.107544, 9.851935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1502.141602, 1457.112549, 13.351943, 0.000000, 180.000000, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1496.681396, 1457.107544, 9.851935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1495.885620, 1457.112549, 13.351943, 0.000000, 180.000000, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1494.905884, 1457.107544, 9.851935, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1494.110107, 1457.112549, 13.351943, 0.000000, 180.000000, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(19445, 1499.266968, 1466.471191, 11.603182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(2707, 1502.003784, 1464.508667, 12.988763, -0.000000, 290.000000, 89.999886, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(1897, 1501.840820, 1465.414185, 13.287144, 90.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14581, "ab_mafiasuitea", "barbersmir1", 0);
+	auto = CreateDynamicObject(19811, 1501.846069, 1464.300537, 13.335811, -0.000014, 179.999985, -89.999924, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	SetDynamicObjectMaterial(auto, 1, 14581, "ab_mafiasuitea", "barbersmir1", 0);
+	auto = CreateDynamicObject(19128, 1501.830200, 1466.420776, 11.111933, 90.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14530, "estate2", "ab_SFmap", 0);
+	auto = CreateDynamicObject(16734, 1483.336426, 1461.927002, 10.362912, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(3077, 1497.009644, 1465.871216, 9.841938, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 1714, "cj_office", "white32", 0);
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(630, 1504.165527, 1465.669434, 10.851935, 0.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(630, 1494.303833, 1465.669434, 10.851935, 0.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(2714, 1505.365479, 1453.100098, 11.581940, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "Theory Exam\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(2714, 1505.365479, 1462.560913, 11.581940, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "Briefing Room\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(2714, 1512.535645, 1468.970581, 11.581939, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "Staff Room\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19445, 1513.485962, 1476.108398, 11.603181, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19383, 1516.776978, 1463.604736, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1514.376221, 1463.604736, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1519.986938, 1463.604736, 11.603181, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1521.620850, 1468.451172, 11.603181, -0.000007, -0.000007, 0.000121, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1521.619873, 1470.709106, 11.561949, -0.000037, 0.000000, 0.000121, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1521.619873, 1467.468750, 11.561949, -0.000037, 0.000000, 0.000121, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19383, 1515.159546, 1471.379028, 11.603182, -0.000014, 0.000000, -89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1521.579468, 1471.379028, 11.603182, -0.000014, 0.000000, -89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(1499, 1516.037964, 1463.546875, 9.834424, 0.000007, 0.000007, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-70-percent", 0);
+	SetDynamicObjectMaterialText(auto, 1, "gggg\ngggg\ngggg\ngggg\ngggg", 100, "Webdings", 56, 0, 0xFF222222, 0, 1);
+	auto = CreateDynamicObject(1499, 1514.416626, 1471.378296, 9.834424, 0.000007, 0.000007, 0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-70-percent", 0);
+	SetDynamicObjectMaterialText(auto, 1, "gggg\ngggg\ngggg\ngggg\ngggg", 100, "Webdings", 56, 0, 0xFF222222, 0, 1);
+	auto = CreateDynamicObject(2135, 1519.045654, 1470.816162, 9.834337, 0.000000, 0.000029, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 3, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(2136, 1520.015381, 1470.816162, 9.834337, 0.000000, 0.000029, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 4, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(2728, 1517.604370, 1471.685181, 10.539157, 90.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(2138, 1518.065186, 1470.811157, 9.834337, 0.000000, 0.000029, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 3, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(2137, 1517.066040, 1470.811157, 9.834337, 0.000000, 0.000029, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 2, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	SetDynamicObjectMaterial(auto, 3, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(2138, 1520.045898, 1470.811157, 9.834337, 0.000000, 0.000029, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 3, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(2137, 1521.022583, 1470.811157, 9.834337, 0.000000, 0.000029, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	SetDynamicObjectMaterial(auto, 3, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(18066, 1521.060303, 1471.328125, 11.285856, 44.999992, 0.000031, -0.000022, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-80-percent", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(18066, 1517.569092, 1471.328125, 11.285856, 44.999992, 0.000031, -0.000022, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-80-percent", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2728, 1520.614746, 1471.685181, 10.539157, 90.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0);
+	auto = CreateDynamicObject(19445, 1521.259155, 1471.369019, 11.603182, -0.000014, 0.000000, -89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(2691, 1513.609863, 1465.094482, 11.869594, 0.000000, 0.000000, 450.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2266, "picture_frame", "CJ_PAINTING30", 0);
+	auto = CreateDynamicObject(19445, 1521.749390, 1468.462280, 13.429289, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1517.417236, 1472.364502, 13.424289, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1520.353882, 1481.391357, 14.347955, 180.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1530.143677, 1465.582642, 14.347955, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1514.322754, 1467.472168, 14.347955, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1516.262573, 1470.952759, 14.347955, 180.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1515.551514, 1468.203125, 13.691942, -0.000014, 270.000000, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1518.143433, 1468.798828, 13.627861, 89.999992, 180.000076, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(984, 1519.957397, 1464.972290, 13.321937, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 10
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 6, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 7, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 8, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 9, 14561, "triad_neon", "kbneon", 0);
+	auto = CreateDynamicObject(1827, 1519.352905, 1467.494751, 9.853103, 0.000000, 0.000022, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(1827, 1519.352905, 1467.494751, 10.263109, 0.000000, 0.000022, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18065, "ab_sfammumain", "shelf_glas", 0xFFFFFFFF);
+	auto = CreateDynamicObject(1811, 1517.671875, 1467.482666, 10.370174, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	auto = CreateDynamicObject(1811, 1519.347656, 1465.806885, 10.370174, -0.000014, -0.000007, -89.999939, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	auto = CreateDynamicObject(1820, 1518.862793, 1466.993042, 10.188559, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1811, 1521.023560, 1467.482666, 10.370174, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	auto = CreateDynamicObject(1811, 1519.347656, 1469.158569, 10.370174, 0.000014, 0.000007, 89.999924, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	auto = CreateDynamicObject(16734, 1533.026245, 1467.742310, 10.362912, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(2691, 1514.835205, 1463.723389, 11.869594, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2266, "picture_frame", "CJ_PAINTING28", 0);
+	auto = CreateDynamicObject(2164, 1521.033936, 1463.729492, 9.851935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1520.238159, 1463.734497, 13.351943, 0.000000, 180.000000, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1519.265259, 1463.729492, 9.851935, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1518.469482, 1463.734497, 13.351943, 0.000000, 180.000000, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(11683, 1515.593628, 1464.322388, 9.868122, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(11685, 1513.082031, 1467.473877, 9.868122, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(11685, 1513.082031, 1468.764038, 9.868122, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(11683, 1514.792847, 1464.322388, 9.868122, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(11683, 1513.983154, 1464.322388, 9.868122, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2315, 1514.827515, 1465.879639, 9.866856, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2315, 1514.832520, 1467.466187, 9.868857, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(950, 1514.776489, 1467.519409, 10.539750, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 17146, "cuntwroad", "Tar_blenddrtwhiteline", 0);
+	SetDynamicObjectMaterial(auto, 2, 728, "gtatreeshi", "berrybush1", 0);
+	auto = CreateDynamicObject(19445, 1521.620850, 1478.081177, 11.603181, -0.000007, -0.000007, 0.000121, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1521.619873, 1477.380737, 11.561949, -0.000037, 0.000007, 0.000121, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19445, 1518.347778, 1477.658813, 11.603182, -0.000014, 0.000000, -89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19795, 1521.629883, 1474.890869, 11.561949, -0.000037, 0.000007, 0.000121, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(2200, 1514.604736, 1477.613037, 9.869696, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2200, 1516.834473, 1477.613037, 9.869696, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2200, 1519.054565, 1477.613037, 9.869696, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(19445, 1517.417236, 1475.864502, 13.424289, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14793, 1517.539429, 1477.362549, 13.232712, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2200, 1513.683838, 1475.991455, 9.871697, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2200, 1513.683838, 1471.949585, 9.869696, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2200, 1518.223877, 1471.548462, 9.869696, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2200, 1520.444214, 1471.548462, 9.869696, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(19172, 1513.568970, 1474.601807, 11.387329, 180.000000, 90.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14581, "ab_mafiasuitea", "barbersmir1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(2315, 1519.913452, 1473.836182, 9.718852, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2315, 1516.913452, 1473.836182, 9.718852, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(16734, 1533.616821, 1474.713501, 10.362912, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(19858, 1512.735107, 1471.303711, 11.590882, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 981, "helixbarrier", "colourboxes", 0);
+	auto = CreateDynamicObject(19795, 1511.799194, 1446.131226, 11.584392, 0.000000, 0.000000, 630.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10610, "fedmint_sfs", "ws_security_door", 0);
+	auto = CreateDynamicObject(19426, 1512.766357, 1463.437378, 15.843180, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1512.036377, 1464.957520, 15.843180, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1512.766357, 1466.478394, 15.843180, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1513.486938, 1464.957520, 15.843180, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(975, 1512.565430, 1468.071655, 18.520929, 180.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19325, 1512.555298, 1467.651611, 17.387133, 89.999992, -90.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(2004, 1512.598755, 1469.727783, 17.176409, 0.000022, -179.999969, -89.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(2004, 1512.593750, 1470.418457, 17.176409, 0.000022, -179.999969, -89.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 6312, "beacliff_law2", "concretebigblu4256128", 0xFF505050);
+	SetDynamicObjectMaterial(auto, 1, 9515, "bigboxtemp1", "sf_concrete1", 0xFF505050);
+	auto = CreateDynamicObject(975, 1515.256714, 1464.000000, 18.520929, 180.000000, 270.000000, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1518.377441, 1464.000000, 18.520929, 180.000000, 270.000000, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1516.827271, 1464.005005, 18.522928, 180.000000, 270.000000, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19353, 1519.956787, 1461.905884, 15.103180, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19353, 1519.956787, 1461.905884, 18.603182, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 6095, "shops01_law", "hotwall1_law", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1519.137573, 1463.437378, 15.843180, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19426, 1518.417480, 1464.166748, 15.843180, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19795, 1519.949097, 1461.996216, 15.841940, -0.000029, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19480, 1520.997192, 1460.458740, 14.095037, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19063, "xmasorbs", "sphere", 0x80FFFFFF);
+	auto = CreateDynamicObject(19445, 1513.467407, 1476.107910, 15.838183, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19426, 1519.137573, 1464.888672, 15.843180, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1518.344238, 1474.482910, 15.838183, 0.000000, 0.000007, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19325, 1516.874634, 1464.010254, 16.157104, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0xFF808080);
+	auto = CreateDynamicObject(975, 1515.256714, 1464.000000, 21.965929, 180.000000, 270.000000, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1518.377441, 1464.000000, 21.965929, 180.000000, 270.000000, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(975, 1516.827271, 1464.005005, 21.967928, 180.000000, 270.000000, -0.000007, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 5
+	SetDynamicObjectMaterial(auto, 0, 11391, "hubprops2_sfse", "blackbag", 0xFFCCCCCC);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1519.959351, 1469.672363, 15.853180, -0.000006, 0.000000, 0.000120, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1519.958374, 1473.951172, 15.811948, -0.000037, 0.000007, 0.000120, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1519.958374, 1468.689941, 15.811948, -0.000037, 0.000007, 0.000120, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19445, 1520.440308, 1462.663452, 17.674294, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1517.899536, 1474.703491, 17.669294, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19795, 1519.948364, 1471.179688, 15.811948, -0.000037, 0.000007, 0.000120, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(14397, 1514.355103, 1467.251831, 18.592958, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1519.016724, 1473.421997, 18.592958, 180.000000, 0.000000, 450.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1529.766846, 1465.580811, 18.592958, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1516.481079, 1471.552124, 17.871960, -0.000022, 270.000000, 0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1517.511841, 1468.848877, 17.807880, 89.999992, 180.000092, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(16734, 1531.095703, 1470.033081, 14.542913, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(14397, 1512.557007, 1462.792114, 18.592958, 180.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(19445, 1520.440308, 1472.293457, 17.674294, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(3037, 1516.218140, 1460.162964, 17.916653, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2184, 1515.683716, 1471.495483, 14.091935, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(19466, 1516.721680, 1470.664673, 14.861932, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0);
+	auto = CreateDynamicObject(2209, 1516.778076, 1469.125854, 14.171936, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2209, 1516.778076, 1469.125854, 14.081933, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1735, 1516.788452, 1473.905029, 14.091935, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14805, "bdupsfurn", "blacksofa01", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2164, 1514.043579, 1474.374512, 14.091945, 0.000000, -0.000007, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1514.839355, 1474.369507, 17.591953, 0.000000, 180.000000, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1518.584839, 1474.374512, 14.091945, 0.000000, 0.000000, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1519.380615, 1474.369507, 17.591953, 0.000000, 180.000000, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2612, 1516.285156, 1474.350952, 16.331951, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 1239, "icons6", "lyellow32", 0);
+	SetDynamicObjectMaterial(auto, 3, 15040, "cuntcuts", "csnewspaper02", 0);
+	auto = CreateDynamicObject(19796, 1516.611084, 1474.478882, 17.131950, 90.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2028, "cj_games", "CJ_speaker4", 0);
+	auto = CreateDynamicObject(18066, 1516.722168, 1474.315796, 17.391937, 90.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-80-percent", 0);
+	SetDynamicObjectMaterial(auto, 1, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(2611, 1516.989502, 1474.332886, 15.491930, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 8
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 10249, "ottos2_sfw", "ottos_pics_sfe", 0);
+	SetDynamicObjectMaterial(auto, 6, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 7, 14489, "carlspics", "AH_picture2", 0);
+	SetDynamicObjectMaterial(auto, 8, 14489, "carlspics", "AH_picture2", 0);
+	auto = CreateDynamicObject(19466, 1516.721680, 1468.424561, 14.861932, 0.000000, -89.999985, -0.000029, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18065, "ab_sfammumain", "shelf_glas", 0);
+	auto = CreateDynamicObject(19940, 1516.721680, 1469.345337, 14.851932, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14650, "ab_trukstpc", "sa_wood08_128", 0);
+	auto = CreateDynamicObject(2209, 1516.778076, 1468.305054, 14.171936, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2209, 1516.778076, 1468.305054, 14.081933, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(1715, 1514.540894, 1470.617676, 14.081926, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1514.540894, 1469.317627, 14.081926, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1514.540894, 1468.017578, 14.081926, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1518.821045, 1468.017578, 14.081926, 0.000007, 0.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1518.821045, 1469.317627, 14.081926, 0.000007, 0.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1518.821045, 1470.617676, 14.081926, 0.000007, 0.000000, -89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(1715, 1516.690552, 1467.266846, 14.081926, 0.000007, 0.000000, -180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(11685, 1517.211792, 1464.516846, 14.061924, 0.000029, -0.000029, 179.999695, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(11685, 1515.921631, 1464.516846, 14.061924, 0.000029, -0.000029, 179.999695, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(11685, 1514.651367, 1464.516846, 14.061924, 0.000029, -0.000029, 179.999695, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 14708, "labig1int2", "HS2_Artex5", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2234, 1515.448242, 1465.283936, 14.091935, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(19787, 1519.286133, 1465.502930, 16.583063, 2.900002, -0.000018, -135.000076, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "GB_phone02", 0);
+	SetDynamicObjectMaterial(auto, 1, 10938, "skyscrap_sfse", "ws_skyscraperwin1", 0);
+	auto = CreateDynamicObject(630, 1519.241943, 1465.605591, 15.091935, 0.000000, 0.000000, 1080.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(19858, 1513.570923, 1466.057129, 15.831939, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2266, "picture_frame", "CJ_PAINTING11", 0);
+	auto = CreateDynamicObject(19858, 1513.570923, 1473.377441, 15.831939, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2266, "picture_frame", "CJ_PAINTING14", 0);
+	auto = CreateDynamicObject(2059, 1516.185303, 1468.079102, 14.871945, 0.000000, 0.000000, 37.999989, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 8589, "lwbldstuff03", "filmcase01_64", 0);
+	SetDynamicObjectMaterial(auto, 1, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 2, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 3, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(2059, 1517.052490, 1470.153076, 14.871945, 0.000000, 0.000000, 127.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 8589, "lwbldstuff03", "filmcase01_64", 0);
+	SetDynamicObjectMaterial(auto, 1, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 2, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 3, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(2263, 1517.112915, 1472.195557, 15.038848, -9.999960, -0.000090, -165.000305, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1517.333130, 1471.234619, 14.865020, 9.999960, 0.000065, 15.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1517.221924, 1471.697998, 14.865998, -89.999992, 264.996033, 99.995941, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1517.224365, 1471.688354, 14.946075, 0.000006, -0.000066, -165.000214, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(1964, 1517.204590, 1472.028809, 15.011933, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 65535, "none", "none", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 3, 2669, "cj_chris", "Bow_Fence_Metal", 0);
+	SetDynamicObjectMaterial(auto, 6, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2714, 1512.535645, 1468.970581, 15.901944, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "Head of LC\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19426, 1504.812012, 1465.761841, 15.838183, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19445, 1504.816284, 1476.107910, 15.838183, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(19445, 1497.578003, 1471.219727, 15.853180, -0.000006, 0.000000, -179.999756, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19795, 1497.588989, 1467.942505, 15.811948, -0.000037, 0.000007, -179.999756, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19445, 1499.966919, 1472.901123, 15.838183, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1497.978638, 1472.902222, 15.811948, -0.000029, 0.000007, 90.000221, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1501.208618, 1472.902222, 15.811948, -0.000029, 0.000007, 90.000221, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(2161, 1504.804688, 1466.602173, 14.091935, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1504.804688, 1466.602173, 15.441939, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 2813, "gb_books01", "GB_novels05", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1498.518311, 1466.602173, 14.091935, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1498.518311, 1466.602173, 15.441939, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1503.478882, 1466.602173, 14.091935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 2813, "gb_books01", "GB_novels04", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1503.478882, 1466.602173, 15.441939, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1499.845459, 1466.602173, 14.091935, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 2813, "gb_books01", "GB_novels01", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2161, 1499.845459, 1466.602173, 15.441939, 0.000000, -0.000022, 179.999863, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 2813, "gb_books01", "GB_novels02", 0);
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2173, 1499.517944, 1470.126953, 14.091935, 0.000000, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1498.241699, 1469.626831, 14.081926, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(630, 1504.061035, 1472.016235, 15.091935, 0.000000, 0.000000, 1080.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(2263, 1499.199707, 1469.947388, 15.063845, -9.999990, -0.000073, -75.000282, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1500.160645, 1470.167603, 14.890018, 9.999990, 0.000048, 104.999901, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1499.697266, 1470.056396, 14.890995, -89.999992, 179.154099, 104.153984, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1499.706909, 1470.058838, 14.971072, -0.000020, -0.000048, -75.000191, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(2059, 1499.736938, 1469.136597, 14.901946, 0.000000, 0.000000, -141.899933, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 8589, "lwbldstuff03", "filmcase01_64", 0);
+	SetDynamicObjectMaterial(auto, 1, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 2, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 3, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(19445, 1500.609253, 1465.733521, 17.669294, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1500.609253, 1473.535278, 17.669294, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1496.820068, 1468.117310, 17.674294, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1503.942871, 1470.332520, 18.592958, 180.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1488.262817, 1472.102783, 18.592958, 180.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1502.133911, 1467.163086, 18.592958, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1498.262451, 1456.193237, 18.592958, 180.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1500.889771, 1472.282837, 17.871960, -0.000022, 270.000000, 0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1501.920532, 1469.579590, 17.807880, 89.999992, 180.000107, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2714, 1505.364990, 1468.930542, 15.901944, 0.000000, 0.000000, 450.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License\nDepartment\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(19445, 1500.526489, 1457.030640, 15.838183, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFDDDDDD);
+	auto = CreateDynamicObject(19445, 1497.578003, 1461.589722, 15.853180, -0.000006, 0.000000, -179.999756, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19795, 1497.588989, 1457.511719, 15.811948, -0.000037, 0.000007, -179.999756, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1497.588989, 1462.683105, 15.811948, -0.000037, 0.000007, -179.999756, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19795, 1497.598999, 1459.871826, 15.811948, -0.000037, 0.000007, -179.999756, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(16734, 1490.865845, 1479.342651, 14.542913, 0.000000, 0.000000, 315.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(16734, 1486.714966, 1461.612793, 14.542913, 0.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-30-percent", 0);
+	auto = CreateDynamicObject(19445, 1500.609253, 1456.630981, 17.669294, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(19445, 1496.820068, 1458.487305, 17.674294, 180.000000, 90.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14847, "mp_policesf", "mp_cop_carpet", 0xFF505050);
+	auto = CreateDynamicObject(14397, 1502.133911, 1458.041382, 18.592958, 180.000000, 0.000000, 360.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1488.043579, 1464.321289, 18.592958, 180.000000, 0.000000, 540.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1500.889771, 1463.299194, 17.871960, -0.000022, 270.000000, 0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1501.920532, 1460.595947, 17.807880, 89.999992, 180.000122, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2164, 1498.172241, 1466.384766, 14.091945, 0.000000, 0.000000, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1498.968018, 1466.379761, 17.591953, 0.000000, 180.000000, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1503.433594, 1466.384766, 14.091945, 0.000000, 0.000007, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1504.229370, 1466.379761, 17.591953, 0.000000, 180.000000, -0.000060, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2162, 1501.661255, 1466.399536, 14.091935, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2162, 1499.940918, 1466.399536, 14.091935, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(19786, 1501.223022, 1466.384399, 16.343058, 2.900012, 0.000014, -0.000015, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 15040, "cuntcuts", "GB_phone02", 0);
+	SetDynamicObjectMaterial(auto, 1, 6354, "sunset03_law2", "billLA02", 0);
+	auto = CreateDynamicObject(630, 1504.841797, 1457.757935, 15.091935, 0.000000, 0.000000, 1125.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 65535, "none", "none", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(630, 1498.219971, 1457.757935, 15.091935, 0.000004, 0.000004, 44.999989, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 65535, "none", "none", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(19477, 1501.272827, 1466.350464, 16.250820, 0.000022, 0.000007, 89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 17588, "lae2coast_alpha", "LAShad1", 0);
+	auto = CreateDynamicObject(2173, 1500.186401, 1463.553589, 14.091935, -0.000014, -0.000007, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1499.686279, 1464.829834, 14.081926, 0.000022, 0.000007, -0.000037, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(2263, 1500.006836, 1463.871826, 15.063844, -10.000006, -0.000075, -165.000198, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1500.227051, 1462.910889, 14.890018, 10.000006, 0.000050, 14.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1500.115845, 1463.374268, 14.890995, -89.999992, 213.549088, 48.548954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1500.118286, 1463.364624, 14.971072, -0.000037, -0.000051, -165.000092, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(2059, 1499.196045, 1463.334595, 14.901946, -0.000003, -0.000015, 128.100082, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 8589, "lwbldstuff03", "filmcase01_64", 0);
+	SetDynamicObjectMaterial(auto, 1, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 2, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 3, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(2173, 1503.686401, 1463.553589, 14.091935, -0.000014, -0.000007, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1503.186279, 1464.829834, 14.081926, 0.000022, 0.000007, -0.000037, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(2263, 1503.506836, 1463.871826, 15.063844, -10.000006, -0.000075, -165.000198, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 19894, "laptopsamp1", "laptopscreen3", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-90-percent", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Center\nof\nSAN ANDREAS", 140, "Arial", 60, 1, 0xFFFFFFFF, 0xFF002D63, 1);
+	auto = CreateDynamicObject(2263, 1503.727051, 1462.910889, 14.890018, 10.000006, 0.000050, 14.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19787, "samplcdtvs1", "samplcdtv1", 0);
+	SetDynamicObjectMaterial(auto, 1, 18646, "matcolours", "grey-80-percent", 0);
+	auto = CreateDynamicObject(19829, 1503.615845, 1463.374268, 14.890995, -89.999992, 213.549088, 48.548954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-90-percent", 0);
+	auto = CreateDynamicObject(19829, 1503.618286, 1463.364624, 14.971072, -0.000037, -0.000051, -165.000092, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-93-percent", 0);
+	auto = CreateDynamicObject(2059, 1502.696045, 1463.334595, 14.901946, -0.000003, -0.000015, 128.100082, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 8589, "lwbldstuff03", "filmcase01_64", 0);
+	SetDynamicObjectMaterial(auto, 1, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 2, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 3, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(2714, 1505.364990, 1462.599365, 15.901944, 0.000000, 0.000000, 450.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "Insurance\nDepartment\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(2808, 1520.039551, 1454.171875, 10.470290, 89.999992, 235.588043, -55.588219, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1520.014893, 1453.361084, 10.472244, 89.999992, 55.747696, -55.747932, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1519.414063, 1453.821289, 9.069046, -0.000000, -0.000015, -90.000061, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2808, 1520.039551, 1449.671875, 10.470290, 89.999992, 235.588043, -55.588219, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1520.014893, 1448.861084, 10.472244, 89.999992, 55.747696, -55.747932, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1519.414063, 1449.321289, 9.069046, -0.000000, -0.000015, -90.000061, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2808, 1517.948975, 1454.173828, 10.472290, 89.999992, 251.366653, -71.366821, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1517.924316, 1453.363037, 10.474244, 89.999992, 71.465218, -71.465446, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1517.323486, 1453.823242, 9.071045, -0.000008, -0.000015, -90.000038, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2808, 1517.948975, 1449.673828, 10.472290, 89.999992, 251.366653, -71.366821, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1517.924316, 1448.863037, 10.474244, 89.999992, 71.465218, -71.465446, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1517.323486, 1449.323242, 9.071045, -0.000008, -0.000015, -90.000038, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2315, 1518.246826, 1451.549438, 9.870009, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(2249, 1518.916138, 1451.476685, 11.043442, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 18065, "ab_sfammumain", "shelf_glas", 0);
+	auto = CreateDynamicObject(626, 1521.538940, 1455.839233, 11.899334, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(626, 1521.418823, 1456.039429, 14.789331, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(626, 1516.367065, 1447.168213, 11.899334, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(626, 1516.246948, 1447.368408, 14.789331, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(2808, 1513.055298, 1452.624512, 10.470290, 89.999992, 294.824982, -24.825180, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1513.866089, 1452.599854, 10.472244, 89.999992, 114.940109, -24.940363, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1513.405884, 1451.999023, 9.069046, -0.000008, -0.000007, -0.000068, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2808, 1513.053345, 1450.533936, 10.472290, 89.999992, 305.042816, -35.043015, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1513.864136, 1450.509277, 10.474244, 89.999992, 125.100266, -35.100510, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1513.403931, 1449.908447, 9.071045, -0.000015, -0.000007, -0.000045, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2808, 1514.651978, 1459.953735, 14.750294, 89.999992, 392.458923, -32.459141, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1514.676636, 1460.764526, 14.752248, 89.999992, 212.513351, -32.513615, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1515.277466, 1460.304321, 13.349050, -0.000000, 0.000007, 89.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2808, 1516.742554, 1459.951782, 14.752294, 89.999992, 386.049164, -26.049374, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2808, 1516.767212, 1460.762573, 14.754248, 89.999992, 206.079636, -26.079880, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 19598, "sfbuilding1", "darkwood1", 0);
+	SetDynamicObjectMaterial(auto, 1, 15041, "bigsfsave", "carp11S", 0);
+	auto = CreateDynamicObject(2371, 1517.368042, 1460.302368, 13.351050, -0.000008, 0.000007, 89.999901, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(630, 1519.241943, 1462.595459, 15.091935, 0.000000, 0.000000, 1080.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(630, 1518.991699, 1457.994385, 15.091935, 0.000000, 0.000000, 1260.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(11714, 1511.962280, 1464.952393, 15.821948, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14842, "genintintpolicea", "cop_notice", 0);
+	auto = CreateDynamicObject(11714, 1511.962280, 1464.952393, 11.611942, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2028, "cj_games", "CJ_speaker4", 0);
+	auto = CreateDynamicObject(19445, 1504.806763, 1476.107910, 11.603182, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFFFFFFF);
+	auto = CreateDynamicObject(14632, 1506.297974, 1486.207886, 11.131935, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(14632, 1506.302979, 1486.202881, 9.721938, 0.000007, 0.000000, 89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19445, 1499.967651, 1473.781494, 11.603182, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFB09200);
+	auto = CreateDynamicObject(19445, 1499.922607, 1474.546875, 13.423177, 0.000000, -89.999985, 90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1504.523926, 1468.303589, 13.418177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19426, 1504.523926, 1471.803589, 13.418177, 180.000000, 90.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19445, 1496.390015, 1471.214722, 11.603181, -0.000007, -0.000030, -179.999771, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14593, "papaerchaseoffice", "wall_stone3_256", 0xFFE8C100);
+	auto = CreateDynamicObject(19795, 1496.411011, 1466.936401, 11.561949, -0.000030, -0.000037, -179.999710, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(19445, 1495.671875, 1471.215820, 13.418177, 0.000000, -89.999985, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 19853, "mihouse1", "brownwall1", 0xFFBBBBBB);
+	auto = CreateDynamicObject(19795, 1496.411011, 1470.166016, 11.561949, -0.000030, -0.000037, -179.999710, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 15041, "bigsfsave", "windo_blinds", 0);
+	auto = CreateDynamicObject(14397, 1488.116943, 1473.128662, 14.337956, 180.000000, 0.000000, 540.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1502.067871, 1467.087891, 14.337956, 180.000000, 0.000000, 720.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(14397, 1497.087524, 1469.037476, 14.337956, 180.000000, 0.000000, 630.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 18646, "matcolours", "grey-40-percent", 0);
+	auto = CreateDynamicObject(2938, 1497.930786, 1470.044312, 13.691942, -0.000007, 270.000000, -89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 10765, "airportgnd_sfse", "white", 0);
+	auto = CreateDynamicObject(971, 1500.522705, 1470.640015, 13.627861, 89.999992, 180.000061, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(984, 1498.186279, 1465.012329, 17.571934, 180.000000, 90.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 10
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 2, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 6, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 7, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 8, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 9, 14561, "triad_neon", "kbneon", 0);
+	auto = CreateDynamicObject(936, 1499.962036, 1467.171509, 10.321931, 0.000000, -0.000015, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 3440, "airportpillar", "metalic_64", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(936, 1498.241455, 1467.173462, 10.323931, 0.000000, -0.000015, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 3440, "airportpillar", "metalic_64", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 19598, "sfbuilding1", "darkwood1", 0);
+	auto = CreateDynamicObject(19812, 1499.071167, 1467.073120, 11.011929, -89.999992, 89.999992, 89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18247, "cw_junkyarddigcs_t", "Was_scrpyd_crane_back", 0);
+	SetDynamicObjectMaterial(auto, 1, 18247, "cw_junkyarddigcs_t", "Was_scrpyd_crane_back", 0);
+	auto = CreateDynamicObject(2765, 1500.056885, 1466.130737, 12.061926, 0.000000, -0.000015, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 2028, "cj_games", "CJ_speaker4", 0);
+	SetDynamicObjectMaterial(auto, 1, 14654, "ab_trukstpe", "bbar_plates2", 0);
+	auto = CreateDynamicObject(2765, 1500.056885, 1466.130737, 10.981933, 0.000000, -0.000015, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 2028, "cj_games", "CJ_speaker4", 0);
+	SetDynamicObjectMaterial(auto, 1, 14654, "ab_trukstpe", "bbar_plates2", 0);
+	auto = CreateDynamicObject(19816, 1499.760132, 1467.363892, 11.051940, -89.999992, 89.999992, 89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(920, 1499.270630, 1466.907837, 11.011934, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18247, "cw_junkyarddigcs_t", "Was_scrpyd_crane_back", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(920, 1498.390381, 1466.907837, 11.011934, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 0, 18247, "cw_junkyarddigcs_t", "Was_scrpyd_crane_back", 0);
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(19816, 1498.379517, 1467.363892, 11.231944, -89.999992, 89.999992, 89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 1560, "7_11_door", "CJ_CHROME2", 0);
+	auto = CreateDynamicObject(2660, 1499.327759, 1467.163940, 10.821934, -89.999992, 89.999992, 89.999992, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14654, "ab_trukstpe", "bbar_plates2", 0);
+	auto = CreateDynamicObject(19475, 1499.531860, 1467.313354, 10.952104, 40.000000, 270.000000, -90.000008, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2669, "cj_chris", "Bow_Fence_Metal", 0);
+	auto = CreateDynamicObject(19475, 1498.590942, 1467.313354, 11.142108, 40.000004, -89.999985, 89.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 2669, "cj_chris", "Bow_Fence_Metal", 0);
+	auto = CreateDynamicObject(630, 1503.975342, 1472.999023, 10.851935, 0.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(630, 1497.075439, 1472.999023, 10.851935, 0.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(2164, 1503.521729, 1466.576904, 9.851935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(2164, 1502.725952, 1466.581909, 13.351943, 0.000000, 180.000000, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(630, 1504.656006, 1467.138184, 10.851935, 0.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(630, 1501.525146, 1467.138184, 10.851935, 0.000000, 0.000000, 990.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 3
+	SetDynamicObjectMaterial(auto, 0, 17958, "burnsalpha", "plantb256", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 1, 14665, "genintint711_1", "interiorwindowglow", 0);
+	SetDynamicObjectMaterial(auto, 2, 9920, "anotherbuildsfe", "grassgrn256", 0);
+	auto = CreateDynamicObject(2173, 1498.677124, 1470.627441, 9.831934, -0.000007, 0.000000, -89.999977, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14577, "casinovault01", "cof_wood1", 0);
+	auto = CreateDynamicObject(1715, 1497.400879, 1470.127319, 9.821926, 0.000014, 0.000000, 89.999954, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 1, 14533, "pleas_dome", "sfw_clublight1", 0);
+	auto = CreateDynamicObject(2059, 1498.896118, 1469.637085, 10.641945, -0.000004, -0.000006, -141.899918, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 4
+	SetDynamicObjectMaterial(auto, 0, 8589, "lwbldstuff03", "filmcase01_64", 0);
+	SetDynamicObjectMaterial(auto, 1, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 2, 15040, "cuntcuts", "csnewspaper02", 0);
+	SetDynamicObjectMaterial(auto, 3, 1736, "cj_ammo", "CJ_Black_metal", 0);
+	auto = CreateDynamicObject(2714, 1505.365479, 1468.881592, 11.581940, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 2
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterialText(auto, 0, "License Plates\n--------\nLC SA", 130, "Courier New", 55, 1, 0xFFFFFFFF, 0, 1);
+	auto = CreateDynamicObject(971, 1509.082520, 1462.285522, 13.612869, 89.999992, 180.000046, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(971, 1509.082520, 1470.995239, 13.612869, 89.999992, 180.000046, -89.999962, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 6
+	SetDynamicObjectMaterial(auto, 0, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 1, 19962, "samproadsigns", "materialtext1", 0xFFFFFFFF);
+	SetDynamicObjectMaterial(auto, 2, 10023, "bigwhitesfe", "sfe_arch6", 0xCC222222);
+	SetDynamicObjectMaterial(auto, 3, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 4, 19962, "samproadsigns", "materialtext1", 0);
+	SetDynamicObjectMaterial(auto, 5, 19962, "samproadsigns", "materialtext1", 0);
+	auto = CreateDynamicObject(19865, 1516.363525, 1459.215210, 13.345092, 0.000000, 180.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 16093, "a51_ext", "ws_whitewall2_bottom", 0xAA999999);
+	auto = CreateDynamicObject(19865, 1521.363647, 1459.215210, 13.345092, 0.000000, 180.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 16093, "a51_ext", "ws_whitewall2_bottom", 0xAA999999);
+	auto = CreateDynamicObject(19865, 1513.874023, 1461.715454, 13.345092, 0.000000, 180.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 16093, "a51_ext", "ws_whitewall2_bottom", 0xAA999999);
+	CreateDynamicObject(19552, 1517.082520, 1465.289307, -29.074892, 180.000000, 180.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19552, 1459.853394, 1465.289307, 15.036190, 0.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19552, 1516.573242, 1522.009033, 15.036190, 0.000000, 90.000008, 89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19552, 1516.573242, 1408.569580, 15.036190, 0.000000, 90.000008, 89.999969, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19552, 1517.082520, 1465.289307, 70.925110, 180.000000, 180.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(11743, 1520.063965, 1470.993652, 10.874314, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2821, 1519.086548, 1467.420044, 10.691305, 0.000000, 0.000000, 24.499998, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2826, 1514.761475, 1466.253418, 10.369426, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2824, 1514.876221, 1468.588989, 10.369080, 0.000000, 0.000000, 62.299999, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2819, 1519.289673, 1474.810669, 10.204484, 0.000000, 0.000000, -76.500015, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(1897, 1519.333130, 1464.474121, 16.471939, 90.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2824, 1515.838135, 1465.751709, 14.621937, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19808, 1516.813477, 1471.989380, 14.881933, 0.000000, 0.000000, -172.199951, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2684, 1517.437012, 1474.348877, 16.371941, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2684, 1517.837402, 1474.348877, 16.371941, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(1811, 1500.420654, 1469.138184, 14.561931, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(1722, 1505.091187, 1469.208130, 14.091935, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(1722, 1505.091187, 1468.397949, 14.091935, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19808, 1499.373413, 1469.632446, 14.901944, 0.000000, 0.000000, -84.099976, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2007, 1501.464600, 1457.530762, 14.081916, 0.000000, 0.000000, 179.999786, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2007, 1502.455566, 1457.530762, 14.081916, 0.000000, -0.000006, 179.999741, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2007, 1500.473877, 1457.530762, 14.081916, 0.000000, 0.000006, 179.999786, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(14632, 1495.732666, 1444.572266, 15.591936, 0.000000, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(1811, 1499.197632, 1462.650879, 14.561930, -0.000014, -0.000007, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19808, 1499.691895, 1463.698120, 14.901944, -0.000014, -0.000006, -174.099854, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(1811, 1502.697632, 1462.650879, 14.561930, -0.000014, -0.000007, -179.999878, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(19808, 1503.191895, 1463.698120, 14.901944, -0.000014, -0.000006, -174.099854, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(2826, 1518.415405, 1451.487793, 10.372535, 0.000000, 0.000000, 18.400003, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(18001, 1507.446289, 1447.659424, 15.086657, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(18001, 1512.916138, 1447.659424, 15.086657, 0.000000, 270.000000, -179.999985, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(18001, 1511.045776, 1447.659424, 17.826658, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	CreateDynamicObject(18001, 1509.265869, 1447.659424, 17.826658, 180.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	auto = CreateDynamicObject(19477, 1497.081787, 1465.849487, 12.571936, 0.000000, 0.000000, -90.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 2
+	SetDynamicObjectMaterial(auto, 0, 10101, "2notherbuildsfe", "Bow_Abpave_Gen", 0);
+	SetDynamicObjectMaterialText(auto, 0, "Lection Theme", 130, "Trebuchet MS", 60, 1, 0xFF000000, 0, 1);
+	auto = CreateDynamicObject(7666, 1511.929565, 1464.068481, 9.931940, 60.000000, -89.999969, 89.999924, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 1
+	SetDynamicObjectMaterialText(auto, 0, "1. Car Driving License\n2. Moto Driving License\n3. Truck Driving License\n4. Air Driving License\n5. Boat Driving License\n6. Weapon License", 140, "Trebuchet MS", 25, 0, 0xFFFFFFFF, 0, 0);
+	CreateDynamicObject(2986, 1517.332520, 1451.922363, 19.431555, 360.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2986, 1517.332520, 1454.662476, 19.431555, 360.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2986, 1517.332520, 1449.171875, 19.431555, 360.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2986, 1512.801392, 1451.922363, 19.431555, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2986, 1512.801392, 1454.662476, 19.431555, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2986, 1512.801392, 1449.171875, 19.431555, 0.000000, 0.000007, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2066, 1514.244019, 1459.577148, 9.340799, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2066, 1514.244019, 1460.157593, 9.340799, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2066, 1519.513184, 1459.577148, 9.340799, 0.000000, 0.000000, 180.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2002, 1515.695435, 1462.880005, 9.872249, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(19552, 1573.292969, 1465.289307, 15.036190, 0.000000, 90.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1502.140259, 1458.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1500.840210, 1458.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1499.540161, 1458.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1498.240112, 1458.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1496.940063, 1458.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1502.140259, 1460.354858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1500.840210, 1460.354858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1499.540161, 1460.354858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1498.240112, 1460.354858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1496.940063, 1460.354858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1782, 1501.838745, 1464.312256, 13.075948, 20.000038, 180.000031, 179.999695, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1502.140259, 1461.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1500.840210, 1461.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1499.540161, 1461.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1498.240112, 1461.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(1721, 1496.940063, 1461.854858, 9.851935, 0.000000, 0.000014, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1500.984375, 1467.021118, 14.091935, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1500.984375, 1467.021118, 15.491935, 0.000000, -0.000007, 179.999954, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1501.975342, 1467.021118, 14.091935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1501.975342, 1467.021118, 15.491935, 0.000000, -0.000014, 179.999908, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1498.113770, 1471.971924, 14.091935, 0.000007, -0.000014, 89.999916, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1498.113770, 1471.971924, 15.491935, 0.000007, -0.000014, 89.999916, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1501.464600, 1457.530762, 14.081916, 0.000000, 0.000000, 179.999786, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1502.455566, 1457.530762, 14.081916, 0.000000, -0.000006, 179.999741, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	CreateDynamicObject(2007, 1500.473877, 1457.530762, 14.081916, 0.000000, 0.000006, 179.999786, -1, -1, -1, STREAMER_OBJECT_SD, STREAMER_OBJECT_DD); // 0
+	auto = CreateDynamicObject(3089, 1505.341431, 1460.281006, 11.143421, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
+	CreateDynamicObject(0, 1505.341431, 1460.281006, 11.143421, 0.000000, 0.000000, 0.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 0
+	auto = CreateDynamicObject(3089, 1512.543213, 1469.740967, 11.143421, 0.000007, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 200.0); // 1
+	SetDynamicObjectMaterial(auto, 0, 14665, "genintint711_1", "interiorwindowglow", 0);
 }
