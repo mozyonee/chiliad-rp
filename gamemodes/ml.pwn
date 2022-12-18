@@ -20,6 +20,7 @@ L1:
 	#emit  zero  cellmin
 }
 #include <a_samp>
+#include <tgconnector>
 #define MAX_PLAYERS                             	   (1000)
 #include <a_mysql>
 #include <foreach>
@@ -47,7 +48,6 @@ main() {
 #include    <nex-ac>
 #include    <weapon-config>
 #include 	<discord-connector>
-//#include 	<tgconnector>
 //CEF
 #define ID_TARGET 0x46111
 forward InterMenuController(player_id, const argument[]);
