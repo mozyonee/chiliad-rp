@@ -20,7 +20,7 @@ L1:
 	#emit  zero  cellmin
 }
 #include <a_samp>
-#include <tgconnector>
+//#include <tgconnector>
 #define MAX_PLAYERS                             	   (1000)
 #include <a_mysql>
 #include <foreach>
@@ -32,6 +32,8 @@ L1:
 #include <crashdetect>
 #include <fmt>
 #include <a_http>
+
+
 main() {
 	print("_______________________________________________________");
 	print(" server by: Andrei_Mix						   	  	  ");
@@ -187,6 +189,7 @@ new bool:Vizod;
 #define FSCM(%0,%1,%2,%3) 				fscm_str[0] = EOS, format(fscm_str, 144, %2, %3) && SendClientMessage(%0, %1, fscm_str)
 #define FSPD(%0,%1,%2,%3,%4,%5,%6,%7) 	fscm_str[0] = EOS, format(fscm_str, 512, %6, %7) && ShowPlayerDialog(%0, %1, %2, %3, fscm_str, %4, %5)
 #define KickEx(%0) SetTimerEx("kick",250,false,"d",%0)
+
 new 	fscm_str[512];
 new 	MySQL:connects;
 new UsingDrugs[MAX_PLAYERS];
@@ -31930,6 +31933,7 @@ public OnGameModeInit() {
 	mysql_tquery(connects, !"SET character_set_connection = 'cp1251'", "", "");
 	mysql_tquery(connects, !"SET character_set_results = 'cp1251'", "", "");
 	mysql_tquery(connects, !"SET SESSION collation_connection = 'utf8_general_ci'", "", "");
+
 	
 	AddPlayerClass(36, 0.0, 0.0, 5.0, 0.0, 0, 0, 0, 0, 0, 0);
 	new hor, m, s; 
