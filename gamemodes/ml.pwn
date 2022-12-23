@@ -20,8 +20,8 @@ L1:
 	#emit  zero  cellmin
 }
 #include <a_samp>
-//#include <tgconnector>
-#define MAX_PLAYERS                             	   (1000)
+#include <tgconnector>
+#define MAX_PLAYERS                             	   (300)
 #include <a_mysql>
 #include <foreach>
 //#include <profiler> // CMD:dump
@@ -33,12 +33,15 @@ L1:
 #include <fmt>
 #include <a_http>
 
-
-main() {
-	print("_______________________________________________________");
-	print(" server by: Andrei_Mix						   	  	  ");
-	print(" motion project © 2019-2021, inc. all rights reserved. ");
-	print("_______________________________________________________");
+new TGBot:g_bot;
+main() 
+{
+	g_bot = TGConnectFromEnv("SAMP_TG_BOT");
+	if(g_bot != INVALID_BOT_ID) {
+		printf("bot connected successfully!");
+	} else {
+		printf("Error: bot couldn't connect");
+	}
 }
 #include 	<Pawn.CMD>
 #include    <MD5>
