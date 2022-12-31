@@ -20,7 +20,7 @@ L1:
 	#emit  zero  cellmin
 }
 #include <a_samp>
-#include <tgconnector>
+//#include <tgconnector>
 #define MAX_PLAYERS                             	   (300)
 #include <a_mysql>
 #include <foreach>
@@ -33,15 +33,10 @@ L1:
 #include <fmt>
 #include <a_http>
 
-new TGBot:g_bot;
+
 main() 
 {
-	g_bot = TGConnectFromEnv("SAMP_TG_BOT");
-	if(g_bot != INVALID_BOT_ID) {
-		printf("bot connected successfully!");
-	} else {
-		printf("Error: bot couldn't connect");
-	}
+
 }
 #include 	<Pawn.CMD>
 #include    <MD5>
@@ -72,6 +67,8 @@ new Text3D:WHCar;
 new WareHouse;
 new gatekpp[2];
 new gateopen[3];
+new LSFD_Gate[4];
+new LSFD_Gate_Status[4];
 new bool:gAteStatus = false;
 new bool:Accepts = false;
 new TimerRobWeapon = 0;
@@ -192,6 +189,76 @@ new bool:Vizod;
 #define FSCM(%0,%1,%2,%3) 				fscm_str[0] = EOS, format(fscm_str, 144, %2, %3) && SendClientMessage(%0, %1, fscm_str)
 #define FSPD(%0,%1,%2,%3,%4,%5,%6,%7) 	fscm_str[0] = EOS, format(fscm_str, 512, %6, %7) && ShowPlayerDialog(%0, %1, %2, %3, fscm_str, %4, %5)
 #define KickEx(%0) SetTimerEx("kick",250,false,"d",%0)
+
+#define MAX_FIRE_AMOUNT 5
+#define MAX_FIRE_TARGET_OBJECTS_1 5
+#define MAX_FIRE_TARGET_OBJECTS_2 10 
+#define MAX_FIRE_TARGET_OBJECTS_3 8
+new burning_building[44];
+new fire_level;
+new fire_object_3[20];
+new fire_target_object_3[8];
+new fire;
+new player_target_object[MAX_PLAYERS];
+new firezone;
+new get_fire_object_timer[MAX_PLAYERS];
+new PlayerText:FireTargetStatus[MAX_PLAYERS][1];
+
+enum FireData
+{
+	fireID,
+	firePlace[32], 
+	fireLevel
+}
+static const Fires[][FireData] =
+{
+	{
+		1,
+		"Los-Santos",
+		3
+	},
+	{
+		2,
+		"Los-Santos",
+		2
+	},
+	{
+		3,
+		"Los-Santos",
+		1
+	},
+	{
+		4,
+		"Los-Santos",
+		5
+	},
+};
+enum FireTargets
+{
+	fireModel,
+	Float:firePosX,
+	Float:firePosY,
+	Float:firePosZ,
+	Float:firePosrX,
+	Float:firePosrY,
+	Float:firePosrZ,
+	fireTargetStatus
+}
+static const FireTargets_FireID_1[][FireTargets] =
+{
+	{18688,1366.311,-1506.053,13.449,0.000,0.000,-55.700,0},
+	{18688,1368.902,-1509.854,13.449,0.000,0.000,-55.700,0},
+	{18688,1370.588,-1506.343,13.449,0.000,0.000,-55.700,0},
+	{18688,1368.970,-1497.321,13.786,0.000,0.000,-19.500,0},
+	{18688,1367.661,-1489.750,13.786,0.000,0.000,-19.500,0},
+	{18688,1347.691,-1505.598,13.246,0.000,0.000,-21.400,0},
+	{18688,1345.351,-1508.032,13.246,0.000,0.000,-21.400,0},
+	{18688,1345.072,-1512.939,14.256,0.000,0.000,-21.400,0}
+};
+
+
+
+const MAX_CHARS_PER_LINE = 80;
 
 new 	fscm_str[512];
 new 	MySQL:connects;
@@ -2889,7 +2956,7 @@ new Float:gFractionSpawn[MAX_FRACTIONS][fracspawn] = {//saneka
 	{87,59,0xfBDB76Bff,250.4903,108.3510,1024.3394,200.4394}, //ArmyLS
 	{9,4,0x114D71FF,2048.4553,1737.1294,1026.7609,180.8006},//WhiteHouse
 	{93,20,0xA52A2AFF,2174.6411,578.7777,1080.4542,270.2591}, //Medics Ls
-	{93,21,0xA52A2AFF,4.36,2503.67,4000.97,180.0}, //LSFD
+	{44,44,0xA52A2AFF,-1833.9840,489.7650,2170.1616,0.1598}, //LSFD
 	//{93,22,0xA52A2AFF,2174.6411,578.7777,1080.4542,270.2591}, //Medics Lv
 	{2,1,0x40848BAA,2826.3652,1091.6660,1052.5673,270.6145}, // LSn
 	{74,11,0x40848BAA,759.5918,-1505.2585,1417.8119,207.1667},//SFn
@@ -5065,7 +5132,7 @@ new TPLIST[MAX_TELEPORTS][TPList] = {
 	{"Мерія м. ЛС",				{1481.2506,-1739.8961,13.5469},0},
 	{"Автошкола",				{744.4413,-1415.2373,13.5169},0},
 	{"Центральна лікарня Всіх Святих",{1177.6864,-1323.2448,14.0830},0},
-	{"Пожежна служба Лос-Сантоса", {1712.27, -1154.47, 23.83},0},
+	{"Пожежна служба Лос-Сантоса", {1997.1454,-2101.3132,13.5469},0},
 	{"Лос-Сантос Таймс", 		{1578.6501,-1326.6104,16.4844},0},
 	{"Ла Коза Ностра", 			{665.1582,-476.9240,16.3359},0},
 	{"Тріада",					{720.4109,-1257.1036,13.6429},0},
@@ -5326,10 +5393,10 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
 	/*3*/{"Вихід на вулицю",2187.6035,588.1922,1080.4542,93,20,1174.0408,-1325.2740,14.9922,270.0000,0,0}, // Центральна лікарня Всіх Святих
 	/*4*/{"Вихід на дах",1556.2736,489.0876,1070.4316,92,20,1161.5529,-1328.3661,31.4985,358.4099,0,0}, // Центральна лікарня Всіх Святих Дах
 	/*5*/{"Спуск з даху",1161.5112,-1329.8655,31.4943,0,0,1556.3342,490.5883,1070.4316,359.5603,92,20}, // Центральна лікарня Всіх Святих Дах
-	/*6*/{"Пожежна служба Лос-Сантоса",1712.0,-1142.75,24.05,0,0,4.85,2479.5,4000.97,0.0,93,21}, // Пожежна служба Лос-Сантоса
-	/*7*/{"Вихід на вулицю",4.85,2478.5,4000.97,93,21,1712.0,-1143.75,24.05,180.0,0,0}, // Пожежна служба Лос-Сантоса
-	/*8*/{"Вихід на дах",1736.5,-1118.88,24.09,0,0,1751.0,-1117.77,46.57,90.0,0,0}, // Пожежна служба Лос-Сантоса Дах
-	/*9*/{"Спуск з даху",1752.0,-1117.77,46.57,0,0,1735.5,-1118.88,24.09,90.0,0,0}, // Пожежна служба Лос-Сантоса Дах
+	/*6*/{"Пожежна служба Лос-Сантоса",1997.1454,-2101.3132,13.5469,0,0,-1833.0747,506.6758,2166.2339,177.0351,44,44}, // Пожежна служба Лос-Сантоса
+	/*7*/{"Вихід на вулицю",-1832.9634,508.7264,2166.2339,44,44,1997.0636,-2102.9526,13.5469,180.3603,0,0}, // Пожежна служба Лос-Сантоса
+	/*8*/{"Вхід всередину",1990.9556,-2091.9297,13.5638,0,0,-1840.8324,488.8536,2166.2290,269.2010,44,44}, // Пожежна служба Лос-Сантоса Дах
+	/*9*/{"Вхід в підвал",-1842.5690,488.8660,2166.2290,44,44,1988.8511,-2091.8943,13.5638,88.8660,0,0}, // Пожежна служба Лос-Сантоса Дах
 	/*10*/{"Лос-Сантос Таймс",1569.6614,-1334.6711,16.4844,0,0,2846.7087,1080.5653,1052.5673,89.1133,2,1}, // LS News
 	/*11*/{"Вихід",2848.8918,1080.5110,1052.5673,2,1,1570.6003,-1333.5015,16.4844,321.2440,0,0}, // LS News
 	/*12*/{"Вхід у офіс",1548.6804,-1363.7773,326.2183,0,0,2846.7087,1080.5653,1052.5673,89.1133,2,1}, // LS News Дах
@@ -5465,7 +5532,7 @@ new Float:gPickup[PICKUPS_COUNT][3] ={// saneka
 	/*32*/{197.3281,-152.8567,1020.2148},// [Роздягальня] Департамент поліції Лос-Сантоса
 	/*33*/{1475.4526,246.3277,1013.5359},// [Роздягальня] Федеральне бюро розслідувань
 	/*34*/{2172.9651,571.7098,1080.4542},// [Роздягальня] Центральна лікарня Всіх Святих
-	/*35*/{11.47,2487.25,4000.97},// [Роздягальня] Пожежна служба Лос-Сантоса
+	/*35*/{-1828.7118,507.4171,2170.1597},// [Роздягальня] Пожежна служба Лос-Сантоса
 	/*36*/{255.6401,108.7532,1024.3394},// [Роздягальня] Національна гвардія
 	/*37*/{2831.7214,1089.4333,1052.5673},// [Роздягальня] NEWS
 	/*38*/{446.5062,-1950.6898,8.5650},// бар на улице яхт-клуб
@@ -5551,7 +5618,7 @@ new gPickupData[PICKUPS_COUNT][3] ={//int | world || id
 	{-1,-1,1275},//32
 	{75,43,1275},//33
 	{92,-1,1275},//34
-	{93,21,1275},//35
+	{44,44,1275},//35
 	{87,-1,1275},//36
 	{2,1,1275},//37
 	{0,0,1239},//38
@@ -7165,7 +7232,7 @@ stock DollahScoreUpdate(playerid) return SetPlayerScore(playerid, PI[playerid][p
 stock IsAMedic(playerid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 	switch(PI[playerid][pMember]) {
-	case fMEDICLS: return 1;
+	case fMEDICLS, fMEDICSF: return 1;
 	}
 	return 0;
 }
@@ -7348,6 +7415,21 @@ stock Float:GetPlayerDistanceToPlayer(playerid, targetid) {
 }
 
 stock CreateTextDraws(playerid) {
+
+	//fire_target_status
+	FireTargetStatus[playerid][0] = CreatePlayerTextDraw(playerid, 375.000000, 309.000000, "100%");
+	PlayerTextDrawFont(playerid, FireTargetStatus[playerid][0], 0);
+	PlayerTextDrawLetterSize(playerid, FireTargetStatus[playerid][0], 0.487500, 2.349998);
+	PlayerTextDrawTextSize(playerid, FireTargetStatus[playerid][0], 383.500000, 18.000000);
+	PlayerTextDrawSetOutline(playerid, FireTargetStatus[playerid][0], 0);
+	PlayerTextDrawSetShadow(playerid, FireTargetStatus[playerid][0], 0);
+	PlayerTextDrawAlignment(playerid, FireTargetStatus[playerid][0], 1);
+	PlayerTextDrawColor(playerid, FireTargetStatus[playerid][0], 1097458175);
+	PlayerTextDrawBackgroundColor(playerid, FireTargetStatus[playerid][0], -16776961);
+	PlayerTextDrawBoxColor(playerid, FireTargetStatus[playerid][0], 44);
+	PlayerTextDrawUseBox(playerid, FireTargetStatus[playerid][0], 0);
+	PlayerTextDrawSetProportional(playerid, FireTargetStatus[playerid][0], 1);
+	PlayerTextDrawSetSelectable(playerid, FireTargetStatus[playerid][0], 0);
 	// autosalon Вибір авто
 	auto_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 465.7333, 380.6916, "_INFERNUS"); // пусто
 	PlayerTextDrawLetterSize(playerid, auto_PTD[playerid][0], 0.1150, 0.8118);
@@ -8334,6 +8416,18 @@ stock to_default(playerid) {
 }
 #include "../system/hacker.pwn"
 stock RemoveBuildings(playerid) {
+
+	if(fire)
+	{
+		//fire
+		RemoveBuildingForPlayer(playerid, 4114, 1350.410, -1512.010, 23.046, 0.250);
+		RemoveBuildingForPlayer(playerid, 4115, 1350.410, -1512.010, 23.046, 0.250);
+		RemoveBuildingForPlayer(playerid, 4120, 1364.199, -1491.599, 25.601, 0.250);
+		RemoveBuildingForPlayer(playerid, 1290, 1316.660, -1519.270, 18.226, 0.250);
+		RemoveBuildingForPlayer(playerid, 1290, 1329.709, -1498.680, 18.226, 0.250);
+		RemoveBuildingForPlayer(playerid, 1290, 1341.349, -1476.599, 18.226, 0.250);
+		RemoveBuildingForPlayer(playerid, 1297, 1336.699, -1508.989, 15.890, 0.250);
+	}
 	//lsfd
 	RemoveBuildingForPlayer(playerid, 1308, 1971.147949, -2082.531006, 12.609000, 0.250000);
 	RemoveBuildingForPlayer(playerid, 5198, 1983.531006, -2085.116943, 18.077999, 0.250000);
@@ -9023,7 +9117,10 @@ public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags)
 }
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
+	EnablePlayerCameraTarget(playerid, 1);
 
+	player_target_object[playerid] = INVALID_OBJECT_ID;
+	//SetTimerEx("PlayerTimerTargetObject", 1_000, false, "i", playerid);
 	new str[56];
 	GetPlayerVersion(playerid, str, sizeof(str));
 	format(str, sizeof(str), "Version: %s", str);
@@ -9034,6 +9131,8 @@ public OnPlayerConnect(playerid) {
 	GetPlayerName(playerid, fPlayer[playerid][nname], MAX_PLAYER_NAME);
 	GetPlayerIp(playerid, fPlayer[playerid][fip], 32);
    
+   	SetPVarInt(playerid, "fire_object", 0);
+
 	PI[playerid][pID] = 0;
 	ahMenu[playerid][0] = ahMenu[playerid][1] = ahMenu[playerid][2] = ahMenu[playerid][3] = 0;
 	PI[playerid][pPalatka] = 0;
@@ -16660,6 +16759,20 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							strcat(string,""P"/medics"W" - список викликів\n");
 							strcat(string,""P"/topmed"W" - рейтинг працівників\n");
 						}
+					case fMEDICSF: 
+						{
+							strcat(string,""P"/r"W" - рація\n");
+							strcat(string,""P"/rb"W" - ООС рація\n");
+							strcat(string,""P"/d"W" - рация держ. департаменту\n");
+							strcat(string,""P"/db"W" - ООС рація держ. департаменту\n");
+							strcat(string,""P"/rr"W" - рація підфракцій\n");
+							strcat(string,""P"/members"W" - подивитися онлайн фракції\n");
+							strcat(string,""P"/gnews"W" - держ. новини\n");
+							strcat(string,""P"/heal"W" - вилікувати гравця\n");
+							strcat(string,""P"/fireduty"W" - список пожеж\n");
+							strcat(string,""P"/medics"W" - список викликів\n");
+							strcat(string,""P"/topmed"W" - рейтинг працівників\n");
+						}
 					case fINSTRUCTORS:
 						{
 							strcat(string,""P"/sellic"W" - видати ліцензію\n");
@@ -17848,7 +17961,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[ID][pfWarn] > 0) PI[ID][pfWarn] = 0;
 			UpdatePlayerData(ID,"fwarn",PI[ID][pfWarn]);
 			static const f_str[] = "Адміністратор %s назначив вас лідером організації %s.";
-			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 24)];
+			new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 48)];
 			
 			format(string,sizeof(string),f_str,player_name[playerid],FI[frac][fName]);
 			SendOK(ID,string);
@@ -18233,7 +18346,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_JOB: {
 			if(!response) return 1;
 			if(start_work[playerid]) return SendError(playerid, "Необхідно завершити робочий день в організації.");
-			if(PI[playerid][pJob] == listitem) return SendError(playerid, "Ви вже влаштовані на цю роботу.");
+			if(PI[playerid][pJob] == listitem+1) return SendError(playerid, "Ви вже влаштовані на цю роботу.");
 			switch(listitem) {
 				case 0: {
 						//if(PI[playerid][pLevel] < 2) return SendError(playerid, "Доступно з 2 рівня.");
@@ -24068,7 +24181,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 1: EnableGPSForPlayer(playerid,1539.1508,-1675.5208,13.5469), str = "Департаменту поліції Лос-Сантоса";
 			case 2: EnableGPSForPlayer(playerid,634.6371,-571.4913,16.3359), str = "Офісу шерифа округу Ред";
 			case 3: EnableGPSForPlayer(playerid,1188.2722,-1325.6403,13.0595), str = "Центральної лікарні Всіх Святих";
-			case 4: EnableGPSForPlayer(playerid,1688.2734,-1144.9609,23.7891), str = "Пожежної служби Лос-Сантоса";
+			case 4: EnableGPSForPlayer(playerid,1997.1454,-2101.3132,13.5469), str = "Пожежної служби Лос-Сантоса";
 			case 5: EnableGPSForPlayer(playerid,1539.4984,-1276.7616,17.4080), str = "Федерального бюро розслідувань";
 			case 6: EnableGPSForPlayer(playerid,2704.6938,-2399.0684,13.6328), str = "Національної гвардії";
 			case 7: EnableGPSForPlayer(playerid,1589.3326,-1317.3939,17.5201), str = "Лос-Сантос Таймс";
@@ -28361,7 +28474,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		case 21,34..37: {
 				new vw = GetPlayerVirtualWorld(playerid);
 				if(pick == 34 && vw == 20 && PI[playerid][pMember] != fMEDICLS) return SendError(playerid, "Ви не є працівником Центральної лікарні Всіх Святих.");
-				if(pick == 35 && vw == 21 && PI[playerid][pMember] != fMEDICSF) return SendError(playerid, "Ви не є працівником Пожежної служби Лос-Сантоса.");
+				if(pick == 35 && vw == 44 && PI[playerid][pMember] != fMEDICSF) return SendError(playerid, "Ви не є працівником Пожежної служби Лос-Сантоса.");
 				//if(pick == 34 && vw == 22 && PI[playerid][pMember] != fMEDICLV) return SendError(playerid, "Ви не є працівником лікарні м. ЛВ.");
 				if(pick == 36 && vw == 59 && PI[playerid][pMember] != fARMYLS) return SendError(playerid, "Ви не є працівником Національної гвардії.");
 				if(pick == 37 && PI[playerid][pMember] != fLSNEWS) return SendError(playerid, "Ви не є працівником Лос-Сантос Таймс.");
@@ -31331,7 +31444,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		if(VehicleInfo[carid][vJob] > 0) {
 			switch(VehicleInfo[carid][vJob]) {
 			case 1: {
-					if((VehicleInfo[carid][vPlayer] !=-1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравецем."),RemovePlayerFromVehicleAC(playerid);
+					if((VehicleInfo[carid][vPlayer] !=-1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."),RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви не працюєте водієм автобуса."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
 						if(TI[playerid][tArendaCar] != -1) {
@@ -31349,7 +31462,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					TI[playerid][tSpcarTime] = 0;
 				}
 			case 2: {
-					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравецем."),RemovePlayerFromVehicleAC(playerid);
+					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."),RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви ее працюєте механіком."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
 						if(TI[playerid][tArendaCar] != -1) {
@@ -31361,7 +31474,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					TI[playerid][tSpcarTime] = 0;
 				}
 			case 3: {
-					if ((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравецем."), RemovePlayerFromVehicleAC(playerid);
+					if ((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."), RemovePlayerFromVehicleAC(playerid);
 					if (PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви не працюєте розвізником продуктів чи палива."), RemovePlayerFromVehicleAC(playerid);
 					if (PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid)
 					{
@@ -31377,7 +31490,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					TI[playerid][tSpcarTime] = 0;
 				}
 			case 4: {
-					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравецем."),RemovePlayerFromVehicleAC(playerid);
+					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."),RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви не працюєте розвізником їжі."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
 						if(TI[playerid][tArendaCar] != -1) {
@@ -31426,7 +31539,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					}
 					TI[playerid][tSpcarTime] = 0;
 				}
-			case 8: { // Таксист
+			case 7: { // Таксист
 					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."),RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви не працюєте таксистом."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
@@ -31442,7 +31555,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					}
 					TI[playerid][tSpcarTime] = 0;
 				}
-			case 9: { // Інкасатор
+			case 8: { // Інкасатор
 					if((VehicleInfo[carid][vPlayer] != -1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем/"),RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] != VehicleInfo[carid][vJob] || !GetPVarInt(playerid,"inc_start")) return SendError(playerid, "Ви не працюєте інкасатором або не в формі."), RemovePlayerFromVehicleAC(playerid);
 					if(PI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
@@ -32048,6 +32161,34 @@ public OnGameModeInit() {
 	
 	gettime(tmphour, tmpminute, tmpsecond);
 	SetWorldTime(tmphour);
+
+	CreateDynamic3DTextLabel(""P"Посигнальте,\n"W"щоб відкрити ворота", -1, 1976.0897,-2101.0779,13.5497, 5.0);
+	CreateDynamic3DTextLabel(""P"Посигнальте,\n"W"щоб відкрити ворота", -1, 1985.2854,-2101.2180,13.5469, 5.0);
+	CreateDynamic3DTextLabel(""P"Посигнальте,\n"W"щоб відкрити ворота", -1, 1985.0879,-2068.7493,13.5469, 5.0);
+	CreateDynamic3DTextLabel(""P"Посигнальте,\n"W"щоб відкрити ворота", -1, 1975.9980,-2068.7002,13.5469, 5.0);
+
+	CreateDynamic3DTextLabel(""W"Натисніть "P"ALT,\n"W"щоб відкрити ворота", -1, 1981.6565,-2073.5847,13.5628, 2.0);
+	CreateDynamic3DTextLabel(""W"Натисніть "P"ALT,\n"W"щоб відкрити ворота", -1, 1979.6918,-2073.5876,13.5628, 2.0);
+	CreateDynamic3DTextLabel(""W"Натисніть "P"ALT,\n"W"щоб відкрити ворота", -1, 1979.7690,-2096.5027,13.5628, 2.0);
+	CreateDynamic3DTextLabel(""W"Натисніть "P"ALT,\n"W"щоб відкрити ворота", -1, 1981.5349,-2096.5044,13.5628, 2.0);
+
+	LSFD_Gate[0] = CreateDynamicObject(19464, 1985.191650, -2070.135498, 13.766879, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 300.0); // 1
+	SetDynamicObjectMaterial(LSFD_Gate[0], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+
+	LSFD_Gate[1] = CreateDynamicObject(19464, 1976.141235, -2070.145508, 13.526882, 0.000000, 0.000000, 270.000000, -1, -1, -1, STREAMER_OBJECT_SD, 300.0); // 1
+	SetDynamicObjectMaterial(LSFD_Gate[1], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+
+	LSFD_Gate[2] = CreateDynamicObject(19464, 1976.112427, -2099.906006, 14.866880, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 300.0); // 1
+	SetDynamicObjectMaterial(LSFD_Gate[2], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+
+	LSFD_Gate[3] = CreateDynamicObject(19464, 1985.191650, -2099.906006, 14.866880, 0.000000, 0.000000, 90.000000, -1, -1, -1, STREAMER_OBJECT_SD, 300.0); // 1
+	SetDynamicObjectMaterial(LSFD_Gate[3], 0, 10763, "airport1_sfse", "ws_rollerdoor_fire", 0xFFFFFFFF);
+
+	LSFD_Gate_Status[0] = 0;
+	LSFD_Gate_Status[1] = 0;
+	LSFD_Gate_Status[2] = 0;
+	LSFD_Gate_Status[3] = 0;
+
 	
     gateopen[0] = CreateDynamicObject(968, 1544.69763, -1630.99084, 13.402827, 0.00000, 90.00000, 90.00000, -1, -1, -1, 300.00);
 	CreateDynamic3DTextLabel(""G"'N'"W" (в транспорті)\n"G"'ALT'"W" (пішки)", -1, 1544.69763, -1627.324707, 13.402827, 10.0);
@@ -36084,7 +36225,41 @@ CMD:b(playerid,params[]) {
 	new mes[128];
 	if(isnull(params) || strlen(params) > 100) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /b [text]");
 	format(mes,sizeof(mes),"(( %s[%d]: %s ))",player_name[playerid],playerid,params);
-	ProxDetector(15.0,playerid, mes, 0xcecf9cFF);
+	new 
+		len = strlen( mes ),
+		i_len = len / MAX_CHARS_PER_LINE;
+		
+	if( len % MAX_CHARS_PER_LINE )
+		i_len++;
+	
+	new
+		line[MAX_CHARS_PER_LINE + 5],
+		_:index;
+		
+	while( index < i_len )
+	{
+		strmid( 
+			line, 
+			mes, 
+			( index * MAX_CHARS_PER_LINE ), 
+			( index * MAX_CHARS_PER_LINE ) + MAX_CHARS_PER_LINE 
+		);
+		
+		if( i_len > 1 )
+		{
+			if( !index )
+				format( line, sizeof line, "%s ...", line );
+			else if( index > 0 && ( index + 1 ) < i_len )
+				format( line, sizeof line, "... %s ...", line );
+			else 
+				format( line, sizeof line, "... %s", line );
+		}	
+		
+		ProxDetector(15.0,playerid, line, 0xcecf9cFF);
+		
+		index++;
+	}
+	//ProxDetector(15.0,playerid, mes, 0xcecf9cFF);
 	return 1;
 }
 CMD:stats(playerid, params[]) {
@@ -38978,6 +39153,20 @@ cmd:azswar(playerid)
 	SendOK(playerid, "Мітку на АЗС, що грабується, успішно встановлено.");
 	return 1;
 }
+cmd:testfire(playerid)
+{
+	CreateFire(1);
+	fire = 1;
+	SendOK(playerid, "Fire is created.");
+	return 1;
+}
+cmd:destroyfire(playerid)
+{
+	DestroyFire(1);
+	fire = 0;
+	SendOK(playerid, "Fire is destroyed.");
+	return 1;
+}
 CMD:testleaders(playerid) {
 	new countleader = 0;
 	new string[1650];
@@ -40618,7 +40807,44 @@ public OnPlayerText(playerid, text[]) {
 	else {
 		format(string,sizeof(string),"%s сказав: %s",player_name[playerid],text);
 	}
-	ProxDetector(20.0,playerid,string,-1);
+
+	new 
+		len = strlen( string ),
+		i_len = len / MAX_CHARS_PER_LINE;
+		
+	if( len % MAX_CHARS_PER_LINE )
+		i_len++;
+	
+	new
+		line[MAX_CHARS_PER_LINE + 5],
+		_:index;
+		
+	while( index < i_len )
+	{
+		strmid( 
+			line, 
+			string, 
+			( index * MAX_CHARS_PER_LINE ), 
+			( index * MAX_CHARS_PER_LINE ) + MAX_CHARS_PER_LINE 
+		);
+		
+		if( i_len > 1 )
+		{
+			if( !index )
+				format( line, sizeof line, "%s ...", line );
+			else if( index > 0 && ( index + 1 ) < i_len )
+				format( line, sizeof line, "... %s ...", line );
+			else 
+				format( line, sizeof line, "... %s", line );
+		}	
+		
+		ProxDetector(20.0,playerid,line,-1);
+		
+		index++;
+	}
+
+	//ProxDetector(20.0,playerid,string,-1);
+
 	if(!TI[playerid][tTazer] && !TI[playerid][tCuffedTime] && !deathphase[playerid] && GetPVarInt(playerid,"drug_time") < gettime() && GetPVarInt(playerid,"anti_sbiv_time") < unix && !TI[playerid][tTied] && !GetPVarInt(playerid,"Animation")) {
 		if(PI[playerid][pSettings][4] == 0) {
 			ApplyAnimation(playerid, "PED", Talk[PI[playerid][pSettings][4]], 8.1, 0, 1, 1, 1, 1, 0);
@@ -40795,6 +41021,87 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 			return 1;
 		}
+	}
+	if(PRESSED(KEY_CROUCH) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1985.0879,-2068.7493,13.5469) && PI[playerid][pMember] == fMEDICSF)  
+		{
+			if(LSFD_Gate_Status[0])
+			{
+				MoveDynamicObject(LSFD_Gate[0], 1985.191650, -2070.135498, 13.766879, 1.5, 0.0, 0.0, 270.000000);
+				LSFD_Gate_Status[0] = 0;
+				return 1;
+			}
+			LSFD_Gate_Status[0] = 1;
+			MoveDynamicObject(LSFD_Gate[0], 1985.1916, -2070.1354, 18.5668, 1.5, 0.0, 0.0, 270.000000);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1975.9980,-2068.7002,13.5469) && PI[playerid][pMember] == fMEDICSF) 
+		{
+			if(LSFD_Gate_Status[1])
+			{
+				MoveDynamicObject(LSFD_Gate[1], 1976.141235, -2070.145508, 13.526882, 1.5, 0.0, 0.0, 270.000000);
+				LSFD_Gate_Status[1] = 0;
+				return 1;
+
+			}
+			LSFD_Gate_Status[1] = 1;
+			MoveDynamicObject(LSFD_Gate[1], 1976.1412, -2070.1455, 18.9268, 1.5, 0.0, 0.0, 270.000000);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1976.0897,-2101.0779,13.5497) && PI[playerid][pMember] == fMEDICSF) 
+		{
+			if(LSFD_Gate_Status[2])
+			{
+				MoveDynamicObject(LSFD_Gate[2], 1976.112427, -2099.906006, 14.866880, 1.5, 0.0, 0.0, 90.000000);
+				LSFD_Gate_Status[2] = 0;
+				return 1;
+			}
+			LSFD_Gate_Status[2] = 1;
+			MoveDynamicObject(LSFD_Gate[2], 1976.1124, -2099.9060, 19.0668, 1.5, 0.0, 0.0, 90.000000);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1985.2854,-2101.2180,13.5469) && PI[playerid][pMember] == fMEDICSF) 
+		{
+			if(LSFD_Gate_Status[3])
+			{
+				MoveDynamicObject(LSFD_Gate[3], 1985.191650, -2099.906006, 14.866880, 1.5, 0.0, 0.0, 90.000000);
+				LSFD_Gate_Status[3] = 0;
+				return 1;
+			}
+			LSFD_Gate_Status[3] = 1;
+			MoveDynamicObject(LSFD_Gate[3], 1985.1916, -2099.9060, 18.7668, 1.5, 0.0, 0.0, 90.000000);
+		}
+	}
+	if(HOLDING(KEY_FIRE) && PlayerToKvadrat(playerid, 1327, -1534.5, 1377, -1487.5) && PI[playerid][pMember] == fMEDICSF && GetPlayerWeapon(playerid) == 42)
+	{
+		if(GetPVarInt(playerid, "fire_object") == 0)
+		{
+			get_fire_object_timer[playerid] = SetTimerEx("PlayerTimerTargetObject", 2000, true, "i", playerid);
+		}
+		SetPVarInt(playerid, "fire_pressed", 1);
+		SendInfo(playerid, "Ви затиснули ЛКМ");
+		//PlayerTextDrawShow(playerid, FireTargetStatus[playerid][0]);
+		/*new objectid = GetPlayerCameraTargetDynObject(playerid);//Для DynamicObject - GetPlayerCameraTargetDynObject(playerid); 
+		if(objectid == INVALID_OBJECT_ID) 
+		{ 
+			if(player_target_object[playerid] != INVALID_OBJECT_ID) //И таргет был задействован ранее 
+			player_target_object[playerid] = INVALID_OBJECT_ID; //Выдаем 0xFFFF/INVALID_OBJECT_ID 
+		} 
+		if (objectid == fire_object_3) 
+		{ 
+			new str[64]; 
+			format(str, sizeof str, "Ви прицілилися на об'єкт' %d", objectid); 
+			SendClientMessage(playerid, -1, str); 
+			player_target_object[playerid] = objectid; //Выдаем ID объекта в переменную персонажу 
+			SetPVarInt(playerid, "fire_object", 1);
+			SetTimerEx("PlayerTimerTargetObject", 3000, false, "i", playerid);
+		} */
+	}
+	if(RELEASED(KEY_FIRE) && PlayerToKvadrat(playerid, 1327, -1534.5, 1377, -1487.5) && PI[playerid][pMember] == fMEDICSF && GetPVarInt(playerid, "fire_pressed") && GetPlayerWeapon(playerid) == 42)
+	{
+		SendInfo(playerid, "ЛКМ було відтиснуто.");
+		SetPVarInt(playerid, "fire_object", 0);
+		SetPVarInt(playerid, "fire_pressed", 0);
+		PlayerTextDrawHide(playerid, FireTargetStatus[playerid][0]);
+		KillTimer(get_fire_object_timer[playerid]);
 	}
 	if((newkeys & KEY_JUMP) || (newkeys & KEY_FIRE)) {
 		if((TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2])) {
@@ -41190,12 +41497,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 		else if(IsPlayerInRangeOfPoint(playerid, 3.0, -2463.8516,2513.8286,1014.7252) || IsPlayerInRangeOfPoint(playerid, 3.0, -2471.8428,2513.8328,1014.7252)) {
 			new Veh = GetPlayerVehicleID(playerid);
-			if(!VehicleInfo[Veh][vFamily] && GetPlayerVehicleID(playerid) != house_car[playerid][0] && GetPlayerVehicleID(playerid) != house_car[playerid][1] && PlayerTrailer[playerVehicleID[playerid]][carVehicle] != GetPlayerVehicleID(playerid)) return SendError(playerid, "Ви не в будинкушнем т/з");
+			if(!VehicleInfo[Veh][vFamily] && GetPlayerVehicleID(playerid) != house_car[playerid][0] && GetPlayerVehicleID(playerid) != house_car[playerid][1] && PlayerTrailer[playerVehicleID[playerid]][carVehicle] != GetPlayerVehicleID(playerid)) return SendError(playerid, "Ви не в домашньому т/з");
 			SetVehiclePos(Veh, 882.1031,-1339.8259,13.3671);
 			SetVehicleZAngle(Veh, 0.7275);
 			exit_garage(Veh,0);
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 7.0, 2357.3328,-2023.5265,13.8836)) {
+		else if(IsPlayerInRangeOfPoint(playerid, 7.0, 2357.3328,-2023.5265,13.8836)) {
 			if(!IsAGang(playerid)) return SendError(playerid, "Ви не бандит.");
 			ShowPlayerDialog(playerid,D_TEX,DST, ""G"Чорний ринок."P" Продаж техніки",""P"1."W" Домашня техніка\t"GREEN"$250\n"P"2."W" Техніка зі складу\t"GREEN"$100","Продати","Скасувати");
 		}
@@ -41265,6 +41572,58 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				format(string, sizeof(string), "Ви успішно злили бензин в загальну бочку. Зароблено: "GREEN"%d$", money);
 				SendOK(playerid, string);
 			}
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1981.6565,-2073.5847,13.5628) && PI[playerid][pMember] == fMEDICSF)
+		{
+			if(LSFD_Gate_Status[0])
+			{
+				MoveDynamicObject(LSFD_Gate[0], 1985.191650, -2070.135498, 13.766879, 1.5, 0.0, 0.0, 270.000000);
+				LSFD_Gate_Status[0] = 0;
+				ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+				return 1;
+			}
+			LSFD_Gate_Status[0] = 1;
+			MoveDynamicObject(LSFD_Gate[0], 1985.1916, -2070.1354, 18.5668, 1.5, 0.0, 0.0, 270.000000);
+			ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1979.6918,-2073.5876,13.5628) && PI[playerid][pMember] == fMEDICSF)
+		{
+			if(LSFD_Gate_Status[1])
+			{
+				MoveDynamicObject(LSFD_Gate[1], 1976.141235, -2070.145508, 13.526882, 1.5, 0.0, 0.0, 270.000000);
+				LSFD_Gate_Status[1] = 0;
+				ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+				return 1;
+			}
+			LSFD_Gate_Status[1] = 1;
+			MoveDynamicObject(LSFD_Gate[1], 1976.1412, -2070.1455, 18.9268, 1.5, 0.0, 0.0, 270.000000);
+			ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1979.7690,-2096.5027,13.5628) && PI[playerid][pMember] == fMEDICSF)
+		{
+			if(LSFD_Gate_Status[2])
+			{
+				MoveDynamicObject(LSFD_Gate[2], 1976.112427, -2099.906006, 14.866880, 1.5, 0.0, 0.0, 90.000000);
+				LSFD_Gate_Status[2] = 0;
+				ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+				return 1;
+			}
+			LSFD_Gate_Status[2] = 1;
+			MoveDynamicObject(LSFD_Gate[2], 1976.1124, -2099.9060, 19.0668, 1.5, 0.0, 0.0, 90.000000);
+			ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1981.5349,-2096.5044,13.5628) && PI[playerid][pMember] == fMEDICSF)
+		{
+			if(LSFD_Gate_Status[3])
+			{
+				MoveDynamicObject(LSFD_Gate[3], 1985.191650, -2099.906006, 14.866880, 1.5, 0.0, 0.0, 90.000000);
+				LSFD_Gate_Status[3] = 0;
+				ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
+				return 1;
+			}
+			LSFD_Gate_Status[3] = 1;
+			MoveDynamicObject(LSFD_Gate[3], 1985.1916, -2099.9060, 18.7668, 1.5, 0.0, 0.0, 90.000000);
+			ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
 		}
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
@@ -52197,7 +52556,7 @@ CMD:gun(playerid, params[]) {
 	if(ammo < 1 || ammo > 9999) return SendError(playerid, "Не можна менше 1 чи більше 9999 патронів.");
 	if(!IsPlayerConnected(giveplayerid)) return SendError(playerid,not_id);
 	if(gun > 46) return SendError(playerid, "ID зброї має бути не більше 46.");
-	if(gun != 24 && gun != 25 && gun != 26 && gun != 29 && gun != 30 && gun != 31 && gun != 33) return SendError(playerid, "Не можна видавати заборонену зброю.");
+	if(gun != 24 && gun != 25 && gun != 26 && gun != 29 && gun != 30 && gun != 31 && gun != 33 && gun != 42) return SendError(playerid, "Не можна видавати заборонену зброю.");
 	GivePlayerWeapon(giveplayerid,gun,ammo);
 	
 	static const f_str[] = "Зброю було видано гравцю %s.";
@@ -62354,7 +62713,7 @@ stock key_dectivate(playerid) {
 			DeletePVar(playerid,"repairprice");
 			DeletePVar(offer,"repairoffee");
 			new string[128];
-			format(string, sizeof(string), "Ви відмовились від ремонту транспорта гравецем %s.", player_name[offer]);
+			format(string, sizeof(string), "Ви відмовились від ремонту транспорта гравцем %s.", player_name[offer]);
 			SendOK(playerid, string);
 			format(string, sizeof(string), "%s відмовився від ремонту транспорта.", player_name[playerid]);
 			SendOK(offer, string);
@@ -69028,4 +69387,195 @@ forward rob_enter(playerid);
 public rob_enter(playerid)
 {
 	return 1;
+}
+
+stock CreateFire(place)
+{
+	//new burning_building[64];
+	foreach(new i:Player)
+	{
+		switch(place)
+		{
+			case 1:
+			{
+
+				fire_level = 3;
+				fire = 1;
+				firezone = GangZoneCreate(1327, -1534.5, 1377, -1487.5);
+				GangZoneShowForAll(firezone, COLOR_LIGHTRED);
+				RemoveBuildingForPlayer(i, 4114, 1350.410, -1512.010, 23.046, 0.250);
+				RemoveBuildingForPlayer(i, 4115, 1350.410, -1512.010, 23.046, 0.250);
+				RemoveBuildingForPlayer(i, 4120, 1364.199, -1491.599, 25.601, 0.250);
+				RemoveBuildingForPlayer(i, 1290, 1316.660, -1519.270, 18.226, 0.250);
+				RemoveBuildingForPlayer(i, 1290, 1329.709, -1498.680, 18.226, 0.250);
+				RemoveBuildingForPlayer(i, 1290, 1341.349, -1476.599, 18.226, 0.250);
+				RemoveBuildingForPlayer(i, 1297, 1336.699, -1508.989, 15.890, 0.250);
+
+
+				burning_building[0] = CreateDynamicObject(1297,1341.752,-1500.108,13.346,104.999,-179.400,26.800,-1,-1,-1,300.000,300.000);
+				burning_building[1] = CreateDynamicObject(1290,1347.425,-1474.508,12.618,90.300,125.199,0.200,-1,-1,-1,300.000,300.000);
+				burning_building[2] = CreateDynamicObject(1290,1319.861,-1518.710,12.487,90.300,0.000,0.200,-1,-1,-1,300.000,300.000);
+				burning_building[3] = CreateDynamicObject(3866,1355.911,-1524.604,19.602,0.000,0.000,158.099,-1,-1,-1,300.000,300.000);
+				burning_building[4] = CreateDynamicObject(3887,1347.931,-1517.354,20.357,0.000,0.799,-25.600,-1,-1,-1,300.000,300.000);
+				burning_building[5] = CreateDynamicObject(3866,1364.755,-1510.344,19.602,0.000,0.000,-112.299,-1,-1,-1,300.000,300.000);
+				burning_building[6] = CreateDynamicObject(879,1327.025,-1528.545,12.716,0.000,0.000,-68.100,-1,-1,-1,300.000,300.000);
+				burning_building[7] = CreateDynamicObject(879,1330.582,-1510.537,12.716,0.000,0.000,66.599,-1,-1,-1,300.000,300.000);
+				burning_building[8] = CreateDynamicObject(879,1336.281,-1501.837,12.422,0.000,0.000,-78.999,-1,-1,-1,300.000,300.000);
+				burning_building[9] = CreateDynamicObject(879,1343.477,-1491.840,12.716,0.000,0.000,-61.900,-1,-1,-1,300.000,300.000);
+				burning_building[10] = CreateDynamicObject(879,1336.281,-1501.837,12.422,0.000,0.000,-78.999,-1,-1,-1,300.000,300.000);
+				burning_building[11] = CreateDynamicObject(897,1357.709,-1484.959,7.772,0.000,0.000,-32.400,-1,-1,-1,300.000,300.000);
+				burning_building[12] = CreateDynamicObject(897,1361.998,-1490.724,8.632,0.000,0.000,-32.400,-1,-1,-1,300.000,300.000);
+				burning_building[13] = CreateDynamicObject(897,1373.652,-1494.049,9.962,0.000,0.000,-66.199,-1,-1,-1,300.000,300.000);
+				burning_building[14] = CreateDynamicObject(807,1355.977,-1489.694,12.642,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[15] = CreateDynamicObject(816,1361.168,-1485.050,12.605,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[16] = CreateDynamicObject(816,1363.906,-1486.967,12.605,0.000,0.000,-64.799,-1,-1,-1,300.000,300.000);
+				burning_building[17] = CreateDynamicObject(807,1366.497,-1487.904,12.642,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[18] = CreateDynamicObject(905,1369.153,-1488.290,12.762,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[19] = CreateDynamicObject(816,1365.992,-1491.401,12.605,0.000,0.000,-154.699,-1,-1,-1,300.000,300.000);
+				burning_building[20] = CreateDynamicObject(807,1367.847,-1493.904,12.642,4.599,0.000,-90.499,-1,-1,-1,300.000,300.000);
+				burning_building[21] = CreateDynamicObject(10985,1325.164,-1518.636,11.936,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[22] = CreateDynamicObject(10985,1350.986,-1481.086,12.346,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[23] = CreateDynamicObject(10984,1360.889,-1529.761,13.039,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[24] = CreateDynamicObject(12957,1369.698,-1489.113,13.158,0.000,0.000,-80.199,-1,-1,-1,300.000,300.000);
+				burning_building[25] = CreateDynamicObject(3594,1336.131,-1494.527,12.666,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[26] = CreateDynamicObject(3593,1336.978,-1509.518,12.862,0.000,0.000,178.900,-1,-1,-1,300.000,300.000);
+				burning_building[27] = CreateDynamicObject(12957,1321.823,-1520.683,13.154,-11.199,0.000,133.599,-1,-1,-1,300.000,300.000);
+				burning_building[28] = CreateDynamicObject(13591,1369.840,-1508.790,12.876,0.000,0.000,-61.099,-1,-1,-1,300.000,300.000);
+				burning_building[29] = CreateDynamicObject(952,1345.242,-1512.918,13.726,0.000,0.000,13.700,-1,-1,-1,300.000,300.000);
+				burning_building[30] = CreateDynamicObject(1219,1345.529,-1508.138,12.716,0.000,0.000,-23.999,-1,-1,-1,300.000,300.000);
+				burning_building[31] = CreateDynamicObject(1219,1347.834,-1505.421,12.716,0.000,0.000,-23.999,-1,-1,-1,300.000,300.000);
+				burning_building[32] = CreateDynamicObject(1219,1351.873,-1505.767,13.045,61.599,0.000,-23.999,-1,-1,-1,300.000,300.000);
+				burning_building[33] = CreateDynamicObject(879,1353.639,-1515.968,12.716,0.000,0.000,-89.400,-1,-1,-1,300.000,300.000);
+				burning_building[34] = CreateDynamicObject(853,1341.644,-1517.090,19.683,1.099,1.100,0.000,-1,-1,-1,300.000,300.000);
+				burning_building[35] = CreateDynamicObject(1438,1344.509,-1518.437,19.205,0.000,0.000,-34.600,-1,-1,-1,300.000,300.000);
+				burning_building[36] = CreateDynamicObject(3098,1338.177,-1525.192,21.132,0.000,0.000,-115.599,-1,-1,-1,300.000,300.000);
+				burning_building[37] = CreateDynamicObject(3098,1343.210,-1514.901,21.132,0.000,0.000,-29.500,-1,-1,-1,300.000,300.000);
+				burning_building[38] = CreateDynamicObject(3098,1342.843,-1522.337,21.132,0.000,0.000,67.099,-1,-1,-1,300.000,300.000);
+				burning_building[39] = CreateDynamicObject(2971,1339.375,-1519.402,19.250,0.000,0.000,-25.400,-1,-1,-1,300.000,300.000);
+				burning_building[40] = CreateDynamicObject(2971,1346.773,-1503.819,18.670,0.000,0.000,-25.400,-1,-1,-1,300.000,300.000);
+				burning_building[41] = CreateDynamicObject(3097,1341.506,-1512.567,22.716,0.000,0.000,150.700,-1,-1,-1,300.000,300.000);
+				burning_building[42] = CreateDynamicObject(3099,1338.781,-1528.316,12.379,0.000,0.000,-25.799,-1,-1,-1,300.000,300.000);
+				burning_building[43] = CreateDynamicObject(3099,1338.620,-1518.354,12.379,0.000,0.000,-118.299,-1,-1,-1,300.000,300.000);
+
+
+				fire_object_3[0] = CreateDynamicObject(18691,1350.567,-1493.391,17.317,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[1] = CreateDynamicObject(18691,1349.192,-1496.380,22.597,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[2] = CreateDynamicObject(18691,1347.935,-1499.113,17.317,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[3] = CreateDynamicObject(18691,1344.733,-1505.886,17.317,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[4] = CreateDynamicObject(18691,1343.405,-1508.775,17.317,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[5] = CreateDynamicObject(18691,1342.113,-1511.582,22.687,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[6] = CreateDynamicObject(18691,1338.704,-1518.062,22.687,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[7] = CreateDynamicObject(18691,1336.079,-1523.767,22.687,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[8] = CreateDynamicObject(18691,1336.079,-1523.767,17.417,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[9] = CreateDynamicObject(18690,1367.812,-1490.098,12.175,0.000,0.000,0.000,-1,-1,-1,300.000,300.000);
+				fire_object_3[10] = CreateDynamicObject(18692,1368.868,-1497.297,12.056,0.000,0.000,-22.500,-1,-1,-1,300.000,300.000);
+				fire_object_3[11] = CreateDynamicObject(18690,1366.356,-1506.014,11.726,0.000,0.000,-60.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[12] = CreateDynamicObject(18690,1369.864,-1506.912,11.726,0.000,0.000,-60.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[13] = CreateDynamicObject(18690,1368.811,-1509.900,11.726,0.000,0.000,-60.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[14] = CreateDynamicObject(18691,1345.289,-1508.406,9.786,0.000,0.000,-25.599,-1,-1,-1,300.000,300.000);
+				fire_object_3[15] = CreateDynamicObject(18691,1347.733,-1505.718,9.786,0.000,0.000,-25.599,-1,-1,-1,300.000,300.000);
+				fire_object_3[16] = CreateDynamicObject(18691,1344.930,-1513.090,11.536,0.000,0.000,12.300,-1,-1,-1,300.000,300.000);
+				fire_object_3[17] = CreateDynamicObject(18691,1339.385,-1527.828,17.417,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[18] = CreateDynamicObject(18691,1344.553,-1518.406,17.417,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+				fire_object_3[19] = CreateDynamicObject(18691,1344.431,-1515.303,17.317,0.000,0.000,-24.700,-1,-1,-1,300.000,300.000);
+
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1366.311,-1506.053,13.449,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1368.902,-1509.854,13.449,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1370.588,-1506.343,13.449,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1368.970,-1497.321,13.786,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1367.661,-1489.750,13.786,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1347.691,-1505.598,13.246,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1345.351,-1508.032,13.246,5.0);
+				CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF,1345.072,-1512.939,14.256,5.0);
+
+				for(new it = 1; it < sizeof(FireTargets_FireID_1) ; it++)
+				{
+					fire_target_object_3[it] = CreateDynamicObject(FireTargets_FireID_1[it][fireModel], FireTargets_FireID_1[it][firePosX], 
+						FireTargets_FireID_1[it][firePosY], FireTargets_FireID_1[it][firePosZ], FireTargets_FireID_1[it][firePosrX], 
+						FireTargets_FireID_1[it][firePosrY], FireTargets_FireID_1[it][firePosrZ],-1,-1,-1,300.000,300.000);
+					print("Fire targets were created.");
+					return 1;
+				}
+				/*fire_target_object_3[0] = CreateDynamicObject(18688,1366.311,-1506.053,13.449,0.000,0.000,-55.700,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[1] = CreateDynamicObject(18688,1368.902,-1509.854,13.449,0.000,0.000,-55.700,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[2] = CreateDynamicObject(18688,1370.588,-1506.343,13.449,0.000,0.000,-55.700,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[3] = CreateDynamicObject(18688,1368.970,-1497.321,13.786,0.000,0.000,-19.500,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[4] = CreateDynamicObject(18688,1367.661,-1489.750,13.786,0.000,0.000,-19.500,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[5] = CreateDynamicObject(18688,1347.691,-1505.598,13.246,0.000,0.000,-21.400,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[6] = CreateDynamicObject(18688,1345.351,-1508.032,13.246,0.000,0.000,-21.400,-1,-1,-1,300.000,300.000);
+				fire_target_object_3[7] = CreateDynamicObject(18688,1345.072,-1512.939,14.256,0.000,0.000,-21.400,-1,-1,-1,300.000,300.000);*/
+			}
+		}
+	}
+	return 1;
+}
+stock DestroyFire(place)
+{
+	foreach(new i:Player)
+	{
+		switch(place)
+		{
+			case 1:
+			{
+				for(new ib; ib <= 64; ib++)
+				{
+					DestroyDynamicObject(burning_building[ib]);
+				}
+				CreateObject(4114, 1350.410, -1512.010, 23.046, 0.250, 0.0, 0.0, 0.0);
+				CreateObject(4115, 1350.410, -1512.010, 23.046, 0.250, 0.0, 0.0, 0.0);
+				CreateObject(4120, 1364.199, -1491.599, 25.601, 0.250, 0.0, 0.0, 0.0);
+				CreateObject(1290, 1316.660, -1519.270, 18.226, 0.250, 0.0, 0.0, 0.0);
+				CreateObject(1290, 1329.709, -1498.680, 18.226, 0.250, 0.0, 0.0, 0.0);
+				CreateObject(1290, 1341.349, -1476.599, 18.226, 0.250, 0.0, 0.0, 0.0);
+				CreateObject(1297, 1336.699, -1508.989, 15.890, 0.250, 0.0, 0.0, 0.0);
+				fire_level = 0;
+				fire = 0;
+				GangZoneDestroy(firezone);
+			}
+		}
+	}
+}
+forward PlayerTimerTargetObject(playerid); 
+public PlayerTimerTargetObject(playerid) 
+{ 
+	SendOK(playerid, "timer is started");
+	//if(GetPVarInt(playerid, "fire_object") == 0) return 1;
+	new str[64], target[5];
+	new objectid = GetPlayerCameraTargetDynObject(playerid);//Для DynamicObject - GetPlayerCameraTargetDynObject(playerid); 
+	if(objectid == INVALID_OBJECT_ID) 
+	{ 
+		SendInfo(playerid, "INVALID_OBJECT_ID");
+		if(player_target_object[playerid] != INVALID_OBJECT_ID) //И таргет был задействован ранее 
+		player_target_object[playerid] = INVALID_OBJECT_ID; //Выдаем 0xFFFF/INVALID_OBJECT_ID 
+	} 
+	//GetObjectPos(objectid, X, Y, Z);
+	for(new i; i <= 7; i++)
+	{
+		if(objectid == fire_target_object_3[i] && IsPlayerInRangeOfPoint(playerid, 7.0, FireTargets_FireID_1[i][firePosX], FireTargets_FireID_1[i][firePosrY], FireTargets_FireID_1[i][firePosrZ])) 
+		{  
+			if(GetPVarInt(playerid, "fire_object") == 0) 
+			{
+				SetPVarInt(playerid, "fire_object", 1);
+				PlayerTextDrawShow(playerid, FireTargetStatus[playerid][0]);
+			}
+			//Оновлення статусу по кожному з об'єктів
+			if(FireTargets_FireID_1[i][fireTargetStatus] < 100) 
+			{
+				FireTargets_FireID_1[i][fireTargetStatus] = FireTargets_FireID_1[i][fireTargetStatus]+25;
+			}
+			if(FireTargets_FireID_1[i][fireTargetStatus] == 100) 
+			{
+				PlayerTextDrawHide(playerid, FireTargetStatus[playerid][0]);
+				DestroyDynamicObject(fire_target_object_3[i]);
+			}
+			format(target, sizeof(target), "%d %", FireTargets_FireID_1[i][fireTargetStatus]);
+			PlayerTextDrawSetString(playerid, FireTargetStatus[playerid][0], target);
+			//
+			//
+			format(str, sizeof str, "Ви націлені на об'єкт: %d", objectid); 
+			SendInfo(playerid, str); 
+			player_target_object[playerid] = objectid; //Выдаем ID объекта в переменную персонажу 
+		} 
+	}
+	return 1; 
 }
