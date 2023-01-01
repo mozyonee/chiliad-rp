@@ -56,6 +56,7 @@ enum dialogs {
 	D_AS_THEORY_8,
 	D_AS_THEORY_9,
 	D_BIKER_ROB,
+	dFire,
 
 	dTelegram,
 	dDiscord,
