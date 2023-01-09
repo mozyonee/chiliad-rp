@@ -19,6 +19,8 @@ L1:
 	#emit  jump  L1
 	#emit  zero  cellmin
 }
+
+
 #include <a_samp>
 //#include <tgconnector>
 #define MAX_PLAYERS                             	   (300)
@@ -190,7 +192,8 @@ new bool:Vizod;
 #define FSPD(%0,%1,%2,%3,%4,%5,%6,%7) 	fscm_str[0] = EOS, format(fscm_str, 512, %6, %7) && ShowPlayerDialog(%0, %1, %2, %3, fscm_str, %4, %5)
 #define KickEx(%0) SetTimerEx("kick",250,false,"d",%0)
 
-
+FixSVarString(str[], size = sizeof(str))
+    for (new i = 0; ((str[i] &= 0xFF) != '\0') && (++i != size);) {} 
 // FIRE DATA
 
 #define MAX_FIRE_AMOUNT 5 
@@ -5689,6 +5692,10 @@ Float:moved_pos_object[MAX_OBJECT_MOVED][6]={
 	{-32.843727, -175.250106, 1025.985229, 0.000000, 0.000000, -60.000000}, 
 	{-32.863727, -177.470092, 1025.985229, 0.000000, 0.000000, 180.000000} 
 };
+
+new call_id[MAX_PLAYERS];
+new call_timer[MAX_PLAYERS];
+
 new addchet[MAX_PLAYERS];
 new FirstBL[MAX_PLAYERS],
 UnbanName[MAX_PLAYERS][24];
@@ -6322,7 +6329,8 @@ enum pInfo {
 	pTLicCar,
 	pTLicAir,
 	pTLicBoat,
-	pTLicWeapon
+	pTLicWeapon,
+	pDeposit
 };
 new PI[MAX_PLAYERS][pInfo],
 pPhoneName[MAX_PLAYERS][25][MAX_PLAYER_NAME],
@@ -8839,6 +8847,9 @@ stock RemoveBuildings(playerid) {
 		RemoveBuildingForPlayer(playerid, 1290, 1341.349, -1476.599, 18.226, 0.250);
 		RemoveBuildingForPlayer(playerid, 1297, 1336.699, -1508.989, 15.890, 0.250);
 	}
+	//lsfdtest
+	RemoveBuildingForPlayer(playerid, 17536, 2572.128906, -1472.698975, 34.959999, 0.250000);
+	RemoveBuildingForPlayer(playerid, 17763, 2572.128906, -1472.698975, 34.959999, 0.250000);
 	//lsfd
 	RemoveBuildingForPlayer(playerid, 1308, 1971.147949, -2082.531006, 12.609000, 0.250000);
 	RemoveBuildingForPlayer(playerid, 5198, 1983.531006, -2085.116943, 18.077999, 0.250000);
@@ -9542,6 +9553,8 @@ public OnPlayerConnect(playerid) {
 	GetPlayerIp(playerid, fPlayer[playerid][fip], 32);
    
    	SetPVarInt(playerid, "fire_object", 0);
+   	
+   	call_timer[playerid] = 0;
 
 	PI[playerid][pID] = 0;
 	ahMenu[playerid][0] = ahMenu[playerid][1] = ahMenu[playerid][2] = ahMenu[playerid][3] = 0;
@@ -11948,6 +11961,32 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			DeletePVar(playerid,"p_bank");
 			DeletePVar(playerid,"p_player");
 		}
+	case dDeposit:
+	{
+		if(!response) return dialog_bank(playerid);
+		new string[64];
+		format(string, sizeof(string), "Депозит | Ваш відсоток: %s");
+		ShowPlayerDialog(playerid, dDepositEdit, DIALOG_STYLE_INPUT, string, ""P"1. "W"Перевірити депозит\n"P"2. "W"Поповнити депозит\n"P"3. "W"Зняти кошти з депозиту", "Обрати", "Назад");
+	}
+	case dDepositEdit:
+	{
+		if(!response) 
+		{
+			new string[64];
+			format(string, sizeof(string), "Депозит | Ваш відсоток: %s");
+			return ShowPlayerDialog(playerid, dDepositEdit, DIALOG_STYLE_INPUT, string, ""P"1. "W"Перевірити депозит\n"P"2. "W"Поповнити депозит\n"P"3. "W"Зняти кошти з депозиту", "Обрати", "Назад");
+
+		}
+		switch(listitem)
+		{
+			case 0:
+			{
+				new string[256];
+				format(string, sizeof(string), "Сума на Вашому депозиті: %d$\nДоступно для поповнення: %d$\nДоступно для зняття: %d$\n\n", PI[playerid][pDeposit]);
+				ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "Інформація про депозит", string, "Назад", "");
+			}
+		}
+	}
 	case D_BANK_MENU: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -22786,12 +22825,51 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			return 1;
 		}
 	case D_CALL_SERVICES: {
-			if(!response) return 1;
+			if(!response) return 1;			
+			if(call_timer[playerid] > 0) 
+			{
+				new timer[128];
+				format(timer, sizeof(timer), "Наступний виклик Ви зможете здійснити через "P"%s", Convert(call_timer[playerid]));
+				SendError(playerid, "Ви вже здійснили виклик. Очікуйте на місці прибуття представників викликаної служби.");
+				return SendHint(playerid, timer);
+			}
 			if(GetPlayerVirtualWorld(playerid) != 0) return SendError(playerid, "Для виклику вийдіть з приміщення.");
 			new Float:pos[3];
 			GetPlayerPos(playerid,pos[0],pos[1],pos[2]); 
-			switch(listitem) {
-			case 0: {
+
+			new string[512];
+
+			switch(listitem) 
+			{
+				case 0:
+				{
+					if(!response) return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
+					SetPVarInt(playerid, "service", 1);
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати представників "P"Поліції.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.", player_name[playerid]);
+					ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Поліція: "W"Причина", string, "Далі", "Назад");
+				}
+				case 1:
+				{
+					if(!response) return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
+					SetPVarInt(playerid, "service", 2);
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати "P"Медиків.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.", player_name[playerid]);
+					ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Медики: "W"Причина", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					if(!response) return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
+					SetPVarInt(playerid, "service", 3);
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати "P"Пожежну службу.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.", player_name[playerid]);
+					ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Пожежна служба: "W"Причина", string, "Далі", "Назад");
+				}
+
+			/*case 0: {
 					new bool:online = false;
 					foreach(new i:Player) {
 						if(!TI[i][tLogin]) continue;
@@ -22822,6 +22900,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetPVarInt(playerid,"call_medics",1);
 				}
 			case 2: {
+					new bool:online = false;
+					foreach(new i:Player) {
+						if(!TI[i][tLogin]) continue;
+						if(!IsAMedic(i) && !start_work[i]) continue;
+						if(!IsPlayerInRangeOfPoint(i, 7000.0, pos[0],pos[1],pos[2])) continue;
+						online = true;
+					}
+					if(!online) return SendClientMessage(playerid, COLOR_WHITE, ""P"Диспетчер:"W" Наразі немає вільних медиків.");
+					SendClientMessage(playerid, COLOR_WHITE, ""P"Диспетчер:"W" Ваш виклик прийнято, очікуйте на місці.");
+					new string[220];
+					format(string,sizeof(string),""P"Диспетчер:"W" Надійшов новий виклик від %s.", player_name[playerid]);
+					SendFDMessage(COLOR_WHITE, string);
+					SetPVarInt(playerid,"call_fires",1);
+				}
+			case 3: {
 					new online = 0;
 					foreach(new i:Player) {
 						if(!TI[i][tLogin]) continue;
@@ -22832,9 +22925,347 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(!online) return SendError(playerid, "Диспетчер: Наразі немає вільних механиків.");
 					SendOK(playerid, "Диспетчер: Ваш виклик прийнято, залишайтесь на своєму на місці.");
 					SetPVarInt(playerid,"call_mechanics",1);
+				}*/
+			}
+		}
+	case dCallService:
+	{
+		new string[512];
+		if(!response) 
+		{
+			DeletePVar(playerid, "service");
+			return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
+
+		}
+		switch(GetPVarInt(playerid, "service"))
+		{
+			case 1:
+			{
+				if(strlen(inputtext) < 5 || strlen(inputtext) > 40)
+				{
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати представників "P"Поліції.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.\n\n\
+						"E"Помилка: "G"введено некоректну кількість символів (зверніть увагу на примітку вище).", player_name[playerid]);
+					return ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Поліція: "W"Причина", string, "Далі", "Назад");
+				}
+				SetPVarString(playerid, "reason", inputtext);
+				format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви успішно ввели причину виклику.\n\n\
+						"P"Введено причину: "W"'%s'\n\n\
+						"W"Для завершення оформлення виклику опишіть детально, що трапилося, у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 200.", player_name[playerid], inputtext);
+				ShowPlayerDialog(playerid, dCallServiceDetails, DIALOG_STYLE_INPUT, ""P"Поліція: "W"Опис", string, "Далі", "Назад");
+			}
+			case 2:
+			{
+				if(strlen(inputtext) < 5 || strlen(inputtext) > 40)
+				{
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати "P"Медиків.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.\n\n\
+						"E"Помилка: "G"введено некоректну кількість символів (зверніть увагу на примітку вище).", player_name[playerid]);
+					return ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Медики: "W"Причина", string, "Далі", "Назад");
+				}
+				SetPVarString(playerid, "reason", inputtext);
+				format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви успішно ввели причину виклику.\n\n\
+						"P"Введено причину: "W"'%s'\n\n\
+						"W"Для завершення оформлення виклику опишіть детально, що трапилося, у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 200.", player_name[playerid], inputtext);
+				ShowPlayerDialog(playerid, dCallServiceDetails, DIALOG_STYLE_INPUT, ""P"Медики: "W"Опис", string, "Далі", "Назад");
+			}
+			case 3:
+			{
+				if(strlen(inputtext) < 5 || strlen(inputtext) > 40)
+				{
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати "P"Пожежну службу.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.\n\n\
+						"E"Помилка: "G"введено некоректну кількість символів (зверніть увагу на примітку вище).", player_name[playerid]);
+					return ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Пожежна служба: "W"Причина", string, "Далі", "Назад");
+				}
+				SetPVarString(playerid, "reason", inputtext);
+				format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви успішно ввели причину виклику.\n\n\
+						"P"Введено причину: "W"'%s'\n\n\
+						"W"Для завершення оформлення виклику опишіть детально, що трапилося, у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 200.", player_name[playerid], inputtext);
+				ShowPlayerDialog(playerid, dCallServiceDetails, DIALOG_STYLE_INPUT, ""P"Пожежна служба: "W"Опис", string, "Далі", "Назад");
+			}
+		}
+	}
+	case dCallServiceDetails:
+	{
+		new string[512];
+		if(!response)
+		{
+			switch(GetPVarInt(playerid, "service"))
+			{
+				case 1:
+				{
+					DeletePVar(playerid, "reason");
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати представників "P"Поліції.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.", player_name[playerid]);
+					return ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Поліція: "W"Причина", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					DeletePVar(playerid, "reason");
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати "P"Медиків.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.", player_name[playerid]);
+					return ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Медики: "W"Причина", string, "Далі", "Назад");
+				}
+				case 3:
+				{
+					DeletePVar(playerid, "reason");
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви збираєтеся викликати "P"Пожежну службу.\n\
+						"W"Для початку оформлення виклику введіть причину у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 40.", player_name[playerid]);
+					return ShowPlayerDialog(playerid, dCallService, DIALOG_STYLE_INPUT, ""P"Пожежна служба: "W"Причина", string, "Далі", "Назад");
 				}
 			}
 		}
+		new reason[40];
+		GetPVarString(playerid, "reason", reason, 40);
+		FixSVarString(reason);
+		if(strlen(inputtext) < 5 || strlen(inputtext) > 200)
+		{
+			switch(GetPVarInt(playerid, "service"))
+			{
+				case 1:
+				{
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви успішно ввели причину виклику.\n\n\
+						"P"Введено причину: "W"'%s'\n\n\
+						"W"Для завершення оформлення виклику опишіть детально, що трапилося, у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 200.\n\n\
+						"E"Помилка: "G"введено некоректну кількість символів (зверніть увагу на примітку вище).", player_name[playerid], reason);
+					return ShowPlayerDialog(playerid, dCallServiceDetails, DIALOG_STYLE_INPUT, ""P"Поліція: "W"Опис", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви успішно ввели причину виклику.\n\n\
+						"P"Введено причину: "W"'%s'\n\n\
+						"W"Для завершення оформлення виклику опишіть детально, що трапилося, у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 200.\n\n\
+						"E"Помилка: "G"введено некоректну кількість символів (зверніть увагу на примітку вище).", player_name[playerid], reason);
+					return ShowPlayerDialog(playerid, dCallServiceDetails, DIALOG_STYLE_INPUT, ""P"Медики: "W"Опис", string, "Далі", "Назад");
+				}
+				case 3:
+				{
+					format(string, sizeof(string), ""W"Шановний(-а) "P"%s, "W"Ви успішно ввели причину виклику.\n\n\
+						"P"Введено причину: "W"'%s'\n\n\
+						"W"Для завершення оформлення виклику опишіть детально, що трапилося, у полі нижче.\n\n\
+						"G"Примітка: мінімальна довжина введеного тексту - 5 символів, максимальна - 200.\n\n\
+						"E"Помилка: "G"введено некоректну кількість символів (зверніть увагу на примітку вище).", player_name[playerid], reason);
+					return ShowPlayerDialog(playerid, dCallServiceDetails, DIALOG_STYLE_INPUT, ""P"Пожежна служба: "W"Опис", string, "Далі", "Назад");
+				}
+			}
+		}
+		new hour, minute, second, Float:x, Float:y, Float:z, place[40], insert[1024], time[36];
+		gettime(hour, minute, second);
+		GetPlayerPos(playerid, x, y, z);
+		Zone_GetNameByCoords(x, y, z, place);
+		format(time, sizeof(time), "%02d:%02d", hour, minute);
+
+		mysql_format(connects, insert, sizeof(insert), "INSERT INTO `calls` (`Fraction`, `Nickname`, `Reason`, `Place`, `Time`, `Description`, `x`, `y`, `z`) VALUES ('%d', '%s', '%s', '%s', '%s', '%s', '%f', '%f', '%f')", 
+			GetPVarInt(playerid, "service"), player_name[playerid], reason, place, time, inputtext, x, y, z);
+		mysql_tquery(connects, insert);
+
+		new service[40], header[50];
+		switch(GetPVarInt(playerid, "service"))
+		{
+			case 1: 
+			{
+				format(service, sizeof(service), "представників Поліції");
+				format(header, sizeof(header), ""P"Поліція: "W"Виклик");
+			}
+			case 2: 
+			{
+				format(service, sizeof(service), "Медиків");
+				format(header, sizeof(header), ""P"Медики: "W"Виклик");
+			}
+			case 3: 
+			{
+				format(service, sizeof(service), "Пожежну службу");
+				format(header, sizeof(header), ""P"Пожежна служба: "W"Виклик");
+			}
+		}
+
+
+
+		format(string, sizeof(string), "\
+			"W"Шановний(-а) %s, Ви успішно викликали %s.\n\n\
+			"W"Деталі Вашого виклику:\n\n\
+			"W"Час виклику: "P"%s\n\
+			"W"Причина: "P"%s\n\n\
+			"P"Опис:\n\
+			"W"%s\n\n\
+			"W"Очікуйте на місці прибуття представників викликаної служби.", player_name[playerid], service, time, reason, inputtext);
+
+		ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, header, string, "Закрити", "");
+
+		foreach(new i:Player)
+		{
+			switch(GetPVarInt(playerid, "service"))
+			{
+				case 1:
+				{
+					if(PI[i][pMember] == fLSPD)
+					{
+						format(string, sizeof(string), ""P"Диспетчер: "W"Увага! Надійшов новий виклик від ініціатора "P"%s "W"(%s) {FFD700}[/calls]", player_name[playerid], place);
+						SendClientMessage(i, -1, string);
+					}
+				}
+				case 2:
+				{
+					if(PI[i][pMember] == fMEDICLS)
+					{
+						format(string, sizeof(string), ""P"Диспетчер: "W"Увага! Надійшов новий виклик від ініціатора "P"%s "W"(%s) {FFD700}[/calls]", player_name[playerid], place);
+						SendClientMessage(i, -1, string);
+					}
+				}
+				case 3:
+				{
+					if(PI[i][pMember] == fMEDICSF)
+					{
+						format(string, sizeof(string), ""P"Диспетчер: "W"Увага! Надійшов новий виклик від ініціатора "P"%s "W"(%s) {FFD700}[/calls]", player_name[playerid], place);
+						SendClientMessage(i, -1, string);
+					}
+				}
+			}
+		}
+		call_timer[playerid] = 60;
+		DeletePVar(playerid, "reason");
+		DeletePVar(playerid, "service");
+	}
+	case dGetServiceCall:
+	{
+		if(!response) return 1;
+		new string[512], stringer[128];
+
+		strmid(call_id, inputtext, 0, 3);
+		SetPVarInt(playerid, "call_id", strval(call_id));
+
+		mysql_format(connects, stringer, sizeof(stringer), "SELECT * FROM `calls` WHERE ID = '%d' LIMIT 1", GetPVarInt(playerid, "call_id"));
+        new Cache: resultCache = mysql_query(connects, stringer, true);
+        if(!cache_num_rows()) return SendError(playerid,"Відбулася помилка #001 в #1231.");
+
+        new id, name[32], place[40], reason[40], time[10], details[200], header[128], Float:x, Float:y, Float:z;
+
+        cache_get_value_name_int(0, "ID", id);
+        cache_get_value_name(0, "Nickname", name);
+        cache_get_value_name(0, "Place", place);
+        cache_get_value_name(0, "Reason", reason);
+        cache_get_value_name(0, "Time", time);
+        cache_get_value_name(0, "Description", details);
+        cache_get_value_float(0, "x", x);
+        cache_get_value_float(0, "y", y);
+        cache_get_value_float(0, "z", z);
+        cache_delete(resultCache);
+
+        SetPVarString((playerid), "call_name", name);
+        SetPVarFloat(playerid, "call_x", x);
+        SetPVarFloat(playerid, "call_y", y);
+        SetPVarFloat(playerid, "call_z", z);
+
+        format(header, sizeof(header), ""W"Виклик "P"№%d "W"| Ініціатор: "P"%s", id, name);
+
+        format(string, sizeof(string), "\
+			"W"Виклик "P"№%d.\n\n\
+			"W"Деталі виклику:\n\n\
+			"W"Ініціатор виклику: "P"%s\n\
+			"W"Місцезнаходження (район): "P"%s "W"(відстань до Вас: "P"%d м."W")\n\
+			"W"Час виклику: "P"%s\n\
+			"W"Причина: "P"%s\n\n\
+			"P"Опис:\n\
+			"W"%s\n\n", id, name, place, floatround(GetPlayerDistanceFromPoint(playerid, x, y, z)), time, reason, details);
+
+		ShowPlayerDialog(playerid, dManageCall, DIALOG_STYLE_MSGBOX, header, string, "Далі", "Назад");
+	}
+	case dManageCall:
+	{
+		if(!response) 
+		{
+			switch(PI[playerid][pMember])
+			{
+				case fLSPD: return mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 1", "service_calls", "i", playerid);
+				case fMEDICLS: return mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 2", "service_calls", "i", playerid);
+				case fMEDICSF: return mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 3", "service_calls", "i", playerid);
+			}
+
+		}
+		new header[140], name[32];
+		GetPVarString(playerid, "call_name", name, sizeof(name));
+		format(header, sizeof(header), ""W"Виклик № "P"%d "W"| Ініціатор: "P"%s", GetPVarInt(playerid, "call_id"), name);
+		ShowPlayerDialog(playerid, dFinishCall, DIALOG_STYLE_LIST, header, ""P"1. "W"Прийняти виклик\n"P"2. "W"Видалити виклик", "Обрати", "Назад");
+	}
+	case dFinishCall:
+	{
+		if(!response) 
+		{
+			switch(PI[playerid][pMember])
+			{
+				case fLSPD: return mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 1", "service_calls", "i", playerid);
+				case fMEDICLS: return mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 2", "service_calls", "i", playerid);
+				case fMEDICSF: return mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 3", "service_calls", "i", playerid);
+			}
+
+		}		
+		switch(listitem)
+		{
+			case 0:
+			{
+				EnableGPSForPlayer(playerid, GetPVarFloat(playerid, "call_x"), GetPVarFloat(playerid, "call_y"), GetPVarFloat(playerid, "call_z"));
+				new string[256], name[32], delete[128];
+				GetPVarString(playerid, "call_name", name, sizeof(name));
+				format(string, sizeof(string), "Виклик "P"№ %d "W"від ініціатора "P"%s "W"прийнято.", GetPVarInt(playerid, "call_id"), name);
+				SendOK(playerid, string);
+				SendHint(playerid, "Місцезнаходження ініціатора виклику встановлено на Вашій карті.");
+				mysql_format(connects, delete, sizeof(delete), "DELETE FROM `calls` WHERE ID = '%d'", GetPVarInt(playerid, "call_id"));
+				mysql_tquery(connects, delete);
+				foreach(new i:Player)
+				{
+					switch(PI[i][pMember])
+					{
+						case fLSPD:
+						{
+							format(string, sizeof(string), ""P"Диспетчер: "W"%s "P"%s "W"прийняв виклик "P"№%d "W"від ініціатора "P"%s"W".", GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], GetPVarInt(playerid, "call_id"), name);
+							SendClientMessage(i, -1, string);
+						}
+						case fMEDICLS:
+						{
+							format(string, sizeof(string), ""P"Диспетчер: "W"%s "P"%s "W"прийняв виклик "P"№%d "W"від ініціатора "P"%s"W".", GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], GetPVarInt(playerid, "call_id"), name);
+							SendClientMessage(i, -1, string);
+						}
+						case fMEDICSF:
+						{
+							format(string, sizeof(string), ""P"Диспетчер: "W"%s "P"%s "W"прийняв виклик "P"№%d "W"від ініціатора "P"%s"W".", GetRankName(PI[playerid][pMember],PI[playerid][pRank]), player_name[playerid], GetPVarInt(playerid, "call_id"), name);
+							SendClientMessage(i, -1, string);
+						}
+					}
+				}
+				DeletePVar(playerid, "call_name");
+				DeletePVar(playerid, "call_id");
+				DeletePVar(playerid, "call_x");
+				DeletePVar(playerid, "call_y");
+				DeletePVar(playerid, "call_z");
+			}
+			case 1:
+			{
+				new delete[256], name[32], string[128];
+				GetPVarString(playerid, "call_name", name, sizeof(name));
+				mysql_format(connects, delete, sizeof(delete), "DELETE FROM `calls` WHERE ID = '%d'", GetPVarInt(playerid, "call_id"));
+				mysql_tquery(connects, delete);
+				format(string, sizeof(string), "Виклик "P"№ %d "W"від ініціатора "P"%s "W"видалено.", GetPVarInt(playerid, "call_id"), name);
+				SendOK(playerid, string);
+				DeletePVar(playerid, "call_id");
+				DeletePVar(playerid, "call_name");
+				DeletePVar(playerid, "call_x");
+				DeletePVar(playerid, "call_y");
+				DeletePVar(playerid, "call_z");
+			}
+		}
+	}
 	case D_MEDICS: {
 			if(!response) return 1;
 			SetPVarInt(playerid,"medic_id",GetPlayerID(inputtext));
@@ -36175,7 +36606,18 @@ stock SendMCMessage(color, const string[]) {
 		if(!TI[i][tLogin]) continue;
 		if(!start_work[i]) continue;
 		if(!PI[i][pSettings][1]) continue;
-		if(IsAMedic(i)) {
+		if(PI[i][pMember] == fMEDICLS) {
+			SendClientMessage(i, color, string);
+		}
+	}
+	return 1;
+}
+stock SendFDMessage(color, const string[]) {
+	foreach(new i:Player) {
+		if(!TI[i][tLogin]) continue;
+		if(!start_work[i]) continue;
+		if(!PI[i][pSettings][1]) continue;
+		if(PI[i][pMember] == fMEDICSF) {
 			SendClientMessage(i, color, string);
 		}
 	}
@@ -37713,7 +38155,7 @@ CMD:call(playerid,params[]) {
 	}
 	if(number == PI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
 	switch(number) {
-		case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Механік", "Вибір", "Скасувати");
+		case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
 		case 222: {
 			new ids = 0;
 			for(new x = GetVehiclePoolSize()+1; --x != 0;)
@@ -39309,6 +39751,16 @@ CMD:medcard(playerid,params[]) {
 		format(string, sizeof(string), "Ви запропонували "P"%s "G"показати вашу медичну карту.", player_name[params[0]]);
 		SendUse(playerid, string);
 		SetPVarInt(params[0],"medcard", playerid + 1);
+	}
+	return 1;
+}
+CMD:calls(playerid)
+{
+	switch(PI[playerid][pMember])
+	{
+		case fLSPD: mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 1", "service_calls", "i", playerid);
+		case fMEDICLS: mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 2", "service_calls", "i", playerid);
+		case fMEDICSF: mysql_tquery(connects, "SELECT * FROM `calls` WHERE Fraction = 3", "service_calls", "i", playerid);
 	}
 	return 1;
 }
@@ -47244,6 +47696,7 @@ CB: load_account(playerid) {
 	cache_get_value_name_int(0,"TLicAir", PI[playerid][pTLicAir]);
 	cache_get_value_name_int(0,"TLicBoat", PI[playerid][pTLicBoat]);
 	cache_get_value_name_int(0,"TLicWeapon", PI[playerid][pTLicWeapon]);
+	cache_get_value_name_int(0,"pDeposit", PI[playerid][pDeposit]);
 
 	SetString(player_ip[playerid],player_ip_check[playerid]);
 	SetHealth(playerid, PI[playerid][pHP]);
@@ -50725,7 +51178,7 @@ stock ShowPass(playerid,actplayerid) {
 	string,player_name[playerid],PI[playerid][pLevel],jobname, (PI[playerid][pSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(PI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"),PI[playerid][pZakonp]);
 	format(string, sizeof(string), "%s\t"W"Місце проживання:\n\n\t"W"Дім: "P"%s\n\t"W"Клас будинку: "P"%s\n\n", string,housenumber,classname);
 	if(PI[playerid][pRank] > 0 && PI[playerid][pMember] > 0) {
-		format(string, sizeof(string), "%s\t"W"Місце праці:\n\n\t"W"Організація: "P"%s\t"W"Посада: "P"%s\n\n\n",string, FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]));
+		format(string, sizeof(string), "%s\t"W"Місце праці:\n\n\t"W"Організація: "P"%s\n\t"W"Посада: "P"%s\n\n\n",string, FI[PI[playerid][pMember]][fName],GetRankName(PI[playerid][pMember],PI[playerid][pRank]));
 	}
 	
 	else strcat(string, "\t"P"Місце праці:\n\t"W"Відсутнє\n\n");
@@ -50922,6 +51375,24 @@ CB: promo_create(playerid, code[], player[]) {
 	DeletePVar(playerid, "promolic");
 	DeletePVar(playerid, "promoskills");
 	DeletePVar(playerid, "promomoney");
+	return 1;
+}
+CB: service_calls(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Викликів не знайдено.");
+	new name[32], place[40], time[10], id;
+	new string[2500];
+	strcat(string, ""P"ID\t\t"P"Ініціатор\t\t"P"Місцезнаходження\t\t"P"Час\n");
+	for(new i; i < rows; i++) {
+		cache_get_value_index_int(i, 0, id);
+		cache_get_value_index(i, 2, name, 32);
+		cache_get_value_index(i, 4, place, 40);
+		cache_get_value_index(i, 5, time, 10);
+		format(string, sizeof(string),"%s%d\t%s\t\t%s\t\t%s\t\t%s\n", string, id, name, place, time);
+	}
+	ShowPlayerDialog(playerid, dGetServiceCall, DIALOG_STYLE_TABLIST_HEADERS, ""W"Список викликів", string, "Обрати", "Закрити");
 	return 1;
 }
 CB: promo_show(playerid) {
@@ -63955,6 +64426,7 @@ CB: player_timer(playerid) {
 		format(total, sizeof(total), "Total progress: %d%", FireTotal);
 		PlayerTextDrawSetString(playerid, FireTotalProgress[playerid][2], total);
 	}
+	if(call_timer[playerid] > 0) call_timer[playerid]--;
 	return 1;
 }
 CB: @AntiCheat(playerid)
@@ -64360,7 +64832,6 @@ CB: second_timer() // global timer
 	// }
 	if(BizWarTime[1]) BizWarTimer();
 	if(BRobTimeForEnter > 0) BRobTimeForEnter--;
-
 	if(FireStatus == 1 && FireTotal >= 100)
 	{
 		DestroyFire(1);
@@ -67737,7 +68208,7 @@ dialog_mayor(playerid) return ShowPlayerDialog(playerid,D_ECONOMY,DSL,""P"Керува
 	\n"P"3."W" Перекази на рахунок організації\n"P"4."W" Податок на нерухомість\n"P"5."W" Податок на бізнес\n"P"6."W" Податок на транспорт\n\
 	"P"7."W" Змінити стан казни\n"P"8."W" Змінити вартість ліцензій","Обрати","Скасувати");
 	
-dialog_bank(playerid) return ShowPlayerDialog(playerid,D_BANK_MENU,DSL,""P"Послуги банку",""P"1."W" Інформація\n"P"2."W" Зняти з рахунку\n"P"3."W" Покласти на рахунок\n"P"4."W" Переказати іншій людині\n"P"5."W" Оплата будинку\n"P"6."W" Оплата бізнесу\n"P"7."W" Оплата будинку на колесах\n"P"8."W" Оплатити штрафи", "Обрати","Закрити");
+dialog_bank(playerid) return ShowPlayerDialog(playerid,D_BANK_MENU,DSL,""P"Послуги банку",""P"1."W" Інформація\n"P"2."W" Зняти з рахунку\n"P"3."W" Покласти на рахунок\n"P"4."W" Переказати іншій людині\n"P"5."W" Оплата будинку\n"P"6."W" Оплата бізнесу\n"P"7."W" Оплата будинку на колесах\n"P"8."W" Оплатити штрафи\n"P"9. "W"Депозит", "Обрати","Закрити");
 stock save_fcar(family, car) {
 	new Float:x, Float:y, Float:z, Float:a, posit[76], query[720], str[56];
 	GetVehiclePos(CarFamily[family][car][LoadCar], x,y,z);
@@ -69781,7 +70252,7 @@ public LottoInf2()
 		{
 			format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Випав номер {758AA8}%d"W", переможця не визначено.",winn);
 			SendClientMessageToAll(-1, String256);
-			format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Сума в розмірі {76D35D}%dр"W" переноситься на наступний розіграш.",lotom);
+			format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Сума в розмірі {76D35D}%d долларів"W" переноситься на наступний розіграш.",lotom);
 			SendClientMessageToAll(-1, String256);
 		}
 		cache_delete(zr);
@@ -69792,7 +70263,7 @@ public LottoInf2()
 		new String256[256];
 		format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Випав номер {758AA8}%d"W", переможця не визначено.",winn);
 		SendClientMessageToAll(-1, String256);
-		format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Сума в розмірі {76D35D}%dр"W" переноситься на наступний розіграш.",lotom);
+		format(String256, sizeof(String256), "{FEFF91}Державна Лотерея"W": Сума в розмірі {76D35D}%d долларів"W" переноситься на наступний розіграш.",lotom);
 		SendClientMessageToAll(-1, String256);
 	}
 	cache_delete(r);
@@ -70058,16 +70529,18 @@ public PlayerTimerTargetObject(playerid)
 	//if(GetPVarInt(playerid, "fire_object") == 0) return 1;
 	new str[64], target[12], label[64];
 	new objectid = GetPlayerCameraTargetDynObject(playerid);
-	if(objectid == INVALID_OBJECT_ID) 
+	/*if(objectid == INVALID_OBJECT_ID) 
 	{ 
 		SendInfo(playerid, "INVALID_OBJECT_ID");
 		if(player_target_object[playerid] != INVALID_OBJECT_ID) 
 		player_target_object[playerid] = INVALID_OBJECT_ID;
-	} 
+	}*/
 	//GetObjectPos(objectid, X, Y, Z);
 	for(new i = 0; i < MAX_FIRE_OBJECTS_3 ; i++)
 	{
-		if(objectid == fire_target_object_3[i]) 
+		new Float:X, Float:Y, Float:Z;
+		GetObjectPos(i, X, Y, Z);
+		if(objectid == fire_target_object_3[i] && IsPlayerInRangeOfPoint(playerid, 5.0, X, Y, Z)) 
 		{  
 			if(GetPVarInt(playerid, "fire_object") == 0) 
 			{
@@ -70098,7 +70571,7 @@ public PlayerTimerTargetObject(playerid)
 			//SendInfo(playerid, str); 
 			player_target_object[playerid] = objectid;
 		}
-		else KillTimer(get_fire_object_timer[playerid]);
+		//else KillTimer(get_fire_object_timer[playerid]);
 	}
 	return 1; 
 }
@@ -70169,4 +70642,24 @@ stock Zone_IsPlayerInZoneName(playerid, zonename[])
 		}
 	}
 	return 0;
+}
+
+forward MyHttpResponse(index, response_code, data[]);
+public MyHttpResponse(index, response_code, data[])
+{
+    // In this callback "index" would normally be called "playerid" ( if you didn't get it already :) )
+    new
+        buffer[ 128 ];
+    if(response_code == 200) //Did the request succeed?
+    {
+        //Yes!
+        format(buffer, sizeof(buffer), "The URL replied: %s", data);
+        SendClientMessage(index, 0xFFFFFFFF, buffer);
+    }
+    else
+    {
+        //No!
+        format(buffer, sizeof(buffer), "The request failed! The response code was: %d", response_code);
+        SendClientMessage(index, 0xFFFFFFFF, buffer);
+    }
 }
