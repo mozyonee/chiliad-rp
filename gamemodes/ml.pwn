@@ -137,7 +137,11 @@ native 		IsValidVehicle(vehicleid);
 #define     BUSINESS_TYPE_COUNT 					25	//Кількість типов бізнесів
 #define 	AUTO_CP_COUNT 							28	//Кількість чекпоинтов АШ
 #define	 	MAX_OBJECT_MOVED 						35	//Кількість MOVED
+<<<<<<< HEAD
+#define 	TP_COUNT 								105	//Кількість пікапів входи/виходи
+=======
 #define 	TP_COUNT 								101	//Кількість пікапів входи/виходи
+>>>>>>> parent of bd89ac6 (upd)
 #define 	PICKUPS_COUNT 							82	//Кількість пікапов
 #define 	MOROZ_BALLAS 							0	//ballas
 #define 	MOROZ_VAGOS 							1	//vagos
@@ -193,7 +197,28 @@ new bool:Vizod;
 #define KickEx(%0) SetTimerEx("kick",250,false,"d",%0)
 
 FixSVarString(str[], size = sizeof(str))
+<<<<<<< HEAD
+    for (new i = 0; ((str[i] &= 0xFF) != '\0') && (++i != size);) {}
+
+
+#define MAILER_URL                 "chiliad-rp.com/mailer.php" 
+#define MAILER_MAX_MAIL_SIZE      (1024) 
+new email_number[MAX_PLAYERS]; 
+
+new Text:payment_td [ 2 ] ;
+new PlayerText:payment_ptd[ MAX_PLAYERS ] [ 2 ];
+
+new PlayerText:PhoneGUI[MAX_PLAYERS][44];
+new bool:PhoneShow[MAX_PLAYERS];
+new PhoneLocked[MAX_PLAYERS] = 0; //0- reseted, 1- locked, 2- unlocked, 3- Internet Item in list
+
+new Text:Loading_TD[28];
+
+new TaxiMainFare = 80;
+
+=======
     for (new i = 0; ((str[i] &= 0xFF) != '\0') && (++i != size);) {} 
+>>>>>>> parent of bd89ac6 (upd)
 // FIRE DATA
 
 #define MAX_FIRE_AMOUNT 5 
@@ -2559,7 +2584,7 @@ enum admCMD {
 };
 #define MAX_ADM_CMDS 130
 new AdminCommand[MAX_ADM_CMDS][admCMD] = {
-	{"/alogin", "авторизуватися в адмін панелі", 1},
+	{"/aduty", "авторизуватися в адмін панелі", 1},
 	{"/a", "чат адміністрації", 1},
 	{"/namestore", "історії нікнеймів", 1},
 	{"/pm", "відповісти у репорт", 1},
@@ -3450,6 +3475,11 @@ new gTransport[220][TRANSPORT_DATA];
 #define BUS_PRICE_RENT 500
 new Text3D:gPlayerBusText[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID,...},
 gRouteName[7][32];
+<<<<<<< HEAD
+new Text3D:gPlayerTaxiText[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID,...};
+new gPlayerBusObject[MAX_PLAYERS];
+=======
+>>>>>>> parent of bd89ac6 (upd)
 new Text3D:VWH3DText[2];
 new Float:gBusCPs[7][111][4] = {
 	{ // АВЛС - Завод - Ферма
@@ -5508,7 +5538,7 @@ new TPLIST[MAX_TELEPORTS][TPList] = {
 	{"Bandidos MC",				{2348.8169,247.4270,26.3359},0},
 	{"Транспортна компанія",	{-501.7820,-525.4227,25.5234},1},
 	{"Завод з виготовлення зброї",{-93.4274,-305.8030,1.4297},1},
-	{"Яблучний сад",			{-90.5659,36.5666,3.1172},1},
+	{"Яблуневий сад",			{-90.5659,36.5666,3.1172},1},
 	{"Риболовля",				{835.5135,-1755.9387,13.5520},1},
 	{"Лісопильня",				{1099.8252,-303.9689,73.9922},1},
 	{"Розвізники продуктів",	{885.0605,-1256.8060,14.9664},1},
@@ -5858,7 +5888,15 @@ new gTeleportsToD[TP_COUNT][enter_info] = { //saneka
     /*99*/{"Вихід на вулицю", 1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0},// вхід в байкери 2
 	/*100*/{"Вхід в аеропорт",1752.5259,-2738.2612,8.1870,0,0,1752.5259,-2738.2612,8.1870,348.7757,0,0},
 	/*101*/{"Вхід в підвал",280.5261,-81.1672,1601.1084,102,102,2212.2065,2070.3745,100.3735,179.0927,102,102},
+<<<<<<< HEAD
+	/*102*/{"Вихід з підвалу",2212.2205,2072.5239,100.3735,102,102,282.0350,-80.0893,1601.1084,315.6841,102,102},
+	/*103*/{"Офіс", 1219.1758,-1811.7041,16.593,0,0,1536.1769,-1374.4038,-92.7851,89.5673, 1,1},
+	/*104*/{"Вихід на вулицю", 1538.3829,-1374.4070,-92.7851,1,1,1219.1902,-1813.9021,16.5938,180.4647,0,0},
+	/*105*/{"Ферма", -81.0567,37.2533,3.1172,0,0,-367.5787,-1417.5759,801.1735,182.3150,15,15},
+	/*106*/{"Вихід на вулицю", -367.7469,-1414.6549,801.3401,15,15,-81.7589,35.3209,3.1172,162.0914,0,0}
+=======
 	/*102*/{"Вихід з підвалу",2212.2205,2072.5239,100.3735,102,102,282.0350,-80.0893,1601.1084,315.6841,102,102}
+>>>>>>> parent of bd89ac6 (upd)
 };
 new TeleportPickup[sizeof(gTeleportsToD)] = {-1, ...};
 // ПіКАПи
@@ -5887,7 +5925,7 @@ new Float:gPickup[PICKUPS_COUNT][3] ={// saneka
 	/*21*/{0.8833,-73.0185,1026.4089},// автошкола роздягальня
 	/*22*/{-109.3552,11.8434,3.1257},// [Ферма] ящик
 	/*23*/{-110.8474,12.3870,3.1257},// [Ферма] лейка
-	/*24*/{-81.0051,37.4192,3.1172},// [Ферма] роздягальня
+	/*24*/{-345.0824,-1416.0441,801.3069},// [Ферма] роздягальня
 	/*25*/{1500.1443,1455.7406,10.8519}, // пдр автошкола
 	/*26*/{1390.3114,-24.3432,1005.0829},// [Mafia] LCN склад
 	/*27*/{1390.4547,-7.2559,1000.9417},// [Mafia] RM склад
@@ -5971,9 +6009,9 @@ new gPickupData[PICKUPS_COUNT][3] ={//int | world || id
 	{2,1,1239},//19
 	{2,1,19135},//20
 	{3,5,1275},//21
-	{0,0,19639},//22
-	{0,0,19621},//23
-	{0,0,1275},//24
+	{1,1,19639},//22
+	{1,1,19621},//23
+	{15,15,1275},//24
 	{3,5,1239},//25
 	{73,49,11745},//26
 	{73,51,11745},//27
@@ -6205,6 +6243,9 @@ enum pInfo {
 	pRoom,
 	pBusiness,
 	pSex,
+	pNation,
+	pCountry,
+	pAge,
 	pArrested,
 	pMute,
 	pCrimes,
@@ -6381,7 +6422,9 @@ bool:tEther,
 	tJobSalary,
 	tJobSad[4], // 0 - sad_work, 1 - use_sad, sad_kg,sad_all
 	tJobGun[3], // 0 - job_gun, 1 - gun_blank, 2 - gun_collected
+	jJobGunCreated,
 	tJobWood[4], // 0 - wood_work, 1 - WoodCheckpointTop, 2 - WoodDrop, 3 - PlayerUseBox
+	tJobWoodSawed,
 	tMaskTime,
 	tMask,
 	tLoginTime,
@@ -6447,7 +6490,9 @@ Float:tUcar[3],
 	tPobeg,
 	tPobeg_Z,
 	tLastSpawn,
-	tYoutubcar
+	tYoutubcar,
+	Float:tJobTaxiRadius,
+	tJobTaxiFare
 }
 new TI[MAX_PLAYERS][tInfo];
 stock SPD(playerid, dialogid, style, const caption[], const info[], const button1[], const button2[]) {
@@ -7783,6 +7828,506 @@ stock Float:GetPlayerDistanceToPlayer(playerid, targetid) {
 
 stock CreateTextDraws(playerid) {
 
+	PhoneGUI[playerid][0] = CreatePlayerTextDraw(playerid,543.000000, 300.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][0], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][0], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][0], 0.500000, 13.300001);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][0], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][0], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][0], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][0], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][0], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][0], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][0], 621.000000, 0.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][0], 0);
+ 
+	PhoneGUI[playerid][1] = CreatePlayerTextDraw(playerid,534.000000, 238.000000, "LD_BEAT:chit");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][1], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][1], 4);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][1], 0.500000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][1], 255);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][1], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][1], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][1], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][1], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][1], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][1], 19.000000, 21.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][1], 0);
+ 
+	PhoneGUI[playerid][2] = CreatePlayerTextDraw(playerid,611.000000, 238.000000, "LD_BEAT:chit");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][2], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][2], 4);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][2], 0.500000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][2], 255);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][2], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][2], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][2], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][2], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][2], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][2], 19.000000, 21.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][2], 0);
+ 
+	PhoneGUI[playerid][3] = CreatePlayerTextDraw(playerid,611.000000, 404.000000, "LD_BEAT:chit");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][3], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][3], 4);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][3], 0.500000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][3], 255);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][3], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][3], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][3], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][3], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][3], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][3], 19.000000, 21.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][3], 0);
+ 
+	PhoneGUI[playerid][4] = CreatePlayerTextDraw(playerid,534.000000, 404.000000, "LD_BEAT:chit");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][4], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][4], 4);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][4], 0.500000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][4], 255);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][4], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][4], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][4], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][4], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][4], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][4], 19.000000, 21.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][4], 0);
+ 
+	PhoneGUI[playerid][5] = CreatePlayerTextDraw(playerid,539.000000, 248.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][5], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][5], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][5], 0.500000, 18.400001);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][5], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][5], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][5], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][5], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][5], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][5], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][5], 625.000000, 0.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][5], 0);
+ 
+	PhoneGUI[playerid][6] = CreatePlayerTextDraw(playerid,545.000000, 243.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][6], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][6], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][6], 0.500000, 18.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][6], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][6], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][6], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][6], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][6], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][6], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][6], 619.000000, 1.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][6], 0);
+ 
+	PhoneGUI[playerid][7] = CreatePlayerTextDraw(playerid,542.000000, 246.000000, "ld_grav:sky");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][7], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][7], 4);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][7], 0.500000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][7], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][7], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][7], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][7], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][7], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][7], 255);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][7], 80.000000, 112.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][7], 0);
+ 
+	PhoneGUI[playerid][8] = CreatePlayerTextDraw(playerid,552.000000, 368.000000, "1");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][8], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][8], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][8], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][8], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][8], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][8], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][8], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][8], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][8], 0);
+ 
+	PhoneGUI[playerid][9] = CreatePlayerTextDraw(playerid,554.000000, 384.000000, "4");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][9], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][9], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][9], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][9], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][9], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][9], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][9], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][9], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][9], 0);
+ 
+	PhoneGUI[playerid][10] = CreatePlayerTextDraw(playerid,554.000000, 399.000000, "7");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][10], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][10], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][10], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][10], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][10], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][10], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][10], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][10], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][10], 0);
+ 
+	PhoneGUI[playerid][11] = CreatePlayerTextDraw(playerid,552.000000, 373.000000, ".");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][11], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][11], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][11], 0.379999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][11], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][11], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][11], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][11], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][11], 0);
+ 
+	PhoneGUI[playerid][12] = CreatePlayerTextDraw(playerid,553.000000, 390.000000, "ghi");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][12], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][12], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][12], 0.200000, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][12], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][12], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][12], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][12], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][12], 0);
+ 
+	PhoneGUI[playerid][13] = CreatePlayerTextDraw(playerid,552.000000, 403.000000, "pqrs");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][13], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][13], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][13], 0.209999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][13], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][13], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][13], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][13], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][13], 0);
+ 
+	PhoneGUI[playerid][14] = CreatePlayerTextDraw(playerid,580.000000, 369.000000, "2");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][14], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][14], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][14], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][14], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][14], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][14], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][14], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][14], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][14], 0);
+ 
+	PhoneGUI[playerid][15] = CreatePlayerTextDraw(playerid,580.000000, 385.000000, "5");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][15], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][15], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][15], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][15], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][15], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][15], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][15], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][15], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][15], 0);
+ 
+	PhoneGUI[playerid][16] = CreatePlayerTextDraw(playerid,580.000000, 400.000000, "8");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][16], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][16], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][16], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][16], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][16], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][16], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][16], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][16], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][16], 0);
+ 
+	PhoneGUI[playerid][17] = CreatePlayerTextDraw(playerid,580.000000, 368.000000, "abc");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][17], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][17], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][17], 0.189999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][17], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][17], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][17], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][17], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][17], 0);
+ 
+	PhoneGUI[playerid][18] = CreatePlayerTextDraw(playerid,580.000000, 383.000000, "jkl");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][18], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][18], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][18], 0.189999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][18], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][18], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][18], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][18], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][18], 0);
+ 
+	PhoneGUI[playerid][19] = CreatePlayerTextDraw(playerid,579.000000, 398.000000, "tuv");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][19], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][19], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][19], 0.200000, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][19], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][19], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][19], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][19], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][19], 0);
+ 
+	PhoneGUI[playerid][20] = CreatePlayerTextDraw(playerid,605.000000, 370.000000, "3");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][20], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][20], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][20], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][20], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][20], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][20], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][20], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][20], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][20], 0);
+ 
+	PhoneGUI[playerid][21] = CreatePlayerTextDraw(playerid,605.000000, 386.000000, "6");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][21], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][21], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][21], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][21], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][21], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][21], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][21], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][21], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][21], 0);
+ 
+	PhoneGUI[playerid][22] = CreatePlayerTextDraw(playerid,605.000000, 400.000000, "9");
+	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][22], 3);
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][22], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][22], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][22], 0.379999, 1.200000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][22], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][22], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][22], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][22], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][22], 0);
+ 
+	PhoneGUI[playerid][23] = CreatePlayerTextDraw(playerid,604.000000, 375.000000, "der");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][23], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][23], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][23], 0.189999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][23], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][23], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][23], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][23], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][23], 0);
+ 
+	PhoneGUI[playerid][24] = CreatePlayerTextDraw(playerid,604.000000, 391.000000, "mno");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][24], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][24], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][24], 0.189999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][24], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][24], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][24], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][24], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][24], 0);
+ 
+	PhoneGUI[playerid][25] = CreatePlayerTextDraw(playerid,604.000000, 404.000000, "wxyz");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][25], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][25], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][25], 0.189999, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][25], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][25], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][25], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][25], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][25], 0);
+ 
+	PhoneGUI[playerid][26] = CreatePlayerTextDraw(playerid,624.000000, 247.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][26], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][26], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][26], 0.500000, 0.599999);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][26], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][26], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][26], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][26], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][26], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][26], 102);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][26], 540.000000, 0.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][26], 0);
+ 
+	PhoneGUI[playerid][27] = CreatePlayerTextDraw(playerid,550.000000, 349.000000, "Press ~h~~g~Y ~w~to unlock.");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][27], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][27], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][27], 0.200000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][27], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][27], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][27], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][27], 0);
+ 
+	PhoneGUI[playerid][28] = CreatePlayerTextDraw(playerid,624.000000, 350.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][28], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][28], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][28], 0.500000, 0.799998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][28], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][28], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][28], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][28], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][28], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][28], 102);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][28], 540.000000, 0.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][28], 0);
+ 
+	PhoneGUI[playerid][29] = CreatePlayerTextDraw(playerid,553.000000, 268.000000, "19:24");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][29], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][29], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][29], 0.500000, 3.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][29], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][29], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][29], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][29], 0);
+ 
+	PhoneGUI[playerid][30] = CreatePlayerTextDraw(playerid,622.000000, 249.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][30], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][30], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][30], 0.500000, 0.199998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][30], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][30], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][30], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][30], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][30], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][30], -1);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][30], 617.000000, -1.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][30], 0);
+ 
+	PhoneGUI[playerid][31] = CreatePlayerTextDraw(playerid,547.000000, 276.000000, "Error:404 ~n~Page not found!");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][31], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][31], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][31], 0.189998, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][31], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][31], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][31], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][31], 0);
+ 
+	PhoneGUI[playerid][32] = CreatePlayerTextDraw(playerid,616.000000, 250.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][32], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][32], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][32], 0.500000, 0.099998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][32], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][32], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][32], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][32], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][32], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][32], -1);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][32], 616.000000, -1.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][32], 0);
+ 
+	PhoneGUI[playerid][33] = CreatePlayerTextDraw(playerid,545.000000, 249.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][33], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][33], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][33], 0.500000, 0.199998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][33], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][33], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][33], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][33], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][33], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][33], 102);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][33], 554.000000, -1.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][33], 0);
+ 
+	PhoneGUI[playerid][34] = CreatePlayerTextDraw(playerid,545.000000, 249.000000, "_");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][34], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][34], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][34], 0.500000, 0.199998);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][34], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][34], 0);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][34], 1);
+	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][34], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][34], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][34], -1);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][34], 548.000000, -1.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][34], 0);
+ 
+	PhoneGUI[playerid][35] = CreatePlayerTextDraw(playerid,544.000000, 349.000000, "~h~~g~Select");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][35], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][35], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][35], 0.200000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][35], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][35], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][35], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][35], 0);
+ 
+	PhoneGUI[playerid][36] = CreatePlayerTextDraw(playerid,605.000000, 349.000000, "~h~~r~Back");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][36], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][36], 1);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][36], 0.200000, 1.000000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][36], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][36], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][36], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][36], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][36], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][36], 620.000000, 8.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][36], 1);
+ 
+	PhoneGUI[playerid][37] = CreatePlayerTextDraw(playerid,549.000000, 261.000000, "Call");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][37], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][37], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][37], 0.209999, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][37], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][37], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][37], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][37], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][37], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][37], 571.000000, 10.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][37], 1);
+ 
+	PhoneGUI[playerid][38] = CreatePlayerTextDraw(playerid,549.000000, 274.000000, "SMS");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][38], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][38], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][38], 0.209999, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][38], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][38], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][38], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][38], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][38], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][38], 567.000000, 10.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][38], 1);
+ 
+	PhoneGUI[playerid][39] = CreatePlayerTextDraw(playerid,549.000000, 291.000000, "Add Contacts");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][39], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][39], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][39], 0.209999, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][39], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][39], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][39], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][39], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][39], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][39], 617.000000, 10.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][39], 1);
+ 
+	PhoneGUI[playerid][40] = CreatePlayerTextDraw(playerid,549.000000, 304.000000, "List Contacts");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][40], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][40], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][40], 0.209999, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][40], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][40], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][40], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][40], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][40], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][40], 617.000000, 10.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][40], 1);
+ 
+	PhoneGUI[playerid][41] = CreatePlayerTextDraw(playerid,549.000000, 319.000000, "Camera");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][41], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][41], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][41], 0.209999, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][41], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][41], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][41], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][41], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][41], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][41], 585.000000, 10.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][41], 1);
+ 
+	PhoneGUI[playerid][42] = CreatePlayerTextDraw(playerid,549.000000, 333.000000, "Internet");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][42], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][42], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][42], 0.209999, 1.100000);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][42], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][42], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][42], 1);
+	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][42], 1);
+	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][42], 0);
+	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][42], 592.000000, 10.000000);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][42], 1);
+ 
+	PhoneGUI[playerid][43] = CreatePlayerTextDraw(playerid,553.000000, 291.000000, "Roleplay");
+	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][43], 255);
+	PlayerTextDrawFont(playerid,PhoneGUI[playerid][43], 2);
+	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][43], 0.259999, 1.399999);
+	PlayerTextDrawColor(playerid,PhoneGUI[playerid][43], -1);
+	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][43], 1);
+	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][43], 1);
+	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][43], 0);
+
 	//FireTargetStatus
 	FireTargetStatus[playerid][0] = CreatePlayerTextDraw(playerid, 431.666503, 335.840606, "usebox");
 	PlayerTextDrawLetterSize(playerid, FireTargetStatus[playerid][0], 0.000000, 1.619133);
@@ -8517,55 +9062,56 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, DmArenaTextDraw[playerid], 51);
 	PlayerTextDrawFont(playerid, DmArenaTextDraw[playerid], 3);
 	PlayerTextDrawSetProportional(playerid, DmArenaTextDraw[playerid], 1);
-	work_td[playerid][0] = CreatePlayerTextDraw(playerid, 508.799560, 157.333328, "box");
-	PlayerTextDrawLetterSize(playerid, work_td[playerid][0], 0.000000, 4.143486);
-	PlayerTextDrawTextSize(playerid, work_td[playerid][0], 607.000000, 0.000000);
+
+
+
+	work_td[playerid][0] = CreatePlayerTextDraw(playerid, 492.000061, 145.600006, "usebox");
+	PlayerTextDrawLetterSize(playerid, work_td[playerid][0], 0.000000, 3.813786);
+	PlayerTextDrawTextSize(playerid, work_td[playerid][0], 582.999694, 0.000000);
 	PlayerTextDrawAlignment(playerid, work_td[playerid][0], 1);
-	PlayerTextDrawColor(playerid, work_td[playerid][0], -1);
-	PlayerTextDrawUseBox(playerid, work_td[playerid][0], 1);
-	PlayerTextDrawBoxColor(playerid, work_td[playerid][0], 0xf5EAFFC99); // -668439399
+	PlayerTextDrawColor(playerid, work_td[playerid][0], 0);
+	PlayerTextDrawUseBox(playerid, work_td[playerid][0], true);
+	PlayerTextDrawBoxColor(playerid, work_td[playerid][0], -1);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][0], 0);
 	PlayerTextDrawSetOutline(playerid, work_td[playerid][0], 0);
-	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][0], 255);
-	PlayerTextDrawFont(playerid, work_td[playerid][0], 1);
-	PlayerTextDrawSetProportional(playerid, work_td[playerid][0], 1);
-	PlayerTextDrawSetShadow(playerid, work_td[playerid][0], 0);
-	work_td[playerid][1] = CreatePlayerTextDraw(playerid, 511.142517, 168.416656, "MONEY:_$0");
-	PlayerTextDrawLetterSize(playerid, work_td[playerid][1], 0.377979, 1.389998);
+	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][0], 1203892991);
+	PlayerTextDrawFont(playerid, work_td[playerid][0], 0);
+
+	work_td[playerid][1] = CreatePlayerTextDraw(playerid, 584.333312, 147.514846, "usebox");
+	PlayerTextDrawLetterSize(playerid, work_td[playerid][1], 0.000000, 3.381274);
+	PlayerTextDrawTextSize(playerid, work_td[playerid][1], 490.666687, 0.000000);
 	PlayerTextDrawAlignment(playerid, work_td[playerid][1], 1);
-	PlayerTextDrawColor(playerid, work_td[playerid][1], -1);
+	PlayerTextDrawColor(playerid, work_td[playerid][1], 0);
+	PlayerTextDrawUseBox(playerid, work_td[playerid][1], true);
+	PlayerTextDrawBoxColor(playerid, work_td[playerid][1], 1203892991);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][1], 0);
 	PlayerTextDrawSetOutline(playerid, work_td[playerid][1], 0);
-	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][1], 255);
-	PlayerTextDrawFont(playerid, work_td[playerid][1], 1);
-	PlayerTextDrawSetProportional(playerid, work_td[playerid][1], 1);
-	PlayerTextDrawSetShadow(playerid, work_td[playerid][1], 0);
-	work_td[playerid][2] = CreatePlayerTextDraw(playerid, 509.267150, 165.500045, "box");
-	PlayerTextDrawLetterSize(playerid, work_td[playerid][2], 0.000000, -0.494873);
-	PlayerTextDrawTextSize(playerid, work_td[playerid][2], 607.000000, 0.000000);
+	PlayerTextDrawFont(playerid, work_td[playerid][1], 0);
+
+	work_td[playerid][2] = CreatePlayerTextDraw(playerid, 493.666656, 144.770370, "Money:14$");
+	PlayerTextDrawLetterSize(playerid, work_td[playerid][2], 0.380666, 1.475556);
 	PlayerTextDrawAlignment(playerid, work_td[playerid][2], 1);
 	PlayerTextDrawColor(playerid, work_td[playerid][2], -1);
-	PlayerTextDrawUseBox(playerid, work_td[playerid][2], 1);
-	PlayerTextDrawBoxColor(playerid, work_td[playerid][2], -1);
+	PlayerTextDrawUseBox(playerid, work_td[playerid][2], true);
+	PlayerTextDrawBoxColor(playerid, work_td[playerid][2], 0);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][2], 0);
-	PlayerTextDrawSetOutline(playerid, work_td[playerid][2], 0);
-	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][2], 255);
+	PlayerTextDrawSetOutline(playerid, work_td[playerid][2], 1);
+	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][2], 51);
 	PlayerTextDrawFont(playerid, work_td[playerid][2], 1);
 	PlayerTextDrawSetProportional(playerid, work_td[playerid][2], 1);
-	PlayerTextDrawSetShadow(playerid, work_td[playerid][2], 0);
-	work_td[playerid][3] = CreatePlayerTextDraw(playerid, 509.267150, 190.583328, "box");
-	PlayerTextDrawLetterSize(playerid, work_td[playerid][3], 0.000000, -0.494873);
-	PlayerTextDrawTextSize(playerid, work_td[playerid][3], 607.000000, 0.000000);
+
+	work_td[playerid][3] = CreatePlayerTextDraw(playerid, 493.666595, 160.533279, "Collected:4kg");
+	PlayerTextDrawLetterSize(playerid, work_td[playerid][3], 0.325000, 1.546074);
 	PlayerTextDrawAlignment(playerid, work_td[playerid][3], 1);
 	PlayerTextDrawColor(playerid, work_td[playerid][3], -1);
-	PlayerTextDrawUseBox(playerid, work_td[playerid][3], 1);
-	PlayerTextDrawBoxColor(playerid, work_td[playerid][3], -1);
 	PlayerTextDrawSetShadow(playerid, work_td[playerid][3], 0);
-	PlayerTextDrawSetOutline(playerid, work_td[playerid][3], 0);
-	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][3], 255);
+	PlayerTextDrawSetOutline(playerid, work_td[playerid][3], 1);
+	PlayerTextDrawBackgroundColor(playerid, work_td[playerid][3], 51);
 	PlayerTextDrawFont(playerid, work_td[playerid][3], 1);
 	PlayerTextDrawSetProportional(playerid, work_td[playerid][3], 1);
-	PlayerTextDrawSetShadow(playerid, work_td[playerid][3], 0);
+
+
+
 	YandNsysTDPlayer[playerid][0] = CreatePlayerTextDraw(playerid, 287.288482, 318.583343, "PRESS Y");
 	PlayerTextDrawLetterSize(playerid, YandNsysTDPlayer[playerid][0], 0.449999, 1.600000);
 	PlayerTextDrawAlignment(playerid, YandNsysTDPlayer[playerid][0], 1);
@@ -8690,6 +9236,7 @@ stock to_default(playerid) {
 	TI[playerid][tGagTime] 						=
 	TI[playerid][tSpcarTime] 					=
 	TI[playerid][tJobSalary] 					=
+	TI[playerid][jJobGunCreated]				=
 	TI[playerid][tJobSad][0]					=
 	TI[playerid][tJobSad][1]					=
 	TI[playerid][tJobSad][2]					=
@@ -8700,6 +9247,7 @@ stock to_default(playerid) {
 	TI[playerid][tJobWood][0]					=
 	TI[playerid][tJobWood][1]					=
 	TI[playerid][tJobWood][3]					=
+	TI[playerid][tJobWoodSawed]					=
 	TI[playerid][tMaskTime]						=
 	TI[playerid][tTrucker][0]					=
 	TI[playerid][tTrucker][1]					=
@@ -8847,6 +9395,86 @@ stock RemoveBuildings(playerid) {
 		RemoveBuildingForPlayer(playerid, 1290, 1341.349, -1476.599, 18.226, 0.250);
 		RemoveBuildingForPlayer(playerid, 1297, 1336.699, -1508.989, 15.890, 0.250);
 	}
+<<<<<<< HEAD
+
+
+	// Bus station . ext
+	RemoveBuildingForPlayer(playerid, 1307, 996.7578, -1415.3438, 12.3672, 0.25);
+	RemoveBuildingForPlayer(playerid, 5951, 958.8203, -1359.8672, 17.9688, 0.25);
+	RemoveBuildingForPlayer(playerid, 5975, 1014.0234, -1361.4609, 20.3516, 0.25);
+	RemoveBuildingForPlayer(playerid, 6002, 931.2266, -1357.3281, 25.8203, 0.25);
+	RemoveBuildingForPlayer(playerid, 6003, 954.6875, -1305.7734, 30.1406, 0.25);
+	RemoveBuildingForPlayer(playerid, 1266, 932.5859, -1363.5156, 21.7969, 0.25);
+	RemoveBuildingForPlayer(playerid, 1261, 958.3359, -1377.3203, 24.1328, 0.25);
+	RemoveBuildingForPlayer(playerid, 1307, 929.9609, -1415.4141, 12.6016, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 936.1484, -1390.1172, 15.6406, 0.25);
+	RemoveBuildingForPlayer(playerid, 5783, 908.5391, -1384.3281, 24.5156, 0.25);
+	RemoveBuildingForPlayer(playerid, 1307, 926.1484, -1383.7266, 12.6953, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 922.7031, -1375.6875, 15.3672, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 922.7031, -1346.8359, 15.3672, 0.25);
+	RemoveBuildingForPlayer(playerid, 1260, 932.5859, -1363.5156, 21.7969, 0.25);
+	RemoveBuildingForPlayer(playerid, 5814, 931.2266, -1357.3281, 25.8203, 0.25);
+	RemoveBuildingForPlayer(playerid, 1522, 929.3281, -1352.1719, 12.3281, 0.25);
+	RemoveBuildingForPlayer(playerid, 1307, 926.0938, -1339.0781, 12.7813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 932.9922, -1331.8828, 15.6406, 0.25);
+	RemoveBuildingForPlayer(playerid, 716, 944.9063, -1389.3359, 12.2891, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 975.8125, -1391.0938, 15.6406, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 1006.6328, -1389.8672, 15.6719, 0.25);
+	RemoveBuildingForPlayer(playerid, 1307, 969.2734, -1385.3984, 12.7813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1438, 981.8750, -1385.9922, 12.6484, 0.25);
+	RemoveBuildingForPlayer(playerid, 1440, 948.7656, -1381.1641, 13.0469, 0.25);
+	RemoveBuildingForPlayer(playerid, 1438, 998.0391, -1383.9688, 12.2422, 0.25);
+	RemoveBuildingForPlayer(playerid, 1307, 1019.8359, -1386.5156, 12.5078, 0.25);
+	RemoveBuildingForPlayer(playerid, 1267, 958.3359, -1377.3203, 24.1328, 0.25);
+	RemoveBuildingForPlayer(playerid, 5813, 958.8203, -1359.8672, 17.9688, 0.25);
+	RemoveBuildingForPlayer(playerid, 5732, 1014.0234, -1361.4609, 20.3516, 0.25);
+	RemoveBuildingForPlayer(playerid, 716, 1026.8672, -1389.3359, 12.2891, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 1041.8281, -1390.5547, 15.6406, 0.25);
+	RemoveBuildingForPlayer(playerid, 716, 1047.5938, -1374.4219, 12.3438, 0.25);
+	RemoveBuildingForPlayer(playerid, 1307, 1044.2891, -1362.6016, 12.7813, 0.25);
+	RemoveBuildingForPlayer(playerid, 1440, 957.9688, -1336.4531, 13.0313, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 974.9688, -1331.9219, 15.6406, 0.25);
+	RemoveBuildingForPlayer(playerid, 5818, 954.6875, -1305.7734, 30.1406, 0.25);
+	RemoveBuildingForPlayer(playerid, 1438, 1015.5313, -1337.1719, 12.5547, 0.25);
+	RemoveBuildingForPlayer(playerid, 1297, 1019.4219, -1332.0000, 15.6406, 0.25);
+	RemoveBuildingForPlayer(playerid, 1294, 1049.0234, -1351.1172, 17.1484, 0.25);
+	RemoveBuildingForPlayer(playerid, 1522, 1038.9453, -1341.1484, 12.7188, 0.25);
+	RemoveBuildingForPlayer(playerid, 5764, 1065.1406, -1270.5781, 25.7109, 0.25);
+	/*
+	//bus depo test
+	RemoveBuildingForPlayer(playerid, 1307, 816.406, -1416.210, 12.781, 0.250);
+	RemoveBuildingForPlayer(playerid, 1307, 787.671, -1384.382, 12.781, 0.250);
+	RemoveBuildingForPlayer(playerid, 1307, 847.273, -1385.601, 12.781, 0.250);
+	RemoveBuildingForPlayer(playerid, 5783, 908.539, -1384.328, 24.515, 0.250);
+	RemoveBuildingForPlayer(playerid, 6491, 717.484, -1357.304, 20.296, 0.250);
+	RemoveBuildingForPlayer(playerid, 1689, 650.835, -1377.664, 21.757, 0.250);
+	RemoveBuildingForPlayer(playerid, 1689, 650.835, -1356.585, 21.757, 0.250);
+	RemoveBuildingForPlayer(playerid, 1689, 650.835, -1338.242, 21.757, 0.250);
+	RemoveBuildingForPlayer(playerid, 1635, 677.195, -1328.875, 25.109, 0.250);
+	RemoveBuildingForPlayer(playerid, 1689, 745.585, -1381.109, 25.875, 0.250);
+	RemoveBuildingForPlayer(playerid, 1689, 751.335, -1368.031, 25.875, 0.250);
+	RemoveBuildingForPlayer(playerid, 6490, 717.484, -1357.304, 20.296, 0.250);
+	RemoveBuildingForPlayer(playerid, 6516, 717.687, -1357.281, 18.046, 0.250);
+	RemoveBuildingForPlayer(playerid, 1635, 696.195, -1328.875, 25.109, 0.250);
+	RemoveBuildingForPlayer(playerid, 1635, 702.234, -1328.875, 25.109, 0.250);
+	RemoveBuildingForPlayer(playerid, 1635, 721.210, -1328.875, 25.109, 0.250);
+	RemoveBuildingForPlayer(playerid, 1415, 732.851, -1332.898, 12.687, 0.250);
+	RemoveBuildingForPlayer(playerid, 1439, 732.726, -1341.773, 12.632, 0.250);
+	RemoveBuildingForPlayer(playerid, 1226, 753.031, -1323.656, 16.312, 0.250);
+	*/
+
+	//hospital test
+	RemoveBuildingForPlayer(playerid, 5930, 1134.2500, -1338.0781, 23.1563, 0.25);
+	RemoveBuildingForPlayer(playerid, 5708, 1134.2500, -1338.0781, 23.1563, 0.25);
+	RemoveBuildingForPlayer(playerid, 617, 1178.6016, -1332.0703, 12.8906, 0.25);
+	RemoveBuildingForPlayer(playerid, 620, 1184.0078, -1353.5000, 12.5781, 0.25);
+	RemoveBuildingForPlayer(playerid, 620, 1184.0078, -1343.2656, 12.5781, 0.25);
+	RemoveBuildingForPlayer(playerid, 618, 1177.7344, -1315.6641, 13.2969, 0.25);
+	RemoveBuildingForPlayer(playerid, 620, 1184.8125, -1292.9141, 12.5781, 0.25);
+	RemoveBuildingForPlayer(playerid, 620, 1184.8125, -1303.1484, 12.5781, 0.25);
+
+=======
+>>>>>>> parent of bd89ac6 (upd)
 	//lsfdtest
 	RemoveBuildingForPlayer(playerid, 17536, 2572.128906, -1472.698975, 34.959999, 0.250000);
 	RemoveBuildingForPlayer(playerid, 17763, 2572.128906, -1472.698975, 34.959999, 0.250000);
@@ -9553,7 +10181,15 @@ public OnPlayerConnect(playerid) {
 	GetPlayerIp(playerid, fPlayer[playerid][fip], 32);
    
    	SetPVarInt(playerid, "fire_object", 0);
+<<<<<<< HEAD
+   	PhoneShow[playerid] = false;
+	PhoneLocked[playerid] = 0;
+
+   	gPlayerBusObject[playerid] = INVALID_OBJECT_ID;
+
+=======
    	
+>>>>>>> parent of bd89ac6 (upd)
    	call_timer[playerid] = 0;
 
 	PI[playerid][pID] = 0;
@@ -9614,9 +10250,23 @@ public OnPlayerConnect(playerid) {
 	
 	PI[playerid][pJail] = 0;
 	PI[playerid][pJailTime] = 0;
+<<<<<<< HEAD
+
+	TI[playerid][tJobTaxiRadius] = 500;
+	TI[playerid][tJobTaxiFare] = 0;
+
+	PlayerWarningSilent[playerid] = 0;
+
+	for ( new j = 0 ; j < 2 ; j ++ )
+	{
+		payment_ptd [ playerid ] [ j ] = PlayerText:-1;
+	}
+
+=======
 	
 	PlayerWarningSilent[playerid] = 0;
 	
+>>>>>>> parent of bd89ac6 (upd)
 	TI[playerid][tDM] = 0;
 	textdraw_bank(playerid);
 	new gpciStr[64];
@@ -10378,12 +11028,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
         SendOK(playerid,str);
 		}
 	case D_SPAWN_LAST: {
-			if (!response || PI[playerid][pSpawnTime] < gettime()) {
-				TI[playerid][tLastSpawn] = 0;
-			} else {
-				TI[playerid][tLastSpawn] = 1;
-			}
-			//SpecPl(playerid, false);
+			if (!response || PI[playerid][pSpawnTime] < gettime()) return TI[playerid][tLastSpawn] = 0;
+			TI[playerid][tLastSpawn] = 1;
+			SpecPl(playerid, false);
 			PlayerSpawn(playerid);
 			return 1;
 		}
@@ -14271,6 +14918,42 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_tquery(connects, query,"","");
 			SendOK(playerid,"Нова національність сім'ї успішно встановлена.");
 		}
+	case dTaxi:
+	{
+		if(!response) return 1;
+		switch(listitem)
+		{
+			case 0:
+			{
+				if(GetPVarInt(playerid, "taxi_started")) 
+				{
+					DeletePVar(playerid, "taxi_started");
+					return SendOK(playerid, "Ви завершили робочу зміну.");
+				}
+				if(!TI[playerid][tJobTaxiFare]) return SendError(playerid, "Ви не встановили тариф за 1 км.");
+				SetPVarInt(playerid, "taxi_started", 1);
+				SendOK(playerid, "Ви вийшли на робочу зміну.");
+			}
+			case 1: ShowPlayerDialog(playerid, D_TAXI_FARE_1, DIALOG_STYLE_INPUT, ""W"Панель водія | "P"Тариф","Введіть у полі нижче нову ціну за 1 км\n\n"G"* Мінімальна вартість - $75, максимальна - $150","Далі","Скасувати");
+			case 2: ShowPlayerDialog(playerid, dTaxiRadius, DIALOG_STYLE_LIST, ""W"Панель водія | "P"Радіус швидких замовлень", ""P"- "W"500 м\n"P"- "W"1000 м\n"P"- "W"1500 м\n"P"- "W"2000 м", "Обрати", "Назад");
+			case 3: pc_cmd_taxilist(playerid);
+			//case 4: ShowPlayerDialog(playerid)
+		}
+	}
+	case dTaxiRadius:
+	{
+		if(!response) return 1;
+		switch(listitem)
+		{
+			case 0: TI[playerid][tJobTaxiRadius] = 500;
+			case 1: TI[playerid][tJobTaxiRadius] = 1000;
+			case 2: TI[playerid][tJobTaxiRadius] = 1500;
+			case 3: TI[playerid][tJobTaxiRadius] = 2000;
+		}
+		new ok[56];
+		format(ok, sizeof(ok), "Ви встановили новий радіус: "W"%.1f м", TI[playerid][tJobTaxiRadius]);
+		SendOK(playerid, ok);
+	}
 	case D_TAXI_FARE: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -14278,17 +14961,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case 1: ShowPlayerDialog(playerid,D_TAXI_FARE_2,DSI,""P"Слоган.","\n"W"Зміна гасла таксі (до 13 символов)"W"\n\nВведіть нижче нове гасло:","Далі","Скасувати");
 			}
 		}
-	case D_TAXI_FARE_1: {
+	case D_TAXI_FARE_1: 
+	{
 			if(!response) return 1;
+<<<<<<< HEAD
+			new veh = GetPlayerVehicleID(playerid), fare[56];
+			if(strval(inputtext) < 75 || strval(inputtext) > 150) return ShowPlayerDialog(playerid, D_TAXI_FARE_1, DIALOG_STYLE_INPUT, ""W"Панель водія | "P"Тариф","Введіть у полі нижче нову ціну за 1 км\n\n"G"* Мінімальна вартість - $75, максимальна - $150","Далі","Скасувати");
+			VehicleInfo[veh][vTarif] = strval(inputtext);
+=======
 			new veh = GetPlayerVehicleID(playerid), tar[10];
 			if(strval(inputtext) < 75 || strval(inputtext) > 150) return ShowPlayerDialog(playerid,D_TAXI_FARE_1,DSI,""P"Тариф.","\n"W"Зміна тарифа таксі (від $75 до $30)"W"\n\nВведіть нижче нову вартість за 1 км:","Далі","Скасувати");
 			VehicleInfo[veh][vTarif] = strval(inputtext); 
+>>>>>>> parent of bd89ac6 (upd)
 			SendOK(playerid,"Тариф на поїздку успішно встановлено. Введіть (/count) для включення тарифа гравцю.");
-			format(tar,10,"%i$",VehicleInfo[veh][vTarif]);
+
+			format(fare, sizeof(fare), ""P"** Chilliad Taxi **\n\n"G"Тариф:\n$%i за 1 км", VehicleInfo[veh][vTarif]);
+			TI[playerid][tJobTaxiFare] = VehicleInfo[veh][vTarif];
+			DestroyDynamic3DTextLabel(gPlayerTaxiText[playerid]);
+			gPlayerTaxiText[playerid] = CreateDynamic3DTextLabel(fare,-1, 0.0, 0.0, 0.5, 20.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
+			Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,gPlayerTaxiText[playerid],E_STREAMER_ATTACH_OFFSET_Y, -0.5);
+			Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL,gPlayerTaxiText[playerid],E_STREAMER_ATTACH_OFFSET_Z, 3.0);
+
+			/*
 			DestroyDynamicObject(VehicleInfo[veh][vTaxi][0]);
 			VehicleInfo[veh][vTaxi][0] = CreateDynamicObject(19477,0.0,0.0,-1000.0,0.0,0.0,0.0,-1,-1,-1,300.0,300.0);
 			SetDynamicObjectMaterialText(VehicleInfo[veh][vTaxi][0], 0, tar, 130, "Ariel", 27, 1, -1, 0, 0);
 			AttachDynamicObjectToVehicle(VehicleInfo[veh][vTaxi][0], veh, -0.497, 1.404, 0.129, 4.099, -54.499, 89.899);
+			*/
 		}
 	case D_TAXI_FARE_2: {
 			if(!response) return 1;
@@ -14313,7 +15012,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GiveMoney(playerid,-500,"оренда авто таксі");
 			TI[playerid][tArendaCar] = GetPlayerVehicleID(playerid);
 			VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = playerid;
-			SendOK(playerid, "Ви орендували автомобіль. Встановіть тариф:"G" /fare.");
+			SendOK(playerid, "Ви успішно орендували автомобіль.");
+			SendHint(playerid, "Щоб відкрити панель водія введіть "P"/ptaxi");
 			SetPVarInt(playerid, "veh_id_taxi",GetPlayerVehicleID(playerid));
 		}
 	case D_JOB_INC: {
@@ -16358,7 +17058,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_LOGIN: {
 			if(!response) return KickEx(playerid);
-			new hour, minute, second, htxt[13], string[450];
+			new hour, minute, second, htxt[13], string[650];
 			gettime(hour, minute, second);
 			if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Добрий ранок");
 			if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
@@ -16366,8 +17066,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброї ночі");
 			if(!strlen(inputtext) || !CheckPassword(inputtext)) {
 				if(!CheckPassword(inputtext)) SendError(playerid, "Змініть розкладку клавіатури.");
-				format(string,sizeof(string),""W"%s,"P" %s!"W"\nЦей акаунт зареєстровано на нашому сервері\n\nВведіть нижче пароль для авторизації:",htxt, player_name[playerid]);
-				ShowPlayerDialog(playerid, D_LOGIN, DSP, ""P"Авторизація", string, "Далі", "Закрити");
+				format(string,sizeof(string),"\
+					"W"%s!\n\
+					Ласкаво просимо на "P"Chiliad RolePlay\n\
+					"W"Цей акаунт зареєстровано на нашому сервері\n\n\
+					Акаунт: "P"%s\n\n\
+					"W"Введіть пароль для авторизації:\n\n",htxt, player_name[playerid]);
+				ShowPlayerDialog(playerid, D_LOGIN, DSP, ""W"Авторизація | "P"Пароль", string, "Далі", "Закрити");
 				return 1;
 			}
 			else {
@@ -16380,8 +17085,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new string_1[sizeof(f_str_1) + 3];
 					format(string_1,sizeof(string_1), f_str_1,3-GetPVarInt(playerid, "wrongPass"));
 					SendError(playerid, string_1);
-					format(string,sizeof(string),""W"%s,"P" %s!"W"\nЦей акаунт зареєстровано на нашому сервері\n\nВведіть нижче пароль для авторизації:",htxt, player_name[playerid]);
-					ShowPlayerDialog(playerid, D_LOGIN, DSP, ""P"Авторизація", string, "Далі", "Закрити");
+					format(string,sizeof(string),"\
+					"W"%s!\n\
+					Ласкаво просимо на "P"Chiliad RolePlay\n\
+					"W"Цей акаунт зареєстровано на нашому сервері\n\n\
+					Акаунт: "P"%s\n\n\
+					"W"Введіть пароль для авторизації:\n\n",htxt, player_name[playerid]);
+					ShowPlayerDialog(playerid, D_LOGIN, DSP, ""W"Авторизація | "P"Пароль", string, "Далі", "Закрити");
 				}
 				else {
 					if(PI[playerid][pGoogleSec] && strcmp(player_ip_check[playerid], player_ip[playerid]) != 0) {
@@ -16432,26 +17142,68 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_REG: {
 			if(!response) return KickEx(playerid);
-			new string[450];
-			if(!strlen(inputtext) || strlen(inputtext) < 6 || strlen(inputtext) > 30 || !CheckPassword(inputtext)) {
-				format(string,sizeof(string),""W"Ласкаво просимво,"P" %s"W"\nцей акаунт не зареєстровано"W" на нашому сервері.\n\nВведіть нижче пароль для реєстрації, він буде\nзапитуватись у вас під час авторизації\n\n\
-			\tПримітки:\n\t - Довжина пароля має складати від 6 до 30 символів\n\t - Пароль повинен складатись з букв і цифр\n\t - Пароль чутливий до регістру",player_name[playerid]);
+			new string[450], hour, minute, second, htxt[30];
+			gettime(hour, minute, second);
+			if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Добрий ранок");
+			if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
+			if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
+			if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброй ночі");
+			if(!strlen(inputtext) || strlen(inputtext) < 6 || strlen(inputtext) > 30 || !CheckPassword(inputtext)) 
+			{
+				format(string,sizeof(string),"\
+				"W"%s!\n\
+					Ласкаво просимо на "P"Chiliad RolePlay\n\
+					"W"Цей акаунт не зареєстровано на нашому сервері\n\n\
+					Акаунт: "P"%s\n\n\
+					"W"Введіть пароль для реєстрації:\n\n\
+					"G"* Довжина паролю повинна бути від 6 до 30 символів\n\
+					"G"* Пароль повинен містити у собі букви та цифри\n\
+					"G"* Пароль чутливий до регістру\n\n",htxt, player_name[playerid]);
+
 				ShowPlayerDialog(playerid,D_REG,DSI, ""P"Реєстрація",string, "Далі", "Закрити");
 				return 1;
 			}
 			mysql_escape_string(inputtext, player_pass[playerid], 128);
-			ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", ""W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
+
+			ShowPlayerDialog(playerid, dRegNation, DIALOG_STYLE_LIST, ""W"Реєстрація | "P"Національність", "\
+				"G"* Оберіть національність Вашого персонажу:\n\
+				"P"- "W"Австралієць\n\
+				"P"- "W"Албанець\n\
+				"P"- "W"Американець\n\
+				"P"- "W"Англієць\n\
+				"P"- "W"Бразилець\n\
+				"P"- "W"Вірменин\n\
+				"P"- "W"В'єтнамець\n\
+				"P"- "W"Єврей\n\
+				"P"- "W"Іспанець\n\
+				"P"- "W"Італієць\n\
+				"P"- "W"Китаєць\n\
+				"P"- "W"Колумбієць\n\
+				"P"- "W"Кореєць\n\
+				"P"- "W"Латиноамериканець\n\
+				"P"- "W"Мексиканець\n\
+				"P"- "W"Німець\n\
+				"P"- "W"Поляк\n\
+				"P"- "W"Португалець\n\
+				"P"- "W"Українець\n\
+				"P"- "W"Француз\n\
+				"P"- "W"Чех\n\
+				"P"- "W"Японець\n", "Обрати", "Скасувати");
+
+			//ShowPlayerDialog(playerid, dRegEmail, DIALOG_STYLE_INPUT, ""W"Реєстрація | "P"Електронна пошта", ""W"Введіть Вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.", "Далі", "Назад");
+
+			//ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", ""W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
 			return 1;
 		}
 	case D_REG_FRIEND: {
 			if(!response) {
 				strmid(PI[playerid][pDrug], "-", 0, strlen("-"), strlen("-")+5);
-				ShowPlayerDialog(playerid,D_REG_SEX,DSM, ""P"Реєстрація", "\n"W"Оберіть стать "P"вашого"W" персонажа:\n", "Чоловіча", "Жіноча");
+				ShowPlayerDialog(playerid,D_REG_SEX,DSM, ""W"Реєстрація | "P"Стать персонажу", "\n"W"Оберіть стать "P"вашого"W" персонажа:\n", "Чоловіча", "Жіноча");
 				return 1;
 			}
 			if(!strlen(inputtext) || strlen(inputtext) < 6 || strlen(inputtext) > 25)
 			{
-				ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", ""W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
+				ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""W"Реєстрація | "P"Реферал", ""W"Введіть нік гравця, що запросив Вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
 				return 1;
 			}
 			for(new i = strlen(inputtext); i != 0; --i)
@@ -16467,11 +17219,286 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_tquery(connects, MYSQL_GLOBAL, "friend_detectd","is", playerid,inputtext);
 			return 1;
 		}
+	case dRegEmail:
+	{
+		if(!response) return KickEx(playerid);
+		if(!strcmp(inputtext, "@", true)) return ShowPlayerDialog(playerid, dRegEmail, DIALOG_STYLE_INPUT, ""W"Реєстрація | "P"Електронна пошта", ""W"Введіть Вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.\n\n"E"* Введіть дійсну адресу електронної пошти", "Далі", "Назад");
+		SetPVarString(playerid, "email", inputtext);
+		ShowPlayerDialog(playerid, dRegNation, DIALOG_STYLE_LIST, ""W"Реєстрація | "P"Національність", "\
+				"G"* Оберіть національність Вашого персонажу:\n\
+				"P"- "W"Австралієць\n\
+				"P"- "W"Албанець\n\
+				"P"- "W"Американець\n\
+				"P"- "W"Англієць\n\
+				"P"- "W"Бразилець\n\
+				"P"- "W"Вірменин\n\
+				"P"- "W"В'єтнамець\n\
+				"P"- "W"Єврей\n\
+				"P"- "W"Іспанець\n\
+				"P"- "W"Італієць\n\
+				"P"- "W"Китаєць\n\
+				"P"- "W"Колумбієць\n\
+				"P"- "W"Кореєць\n\
+				"P"- "W"Латиноамериканець\n\
+				"P"- "W"Мексиканець\n\
+				"P"- "W"Німець\n\
+				"P"- "W"Поляк\n\
+				"P"- "W"Португалець\n\
+				"P"- "W"Українець\n\
+				"P"- "W"Француз\n\
+				"P"- "W"Чех\n\
+				"P"- "W"Японець\n", "Обрати", "Скасувати");
+	}
+	case dRegNation:
+	{
+		if(!response) return KickEx(playerid);
+		if(listitem == 0) return ShowPlayerDialog(playerid, dRegNation, DIALOG_STYLE_LIST, ""W"Реєстрація | "P"Національність", "\
+				"G"* Оберіть національність Вашого персонажу:\n\
+				"P"- "W"Австралієць\n\
+				"P"- "W"Албанець\n\
+				"P"- "W"Американець\n\
+				"P"- "W"Англієць\n\
+				"P"- "W"Бразилець\n\
+				"P"- "W"Вірменин\n\
+				"P"- "W"В'єтнамець\n\
+				"P"- "W"Єврей\n\
+				"P"- "W"Іспанець\n\
+				"P"- "W"Італієць\n\
+				"P"- "W"Китаєць\n\
+				"P"- "W"Колумбієць\n\
+				"P"- "W"Кореєць\n\
+				"P"- "W"Латиноамериканець\n\
+				"P"- "W"Мексиканець\n\
+				"P"- "W"Німець\n\
+				"P"- "W"Поляк\n\
+				"P"- "W"Португалець\n\
+				"P"- "W"Українець\n\
+				"P"- "W"Француз\n\
+				"P"- "W"Чех\n\
+				"P"- "W"Японець\n", "Обрати", "Скасувати");
+
+		new nation = listitem;
+		PI[playerid][pNation] = nation;
+		ShowPlayerDialog(playerid, dRegCountry, DIALOG_STYLE_LIST, ""W"Реєстрація | "P"Країна", "\
+				"G"* Оберіть національність Вашого персонажу:\n\
+				"P"- "W"Австралія\n\
+				"P"- "W"Албанія\n\
+				"P"- "W"Бразилія\n\
+				"P"- "W"Вірменія\n\
+				"P"- "W"Великобританія\n\
+				"P"- "W"В'єтнам\n\
+				"P"- "W"Ізраїль\n\
+				"P"- "W"Іспанія\n\
+				"P"- "W"Італія\n\
+				"P"- "W"Китай\n\
+				"P"- "W"Колумбія\n\
+				"P"- "W"Корея\n\
+				"P"- "W"Мексика\n\
+				"P"- "W"Німеччина\n\
+				"P"- "W"Польща\n\
+				"P"- "W"Португалія\n\
+				"P"- "W"Сполучені Штати Америки\n\
+				"P"- "W"Україна\n\
+				"P"- "W"Франція\n\
+				"P"- "W"Чехія\n\
+				"P"- "W"Японія\n", "Обрати", "Скасувати");
+	}
+	case dRegCountry:
+	{
+		if(!response) return KickEx(playerid);
+		if(listitem == 0) return ShowPlayerDialog(playerid, dRegCountry, DIALOG_STYLE_LIST, ""W"Реєстрація | "P"Країна", "\
+				"G"* Оберіть національність Вашого персонажу:\n\
+				"P"- "W"Австралія\n\
+				"P"- "W"Албанія\n\
+				"P"- "W"Бразилія\n\
+				"P"- "W"Вірменія\n\
+				"P"- "W"Великобританія\n\
+				"P"- "W"В'єтнам\n\
+				"P"- "W"Ізраїль\n\
+				"P"- "W"Іспанія\n\
+				"P"- "W"Італія\n\
+				"P"- "W"Китай\n\
+				"P"- "W"Колумбія\n\
+				"P"- "W"Корея\n\
+				"P"- "W"Мексика\n\
+				"P"- "W"Німеччина\n\
+				"P"- "W"Польща\n\
+				"P"- "W"Португалія\n\
+				"P"- "W"Сполучені Штати Америки\n\
+				"P"- "W"Україна\n\
+				"P"- "W"Франція\n\
+				"P"- "W"Чехія\n\
+				"P"- "W"Японія\n", "Обрати", "Скасувати");
+		new country = listitem;
+		PI[playerid][pCountry] = country;
+		ShowPlayerDialog(playerid, dRegAge, DIALOG_STYLE_INPUT, ""W"Реєстрація | "P"Вік", ""W"Вкажіть вік Вашого персонажу:\n"G"* Від 16 до 70 років", "Далі", "Скасувати");
+	}
+	case dRegAge:
+	{
+		if(!response) return KickEx(playerid);
+		new age = strval(inputtext);
+		if(isNumeric(inputtext) || age < 16 || age > 70) return ShowPlayerDialog(playerid, dRegAge, DIALOG_STYLE_INPUT, ""W"Реєстрація | "P"Вік", ""W"Вкажіть вік Вашого персонажу:\n"G"* Від 16 до 70 років", "Далі", "Скасувати");
+		PI[playerid][pAge] = age;
+		ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", ""W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні Вами 3-го рівня він отримає "P"нагороду", "Далі", "Пропуск");
+	}
 	case D_REG_SEX: {
 			if(response) PI[playerid][pSex] = 1;
 			else PI[playerid][pSex] = 2;
 			ChosePlayerSkin(playerid);
 		}
+	case dPhoneCall:
+	{
+		if(!response)
+		{
+			if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);	
+			return 1;
+		}
+		if(isNumeric(inputtext)) return ShowPlayerDialog(playerid, dPhoneCall, DIALOG_STYLE_INPUT, ""W"Телефон | "P"Вихідний виклик", ""W"Введіть номер телефону, за яким Ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.\n\n"E"Введіть коректний номер телефону.", "Виклик", "Скасувати");
+		if(PI[playerid][pMute]) return SendError(playerid, "Ви не можете здійснити виклик, у Вас бан чату.");
+		if(TI[playerid][tGag]) return SendError(playerid, "Ви не можете здійснити виклик. У Вашого персонажа кляп у роті.");
+		new number = strval(inputtext);
+		
+		if(TI[playerid][tPhone] == true) return SendError(playerid, "Ви вже розмовляєте по телефону.");
+		
+		if(number == PI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
+		switch(number) 
+		{
+			case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
+			case 222: 
+			{
+				new driver = 0;
+				foreach(new i:Player)
+				{
+					if(GetPVarInt(i, "taxi_started"))
+					{
+						driver++;
+						if(GetPlayerVirtualWorld(playerid) != 0) return SendError(playerid, "Для виклику таксі вийдіть з приміщення.");
+						ShowPlayerDialog(playerid, D_TAXI_CALL, DIALOG_STYLE_LIST, ""W"Диспетчер | "P"Таксі", ""P"- "W"Обрати місце призначення у GPS навігаторі\n- Указати дорогу таксисту", "Далі", "Скасувати");
+					}
+				}
+				if(driver == 0) return SendError(playerid, "Диспетчер: наразі немає таксистів на зміні.");
+				return 1;
+			}
+			case 554: 
+			{
+				if(PI[playerid][pMobile] <= 9) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
+				if(calls_news[0] == INVALID_PLAYER_ID) return SendError(playerid, "Прийом дзінків відключено.");
+				if(calls_ether[0] != INVALID_PLAYER_ID) return SendError(playerid, "Лінія зайнята.");
+				if(PI[playerid][pMember] == fLSNEWS) return SendError(playerid, "Ви не можете дзвонити у свою студію.");
+
+				SendClientMessage(playerid,CGOLD,"Ви у прямому ефірі.");
+				SendOK(calls_news[0],"Гравець дозвонився у прямий ефір.");
+				SendOK(calls_news[0],"Щоб завершити розмову, введіть "P"/skip"W".");
+				SetPlayerSpecialAction(playerid,SPECIAL_ACTION_USECELLPHONE);
+				PhoneStatus(playerid,true);
+				calls_ether[0] = playerid;
+				PI[playerid][pSettings][2] = fLSNEWS;
+				TI[playerid][tPhoneNews] = true;
+			}
+			default: 
+			{
+				if(PI[playerid][pMobile] <= 9) 
+				{
+					if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
+					return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
+				}
+				new bool:isnumber = false;
+				foreach(new i:Player) 
+				{
+					if(!TI[i][tLogin]) continue;
+					if(PI[i][pPhone] == number) 
+					{
+						if(SERIU[i][sID] != INVALID_PLAYER_ID) 
+						{
+							if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
+							return SendError(playerid, "Абонент поза зоною досяжності.");
+						}
+						if(!PI[i][pPhone])
+						{
+							if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
+							return SendError(playerid, "Абонент немає телефону.");
+						}
+						if(TI[i][tPhoneOnline])
+						{
+							if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
+							return SendError(playerid, "Абонент вимкнув телефон.");
+						}
+						if(TI[i][tPhone]) return SendError(playerid, "Абонент скинув дзвінок.");
+						TI[playerid][tPhoneCaller] = playerid;
+						TI[playerid][tPhoneCalled] = i;
+						TI[i][tPhoneCaller] = playerid;
+						TI[i][tPhoneCalled] = i;
+						HideWholePhone(playerid);
+    					PhoneLocked[playerid] = 1;
+						new string[128];
+						format(string,sizeof(string),"Вихідний виклик: "GREEN"[т. %d]"W". Щоб скасувати, введіть "NO"/h"W".",PI[i][pPhone]);
+						SendClientMessage(playerid,COLOR_WHITE,string);
+
+						format(string,sizeof(string),"Вхідний виклик: "GREEN"[т. %d].",PI[playerid][pPhone]);
+						SendClientMessage(i,COLOR_WHITE,string);
+						SendInfo(i,"Введіть "YES"/p "W"щоб прийняти виклик, або "NO"/h "W"для відмови.");
+
+						PhoneStatus(playerid,true);
+						if(PI[playerid][pMobile] > 10) PI[playerid][pMobile] -= 10;
+						UpdatePlayerData(playerid,"pMobile",PI[playerid][pMobile]);
+						isnumber = true;
+						break;
+					}
+				}
+				if(!isnumber) 
+				{
+					if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
+					return SendError(playerid, "Абонент поза зоною досяжності.");
+				}
+			}
+		}
+	}
+	case dPhoneSMSNumber:
+	{
+		if(!response) return 1;
+		if(PI[playerid][pMobile] < 5) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
+		if(isNumeric(inputtext)) return ShowPlayerDialog(playerid, dPhoneSMSNumber, DIALOG_STYLE_INPUT, ""W"Вихідне повідомлення | "P"Номер телефону", ""W"Введіть номер телефону, за яким Ви збираєтеся відправити вихідне повідомлення\n\n"E"Введіть коректний номер телефону", "Виклик", "Скасувати");
+		new number = strval(inputtext);
+		new string[128];
+		foreach(new i:Player)
+		{
+			if(!TI[i][tLogin]) continue;
+			if(number == PI[i][pPhone])
+			{
+				SetPVarInt(playerid, "callee_id", i);
+				format(string, sizeof(string), ""W"Отримувач: "P"%s\n\n"W"Введіть текст повідомлення, який Ви хочете відправити отримувачу.\n\n"G"* Мінімальна кількість символів - 5, максимальна - 50." , player_name[i]);
+				ShowPlayerDialog(playerid, dPhoneSMSText, DIALOG_STYLE_INPUT, ""W"Вихідне повідомлення | "P"Текст повідомлення", string, "", "");
+			}
+
+			else return SendError(playerid, "Абонент поза зоною досяжності.");
+		}
+	}
+	case dPhoneSMSText:
+	{
+		if(!response) return DeletePVar(playerid, "callee_id");
+		new string[512];
+		new i = GetPVarInt(playerid, "callee_id");
+		if(strlen(inputtext) < 5 || strlen(inputtext) > 50) 
+		{
+			format(string, sizeof(string), ""W"Отримувач: "P"%s\n\n"W"Введіть текст повідомлення, який Ви хочете відправити отримувачу.\n\n"G"* Мінімальна кількість символів - 5, максимальна - 50." , player_name[i]);
+			return ShowPlayerDialog(playerid, dPhoneSMSText, DIALOG_STYLE_INPUT, ""W"Вихідне повідомлення | "P"Текст повідомлення", string, "", "");
+		}
+		if(TI[i][tPhoneOnline]) return SendError(playerid, "Абонент вимкнув телефон.");
+		format(string, sizeof(string), "SMS: %s. Відправник: %s(%i) [т. %i]",inputtext, player_name[i],i,PI[i][pPhone]);
+		SendClientMessage(playerid, COLOR_YELLOW, string);
+		format(string, sizeof(string), "SMS: %s. Відправник: %s(%i) [т. %i]",inputtext,player_name[playerid],playerid, PI[playerid][pPhone]);
+		SendClientMessage(i, COLOR_YELLOW, string);
+		SetPlayerChatBubble(playerid, "відправив SMS", COLOR_PURPLE, 10.0, 3000);
+		foreach(new x:Player) {
+			if(GetPVarInt(x, "BigEarSMS") != 1) continue;
+			format(string, 120, "[A] SMS: %s | Відправив %s(%i) гравцю %s(%d).", inputtext,player_name[playerid],playerid,player_name[i],i);
+			SendClientMessage(x, COLOR_GREY, string);
+		}
+		PlayerPlaySound(i, 1052, 0.0, 0.0, 0.0);
+		PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
+		PI[playerid][pMobile] -= 5,
+		UpdatePlayerData(playerid,"pMobile",PI[playerid][pMobile]);
+	}
 	case D_CLIST: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -16518,7 +17545,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_CHANGE_PASS: {
 			if(!TI[playerid][tLogin]) return 0;
-			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адреса\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" Електронна пошта\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
 			if(strlen(inputtext) < 6 || strlen(inputtext) > 20) return ShowPlayerDialog(playerid,D_CHANGE_PASS,DSI, ""P"Зміна пароля","\n\n"W"Введіть свій новий пароль для цього акаунта:\n\n", "Ввести", "Назад");
 			if(!CheckPassword(inputtext)) return ShowPlayerDialog(playerid,D_CHANGE_PASS,DSI, ""P"Зміна пароля","\n\n"W"Введіть свій новий пароль для цього акаунта:\n\n", "Ввести", "Назад");
 			if(!TI[playerid][tLogin]) return 0;
@@ -16550,13 +17577,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						new rows = cache_num_rows();
 						if(rows > 0) {
 							cache_get_value_name_int(0, "Type", control);
-							if(control == 1) ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"E-Mail", "\n\n"W"E-Mail адреса на вашому акаунті вже підтверждена. Змінити її не можна\n\n","Закрити","");
-							else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Вкажіть вашу пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
+							if(control == 1) ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Електронна пошта", "\n\n"W"E-Mail адреса на вашому акаунті вже підтверждена. Змінити її не можна\n\n","Закрити","");
+							else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"Електронна пошта",""W"Вкажіть вашу пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
 						}
-						else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"E-Mail", "\n\n"W"Підтвердити ваш E-Mail адрес на сайті "P"chiliad-rp.com\n\n","Закрити","");
+						else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Електронна пошта", "\n\n"W"Підтвердити ваш E-Mail адрес на сайті "P"chiliad-rp.com\n\n","Закрити","");
 						cache_delete(result);
 					}
-					else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Вкажіть вашу пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
+					else ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"Електронна пошта",""W"Вкажіть вашу пошту"W"\n\nВкажіть ваш реальний "P"E-Mail"W". З його допомогою ви зможете відновити пароль","Далі","Назад");
 				}
 			case 3: {
 					ShowPlayerDialog(playerid, D_GOOGLE, DSL, ""P"Google Authenticator", ""P"1."W" Запрошувати пароль при кожній зміні IP адресу\n"P"2."W" Відключити Google Authenticator","Обрати","Назад");
@@ -16655,7 +17682,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	  	}
 	  }
 	case D_GOOGLE: {
-			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" Електронна пошта\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
 			switch(listitem) {
 			case 0: {
 					if(PI[playerid][pGoogleSec]) return SendError(playerid, "У вас вже підключена ця опція.");
@@ -16749,7 +17776,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			ShowPlayerDialog(playerid,dLotto,2,"{FFFD72}Державна лотерея", String256 ,"Далі","Вихід");
 		}
 	case D_MAIL_CONTROL: {
-			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисник ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" Електронна пошта\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
 			if(strfind(inputtext,"|") != -1) {
 				SendError(playerid, "У вас в пошті містяться заборонені символи.");
 				ShowPlayerDialog(playerid,D_MAIL_CONTROL,DSI, ""P"E-Mail",""W"Укажіть вашу "P"пошту"W"\n\nУкажіть ваш реальний "P"E-Mail"W". За допомогою нього ви зможете відновити пароль","Далі","Назад");
@@ -16771,7 +17798,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		}
 	case dChangeCode: {
-			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" Електронна пошта\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
 			switch(listitem) {
 			case 0: {
 					if(GetString(PI[playerid][pKeyip],"-")) ShowPlayerDialog(playerid,dCode,DSI, ""P"Захисний ключ", "\n\n"W"Придумайте новий захисний ключ:\n"G"Захисний ключ буде запитуватися після кожного входу у гру\n\n","Далі","Скасувати");
@@ -16799,7 +17826,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			else ShowPlayerDialog(playerid,dCodeChange1,DSI, ""P"Захисний ключ","\n\n"W"Введіть ваш старий ключ безпеки:\n\n"NO"*"G" Ключ введено неправильно\n\n","Ввести","Назад");
 		}
 	case dCode: {
-			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адрес\n"P"4."W" Google Authenticator", "Обрати", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" Електронна пошта\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
 			if(strlen(inputtext) != 4 || isNumeric(inputtext)) return ShowPlayerDialog(playerid, dCode, DSI, ""P"Захисний код:", "\n\n"W"Придумайте новий захисний ключ:\n"G"Захисний ключ буде запитуватись після кожного входу у гру\n\n"NO"*"G" Ключ повинен складатися з 4 цифр\n\n","Далі","Скасувати");
 			new string[200];
 			format(string,sizeof(string),"Ваш новий захисний ключ: "P"%s"W". Він буде запитуватись при вході в гру.",(inputtext));
@@ -16831,26 +17858,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_MENU: {
 			if(!response) return 1;
-			switch(listitem) {
-			case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DIALOG_STYLE_LIST, ""P"Інформація про персонаж", ""P"1. "W"Статистикa\n"P"2. "W"Паспорт\n"P"3. "W"Ліцензії\n"P"4. "W"Медична карта", "Обрати", "Назад");
-			case 1: ShowPlayerDialog(playerid,D_MENU_COMMANDS,DSL, ""P"Команди", ""P"1."W" Загальні команди\n"P"2."W" Чати\n"P"3."W" По роботі\n"P"4."W" Фракційні\n"P"5."W" Дім\n"P"6."W" Бізнес\n"P"7."W" Автомобіль\n"P"8."W" Сім'я\n"P"9."W" Лідер\n"P"10."W" Автовикрадення\n"P"11."W" Будинок на колесах", "Обрати", "Назад");
-			case 2: pc_cmd_jobskill(playerid);
-			case 3: {
-					if(GetPVarInt(playerid,"report_ac")) return SendError(playerid, "Ви вже подавали скаргу, очікуйте відповіді.");
-					ShowPlayerDialog(playerid,D_REPORT,DSI, ""P"Підтримка", ""W"Ви збираєтесь відправити запит адмінистрації\n\nБудь ласка, не грубіть, і дотримуйтесь норм моралі.\nОпишіть свою проблему чітко і ясно:", "Відправити", "Закрити");
+			switch(listitem) 
+			{
+				case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DIALOG_STYLE_LIST, ""P"Інформація про персонаж", ""P"1. "W"Статистикa\n"P"2. "W"Паспорт\n"P"3. "W"Ліцензії\n"P"4. "W"Медична карта", "Обрати", "Назад");
+				case 1: ShowPlayerDialog(playerid,D_MENU_COMMANDS,DSL, ""P"Команди", ""P"1."W" Загальні команди\n"P"2."W" Чати\n"P"3."W" По роботі\n"P"4."W" Фракційні\n"P"5."W" Дім\n"P"6."W" Бізнес\n"P"7."W" Автомобіль\n"P"8."W" Сім'я\n"P"9."W" Лідер\n"P"10."W" Автовикрадення\n"P"11."W" Будинок на колесах", "Обрати", "Назад");
+				case 2: pc_cmd_jobskill(playerid);
+				case 3: {
+						if(GetPVarInt(playerid,"report_ac")) return SendError(playerid, "Ви вже подавали скаргу, очікуйте відповіді.");
+						ShowPlayerDialog(playerid,D_REPORT,DSI, ""P"Підтримка", ""W"Ви збираєтесь відправити запит адмінистрації\n\nБудь ласка, не грубіть, і дотримуйтесь норм моралі.\nОпишіть свою проблему чітко і ясно:", "Відправити", "Закрити");
+					}
+				case 4: pc_cmd_inv(playerid);
+				case 5: ShowSettings(playerid);
+				case 6: {
+						if(PI[playerid][pLeader]) return SendError(playerid, "Лідерам заборонено змінювати нік.");
+						if (PI[playerid][pWarns] >= 1) return SendError(playerid, "На вашому акаунті є попередження.");
+						return ShowPlayerDialog(playerid,D_CHANGE_NAME,DSI, ""P"Заявка на зміну нікнейму", ""W"Напишіть новий нік (за форматом Ім'я_Прізвище)", "Відправити", "Назад");
+					}
+				case 7: ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адреса\n"P"4."W" Google Authenticator\n"P"5."W" Telegram\n"P"6."W" Discord", "Обрати", "Назад");
+				case 8: return ShowPlayerDialog(playerid, D_USE_PROMO, DSI, ""P"Промокод", ""W"Введіть нижче діючий промокод"W" на сервері:", "Прийняти", "Назад");
+				case 9: return pc_cmd_quest(playerid);
+				case 10: ShowPlayerDialog(playerid, D_CASES, DSL, ""P"Кейси", ""P"1."W" Кейс SILVER\n"P"2."W" Кейс GOLD\n"P"3."W" Кейс  VIP", "Обрати", "Закрити");
+				case 11: return pc_cmd_donate(playerid);
+				case 12: 
+				{
+					new string[128];
+					mysql_format(connects, string, sizeof(string), "SELECT * FROM `punish_history` WHERE Nickname = %s", player_name[playerid]);
+					mysql_tquery(connects, string, "punish_history", "i", playerid);
 				}
-			case 4: pc_cmd_inv(playerid);
-			case 5: ShowSettings(playerid);
-			case 6: {
-					if(PI[playerid][pLeader]) return SendError(playerid, "Лідерам заборонено змінювати нік.");
-					if (PI[playerid][pWarns] >= 1) return SendError(playerid, "На вашому акаунті є попередження.");
-					return ShowPlayerDialog(playerid,D_CHANGE_NAME,DSI, ""P"Заявка на зміну нікнейму", ""W"Напишіть новий нік (за форматом Ім'я_Прізвище)", "Відправити", "Назад");
-				}
-			case 7: ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адреса\n"P"4."W" Google Authenticator\n"P"5."W" Telegram\n"P"6."W" Discord", "Обрати", "Назад");
-			case 8: return ShowPlayerDialog(playerid, D_USE_PROMO, DSI, ""P"Промокод", ""W"Введіть нижче діючий промокод"W" на сервері:", "Прийняти", "Назад");
-			case 9: return pc_cmd_quest(playerid);
-			case 10: ShowPlayerDialog(playerid, D_CASES, DSL, ""P"Кейси", ""P"1."W" Кейс SILVER\n"P"2."W" Кейс GOLD\n"P"3."W" Кейс  VIP", "Обрати", "Закрити");
-			case 11: return pc_cmd_donate(playerid);
 			}
 		}
 	case D_PLAYER_STATS:
@@ -17954,19 +18988,23 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendOK(playerid,"Оголошення подано у редакцію. Очікуйте перевірки.");
 		}
 	case D_ADMIN_PANEL: {
-			if(response) {
+			if(response) 
+			{
 				if(PI[playerid][pAdmin] < 1 || dostup[playerid] == 0) return 1;
-				switch(listitem) {
-				case 0: pc_cmd_admins(playerid);
-				case 1: pc_cmd_spawn(playerid,"");
-				case 2: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\n"P"1."W" Водій автобуса\n"P"2."W" Механік\n"P"3."W" Розвізник продуктів та палива\n"P"4."W" Розвізник їжі\n"P"5."W" Мийщик доріг\n"P"6."W" Чистильник каналізацій\n"P"7."W" Таксист\n"P"8."W" Інкасатор\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
-				case 3: pc_cmd_prisoners(playerid,"");
-				case 4: pc_cmd_mutelist(playerid,"");
-				case 5: PI[playerid][pAdmMSG] = (!PI[playerid][pAdmMSG])?(1):(0),UpdatePlayerData(playerid,"pAdmMSG",PI[playerid][pAdmMSG]),pc_cmd_apanel(playerid,"");
-				case 6: {
+				switch(listitem) 
+				{
+					case 0: pc_cmd_admins(playerid);
+					case 1: pc_cmd_spawn(playerid,"");
+					case 2: ShowPlayerDialog(playerid,D_JOB,DSTH,""P"Працевлаштування",""W"Робота\n"P"1."W" Водій автобуса\n"P"2."W" Механік\n"P"3."W" Розвізник продуктів та палива\n"P"4."W" Розвізник їжі\n"P"5."W" Мийщик доріг\n"P"6."W" Чистильник каналізацій\n"P"7."W" Таксист\n"P"8."W" Інкасатор\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
+					case 3: pc_cmd_prisoners(playerid,"");
+					case 4: pc_cmd_mutelist(playerid,"");
+					case 5: PI[playerid][pAdmMSG] = (!PI[playerid][pAdmMSG])?(1):(0),UpdatePlayerData(playerid,"pAdmMSG",PI[playerid][pAdmMSG]),pc_cmd_apanel(playerid,"");
+					case 6: 
+					{
 						PI[playerid][pAdmKL] = (!PI[playerid][pAdmKL])?(1):(0),UpdatePlayerData(playerid,"pAdmKL",PI[playerid][pAdmKL]),pc_cmd_apanel(playerid,"");
 					}
-				case 7: {
+					case 7: 
+					{
 						if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return 1;
 						new frac_online[MAX_FRACTIONS+1];
 						foreach(new i:Player) {
@@ -18008,15 +19046,20 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						frac_online[fLSNEWS],frac_online[fINSTRUCTORS],frac_online[fLCN],frac_online[fYAKUZA],frac_online[fRM],frac_online[fBALLAS],frac_online[fVAGOS],frac_online[fGROVE],
 						frac_online[fAZTEC],frac_online[fRIFA],frac_online[fWHITEHOUSE]);
 						ShowPlayerDialog(playerid, D_AMEMBERS, DSTH, "Онлайн організацій", string, "Закрити", "");
+<<<<<<< HEAD
+=======
 						
+>>>>>>> parent of bd89ac6 (upd)
 					}
-				case 8: {
+					case 8: 
+					{
 						if(PI[playerid][pAdmin] < 2 || dostup[playerid] == 0) return 1;
 						if(!IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Ви не в автомобілі."),pc_cmd_apanel(playerid,"");
 						pc_cmd_fv(playerid,"");
 					}
-				case 9: pc_cmd_awarehouse(playerid,"");
-				case 10: {
+					case 9: pc_cmd_awarehouse(playerid,"");
+					case 10: 
+					{
 						if(PI[playerid][pAdmin] < 3 || dostup[playerid] == 0) return 1;
 						new year[9], month[9], day[9], hour[9], minute[9], second[9];
 						if(fracmoroz[0] >= unix) {
@@ -18064,7 +19107,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						hour[4], minute[4], second[4],hour[5], minute[5], second[5],hour[6], minute[6], second[6],hour[7], minute[7], second[7], hour[8], minute[8], second[8]);
 						ShowPlayerDialog(playerid,DIALOG_NONE,DST, "Інформація про заморозки", string, "Закрити", "");
 					}
-				case 11: {
+					case 11: 
+					{
 						if (PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 						new names[24], string[450], rows;
 						new Cache: result = mysql_query(connects, "SELECT `Name` FROM `ban` ORDER BY `ID` DESC LIMIT 0, 20");
@@ -18083,7 +19127,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if (cache_is_valid(result)) cache_delete(result);
 						if (!ShowPlayerDialog(playerid, D_BAN_LIST, DSL, ""P"Заблоковані", string, "Обрати", "Назад"))SendError(playerid, "Недоступно у цей момент.");
 					}
-				case 12: {
+					case 12: 
+					{
 						new string[3024],id = 0;
 						string = ""P"Нік:\t"P"IP при реєстрації\t"P"IP\n";
 						foreach(new i:Player) {
@@ -18093,7 +19138,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(id == 0) return SendError(playerid, "Не знайдено.");
 						else ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, ""P"Можливо зламані", string, "Закрити", "");
 					}
-				case 13: {
+					case 13: 
+					{
 						if(PI[playerid][pAdmin] < 4 || dostup[playerid] == 0) return 1;
 						new string[3200] = ""P"Місце розташування\t"P"Стан\t"P"Власник", str[124];
 						for(new x; x<MAX_BILLBORDS; x++) {
@@ -18103,11 +19149,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 						return ShowPlayerDialog(playerid,D_BILL_ADMIN,DSTH,""P"Моніторинг білбордів",string,"Обрати","Закрити");
 					}
-				case 14: {
+					case 14: 
+					{
 						if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 						casino = (!casino)?(1):(0),UpdateOtherData("casino",casino),pc_cmd_apanel(playerid,"");
 					}
-				case 15: {
+					case 15: 
+					{
 						if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 						FI[fBALLAS][fMats] = 300000,UpdateFraction(fBALLAS,"Mats",FI[fBALLAS][fMats]);
 						FI[fVAGOS][fMats] = 300000,UpdateFraction(fVAGOS,"Mats",FI[fVAGOS][fMats]);
@@ -18119,18 +19167,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						FI[fRM][fMats] = 300000,UpdateFraction(fRM,"Mats",FI[fRM][fMats]);
 						SendOK(playerid,"Склади банд та мафій успішно поповнені.");
 					}
-				case 16: {
+					case 16: 
+					{
 						if(PI[playerid][pAdmin] < 5 || dostup[playerid] == 0) return 1;
 						static const f_str[] =  ""P"Орагнзація\t"P"Рівень вступу\nДепартамент поліції Лос-Сантоса\t%d\nФедеральне бюро розслідувань\t%d\nНаціональна гвардія\t%d\nЦентральна лікарня Всіх Святих\t%d\nЛос-Сантос Таймс\t%d\nМафії\t%d\nБанди\t%d\nУряд\t%d";
 						new string[sizeof(f_str) +19];
 						format(string,sizeof(string),f_str,invite_frac[0],invite_frac[1],invite_frac[2],invite_frac[3],invite_frac[4],invite_frac[5],invite_frac[6],invite_frac[7]);
 						return ShowPlayerDialog(playerid,D_ADMIN_INVITE,DSTH,""P"Обмеження запрошення",string,"Обрати","Закрити");
 					}
-				case 17: {
+					case 17: 
+					{
 						if(PI[playerid][pAdmin] < 7 || dostup[playerid] == 0) return 1;
 						ShowPlayerDialog(playerid, D_PROMO, DSL, ""P"Промокоди", ""P"1."W" Список промокодів\n"P"2."W" Створити промокод\n"P"3."W" Видалити промокод", "Обрати", "Назад");
 					}
-				case 18: {
+					case 18: 
+					{
 						if(PI[playerid][pAdmin] < 6 || dostup[playerid] == 0) return 1;
 						for(new i = 0; i < gBusinessCount; i ++) {
 							if(gBusiness[i][bizzProdOrder] == 0) continue;
@@ -18141,9 +19192,39 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 						SendOK(playerid,"Продукти по бізнесам доставлені.");
 					}
+					case 19: ShowPlayerDialog(playerid, dATMAdmin, DIALOG_STYLE_LIST, "Банкомати", ""P"1. "W"Список банкоматів\n"P"2. "W"Створити банкомат", "Обрати", "Назад");
 				}
 			}
 		}
+	case dATMAdmin:
+	{
+		if(!response) return pc_cmd_apanel(playerid, "");
+		switch(listitem)
+		{
+			case 0:
+			{
+				new header[256], atms[600], atm_count = 0;
+				strcat(header,"№\tInt\tVirtWorld\tCash\n");
+				for(new i = 1;i < MAX_ATM;i ++)
+				{
+
+					atm_count++;
+					format(atms,sizeof(atms),"%i\t%d\t%d\t%d\n",atm_count, ATMData[i][atm_INT], ATMData[i][atm_VW], ATMData[i][atm_cash]);
+					strcat(header,atms);
+				}
+				ShowPlayerDialog(playerid, dATMList, DIALOG_STYLE_TABLIST_HEADERS, "Банкомати", header, "Обрати", "Назад");
+			}
+		}
+	}
+	case dATMList:
+	{
+		if(!response) return ShowPlayerDialog(playerid, dATMAdmin, DIALOG_STYLE_LIST, "Банкомати", ""P"1. "W"Список банкоматів\n"P"2. "W"Створити банкомат", "Обрати", "Назад");
+		new atm = listitem + 1;
+		SetPVarInt(playerid, "edit_atm", atm);
+		new header[24];
+		format(header, sizeof(header), ""W"Редагування банкомату "P"№%d", atm);
+		ShowPlayerDialog(playerid, dATMEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Змінити кількість готівки\n"P"2. "W"Відредагувати позицію\n"P"3. "W"Видалити банкомат", "Обрати", "Скасувати");
+	}
 	case D_ADMIN_INVITE: {
 			if(!response) return 1;
 			SetPVarInt(playerid,"invite_admin",listitem);
@@ -18950,7 +20031,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(PI[playerid][pSex] == 1) A_SetPlayerSkin(playerid,132);
 			else A_SetPlayerSkin(playerid, 131);
 			for(new i = 0;i < 4;i++) PlayerTextDrawShow(playerid,work_td[playerid][i]);
-			PlayerTextDrawSetString(playerid,work_td[playerid][1],"MONEY:_$0");
+			PlayerTextDrawSetString(playerid,work_td[playerid][2],"Money:_$0");
+			PlayerTextDrawSetString(playerid,work_td[playerid][3],"Collected:_0eggs");
 			SetPVarInt(playerid,"egg_start",1);
 		}
 	case D_JOB_SAD: {
@@ -18963,12 +20045,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				TI[playerid][tJobSalary] = 0;
 				SendOK(playerid,"Вітаємо. Ви успішно влаштувалися на ферму.");
 				SendOK(playerid,"Для догляду за деревом, візьміть лійку та підлийте дерево.");
+				EnableGPSForPlayer(playerid, -110.0173,12.1429,3.1257);
 				if(PI[playerid][pSex] == 1) A_SetPlayerSkin(playerid,35);
 				else A_SetPlayerSkin(playerid, 157);
-				for(new i = 0;i < 4;i++) {
-					PlayerTextDrawShow(playerid,work_td[playerid][i]);
-				}
-				PlayerTextDrawSetString(playerid,work_td[playerid][1],"MONEY:_$0");
+				// for(new i = 0;i < 4;i++) {
+				// 	PlayerTextDrawShow(playerid,work_td[playerid][i]);
+				// }
+				show_payment(playerid);
+				//PlayerTextDrawSetString(playerid,work_td[playerid][2],"Money:_$0");
+				//PlayerTextDrawSetString(playerid,work_td[playerid][3],"Collected:_0kg");
 				//ShowPlayerDialog(playerid,D_JOB_SAD_2,DSM, ""P"Яблуневий сад","\n\n"W"Желаете пройти FAQ?\n\n","Так","Ні");
 			}
 			else {
@@ -19013,15 +20098,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!TI[playerid][tJobGun][0]) {
 				TI[playerid][tJobGun][0] = 1;
 				SendOK(playerid,"Вітаємо, ви влаштувалися на завод з виготовлення зброї.");
-				SendInfo(playerid,"Візьмість заготовку на складі та займіть вільний стіл для створення зброї.");
+				SendInfo(playerid,"Візьміть заготовку на складі та займіть вільний стіл для створення зброї.");
 				TI[playerid][tJobGun][1] = 1;
 				TI[playerid][tJobSalary] = 0;
+				TI[playerid][jJobGunCreated] = 0;
 				if(PI[playerid][pSex] == 1) A_SetPlayerSkin(playerid, 73);
 				else A_SetPlayerSkin(playerid, 53);
 				for(new i = 0;i < 4;i++) {
 					PlayerTextDrawShow(playerid,work_td[playerid][i]);
 				}
-				PlayerTextDrawSetString(playerid,work_td[playerid][1],"MONEY:_$0");
+				PlayerTextDrawSetString(playerid,work_td[playerid][2],"Money:_$0");
+				PlayerTextDrawSetString(playerid,work_td[playerid][3],"Created:_0");
 			}
 			else {
 				if(!TI[playerid][tJobSalary]) EndGun(playerid);
@@ -19039,6 +20126,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				TI[playerid][tJobWood][0] = 1;
 				TI[playerid][tJobWood][3] = 1;
 				TI[playerid][tJobSalary] = 0;
+				TI[playerid][tJobWoodSawed] = 0;
 				SendOK(playerid,"Вітаємо, ви влаштувалися на лісопильню.");
 				SendInfo(playerid,"Щоб напиляти деревини, підійдіть до дерева.");
 				EnableGPSForPlayer(playerid, 1094.5377, -283.6824, 73.9922);
@@ -19048,7 +20136,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				for(new i = 0;i < 4;i++) {
 					PlayerTextDrawShow(playerid,work_td[playerid][i]);
 				}
-				PlayerTextDrawSetString(playerid,work_td[playerid][1],"MONEY:_$0");
+				PlayerTextDrawSetString(playerid,work_td[playerid][2],"Money:_$0");
+				PlayerTextDrawSetString(playerid,work_td[playerid][3],"Sawed:_0");
 			}
 			else {
 				if(!TI[playerid][tJobSalary]) EndWood(playerid);
@@ -22825,8 +23914,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			return 1;
 		}
 	case D_CALL_SERVICES: {
+<<<<<<< HEAD
+			if(!response) 
+			{
+				if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);	
+				return 1;
+			}
+			if(call_timer[playerid] > 0)
+=======
 			if(!response) return 1;			
 			if(call_timer[playerid] > 0) 
+>>>>>>> parent of bd89ac6 (upd)
 			{
 				new timer[128];
 				format(timer, sizeof(timer), "Наступний виклик Ви зможете здійснити через "P"%s", Convert(call_timer[playerid]));
@@ -23304,25 +24402,378 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendOK(playerid,"Виклик прийнято. Місце розташування вказане на карті.");
 			SendOK(GetPVarInt(playerid,"repair_id"),"Диспетчер: Ми почачли роботу над вашим викликом, залишайтесь на своєму місці.");
 		}
-	case D_TAXI_CALL: {
+	case D_TAXI_CALL:
+		{
 			if(!response) return 1;
-			if(GetPlayerVirtualWorld(playerid) != 0) return SendError(playerid, "Для виклику таксі вийдіть з приміщення.");
-			if(GetPVarInt(playerid,"taxi_time") > gettime()) return SendError(playerid, "Ви вже викликали таксі, спробуйте пізніше.");
-			SendOK(playerid,"Ви викликали таксі, очікуйте підтверждення замовлення.");
-			foreach(new i:Player)
+			switch(listitem)
 			{
-				if(!TI[i][tLogin] && PI[i][pJob] != 7) continue;
-				if(GetPlayerVirtualWorld(i) != 0) continue;
-				if(GetPlayerState(i) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(i) != GetPVarInt(i,"veh_id_taxi")) continue;
-				static const f_str[] = ""P"%s"W" викликає таксі. Відстань: "P"%.2f м"W".";
-				new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 12) + (-2 + 6)];
-				format(str,sizeof(str),f_str,player_name[playerid],GetDistanceBetweenPlayers(playerid,i));
-				SendClientMessage(i,COLOR_YELLOW,str);
-				SendClientMessage(i,COLOR_YELLOW,"Щоб переглянути список замовлень, введіть "P"/taxilist"W".");
+				case 0:
+				{
+					if(!response) return 1;
+					ShowPlayerDialog(playerid, dTaxiPlaceList, DIALOG_STYLE_LIST, ""W"Таксі | "P"Список місць призначення", "\
+						"P"1. "W"Громадські місця\n\
+						"P"2. "W"Роботи\n\
+						"P"3. "W"Оренда транспортного засобу\n\
+						"P"4. "W"Державні організації\n\
+						"P"5. "W"Неофіційні організації\n\
+						"P"6. "W"Автосалони і тюнінги\n\
+						"P"7. "W"Бізнеси\n\
+						"P"8. "W"Багатоквартирні будинки\n\
+						"P"9. "W"Центральний ринок\n\
+						"P"10."W" Сімейний центр\n\
+						"P"11."W" Розваги\n\
+						"P"12."W" АЗС\n\
+						"P"13."W" Різне\n", "Обрати", "Скасувати");
+				}
+				case 1:
+				{
+					ShowPlayerDialog(playerid, D_TAXI_CALL, DIALOG_STYLE_LIST, ""W"Диспетчер | "P"Таксі", ""P"- "W"Обрати місце призначення у GPS навігаторі\n- Указати дорогу таксисту", "Далі", "Скасувати");
+					SetPVarInt(playerid, "taxi_place", 1);
+					new string[512];
+					format(string, sizeof(string), "\
+						"W"Ви обрали пункт "P"'Указати місце призначення таксисту'.\n\n\
+						"G"Вам необхідно буде пояснити таксисту, куди Вам необхідно прибути.\n\
+						Вартість поїздки залежатиме від тарифу встановленого водієм.\n\
+						Очікуйте прибуття таксі на місці Вашого поточного перебування.\n\n\
+						"W"Приємної Вам поїздки!");
+					ShowPlayerDialog(playerid, dTaxiPlace, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Указати місце призначення таксисту", string, "Далі", "Скасувати");
+				}
 			}
-			SetPVarInt(playerid,"taxi_st",1);
-			SetPVarInt(playerid,"taxi_time",gettime()+60);
 		}
+	case dTaxiPlaceList:
+	{
+		if(!response) return ShowPlayerDialog(playerid, D_TAXI_CALL, DIALOG_STYLE_LIST, ""W"Диспетчер | "P"Таксі", ""P"- "W"Обрати місце призначення у GPS навігаторі\n- Указати дорогу таксисту", "Далі", "Скасувати");
+		switch(listitem)
+		{
+			case 0: ShowPlayerDialog(playerid, dTaxiPlaceListPublic, DIALOG_STYLE_LIST, ""W"Список місць призначень | "P"Громадські місця", "\
+																		"P"1. "W"Центр зайнятості\n\
+																		"P"2. "W"Банк\n\
+																		"P"3. "W"Автошкола\n\
+																		"P"4. "W"Військкомат\n\
+																		"P"5. "W"Автовокзал м. Лос-Сантос\n\
+																		"P"6. "W"Церква\n\
+																		"P"7. "W"Казино\n\
+																		"P"8. "W"Місце для рибалки\n\
+																		"P"9. "W"Спортзал\n\
+																		"P"10."W" Ріелторське агентство\n\
+																		"P"11."W" Тир\n\
+																		"P"12."W" Озеро 'Місце пошуку предметів'", "Обрати", "Назад");
+			case 1: ShowPlayerDialog(playerid, dTaxiPlaceListWork, DIALOG_STYLE_LIST, ""W"Список місць призначень | "P"Роботи", "\
+																		"P"1. "W"Яблуневий сад\n\
+																		"P"2. "W"Завод з виготовлення зброї\n\
+																		"P"3. "W"Лісопильня\n\
+																		"P"4. "W"Чистильник каналізацій\n\
+																		"P"5. "W"Робота на будівництві\n\
+																		"P"6. "W"Робота інкасатором\n\
+																		"P"7. "W"Кур'єр доставки\n\
+																		"P"8. "W"Транспортна компанія", "Обрати", "Назад");
+			case 2: ShowPlayerDialog(playerid, dTaxiPlaceListRent, DIALOG_STYLE_LIST, ""W"Список місць призначень | "P"Оренда транспортного засобу", "\
+																		"P"1. "W"Оренда автобусів\n\
+																		"P"2. "W"Оренда кур'єрів\n\
+																		"P"3. "W"Оренда транспорту механіків м. Лос-Сантос (1)\n\
+																		"P"4. "W"Оренда транспорту механіків м. Лос-Сантос (2)\n\
+																		"P"5. "W"Оренда транспорту для прибирання вулиць\n\
+																		"P"6. "W"Оренда доставки продуктів\n\
+																		"P"7. "W"Оренда доставки палива\n\
+																		"P"8. "W"Оренда таксі", "Обрати", "Назад");
+			case 3: ShowPlayerDialog(playerid, dTaxiPlaceListOrg, DIALOG_STYLE_LIST, ""W"Список місць призначень | "P"Державні організації", "\
+																		"P"1. "W"Уряд\n\
+																		"P"2. "W"Департамент поліції Лос-Сантос\n\
+																		"P"3. "W"Офіс шерифа округу Ред\n\
+																		"P"4. "W"Центральна лікарня Всіх Святих\n\
+																		"P"5. "W"Пожежна служба Лос-Сантоса\n\
+																		"P"6. "W"Федеральне Бюро Розслідувань\n\
+																		"P"7. "W"Національна гвардія\n\
+																		"P"8. "W"Лос-Сантос Таймс", "Обрати", "Назад");
+			case 4: ShowPlayerDialog(playerid, dTaxiPlaceListCrime, DIALOG_STYLE_LIST, ""W"Список місць призначень | "P"Неофіційні організації", "\
+																		"P"1. "W"Ballas\n\
+																		"P"2. "W"Los-Santos Vagos\n\
+																		"P"3. "W"Grove Street\n\
+																		"P"4. "W"Varrios Los-Aztecas\n\
+																		"P"5. "W"The Rifa\n\
+																		"P"6. "W"Ла Коза Ностра\n\
+																		"P"7. "W"Тріада\n\
+																		"P"8. "W"Медельїнський картель\n\
+																		"P"9. "W"Bandidos MC", "Обрати", "Назад");
+			/*case 5: Багатоквартирні будинки
+			case 6: Центральний ринок
+			case 7: Сімейний центр*/
+		}
+	}
+	case dTaxiPlaceListPublic:
+	{
+		if(!response) return ShowPlayerDialog(playerid, dTaxiPlaceList, DIALOG_STYLE_LIST, ""W"Таксі | "P"Список місць призначення", "\
+						"P"1. "W"Громадські місця\n\
+						"P"2. "W"Роботи\n\
+						"P"3. "W"Оренда транспортного засобу\n\
+						"P"4. "W"Державні організації\n\
+						"P"5. "W"Неофіційні організації\n\
+						"P"6. "W"Автосалони і тюнінги\n\
+						"P"7. "W"Бізнеси\n\
+						"P"8. "W"Багатоквартирні будинки\n\
+						"P"9. "W"Центральний ринок\n\
+						"P"10."W" Сімейний центр\n\
+						"P"11."W" Розваги\n\
+						"P"12."W" АЗС\n\
+						"P"13."W" Різне\n", "Обрати", "Скасувати");
+		new place[32];
+		strmid(place, inputtext, 0, 32);
+		//SetPVarString(playerid, "taxi_place_list", place);
+		SetPVarInt(playerid, "taxi_place", 2);
+
+		SetPVarInt(playerid, "taxi_place_id", listitem+1);
+		new string[128];
+		format(string, sizeof(string), "Listitem = %d", GetPVarInt(playerid, "taxi_place_id"));
+		SendHint(playerid, string);
+		format(string, sizeof(string), ""W"Ви обрали пункт призначення "P"'%s'\n\n"W"Бажаєте підтвердити Ваш вибір?", place);
+		ShowPlayerDialog(playerid, dTaxiPlace, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Підтвердження замовлення", string, "Далі", "Скасувати");
+	}
+	case dTaxiPlaceListWork:
+	{
+		if(!response) return ShowPlayerDialog(playerid, dTaxiPlaceList, DIALOG_STYLE_LIST, ""W"Таксі | "P"Список місць призначення", "\
+						"P"1. "W"Громадські місця\n\
+						"P"2. "W"Роботи\n\
+						"P"3. "W"Оренда транспортного засобу\n\
+						"P"4. "W"Державні організації\n\
+						"P"5. "W"Неофіційні організації\n\
+						"P"6. "W"Автосалони і тюнінги\n\
+						"P"7. "W"Бізнеси\n\
+						"P"8. "W"Багатоквартирні будинки\n\
+						"P"9. "W"Центральний ринок\n\
+						"P"10."W" Сімейний центр\n\
+						"P"11."W" Розваги\n\
+						"P"12."W" АЗС\n\
+						"P"13."W" Різне\n", "Обрати", "Скасувати");
+		new place[32];
+		strmid(place, inputtext, 0, 32);
+		//SetPVarString(playerid, "taxi_place_list", place);
+		SetPVarInt(playerid, "taxi_place", 2);
+		SetPVarInt(playerid, "taxi_place_id", listitem+20);
+		new string[128];
+		format(string, sizeof(string), "Listitem = %d", GetPVarInt(playerid, "taxi_place_id"));
+		SendHint(playerid, string);
+		format(string, sizeof(string), ""W"Ви обрали пункт призначення "P"'%s'\n\n"W"Бажаєте підтвердити Ваш вибір?", place);
+		ShowPlayerDialog(playerid, dTaxiPlace, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Підтвердження замовлення", string, "Далі", "Скасувати");
+	}
+	case dTaxiPlaceListRent:
+	{
+		if(!response) return ShowPlayerDialog(playerid, dTaxiPlaceList, DIALOG_STYLE_LIST, ""W"Таксі | "P"Список місць призначення", "\
+						"P"1. "W"Громадські місця\n\
+						"P"2. "W"Роботи\n\
+						"P"3. "W"Оренда транспортного засобу\n\
+						"P"4. "W"Державні організації\n\
+						"P"5. "W"Неофіційні організації\n\
+						"P"6. "W"Автосалони і тюнінги\n\
+						"P"7. "W"Бізнеси\n\
+						"P"8. "W"Багатоквартирні будинки\n\
+						"P"9. "W"Центральний ринок\n\
+						"P"10."W" Сімейний центр\n\
+						"P"11."W" Розваги\n\
+						"P"12."W" АЗС\n\
+						"P"13."W" Різне\n", "Обрати", "Скасувати");
+		new place[32];
+		strmid(place, inputtext, 0, 32);
+		//SetPVarString(playerid, "taxi_place_list", place);
+		SetPVarInt(playerid, "taxi_place", 2);
+
+		SetPVarInt(playerid, "taxi_place_id", listitem+40);
+
+		new list = GetPVarInt(playerid, "taxi_place_id");
+		new item[56];
+		format(item, sizeof(item), "Listitem = %d", item);
+		SendHint(playerid, item);
+
+		new string[128];
+		format(string, sizeof(string), ""W"Ви обрали пункт призначення "P"'%s'\n\n"W"Бажаєте підтвердити Ваш вибір?", place);
+		ShowPlayerDialog(playerid, dTaxiPlace, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Підтвердження замовлення", string, "Далі", "Скасувати");
+	}
+	case dTaxiPlaceListOrg:
+	{
+		if(!response) return ShowPlayerDialog(playerid, dTaxiPlaceList, DIALOG_STYLE_LIST, ""W"Таксі | "P"Список місць призначення", "\
+						"P"1. "W"Громадські місця\n\
+						"P"2. "W"Роботи\n\
+						"P"3. "W"Оренда транспортного засобу\n\
+						"P"4. "W"Державні організації\n\
+						"P"5. "W"Неофіційні організації\n\
+						"P"6. "W"Автосалони і тюнінги\n\
+						"P"7. "W"Бізнеси\n\
+						"P"8. "W"Багатоквартирні будинки\n\
+						"P"9. "W"Центральний ринок\n\
+						"P"10."W" Сімейний центр\n\
+						"P"11."W" Розваги\n\
+						"P"12."W" АЗС\n\
+						"P"13."W" Різне\n", "Обрати", "Скасувати");
+		new place[32];
+		strmid(place, inputtext, 0, 32);
+		//SetPVarString(playerid, "taxi_place_list", place);
+		SetPVarInt(playerid, "taxi_place", 2);
+		SetPVarInt(playerid, "taxi_place_id", listitem+60);
+
+
+		new list = GetPVarInt(playerid, "taxi_place_id");
+		new item[56];
+		format(item, sizeof(item), "Listitem = %d", item);
+		SendHint(playerid, item);
+
+		new string[128];
+		SendHint(playerid, string);
+		format(string, sizeof(string), ""W"Ви обрали пункт призначення "P"'%s'\n\n"W"Бажаєте підтвердити Ваш вибір?", place);
+		ShowPlayerDialog(playerid, dTaxiPlace, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Підтвердження замовлення", string, "Далі", "Скасувати");
+	}
+	case dTaxiPlaceListCrime:
+	{
+		if(!response) return ShowPlayerDialog(playerid, dTaxiPlaceList, DIALOG_STYLE_LIST, ""W"Таксі | "P"Список місць призначення", "\
+						"P"1. "W"Громадські місця\n\
+						"P"2. "W"Роботи\n\
+						"P"3. "W"Оренда транспортного засобу\n\
+						"P"4. "W"Державні організації\n\
+						"P"5. "W"Неофіційні організації\n\
+						"P"6. "W"Автосалони і тюнінги\n\
+						"P"7. "W"Бізнеси\n\
+						"P"8. "W"Багатоквартирні будинки\n\
+						"P"9. "W"Центральний ринок\n\
+						"P"10."W" Сімейний центр\n\
+						"P"11."W" Розваги\n\
+						"P"12."W" АЗС\n\
+						"P"13."W" Різне\n", "Обрати", "Скасувати");
+		new place[32];
+		strmid(place, inputtext, 0, 32);
+		//SetPVarString(playerid, "taxi_place_list", place);
+		SetPVarInt(playerid, "taxi_place", 2);
+		SetPVarInt(playerid, "taxi_place_id", listitem+80);
+		new string[128];
+		format(string, sizeof(string), "Listitem = %d", GetPVarInt(playerid, "taxi_place_id"));
+		SendHint(playerid, string);
+		format(string, sizeof(string), ""W"Ви обрали пункт призначення "P"'%s'\n\n"W"Бажаєте підтвердити Ваш вибір?", place);
+		ShowPlayerDialog(playerid, dTaxiPlace, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Підтвердження замовлення", string, "Далі", "Скасувати");
+	}
+	/*case dTaxiPlace:
+		{
+			if(!response)
+			{
+				if(GetPVarInt(playerid, "taxi_place")) DeletePVar(playerid, "taxi_place");
+				DeletePVar(playerid, "taxi_place_list");
+				return 1;
+			}
+			switch(GetPVarInt(playerid, "taxi_place"))
+			{
+				case 1:
+				{
+					foreach(new i:Player)
+					{
+						if(GetPVarInt(i, "taxi_started") && GetDistanceBetweenPlayers(playerid,i) <= TI[i][tJobTaxiRadius])
+						{
+							//if(!TI[i][tLogin] && PI[i][pJob] != 7) continue;
+							if(GetPlayerVirtualWorld(i) != 0) continue;
+							if(GetPlayerState(i) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(i) != GetPVarInt(i,"veh_id_taxi")) continue;
+							static const f_str[] = ""P"Диспетчер: "YELLOW"%s"W" викликає таксі. Місце призначення: вкаже місце призначення водію. Відстань: "P"%.2f м"W".";
+							new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 12) + (-2 + 6)];
+							format(str,sizeof(str),f_str,player_name[playerid],GetDistanceBetweenPlayers(playerid,i));
+							SendClientMessage(i,-1,str);
+							SendHint(i, "Щоб переглянути список замовлень, введіть "P"/taxilist");
+							SendHint(i, "Щоб швидко прийняти замовлення, натисніть "P"клавішу Y");
+						}
+					}
+					SetPVarInt(playerid,"taxi_st",1);
+					SetPVarInt(playerid,"taxi_time",gettime()+60);
+					SendOK(playerid,"Ви викликали таксі, очікуйте підтверждення замовлення.");
+				}
+				case 2:
+				{
+					new Float:TaxiPosX, Float:TaxiPosY, Float:TaxiPosZ, place[128];
+					switch(GetPVarInt(playerid, "taxi_place_id"))
+					{
+						case 1: place = "Центр зайнятості", TaxiPosX = 1411.5740, TaxiPosY = -1699.5056, TaxiPosZ = 13.5395;
+						case 2: place = "Банк", TaxiPosX = 595.14, TaxiPosY = -1244.26, TaxiPosZ = 17.61;
+						case 3: place = "Автошкола", TaxiPosX = 738.9437, TaxiPosY = -1414.0231, TaxiPosZ = 13.5187;
+						case 4: place = "Військкомат", TaxiPosX = 1241.3760, TaxiPosY = 325.8867, TaxiPosZ = 19.7555;
+						case 5: place = "Автовокзал м. Лос-Сантос", TaxiPosX = 1814.4481, TaxiPosY = -1890.3649, TaxiPosZ = 13.4141;
+						case 6: place = "Церква", TaxiPosX = 2228.7283, TaxiPosY = -1333.2148, TaxiPosZ = 23.9844;
+						case 7: place = "Казино", TaxiPosX = 1287.6201, TaxiPosY = -1154.8115, TaxiPosZ = 23.8281;
+						case 8: place = "Місце для рибалки", TaxiPosX = 796.0737, TaxiPosY = -1821.4429, TaxiPosZ = 13.0234;
+						case 9: place = "Спортзал", TaxiPosX = 2226.1067, TaxiPosY = -1724.4768, TaxiPosZ = 13.5577;
+						case 10: place = "Ріелторське агентство", TaxiPosX = 606.5849, TaxiPosY = -1458.5662, TaxiPosZ = 14.3826;
+						case 11: place = "Тир", TaxiPosX = 1362.9243, TaxiPosY = -1279.1244, TaxiPosZ = 13.5469;
+						case 12: place = "Озеро 'Місце пошуку предметів'", TaxiPosX = -785.2922, TaxiPosY = -1893.7770, TaxiPosZ = 8.2463;
+
+						case 21: place = "Яблуневий сад", TaxiPosX = -118.2737, TaxiPosY = 7.1584, TaxiPosZ = 3.1172);
+						case 22: place = "Завод з виготовлення зброї", TaxiPosX = -99.5097, TaxiPosY = -305.2837, TaxiPosZ = 1.4297);
+						case 23: place = "Лісопильня", TaxiPosX = 1099.8252, TaxiPosY = -303.9689, TaxiPosZ = 73.9922);
+						case 24: place = "Чистильник каналізацій", TaxiPosX = 2218.2473, TaxiPosY = -2524.7737, TaxiPosZ = 13.5469);
+						case 25: place = "Робота на будівництві", TaxiPosX = 1683.6522, TaxiPosY = 400.0472, TaxiPosZ = 30.4022);
+						case 26: place = "Робота інкасатором", TaxiPosX = 1283.5035, TaxiPosY = -1344.8032, TaxiPosZ = 13.3856);
+						case 27: place = "Кур'єр доставки", TaxiPosX = 792.1321, TaxiPosY = -1627.8546, TaxiPosZ = 13.3906);
+						case 28: place = "Транспортна компанія", TaxiPosX = -501.7820, TaxiPosY = -525.4227, TaxiPosZ = 25.5234);
+
+						case 40: place = "Оренда автобусів", TaxiPosX = 1269.4330, TaxiPosY = -1846.6799, TaxiPosZ = 13.3974);
+						case 41: place = "Оренда кур'єрів", TaxiPosX = 218.3788, TaxiPosY = -1443.7483, TaxiPosZ = 13.2123);
+						case 42: place = "Оренда транспорту механіків м. Лос-Сантос (1)", TaxiPosX = 1636.6709, TaxiPosY = -1106.8654, TaxiPosZ = 23.9063);
+						case 43: place = "Оренда транспорту механіків м. Лос-Сантос (2)", TaxiPosX = -82.6767, TaxiPosY = -1155.2017 TaxiPosZ = ,1.7500);
+						case 44: place = "Оренда транспорту для прибирання вулиць", TaxiPosX = 693.0519, TaxiPosY = -1576.1600, TaxiPosZ = 14.2411);
+						case 45: place = "Оренда доставки продуктів", TaxiPosX =  1344.0884, TaxiPosY = 352.1465, TaxiPosZ = 19.554);
+						case 46: place = "Оренда доставки палива", TaxiPosX =  -10.1753, TaxiPosY = -314.8848, TaxiPosZ = 5.4229);
+						case 47: place = "Оренда таксі", TaxiPosX = 1103.6682, TaxiPosY = -1742.0496, TaxiPosZ = 13.4692);
+
+						case 60: place = "Уряд", TaxiPosX = 1481.4768, TaxiPosY = -1744.2710, TaxiPosZ = 13.5469);
+						case 61: place = "Департамент поліції Лос-Сантос", TaxiPosX = 1539.1508, TaxiPosY = -1675.5208,13.5469);
+						case 62: place = "Офіс шерифа округу Ред", TaxiPosX = 634.6371, TaxiPosY = -571.4913, TaxiPosZ = 16.3359);
+						case 63: place = "Центральна лікарня Всіх Святих", TaxiPosX = 1188.2722, TaxiPosY = -1325.6403, TaxiPosZ = 13.0595);
+						case 64: place = "Пожежна служба Лос-Сантос", TaxiPosX = 1997.1454, TaxiPosY = -2101.3132, TaxiPosZ = 13.5469);
+						case 65: place = "Федеральне Бюро Розслідувань", TaxiPosX = 1539.4984, TaxiPosY = -1276.7616, TaxiPosZ = 17.4080);
+						case 66: place = "Національна гвардія", TaxiPosX = 2704.6938, TaxiPosY = -2399.0684, TaxiPosZ = 13.6328);
+						case 67: place = "Лос-Сантос Таймс", TaxiPosX = 1589.3326, TaxiPosY = -1317.3939, TaxiPosZ = 17.5201);
+
+						case 80: place = "Ballas", TaxiPosX = 2646.6877, TaxiPosY = -2008.3911, TaxiPosZ = 13.3828);
+						case 81: place = "Los-Santos Vagos", TaxiPosX = 2742.2312, TaxiPosY = -1177.2218, TaxiPosZ = 69.2422);
+						case 82: place = "Grove Streen", TaxiPosX = 2461.8611, TaxiPosY = -1658.8733, TaxiPosZ = 13.3047);
+						case 83: place = "Varrios Los-Aztecas", TaxiPosX = 1696.4821, TaxiPosY = -2112.6555, TaxiPosZ = 13.4739);
+						case 84: place = "The Rifa", TaxiPosX = 2181.6118, TaxiPosY = -1806.0558, TaxiPosZ = 13.3716);
+						case 85: place = "Ла Коза Ностра", TaxiPosX = 1270.2561, TaxiPosY = -917.3580, TaxiPosZ = 42.3488);
+						case 86: place = "Тріада", TaxiPosX = 664.7656, TaxiPosY = -1306.5183, TaxiPosZ = 13.4609);
+						case 87: place = "Медельїнський картель", TaxiPosX = 1362.6654, TaxiPosY = 401.4814, TaxiPosZ = 19.5706);
+						case 88: place = "Bandidoc MC", TaxiPosX =  320.6742, TaxiPosY = -65.9639, TaxiPosZ = 1.5781);
+
+					}
+
+
+					new distance = floatround(GetPlayerDistanceFromPoint(playerid, TaxiPosX, TaxiPosY, TaxiPosZ));
+
+					new sum = floatround(distance/100*TaxiMainFare);
+
+					new string[512];
+
+					format(string, sizeof(string), "Listitem = %d. Place = %s", GetPVarInt(playerid, "taxi_place_id"), place);
+					SendHint(playerid, string);
+
+
+					foreach(new i:Player)
+					{
+						if(GetPVarInt(i, "taxi_started") && GetDistanceBetweenPlayers(playerid,i) <= TI[i][tJobTaxiRadius])
+						{
+							//if(!TI[i][tLogin] && PI[i][pJob] != 7) continue;
+							if(GetPlayerVirtualWorld(i) != 0) continue;
+							if(GetPlayerState(i) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(i) != GetPVarInt(i,"veh_id_taxi")) continue;
+							format(string, sizeof(string), ""P"Диспетчер: "YELLOW"%s"W" викликає таксі. Місце призначення: "P"%s. "W"Відстань: "P"%.2f м."W" Вартість: "G"$%d", player_name[playerid], place, distance, sum);
+							SendClientMessage(i,-1,str);
+							SendHint(i, "Щоб переглянути список замовлень, введіть "P"/taxilist");
+							SendHint(i, "Щоб швидко прийняти замовлення, натисніть "P"клавішу Y");
+						}
+					}
+					SetPVarInt(playerid,"taxi_st",1);
+					SetPVarInt(playerid,"taxi_time",gettime()+60);
+					SendOK(playerid,"Ви викликали таксі, очікуйте підтверждення замовлення.");
+
+
+					format(string, sizeof(string), "\
+						"W"Ви обрали пункт "P"'%s'.\n\n\
+						"G"Дистанція до пункту призначення: "GREEN"%d м\n\
+						"G"Тариф: "GREEN"$%d\n\
+						"G"Вартість поїздки: "GREEN"$%d\n\n\
+						"W"Приємної Вам поїздки!", place, distance, TaxiMainFare, sum);
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""W"Таксі | "P"Деталі виклику", string, "Окей", "Скасувати");
+				}
+			}
+		}*/
 	case D_TAXIST: {
 			if(!response) return 1;
 			new id = GetPlayerID(inputtext[3]);
@@ -29028,10 +30479,12 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 		TI[playerid][tJobSalary] += money;
 		new string[102];
 		format(string,sizeof(string),""W"Ви принесли"P" 2 шт."W" яєць. Всього принесено:"P" %d шт.",EggCount[playerid]);
-		SendUse(playerid,string);
+		SendInfo(playerid,string);
 		new s_[24];
-		format(s_,sizeof(s_),"MONEY:_$%d",TI[playerid][tJobSalary]);
-		PlayerTextDrawSetString(playerid,work_td[playerid][1],s_);
+		format(s_,sizeof(s_),"Money:_$%d",TI[playerid][tJobSalary]);
+		PlayerTextDrawSetString(playerid,work_td[playerid][2],s_);
+		format(s_,sizeof(s_),"Collected:_%deggs",EggCount[playerid]);
+		PlayerTextDrawSetString(playerid,work_td[playerid][3],s_);
 		DestroyDynamicCP(EggSklad[playerid]);
 	}
 	return 1;
@@ -29299,7 +30752,12 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			}
 		case 23: {
 				if(!TI[playerid][tJobSad][0]) return SendError(playerid, "Необхідно одягнути робочу форму.");
-				if(GetPVarInt(playerid,"bailer") == 1) return SendError(playerid, "Ви вже взяли лійку.");
+				if(GetPVarInt(playerid,"bailer") == 1) 
+				{
+					if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
+					DeletePVar(playerid, "bailer");
+					return SendOK(playerid, "Ви поклали лійку назад на місце.");
+				}
 				SetPlayerAttachedObject(playerid, 7, 19621, 6, 0.068000, 0.040999, 0.001000, 0.000000, 0.000000, 94.299972, 1.000000, 1.000000, 1.000000); //
 				SetPVarInt(playerid,"bailer",1);
 			}
@@ -29314,7 +30772,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					return 1;
 				}
 				if(GetPVarInt(playerid,"egg_start") == 1) return ShowPlayerDialog(playerid,D_FARM_END_1,DSM, ""P"Завершення роботи.","\n\n\t"P"Оберіть спосіб оплати\n\n"G"При виборі оплати на банківський рахунок,\nзарабітна плата прийде під час PayDay\n\n","Готівка","Банк");
-				ShowPlayerDialog(playerid,D_FARM,DSL, ""P"Ферма.",""P"1."W" Робота у яблучному саду\n"P"2."W" Збирач яєць","Далі","Закрити");
+				ShowPlayerDialog(playerid,D_FARM,DSL, ""P"Ферма.",""P"1."W" Робота в яблуневому саду\n"P"2."W" Збирач яєць","Далі","Закрити");
 			}
 		case 25: 
 		{	
@@ -29624,20 +31082,30 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				TI[playerid][tJobWood][1] = 0;
 				SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
 				SetPlayerAttachedObject(playerid,8,341,6);
+<<<<<<< HEAD
+
+				if(pick == 68) {
+=======
 				
 				if(pick == 67) {
+>>>>>>> parent of bd89ac6 (upd)
 					new obj = CreateDynamicObject(1463, 1062.2775, -304.3090, 74.2226, 0.000000, 0.000000, 49.499992);
 					SetGVarInt("WoodConv",1,obj);
 					MoveDynamicObject(obj,1056.8375, -304.3090, 74.2226, 1, 0.000000, 0.000000, 49.499992);
 				}
-				else if(pick == 68) {
+				else if(pick == 69) {
 					new obj = CreateDynamicObject(1463, 1062.5474, -296.1025, 74.2431, 0.000000, 0.000000, 49.499992);
 					SetGVarInt("WoodConv",1,obj);
 					MoveDynamicObject(obj,1056.8074, -296.1025, 74.2431, 1, 0.000000, 0.000000, 49.499992);
 				}
 				TI[playerid][tJobWood][3] = 1;
 				TI[playerid][tJobSalary] += SALARY_WOOD;
+<<<<<<< HEAD
+				TI[playerid][tJobWoodSawed] ++;
+
+=======
 				
+>>>>>>> parent of bd89ac6 (upd)
 				PI[playerid][pDress] += 1;
 				UpdatePlayerData(playerid,"dress",PI[playerid][pDress]);
 				
@@ -29650,10 +31118,15 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				if(QuestProgress[playerid][49] == 10 && AcceptQuest[playerid][49] != 0) {
 					ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
 				}
+<<<<<<< HEAD
+=======
 				
+>>>>>>> parent of bd89ac6 (upd)
 				new string[24];
-				format(string,sizeof(string),"MONEY:_$%d",TI[playerid][tJobSalary]);
-				PlayerTextDrawSetString(playerid,work_td[playerid][1],string);
+				format(string,sizeof(string),"Money:_$%d",TI[playerid][tJobSalary]);
+				PlayerTextDrawSetString(playerid,work_td[playerid][2],string);
+				format(string,sizeof(string),"Sawed:_%d",TI[playerid][tJobWoodSawed]);
+				PlayerTextDrawSetString(playerid,work_td[playerid][3],string);
 			}
 		}
 	}
@@ -29941,10 +31414,19 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		if(QuestProgress[playerid][48] == 10 && AcceptQuest[playerid][48] != 0) {
 			ShowPlayerDialog(playerid,DIALOG_NONE,DSM, "Виконання квесту",""W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.","Закрити","");
 		}
+		TI[playerid][jJobGunCreated] ++;
 		new string[24];
+<<<<<<< HEAD
+		format(string,sizeof(string),"Money:_$%d",TI[playerid][tJobSalary]);
+		PlayerTextDrawSetString(playerid,work_td[playerid][2],string);
+		format(string,sizeof(string),"Created:_%d",TI[playerid][jJobGunCreated]);
+		PlayerTextDrawSetString(playerid,work_td[playerid][3],string);
+
+=======
 		format(string,sizeof(string),"MONEY:_$%d",TI[playerid][tJobSalary]);
 		PlayerTextDrawSetString(playerid,work_td[playerid][1],string);
 		
+>>>>>>> parent of bd89ac6 (upd)
 		if(PI[playerid][pFamily]) {
 			gFamily[PI[playerid][pFamily]-1][famTalon] += 1;
 			UpdateFamily(PI[playerid][pFamily],"talon",gFamily[PI[playerid][pFamily]-1][famTalon]);
@@ -30051,11 +31533,20 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			UpdateFamily(PI[playerid][pFamily],"talon",gFamily[PI[playerid][pFamily]-1][famTalon]);
 			PI[playerid][pFamTalon] += 1, UpdatePlayerData(playerid, "talon_fam", PI[playerid][pFamTalon]);
 		}
+<<<<<<< HEAD
+		update_payment(playerid, TI[playerid][tJobSalary], TI[playerid][tJobSad][2] * SALARY_APPLE);
+=======
 		
+>>>>>>> parent of bd89ac6 (upd)
 		TI[playerid][tJobSad][2] = 0;
+
+		/*
 		new string[24];
-		format(string,sizeof(string),"MONEY:_$%d",TI[playerid][tJobSalary]);
-		PlayerTextDrawSetString(playerid,work_td[playerid][1],string);
+		format(string,sizeof(string),"Money:_$%d",TI[playerid][tJobSalary]);
+		PlayerTextDrawSetString(playerid, work_td[playerid][2], string);
+		format(string, sizeof(string), "Collected:_%dkg", TI[playerid][tJobSad][3]);
+		PlayerTextDrawSetString(playerid,work_td[playerid][3], string);
+		*/
 	}
 	else if(WD::[0][woodZone] <= areaid <= WD::[MAX_WOODS - 1][woodZone] && pstate == PLAYER_STATE_ONFOOT) {
 		new j = areaid - WD::[0][woodZone];
@@ -30293,6 +31784,7 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 			JobTempProcess[playerid] = 0;
 			if(TI[playerid][tJobWood][1]) TogglePlayerControllable(playerid,true);
 			TI[playerid][tJobWood][2] = -1;
+			SendHint(playerid, "Віднесіть деревину до одного з конвеєрів.");
 		}
 	}
 	else if(areaid >= gAreas[arJob][0] && areaid <= gAreas[arJob][3]) {
@@ -30402,6 +31894,12 @@ public OnPlayerDisconnect(playerid, reason) {
 		save_skill(playerid);
 		skill_gun[playerid] = 0;
 	}
+	for(new i = 0; i < 44; i++)
+	{
+		PlayerTextDrawDestroy(playerid, PhoneGUI[playerid][i]);
+	}
+	PhoneShow[playerid] = false;
+	PhoneLocked[playerid] = 0;
 	if (GetPlayerVehicles(playerid)) {
 		new player_vehicleid = playerVehicleID[playerid];
 		if (PlayerTrailer[player_vehicleid][carOwnerID] == playerid) {
@@ -30759,6 +32257,8 @@ public OnPlayerDisconnect(playerid, reason) {
 	DeletePVarHack(playerid);
 	//RemoveMask(playerid);
 	RobLeave(playerid);
+	TI[playerid][tJobTaxiFare] = 0;
+	TI[playerid][tJobTaxiRadius] = 0;
 	return 1;
 }
 #if !defined _INC_WEAPON_CONFIG
@@ -31176,6 +32676,7 @@ public OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid
 }
 public OnPlayerSpawn(playerid) {
 	if(!TI[playerid][tLogin] || !TI[playerid][tJoined]) return 1;
+	SendClientMessage(playerid, -1, "OnPlayerSpawn");
 	if(PI[playerid][pMember] == 0) start_work[playerid] = 0;
 	ShowPlayerDialog(playerid, -1, 0, " ", " ", " ", " ");
 	SetPlayerColor(playerid, 0xFFFFFF11);
@@ -32036,7 +33537,7 @@ public OnRconCommand(cmd[]) {
 }
 CB: CarryDelay(playerid) ApplyAnimation(playerid,"CARRY","crry_prtial",4.0,1,1,1,1,1,1);
 CB: PlayerDelayBailer(playerid) {
-	SendClientMessage(playerid,CGOLD,"Ви підлили дерево. Очікуйте стадію збору яблук");
+	SendInfo(playerid, "Ви підлили дерево. Очікуйте стадію збору яблук");
 	ClearAnimations(playerid);
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 7))RemovePlayerAttachedObject(playerid, 7);
 	SetPVarInt(playerid,"sad_uxod",1);
@@ -32719,7 +34220,11 @@ public OnPlayerRequestSpawn(playerid) {
 public OnPlayerRequestClass(playerid, classid) {
 	
 	SetSpawnInfo(playerid, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 );
-	if(TI[playerid][tLogin]) return PlayerSpawn(playerid);
+	if(TI[playerid][tLogin]) 
+	{ 
+		SendClientMessage(playerid, -1, "public OnPlayerRequestClass PlayerSpawn"); 
+		return PlayerSpawn(playerid); 
+	}
 	else if(!PI[playerid][pID])
 	{
 		TI[playerid][tJoined] = true;
@@ -32728,6 +34233,7 @@ public OnPlayerRequestClass(playerid, classid) {
 		mysql_format(connects, query, sizeof(query), "SELECT `pID`, `pKey`,`pSalt`, `pKeyip`, `GoogleCode`, `pGoogle`, `pvIp` FROM `accounts` WHERE `Name` = '%s' LIMIT 1",player_name[playerid]);
 		mysql_tquery(connects, query, "OnPlayerRequestDetect", "d", playerid);
 	}
+	SendClientMessage(playerid, -1, "public OnPlayerRequestClass");
 	return 1;
 }
 stock RemoveSettings(playerid) { // сброс настроек при авторизации/реєстрації
@@ -32804,6 +34310,7 @@ CB: OnPlayerRequestDetect(playerid) {
 	if(!IsPlayerConnected(playerid)) return 1;
 	
 	SetSpawnInfo(playerid, 255, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0);
+
 	RemoveSettings(playerid);
 	SpecPl(playerid, true);
 	
@@ -32818,7 +34325,17 @@ CB: OnPlayerRequestDetect(playerid) {
 	ApplyAnimation(playerid,"BAR","dnK_StndM_loop",0.0,0,0,0,0,0);
 	
 	SetPlayerVirtualWorld(playerid,102);
+<<<<<<< HEAD
+	new hour, minute, second, htxt[13];
+	gettime(hour, minute, second);
+	if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Добрий ранок");
+	if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
+	if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
+	if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброй ночі");
+
+=======
 	
+>>>>>>> parent of bd89ac6 (upd)
 	new rows;
 	cache_get_row_count(rows);
 	if(rows) {
@@ -32829,21 +34346,37 @@ CB: OnPlayerRequestDetect(playerid) {
 		cache_get_value_name(0, "GoogleCode", PI[playerid][pGoogle],63);
 		cache_get_value_name_int(0, "pGoogle", PI[playerid][pGoogleSec]);
 		cache_get_value_name(0, "pvIp", player_ip[playerid],17);
-		new hour, minute, second, htxt[13], string[450];
+		new string[450];
 		gettime(hour, minute, second);
 		if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Добрий ранок");
 		if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
 		if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
 		if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброй ночі");
-		format(string,sizeof(string),""W"%s,"P" %s"W"!\nЦей аккаунт зареєстровано на нашому сервері\n\nВведіть нижче пароль для авторизації:",htxt, player_name[playerid]);
-		ShowPlayerDialog(playerid, D_LOGIN, DSP, ""P"Авторизація", string, "Далі", "Закрити");
+		format(string,sizeof(string),"\
+					"W"%s!\n\
+					Ласкаво просимо на "P"Chiliad RolePlay\n\
+					"W"Цей акаунт зареєстровано на нашому сервері\n\n\
+					Акаунт: "P"%s\n\n\
+					"W"Введіть пароль для авторизації:\n\n",htxt, player_name[playerid]);
+		ShowPlayerDialog(playerid, D_LOGIN, DSP, ""W"Авторизація | "P"Пароль", string, "Далі", "Закрити");
 	}
 	else
 	{
-		new string[420];
-		format(string,sizeof(string),""W"Ласкаво просимо,"P" %s"W"!\nЦей акаунт не зареєстровано"W" на нашому сервері.\n\nВведіть нижче пароль для реєстрації, він буде\nзапитуватись у вас під час авторизації\n\n\
-		\tПримітки:\n\t - Довжина паролю має бути від 6 і до 30 символів\n\t - Пароль повинен складатись з букв і цифр\n\t - Пароль чутливий до регістру",player_name[playerid]);
-		ShowPlayerDialog(playerid,D_REG,DSI, ""P"Реєстрація",string, "Далі", "Закрити");
+		new string[650];
+		format(string,sizeof(string),"\
+					"W"%s!\n\
+					Ласкаво просимо на "P"Chiliad RolePlay\n\
+					"W"Цей акаунт не зареєстровано на нашому сервері\n\n\
+					Акаунт: "P"%s\n\n\
+					"W"Введіть пароль для реєстрації:\n\n\
+					"G"* Довжина паролю повинна бути від 6 до 30 символів\n\
+					"G"* Пароль повинен містити у собі букви та цифри\n\
+					"G"* Пароль чутливий до регістру\n\n",htxt, player_name[playerid]);
+
+
+		// format(string,sizeof(string),""W"Ласкаво просимо,"P" %s"W"!\nЦей акаунт не зареєстровано"W" на нашому сервері.\n\nВведіть нижче пароль для реєстрації, він буде\nзапитуватись у вас під час авторизації\n\n\
+		// \tПримітки:\n\t - Довжина паролю має бути від 6 і до 30 символів\n\t - Пароль повинен складатись з букв і цифр\n\t - Пароль чутливий до регістру",player_name[playerid]);
+		ShowPlayerDialog(playerid,D_REG,DSI, ""W"Реєстрація | "P"Пароль",string, "Далі", "Закрити");
 	}
 	return 1;
 }
@@ -33841,6 +35374,9 @@ public CreateSphree() {
 	return 1;
 }
 stock CreatePickups() {
+	CreateDynamic3DTextLabel(""P"Лійки\n"W"Для взаємодії натисніть "P"ALT",-1,-109.8778,12.4586,3.1257,5.0);
+	CreateDynamic3DTextLabel(""P"Ящики\n"W"Для взаємодії натисніть "P"ALT",-1,-101.1865,8.3121,3.1257,5.0);
+
 	CreateDynamicPickup(3632,23,-2193.8083,-205.0704,35.2970,0,0);//[нефть] пікап бочки
 	CreateDynamicPickup(3632,23,-2193.4939,-234.2975,35.2970,0,0);//[нефть] пікап бочки
 	CreateDynamicPickup(19131,23,2357.3328,-2023.5265,13.8836); // чорний ринок пікап
@@ -34095,6 +35631,303 @@ stock Create3dText() {
 	return 1;
 }
 stock CreateTexdraw() {
+
+
+	/*
+
+		Loading Textures
+
+	*/
+	
+	Loading_TD[0] = TextDrawCreate(-1.0000, -4.2887, "loadsc5:loadsc5"); // пусто
+	TextDrawTextSize(Loading_TD[0], 712.0000, 466.0000);
+	TextDrawAlignment(Loading_TD[0], 1);
+	TextDrawColor(Loading_TD[0], -1);
+	TextDrawBackgroundColor(Loading_TD[0], 255);
+	TextDrawFont(Loading_TD[0], 4);
+	TextDrawSetProportional(Loading_TD[0], 0);
+	TextDrawSetShadow(Loading_TD[0], 0);
+
+	Loading_TD[1] = TextDrawCreate(-33.3333, -4.5481, "Box"); // пусто
+	TextDrawLetterSize(Loading_TD[1], 0.0000, 54.2999);
+	TextDrawTextSize(Loading_TD[1], 831.0000, 0.0000);
+	TextDrawAlignment(Loading_TD[1], 1);
+	TextDrawColor(Loading_TD[1], -1);
+	TextDrawUseBox(Loading_TD[1], 1);
+	TextDrawBoxColor(Loading_TD[1], 235802366);
+	TextDrawBackgroundColor(Loading_TD[1], 255);
+	TextDrawFont(Loading_TD[1], 1);
+	TextDrawSetProportional(Loading_TD[1], 0);
+	TextDrawSetShadow(Loading_TD[1], 0);
+
+	Loading_TD[2] = TextDrawCreate(224.3332, 258.5357, "particle:lamp_shad_64"); // пусто
+	TextDrawTextSize(Loading_TD[2], 184.0000, -16.0000);
+	TextDrawAlignment(Loading_TD[2], 1);
+	TextDrawColor(Loading_TD[2], -235);
+	TextDrawBackgroundColor(Loading_TD[2], 255);
+	TextDrawFont(Loading_TD[2], 4);
+	TextDrawSetProportional(Loading_TD[2], 0);
+	TextDrawSetShadow(Loading_TD[2], 0);
+
+	Loading_TD[3] = TextDrawCreate(241.2337, 240.8663, "LD_SPAC:white"); // пусто
+	TextDrawTextSize(Loading_TD[3], 154.0000, 10.0000);
+	TextDrawAlignment(Loading_TD[3], 1);
+	TextDrawColor(Loading_TD[3], 505290495);
+	TextDrawBackgroundColor(Loading_TD[3], 255);
+	TextDrawFont(Loading_TD[3], 4);
+	TextDrawSetProportional(Loading_TD[3], 0);
+	TextDrawSetShadow(Loading_TD[3], 0);
+
+	Loading_TD[4] = TextDrawCreate(242.5670, 242.4109, "LD_SPAC:white"); // пусто
+	TextDrawTextSize(Loading_TD[4], 151.2198, 6.7599);
+	TextDrawAlignment(Loading_TD[4], 1);
+	TextDrawColor(Loading_TD[4], 235802367);
+	TextDrawBackgroundColor(Loading_TD[4], 255);
+	TextDrawFont(Loading_TD[4], 4);
+	TextDrawSetProportional(Loading_TD[4], 0);
+	TextDrawSetShadow(Loading_TD[4], 0);
+
+	Loading_TD[5] = TextDrawCreate(318.3330, 231.7404, "LOADING_TEXTURES.."); // пусто
+	TextDrawLetterSize(Loading_TD[5], 0.1753, 0.7329);
+	TextDrawAlignment(Loading_TD[5], 2);
+	TextDrawColor(Loading_TD[5], -1);
+	TextDrawBackgroundColor(Loading_TD[5], 255);
+	TextDrawFont(Loading_TD[5], 1);
+	TextDrawSetProportional(Loading_TD[5], 1);
+	TextDrawSetShadow(Loading_TD[5], 0);
+
+	Loading_TD[6] = TextDrawCreate(280.6997, 213.8253, "particle:lamp_shad_64"); // Logotype
+	TextDrawTextSize(Loading_TD[6], 70.0000, -26.0000);
+	TextDrawAlignment(Loading_TD[6], 1);
+	TextDrawColor(Loading_TD[6], 1234959652);
+	TextDrawBackgroundColor(Loading_TD[6], 255);
+	TextDrawFont(Loading_TD[6], 4);
+	TextDrawSetProportional(Loading_TD[6], 0);
+	TextDrawSetShadow(Loading_TD[6], 0);
+
+	Loading_TD[7] = TextDrawCreate(281.3330, 155.6618, "particle:lamp_shad_64"); // Logotype
+	TextDrawTextSize(Loading_TD[7], 69.0000, 32.0000);
+	TextDrawAlignment(Loading_TD[7], 1);
+	TextDrawColor(Loading_TD[7], 1234959652);
+	TextDrawBackgroundColor(Loading_TD[7], 255);
+	TextDrawFont(Loading_TD[7], 4);
+	TextDrawSetProportional(Loading_TD[7], 0);
+	TextDrawSetShadow(Loading_TD[7], 0);
+
+	Loading_TD[8] = TextDrawCreate(294.0000, 179.2147, "PRIME"); // Logotype
+	TextDrawLetterSize(Loading_TD[8], 0.3540, 1.4714);
+	TextDrawAlignment(Loading_TD[8], 1);
+	TextDrawColor(Loading_TD[8], -1);
+	TextDrawBackgroundColor(Loading_TD[8], 255);
+	TextDrawFont(Loading_TD[8], 1);
+	TextDrawSetProportional(Loading_TD[8], 1);
+	TextDrawSetShadow(Loading_TD[8], 0);
+
+	Loading_TD[9] = TextDrawCreate(294.0000, 189.8153, "ROLE_PLAY"); // Logotype
+	TextDrawLetterSize(Loading_TD[9], 0.2770, 1.0690);
+	TextDrawAlignment(Loading_TD[9], 1);
+	TextDrawColor(Loading_TD[9], -1);
+	TextDrawBackgroundColor(Loading_TD[9], 255);
+	TextDrawFont(Loading_TD[9], 1);
+	TextDrawSetProportional(Loading_TD[9], 1);
+	TextDrawSetShadow(Loading_TD[9], 0);
+
+	Loading_TD[10] = TextDrawCreate(271.3330, 130.9407, ""); // Logotype
+	TextDrawTextSize(Loading_TD[10], 70.0000, 85.0000);
+	TextDrawAlignment(Loading_TD[10], 1);
+	TextDrawColor(Loading_TD[10], 1234959871);
+	TextDrawFont(Loading_TD[10], 5);
+	TextDrawSetProportional(Loading_TD[10], 0);
+	TextDrawSetShadow(Loading_TD[10], 0);
+	TextDrawSetPreviewModel(Loading_TD[10], 19177);
+	TextDrawSetPreviewRot(Loading_TD[10], 0.0000, 0.0000, 0.0000, 1.0000);
+	TextDrawBackgroundColor(Loading_TD[10], 0xFFFFFF00);
+
+	Loading_TD[11] = TextDrawCreate(277.3669, 116.6369, ""); // Logotype
+	TextDrawTextSize(Loading_TD[11], 92.0000, 111.0000);
+	TextDrawAlignment(Loading_TD[11], 1);
+	TextDrawColor(Loading_TD[11], 1234959871);
+	TextDrawFont(Loading_TD[11], 5);
+	TextDrawSetProportional(Loading_TD[11], 0);
+	TextDrawSetShadow(Loading_TD[11], 0);
+	TextDrawSetPreviewModel(Loading_TD[11], 19177);
+	TextDrawSetPreviewRot(Loading_TD[11], 0.0000, 0.0000, 0.0000, 1.0000);
+	TextDrawBackgroundColor(Loading_TD[11], 0xFFFFFF00);
+
+	Loading_TD[12] = TextDrawCreate(259.9002, 96.5110, ""); // Logotype
+	TextDrawTextSize(Loading_TD[12], 115.0000, 147.0000);
+	TextDrawAlignment(Loading_TD[12], 1);
+	TextDrawColor(Loading_TD[12], -1);
+	TextDrawFont(Loading_TD[12], 5);
+	TextDrawSetProportional(Loading_TD[12], 0);
+	TextDrawSetShadow(Loading_TD[12], 0);
+	TextDrawSetPreviewModel(Loading_TD[12], 19177);
+	TextDrawSetPreviewRot(Loading_TD[12], 0.0000, 0.0000, 0.0000, 1.0000);
+	TextDrawBackgroundColor(Loading_TD[12], 0xFFFFFF00);
+
+	Loading_TD[13] = TextDrawCreate(249.5001, 87.0551, ""); // Logotype
+	TextDrawTextSize(Loading_TD[13], 127.0000, 165.0000);
+	TextDrawAlignment(Loading_TD[13], 1);
+	TextDrawColor(Loading_TD[13], 1232535039);
+	TextDrawFont(Loading_TD[13], 5);
+	TextDrawSetProportional(Loading_TD[13], 0);
+	TextDrawSetShadow(Loading_TD[13], 0);
+	TextDrawSetPreviewModel(Loading_TD[13], 19177);
+	TextDrawSetPreviewRot(Loading_TD[13], 0.0000, 0.0000, 0.0000, 1.0000);
+	TextDrawBackgroundColor(Loading_TD[13], 0xFFFFFF00);
+
+	Loading_TD[14] = TextDrawCreate(301.6665, 177.4147, "LD_SPAC:white"); // Logotype
+	TextDrawTextSize(Loading_TD[14], 28.1499, 0.0098);
+	TextDrawAlignment(Loading_TD[14], 1);
+	TextDrawColor(Loading_TD[14], 1234959871);
+	TextDrawBackgroundColor(Loading_TD[14], 255);
+	TextDrawFont(Loading_TD[14], 4);
+	TextDrawSetProportional(Loading_TD[14], 0);
+	TextDrawSetShadow(Loading_TD[14], 0);
+
+	Loading_TD[15] = TextDrawCreate(-24.3332, 276.1257, "LD_SPAC:white"); // пусто
+	TextDrawTextSize(Loading_TD[15], 56.0000, 7.0000);
+	TextDrawAlignment(Loading_TD[15], 1);
+	TextDrawColor(Loading_TD[15], 505290495);
+	TextDrawBackgroundColor(Loading_TD[15], 255);
+	TextDrawFont(Loading_TD[15], 4);
+	TextDrawSetProportional(Loading_TD[15], 0);
+	TextDrawSetShadow(Loading_TD[15], 0);
+
+	Loading_TD[16] = TextDrawCreate(-42.9999, 289.8146, "LD_SPAC:white"); // пусто
+	TextDrawTextSize(Loading_TD[16], 56.0000, 7.0000);
+	TextDrawAlignment(Loading_TD[16], 1);
+	TextDrawColor(Loading_TD[16], 505290495);
+	TextDrawBackgroundColor(Loading_TD[16], 255);
+	TextDrawFont(Loading_TD[16], 4);
+	TextDrawSetProportional(Loading_TD[16], 0);
+	TextDrawSetShadow(Loading_TD[16], 0);
+
+	Loading_TD[17] = TextDrawCreate(610.3333, 52.1258, "LD_SPAC:white"); // пусто
+	TextDrawTextSize(Loading_TD[17], 56.0000, 7.0000);
+	TextDrawAlignment(Loading_TD[17], 1);
+	TextDrawColor(Loading_TD[17], 505290495);
+	TextDrawBackgroundColor(Loading_TD[17], 255);
+	TextDrawFont(Loading_TD[17], 4);
+	TextDrawSetProportional(Loading_TD[17], 0);
+	TextDrawSetShadow(Loading_TD[17], 0);
+
+	Loading_TD[18] = TextDrawCreate(627.0001, 66.2294, "LD_SPAC:white"); // пусто
+	TextDrawTextSize(Loading_TD[18], 56.0000, 7.0000);
+	TextDrawAlignment(Loading_TD[18], 1);
+	TextDrawColor(Loading_TD[18], 505290495);
+	TextDrawBackgroundColor(Loading_TD[18], 255);
+	TextDrawFont(Loading_TD[18], 4);
+	TextDrawSetProportional(Loading_TD[18], 0);
+	TextDrawSetShadow(Loading_TD[18], 0);
+
+	Loading_TD[19] = TextDrawCreate(622.2998, 64.6996, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[19], 8.0000, 10.1197);
+	TextDrawAlignment(Loading_TD[19], 1);
+	TextDrawColor(Loading_TD[19], 505290495);
+	TextDrawBackgroundColor(Loading_TD[19], 255);
+	TextDrawFont(Loading_TD[19], 4);
+	TextDrawSetProportional(Loading_TD[19], 0);
+	TextDrawSetShadow(Loading_TD[19], 0);
+
+	Loading_TD[20] = TextDrawCreate(605.6331, 50.4962, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[20], 8.0000, 10.1197);
+	TextDrawAlignment(Loading_TD[20], 1);
+	TextDrawColor(Loading_TD[20], 505290495);
+	TextDrawBackgroundColor(Loading_TD[20], 255);
+	TextDrawFont(Loading_TD[20], 4);
+	TextDrawSetProportional(Loading_TD[20], 0);
+	TextDrawSetShadow(Loading_TD[20], 0);
+
+	Loading_TD[21] = TextDrawCreate(27.6331, 274.6109, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[21], 8.0000, 10.1197);
+	TextDrawAlignment(Loading_TD[21], 1);
+	TextDrawColor(Loading_TD[21], 505290495);
+	TextDrawBackgroundColor(Loading_TD[21], 255);
+	TextDrawFont(Loading_TD[21], 4);
+	TextDrawSetProportional(Loading_TD[21], 0);
+	TextDrawSetShadow(Loading_TD[21], 0);
+
+	Loading_TD[22] = TextDrawCreate(8.6330, 288.3999, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[22], 8.0000, 10.1197);
+	TextDrawAlignment(Loading_TD[22], 1);
+	TextDrawColor(Loading_TD[22], 505290495);
+	TextDrawBackgroundColor(Loading_TD[22], 255);
+	TextDrawFont(Loading_TD[22], 4);
+	TextDrawSetProportional(Loading_TD[22], 0);
+	TextDrawSetShadow(Loading_TD[22], 0);
+
+	Loading_TD[23] = TextDrawCreate(34.9664, 275.2257, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[23], 7.2898, 8.9799);
+	TextDrawAlignment(Loading_TD[23], 1);
+	TextDrawColor(Loading_TD[23], 505290495);
+	TextDrawBackgroundColor(Loading_TD[23], 255);
+	TextDrawFont(Loading_TD[23], 4);
+	TextDrawSetProportional(Loading_TD[23], 0);
+	TextDrawSetShadow(Loading_TD[23], 0);
+
+	Loading_TD[24] = TextDrawCreate(15.9665, 288.9147, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[24], 7.2898, 8.9799);
+	TextDrawAlignment(Loading_TD[24], 1);
+	TextDrawColor(Loading_TD[24], 505290495);
+	TextDrawBackgroundColor(Loading_TD[24], 255);
+	TextDrawFont(Loading_TD[24], 4);
+	TextDrawSetProportional(Loading_TD[24], 0);
+	TextDrawSetShadow(Loading_TD[24], 0);
+
+	Loading_TD[25] = TextDrawCreate(598.4666, 51.2406, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[25], 7.2898, 8.9799);
+	TextDrawAlignment(Loading_TD[25], 1);
+	TextDrawColor(Loading_TD[25], 505290495);
+	TextDrawBackgroundColor(Loading_TD[25], 255);
+	TextDrawFont(Loading_TD[25], 4);
+	TextDrawSetProportional(Loading_TD[25], 0);
+	TextDrawSetShadow(Loading_TD[25], 0);
+
+	Loading_TD[26] = TextDrawCreate(615.0335, 65.5588, "LD_Beat:Chit"); // пусто
+	TextDrawTextSize(Loading_TD[26], 7.2898, 8.9799);
+	TextDrawAlignment(Loading_TD[26], 1);
+	TextDrawColor(Loading_TD[26], 505290495);
+	TextDrawBackgroundColor(Loading_TD[26], 255);
+	TextDrawFont(Loading_TD[26], 4);
+	TextDrawSetProportional(Loading_TD[26], 0);
+	TextDrawSetShadow(Loading_TD[26], 0);
+
+	Loading_TD[27] = TextDrawCreate(224.3332, 228.3338, "particle:lamp_shad_64"); // пусто
+	TextDrawTextSize(Loading_TD[27], 184.0000, 14.0000);
+	TextDrawAlignment(Loading_TD[27], 1);
+	TextDrawColor(Loading_TD[27], -235);
+	TextDrawBackgroundColor(Loading_TD[27], 255);
+	TextDrawFont(Loading_TD[27], 4);
+	TextDrawSetProportional(Loading_TD[27], 0);
+	TextDrawSetShadow(Loading_TD[27], 0);
+
+
+
+	payment_td[0] = TextDrawCreate(14.999972, 197.518875, "LD_SPAC:white");
+	TextDrawLetterSize(payment_td[0], 0.000000, 0.000000);
+	TextDrawTextSize(payment_td[0], 112.499969, 23.629627);
+	TextDrawAlignment(payment_td[0], 1);
+	TextDrawColor(payment_td[0], 269488383);
+	TextDrawSetShadow(payment_td[0], 0);
+	TextDrawSetOutline(payment_td[0], 0);
+	TextDrawBackgroundColor(payment_td[0], 255);
+	TextDrawFont(payment_td[0], 4);
+	TextDrawSetProportional(payment_td[0], 0);
+	TextDrawSetShadow(payment_td[0], 0);
+
+	payment_td[1] = TextDrawCreate(19.166645, 202.703735, "LD_SPAC:white");
+	TextDrawLetterSize(payment_td[1], 0.000000, 0.000000);
+	TextDrawTextSize(payment_td[1], 2.083298, 13.259258);
+	TextDrawAlignment(payment_td[1], 1);
+	TextDrawColor(payment_td[1], 557867519);
+	TextDrawSetShadow(payment_td[1], 0);
+	TextDrawSetOutline(payment_td[1], 0);
+	TextDrawBackgroundColor(payment_td[1], 255);
+	TextDrawFont(payment_td[1], 4);
+	TextDrawSetProportional(payment_td[1], 0);
+	TextDrawSetShadow(payment_td[1], 0);
+
 	td_game[0] = TextDrawCreate(629.555114, 288.220062, "usebox");
 	TextDrawLetterSize(td_game[0], 0.000000, 3.759377);
 	TextDrawTextSize(td_game[0], 518.444030, 0.000000);
@@ -36775,6 +38608,29 @@ CMD:vacancy(playerid)
 	if(vacancies == 0) return SendError(playerid, "Наразі немає доступних вакансій.");
 	return ShowPlayerDialog(playerid, D_VACANCY, DSL, ""P"Вакансії", str, "Далі", "Закрити");
 }
+CMD:taxitest(playerid)
+{
+	new string[128];
+	format(string, sizeof(string), "PlaceID: %d. Place: %d", GetPVarInt(playerid, "taxi_place_id"), GetPVarInt(playerid, "taxi_place"));
+	return 1;
+}
+CMD:ptaxi(playerid)
+{
+	new veh = GetPlayerVehicleID(playerid);
+	if(PI[playerid][pJob] != 7) return SendError(playerid, "Ви не водій таксі.");
+	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(playerid) != GetPVarInt(playerid,"veh_id_taxi")) return SendError(playerid, "Ви повинні бути за кермом таксі.");
+	new string[512], header[128];
+	if(GetPVarInt(playerid, "taxi_started")) {
+		format(header, sizeof(header), ""W"Таксі | "P"Панель водія "GREEN"[На зміні]"); }
+	else format(header, sizeof(header), ""W"Таксі | "P"Панель водія "E"[Не на зміні]");
+	format(string, sizeof(string), "\
+		"P"- "W"Розпочати/Завершити роботу\n\
+		"P"1. "W"Встановити тариф [$%d]\n\
+		"P"2. "W"Змінити радіус пошуку швидких замовлень [%.1f м]\n\
+		"P"3. "W"Список замовлень\n\
+		"P"(!) "W"Інформація про роботу", TI[playerid][tJobTaxiFare], TI[playerid][tJobTaxiRadius]);
+	ShowPlayerDialog(playerid, dTaxi, DIALOG_STYLE_LIST, header, string, "Обрати", "Скасувати");
+}
 CMD:taxilist(playerid) {
 	if(PI[playerid][pJob] != 7) return SendError(playerid, "Ви не водій таксі.");
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER || GetPlayerVehicleID(playerid) != GetPVarInt(playerid,"veh_id_taxi")) return SendError(playerid, "Ви повинні бути за кермом таксі.");
@@ -38156,7 +40012,21 @@ CMD:call(playerid,params[]) {
 	if(number == PI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
 	switch(number) {
 		case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
-		case 222: {
+		case 222: 
+		{
+			new driver = 0;
+			foreach(new i:Player)
+			{
+				if(GetPVarInt(i, "taxi_started"))
+				{
+					driver++;
+					if(GetPlayerVirtualWorld(playerid) != 0) return SendError(playerid, "Для виклику таксі вийдіть з приміщення.");
+					ShowPlayerDialog(playerid, D_TAXI_CALL, DIALOG_STYLE_LIST, ""W"Диспетчер | "P"Таксі", ""P"- "W"Обрати місце призначення у GPS навігаторі\n- Указати дорогу таксисту", "Далі", "Скасувати");
+				}
+			}
+			if(driver == 0) return SendError(playerid, "Диспетчер: наразі немає таксистів на зміні.");
+
+			/*
 			new ids = 0;
 			for(new x = GetVehiclePoolSize()+1; --x != 0;)
 			{
@@ -38167,6 +40037,7 @@ CMD:call(playerid,params[]) {
 				ShowPlayerDialog(playerid,D_TAXI_CALL,DSM,""P"Диспетчер: Таксі",""W"Ви дійсно бажаєте викликати таксі на ваше поточне місце розташування?\n\n"G"","Викликати","Скасувати");
 			}
 			if(ids == 0) return SendError(playerid, "Диспетчер: Наразі немає вільних таксистів.");
+			*/
 			return 1;
 		}
 		case 554: {
@@ -40046,6 +41917,36 @@ cmd:fireduty(playerid)
 	ShowPlayerDialog(playerid, dFire, DIALOG_STYLE_MSGBOX, "Інформація про виклик", string, "Прийняти", "Відхилити");
 	return 1;
 }
+CMD:phone(playerid, params[])
+{
+	if(!PI[playerid][pPhone]) return SendError(playerid, "У вас немає мобільного телефона.");
+	if(GetPVarInt(playerid,"takephone")) return SendError(playerid, "У вас немає телефона.");
+	if(PhoneShow[playerid] == false)
+	{
+		ShowPlayerPhone(playerid);
+		PhoneShow[playerid] = true;
+		PhoneLocked[playerid] = 1;
+		SendClientMessage(playerid, -1, "DEBUG: Phone is showed up!");
+		//SelectTextDraw(playerid, 0xFFD900FF);
+		//TogglePlayerControllable(playerid, 0);
+	}
+	else 
+	{
+		HideWholePhone(playerid);
+		PhoneShow[playerid] = false;
+		PhoneLocked[playerid] = 0;
+		SendClientMessage(playerid, -1, "DEBUG: Phone is hidden!");
+		//TogglePlayerControllable(playerid, 1);
+		CancelSelectTextDraw(playerid);
+	}
+	return 1;
+}
+cmd:testemail(playerid)
+{
+	new email[64] = "nazpol9@gmail.com";
+	SendMail(email, "support@chiliad-rp.com", "Chiliad RolePlay", "Код підтвердження", "1234");
+	return 1;
+}
 cmd:testfire(playerid)
 {
 	CreateFire(1);
@@ -41312,8 +43213,13 @@ CMD:gps(playerid){
 	ShowPlayerDialog(playerid, D_GPS, DSL, ""P"GPS", string, "Обрати", "Скасувати");
 	return 1;
 }
+<<<<<<< HEAD
+alias:menu("mm","mn");
+CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги\n"P"13. "W"Історія покарань", "Обрати", "Скасувати");
+=======
 alias:menu("mm","mn"); 
 CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги", "Обрати", "Скасувати");
+>>>>>>> parent of bd89ac6 (upd)
 CMD:settings(playerid) {
 	ShowSettings(playerid);
 	return 1;
@@ -42521,6 +44427,63 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			MoveDynamicObject(LSFD_Gate[3], 1985.1916, -2099.9060, 18.7668, 1.5, 0.0, 0.0, 90.000000);
 			ApplyAnimation(playerid,"CRIB","CRIB_Use_Switch",4.0,0,0,0,0,0,0);
 		}
+<<<<<<< HEAD
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1533.1210,-1377.1060,-92.7851) && PI[playerid][pJob] == 1)
+		{
+			if(GetPVarInt(playerid, "get_list"))
+			{
+				SendError(playerid, "Ви вже отримали маршрутний лист. Викиньте його у смітник, перш ніж брати новий.");
+				return SendHint(playerid, "Смітник знаходиться позаду Вас.");
+			}
+			ShowPlayerDialog(playerid, dBusList, DIALOG_STYLE_LIST, ""P"Оберіть маршрут:", ""P"1. "W"Автовокзал м. ЛС - Завод - Ферма\n"P"2. "W"Автовокзал м. ЛС - Лісопильня\n"P"3. "W"Автовокзал м. ЛС - Банк - Автошкола", "Обрати", "Скасувати");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1531.4971,-1376.8535,-92.7851) && GetPVarInt(playerid, "get_list"))
+		{
+			DeletePVar(playerid, "get_list");
+			DeletePVar(playerid, "route_item");
+			SendOK(playerid, "Ви успішно викинули маршрутний лист у смітник.");
+			SendHint(playerid, "Тепер Ви можете взяти новий маршрутний лист.");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1529.3297,-1368.1520,-92.7851) && GetPVarInt(playerid, "get_list") && !GetPVarInt(playerid, "sign_list"))
+		{
+			SetPVarInt(playerid, "sign_list", 1);
+			SendOK(playerid, "Ваш маршрутний лист успішно підписано.");
+			SendHint(playerid, "Вийдіть на вулицю та орендуйте будь-який з вільних автобусів.");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1532.4086,-1367.0542,-92.7851))
+		{
+			mysql_tquery(connects, "SELECT * FROM `bus_rating` ORDER BY Trips DESC LIMIT 15", "bus_rating", "i", playerid);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1533.4674,-1380.0574,-92.7851))
+		{
+			if(!GetPVarInt(playerid, "get_list")) return SendError(playerid, "Спочатку отримайте маршрутний лист.");
+			if(!GetPVarInt(playerid, "sign_list")) return SendError(playerid, "Спочатку підпишіть Вам маршрутний лист.");
+			if(!GetPVarInt(playerid, "bus_insurance")) return SendError(playerid, "Ви вже оформили страхівку на робочий транспорт.");
+			new string[512];
+			format(string, sizeof(string), ""W"Шановний "P"%s, пропонуємо Вам оформити "P"страхівку "W"на Ваш робочий транспорт.\n\n\
+						"P"Деталі:\n\
+						"W"По завершенню оренди Вашого робочого транспорту з Вас не зніматиметься сума штрафу за пошкодження робочого транспорту.\n\
+						"P"Вартість страхівки: "G"1000$\n\
+						"P"Термін дії: "W"з початку та до завершення оренди одного робочого транспорту.");
+			ShowPlayerDialog(playerid, dBusInsurance, DIALOG_STYLE_MSGBOX, "Страхування робочого транспорту", string, "Оформити", "Скасувати");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, -101.1865,8.3121,3.1257))
+		{
+			if(!TI[playerid][tJobSad][0]) return 1;
+			if(GetPVarInt(playerid,"bailer") == 1) return SendError(playerid, "Ви вже тримаєте в руках лійку.");
+			if(GetPVarInt(playerid,"bailer_2") == 1 || GetPVarInt(playerid,"bailer_3") == 1) return SendError(playerid, "Ви вже взяли ящик.");
+			SetPlayerAttachedObject(playerid, 4, 19639, 5, 0.342999,-0.158999,0.041999, 0.000000,177.799957,-0.300001, 1.000000,0.520000,0.699000);
+			SetPVarInt(playerid,"bailer_2",1);
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, -109.8778,12.4586,3.1257))
+		{
+			if(!TI[playerid][tJobSad][0]) return SendError(playerid, "Необхідно одягнути робочу форму.");
+			if(GetPVarInt(playerid,"bailer") == 1) return SendError(playerid, "Ви вже взяли лійку.");
+			SetPlayerAttachedObject(playerid, 7, 19621, 6, 0.068000, 0.040999, 0.001000, 0.000000, 0.000000, 94.299972, 1.000000, 1.000000, 1.000000); //
+			SetPVarInt(playerid,"bailer",1);
+		}
+=======
+>>>>>>> parent of bd89ac6 (upd)
 	}
 	/*if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)){
 	 	return pc_cmd_radiocar(playerid);
@@ -43581,7 +45544,14 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				return 1;
 			}
 		}
-		if(!active_accept(playerid) && GetPVarInt(playerid,"invstat") == -1 && JobTempProcess[playerid] == 0 && TI[playerid][tProcess][0] == -1) pc_cmd_inv(playerid);
+		if(PhoneShow[playerid] == true && PhoneLocked[playerid] == 1)
+		{
+			ShowPlayerPhoneMenu(playerid);
+			SelectTextDraw(playerid, 0xFFD900FF);
+			PhoneLocked[playerid] = 2;
+			SendClientMessage(playerid, -1, "DEBUG: Phone is unlocked!");
+		}
+		if(!active_accept(playerid) && GetPVarInt(playerid,"invstat") == -1 && JobTempProcess[playerid] == 0 && TI[playerid][tProcess][0] == -1 && PhoneShow[playerid] == false) pc_cmd_inv(playerid);
 		if(TI[playerid][tProcess][0] != -1) {
 			if(GetPVarInt(playerid,"Klavisha") == 65536) MyButtonSystem(playerid);
 			else {
@@ -44457,6 +46427,90 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			return 1;
 		}
 	}
+	if(playertextid == PhoneGUI[playerid][36])//Back botton
+    {
+    	if(PhoneLocked[playerid] == 2)
+    	{
+    		HidePlayerPhoneMenu(playerid);
+    		PhoneLocked[playerid] = 1;
+    		CancelSelectTextDraw(playerid);
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on BACK!");
+    	}
+    	else if(PhoneLocked[playerid] == 3)
+    	{
+    		ShowPlayerPhoneMenu(playerid);
+    		PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
+    		PhoneLocked[playerid] = 2;
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is unlocked also you clicked on BACK to the main menu!");
+    	}
+    }
+    if(playertextid == PhoneGUI[playerid][37])//Call
+    {
+        if(PhoneLocked[playerid] == 2)
+    	{
+    		//HidePlayerPhoneMenu(playerid);
+    		//PhoneLocked[playerid] = 1;
+    		//CancelSelectTextDraw(playerid);
+    		ShowPlayerDialog(playerid, dPhoneCall, DIALOG_STYLE_INPUT, ""W"Телефон | "P"Вихідний виклик", ""W"Введіть номер телефону, за яким Ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.", "Виклик", "Скасувати");
+    		//SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on CALL!");
+    	}
+    }
+    if(playertextid == PhoneGUI[playerid][38])//SMS
+    {
+        if(PhoneLocked[playerid] == 2)
+    	{
+    		//HidePlayerPhoneMenu(playerid);
+    		//PhoneLocked[playerid] = 1;
+    		//CancelSelectTextDraw(playerid);
+    		 ShowPlayerDialog(playerid, dPhoneSMSNumber, DIALOG_STYLE_INPUT, ""W"Телефон | "P"Вихідне повідомлення", ""W"Введіть номер телефону, за яким Ви збираєтеся відправити вихідне повідомлення", "Виклик", "Скасувати");
+    		//SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on SMS!");
+    	}
+    }
+    if(playertextid == PhoneGUI[playerid][39])//Add Contacts
+    {
+       if(PhoneLocked[playerid] == 2)
+    	{
+    		HidePlayerPhoneMenu(playerid);
+    		PhoneLocked[playerid] = 1;
+    		CancelSelectTextDraw(playerid);
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on ADD CONTACTS!");
+    	} 
+    }
+    if(playertextid == PhoneGUI[playerid][40])//List Contacts
+    {
+       	if(PhoneLocked[playerid] == 2)
+    	{
+    		HidePlayerPhoneMenu(playerid);
+    		PhoneLocked[playerid] = 1;
+    		CancelSelectTextDraw(playerid);
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on LIST OF CONTACTS!");
+    	} 
+    }
+    if(playertextid == PhoneGUI[playerid][41])//Camera
+    {
+       	if(PhoneLocked[playerid] == 2)
+    	{
+    		HidePlayerPhoneMenu(playerid);
+    		PhoneLocked[playerid] = 1;
+    		CancelSelectTextDraw(playerid);
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on CAMERA!");
+    	} 
+    }
+    if(playertextid == PhoneGUI[playerid][42])//Internet
+    {
+    	if(PhoneLocked[playerid] == 2)
+    	{
+    		HidePlayerPhoneMenu(playerid);
+    		PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
+			PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
+			PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
+			PlayerTextDrawShow(playerid, PhoneGUI[playerid][31]);
+			PlayerTextDrawShow(playerid, PhoneGUI[playerid][35]);
+			PlayerTextDrawShow(playerid, PhoneGUI[playerid][36]);
+    		PhoneLocked[playerid] = 3;
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on INTERNET!");
+    	}  
+    }
 	return 1;
 }
 public OnPlayerClickTextDraw(playerid, Text:clickedid) {
@@ -44604,6 +46658,15 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 	if(_:clickedid == INVALID_TEXT_DRAW) {
 		if(GetPVarInt(playerid,"inv")) HideInvent(playerid);
 		if(GetPVarInt(playerid,"get_class")) HideAuto(playerid);
+		if(PhoneShow[playerid] == true)
+		{
+			HideWholePhone(playerid);
+    		PhoneLocked[playerid] = 0;
+    		PhoneShow[playerid] = false;
+    		TogglePlayerControllable(playerid, 1);
+    		CancelSelectTextDraw(playerid);
+    		SendClientMessage(playerid, -1, "DEBUG: Phone is reseted also hidden becouse of ESC!");
+    	}
 		if(GetPVarInt(playerid,"buy_accses"))
 		{
 			RemovePlayerAttachedObject(playerid,GetPVarInt(playerid, "slot_acs"));
@@ -45307,9 +47370,9 @@ stock ChosePlayerSkin(playerid) {
 	GetPlayerIp(playerid,PI[playerid][pIpReg],32);
 	new pass[67];
 	SHA256_PassHash(player_pass[playerid], "mary2land", pass, 70);
-	new query[712];
-	mysql_format(connects, query, sizeof(query), "INSERT INTO `"TABLE_ACCOUNTS"` (`Name`, `pKey`,`pSalt`, `pSex`, `pDataReg`, `pIpReg`, `pDrug`,`Skin`) VALUES ('%s','%s','mary2land', '%i', '%02i/%02i/%02i', '%s', '%s', '%i')"
-	,player_name[playerid],pass,PI[playerid][pSex],day,month,year,PI[playerid][pIpReg],PI[playerid][pDrug],PI[playerid][pEmail],skin_register[GetPVarInt(playerid,"join_ped_item")][0]);
+	new query[1028];
+	mysql_format(connects, query, sizeof(query), "INSERT INTO `"TABLE_ACCOUNTS"` (`Name`, `pKey`,`pSalt`, `pNation`, `pCountry`, `pAge`, `pLevel`, `pSex`, `pDataReg`, `pIpReg`, `pDrug`,`Skin`) VALUES ('%s','%s','mary2land', '%i', '%i', '%i','1', '%i', '%02i/%02i/%02i', '%s', '%s', '%i')"
+	,player_name[playerid],pass,PI[playerid][pNation], PI[playerid][pCountry], PI[playerid][pAge], PI[playerid][pSex],day,month,year,PI[playerid][pIpReg],PI[playerid][pDrug],PI[playerid][pEmail],skin_register[GetPVarInt(playerid,"join_ped_item")][0]);
 	mysql_tquery(connects,query,"player_register","i",playerid);
 	PI[playerid][pSkin] = skin_register[GetPVarInt(playerid,"join_ped_item")][0];
 	return A_SetPlayerSkin(playerid,PI[playerid][pSkin]);
@@ -45515,8 +47578,14 @@ stock load_atm() {
 		cache_get_value_int(i, "ATM_VW", ATMData[i][atm_VW]);
 		cache_get_value_int(i, "ATM_INT", ATMData[i][atm_INT]);
 		cache_get_value_int(i, "cash", ATMData[i][atm_cash]);
+<<<<<<< HEAD
+		ATMData[i][atm_Object] = CreateDynamicObject(19526, ATMData[i][ATM_Pos][0], ATMData[i][ATM_Pos][1], ATMData[i][ATM_Pos][2], ATMData[i][ATM_Pos][3], ATMData[i][ATM_Pos][4], ATMData[i][ATM_Pos][5], ATMData[i][atm_VW], ATMData[i][atm_INT]);
+		SetDynamicObjectMaterial(ATMData[i][atm_Object], 3, 2942, "kmb_atmx", "kmb_atm_sign", 0x00000000);
+
+=======
 		ATMData[i][atm_Object] = CreateDynamicObject(2754, ATMData[i][ATM_Pos][0], ATMData[i][ATM_Pos][1], ATMData[i][ATM_Pos][2], 0.0, 0.0, ATMData[i][ATM_Pos][5], ATMData[i][atm_VW], ATMData[i][atm_INT]);
 		
+>>>>>>> parent of bd89ac6 (upd)
 		new str[128];
 		format(str,sizeof(str),"Банкомат\nВ банкоматі: "GREEN"$%d"W"\n\nНатисніть"P" ALT",ATMData[i][atm_cash]);
 		ATMData[i][atm_Label] = Create3DTextLabel(str,-1, ATMData[i][ATM_Pos][0], ATMData[i][ATM_Pos][1], ATMData[i][ATM_Pos][2]+1, 10.0, ATMData[i][atm_VW]);
@@ -46351,12 +48420,19 @@ stock loading_cars(playerid, car) {
 CB: friend_detectd(playerid,const inputtext[]) {
 	new rows;
 	cache_get_row_count(rows);
+<<<<<<< HEAD
+	if(!rows) {
+		ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""W"Реєстрація | "P"Реферал", "{F87427}* В базі данних немає такого акаунта"W"\n\nВведіть нік гравця, що запросив Вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
+=======
 	if(!rows) { 
 		ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реферал", "{F87427}* В базі данних немає такого акаунта"W"\n\nВведіть нік гравця, запросившого вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
+>>>>>>> parent of bd89ac6 (upd)
 		return 1;
 	}
 	mysql_escape_string(inputtext,PI[playerid][pDrug], 27);
-	ShowPlayerDialog(playerid,D_REG_SEX,DSM, ""P"Вибір статі", "\n"G"Оберіть стать "ORANGE"вашого"G" персонажа:\n", "Чоловічий", "Жіночий");
+
+	//ShowPlayerDialog(playerid, dRegEmail, DIALOG_STYLE_INPUT, ""W"Реєстрація | "P"Електронна пошта", "Введіть Вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.", "Далі", "Назад");
+	ShowPlayerDialog(playerid,D_REG_SEX,DSM, ""W"Реєстрація | "P"Стать персонажу", "\n"W"Оберіть стать Вашого персонажу:\n", "Чоловік", "Жінка");
 	return 1;
 }
 CB: change_name(playerid,const name[]) {
@@ -46719,26 +48795,268 @@ stock IsAGreenZone(playerid) {
 }
 stock ShowStats(playerid,targetid,idx) {
 	if(!IsPlayerConnected(playerid) || !IsPlayerConnected(targetid)) return 1;
-	new jtext[32], string[1250];
-	switch(PI[targetid][pJob]) {
-	case 1: jtext = "Водій автобуса";
-	case 2: jtext = "Механік";
-	case 3: jtext = "Розвізник продуктів та палива";
-	case 4: jtext = "Розвізник їжі";
-	case 5: jtext = "Мийщик доріг";
-	case 6: jtext = "Чистильник каналізацій";
-	case 7: jtext  = "Таксист";
-	case 8: jtext  = "Інкасатор";
-	default: jtext = "Безробітний";
+	new jtext[32], string[1560], ctext[56], ntext[56], header[74];
+	format(header, sizeof(header), ""W"Статистика гравця "P"%s", player_name[targetid]);
+	switch(PI[targetid][pJob]) 
+	{
+		case 1: jtext = "Водій автобуса";
+		case 2: jtext = "Механік";
+		case 3: jtext = "Розвізник продуктів та палива";
+		case 4: jtext = "Розвізник їжі";
+		case 5: jtext = "Мийщик доріг";
+		case 6: jtext = "Чистильник каналізацій";
+		case 7: jtext  = "Таксист";
+		case 8: jtext  = "Інкасатор";
+		default: jtext = "Безробітний";
 	}
-	new str[128], vips[60];
+	switch(PI[targetid][pCountry])
+	{
+		case 1: ctext = "Австралія";
+		case 2: ctext = "Албанія";
+		case 3: ctext = "Бразилія";
+		case 4: ctext = "Вірменія";
+		case 5: ctext = "Великобританія";
+		case 6: ctext = "В'єтнам";
+		case 7: ctext = "Ізраїль";
+		case 8: ctext = "Іспанія";
+		case 9: ctext = "Італія";
+		case 10: ctext = "Китай";
+		case 11: ctext = "Колумбія";
+		case 12: ctext = "Корея";
+		case 13: ctext = "Мексика";
+		case 14: ctext = "Німеччина";
+		case 15: ctext = "Польща";
+		case 16: ctext = "Португалія";
+		case 17: ctext = "США";
+		case 18: ctext = "Україна";
+		case 19: ctext = "Франція";
+		case 20: ctext = "Чехія";
+		case 21: ctext = "Японія";
+	}
+	switch(PI[targetid][pNation])
+	{
+		case 1: ntext = "Австралієць";
+		case 2: ntext = "Албанець";
+		case 3: ntext = "Американець";
+		case 4: ntext = "Англієць";
+		case 5: ntext = "Бразилець";
+		case 6: ntext = "Вірменин";
+		case 7: ntext = "В'єтнамець";
+		case 8: ntext = "Єврей";
+		case 9: ntext = "Іспанець";
+		case 10: ntext = "Італієць";
+		case 11: ntext = "Китаєць";
+		case 12: ntext = "Колумбієць";
+		case 13: ntext = "Кореєць";
+		case 14: ntext = "Латиноамериканець";
+		case 15: ntext = "Мексиканець";
+		case 16: ntext = "Німець";
+		case 17: ntext = "Поляк";
+		case 18: ntext = "Португалець";
+		case 19: ntext = "Українець";
+		case 20: ntext = "Француз";
+		case 21: ntext = "Чех";
+		case 22: ntext = "Японець";
+	}
+	new car[128], vips[60];
 	if(PI[playerid][pPremium]) {
+<<<<<<< HEAD
+		new second, minute, hour, day, month, year, status[24];
+		new esc = floatround((PI[playerid][pPremiumTime]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[playerid][pPremiumTime]-unix, year, month, day, hour, minute, second);
+		switch(PI[playerid][pPremium])
+		{
+			case 1: format(status, sizeof(status), "Початковий");
+			case 2: format(status, sizeof(status), "Комфортний");
+			case 3: format(status, sizeof(status), "Оптимальний");
+		}
+		format(vips,sizeof(vips),"%s (%iд %iг %iхв)", status, esc, hour, minute);
+	}
+	else strcat(vips,"Стандартний");
+
+	format(string, sizeof(string), "{87CEFA} * Статистика гравця %s [%d]", player_name[targetid], targetid);
+
+	format(string, sizeof(string), "\
+		%s\n\n{87CEFA}Персонаж:\n\
+		"W"Гроші: "G"$%d\n\
+		"W"Банк: "G"$%d\n\
+		"W"Депозит: "G"$%d\n\
+		"W"Країна народження: "G"%s\n\
+		"W"Національність: "G"%s\n\
+		"W"Стать: "G"%s\n\
+		"W"Чоловік/Дружина: "G"%s", string, PI[targetid][pCash], PI[targetid][pBank], PI[targetid][pDeposit], ctext, ntext, (PI[targetid][pSex] == 1) ? ("Чоловік") : ("Жінка"), PI[targetid][pMarried]);
+
+	if(PI[targetid][pPhone] == 0) format(string, sizeof(string), "%s\n"W"Номер телефону: "G"Відсутній", string);
+	else format(string, sizeof(string), "%s\n"W"Номер телефону: "G"%d", string, PI[targetid][pPhone]);
+
+	format(string, sizeof(string), "\
+		%s\n"W"Законослухняність: "G"%i\n\
+		"W"Злочинів: "G"%i\n\
+		"W"Арештів: "G"%i\n\
+		"W"Рівень розшуку: "G"%i\n\
+		"W"Робота: "G"%s", string, PI[targetid][pZakonp], PI[targetid][pCrimes], PI[targetid][pArrested], PI[targetid][pSearch], jtext);
+
+	if(PI[targetid][pMember]) format(string, sizeof(string), "%s\n"W"Організація: "G"%s", string, FI[PI[targetid][pMember]][fName]);
+	else format(string, sizeof(string), "%s\n"W"Організація: "G"Відсутня", string);
+	if(idx) format(string, sizeof(string), "%s\n"W"Посада: "G"%s (%d)", string, GetRankName(PI[targetid][pMember],PI[targetid][pRank]),PI[targetid][pRank]);
+	else format(string, sizeof(string), "%s\n"W"Посада: "G"%s", string, GetRankName(PI[targetid][pMember],PI[targetid][pRank]));
+
+
+	/*
+	format(string, sizeof(string), "%s\n\n"W"Транспорт:",  string);
+	
+	for(new i; i <2; i++)
+	{
+		if(CarsInfo[targetid][carModel][i] == 481) return format(car, sizeof(car), "Відсутній\n");
+		format(car, sizeof(car), "%s\n", gTransport[CarsInfo[targetid][carModel][i]-400][trName]);
+	}
+
+	format(string, sizeof(string), "%s\n"G"%s", string, car);
+	*/
+
+	/*
+	if(CarsInfo[targetid][carModel][0] == 481 && CarsInfo[targetid][carModel][1] == 481) return format(string, sizeof(string), "%s\n"G"Відсутній", string);
+	if(CarsInfo[targetid][carModel][0] == 481 && CarsInfo[targetid][carModel][1] != 481) return format(string, sizeof(string), "%s\n"G"%s", string, gTransport[CarsInfo[targetid][carModel][1]-400][trName]);
+	if(CarsInfo[targetid][carModel][0] != 481 && CarsInfo[targetid][carModel][1] == 481) return format(string, sizeof(string), "%s\n"G"%s", string, gTransport[CarsInfo[targetid][carModel][0]-400][trName]);
+	if(CarsInfo[targetid][carModel][0] != 481 && CarsInfo[targetid][carModel][1] != 481) return format(string, sizeof(string), "%s\n"G"%s\n%s", string, gTransport[CarsInfo[targetid][carModel][0]-400][trName], gTransport[CarsInfo[targetid][carModel][1]-400][trName]);
+	*/
+
+	
+	
+	new house = 0;
+	if(PI[targetid][pHouse] && !PI[targetid][pRoom]) 
+	{
+		new classname[15];
+		switch(gHouses[PI[targetid][pHouse]-1][houseClass]) 
+		{
+			case 0: classname = "Економ";
+			case 1: classname = "Cередній";
+			case 2: classname = "Елітний";
+			case 3: classname = "Особняк";
+		}
+		format(string, sizeof(string), "%s\n"W"Житло: "G"Будинок №%d (%s)", string, gHouses[PI[targetid][pHouse]-1][houseID],classname);
+		house = 1;
+	}
+	if(PI[targetid][pRoom] && !PI[targetid][pHouse]) {
+		format(string, sizeof(string),  "%s\n"W"Житло: "G"Квартира №%d", string, PI[playerid][pRoom]);
+		house = 1;
+	}
+	if(!house) format(string, sizeof(string), "%s\n"W"Житло: "G"Немає", string);
+
+	if(GetPlayerVehicles(playerid)) format(string, sizeof(string), "%s\n"W"Будинок на колесах: "G"Присутній", string);
+	else format(string, sizeof(string), "%s\n"W"Будинок на колесах: "G"Відсутній", string);
+
+	if(PI[targetid][pBusiness]) format(string, sizeof(string), "%s\n"W"Бізнес: "G"%s (%d)", string, gBusiness[PI[targetid][pBusiness]-1][bizzName],PI[targetid][pBusiness]);
+	else format(string, sizeof(string), "%s\n"W"Бізнес: "G"Відсутній", string);
+
+
+
+	format(string, sizeof(string),  "%s\n\n{87CEFA}Акаунт:", string);
+
+	format(string, sizeof(string), "%s\n"W"Статус акаунта: "G"%s", string ,vips);
+	format(string, sizeof(string), "%s\n"W"Рівень: "G"%i", string, PI[targetid][pLevel]);
+	format(string, sizeof(string), "%s\n"W"Очки досвіду: "G"%i/%i", string, PI[targetid][pExp], (PI[targetid][pLevel])*6);
+	format(string, sizeof(string), "%s\n"W"Загальна к-сть годин гри: "G"test", string);
+	format(string, sizeof(string), "%s\n"W"Попередження: "G"%i", string, PI[targetid][pWarns]);
+	if(PI[targetid][pWarns]) 
+	{
+		new second, minute, hour, day, month, year;
+		new esc = floatround((PI[targetid][punWarnstime]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[targetid][punWarnstime]-unix, year, month, day, hour, minute, second);
+		format(string, sizeof(string),  "%s\n"W"До зняття залишилося: "G"%iд/%iг/%iхв", string, esc, hour, minute);
+	}
+	format(string, sizeof(string), "%s\n"W"Дата реєстрації: "G"%s", string, PI[targetid][pDataReg]);
+	format(string, sizeof(string), "%s\n"W"Google Authenticator: "G"%s", string, (PI[targetid][pGoogleSec] == 1) ? ("Увімкнуто") : ("Вимкнуто"));
+	format(string, sizeof(string), "%s\n"W"Discord: "G"%s", string, (PI[targetid][pDiscord] == 0) ? ("Вимкнуто") : ("Увімкнуто"));
+
+	return ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "Статистика", string, "Закрити", "");
+
+
+	/*
+	//strcat(string, "{87CEFA}Персонаж:");
+	format(str,128,"\n"W"Гроші: "G"%d",PI[targetid][pCash]), strcat(string,str);
+	format(str,128,"\n"W"Банк: "G"%d",PI[targetid][pBank]), strcat(string,str);
+	format(str,128,"\n"W"Депозит: "G"%d",PI[targetid][pDeposit]), strcat(string,str);
+	format(str,128,"\n"W"Країна народження: "G"%s",ctext), strcat(string,str);
+	format(str,128,"\n"W"Національність: "G"%s",ntext), strcat(string,str);
+	format(str,128,"\n"W"Колір шкіри: "G"тест"), strcat(string,str);
+	format(str,128,"\n"W"Стать: "G"%s",(PI[targetid][pSex] == 1) ? ("Чоловік") : ("Жінка")), strcat(string,str);
+	format(str,128,"\n"W"Чоловік/Дружина: "G"%s",PI[targetid][pMarried]), strcat(string,str);
+	if(PI[targetid][pPhone] == 0) strcat(string,"\n"W"Номер телефону: "G"Відсутній");
+	else format(str,128,"\n"W"Номер телефону: "G"%d",PI[targetid][pPhone]), strcat(string,str);
+
+	format(str,128,"\n"W"Законослухняність: "G"%i",PI[targetid][pZakonp]), strcat(string,str);
+	format(str,128,"\n"W"Злочинів: "G"%i",PI[targetid][pCrimes]), strcat(string,str);
+	format(str,128,"\n"W"Арештів: "G"%i",PI[targetid][pArrested]), strcat(string,str);
+	format(str,128,"\n"W"Рівень розшуку: "G"%i",PI[targetid][pSearch]), strcat(string,str);
+
+	format(str,128,"\n"W"Робота: "G"%s",jtext), strcat(string,str);
+	if(PI[targetid][pMember]) format(str,128,"\n"W"Організація: "G"%s",FI[PI[targetid][pMember]][fName]), strcat(string,str);
+	else strcat(string,"\n"W"Організація: "G"Відсутня");
+	if(idx) format(str,128,"\n"W"Посада: "G"%s (%d)",GetRankName(PI[targetid][pMember],PI[targetid][pRank]),PI[targetid][pRank]), strcat(string,str);
+	else format(str,128,"\n"W"Посада: "G"%s",GetRankName(PI[targetid][pMember],PI[targetid][pRank])), strcat(string,str);
+
+	//strcat(string,"\n\n"W"Транспорт:");
+	if(CarsInfo[playerid][carModel][0] == 481 && CarsInfo[playerid][carModel][1] == 481) return format(str,128,"\n"G"Відсутній"), strcat(string,str);
+	else if(CarsInfo[playerid][carModel][0] == 481 && CarsInfo[playerid][carModel][1] != 481) return format(str,128,"\n"G"%s", gTransport[CarsInfo[playerid][carModel][1]-400][trName]), strcat(string,str);
+	else if(CarsInfo[playerid][carModel][0] != 481 && CarsInfo[playerid][carModel][1] == 481) return format(str,128,"\n"G"%s", gTransport[CarsInfo[playerid][carModel][0]-400][trName]), strcat(string,str);
+	else if(CarsInfo[playerid][carModel][0] != 481 && CarsInfo[playerid][carModel][1] != 481) return format(str,128,"\n"G"%s\n%s", gTransport[CarsInfo[playerid][carModel][0]-400][trName], gTransport[CarsInfo[playerid][carModel][1]-400][trName]), strcat(string,str);
+
+	new house = 0;
+	if(PI[targetid][pHouse] && !PI[targetid][pRoom]) 
+	{
+		new classname[15];
+		switch(gHouses[PI[targetid][pHouse]-1][houseClass]) 
+		{
+			case 0: classname = "Економ";
+			case 1: classname = "Cередній";
+			case 2: classname = "Елітний";
+			case 3: classname = "Особняк";
+		}
+		format(str,128,"\n"W"Житло: "G"Будинок №%d (%s)",gHouses[PI[targetid][pHouse]-1][houseID],classname), strcat(string,str);
+		house = 1;
+	}
+	if(PI[targetid][pRoom] && !PI[targetid][pHouse]) {
+		format(str,128,"\n"W"Житло: "G"Квартира №%d",PI[playerid][pRoom]), strcat(string,str);
+		house = 1;
+	}
+	if(!house) strcat(string,"\n"W"Житло: "G"Немає");
+
+	if(GetPlayerVehicles(playerid)) strcat(string,"\n"W"Будинок на колесах: "G"Присутній");
+	else strcat(string,"\n"W"Будинок на колесах: "G"Відсутній");
+
+	if(PI[targetid][pBusiness]) format(str,128,"\n"W"Бізнес: "G"%s (%d)",gBusiness[PI[targetid][pBusiness]-1][bizzName],PI[targetid][pBusiness]), strcat(string,str);
+	else strcat(string,"\n"W"Бізнес: "G"Відсутній");
+
+
+	//strcat(string, "\n\n{87CEFA}Акаунт:");
+
+	format(str,128,"\n"W"Статус акаунта: "G"%s",vips), strcat(string,str);
+	format(str,128,"\n"W"Рівень: "G"%i",PI[targetid][pLevel]), strcat(string,str);
+	format(str,128,"\n"W"Очки досвіду: "G"%i/%i",PI[targetid][pExp], (PI[targetid][pLevel])*6), strcat(string,str);
+	format(str,128,"\n"W"Загальна к-сть годин гри: "G"test"), strcat(string,str);
+	format(str,128,"\n"W"Попередження: "G"%i", PI[targetid][pWarns]), strcat(string, str);
+	if(PI[targetid][pWarns]) {
+		new second, minute, hour, day, month, year;
+		new esc = floatround((PI[targetid][punWarnstime]-gettime())/3600/24, floatround_ceil);
+		timestamp_to_date(PI[targetid][punWarnstime]-unix, year, month, day, hour, minute, second);
+		format(str, 128, "\n"W"До зняття залишилося: "G"%iд/%iг/%iхв", esc, hour, minute);
+		strcat(string, str);
+	}
+	format(str,128,"\n"W"Дата реєстрації: "G"%s",PI[targetid][pDataReg]), strcat(string,str);
+	format(str,128,"\n"W"Google Authenticator: "G"%s",(PI[targetid][pGoogleSec] == 1) ? ("Увімкнуто") : ("Вимкнуто")), strcat(string,str);
+	format(str,128,"\n"W"Discord: "G"%s",(PI[targetid][pDiscord] == 0) ? ("Вимкнуто") : ("Увімкнуто")), strcat(string,str);
+	*/
+
+	/*
+=======
 		new second, minute, hour, day, month, year;
 		new esc = floatround((PI[playerid][pPremium]-gettime())/3600/24, floatround_ceil);
 		timestamp_to_date(PI[playerid][pPremium]-unix, year, month, day, hour, minute, second);
 		format(vips,sizeof(vips),"Активний (%iд %iг %iхв)", esc, hour, minute);
 	}
 	else strcat(vips,"Відсутній");
+>>>>>>> parent of bd89ac6 (upd)
 	format(str,128,"{87CEFA}Нікнейм:\t\t\t"W"%s",player_name[targetid]), strcat(string,str);
 	format(str,128,"\n{87CEFA}Преміум-акаунт:\t\t"W"%s",vips), strcat(string,str);
 	format(str,128,"\n\n{87CEFA}Рівень:\t\t\t\t"W"%i",PI[targetid][pLevel]), strcat(string,str);
@@ -46751,6 +49069,9 @@ stock ShowStats(playerid,targetid,idx) {
 		format(str, 128, "\n{87CEFA}До зняття залишилося:\t\t"W"%iд/%iг/%iхв", esc, hour, minute);
 		strcat(string, str);
 	}
+	//format(str, 128, "\n{87CEFA}Вік:\t\t"W"%i", PI[targetid][pAge]), strcat(string, str);
+	//format(str, 256, "\n{87CEFA}Національність:\t\t"W"%s", ntext), strcat(string, str);
+	//format(str, 128, "\n{87CEFA}Країна:\t\t"W"%s", ctext), strcat(string, str);
 	format(str,128,"\n\n{87CEFA}Стать:\t\t\t\t"W"%s",(PI[targetid][pSex] == 1) ? ("Чоловік") : ("Жінка")), strcat(string,str);
 	format(str,128,"\n{87CEFA}Чоловік/Дружина:\t\t"W"%s",PI[targetid][pMarried]), strcat(string,str);
 	if(PI[targetid][pPhone] == 0) strcat(string,"\n\n{87CEFA}Номер телефону:\t\tВідсутній");
@@ -46797,6 +49118,7 @@ stock ShowStats(playerid,targetid,idx) {
 	if(PI[targetid][pHacker]) format(str,128,"\n{87CEFA}Хакер:\t\t\t\t "W"%d",PI[targetid][pHacker]), strcat(string,str);
 	if(PI[targetid][pHacker]) format(str,128,"\n{87CEFA}Досвід хакера:\t\t\t "W"%d/20",PI[targetid][pHackProg]), strcat(string,str);
 	format(str,128,"\n\n{87CEFA}Робота:\t\t\t\t"W"%s",jtext), strcat(string,str);
+
 	if(idx) {
 		format(str,128,"\n{87CEFA}Банк:\t\t\t\t"W"%i",PI[targetid][pBank]), strcat(string,str);
 		format(str,128,"\n{87CEFA}На руках:\t\t\t"W"%i",PI[targetid][pCash]), strcat(string,str);
@@ -46808,7 +49130,7 @@ stock ShowStats(playerid,targetid,idx) {
 		format(str,128,"\n{87CEFA}Google Authenticator:\t\t"W"%s",(PI[targetid][pGoogleSec] == 1) ? ("Увімкнуто") : ("Вимкнуто")), strcat(string,str);
 		format(str,128,"\n{87CEFA}Discord:\t\t"W"%s",(PI[targetid][pDiscord] == 0) ? ("Вимкнуто") : ("Увімкнуто")), strcat(string,str);
 	}
-	return ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Статистика",string, "Закрити", "");
+	*/
 }
 stock UpdateSkladFrakGang() {
 	ClearTotalGz();
@@ -47103,22 +49425,22 @@ CB: CopsWanted(playerid,player_id) {
 }
 stock SendOK(playerid, const text[]) {
   new string[256];
-  format(string, 256, "{228B22}[Успіх] "W"%s", text);
+  format(string, 256, "{228B22}* "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 stock SendError(playerid, const text[]) {
   new string[256];
-  format(string, 256, "{BC2C2C}[Помилка] "W"%s", text);
+  format(string, 256, "{BC2C2C}* "G"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 stock SendInfo(playerid, const text[]) {
   new string[256];
-  format(string, 256, "{479ff2}[Інформація] "W"%s", text);
+  format(string, 256, "{479ff2}| "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 stock SendHint(playerid, const text[]) {
   new string[256];
-  format(string, 256, "{FFD700}[Підказка] "W"%s", text);
+  format(string, 256, "{FFD700}| "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 stock SendUse(playerid, const text[]) {
@@ -47199,7 +49521,7 @@ stock update3dtext() {
 	new string[128];
 	format(string,sizeof(string),"Риби на складі: "P"%.1f кг",fish_sklad);
 	UpdateDynamic3DTextLabelText(fish_text,-1,string);
-	format(string,sizeof(string),"Боєприпасов на складі: "P"%d",zavodsklad);
+	format(string,sizeof(string),"Боєприпасів на складі: "P"%d",zavodsklad);
 	UpdateDynamic3DTextLabelText(gun_3dtext[0],-1,string);
 	format(string,sizeof(string),"Боєприпасів доступно: "P"%d",zavodsklad);
 	UpdateDynamic3DTextLabelText(gun_3dtext[1],-1,string);
@@ -47578,6 +49900,11 @@ CB: load_account(playerid) {
 	cache_get_value_name_int(0,"pJail", PI[playerid][pJail]);
 	cache_get_value_name_int(0,"tempkey", PI[playerid][pTempKey]);
 	cache_get_value_name_int(0,"pSex", PI[playerid][pSex]);
+
+	cache_get_value_name_int(0,"pNation", PI[playerid][pNation]);
+	cache_get_value_name_int(0,"pCountry", PI[playerid][pCountry]);
+	cache_get_value_name_int(0,"pAge", PI[playerid][pAge]);
+
 	cache_get_value_name_int(0,"pArrested", PI[playerid][pArrested]);
 	cache_get_value_name_int(0,"mute", PI[playerid][pMute]);
 	cache_get_value_name_int(0,"pCrimes", PI[playerid][pCrimes]);
@@ -47756,7 +50083,7 @@ CB: load_account(playerid) {
 	}
 	
 	if(PI[playerid][pSellNeed][0]) {
-		SendClientMessage(playerid,COLOR_REDD,"ваш будинок проданий державі за несплату податків.");
+		SendInfo(playerid,"Ваш будинок продано державі за несплату податків.");
 		UpdatePlayerData(playerid,"homesell",0);
 	}
 	if(PI[playerid][pSellNeed][1]) {
@@ -47873,6 +50200,7 @@ CB: load_account(playerid) {
 	}
 	SendInfo(playerid, "Щоб відкрити меню гравця, введіть "W"/menu"W".");
 	SendInfo(playerid, "Не забувайте виконувати щоденні квести. (/quest)");
+	if(PI[playerid][pAdmin]) SendHint(playerid, "Для авторизації в панелі адміністратора використайте "P"/aduty");
     if(PI[playerid][pYoutube]) SendInfo(playerid, "Ви авторизувались, як ютубер серверу. (/yhelp)");
 	GetPlayerVehicles(playerid);
 	AddPame(playerid);
@@ -47884,6 +50212,16 @@ CB: load_account(playerid) {
 			GangZoneFlashForPlayer(playerid, GZInfo[i][gID], GetGangColor(GZInfo[i][gNapad]));
 		}
 	}
+<<<<<<< HEAD
+	if(PI[playerid][pSpawnTime] >= gettime() && PI[playerid][pSpawnPos][0] != 0 && PI[playerid][pSpawnPos][1] != 0)
+	{
+		PI[playerid][pSpawnTime] = (gettime() + 60);
+		return ShowPlayerDialog(playerid, D_SPAWN_LAST, DSM, "  ", ""W"З моменту Вашого виходу пройшло не більше, ніж{1D99D4} 2 хвилини"W"\nВи можете повернутися назад, де знаходилися до виходу.\n\n\
+		\tВи погоджуєтеся повернутися назад?", "Так", "Ні");
+	}
+	SendClientMessage(playerid, -1, "load_account");
+	//else PlayerSpawn(playerid);
+=======
 	// if(PI[playerid][pSpawnTime] >= gettime() && PI[playerid][pSpawnPos][0] != 0 && PI[playerid][pSpawnPos][1] != 0)
 	// {
 	// 	ShowPlayerDialog(playerid, D_SPAWN_LAST, DSM, "  ", ""W"З момента вашого вихода не минуло більше{1D99D4} 2-х хвилин"W"\nВи можете повернутися назад, де находились до вихода\n\n\
@@ -47893,6 +50231,7 @@ CB: load_account(playerid) {
 	
 	
 	PlayerSpawn(playerid);
+>>>>>>> parent of bd89ac6 (upd)
 	SpecPl(playerid, false);
 	
 	serv_stats[0]++;
@@ -48337,7 +50676,7 @@ CB: sad_temp_1(field) {
 	DestroyDynamicObject(SI[field][sad_object][0]);
 	SI[field][sad_object][0] = CreateDynamicObject(673,sad_objects[field][0],sad_objects[field][1],sad_objects[field][2],sad_objects[field][3],sad_objects[field][4],sad_objects[field][5],-1,-1,-1,90.000);
 	new string[128];
-	format(string,sizeof(string),"Дерево\nСтадия - цвітіння\nФермер - %s",SI[field][sad_fermer]);
+	format(string,sizeof(string),"Дерево\nСтадія - цвітіння\nФермер - %s",SI[field][sad_fermer]);
 	UpdateDynamic3DTextLabelText(SI[field][sad_3dtext],-1,string);
 	if(IsPlayerConnected(GetPlayerID(SI[field][sad_fermer]))) Streamer_Update(GetPlayerID(SI[field][sad_fermer]));
 	SetTimerEx("sad_temp_2",30000, false, "i", field);
@@ -48360,7 +50699,7 @@ CB: sad_temp_2(field) {
 	SI[field][sad_object][6] = CreateDynamicObject(19576,sad_apple[ID+5][a_coordsX],sad_apple[ID+5][a_coordsY],sad_apple[ID+5][a_coordsZ],sad_apple[ID+5][a_coordsAX],sad_apple[ID+5][a_coordsAY],sad_apple[ID+5][a_coordsAZ],-1,-1,-1,20.000);
 	SI[field][sad_object][7] = CreateDynamicObject(19576,sad_apple[ID+6][a_coordsX],sad_apple[ID+6][a_coordsY],sad_apple[ID+6][a_coordsZ],sad_apple[ID+6][a_coordsAX],sad_apple[ID+6][a_coordsAY],sad_apple[ID+6][a_coordsAZ],-1,-1,-1,20.000);
 	new string[128];
-	format(string,sizeof(string),"Дерево\nСтадия - дозрівання\nФермер - %s",SI[field][sad_fermer]);
+	format(string,sizeof(string),"Дерево\nСтадія - дозрівання\nФермер - %s",SI[field][sad_fermer]);
 	UpdateDynamic3DTextLabelText(SI[field][sad_3dtext],-1,string);
 	if(IsPlayerConnected(GetPlayerID(SI[field][sad_fermer]))) Streamer_Update(GetPlayerID(SI[field][sad_fermer]));
 	SetTimerEx("sad_temp_3",30000, false, "i", field);
@@ -48391,7 +50730,7 @@ CB: sad_temp_3(field) {
 	SI[field][sad_object][7] = CreateDynamicObject(19575,sad_apple[ID+6][a_coordsX],sad_apple[ID+6][a_coordsY],sad_apple[ID+6][a_coordsZ],sad_apple[ID+6][a_coordsAX],sad_apple[ID+6][a_coordsAY],sad_apple[ID+6][a_coordsAZ],-1,-1,-1,20.000);
 	SI[field][sad_object][8] = CreateDynamicObject(1428,sad_stairs[field][0],sad_stairs[field][1],sad_stairs[field][2],sad_stairs[field][3],sad_stairs[field][4],sad_stairs[field][5],-1,-1,-1,90.000);
 	new string[128];
-	format(string,sizeof(string),"Дерево\nСтадия - збір яблук\nФермер - %s",SI[field][sad_fermer]);
+	format(string,sizeof(string),"Дерево\nСтадія - збір яблук\nФермер - %s",SI[field][sad_fermer]);
 	UpdateDynamic3DTextLabelText(SI[field][sad_3dtext],-1,string);
 	if(IsPlayerConnected(GetPlayerID(SI[field][sad_fermer]))) Streamer_Update(GetPlayerID(SI[field][sad_fermer]));
 	SI[field][sad_time] = unix + 60*1;
@@ -48408,8 +50747,8 @@ CB: sad_temp_4(field,playerid){
 	TI[playerid][tJobSad][3] += rand;
 	
 	new string[128];
-	format(string,sizeof(string),""ORANGE"%d кг"W" яблук з дерева зібрані. Всього кг зібрано - "ORANGE"%d",rand,TI[playerid][tJobSad][3]);
-	SendUse(playerid,string);
+	format(string,sizeof(string),"Ви зібрали "P"%d кг"W" яблук з дерева. Всього зібрано: "P"%d кг",rand,TI[playerid][tJobSad][3]);
+	SendInfo(playerid,string);
 	SendOK(playerid,"Віднесіть яблуки на склад");
 	EnableGPSForPlayer(playerid, -112.1444,4.2448,3.1257);
 	sad_delete(field);
@@ -48704,6 +51043,7 @@ stock EndBus(playerid) {
 stock EndTaxi(playerid) {
 	if(!TI[playerid][tSpcarTime]) return 1;
 	SendInfo(playerid,"Робочий день завершено.");
+	DestroyDynamic3DTextLabel(gPlayerTaxiText[playerid]);
 	SetVehicleToRespawn(GetPVarInt(playerid,"veh_id_taxi"));
 	TI[playerid][tSpcarTime] = 0;
 	DeletePVar(playerid,"veh_id_taxi");
@@ -48802,6 +51142,7 @@ stock EndGun(playerid) {
 		UpdatePlayerData(playerid,"salary",PI[playerid][pSalary]);
 	}
 	TI[playerid][tJobSalary] = 0;
+	TI[playerid][jJobGunCreated] = 0;
 	DeletePVar(playerid,"gun_salary");
 	DisablePlayerRaceCheckpoint(playerid);
 	for(new i = 0;i < 4;i++) {
@@ -48839,6 +51180,7 @@ stock EndWood(playerid) {
 	ClearAnim(playerid);
 	TI[playerid][tJobSalary] = 0;
 	TI[playerid][tJobWood][3] = 0;
+	TI[playerid][tJobWoodSawed] = 0;
 	DeletePVar(playerid,"wood_salary");
 	SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
 	DisablePlayerRaceCheckpoint(playerid);
@@ -48912,9 +51254,10 @@ stock EndSad(playerid) {
 	TI[playerid][tJobSad][2] = 0;
 	TI[playerid][tJobSad][3] = 0;
 	TI[playerid][tJobSalary] = 0;
-	for(new i = 0;i < 4;i++) {
+	/*for(new i = 0;i < 4;i++) {
 		PlayerTextDrawHide(playerid,work_td[playerid][i]);
-	}
+	}*/
+	hide_payment(playerid);
 	return 1;
 }
 stock EndFish(playerid) {
@@ -51377,6 +53720,25 @@ CB: promo_create(playerid, code[], player[]) {
 	DeletePVar(playerid, "promomoney");
 	return 1;
 }
+CB: punish_history(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Покарань не знайдено.");
+	new name[32], givename[32], reason[150], datetime[40];
+	new string[2500];
+	strcat(string, ""P"Видав\t\t"P"Причина\t\t"P"Дата\n");
+	for(new i; i < rows; i++) 
+	{
+		cache_get_value_index(i, 1, name, 32);
+		cache_get_value_index(i, 2, givename, 40);
+		cache_get_value_index(i, 3, reason, 10);
+		cache_get_value_index(i, 4, datetime, 10);
+		format(string, sizeof(string),"%s%s\t\t%s\t\t%s\n", string, givename, reason, datetime);
+	}
+	ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""W"Список покарань", string, "Обрати", "Закрити");
+	return 1;
+}
 CB: service_calls(playerid)
 {
 	new rows;
@@ -51481,8 +53843,17 @@ CB: drug_effect(playerid) {
 	SetPlayerDrunkLevel(playerid, 0);
 	return 1;
 }
-CMD:alogin(playerid, params[]) {
+CMD:aduty(playerid, params[]) {
 	if(PI[playerid][pAdmin] != 0 && dostup[playerid] != 0) return 1;
+	if(dostup[playerid] == 1)
+	{
+		dostup[playerid] = 0;
+		static const f_str[] = "[A] Адміністратор %s вийшов з-під адмін панелі.";
+		new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
+		format(str, sizeof(str), f_str,player_name[playerid]);
+		SendAdminMessage(0xfF0CA31ff, str);
+		return 1;
+	}
 	if(GetPVarInt(playerid, "check_alogin") > gettime()) return 1;
 	new query[156];
 	mysql_format(connects, query, sizeof(query),"SELECT * FROM `admin` WHERE `Name` = '%s'", player_name[playerid]);
@@ -51524,7 +53895,8 @@ stock active_accept(playerid) {
 			GetPVarInt(playerid, "bizzProdaet") ||
 			GetPVarInt(playerid, "id_hotdog") ||
 			GetPVarInt(playerid, "hCarSeller") ||
-			GetPVarInt(playerid, "houseSeller")) return 1;
+			GetPVarInt(playerid, "houseSeller") ||
+			GetPVarInt(playerid,"family_invite")) return 1;
 	else return 0;
 }
 CMD:a(playerid, params[]) {
@@ -51794,7 +54166,7 @@ CMD:admins(playerid) {
 	if(countleader > 0) {
 		ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, ""P"Адміністрація",string, "Закрити", "");
 		new str_adm[128];
-		format(str_adm, sizeof(str_adm), "В мережі "P"%i"W" адміністратірів.", countleader);
+		format(str_adm, sizeof(str_adm), "В мережі "P"%i"W" адміністраторів.", countleader);
 		SendOK(playerid,str_adm);
 	}
 	else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, ""P"Адміністрація",""W"Немає адміністраторів у мережі", "Закрити", "");
@@ -54570,7 +56942,7 @@ CMD:apanel(playerid, const params[]) {
 	case 3: format(string,sizeof(string),""P"1."W" Адміністрація\n"P"2."W" Заспавнитися\n"P"3."W" Влаштуватися на роботу\n"P"4."W" Гравці у в'язниці\n"P"5."W" Гравці з баном чату\n"P"6."W" Адмін інформація %s\n"P"7."W" Кілл Лист %s\n"P"8."W" Онлайн організацій\n"P"9."W" Відремонтувати автомобіль\n"P"10."W" Стан складів\n"P"11."W" Дізнатися заморозки банд та мафій",(!PI[playerid][pAdmMSG]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!PI[playerid][pAdmKL]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"));
 	case 4: format(string,sizeof(string),""P"1."W" Адміністрація\n"P"2."W" Заспавнитися\n"P"3."W" Влаштуватися на роботу\n"P"4."W" Гравці у в'язниці\n"P"5."W" Гравці з баном чату\n"P"6."W" Адмін інформація %s\n"P"7."W" Кілл Лист %s\n"P"8."W" Онлайн організацій\n"P"9."W" Відремонтувати автомобіль\n"P"10."W" Стан складів\n"P"11."W" Дізнатися заморозки банд та мафій\n"P"12."W" Бан лист\n"P"13."W" Можливо зламані\n"P"14."W" Білборди\n",(!PI[playerid][pAdmMSG]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!PI[playerid][pAdmKL]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"));
 	case 5: format(string,sizeof(string),""P"1."W" Адміністрація\n"P"2."W" Заспавнитися\n"P"3."W" Влаштуватися на роботу\n"P"4."W" Гравці у в'язниці\n"P"5."W" Гравці з баном чату\n"P"6."W" Адмін інформація %s\n"P"7."W" Кілл Лист %s\n"P"8."W" Онлайн організацій\n"P"9."W" Відремонтувати автомобіль\n"P"10."W" Стан складів\n"P"11."W" Дізнатися заморозки банд та мафій\n"P"12."W" Бан лист\n"P"13."W" Можливо зламані\n"P"14."W" Білборди\n"P"15."W" Казино %s\n"P"16."W" Заповнити склади банд та мафій\n"P"17."W" Обмеження запрошень",(!PI[playerid][pAdmMSG]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!PI[playerid][pAdmKL]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!casino) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"));
-	case 6,7: format(string,sizeof(string),""P"1."W" Адміністрація\n"P"2."W" Заспавнитися\n"P"3."W" Влаштуватися на роботу\n"P"4."W" Гравці у в'язниці\n"P"5."W" Гравці з баном чату\n"P"6."W" Адмін інформація %s\n"P"7."W" Кілл Лист %s\n"P"8."W" Онлайн організацій\n"P"9."W" Відремонтувати автомобіль\n"P"10."W" Стан складів\n"P"11."W" Дізнатися заморозки банд та мафій\n"P"12."W" Бан лист\n"P"13."W" Можливо зламані\n"P"14."W" Білборди\n"P"15."W" Казино %s\n"P"16."W" Заповнити склади банд та мафій\n"P"17."W" Обмеження запрошень\n"P"18."W" Промокоди\n"P"19."W" Поповнити продукти в бізнесі",(!PI[playerid][pAdmMSG]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!PI[playerid][pAdmKL]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!casino) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"));
+	case 6,7: format(string,sizeof(string),""P"1."W" Адміністрація\n"P"2."W" Заспавнитися\n"P"3."W" Влаштуватися на роботу\n"P"4."W" Гравці у в'язниці\n"P"5."W" Гравці з баном чату\n"P"6."W" Адмін інформація %s\n"P"7."W" Кілл Лист %s\n"P"8."W" Онлайн організацій\n"P"9."W" Відремонтувати автомобіль\n"P"10."W" Стан складів\n"P"11."W" Дізнатися заморозки банд та мафій\n"P"12."W" Бан лист\n"P"13."W" Можливо зламані\n"P"14."W" Білборди\n"P"15."W" Казино %s\n"P"16."W" Заповнити склади банд та мафій\n"P"17."W" Обмеження запрошень\n"P"18."W" Промокоди\n"P"19."W" Поповнити продукти в бізнесі\n"P"20."W" Банкомати",(!PI[playerid][pAdmMSG]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!PI[playerid][pAdmKL]) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"),(!casino) ? ("{FF182D}[OFF]") : ("{33AA33}[ON]"));
 	}
 	ShowPlayerDialog(playerid,D_ADMIN_PANEL,DSL,""P"Адмін панель",string,"Обрати","Скасувати");
 	return 1;
@@ -63175,7 +65547,7 @@ stock key_activate(playerid)
 		new string[128];
 		format(string,sizeof(string),""P"%s"W" був прийнятий у вашу організацію.",player_name[playerid]);
 		SendUse(pltot,string);
-		format(string,sizeof(string),"Ви були прийняті у фракцію "P"%s"W".",FI[PI[playerid][pMember]-1][fName]);
+		format(string,sizeof(string),"Ви були прийняті у фракцію "P"%s"W".",FI[PI[playerid][pMember]][fName]); // -1
 		SendOK(playerid,string);
 		A_SetPlayerSkin(playerid, PI[playerid][pFracSkin]);
 		add_datefrac(playerid);
@@ -64288,7 +66660,11 @@ CB: player_timer(playerid) {
 		{
 			PlayerSpawn(playerid);
 		}
-		if(TI[playerid][tJobSad][0] > 0 && !IsPlayerInRangeOfPoint(playerid,200.0,-125.8699,6.7038,3.1172)) EndSad(playerid);
+		if(TI[playerid][tJobSad][0] > 0 && !IsPlayerInRangeOfPoint(playerid,200.0,-125.8699,6.7038,3.1172))
+		{
+			if(GetPlayerInterior(playerid) == 15 && GetPlayerVirtualWorld(playerid) == 15) return 1;
+			EndSad(playerid);
+		}
 		if(TI[playerid][tBuild] > 0 && !IsPlayerInRangeOfPoint(playerid,100.0, 1690.5251,400.8495,30.4258)) {
 			SendClientMessage(playerid,0xfF5C841ff, "Ви покинули територію будівництва. Роботу завершено");
 			RemovePlayerAttachedObject(playerid,8);
@@ -70662,4 +73038,446 @@ public MyHttpResponse(index, response_code, data[])
         format(buffer, sizeof(buffer), "The request failed! The response code was: %d", response_code);
         SendClientMessage(index, 0xFFFFFFFF, buffer);
     }
+<<<<<<< HEAD
 }
+CB: bus_rating(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Рейтинг пустий.");
+	new name[32], trips;
+	new string[2500];
+	strcat(string, ""P"Ім'я та прізвище\t\t"P"Кількість поїздок\n");
+	for(new i; i < rows; i++) {
+		cache_get_value_index(i, 1, name, 32);
+		cache_get_value_index_int(i, 2, trips);
+		format(string, sizeof(string),"%s%s\t\t%d\n", string, name, trips);
+	}
+	ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_TABLIST_HEADERS, ""W"Рейтинг водіїв", string, "Закрити", "");
+	return 1;
+}
+forward carlock(playerid);
+public carlock(playerid)
+{
+	new vehicleid = GetPVarInt(playerid, "carlock");
+	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
+	SetVehicleParamsEx(vehicleid, engine, 0, alarm, VehicleInfo[vehicleid][vLocked], bonnet, boot, objective);
+	DeletePVar(playerid, "carlock");
+}
+forward OnMailScriptResponse(iIndex, iResponseCode, const szData[ ]);
+public OnMailScriptResponse(iIndex, iResponseCode, const szData[ ])
+{
+    if(szData[ 0 ]) printf( "Mailer script says: %s", szData );
+}
+ 
+stock SendMail(const szReceiver[ ], const szSenderMail[ ], const szSenderName[ ], const szSubject[ ], const szMessage[ ])
+{
+    new szBuffer[ MAILER_MAX_MAIL_SIZE ] = "t=",
+    iPos = strlen( szBuffer ),
+    iLength = strlen( szReceiver );
+     
+    memcpy( szBuffer, szReceiver, iPos * 4, ( iLength + 1 ) * 4 );
+     
+    StringURLEncode( szBuffer[ iPos ], 1024 - iPos );
+     
+    strcat( szBuffer, "&f=" );
+     
+    iPos    = strlen( szBuffer );
+    iLength = strlen( szSenderName );
+     
+    memcpy( szBuffer, szSenderName, iPos * 4, ( iLength + 1 ) * 4 );
+     
+    StringURLEncode( szBuffer[ iPos ], 1024 - iPos );
+     
+    strcat( szBuffer, "&n=" );
+     
+    iPos    = strlen( szBuffer );
+    iLength = strlen( szSenderMail );
+     
+    memcpy( szBuffer, szSenderMail, iPos * 4, ( iLength + 1 ) * 4 );
+     
+    StringURLEncode( szBuffer[ iPos ], 1024 - iPos );
+     
+    strcat( szBuffer, "&s=" );
+     
+    iPos    = strlen( szBuffer );
+    iLength = strlen( szSubject );
+     
+    memcpy( szBuffer, szSubject, iPos * 4, ( iLength + 1 ) * 4 );
+     
+    StringURLEncode( szBuffer[ iPos ], 1024 - iPos );
+     
+    strcat( szBuffer, "&m=" );
+     
+    iPos    = strlen( szBuffer );
+    iLength = strlen( szMessage );
+     
+    memcpy( szBuffer, szMessage, iPos * 4, ( iLength + 1 ) * 4 );
+     
+    StringURLEncode( szBuffer[ iPos ], 1024 - iPos );
+     
+    HTTP( 0xD00D, HTTP_POST, MAILER_URL, szBuffer, "OnMailScriptResponse" );
+}
+ 
+stock StringURLEncode(szString[ ], iSize = sizeof( szString ))
+{
+    for ( new i = 0, l = strlen( szString ); i < l; i++ )
+    {
+        switch ( szString[ i ] )
+        {
+            case '!', '(', ')', '\'', '*',
+                 '0' .. '9',
+                 'A' .. 'Z',
+                 'a' .. 'z':
+            {
+                continue;
+            }
+             
+            case ' ':
+            {
+                szString[ i ] = '+';
+                 
+                continue;
+            }
+        }
+         
+        new
+            s_szHex[ 8 ]
+        ;
+         
+        if ( i + 3 >= iSize )
+        {
+            szString[ i ] = EOS;
+             
+            break;
+        }
+         
+        if ( l + 3 >= iSize )
+            szString[ iSize - 3 ] = EOS;
+         
+        format( s_szHex, sizeof( s_szHex ), "%02h", szString[ i ] );
+         
+        szString[ i ] = '%';
+         
+        strins( szString, s_szHex, i + 1, iSize );
+         
+        l += 2;
+        i += 2;
+         
+        if ( l > iSize - 1 )
+            l = iSize - 1;
+    }
+} 
+forward OnSendEmail(playerid, email[]); // playerid - ид игрока, email - емайл игрока. Вызывайте где хотите
+public OnSendEmail(playerid, email[])
+{
+    static const fmt_str[] = "Добрый день, уважаемый %s!\n\nВаш код подтверждения на какую-то операцию: %d\n\nPAWNO-RUS RolePlay";
+    new str[sizeof(fmt_str)+ (-2+MAX_PLAYER_NAME) + (-2+4) +1], // подсчитываем кол-во элементов формулой
+    name[MAX_PLAYER_NAME]; // переменная для ника игрока
+    GetPlayerName(playerid, name, sizeof(name)); // получаем ник игрока
+    email_number[playerid] = random(9999); // присваиваем переменной number значение рандома для дальнейших проверок. Обязательно объявите глобально: ко всем new: new number[MAX_PLAYERS];
+    format(str, sizeof(str), fmt_str, name, email_number[playerid]); // форматируем строку
+    SendMail(email, "support@pawno-rus.ru", "PAWNO-RUS RolePlay", "Код подтверждения", str); // отправляем на email игроку, где email - емайл самого игрока, support@pawno-rus.ru - ваш емайл, PAWNO-RUS RolePlay - ваш ник, КОд подтверждения - тема письма, str - само сообщение
+    return true;
+}
+
+
+stock show_payment ( playerid )
+{
+	payment_ptd[playerid][0] = CreatePlayerTextDraw(playerid, 25.416666, 204.000030, "PAYMENT:_0$" ) ;
+	PlayerTextDrawLetterSize(playerid, payment_ptd[playerid][0], 0.252916, 1.055554 ) ;
+	PlayerTextDrawAlignment(playerid, payment_ptd[playerid][0], 1 ) ;
+	PlayerTextDrawColor(playerid, payment_ptd[playerid][0], -1 ) ;
+	PlayerTextDrawSetShadow(playerid, payment_ptd[playerid][0], 0 ) ;
+	PlayerTextDrawSetOutline(playerid, payment_ptd[playerid][0], 0 ) ;
+	PlayerTextDrawBackgroundColor(playerid, payment_ptd[playerid][0], 255 ) ;
+	PlayerTextDrawFont(playerid, payment_ptd[playerid][0], 1 ) ;
+	PlayerTextDrawSetProportional(playerid, payment_ptd[playerid][0], 1 ) ;
+	PlayerTextDrawSetShadow(playerid, payment_ptd[playerid][0], 0 ) ;
+
+	PlayerTextDrawShow ( playerid, payment_ptd [ playerid ] [ 0 ] ) ;
+
+	payment_ptd[playerid][1] = CreatePlayerTextDraw(playerid, 121.249923, 204.000030, "~gr~+0$" ) ;
+	PlayerTextDrawLetterSize(playerid, payment_ptd[playerid][1], 0.252916, 1.055554 ) ;
+	PlayerTextDrawAlignment(playerid, payment_ptd[playerid][1], 3 ) ;
+	PlayerTextDrawColor(playerid, payment_ptd[playerid][1], -1 ) ;
+	PlayerTextDrawSetShadow(playerid, payment_ptd[playerid][1], 0 ) ;
+	PlayerTextDrawSetOutline(playerid, payment_ptd[playerid][1], 0 ) ;
+	PlayerTextDrawBackgroundColor(playerid, payment_ptd[playerid][1], 255 ) ;
+	PlayerTextDrawFont(playerid, payment_ptd[playerid][1], 1 ) ;
+	PlayerTextDrawSetProportional(playerid, payment_ptd[playerid][1], 1 ) ;
+	PlayerTextDrawSetShadow(playerid, payment_ptd[playerid][1], 0 ) ;
+
+	for ( new j = 0 ; j < 2 ; j ++ )
+	{
+		TextDrawShowForPlayer ( playerid, payment_td [ j ] ) ;
+	}
+	return 1 ;
+}
+
+stock hide_payment (playerid)
+{
+	for ( new j = 0 ; j < 2 ; j ++ )
+	{
+		TextDrawHideForPlayer ( playerid, payment_td [ j ] ) ;
+		PlayerTextDrawDestroy ( playerid, payment_ptd [ playerid ] [ j ] ) ;
+		payment_ptd [ playerid ] [ j ] = PlayerText:-1;
+	}
+	return 1 ;
+}
+
+stock update_payment (playerid, main_salary, money_count)
+{
+	new td_string [ 28 ] ;
+	format ( td_string, sizeof ( td_string ), "PAYMENT:_%d$", main_salary ) ;
+	PlayerTextDrawSetString ( playerid, payment_ptd [ playerid ] [ 0 ], td_string ) ;
+	format ( td_string, sizeof ( td_string ), "~gr~+%d$", money_count ) ;
+	PlayerTextDrawSetString ( playerid, payment_ptd [ playerid ] [ 1 ], td_string ) ;
+	PlayerTextDrawShow ( playerid, payment_ptd [ playerid ] [ 1 ] ) ;
+	SetTimerEx ( "hide_payment_timer", 2000, false, "d", playerid ) ;
+	return 1 ;
+}
+
+forward hide_payment_timer(playerid);
+public hide_payment_timer(playerid)
+{
+	if ( payment_ptd [ playerid ] [ 1 ] != PlayerText:-1 )
+	{
+		PlayerTextDrawHide ( playerid, payment_ptd [ playerid ] [ 1 ] ) ;
+	}
+	return 1 ;
+}
+
+stock ShowPlayerPhone(playerid)
+{
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][0]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][1]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][2]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][3]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][4]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][5]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][6]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][7]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][8]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][9]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][10]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][11]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][12]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][13]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][14]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][15]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][16]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][17]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][18]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][19]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][20]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][21]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][22]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][23]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][24]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][25]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][26]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][27]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][28]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][29]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][30]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][32]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][33]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][34]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][43]);
+	return 1;
+}
+ 
+stock HidePlayerPhone(playerid)
+{
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][0]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][1]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][2]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][3]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][4]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][5]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][6]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][7]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][8]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][9]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][10]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][11]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][12]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][13]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][14]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][15]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][16]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][17]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][18]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][19]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][20]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][21]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][22]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][23]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][24]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][25]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][26]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][28]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][30]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][32]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][33]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][34]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
+	return 1;
+}
+ 
+stock ShowPlayerPhoneMenu(playerid)
+{
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
+ 
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][0]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][1]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][2]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][3]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][4]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][5]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][6]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][7]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][8]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][9]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][10]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][11]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][12]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][13]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][14]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][15]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][16]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][17]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][18]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][19]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][20]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][21]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][22]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][23]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][24]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][25]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][26]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][28]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][30]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][32]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][33]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][34]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][35]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][36]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][37]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][38]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][39]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][40]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][41]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][42]);
+	return 1;
+}
+ 
+stock HidePlayerPhoneMenu(playerid)
+{
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][35]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][36]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][37]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][38]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][39]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][40]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][41]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][42]);
+ 
+ 
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][0]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][1]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][2]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][3]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][4]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][5]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][6]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][7]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][8]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][9]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][10]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][11]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][12]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][13]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][14]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][15]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][16]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][17]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][18]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][19]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][20]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][21]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][22]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][23]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][24]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][25]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][26]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][27]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][28]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][29]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][30]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][32]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][33]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][34]);
+	PlayerTextDrawShow(playerid, PhoneGUI[playerid][43]);
+	return 1;
+}
+ 
+stock HideWholePhone(playerid)
+{
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][35]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][36]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][37]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][38]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][39]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][40]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][41]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][42]);
+ 
+ 
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][0]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][1]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][2]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][3]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][4]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][5]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][6]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][7]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][8]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][9]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][10]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][11]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][12]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][13]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][14]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][15]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][16]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][17]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][18]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][19]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][20]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][21]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][22]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][23]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][24]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][25]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][26]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][28]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][30]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][32]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][33]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][34]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
+	PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
+	return 1;
+}
+=======
+}
+>>>>>>> parent of bd89ac6 (upd)
