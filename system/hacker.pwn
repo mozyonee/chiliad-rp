@@ -184,8 +184,8 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 	return 1;
 	
 }
-//
-//stock`s
+
+// stock`s
 stock IsAWanteds()
 {
 	new num = 0;
@@ -285,7 +285,7 @@ stock HackerCamera(playerid, idx)
 			SetPlayerCameraPos(playerid, 1541.1815, -1651.5726, 26.5635);
 			SetPlayerCameraLookAt(playerid, 1540.6473, -1652.4224, 26.2533);
 			SetPlayerPos(playerid,1541.1815, -1651.5726, -4.5635);
-			TogglePlayerControllable(playerid, 0);
+			TogglePlayerControllable(playerid, false);
 			SetTimerEx("HackCamer",1000*5,false,"i",playerid);
 			SendClientMessage(playerid, COLOR_GRAY, "[Мысли]: Отлично, осталось передать информацию Хакеру.");
 		}
@@ -293,7 +293,7 @@ stock HackerCamera(playerid, idx)
 			SetPlayerCameraPos(playerid, 1480.5875, -1769.7512, 67.2575);
 			SetPlayerCameraLookAt(playerid, 1480.6001, -1768.7527, 66.7675);
 			SetPlayerPos(playerid,1480.6001, -1768.7527, 50.7675);
-			TogglePlayerControllable(playerid, 0);
+			TogglePlayerControllable(playerid, false);
 			PI[playerid][pSearch] = 2;
 			UpdatePlayerData(playerid,"pSearch",PI[playerid][pSearch]);
 			SetPlayerWantedLevel(playerid, PI[playerid][pSearch]);
@@ -446,7 +446,7 @@ stock NextHacker(playerid){
 //
 forward HackCamer(playerid);
 public HackCamer(playerid){
-	TogglePlayerControllable(playerid, 1);
+	TogglePlayerControllable(playerid, true);
 	SetPlayerPosAC(playerid, GetPVarFloat(playerid, "HackPosX"),GetPVarFloat(playerid, "HackPosY"),GetPVarFloat(playerid, "HackPosZ"),0,0);
 	SendClientMessage(playerid,COLOR_GRAY,"[Мысли]: Сейчас бы доехать до хакера без происшетсвий.");
 	EnableGPSForPlayer(playerid,NPC_HACKER);

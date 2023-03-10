@@ -79,14 +79,14 @@
     "pawn": {
         "legacy_plugins": [],
         "main_scripts": [
-            "ml 1"
+            "chiliad 1"
         ],
         "side_scripts": []
     },
     "rcon": {
         "allow_teleport": false,
         "enable": false,
-        "password": "fucksampopenmp"
+        "password": "1c339a00e23c88c2132afa997418ce9563676c79"
     },
     "sleep": 5.0,
     "use_dyn_ticks": true,

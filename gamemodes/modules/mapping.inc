@@ -37921,7 +37921,7 @@
     tmpobjid=CreateDynamicObject(19377,1742.139282,-1864.908569,20.338226,0,0,90,0,0,-1,300,300);
     SetObjectMaterial(tmpobjid,0,9901,"ferry_building","skylight_windows",0x00000000);
     tmpobjid=CreateDynamicObject(19477,1763.468017,-1883.767822,16.166734,0,0,270,0,0,-1,300,300);
-    SetObjectMaterialText(tmpobjid,"Los Santos",0,120,"Calibri",100,1,0xFFFFFFFF,0x00000000,1);
+    SetObjectMaterialText(tmpobjid,"Los Santos",0,120,"Calibri",100,true,0xFFFFFFFF,0x00000000,1);
     tmpobjid=CreateDynamicObject(19477,1763.433959,-1883.731689,16.135526,0,0,90,0,0,-1,300,300);
     SetObjectMaterial(tmpobjid,0,19962,"samproadsigns","streetsign",0x00000000);
     CreateDynamicObject(4853,1735.969970,-1951.219970,15.050000,356.859985,0,0.140000,0,0,-1,300,300);
@@ -60191,7 +60191,7 @@
 	CreateDynamicObjectEx(18890,-354.645599,-1416.513183,801.935424,0,0,0,300,300);
 	CreateDynamicObjectEx(2228,-370.390289,-1416.242309,800.662414,11,0,270,300,300);
 // Chinatown
-tmpobjid=CreateDynamicObject(18980,1549.452393,-1490.996460,12.142354,0,90,180,-1,-1,-1,STREAMER_OBJECT_SD,175);
+    tmpobjid=CreateDynamicObject(18980,1549.452393,-1490.996460,12.142354,0,90,180,-1,-1,-1,STREAMER_OBJECT_SD,175);
     SetDynamicObjectMaterial(tmpobjid,0,8498,"excalibur","vegaspavement2_256",0);
     tmpobjid=CreateDynamicObject(18980,1554.112793,-1498.957397,12.142354,0,90,90,-1,-1,-1,STREAMER_OBJECT_SD,175);
     SetDynamicObjectMaterial(tmpobjid,0,8498,"excalibur","vegaspavement2_256",0);

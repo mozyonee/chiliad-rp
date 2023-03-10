@@ -66,7 +66,7 @@ stock blackjack_TimerID(tableid) {
 									new str[300];
 									format(str, sizeof(str), "[BJ]: %s поставил ставку в %d фишек (стол #%d), рука #1",player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1);
 									printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
-									ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1, 1);
+									ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
 									blackjackTableInfo[tableid][blackjackTablePlayersActive]++;
 								}
 							}
@@ -522,8 +522,8 @@ blackjack_CheckWinners(tableid)
 			}
 		}
 		if (!cards_win[0] && !cards_win[1])
-		ApplyAnimation(playerid, "CASINO", "cards_lose", 4.1, 0, 1, 1, 1, 1, 1);
-		else ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, 0, 1, 1, 1, 1, 1);
+		ApplyAnimation(playerid, "CASINO", "cards_lose", 4.1, false, true, true, true, 1, 1);
+		else ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, false, true, true, true, 1, 1);
 	}
 }
 blackjack_GiveTurn(playerid, tableid, block_id) {
@@ -538,7 +538,7 @@ blackjack_GiveTurn(playerid, tableid, block_id) {
 
 	BJ_PlayerInfo[playerid][pBlackJackBlockID] = block_id;
 
-	ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1, 1);
+	ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
 	PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][54]);
 }
 blackjack_NextTurn(tableid) {
@@ -569,7 +569,7 @@ blackjack_NextTurn(tableid) {
 	if ((playerid = blackjackTableInfo[tableid][blackjackTablePlayerid]) != (-1)) { // +ResetTurn
 		playerid = blackjackTableInfo[tableid][blackjackTableSlots][blackjackTableInfo[tableid][blackjackTablePlayerid]];
 
-		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
 
 		BJ_PlayerInfo[playerid][pBlackJackDelay] =
 		BJ_PlayerInfo[playerid][pBlackJackActiveID] = 0;
@@ -622,7 +622,7 @@ blackjack_DealHands(tableid) {
 			blackjackTableInfo[tableid][blackjackTableHandsActive]++;
 
 			PlayerPlaySound(playerid, 5602, 0.0, 0.0, 0.0);
-			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, false, true, true, true, 1, 1);
 			BJ_PlayerInfo[playerid][pBlackJackCards][0] = 2;
 			blackjack_CheckCards(playerid);
 
@@ -670,7 +670,7 @@ blackjack_ActionSplit(playerid) {
 	tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1),
 	card_id = blackjackTableInfo[tableid][blackjackTableCardsActive]
 	;
-	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
+	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, false, true, true, true, 1, 1);
 
 	BJ_PlayerInfo[playerid][pBlackJackStatus][0] = BJ_PLAYER_STATUS_SPLIT;
 	BJ_PlayerInfo[playerid][pBlackJackSplit] = 0;
@@ -703,7 +703,7 @@ blackjack_ActionDouble(playerid) {
 
 
 
-	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
+	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, false, true, true, true, 1, 1);
 
 	BJ_PlayerInfo[playerid][pBlackJackStatus][0] = BJ_PLAYER_STATUS_DOUBLE;
 	BJ_PlayerInfo[playerid][pBlackJackBet][0] *= 2;
@@ -721,7 +721,7 @@ blackjack_ActionHit(playerid, cards_block = 0) {
 	;
 	if (player_card_id == MAX_BLACKJACK_PLAYER_CARD)
 	return;
-	ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1, 1);
+	ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, false, true, true, true, 1, 1);
 
 	if (cards_block) player_card_id += 5;
 
@@ -774,7 +774,7 @@ blackjack_ResetRound(tableid) {
 		BJ_PlayerInfo[playerid][pBlackJackCardsScore][0] = BJ_PlayerInfo[playerid][pBlackJackCardsScore][1] =
 		BJ_PlayerInfo[playerid][pBlackJackStatus][0] = BJ_PlayerInfo[playerid][pBlackJackStatus][1] = 0;
 
-		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
 	}
 	ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1);
 	return true;
@@ -901,7 +901,7 @@ blackjack_LeaveGame(playerid) {
 	CancelSelectTextDraw(playerid);
 
 	ClearAnimations(playerid);
-	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, false, false, false, false, 0, 1);
 
 	return true;
 }
@@ -978,7 +978,7 @@ blackjack_JoinGame(playerid, tableid) {
 		SetPlayerInterior(playerid, blackjackTableInfo[tableid][blackjackTableInterior]);
 		SetPlayerVirtualWorld(playerid, blackjackTableInfo[tableid][blackjackTableWorld]);
 
-		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
 		TogglePlayerControllable(playerid, false);
 
 		SetPlayerFacingAngle(playerid, (blackjack_TableOffsets[targetid][3] + object_angle));
@@ -1120,7 +1120,7 @@ stock blackjack_CreateTD() {
 	TextDrawColor(Blackjack_TD[0], 336860415);
 	TextDrawSetShadow(Blackjack_TD[0], 0);
 	TextDrawFont(Blackjack_TD[0], 5);
-	TextDrawSetProportional(Blackjack_TD[0], 0);
+	TextDrawSetProportional(Blackjack_TD[0], false);
 	TextDrawBackgroundColor(Blackjack_TD[0], 0);
 	TextDrawSetSelectable(Blackjack_TD[0], true);
 	TextDrawSetPreviewModel(Blackjack_TD[0], 10955);
@@ -1134,7 +1134,7 @@ stock blackjack_CreateTD() {
 	TextDrawSetOutline(Blackjack_TD[1], 1);
 	TextDrawBackgroundColor(Blackjack_TD[1], 255);
 	TextDrawFont(Blackjack_TD[1], 1);
-	TextDrawSetProportional(Blackjack_TD[1], 1);
+	TextDrawSetProportional(Blackjack_TD[1], true);
 
 	Blackjack_TD[2] = TextDrawCreate(179.797958, 392.23, "click_1");
 	Blackjack_TD[3] = TextDrawCreate(247.297805, 392.23, "click_2");
@@ -1147,7 +1147,7 @@ stock blackjack_CreateTD() {
 		TextDrawColor(Blackjack_TD[td_id], 168430320);
 		TextDrawSetShadow(Blackjack_TD[td_id], 0);
 		TextDrawFont(Blackjack_TD[td_id], 5);
-		TextDrawSetProportional(Blackjack_TD[td_id], 0);
+		TextDrawSetProportional(Blackjack_TD[td_id], false);
 		TextDrawBackgroundColor(Blackjack_TD[td_id], 0);
 		TextDrawSetSelectable(Blackjack_TD[td_id], true);
 		TextDrawSetPreviewModel(Blackjack_TD[td_id], 10955);
@@ -1158,24 +1158,24 @@ stock blackjack_CreateTD() {
 	TextDrawTextSize(Blackjack_Tutorial_TD[0], 172.000000, 0.000000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[0], 1);
 	TextDrawColor(Blackjack_Tutorial_TD[0], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[0], 1);
+	TextDrawUseBox(Blackjack_Tutorial_TD[0], true);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[0], 336860415);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[0], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[0], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[0], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[0], 1);
+	TextDrawSetProportional(Blackjack_Tutorial_TD[0], true);
 
 	Blackjack_Tutorial_TD[1] = TextDrawCreate(61.992675, 414.550170, "~w~<< ~w~~h~HAИAГ");
 	TextDrawLetterSize(Blackjack_Tutorial_TD[1], 0.219619, 1.214998);
 	TextDrawTextSize(Blackjack_Tutorial_TD[1], 10.000000, 73.000000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[1], 2);
 	TextDrawColor(Blackjack_Tutorial_TD[1], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[1], 1);
+	TextDrawUseBox(Blackjack_Tutorial_TD[1], true);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[1], -1523963137);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[1], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[1], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[1], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[1], 1);
+	TextDrawSetProportional(Blackjack_Tutorial_TD[1], true);
 	TextDrawSetSelectable(Blackjack_Tutorial_TD[1], true);
 
 	Blackjack_Tutorial_TD[2] = TextDrawCreate(132.992675, 414.550170, "~w~>> ~w~~h~ГAЗEE");
@@ -1183,12 +1183,12 @@ stock blackjack_CreateTD() {
 	TextDrawTextSize(Blackjack_Tutorial_TD[2], 10.000000, 73.000000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[2], 2);
 	TextDrawColor(Blackjack_Tutorial_TD[2], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[2], 1);
+	TextDrawUseBox(Blackjack_Tutorial_TD[2], true);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[2], 8388863);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[2], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[2], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[2], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[2], 1);
+	TextDrawSetProportional(Blackjack_Tutorial_TD[2], true);
 	TextDrawSetSelectable(Blackjack_Tutorial_TD[2], true);
 
 	Blackjack_Tutorial_TD[3] = TextDrawCreate(97.469276, 331.300262, "OАYНEHЕE");
@@ -1196,12 +1196,12 @@ stock blackjack_CreateTD() {
 	TextDrawTextSize(Blackjack_Tutorial_TD[3], 0.000000, 149.500000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[3], 2);
 	TextDrawColor(Blackjack_Tutorial_TD[3], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[3], 1);
+	TextDrawUseBox(Blackjack_Tutorial_TD[3], true);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[3], -1523963166);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[3], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[3], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[3], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[3], 1);
+	TextDrawSetProportional(Blackjack_Tutorial_TD[3], true);
 }
 blackjack_CreatePTD(playerid, seatid) {
 	new Float:blackjack_ptd_float[MAX_BLACKJACK_SEATS][2] = {
@@ -1218,13 +1218,13 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.000000, 61.000000);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 2);
 		PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][ptd_id], -1);
-		PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][ptd_id], 1);
+		PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][ptd_id], true);
 		PlayerTextDrawBoxColor(playerid, Blackjack_PTD[playerid][ptd_id], 168430335);
 		PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
 	}
 	Blackjack_PTD[playerid][3] = CreatePlayerTextDraw(playerid,
 	(blackjack_ptd_float[seatid][0] + 34.42456), (blackjack_ptd_float[seatid][1] + 25.416534), blackjack_language_massive[language_id][5]
@@ -1233,12 +1233,12 @@ blackjack_CreatePTD(playerid, seatid) {
 	PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][3], 0.000000, 12.000000);
 	PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][3], 2);
 	PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][3], -1);
-	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][3], 1);
+	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][3], true);
 	PlayerTextDrawBoxColor(playerid, Blackjack_PTD[playerid][3], -2139094785);
 	PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][3], 0);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][3], 255);
 	PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][3], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][3], 1);
+	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][3], true);
 
 	Blackjack_PTD[playerid][4] = CreatePlayerTextDraw(playerid, 218.368286, 407.250030, "_");
 	Blackjack_PTD[playerid][5] = CreatePlayerTextDraw(playerid, 284.081756, 407.250000, "_");
@@ -1252,7 +1252,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
 	}
 	Blackjack_PTD[playerid][8] = CreatePlayerTextDraw(playerid, 280.000000, 316.000000, "_");
 	Blackjack_PTD[playerid][9] = CreatePlayerTextDraw(playerid, 71.000000, 262.500000, "_");
@@ -1267,7 +1267,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
 	} // player hands
 
 	// seatid = 1 [1] * center
@@ -1320,7 +1320,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 4);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 0);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], false);
 	}
 	// seatid = 1 [1] * center
 	Blackjack_PTD[playerid][46] = CreatePlayerTextDraw(playerid, 280.507141, 220.500000/* - 6.0*/, "_"); // 21
@@ -1343,7 +1343,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
 	}
 	Blackjack_PTD[playerid][53] = CreatePlayerTextDraw(playerid, 320.000000, 168.000000, "_");
 	PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][53], 0.227115, 0.987499);
@@ -1354,19 +1354,19 @@ blackjack_CreatePTD(playerid, seatid) {
 	PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][53], 1);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][53], 255);
 	PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][53], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][53], 1);
+	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][53], true);
 
 	Blackjack_PTD[playerid][54] = CreatePlayerTextDraw(playerid, 320.000000, 386.099639, blackjack_language_massive[language_id][6]);
 	PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][54], 0.228989, 1.004999);
 	PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][54], 0.000000, 81.000000);
 	PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][54], 2);
 	PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][54], -1);
-	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][54], 1);
+	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][54], true);
 	PlayerTextDrawBoxColor(playerid, Blackjack_PTD[playerid][54], -1523963137);
 	PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][54], 0);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][54], 255);
 	PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][54], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][54], 1);
+	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][54], true);
 
 	Blackjack_PTD[playerid][55] = CreatePlayerTextDraw(playerid, 359.000000, 316.000000, "_");
 	Blackjack_PTD[playerid][56] = CreatePlayerTextDraw(playerid, 150.000000, 262.500000, "_");
@@ -1381,7 +1381,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
 	}
 	Blackjack_Tutorial_PTD[playerid] = CreatePlayerTextDraw(playerid, 24.992675, 349.550140, "_");
 	PlayerTextDrawLetterSize(playerid, Blackjack_Tutorial_PTD[playerid], 0.206496, 1.109997);
@@ -1392,7 +1392,7 @@ blackjack_CreatePTD(playerid, seatid) {
 	PlayerTextDrawSetOutline(playerid, Blackjack_Tutorial_PTD[playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_Tutorial_PTD[playerid], 255);
 	PlayerTextDrawFont(playerid, Blackjack_Tutorial_PTD[playerid], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_Tutorial_PTD[playerid], 1);
+	PlayerTextDrawSetProportional(playerid, Blackjack_Tutorial_PTD[playerid], true);
 
 	BJ_PlayerInfo[playerid][pBlackJackGUI] = 1;
 }
@@ -1546,7 +1546,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
 
-			ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
 
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_DSHS);
 
@@ -1571,7 +1571,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 
 			if (from_next_key) return;
 
-			ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, false, true, true, true, 1, 1);
 
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0] + 0] + 0], "LD_CARD:cd8c");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0] + 0] + 1], "LD_CARD:cd3h");
@@ -1603,7 +1603,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 	case 17: {
 			if (from_next_key) return;
 
-			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, false, true, true, true, 1, 1);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0] + 0] + 2], "LD_CARD:cd11s");
 
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
@@ -1635,7 +1635,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 400);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
 
-			ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
 
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
@@ -1666,7 +1666,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~g~+300");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "~r~-300");
 
-			ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, 0, 1, 1, 1, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, false, true, true, true, 1, 1);
 		}
 	case 21: blackjack_StopTutorial(playerid);
 	}
@@ -1719,7 +1719,7 @@ stock blackjack_StartTutorial(playerid) {
 	SetPlayerInterior(playerid, blackjackTableInfo[tableid][blackjackTableInterior]);
 	SetPlayerVirtualWorld(playerid, blackjackTableInfo[tableid][blackjackTableWorld]);
 
-	ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+	ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
 	TogglePlayerControllable(playerid, false);
 
 	SetPlayerFacingAngle(playerid, (blackjack_TableOffsets[0][3] + object_angle));
@@ -1767,7 +1767,7 @@ stock blackjack_StopTutorial(playerid) {
 	CancelSelectTextDraw(playerid);
 
 	ClearAnimations(playerid);
-	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, 0, 0, 0, 0, 0);
+	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, false, false, false, false, 0, 1);
 }
 
 stock GetChips(playerid) return PI[playerid][pCasinoChips];

@@ -405,7 +405,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[1], 0);
 	TextDrawBackgroundColor(ColorTD[1], 51);
 	TextDrawFont(ColorTD[1], 2);
-	TextDrawSetProportional(ColorTD[1], 1);
+	TextDrawSetProportional(ColorTD[1], true);
 	ColorTD[2] = TextDrawCreate(563.000000, 139.416641, "Primary color");
 	TextDrawLetterSize(ColorTD[2], 0.302998, 1.290832);
 	TextDrawAlignment(ColorTD[2], 2);
@@ -414,7 +414,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[2], 1);
 	TextDrawBackgroundColor(ColorTD[2], 51);
 	TextDrawFont(ColorTD[2], 2);
-	TextDrawSetProportional(ColorTD[2], 1);
+	TextDrawSetProportional(ColorTD[2], true);
 	ColorTD[3] = TextDrawCreate(563.000000, 202.416580, "Secondary color");
 	TextDrawLetterSize(ColorTD[3], 0.302998, 1.290832);
 	TextDrawAlignment(ColorTD[3], 2);
@@ -423,7 +423,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[3], 1);
 	TextDrawBackgroundColor(ColorTD[3], 51);
 	TextDrawFont(ColorTD[3], 2);
-	TextDrawSetProportional(ColorTD[3], 1);
+	TextDrawSetProportional(ColorTD[3], true);
 	ColorTD[4] = TextDrawCreate(564.000000, 257.249877, "Vinyl");
 	TextDrawLetterSize(ColorTD[4], 0.302998, 1.290832);
 	TextDrawAlignment(ColorTD[4], 2);
@@ -432,7 +432,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[4], 1);
 	TextDrawBackgroundColor(ColorTD[4], 51);
 	TextDrawFont(ColorTD[4], 2);
-	TextDrawSetProportional(ColorTD[4], 1);
+	TextDrawSetProportional(ColorTD[4], true);
 	ColorTD[5] = TextDrawCreate(615.000000, 168.583389, "LD_BEAT:right");
 	TextDrawLetterSize(ColorTD[5], 0.000000, 0.000000);
 	TextDrawTextSize(ColorTD[5], 15.500000, 15.750000);
@@ -496,7 +496,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[11], 1);
 	TextDrawBackgroundColor(ColorTD[11], 51);
 	TextDrawFont(ColorTD[11], 2);
-	TextDrawSetProportional(ColorTD[11], 1);
+	TextDrawSetProportional(ColorTD[11], true);
 	TextDrawSetSelectable(ColorTD[11], true);
 	ColorTD[12] = TextDrawCreate(561.500000, 273.583435, "Type 1");
 	TextDrawLetterSize(ColorTD[12], 0.295498, 1.185832);
@@ -509,7 +509,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[12], 1);
 	TextDrawBackgroundColor(ColorTD[12], 51);
 	TextDrawFont(ColorTD[12], 2);
-	TextDrawSetProportional(ColorTD[12], 1);
+	TextDrawSetProportional(ColorTD[12], true);
 	TextDrawSetSelectable(ColorTD[12], true);
 	ColorTD[13] = TextDrawCreate(612.000000, 273.583496, "Type 2");
 	TextDrawLetterSize(ColorTD[13], 0.295498, 1.185832);
@@ -522,7 +522,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[13], 1);
 	TextDrawBackgroundColor(ColorTD[13], 51);
 	TextDrawFont(ColorTD[13], 2);
-	TextDrawSetProportional(ColorTD[13], 1);
+	TextDrawSetProportional(ColorTD[13], true);
 	TextDrawSetSelectable(ColorTD[13], true);
 	ColorTD[14] = TextDrawCreate(561.500000, 292.250061, "Type 3");
 	TextDrawLetterSize(ColorTD[14], 0.295498, 1.185832);
@@ -535,7 +535,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[14], 1);
 	TextDrawBackgroundColor(ColorTD[14], 51);
 	TextDrawFont(ColorTD[14], 2);
-	TextDrawSetProportional(ColorTD[14], 1);
+	TextDrawSetProportional(ColorTD[14], true);
 	TextDrawSetSelectable(ColorTD[14], true);
 	ColorTD[15] = TextDrawCreate(517.000000, 318.500091, "Apply");
 	TextDrawLetterSize(ColorTD[15], 0.317499, 1.296666);
@@ -548,7 +548,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[15], 1);
 	TextDrawBackgroundColor(ColorTD[15], 51);
 	TextDrawFont(ColorTD[15], 2);
-	TextDrawSetProportional(ColorTD[15], 1);
+	TextDrawSetProportional(ColorTD[15], true);
 	TextDrawSetSelectable(ColorTD[15], true);
 	ColorTD[16] = TextDrawCreate(496.500000, 271.249938, "(       )");
 	TextDrawLetterSize(ColorTD[16], 0.295998, 1.518334);
@@ -558,7 +558,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[16], 1);
 	TextDrawBackgroundColor(ColorTD[16], 51);
 	TextDrawFont(ColorTD[16], 3);
-	TextDrawSetProportional(ColorTD[16], 1);
+	TextDrawSetProportional(ColorTD[16], true);
 	ColorTD[17] = TextDrawCreate(537.500000, 270.083221, "(           )");
 	TextDrawLetterSize(ColorTD[17], 0.350998, 1.763334);
 	TextDrawAlignment(ColorTD[17], 1);
@@ -567,7 +567,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[17], 1);
 	TextDrawBackgroundColor(ColorTD[17], 51);
 	TextDrawFont(ColorTD[17], 3);
-	TextDrawSetProportional(ColorTD[17], 1);
+	TextDrawSetProportional(ColorTD[17], true);
 	ColorTD[18] = TextDrawCreate(587.000000, 270.083129, "(           )");
 	TextDrawLetterSize(ColorTD[18], 0.370997, 1.792497);
 	TextDrawAlignment(ColorTD[18], 1);
@@ -576,7 +576,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[18], 1);
 	TextDrawBackgroundColor(ColorTD[18], 51);
 	TextDrawFont(ColorTD[18], 3);
-	TextDrawSetProportional(ColorTD[18], 1);
+	TextDrawSetProportional(ColorTD[18], true);
 	ColorTD[19] = TextDrawCreate(537.000000, 288.749755, "(           )");
 	TextDrawLetterSize(ColorTD[19], 0.362996, 1.786666);
 	TextDrawAlignment(ColorTD[19], 1);
@@ -585,7 +585,7 @@ stock load_tune() {
 	TextDrawSetOutline(ColorTD[19], 1);
 	TextDrawBackgroundColor(ColorTD[19], 51);
 	TextDrawFont(ColorTD[19], 3);
-	TextDrawSetProportional(ColorTD[19], 1);
+	TextDrawSetProportional(ColorTD[19], true);
 	//======================================
 	CustomTD[0] = TextDrawCreate(642.000000, 121.666664, "usebox");
 	TextDrawLetterSize(CustomTD[0], 0.000000, 23.346323);
@@ -605,7 +605,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[1], 0);
 	TextDrawBackgroundColor(CustomTD[1], 51);
 	TextDrawFont(CustomTD[1], 2);
-	TextDrawSetProportional(CustomTD[1], 1);
+	TextDrawSetProportional(CustomTD[1], true);
 	CustomTD[2] = TextDrawCreate(622.000000, 137.083312, "LD_BEAT:right");
 	TextDrawLetterSize(CustomTD[2], 0.000000, 0.000000);
 	TextDrawTextSize(CustomTD[2], 15.500000, 15.750000);
@@ -691,7 +691,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[10], 0);
 	TextDrawBackgroundColor(CustomTD[10], 51);
 	TextDrawFont(CustomTD[10], 3);
-	TextDrawSetProportional(CustomTD[10], 1);
+	TextDrawSetProportional(CustomTD[10], true);
 	CustomTD[11] = TextDrawCreate(495.000000, 188.999923, "(                          )");
 	TextDrawLetterSize(CustomTD[11], 0.479000, 3.069998);
 	TextDrawAlignment(CustomTD[11], 1);
@@ -700,7 +700,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[11], 0);
 	TextDrawBackgroundColor(CustomTD[11], 51);
 	TextDrawFont(CustomTD[11], 3);
-	TextDrawSetProportional(CustomTD[11], 1);
+	TextDrawSetProportional(CustomTD[11], true);
 	CustomTD[12] = TextDrawCreate(495.000000, 217.583343, "(                          )");
 	TextDrawLetterSize(CustomTD[12], 0.479000, 3.069998);
 	TextDrawAlignment(CustomTD[12], 1);
@@ -709,7 +709,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[12], 0);
 	TextDrawBackgroundColor(CustomTD[12], 51);
 	TextDrawFont(CustomTD[12], 3);
-	TextDrawSetProportional(CustomTD[12], 1);
+	TextDrawSetProportional(CustomTD[12], true);
 	CustomTD[13] = TextDrawCreate(495.000000, 246.166473, "(                          )");
 	TextDrawLetterSize(CustomTD[13], 0.479000, 3.069998);
 	TextDrawAlignment(CustomTD[13], 1);
@@ -718,7 +718,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[13], 0);
 	TextDrawBackgroundColor(CustomTD[13], 51);
 	TextDrawFont(CustomTD[13], 3);
-	TextDrawSetProportional(CustomTD[13], 1);
+	TextDrawSetProportional(CustomTD[13], true);
 	CustomTD[14] = TextDrawCreate(495.000000, 274.749481, "(                          )");
 	TextDrawLetterSize(CustomTD[14], 0.479000, 3.069998);
 	TextDrawAlignment(CustomTD[14], 1);
@@ -727,7 +727,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[14], 0);
 	TextDrawBackgroundColor(CustomTD[14], 51);
 	TextDrawFont(CustomTD[14], 3);
-	TextDrawSetProportional(CustomTD[14], 1);
+	TextDrawSetProportional(CustomTD[14], true);
 	CustomTD[15] = TextDrawCreate(553.000000, 171.699954, TranslateText("Недоступно"));
 	TextDrawLetterSize(CustomTD[15], 0.326000, 0.818333);
 	TextDrawAlignment(CustomTD[15], 1);
@@ -736,7 +736,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[15], 0);
 	TextDrawBackgroundColor(CustomTD[15], 51);
 	TextDrawFont(CustomTD[15], 1);
-	TextDrawSetProportional(CustomTD[15], 1);
+	TextDrawSetProportional(CustomTD[15], true);
 	CustomTD[16] = TextDrawCreate(553.000000, 199.699893, TranslateText("Недоступно"));
 	TextDrawLetterSize(CustomTD[16], 0.326000, 0.818333);
 	TextDrawAlignment(CustomTD[16], 1);
@@ -745,7 +745,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[16], 0);
 	TextDrawBackgroundColor(CustomTD[16], 51);
 	TextDrawFont(CustomTD[16], 1);
-	TextDrawSetProportional(CustomTD[16], 1);
+	TextDrawSetProportional(CustomTD[16], true);
 	CustomTD[17] = TextDrawCreate(553.000000, 228.283282, TranslateText("Недоступно"));
 	TextDrawLetterSize(CustomTD[17], 0.326000, 0.818333);
 	TextDrawAlignment(CustomTD[17], 1);
@@ -754,7 +754,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[17], 0);
 	TextDrawBackgroundColor(CustomTD[17], 51);
 	TextDrawFont(CustomTD[17], 1);
-	TextDrawSetProportional(CustomTD[17], 1);
+	TextDrawSetProportional(CustomTD[17], true);
 	CustomTD[18] = TextDrawCreate(553.000000, 257.449847, TranslateText("Недоступно"));
 	TextDrawLetterSize(CustomTD[18], 0.326000, 0.818333);
 	TextDrawAlignment(CustomTD[18], 1);
@@ -763,7 +763,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[18], 0);
 	TextDrawBackgroundColor(CustomTD[18], 51);
 	TextDrawFont(CustomTD[18], 1);
-	TextDrawSetProportional(CustomTD[18], 1);
+	TextDrawSetProportional(CustomTD[18], true);
 	CustomTD[19] = TextDrawCreate(553.000000, 285.449816, TranslateText("Недоступно"));
 	TextDrawLetterSize(CustomTD[19], 0.326000, 0.818333);
 	TextDrawAlignment(CustomTD[19], 1);
@@ -772,7 +772,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[19], 0);
 	TextDrawBackgroundColor(CustomTD[19], 51);
 	TextDrawFont(CustomTD[19], 1);
-	TextDrawSetProportional(CustomTD[19], 1);
+	TextDrawSetProportional(CustomTD[19], true);
 	CustomTD[20] = TextDrawCreate(621.500000, 289.333160, "LD_BEAT:down");
 	TextDrawLetterSize(CustomTD[20], 0.000000, 0.000000);
 	TextDrawTextSize(CustomTD[20], 15.500000, 15.750000);
@@ -793,7 +793,7 @@ stock load_tune() {
 	TextDrawSetOutline(CustomTD[21], 0);
 	TextDrawBackgroundColor(CustomTD[21], 51);
 	TextDrawFont(CustomTD[21], 2);
-	TextDrawSetProportional(CustomTD[21], 1);
+	TextDrawSetProportional(CustomTD[21], true);
 	TextDrawSetSelectable(CustomTD[21], true);
 }
 stock load_tunes(playerid) {
@@ -805,7 +805,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, ColorTDPl[playerid][0], 1);
 	PlayerTextDrawBackgroundColor(playerid, ColorTDPl[playerid][0], 51);
 	PlayerTextDrawFont(playerid, ColorTDPl[playerid][0], 2);
-	PlayerTextDrawSetProportional(playerid, ColorTDPl[playerid][0], 1);
+	PlayerTextDrawSetProportional(playerid, ColorTDPl[playerid][0], true);
 	ColorTDPl[playerid][1] = CreatePlayerTextDraw(playerid, 515.000000, 163.333435, "LD_SPAC:white");
 	PlayerTextDrawLetterSize(playerid, ColorTDPl[playerid][1], 0.000000, 0.000000);
 	PlayerTextDrawTextSize(playerid, ColorTDPl[playerid][1], 26.500000, 26.249990);
@@ -866,7 +866,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, CustomTDPl[playerid][0], 1);
 	PlayerTextDrawBackgroundColor(playerid, CustomTDPl[playerid][0], 1941040400);
 	PlayerTextDrawFont(playerid, CustomTDPl[playerid][0], 1);
-	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][0], 1);
+	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][0], true);
 	CustomTDPl[playerid][1] = CreatePlayerTextDraw(playerid, 505.000000, 164.500015, "Part info 1");
 	PlayerTextDrawLetterSize(playerid, CustomTDPl[playerid][1], 0.209000, 1.086665);
 	PlayerTextDrawAlignment(playerid, CustomTDPl[playerid][1], 1);
@@ -875,7 +875,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, CustomTDPl[playerid][1], 0);
 	PlayerTextDrawBackgroundColor(playerid, CustomTDPl[playerid][1], 51);
 	PlayerTextDrawFont(playerid, CustomTDPl[playerid][1], 2);
-	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][1], 1);
+	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][1], true);
 	CustomTDPl[playerid][2] = CreatePlayerTextDraw(playerid, 505.000000, 191.916687, "Part info 2");
 	PlayerTextDrawLetterSize(playerid, CustomTDPl[playerid][2], 0.209000, 1.086665);
 	PlayerTextDrawAlignment(playerid, CustomTDPl[playerid][2], 1);
@@ -884,7 +884,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, CustomTDPl[playerid][2], 0);
 	PlayerTextDrawBackgroundColor(playerid, CustomTDPl[playerid][2], 51);
 	PlayerTextDrawFont(playerid, CustomTDPl[playerid][2], 2);
-	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][2], 1);
+	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][2], true);
 
 	CustomTDPl[playerid][3] = CreatePlayerTextDraw(playerid, 505.000000, 220.500045, "part info 3");
 	PlayerTextDrawLetterSize(playerid, CustomTDPl[playerid][3], 0.209000, 1.086665);
@@ -894,7 +894,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, CustomTDPl[playerid][3], 0);
 	PlayerTextDrawBackgroundColor(playerid, CustomTDPl[playerid][3], 51);
 	PlayerTextDrawFont(playerid, CustomTDPl[playerid][3], 2);
-	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][3], 1);
+	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][3], true);
 
 	CustomTDPl[playerid][4] = CreatePlayerTextDraw(playerid, 505.000000, 249.666717, "part info 4");
 	PlayerTextDrawLetterSize(playerid, CustomTDPl[playerid][4], 0.209000, 1.086665);
@@ -904,7 +904,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, CustomTDPl[playerid][4], 0);
 	PlayerTextDrawBackgroundColor(playerid, CustomTDPl[playerid][4], 51);
 	PlayerTextDrawFont(playerid, CustomTDPl[playerid][4], 2);
-	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][4], 1);
+	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][4], true);
 
 	CustomTDPl[playerid][5] = CreatePlayerTextDraw(playerid, 505.000000, 278.250000, "part info 5");
 	PlayerTextDrawLetterSize(playerid, CustomTDPl[playerid][5], 0.209000, 1.086665);
@@ -914,7 +914,7 @@ stock load_tunes(playerid) {
 	PlayerTextDrawSetOutline(playerid, CustomTDPl[playerid][5], 0);
 	PlayerTextDrawBackgroundColor(playerid, CustomTDPl[playerid][5], 51);
 	PlayerTextDrawFont(playerid, CustomTDPl[playerid][5], 2);
-	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][5], 1);
+	PlayerTextDrawSetProportional(playerid, CustomTDPl[playerid][5], true);
 }
 stock TranslateText(const string[])
 {
