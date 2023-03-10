@@ -90,5 +90,8 @@
     },
     "sleep": 5.0,
     "use_dyn_ticks": true,
-    "website": "open.mp"
+    "website": "open.mp",
+    "discord": {
+        "bot_token": "MTAzOTU5MzkyMzA2NjIwMDE0Ng.GTgyL4.DMI0wWlM7zLQolOom6-0zxN6WBPmxVmFS9X_3g"
+    }
 }

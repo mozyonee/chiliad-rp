@@ -71439,7 +71439,7 @@ public LottoInf2() {
 	new Cache:rdd = mysql_query(connects, String1024);
 	new lotom;
 	new lotonum;
-	if(cache_num_rows()) {
+	if(cache_num_rows()) {	
 		cache_get_value_index_int(0,0,lotonum);
 		cache_get_value_index_int(0,1,lotom);
 	}
@@ -71517,7 +71517,7 @@ public LottoInf() {
 	cache_delete(rdd);
 
 	new String256[256];
-	format(String256,sizeof(String256),""P"[Лотерея] Лотерея з поточним призовим фондом у "GREEN"$%d"W" активно набирає нових учасників.",lotom);
+	format(String256,sizeof(String256),""P"[Лотерея]"W" Проходить активний набір нових учасників у лотерею з поточним призовим фондом у "GREEN"$%d"W".",lotom);
 	SendClientMessageToAll(0xFFFFFFFF, String256);
 	return 1;
 }
