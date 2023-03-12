@@ -7437,10 +7437,6 @@ public OnFilterScriptInit() {
 	SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFFFFFFF);
 	tmpobjid = CreateDynamicObject(3287,2011.271,-2146.158,23.528,0,0,0,-1,-1,-1,200,200);
 	SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFFFFFFF);
-	tmpobjid = CreateDynamicObject(1537,1582,6315,-1638,0,0,0,-1,-1,-1,200,200);
-	SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFFFFFFF);
-	tmpobjid = CreateDynamicObject(1537,2014.472,-2135.417,12.546,0,0,-90,-1,-1,-1,200,200);
-	SetDynamicObjectMaterial(tmpobjid, 0, -1, "none", "none", 0xFFFFFFFF);
 	tmpobjid = CreateDynamicObject(8650,2094.449,-2142.850,17.810,0,0,-90,-1,-1,-1,200,200);
 	SetDynamicObjectMaterial(tmpobjid, 0, 16640, "a51", "sm_conc_hatch", 0xFFFFFFFF);
 	SetDynamicObjectMaterial(tmpobjid, 1, 16640, "a51", "sm_conc_hatch", 0x00000000);
