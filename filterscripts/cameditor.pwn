@@ -7,7 +7,7 @@
 			| |__| | | |  __/ |_) | | | | |
 			|_____/|_|  \___|_.__/|_|_| |_|
 						©2012
-
+						
 			            v 1.1
 
 */
@@ -15,9 +15,8 @@
 
 #include <a_samp>
 
-#define MAX_PLAYERS 100
-#define MOVE_SPEED              100.0
-#define ACCEL_RATE              0.03
+#define MOVE_SPEED              10.0
+#define ACCEL_RATE              0.02
 
 #define CAMERA_MODE_NONE    	0
 #define CAMERA_MODE_FLY     	1
@@ -122,7 +121,7 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerSpawn(playerid)
 {
-	if(IsCreating[playerid] == false) SendClientMessage(playerid, -1, "Type /cameditor to open the camera movement editor");
+
 }
 
 public OnPlayerCommandText(playerid, cmdtext[])
@@ -468,7 +467,7 @@ forward ExportMovement(playerid, inputtext[]);
 public ExportMovement(playerid, inputtext[])
 {
     new tagstring[64];
-	new movestring[512];
+	new movestring[512]; 
 	new rotstring[512];
 	new filename[50];
 	format(filename, 128, "CamEdit_%s.txt", inputtext);

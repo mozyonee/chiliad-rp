@@ -16,6 +16,7 @@
         "lag_compensation_mode": 1,
         "map": "",
         "mode": "",
+        "allow_037_clients": true,
         "nametag_draw_radius": 70.0,
         "player_marker_draw_radius": 250.0,
         "player_marker_mode": 1,
@@ -91,7 +92,7 @@
     "sleep": 5.0,
     "use_dyn_ticks": true,
     "website": "open.mp",
-    "discord": {
+     "discord": {
         "bot_token": "MTAzOTU5MzkyMzA2NjIwMDE0Ng.GTgyL4.DMI0wWlM7zLQolOom6-0zxN6WBPmxVmFS9X_3g"
     }
 }
