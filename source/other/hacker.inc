@@ -688,7 +688,7 @@ stock unarrest(playerid){
 stock ShowStatsHacker(playerid, targetid)
 {
 	new query[156];
-	mysql_format(connects, query, sizeof(query),"SELECT * FROM `hacker_stats` WHERE `ID` = '%d'", PI[targetid][pID]);
+	mysql_format(connects, query, sizeof(query),"SELECT * FROM `hacker_stats` WHERE `ID` = '%d'", PI[targetid][cID]);
 	mysql_tquery(connects, query, "InfoHacker", "ii", playerid,targetid);
 	return 1;
 }
@@ -704,7 +704,7 @@ CB: InfoHacker(playerid, targetid){
 	{
 		if(rows >= 8) {
 			new query[128];
-			mysql_format(connects, query, sizeof(query),"DELETE FROM `hacker_stats` WHERE `ID` = '%i';",PI[targetid][pID]);
+			mysql_format(connects, query, sizeof(query),"DELETE FROM `hacker_stats` WHERE `ID` = '%i';",PI[targetid][cID]);
 			mysql_query(connects, query);
 			for ( new i = 0 ; i < rows ; i ++ )
 			{
@@ -739,7 +739,7 @@ stock Information(playerid, targetid, const text[])
 }
 stock InsertPlayerHacker(playerid, const text[]){
 	MYSQL_GLOBAL[0] = EOS;
-	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"INSERT INTO `hacker_stats` (`ID`,`text`,`date`) VALUES ('%d','%s',NOW())",PI[playerid][pID],text);
+	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"INSERT INTO `hacker_stats` (`ID`,`text`,`date`) VALUES ('%d','%s',NOW())",PI[playerid][cID],text);
 	mysql_tquery(connects, MYSQL_GLOBAL, "","");
 	return 1;
 }
