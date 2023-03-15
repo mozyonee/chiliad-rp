@@ -1,16 +1,16 @@
-#include <a_samp>
+#include 	<a_samp>
 // #include <tgconnector>
-#define MAX_PLAYERS                             	   (300)
-#include <a_mysql>
-#include <foreach>
+#define 	MAX_PLAYERS                             	   (300)
+#include 	<a_mysql>
+#include	<foreach>
 // #include <profiler> // CMD:dump
 // #include <SKY>
-#include <Pawn.RakNet>
-#include <streamer>
-#include <sscanf2>
-#include <crashdetect>
-#include <fmt>
-#include <a_http>
+#include 	<Pawn.RakNet>
+#include 	<streamer>
+#include 	<sscanf2>
+#include 	<crashdetect>
+#include 	<fmt>
+#include 	<a_http>
 #include 	<Pawn.CMD>
 #include    <MD5>
 #include 	<crashdetect>
@@ -56,7 +56,7 @@ new InLoadFrac[23] = false;
 new VehicleWareHouse[2];
 new CountMaterialVehicleWH = 0;
 // Підключення до БД.
-#define MYSQL_HOST 	"localhost"
+#define MYSQL_HOST 	"92.119.113.102"
 #define MYSQL_USER 	"chiliad"
 #define MYSQL_PASS 	"cO8kR7kW2k"
 #define DB_NAME 	"chiliad"
@@ -14346,8 +14346,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			new id = TI[playerid][tSelectedBusinessID];
 			new str[112];
-			format(str,sizeof(str),"1. Купити наркотики [1 г ="GREEN" %d$"W"]\n2. Замовити наркотики\n3. Інформація\n4. Керування притоном",gBusiness[id][bizzPrice]);
-			ShowPlayerDialog(playerid,DIALOG_PRITON,DSL, ""P"Наркопритон", str, "Обрати", "Скасувати");
+			format(str,sizeof(str),"1. Купити наркотики. [1 г ="GREEN" %d$"W"]\n2. Замовити наркотики.\n3. Інформація.\n4. Керування притоном.",gBusiness[id][bizzPrice]);
+			ShowPlayerDialog(playerid,DIALOG_PRITON,DSL, ""P"Наркопритон.", str, "Обрати", "Скасувати");
 		}
 	case D_COP_DIALOG: {
 			if(!response) return 1;
@@ -16597,21 +16597,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_LOGIN: {
 			if(!response) return KickEx(playerid);
-			new hour, minute, second, htxt[13], string[650];
-			gettime(hour, minute, second);
-			if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Доброго ранку");
-			else if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
-			else if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
-			else if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброї ночі");
-			else format(htxt,sizeof(htxt),"Вітаємо");
 			if(!strlen(inputtext) || !CheckPassword(inputtext)) {
 				if(!CheckPassword(inputtext)) SendError(playerid, "Змініть розкладку клавіатури.");
-				format(string,sizeof(string),""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
-					Акаунт "P"%s"W" "GREEN"зареєстровано"W" на нашому сервері.\nВведіть пароль для реєстрації:\n\n",htxt, player_name[playerid]);
-				ShowPlayerDialog(playerid, D_LOGIN, DSP, ""P"Авторизація.", string, "Далі", "Закрити");
+				account_authorization(playerid);
 				return 1;
-			}
-			else {
+			} else {
 				new hash[75];
 				SHA256_PassHash(inputtext, "jobiden", hash, 75);
 				if(strcmp(hash, player_pass[playerid])) {
@@ -16621,24 +16611,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new string_1[sizeof(f_str_1) + 3];
 					format(string_1,sizeof(string_1), f_str_1,3-GetPVarInt(playerid, "wrongPass"));
 					SendError(playerid, string_1);
-					format(string,sizeof(string),""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
-						Акаунт "P"%s"W" "GREEN"зареєстровано"W" на нашому сервері.\nВведіть пароль для реєстрації:\n\n",htxt, player_name[playerid]);
-					ShowPlayerDialog(playerid, D_LOGIN, DSP, ""P"Авторизація.", string, "Далі", "Закрити");
-				}
-				else {
+					account_authorization(playerid);
+				} else {
 					if(PI[playerid][pGoogleSec] && strcmp(player_ip_check[playerid], player_ip[playerid]) != 0) {
 						TI[playerid][tLoginTime] = 90;
 						ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, ""P"Google Authenticator.","\n\n"W"Введіть код Google Authenticator:","Далі","Скасувати");
 						return 1;
 					}
 					else if(!GetString(PI[playerid][pKey], "-")) load_captcha(playerid);
-					else load_load(playerid);
+					else characters_panel(playerid);
 				}
 			}
 		}
 	case D_GOOGLE_2: {
 			if(!response) return KickEx(playerid);
-			if(strlen(inputtext) != 6 || isNumeric(inputtext)) return ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, ""P"Google Authenticator.", "\n\n"W"Введіть код Google Authenticator:\n\n"NO"*"G" Ключ повинен складатися з 6 цифр\n\n","Далі","Закрити");
+			if(strlen(inputtext) != 6 || isNumeric(inputtext)) return ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, ""P"Google Authenticator.", "\n\n"W"Введіть код Google Authenticator:\n\n"NO"*"G" Ключ повинен складатися з 6 цифр.\n\n","Далі","Закрити");
 			new colvo = strval(inputtext);
 			new heh = GoogleAuthenticatorCode(PI[playerid][pGoogle], gettime());
 			if(heh == colvo) return load_load(playerid);
@@ -16656,7 +16643,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			if(!strlen(inputtext)) {
 				new string[400];
-				format(string,sizeof(string),""W"Інструкція зі встановлення:\n\n1. Завантажте та встановіть Google Authenticator\n2. Запустіть додаток\n3. У полі 'Назва акаунту' введіть - %s\n4. У полі 'Ключ' введіть ключ - %s",player_name[playerid],PI[playerid][pGenGoogle]);
+				format(string,sizeof(string),""W"Інструкція зі встановлення:\n\n1. Завантажте та встановіть Google Authenticator.\n2. Запустіть додаток\n3. У полі 'Назва акаунту' введіть - %s\n4. У полі 'Ключ' введіть ключ - %s.",player_name[playerid],PI[playerid][pGenGoogle]);
 				ShowPlayerDialog(playerid, D_GOOGLE_3, DSI, ""P"Google Authenticator.",string,"Далі","Скасувати");
 				return 1;
 			}
@@ -16674,21 +16661,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_REG: {
 			if(!response) return KickEx(playerid);
-			new hour, minute, second, htxt[30], string[450];
-			gettime(hour, minute, second);
-			if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Доброго ранку");
-			else if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
-			else if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
-			else if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброї ночі");
-			else format(htxt,sizeof(htxt),"Вітаємо");
+			
 			if(!(strlen(inputtext) >= 6 && strlen(inputtext) <= 30 && CheckPassword(inputtext))) {
-				format(string,sizeof(string),""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
-					Акаунт "P"%s"W" "R"не зареєстровано"W" на нашому сервері.\nВведіть пароль для реєстрації:\n\n\
-					"G"* Довжина паролю повинна бути від 6 до 30 символів.\n* Пароль повинен містити у собі букви та цифри.\n* Пароль чутливий до регістру.\n\n",htxt, player_name[playerid]);
-				ShowPlayerDialog(playerid, D_REG, DSI, ""P"Реєстрація.", string, "Далі", "Вийти");
+				account_registration(playerid);
 				return 1;
 			}
-
 
 			new year, month, day, pass[67], query[1028];
 			getdate(year, month, day);
@@ -16697,7 +16674,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			PI[playerid][pLastIP] = PI[playerid][pRegIP];
 			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_ACCOUNTS" (`pName`, `pPassword`, `pRegDate`, `pRegIP`, `pLastIP`) VALUES ('%s', '%s', '%02i/%02i/%02i', '%i', '%i')", player_name[playerid], pass, day, month, year, PI[playerid][pRegIP], PI[playerid][pLastIP]);
 			mysql_tquery(connects, query, "player_register", "i", playerid);
-
+			
 			mysql_format(connects, query, sizeof(query),  "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `owner` = %i", PI[playerid][pID]);
 			mysql_tquery(connects, query, "characters_panel", "i", playerid);
 
@@ -16772,6 +16749,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s'",inputtext);
 			mysql_tquery(connects, MYSQL_GLOBAL, "friend_detectd","is", playerid,inputtext);
 			return 1; 
+		}
+	case D_CHAR: {
+		if(!response) return KickEx(playerid);
+		characters_panel(playerid);		
 		}
 	case D_CHAR_SEX: {
 			if(response) PI[playerid][pSex] = 1;
@@ -33494,7 +33475,10 @@ public OnPlayerRequestClass(playerid, classid) {
 		ac_1{playerid} = true;
 		new query[500];
 		mysql_format(connects, query, sizeof(query), "SELECT `pID`, `pPassword`, `pKey`, `GoogleCode`, `pGoogle`, `pLastIP` FROM "TABLE_ACCOUNTS" WHERE `pName` = '%s' LIMIT 1", player_name[playerid]);
-		mysql_tquery(connects, query, "OnPlayerRequestDetect", "d", playerid);
+		mysql_tquery(connects, query, "OnPlayerRequestDetect", "i", playerid);
+		mysql_format(connects, query, sizeof(query), "SELECT `rank` FROM `admin` WHERE `Name` = '%s' LIMIT 1", player_name[playerid]);
+		mysql_tquery(connects, query);
+		cache_get_value_name_int(0, "rank", PI[playerid][pAdmin]);
 	} else return SendClientMessage(playerid, -1, "Error OPRC.");
 	return 1;
 }
@@ -33583,15 +33567,8 @@ CB: OnPlayerRequestDetect(playerid) {
 	SetPlayerFacingAngle(playerid, 90.0);
 	ApplyAnimation(playerid,"MISC","seat_LR",0.0,0,0,0,0,0);
 	ApplyAnimation(playerid,"BAR","dnK_StndM_loop",0.0,0,0,0,0,0);
-
 	SetPlayerVirtualWorld(playerid,102);
-	new hour, minute, second, htxt[13];
-	gettime(hour, minute, second);
-	if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Доброго ранку");
-	else if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
-	else if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
-	else if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброї ночі");
-	else format(htxt,sizeof(htxt),"Вітаємо");
+	
 	new rows;
 	cache_get_row_count(rows);
 	if(rows) {
@@ -33601,25 +33578,11 @@ CB: OnPlayerRequestDetect(playerid) {
 		cache_get_value_name(0, "GoogleCode", PI[playerid][pGoogle],63);
 		cache_get_value_name_int(0, "pGoogle", PI[playerid][pGoogleSec]);
 		cache_get_value_name(0, "pLastIP", player_ip[playerid],17);
-		new string[450];
-		gettime(hour, minute, second);
-		if(hour >= 6 && hour < 12)  format(htxt,sizeof(htxt),"Доброго ранку");
-		else if(hour >= 12 && hour < 18) format(htxt,sizeof(htxt),"Добрий день");
-		else if(hour >= 18 && hour < 24) format(htxt,sizeof(htxt),"Добрий вечір");
-		else if(hour >= 0 && hour < 6)  format(htxt,sizeof(htxt),"Доброї ночі");
-		else format(htxt,sizeof(htxt),"Вітаємо");
-		format(string,sizeof(string),""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
-			Акаунт "P"%s"W" "GREEN"зареєстровано"W" на нашому сервері.\nВведіть пароль для реєстрації:\n\n",htxt, player_name[playerid]);
-		ShowPlayerDialog(playerid, D_LOGIN, DSP, ""P"Авторизація.", string, "Далі", "Вийти");
-	} else {
-		new string[650];
-		format(string,sizeof(string),""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
-			Акаунт "P"%s"W" "R"не зареєстровано"W" на нашому сервері.\nВведіть пароль для реєстрації:\n\n\
-			"G"* Довжина паролю повинна бути від 6 до 30 символів.\n* Пароль повинен містити у собі букви та цифри.\n* Пароль чутливий до регістру.\n\n",htxt, player_name[playerid]);
-		ShowPlayerDialog(playerid,D_REG,DSI, ""P"Реєстрація.",string, "Далі", "Вийти");
-	}
+		account_authorization(playerid);
+	} else account_registration(playerid);
 	return 1;
 }
+
 stock SetPlayerCriminal(playerid, const killerid[], const reason[]) {
 	PI[playerid][pCrimes]++;
 	UpdatePlayerData(playerid,"pCrimes",PI[playerid][pCrimes]);
@@ -38632,10 +38595,10 @@ CMD:house(playerid) {
 	new status[24];
 	if(!gHouses[PI[playerid][pHouse]-1][houseClose]) status = "Закрити";
 	else status = "Відкрити";
-	static const f_str[] = ""P"1."W" %s будинок\n"P"2."W" Інформація про будинок\n"P"3."W" Покращення\n"P"4."W" Жильці\n"P"5."W" Сейф\n"P"6."W" Продати домашній транспорт\n"P"7."W" Купівля інтер'єру\n"P"8."W" Продати будинок";
+	static const f_str[] = ""P"1."W" %s будинок.\n"P"2."W" Інформація про будинок.\n"P"3."W" Покращення.\n"P"4."W" Жильці.\n"P"5."W" Сейф.\n"P"6."W" Продати домашній транспорт.\n"P"7."W" Купівля інтер'єру.\n"P"8."W" Продати будинок.";
 	new string[sizeof(f_str) +1 + (-2 + 24)];
 	format(string,sizeof(string),f_str,status);
-	return ShowPlayerDialog(playerid,D_HOUSE_MENU,2,""P"Керування будинком",string,"Обрати","Скасувати");
+	return ShowPlayerDialog(playerid,D_HOUSE_MENU,2,""P"Керування будинком.",string,"Обрати","Скасувати");
 }
 alias:house("home")
 CMD:exit(playerid) {
@@ -44126,9 +44089,9 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ShowPlayerDialog(playerid, D_MATERIALS_BUY, DSM, ""P"Купівля матеріалів.",string, "Купити", "Скасувати");
 		}
 		else if(IsPlayerInRangeOfPoint(playerid, 1.7, 329.3237,1118.7214,1083.8903)) {
-			if(!IsAMafia(playerid) && !IsAGang(playerid)) return SendError(playerid, "Ви не мафіозі чи бандит.");
+			if(!IsMafiaOrGang(playerid)) return SendError(playerid, "Ви не мафіозі чи бандит.");
 			new str[112];
-			format(str,sizeof(str),""P"1."W" Купити наркотики "GREEN"[1 г = $%d]\n"P"2."W" Замовити наркотики\n"P"3."W" Інформація\n"P"4."W" Керування притоном",gBusiness[56][bizzPrice]);
+			format(str,sizeof(str),""P"1."W" Купити наркотики. "GREEN"[1 г = $%d]\n"P"2."W" Замовити наркотики.\n"P"3."W" Інформація.\n"P"4."W" Керування притоном.",gBusiness[56][bizzPrice]);
 			ShowPlayerDialog(playerid,DIALOG_PRITON,DSL, ""P"Наркопритон.", str, "Обрати", "Скасувати");
 		}
 		else if(PlayerToPoint(2.5,playerid,1772.8312,-1896.1721,13.5521))
@@ -47232,7 +47195,7 @@ CB: friend_detectd(playerid,const inputtext[]) {
 	}
 	mysql_escape_string(inputtext,PI[playerid][pFriend], 27);
 	// ShowPlayerDialog(playerid, D_REG_EMAIL, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Електронна пошта.", "Введіть вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою ви зможете забезпечити свій акаунт та відновити доступ до нього.", "Далі", "Назад");
-	ShowPlayerDialog(playerid,D_CHAR_SEX,DSM, ""P"Реєстрація. "W"Стать персонажу.", "\n"W"Оберіть стать вашого персонажу:\n", "Чоловік", "Жінка");
+	ShowPlayerDialog(playerid, D_CHAR_SEX, DSM, ""P"Реєстрація. "W"Стать персонажу.", "\n"W"Оберіть стать вашого персонажу:\n", "Чоловік", "Жінка");
 	return 1;
 }
 CB: change_name(playerid,const name[]) {
@@ -47331,16 +47294,48 @@ CB:characters_panel(playerid) {
 	new rows;
 	cache_get_row_count(rows);
 	new name[32], total = 0;
-	new string[2500];
+	new header[150], content[450];
 	if(rows) {
 		for(new i; i < rows; i++) {
 			total++;
-			cache_get_value_index(i, 1, name, 32);
-			format(string, sizeof(string),"%s%d.%s\n", string, total, name);
+			cache_get_value_name(i, "Name", name, 32);
+			format(content, sizeof(content),"%s"P"%d."W" %s\n", content, total, name);
 		}
 	}
-	format(string, sizeof(string),"%s\n"P"%d."W" Увійти як адміністратор.\n"P"%d."W" Створити персонажа.", string, total+1, total+2);
-	ShowPlayerDialog(playerid, D_CHAR, DSL, ""P"Керування персонажами.", string, "Обрати", "Вийти");
+	if(PI[playerid][pAdmin] > 0) {
+		total++;
+		format(content, sizeof(content),"%s"P"%d."W" Увійти як адміністратор.\n", content, total);
+	}
+	format(content, sizeof(content),"%s"P"%d."W" Створити персонажа.", content, total+1);
+	format(header, sizeof(header), ""P"Керування персонажами. "W"%s.", player_name[playerid]);
+	ShowPlayerDialog(playerid, D_CHAR, DSL, header, content, "Обрати", "Вийти");
+}
+CB:account_authorization(playerid) {
+	new hour, minute, second, htxt[30], header[100], content[450];
+	gettime(hour, minute, second);
+	if(hour >= 6 && hour < 12)  format(htxt, sizeof(htxt), "Доброго ранку");
+	else if(hour >= 12 && hour < 18) format(htxt, sizeof(htxt), "Добрий день");
+	else if(hour >= 18 && hour < 24) format(htxt, sizeof(htxt), "Добрий вечір");
+	else if(hour >= 0 && hour < 6)  format(htxt, sizeof(htxt), "Доброї ночі");
+	else format(htxt,sizeof(htxt), "Вітаємо");
+	format(content, sizeof(content), ""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
+		Ваш акаунт "GREEN"зареєстровано"W" на нашому сервері.\nВведіть пароль для авторизації:\n\n", htxt);
+	format(header, sizeof(header), ""P"Авторизація. "W"%s.", player_name[playerid]);
+	ShowPlayerDialog(playerid, D_LOGIN, DSP, header, content, "Далі", "Вийти");
+}
+CB:account_registration(playerid) {
+	new hour, minute, second, htxt[30], header[100], content[450];
+	gettime(hour, minute, second);
+	if(hour >= 6 && hour < 12)  format(htxt, sizeof(htxt), "Доброго ранку");
+	else if(hour >= 12 && hour < 18) format(htxt, sizeof(htxt), "Добрий день");
+	else if(hour >= 18 && hour < 24) format(htxt, sizeof(htxt), "Добрий вечір");
+	else if(hour >= 0 && hour < 6)  format(htxt, sizeof(htxt), "Доброї ночі");
+	else format(htxt, sizeof(htxt), "Вітаємо");
+	format(content, sizeof(content), ""W"%s,\nЛаскаво просимо на "P"Chiliad RP"W"!\n\n\
+		Ваш акаунт "R"не зареєстровано"W" на нашому сервері.\nВведіть пароль для реєстрації:\n\n\
+		"G"* Довжина паролю повинна бути від 6 до 30 символів.\n* Пароль повинен містити у собі букви та цифри.\n* Пароль чутливий до регістру.\n\n", htxt);
+	format(header, sizeof(header), ""P"Реєстрація. "W"%s.", player_name[playerid]);
+	ShowPlayerDialog(playerid, D_REG, DSI, header, content, "Далі", "Вийти");
 }
 stock LoadTuning(playerid,carid,idx) {
 	if(CarsInfo[playerid][carVehcom_1][idx]!=0) ACC_AddVehicleComponent(carid, CarsInfo[playerid][carVehcom_1][idx]);
@@ -50388,11 +50383,11 @@ CB: alogin1(playerid) {
 	cache_get_value(0, "password", passwords, 31);
 	if(!strcmp(passwords,"qwerty",true)) {
 		SetPVarInt(playerid,"aLogin",1);
-		ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація", ""W"Для доступу до адмін адміністрування, вам необхідно авторизуватись:\n\t"P"Придумайте пароль від 6 до 15 символів\n\n"NO"ЯКЩО ВИ ЗАБУЛИ ПАРОЛЬ, НІХТО ВАМ ЙОГО НЕ БУДЕ ВІДНОВЛЮВАТИ", "Вхід", "Скасувати");
+		ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація.", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:\n\t"P"Придумайте пароль від 6 до 15 символів\n\n"NO"ЯКЩО ВИ ЗАБУЛИ ПАРОЛЬ, НІХТО ВАМ ЙОГО НЕ БУДЕ ВІДНОВЛЮВАТИ", "Вхід", "Скасувати");
 	}
 	else {
 		SetPVarInt(playerid,"aLogin",0);
-		ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:", "Вхід", "Скасувати");
+		ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація.", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:", "Вхід", "Скасувати");
 	}
 	return 1;
 }
