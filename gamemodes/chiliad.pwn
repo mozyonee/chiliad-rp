@@ -16696,9 +16696,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SHA256_PassHash(inputtext, "jobiden", pass, 70);
 			PI[playerid][pLastIP] = PI[playerid][pRegIP];
 			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_ACCOUNTS" (`pName`, `pPassword`, `pRegDate`, `pRegIP`, `pLastIP`) VALUES ('%s', '%s', '%02i/%02i/%02i', '%i', '%i')", player_name[playerid], pass, day, month, year, PI[playerid][pRegIP], PI[playerid][pLastIP]);
-			mysql_tquery(connects, query, "player_register", "i");
+			mysql_tquery(connects, query, "player_register", "i", playerid);
 
-			mysql_tquery(connects, "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `owner` = %d", "characters_panel", "i", PI[playerid][pID]);
+			mysql_format(connects, query, sizeof(query),  "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `owner` = %i", PI[playerid][pID]);
+			mysql_tquery(connects, query, "characters_panel", "i", playerid);
 
 			mysql_escape_string(inputtext, player_pass[playerid], 128);
 			/* ShowPlayerDialog(playerid, D_REG_NATION, DIALOG_STYLE_LIST, ""P"Реєстрація. "W"Національність.", "\
@@ -16868,8 +16869,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реєстрація. "W"Реферал.", "В базі данних "R"немає"W" такого акаунта\n\nВведіть нік гравця, що запросив вас на сервер\n\nПри досягненні "P"3"W" рівня він отримає винагороду", "Далі", "Пропуск");
 		}
 	case dPhoneCall: {
-		if(!response)
-		{
+		if(!response) {
 			if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
 			return 1;
 		}
@@ -16881,8 +16881,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(TI[playerid][tPhone] == true) return SendError(playerid, "Ви вже розмовляєте по телефону.");
 
 		if(number == PI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
-		switch(number) 
-		{
+		switch(number) {
 			case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, ""P"Оберіть сервіс", ""P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Пожежна служба\n"P"4."W" Механік", "Вибір", "Скасувати");
 			case 222: 
 			{
@@ -31387,7 +31386,7 @@ public OnPlayerDisconnect(playerid, reason) {
 		TI[TI[playerid][tFight]][tFight] = -1;
 		TI[playerid][tFight] = -1;
 		CheckPlayerRing(playerid);
-	}*/
+	} */
 	ether_closed(playerid);
 	if(car_autoschool[playerid] != INVALID_VEHICLE_ID) {
 		A_DestroyVehicle(car_autoschool[playerid]);
@@ -31467,15 +31466,15 @@ public OnPlayerDisconnect(playerid, reason) {
 		gAdvert[GetPVarInt(playerid,"adchecking_fix")-1][adCheking]=false;
 		DeletePVar(playerid,"adchecking_fix");
 	}
-	if(Casino_Flag[playerid][select_casino_table] != -1){
+	if(Casino_Flag[playerid][select_casino_table] != -1) {
 		ShowCasino_TD(playerid, Casino_Flag[playerid][select_casino_table]);
 		Casino_Flag[playerid][select_casino_table] = -1;
 	}
-	if(PTD_DiceStat[playerid]!=PlayerText:-1){
+	if(PTD_DiceStat[playerid]!=PlayerText:-1) {
 		PlayerTextDrawDestroy(playerid,PTD_DiceStat[playerid]);
 		PTD_DiceStat[playerid]=PlayerText:-1;
 	}
-	if(buy_player_skins[playerid]!=PlayerText:-1){
+	if(buy_player_skins[playerid]!=PlayerText:-1) {
 		PlayerTextDrawDestroy(playerid,buy_player_skins[playerid]);
 		buy_player_skins[playerid]=PlayerText:-1;
 	}
@@ -33103,7 +33102,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			}
 
 		}
-		if(VG[carid][vgWeste]) ShowPlayerDialog(playerid,D_STOP_LOAD,DSM, ""P"Погрузка","\n\n"W"Ви хочете зупинити завантаження чи розвантаження сміття?\n\n","Так","Ні");
+		if(VG[carid][vgWeste]) ShowPlayerDialog(playerid,D_STOP_LOAD,DSM, ""P"Завантаження.","\n\n"W"Ви хочете зупинити завантаження чи розвантаження сміття?\n\n","Так","Ні");
 		if(VG[carid][vgLoading] || VG[carid][vgUnloading]) {
 			if((VehicleInfo[carid][vTeam] == fARMYLS && PI[playerid][pMember] == fARMYLS) ||
 					(VehicleInfo[carid][vTeam] == fBALLAS && PI[playerid][pMember] == fBALLAS)	||
@@ -33115,11 +33114,11 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 					(VehicleInfo[carid][vTeam] == fTRIADS && PI[playerid][pMember] == fTRIADS)	||
 					(VehicleInfo[carid][vTeam] == fRM && PI[playerid][pMember] == fRM)			||
 					(IsAGang(playerid) || IsAArm(playerid) || IsAMafia(playerid) || GetPlayerSkin(playerid) == 191) && (IsAGang(playerid) || GetPlayerSkin(playerid) == 287)) {
-				ShowPlayerDialog(playerid,D_STOP_LOAD,DSM, ""P"Погрузка","\n\n"W"Ви хочете зупинити завантаження чи розвантаження?\n\n","Так","Ні");
+				ShowPlayerDialog(playerid,D_STOP_LOAD,DSM, ""P"Завантаження.","\n\n"W"Ви хочете зупинити завантаження чи розвантаження?\n\n","Так","Ні");
 			}
 		}
 
-		if(VG[carid][vgRobHouse] == true && GetVehicleModel(carid) == 413) ShowPlayerDialog(playerid,D_STOP_LOAD_ROBHOUSE,DSM, ""P"Погрузка","\n\n"W"Ви хочете зупинити завантаження награбованої техніки?\n\n","Так","Ні");
+		if(VG[carid][vgRobHouse] == true && GetVehicleModel(carid) == 413) ShowPlayerDialog(playerid,D_STOP_LOAD_ROBHOUSE,DSM, ""P"Завантаження.","\n\n"W"Ви хочете зупинити завантаження награбованої техніки?\n\n","Так","Ні");
 
 		if(VehicleInfo[carid][vType] == VEHICLE_TYPE_INVENT) {
 			if(!IsAGang(playerid) && !IsAMafia(playerid) && !IsAArm(playerid)) {
@@ -47317,8 +47316,6 @@ CB: player_register(playerid) {
 	PI[playerid][cID] = cache_insert_id();
 
 	SendOK(playerid, "Вітаємо вас з реєстрацією.");
-	SendInfo(playerid, "Підійдіть до квестового персонажа, щоб виконати початкові квести.");
-	SendInfo(playerid, "На парковці ви можете орендувати мопед.");
 
 	PI[playerid][pSettings][0] =
 	PI[playerid][pSettings][1] =
@@ -47331,21 +47328,12 @@ CB: player_register(playerid) {
 
 	PI[playerid][pSettings][2] = 10;
 
-	// Hunger(playerid,0);
 	save_settings(playerid);
-
-	/* gpss[playerid] = 1;
-	SetPlayerRaceCheckpoint(playerid, 2, 1772.8312,-1896.1721,13.5521-0.8, 1772.8312,-1896.1721,13.5521-0.8, 1.0);
-
-	StopAudioStreamForPlayer(playerid);
-	UpdatePlayerData(playerid, "Skin", skin);
-	A_SetPlayerSkin(playerid, skin); */
-
-	PlayerRegister(playerid);
+	// PlayerRegister(playerid);
 
 	for(new i = 0; i < 2; i++) {
 		new query[128];
-		mysql_format(connects, query, sizeof(query), "INSERT INTO `"TABLE_CARS"` (`owner`) VALUES ('%s')", player_name[playerid]);
+		mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CARS" (`owner`) VALUES ('%s')", player_name[playerid]);
 		mysql_tquery(connects, query, "", "");
 	}
 	return 1;
