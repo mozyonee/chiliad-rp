@@ -47315,27 +47315,16 @@ CB: player_register(playerid) {
 	PI[playerid][pID] = cache_insert_id();
 	PI[playerid][cID] = cache_insert_id();
 
-	SendOK(playerid, "Вітаємо вас з реєстрацією.");
-
 	PI[playerid][pSettings][0] =
 	PI[playerid][pSettings][1] =
+	PI[playerid][pSettings][2] = 10;
 	PI[playerid][pSettings][3] =
 	PI[playerid][pSettings][6] =
 	PI[playerid][pSettings][8] =
 	PI[playerid][pSettings][10] = 1;
-
-	serv_stats[1]++;
-
-	PI[playerid][pSettings][2] = 10;
-
 	save_settings(playerid);
+	serv_stats[1]++;
 	// PlayerRegister(playerid);
-
-	for(new i = 0; i < 2; i++) {
-		new query[128];
-		mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CARS" (`owner`) VALUES ('%s')", player_name[playerid]);
-		mysql_tquery(connects, query, "", "");
-	}
 	return 1;
 }
 CB:characters_panel(playerid) {
