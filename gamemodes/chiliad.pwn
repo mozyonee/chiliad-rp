@@ -6100,7 +6100,8 @@ enum trunkInfo {
 };
 new TrunkInfo[MAX_VEHICLES][trunkInfo];
 new player_ip[MAX_PLAYERS][16],
-player_ip_check[MAX_PLAYERS][16];
+player_ip_check[MAX_PLAYERS][16],
+player_name[MAX_PLAYERS][24];
 new Float:PlayerArmour[MAX_PLAYERS];
 
 enum pInfo {
@@ -51365,12 +51366,12 @@ stock UpdateTableText(c) {
 		else if(Casino_Flag[InfoDice[c][dice_gamer][i]][casino_bet_cash]!=0)strcat(mark[i],"+_");
 	}
 	format(update_table_text, 156, "%s%s~n~%s%s~n~%s%s~n~%s%s~n~%s%s",
-
-	mark[0],(InfoDice[c][dice_gamer][0]==INVALID_PLAYER_ID)?("-"):(CI[InfoDice[c][dice_gamer][0]][cName]),
-	mark[1],(InfoDice[c][dice_gamer][1]==INVALID_PLAYER_ID)?("-"):(CI[InfoDice[c][dice_gamer][1]][cName]),
-	mark[2],(InfoDice[c][dice_gamer][2]==INVALID_PLAYER_ID)?("-"):(CI[InfoDice[c][dice_gamer][2]][cName]),
-	mark[3],(InfoDice[c][dice_gamer][3]==INVALID_PLAYER_ID)?("-"):(CI[InfoDice[c][dice_gamer][3]][cName]),
-	mark[4],(InfoDice[c][dice_gamer][4]==INVALID_PLAYER_ID)?("-"):(CI[InfoDice[c][dice_gamer][4]][cName]));
+	mark[0],
+	(InfoDice[c][dice_gamer][0]==INVALID_PLAYER_ID)?("-"):(player_name[InfoDice[c][dice_gamer][0]]),
+	mark[1],(InfoDice[c][dice_gamer][1]==INVALID_PLAYER_ID)?("-"):(player_name[InfoDice[c][dice_gamer][1]]),
+	mark[2],(InfoDice[c][dice_gamer][2]==INVALID_PLAYER_ID)?("-"):(player_name[InfoDice[c][dice_gamer][2]]),
+	mark[3],(InfoDice[c][dice_gamer][3]==INVALID_PLAYER_ID)?("-"):(player_name[InfoDice[c][dice_gamer][3]]),
+	mark[4],(InfoDice[c][dice_gamer][4]==INVALID_PLAYER_ID)?("-"):(player_name[InfoDice[c][dice_gamer][4]]));
 	TextDrawSetString(Casino_TD[Casino_TD_TableNicks][c],update_table_text);
 	return 1;
 }
@@ -51390,9 +51391,9 @@ stock UpdateScores(s) {
 stock UpdateTextCasino(c) {
 	new update_string_casino_text[500];
 	format(update_string_casino_text,500,CASINO_TEXT_STRING,
-	c+1,(InfoDice[c][dice_crup] != INVALID_PLAYER_ID) ? (CI[InfoDice[c][dice_crup]][cName]) : ("-"),(InfoDice[c][dice_gamer][0] != INVALID_PLAYER_ID) ? (CI[InfoDice[c][dice_gamer][0]][cName]) : ("-"),(InfoDice[c][dice_gamer][1] != INVALID_PLAYER_ID) ? (CI[InfoDice[c][dice_gamer][1]][cName]) : ("-"),
-	(InfoDice[c][dice_gamer][2] != INVALID_PLAYER_ID) ? (CI[InfoDice[c][dice_gamer][2]][cName]) : ("-"),(InfoDice[c][dice_gamer][3] != INVALID_PLAYER_ID) ? (CI[InfoDice[c][dice_gamer][3]][cName]) : ("-"),
-	(InfoDice[c][dice_gamer][4] != INVALID_PLAYER_ID) ? (CI[InfoDice[c][dice_gamer][4]][cName]) : ("-"),
+	c+1,(InfoDice[c][dice_crup] != INVALID_PLAYER_ID) ? (player_name[InfoDice[c][dice_crup]]) : ("-"),(InfoDice[c][dice_gamer][0] != INVALID_PLAYER_ID) ? (player_name[InfoDice[c][dice_gamer][0]]) : ("-"),(InfoDice[c][dice_gamer][1] != INVALID_PLAYER_ID) ? (player_name[InfoDice[c][dice_gamer][1]]) : ("-"),
+	(InfoDice[c][dice_gamer][2] != INVALID_PLAYER_ID) ? (player_name[InfoDice[c][dice_gamer][2]]) : ("-"),(InfoDice[c][dice_gamer][3] != INVALID_PLAYER_ID) ? (player_name[InfoDice[c][dice_gamer][3]]) : ("-"),
+	(InfoDice[c][dice_gamer][4] != INVALID_PLAYER_ID) ? (player_name[InfoDice[c][dice_gamer][4]]) : ("-"),
 	InfoDice[c][dice_stavka],InfoDice[c][dice_bank],(InfoDice[c][dice_game_start]) ? ("{37A65F}Гру розпочато") : ("{EB3F36}Гру не розпочато"));
 	UpdateDynamic3DTextLabelText(InfoDice[c][dice_text], -1, update_string_casino_text);
 	for(new p = 0; p < 5; p++) {
