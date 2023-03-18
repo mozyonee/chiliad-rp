@@ -51,11 +51,11 @@ stock blackjack_TimerID(tableid) {
 						{
 							blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
 
-							BJ_PlayerInfo[playerid][pBlackJackLanguage] = PI[playerid][pCasinoLanguage];
+							BJ_PlayerInfo[playerid][pBlackJackLanguage] = CI[playerid][pCasinoLanguage];
 
 							if (BJ_PlayerInfo[playerid][pBlackJackBet][0])
 							{
-								if (PI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0])
+								if (CI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0])
 								{
 									BJ_PlayerInfo[playerid][pBlackJackBet][0] = EOS;
 									blackjack_LeaveGame(playerid);
@@ -64,7 +64,7 @@ stock blackjack_TimerID(tableid) {
 								else
 								{
 									new str[300];
-									format(str, sizeof(str), "[BJ]: %s поставил ставку в %d фишек (стол #%d), рука #1",player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1);
+									format(str, sizeof(str), "[BJ]: %s поставил ставку в %d фишек (стол #%d), рука #1",CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1);
 									printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
 									ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
 									blackjackTableInfo[tableid][blackjackTablePlayersActive]++;
@@ -308,21 +308,21 @@ stock blackjack_TimerID(tableid) {
 				targetid = blackjackTableInfo[tableid][blackjackTableSlots][slotid];
 				if (targetid != INVALID_PLAYER_ID)
 				{
-					strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+					strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 
 					if (targetid == playerid)
 					{
 						strreplace(player_Name, "_", "~n~~g~~h~");
-						format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, PI[playerid][pCasinoChips]);
+						format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, CI[playerid][pCasinoChips]);
 					}
 					else
 					{
 						strreplace(player_Name, "_", "~n~");
-						format(player_Name, sizeof(player_Name), "%s~n~~p~%d", player_Name, PI[playerid][pCasinoChips]);
+						format(player_Name, sizeof(player_Name), "%s~n~~p~%d", player_Name, CI[playerid][pCasinoChips]);
 					}
 					language_id = BJ_PlayerInfo[targetid][pBlackJackLanguage];
 
-					if (language_id != PI[targetid][pCasinoLanguage])
+					if (language_id != CI[targetid][pCasinoLanguage])
 					{
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][3], blackjack_language_massive[language_id][5]);
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][54], blackjack_language_massive[language_id][6]);
@@ -478,18 +478,18 @@ blackjack_CheckWinners(tableid)
 
 			if (player_score > 21)
 			{ // lose
-				PI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",PI[playerid][pCasinoChips]);
+				CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
+				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_LOSE;
 			}
 			else if (dealer_score > 21)
 			{ // win
 				new str[300];
-				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
+				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str), /*WriteLog("logs_casino", STRING_GLOBAL), */
 
-				PI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",PI[playerid][pCasinoChips]);
+				CI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
+				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_WON;
 			}
 			else if (player_score == dealer_score)
@@ -499,20 +499,20 @@ blackjack_CheckWinners(tableid)
 			else if (player_score > dealer_score)
 			{ // win
 				new str[300];
-				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
+				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
-				PI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",PI[playerid][pCasinoChips]);
+				CI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
+				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_WON;
 			}
 			else
 			{ // lose
 				new str[300];
-				format(str, sizeof(str), "[BJ]: %s проиграл %d фишек (стол #%d), рука #%d", player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
+				format(str, sizeof(str), "[BJ]: %s проиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
 
-				PI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",PI[playerid][pCasinoChips]);
+				CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
+				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_LOSE;
 			}
 			switch (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id])
@@ -613,7 +613,7 @@ blackjack_ShuffleHands(tableid) {
 blackjack_DealHands(tableid) {
 	new tmp_id = 0;
 	for (new i = 0, playerid, card_value[2]; i < MAX_BLACKJACK_SEATS; i++) if ((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
-		if (BJ_PlayerInfo[playerid][pBlackJackBet][0] && PI[playerid][pCasinoChips] >= BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
+		if (BJ_PlayerInfo[playerid][pBlackJackBet][0] && CI[playerid][pCasinoChips] >= BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
 			BJ_PlayerInfo[playerid][pBlackJackCard][0] = blackjackTableInfo[tableid][blackjackTableDeck][tmp_id + 0];
 			BJ_PlayerInfo[playerid][pBlackJackCard][1] = blackjackTableInfo[tableid][blackjackTableDeck][tmp_id + 1];
 
@@ -665,7 +665,7 @@ blackjack_CheckCards(playerid, cards_block = 0) {
 	return (BJ_PlayerInfo[playerid][pBlackJackCardsScore][cards_block] = total_score);
 }
 blackjack_ActionSplit(playerid) {
-	if (PI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0] * 2) return;
+	if (CI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0] * 2) return;
 	new
 	tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1),
 	card_id = blackjackTableInfo[tableid][blackjackTableCardsActive]
@@ -820,20 +820,20 @@ blackjack_LeaveGame(playerid) {
 				if (BJ_PlayerInfo[playerid][pBlackJackBet][0] && BJ_PlayerInfo[playerid][pBlackJackStatus][0] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][0] != BJ_PLAYER_STATUS_LOSE) {
 					new str[300];
 					format(str, sizeof(str), "[BJ]: %s вышел из стола и проиграл %d фишек (стол #%d), рука #1",
-					player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][0], tableid + 1
+					CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][0], tableid + 1
 					);
 					printf(str); /*WriteLog("logs_casino", str), */
-					PI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][0];
-					UpdatePlayerData(playerid,"casino_chips",PI[playerid][pCasinoChips]);
+					CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][0];
+					UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				}
 				if (BJ_PlayerInfo[playerid][pBlackJackBet][1] && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_LOSE) {
 					new str[300];
 					format(str, sizeof(str), "[BJ]: %s вышел из стола и проиграл %d фишек (стол #%d), рука #2",
-					player_name[playerid], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1
+					CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1
 					);
 					printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
-					PI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][1];
-					UpdatePlayerData(playerid,"casino_chips",PI[playerid][pCasinoChips]);
+					CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][1];
+					UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				}
 			}
 		}
@@ -936,7 +936,7 @@ blackjack_JoinGame(playerid, tableid) {
 		return true;
 	}
 	for (new targetid = 0, Float:object_angle = 0.0; targetid < MAX_BLACKJACK_SEATS; targetid++) if (blackjackTableInfo[tableid][blackjackTableSlots][targetid] == INVALID_PLAYER_ID) {
-		BJ_PlayerInfo[playerid][pBlackJackLanguage] = PI[playerid][pCasinoLanguage];
+		BJ_PlayerInfo[playerid][pBlackJackLanguage] = CI[playerid][pCasinoLanguage];
 		GivePlayerMoney(playerid, -blackjackTableInfo[tableid][blackjackTableEnterPrice]);
 
 		blackjack_CreatePTD(playerid, targetid);
@@ -1484,7 +1484,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 		}
 	case 11: {
 			new player_Name[MAX_PLAYER_NAME + 24];
-			strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 1000);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
@@ -1508,7 +1508,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 		}
 	case 12: {
 			new player_Name[MAX_PLAYER_NAME + 24];
-			strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
@@ -1541,7 +1541,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 		}
 	case 14: {
 			new player_Name[MAX_PLAYER_NAME + 24];
-			strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
@@ -1564,7 +1564,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 		}
 	case 15: {
 			new player_Name[MAX_PLAYER_NAME + 24];
-			strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 400);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
@@ -1630,7 +1630,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			if (from_next_key) return;
 
 			new player_Name[MAX_PLAYER_NAME + 24];
-			strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 400);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
@@ -1651,7 +1651,7 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 		}
 	case 20: {
 			new player_Name[MAX_PLAYER_NAME + 24];
-			strmid(player_Name, player_name[playerid], 0, MAX_PLAYER_NAME + 1);
+			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
@@ -1770,4 +1770,4 @@ stock blackjack_StopTutorial(playerid) {
 	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, false, false, false, false, 0, 1);
 }
 
-stock GetChips(playerid) return PI[playerid][pCasinoChips];
+stock GetChips(playerid) return CI[playerid][pCasinoChips];

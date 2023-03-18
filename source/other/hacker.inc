@@ -18,9 +18,9 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 	switch(dialogid){
 		case D_QUEST_HACKER:{
 			if(!response) return 1;
-			if(PI[playerid][QuestHacker][listitem]) return SendClientMessage(playerid, COLOR_GREY, "Вы уже выполнили данное задание!");
-			if(PI[playerid][QuestHacker][0] == listitem) return ShowQuestHacker(playerid, listitem+1);
-			if(!PI[playerid][QuestHacker][listitem-1]) return SendClientMessage(playerid, COLOR_GREY, "Вы не выполнили прошлое задание!");
+			if(CI[playerid][QuestHacker][listitem]) return SendClientMessage(playerid, COLOR_GREY, "Вы уже выполнили данное задание!");
+			if(CI[playerid][QuestHacker][0] == listitem) return ShowQuestHacker(playerid, listitem+1);
+			if(!CI[playerid][QuestHacker][listitem-1]) return SendClientMessage(playerid, COLOR_GREY, "Вы не выполнили прошлое задание!");
 			return ShowQuestHacker(playerid, listitem+1);
 		}
 		case D_QUEST_HACKER_1:{
@@ -62,8 +62,8 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			new ID = strval(inputtext);
 			if(!IsPlayerConnected(ID)) return SendClientMessage(playerid, COLOR_GRAY, "Игрок не в сети!");
 			if(!TI[ID][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-			if(!PI[ID][pSearch]) return SendClientMessage(playerid, COLOR_GREY, "Игрок не в розыске");
-			if(PI[ID][pSearch] > 2) return SendClientMessage(playerid, COLOR_GREY, "Вы не можете снимать розыск больше двух звёзд!");
+			if(!CI[ID][pSearch]) return SendClientMessage(playerid, COLOR_GREY, "Игрок не в розыске");
+			if(CI[ID][pSearch] > 2) return SendClientMessage(playerid, COLOR_GREY, "Вы не можете снимать розыск больше двух звёзд!");
 			SetPVarInt(playerid, "WantedID", ID);
 			JobTempProcess[playerid] = 31;
 			TI[playerid][tProcess][0] = 0;
@@ -109,7 +109,7 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			new IpD = strval(inputtext);
 			if(!IsPlayerConnected(IpD)) return SendClientMessage(playerid, COLOR_RED, "Игрок не в сети!");
 			if(!TI[IpD][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-			if(!PI[IpD][pPhone]) return SendClientMessage(playerid, COLOR_GREY, "У Вас нет телефона");
+			if(!CI[IpD][pPhone]) return SendClientMessage(playerid, COLOR_GREY, "У Вас нет телефона");
 			new Float:posXX, Float:PosYY, Float:posZZ;
 			GetPlayerPos(IpD, posXX, PosYY, posZZ);
 			if(!IsPlayerInRangeOfPoint(playerid,20.0,posXX,PosYY, posZZ)) 
@@ -144,9 +144,9 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			switch(random(3))
 			{
 				case 1: {
-					PI[playerid][pSearch] = 3;
-					UpdatePlayerData(playerid,"pSearch",PI[playerid][pSearch]);
-					SetPlayerWantedLevel(playerid, PI[playerid][pSearch]);
+					CI[playerid][pSearch] = 3;
+					UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+					SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 					
 				}
 				default: {
@@ -165,7 +165,7 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			new IpD = strval(inputtext);
 			if(!IsPlayerConnected(IpD)) return SendClientMessage(playerid, COLOR_RED, "Игрок не в сети!");
 			if(!TI[IpD][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-			if(PI[IpD][pJail] == 0 )  return SendClientMessage(playerid, COLOR_RED, "Игрок на свободе!");
+			if(CI[IpD][pJail] == 0 )  return SendClientMessage(playerid, COLOR_RED, "Игрок на свободе!");
 	
 			SetPVarInt(playerid, "PlayerID", IpD);
 			ShowButton(playerid, 36);
@@ -191,7 +191,7 @@ stock IsAWanteds()
 	new num = 0;
 	foreach(new i: Player)
 	{
-		if(PI[i][pSearch] < 3) num++;
+		if(CI[i][pSearch] < 3) num++;
 	}
 	return num;
 }
@@ -230,42 +230,42 @@ stock DeleteHackerPVar(playerid, idx){
 }
 stock ShowHackerStats(playerid, id){
 	new str[128],string[1250];
-	format(str,128,""W"Имя:\t\t\t\t%s",player_name[id]), strcat(string,str);
-	format(str,128,"\n\nУровень:\t\t\t%i",PI[id][pLevel]), strcat(string,str);
+	format(str,128,""W"Имя:\t\t\t\t%s",CI[id][cName]), strcat(string,str);
+	format(str,128,"\n\nУровень:\t\t\t%i",CI[id][pLevel]), strcat(string,str);
 
-	format(str,128,"\n\nПол:\t\t\t\t%s",(PI[id][pSex] == 1) ? ("Мужчина") : ("Женщина")), strcat(string,str);
-	format(str,128,"\nСупруг(а):\t\t\t%s",PI[id][pMarried]), strcat(string,str);
-	if(PI[id][pPhone] == 0) strcat(string,"\n\nНомер телефона:\t\tОтсутствует");
-	else format(str,128,"\n\nНомер телефона:\t\t%i",PI[id][pPhone]), strcat(string,str);
-	format(str,128,"\nМобильный счёт:\t\t%i",PI[id][pMobile]), strcat(string,str);
+	format(str,128,"\n\nПол:\t\t\t\t%s",(CI[id][pSex] == 1) ? ("Мужчина") : ("Женщина")), strcat(string,str);
+	format(str,128,"\nСупруг(а):\t\t\t%s",CI[id][pMarried]), strcat(string,str);
+	if(CI[id][pPhone] == 0) strcat(string,"\n\nНомер телефона:\t\tОтсутствует");
+	else format(str,128,"\n\nНомер телефона:\t\t%i",CI[id][pPhone]), strcat(string,str);
+	format(str,128,"\nМобильный счёт:\t\t%i",CI[id][pMobile]), strcat(string,str);
 	
 	format(str,128,"\n\nМашина №1:\t\t\t%s(%i)",gTransport[CarsInfo[id][carModel][0]-400][trName],CarsInfo[id][carModel][0]), strcat(string,str);
 	format(str,128,"\nМашина №2:\t\t\t%s(%i)",gTransport[CarsInfo[id][carModel][1]-400][trName],CarsInfo[id][carModel][1]), strcat(string,str);
 
-	format(str,128,"\nПреступлений:\t\t\t%i",PI[id][pCrimes]), strcat(string,str);
-	format(str,128,"\nАрестов:\t\t\t%i",PI[id][pArrested]), strcat(string,str);
-	format(str,128,"\nУровень розыска:\t\t%i",PI[id][pSearch]), strcat(string,str);
-	if(PI[id][pMember]) format(str,128,"\nОрганизация:\t\t\t%s",FI[PI[id][pMember]][fName]), strcat(string,str);
+	format(str,128,"\nПреступлений:\t\t\t%i",CI[id][pCrimes]), strcat(string,str);
+	format(str,128,"\nАрестов:\t\t\t%i",CI[id][pArrested]), strcat(string,str);
+	format(str,128,"\nУровень розыска:\t\t%i",CI[id][pSearch]), strcat(string,str);
+	if(CI[id][pMember]) format(str,128,"\nОрганизация:\t\t\t%s",FI[CI[id][pMember]][fName]), strcat(string,str);
 	else strcat(string,"\nОрганизация:\t\t\tОтсутствует");
 	new house = 0;
-	if(PI[id][pHouse] && !PI[id][pRoom]) {
+	if(CI[id][pHouse] && !CI[id][pRoom]) {
 		new classname[15];
-		switch(gHouses[PI[id][pHouse]-1][houseClass]) {
+		switch(gHouses[CI[id][pHouse]-1][houseClass]) {
 		case 0: classname = "Эконом";
 		case 1: classname = "Cредний";
 		case 2: classname = "Элитный";
 		case 3: classname = "Особняк";
 		}	
-		format(str,128,"\n\nЖилье:\t\t\tДом №%d (%s)",gHouses[PI[id][pHouse]-1][houseID],classname), strcat(string,str);
+		format(str,128,"\n\nЖилье:\t\t\tДом №%d (%s)",gHouses[CI[id][pHouse]-1][houseID],classname), strcat(string,str);
 		house = 1;
 	}
-	if(PI[id][pRoom] && !PI[id][pHouse]) {
-		format(str,128,"\n\nЖилье:\t\t\tКвартира № %d",PI[playerid][pRoom]), strcat(string,str);
+	if(CI[id][pRoom] && !CI[id][pHouse]) {
+		format(str,128,"\n\nЖилье:\t\t\tКвартира № %d",CI[playerid][pRoom]), strcat(string,str);
 		house = 1;
 	}
 	if(!house) strcat(string,"\n\nЖилье:\t\t\t\tНет");
 	
-	if(PI[id][pBusiness]) format(str,128,"\nБизнес:\t\t\t%s (%d)",gBusiness[PI[id][pBusiness]-1][bizzName],PI[id][pBusiness]), strcat(string,str);
+	if(CI[id][pBusiness]) format(str,128,"\nБизнес:\t\t\t%s (%d)",gBusiness[CI[id][pBusiness]-1][bizzName],CI[id][pBusiness]), strcat(string,str);
 	else strcat(string,"\nБизнес:\t\t\tОтсутствует");
 	SetPVarInt(playerid, "QuesR", 1); 
 	SendClientMessage(playerid, COLOR_GREY, "[Система]: Поговорите с Хакером.");
@@ -294,9 +294,9 @@ stock HackerCamera(playerid, idx)
 			SetPlayerCameraLookAt(playerid, 1480.6001, -1768.7527, 66.7675);
 			SetPlayerPos(playerid,1480.6001, -1768.7527, 50.7675);
 			TogglePlayerControllable(playerid, false);
-			PI[playerid][pSearch] = 2;
-			UpdatePlayerData(playerid,"pSearch",PI[playerid][pSearch]);
-			SetPlayerWantedLevel(playerid, PI[playerid][pSearch]);
+			CI[playerid][pSearch] = 2;
+			UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+			SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 			SetTimerEx("HackCamer",1000*5,false,"i",playerid);
 			SendClientMessage(playerid, COLOR_GRAY, "[Мысли]: Отлично, я ещё и в розыске...");
 		}
@@ -356,19 +356,19 @@ stock SaveHacker(playerid, idx = false)
 	new query[250];
 	if(!idx){
 		new Hacker[50];
-		format(Hacker,sizeof(Hacker),"%i, %i, %i, %i",PI[playerid][QuestHacker][0], PI[playerid][QuestHacker][1], PI[playerid][QuestHacker][2], PI[playerid][QuestHacker][3]);
-		mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pQuestHacker`= '%s' WHERE `Name` = '%s' LIMIT 1",Hacker,player_name[playerid]);
+		format(Hacker,sizeof(Hacker),"%i, %i, %i, %i",CI[playerid][QuestHacker][0], CI[playerid][QuestHacker][1], CI[playerid][QuestHacker][2], CI[playerid][QuestHacker][3]);
+		mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pQuestHacker`= '%s' WHERE `Name` = '%s' LIMIT 1",Hacker,CI[playerid][cName]);
 		mysql_tquery(connects,query);
 		query[0] = EOS;
 
 	}
 	if(idx){
-		mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pHackProg`= '%d' WHERE `Name` = '%s' LIMIT 1",PI[playerid][pHackProg],player_name[playerid]);
+		mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pHackProg`= '%d' WHERE `Name` = '%s' LIMIT 1",CI[playerid][pHackProg],CI[playerid][cName]);
 		mysql_tquery(connects, query);
 		query[0] = EOS;
 	}
 	
-	mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pHacker`= '%d' WHERE `Name` = '%s' LIMIT 1",PI[playerid][pHacker],player_name[playerid]);
+	mysql_format(connects, query, sizeof(query),"UPDATE `accounts` SET `pHacker`= '%d' WHERE `Name` = '%s' LIMIT 1",CI[playerid][pHacker],CI[playerid][cName]);
 	mysql_tquery(connects, query);
 }
 stock ShowQuestHacker(playerid, idx){
@@ -395,20 +395,20 @@ stock ShowQuestHacker(playerid, idx){
 stock ContinueQuest(playerid){
 	SendClientMessage(playerid, COLOR_GREY, "Молодец, я в тебе не сомневался!");
 	GiveMoney(playerid, 2500, "Quest Hacker #1");
-	if(GetPVarInt(playerid, "HackerQuest1")) PI[playerid][QuestHacker][0] = 1, DeleteHackerPVar(playerid, 1);
-	if(GetPVarInt(playerid, "HackerQuest2")) PI[playerid][QuestHacker][1] = 1, DeleteHackerPVar(playerid, 2);
-	if(GetPVarInt(playerid, "HackerQuest3")) PI[playerid][QuestHacker][2] = 1, DeleteHackerPVar(playerid, 3);
-	if(GetPVarInt(playerid, "HackerQuest4")) PI[playerid][QuestHacker][3] = 1, DeleteHackerPVar(playerid, 4), NextHacker(playerid);
+	if(GetPVarInt(playerid, "HackerQuest1")) CI[playerid][QuestHacker][0] = 1, DeleteHackerPVar(playerid, 1);
+	if(GetPVarInt(playerid, "HackerQuest2")) CI[playerid][QuestHacker][1] = 1, DeleteHackerPVar(playerid, 2);
+	if(GetPVarInt(playerid, "HackerQuest3")) CI[playerid][QuestHacker][2] = 1, DeleteHackerPVar(playerid, 3);
+	if(GetPVarInt(playerid, "HackerQuest4")) CI[playerid][QuestHacker][3] = 1, DeleteHackerPVar(playerid, 4), NextHacker(playerid);
 	SaveHacker(playerid, false);
 	
 	return 1;
 }
 stock NPC_HackD(playerid){
-	if(PI[playerid][QuestHacker][1] == 1 && PI[playerid][QuestHacker][0] == 1 &&
-	PI[playerid][QuestHacker][2] == 1 && PI[playerid][QuestHacker][3] == 1) return SendClientMessage(playerid, COLOR_GRAY, "[Хакер]: Извини, но у меня нет для тебя больше задний.");
+	if(CI[playerid][QuestHacker][1] == 1 && CI[playerid][QuestHacker][0] == 1 &&
+	CI[playerid][QuestHacker][2] == 1 && CI[playerid][QuestHacker][3] == 1) return SendClientMessage(playerid, COLOR_GRAY, "[Хакер]: Извини, но у меня нет для тебя больше задний.");
 	if(GetPVarInt(playerid, "QuesR")) return ContinueQuest(playerid);
 	if(IsAGos(playerid)) return SendClientMessage(playerid,COLOR_GREY,"Ты кто? Иди от сюда! Ты не туда попал.");
-	if(PI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "У вас маловат lvl. Использовать данный квест можно с 7 lvl");
+	if(CI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "У вас маловат lvl. Использовать данный квест можно с 7 lvl");
 	if(GetPVarInt(playerid, "HackerQuest1") || GetPVarInt(playerid, "HackerQuest2") || 
 	GetPVarInt(playerid, "HackerQuest3") || GetPVarInt(playerid, "HackerQuest4")) return SendClientMessage(playerid, COLOR_GREY, "[Хакер]: Ты ещё тут?.");
 	new str[300];
@@ -418,10 +418,10 @@ stock NPC_HackD(playerid){
 	3. Взломать базу данных ФБР       \t [ %s"W" ]\n\
 	4. Взломайте и угоните гос. машину\t [ %s"W" ]", 
 
-	PI[playerid][QuestHacker][0] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
-	PI[playerid][QuestHacker][1] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
-	PI[playerid][QuestHacker][2] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
-	PI[playerid][QuestHacker][3] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено");
+	CI[playerid][QuestHacker][0] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
+	CI[playerid][QuestHacker][1] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
+	CI[playerid][QuestHacker][2] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
+	CI[playerid][QuestHacker][3] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено");
 	return SPD(playerid, D_QUEST_HACKER, DIALOG_STYLE_TABLIST_HEADERS, "Квестовая лииния", str, ">>>", "x");
 }
 stock ShowTestHacker(playerid){
@@ -439,8 +439,8 @@ stock ShowTestHacker(playerid){
 	return 1;
 }
 stock NextHacker(playerid){
-	PI[playerid][pHacker] = 1;
-	UpdatePlayerData(playerid,"pHacker",PI[playerid][pHacker]);
+	CI[playerid][pHacker] = 1;
+	UpdatePlayerData(playerid,"pHacker",CI[playerid][pHacker]);
 	return 1;
 }
 //
@@ -458,27 +458,27 @@ CMD:sethacker(playerid, params[]){
 	extract params -> new id, level;else return SendClientMessage(playerid, COLOR_WHITE,"Используйте: /sethacker [id] [level]");
 	if(!IsPlayerConnected(id)) return SendClientMessage(playerid, COLOR_GREY, "Игрок не в сети!");
 	if(!TI[id][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-	PI[id][pHacker] = level;
-	UpdatePlayerData(id, "pHacker", PI[id][pHacker]);
+	CI[id][pHacker] = level;
+	UpdatePlayerData(id, "pHacker", CI[id][pHacker]);
 	new str[150];
-	format(str, sizeof(str), "Вы успешно выдали игроку %s %d hacker lvl", player_name[id], level);
+	format(str, sizeof(str), "Вы успешно выдали игроку %s %d hacker lvl", CI[id][cName], level);
 	SendClientMessage(playerid, COLOR_YELLOW, str);
 	str[0] = EOS;
-	format(str, sizeof(str), "Администратор %s выдал вам %d hacker lvl", player_name[playerid], level);
+	format(str, sizeof(str), "Администратор %s выдал вам %d hacker lvl", CI[playerid][cName], level);
 	SendClientMessage(id, COLOR_RED, str);
 	if(level == 0)
 	{
-		PI[id][QuestHacker][0] = 0;
-		PI[id][QuestHacker][1] = 0;
-		PI[id][QuestHacker][2] = 0;
-		PI[id][QuestHacker][3] = 0;
+		CI[id][QuestHacker][0] = 0;
+		CI[id][QuestHacker][1] = 0;
+		CI[id][QuestHacker][2] = 0;
+		CI[id][QuestHacker][3] = 0;
 		SaveHacker(id, false);
 	}
 	else{
-		PI[id][QuestHacker][0] = 1;
-		PI[id][QuestHacker][1] = 1;
-		PI[id][QuestHacker][2] = 1;
-		PI[id][QuestHacker][3] = 1;
+		CI[id][QuestHacker][0] = 1;
+		CI[id][QuestHacker][1] = 1;
+		CI[id][QuestHacker][2] = 1;
+		CI[id][QuestHacker][3] = 1;
 		SaveHacker(id, false);
 	}
 	return 1;
@@ -487,12 +487,12 @@ CMD:hacker(playerid, params[]){
 	if(IsACop(playerid)){
 		extract params -> new id; else return SendClientMessage(playerid, COLOR_WHITE,"Используйте: /hacker [id]");
 		if(!IsPlayerConnected(id)) return SendClientMessage(playerid, COLOR_RED, "Игрок не в сети!");
-		if(!PI[playerid][pHacker]) return SendClientMessage(playerid, COLOR_RED, "Игрок не хакер!");
+		if(!CI[playerid][pHacker]) return SendClientMessage(playerid, COLOR_RED, "Игрок не хакер!");
 		return ShowStatsHacker(playerid, id);
 	}
 	if(IsAGos(playerid)) return SendClientMessage(playerid,COLOR_GREY,"Вам не доступна данная команда!");
-	if(PI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "Данную команду использовать можно с 7 lvl");
-	switch(PI[playerid][pHacker]){
+	if(CI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "Данную команду использовать можно с 7 lvl");
+	switch(CI[playerid][pHacker]){
 		case 0: return ShowTestHacker(playerid);
 		default: return ShowMenuHacker(playerid);
 	}
@@ -507,18 +507,18 @@ stock ShowMenuHacker(playerid){
 	4. Выпустить человека из тюрьмы\t [ %s"W" ]\n\
 	5. Взломать гос.транспорт      \t [ %s"W" ]\n\
 	6. Взломать счёт в банке       \t [ %s"W" ]",
-	PI[playerid][pHacker] < 2 ? ""R"Доступно будет с 2 lvl Hacker" : ""GREEN"Доступно",
-	PI[playerid][pHacker] < 3 ? ""R"Доступно будет с 3 lvl Hacker" : ""GREEN"Доступно",
-	PI[playerid][pHacker] < 4 ? ""R"Доступно будет с 4 lvl Hacker" : ""GREEN"Доступно",
-	PI[playerid][pHacker] < 5 ? ""R"Доступно будет с 5 lvl Hacker" : ""GREEN"Доступно",
-	PI[playerid][pHacker] < 6 ? ""R"Доступно будет с 6 lvl Hacker" : ""GREEN"Доступно");
+	CI[playerid][pHacker] < 2 ? ""R"Доступно будет с 2 lvl Hacker" : ""GREEN"Доступно",
+	CI[playerid][pHacker] < 3 ? ""R"Доступно будет с 3 lvl Hacker" : ""GREEN"Доступно",
+	CI[playerid][pHacker] < 4 ? ""R"Доступно будет с 4 lvl Hacker" : ""GREEN"Доступно",
+	CI[playerid][pHacker] < 5 ? ""R"Доступно будет с 5 lvl Hacker" : ""GREEN"Доступно",
+	CI[playerid][pHacker] < 6 ? ""R"Доступно будет с 6 lvl Hacker" : ""GREEN"Доступно");
 	SPD(playerid, D_MENU_HACKER, DIALOG_STYLE_TABLIST_HEADERS, "Меню Хакера", str, ">>>","x");
 	return 1;
 }
 stock System32Hacker(playerid, id){
 	switch(id){
 		case 1:{
-			if(PI[playerid][pHacker] < 1) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
+			if(CI[playerid][pHacker] < 1) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
 			SPD(playerid, D_MENU_HACKER_ONE, DSI, "/hacker",""W"Введите ID игрока для взлома телефона.",">>>","x");
 		}
 		case 2:{
@@ -528,26 +528,26 @@ stock System32Hacker(playerid, id){
 				DisablePlayerCheckpoint(playerid);
 				return SendClientMessage(playerid, COLOR_RED, "Вы приостоновили поиск человека.");
 			}
-			if(PI[playerid][pHacker] < 2) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
+			if(CI[playerid][pHacker] < 2) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
 			SPD(playerid, D_MENU_HACKER_TWO, DSI, "/hacker",""W"Введите ID игрока для отслеживание в GPS.",">>>","x");
 		}
 		case 3:{
-			if(PI[playerid][pHacker] < 3) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
+			if(CI[playerid][pHacker] < 3) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
 			SPD(playerid, D_MENU_HACKER_THREE, DSM, "/hacker",""W"Вы действительно хотите перехватить гос.волну?\n\
 			Есть риск что вы будете обьявлены в розыск.",">>>","x");
 		}
 		case 4:{
-			if(PI[playerid][pHacker] < 4) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
+			if(CI[playerid][pHacker] < 4) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
 			SPD(playerid, D_MENU_HACKER_FOUR, DSI, "/hacker",""W"Введите ID игрока которого вы хотите выпустить из тюрьмы.",">>>","x");
 		}
 		case 5:{
-			if(PI[playerid][pHacker] < 5) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
-			if(!PI[playerid][pKeyCar]) return SendClientMessage(playerid, COLOR_RED, "У вас нет электронной отмычки!");
+			if(CI[playerid][pHacker] < 5) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
+			if(!CI[playerid][pKeyCar]) return SendClientMessage(playerid, COLOR_RED, "У вас нет электронной отмычки!");
 			if(!GosCar(GetPlayerVehicleID(playerid))) return SendClientMessage(playerid,COLOR_RED,"Вы не в государственной машине!");
 			SPD(playerid, D_MENU_HACKER_FIVE, DSM, "/hacker",""W"Вы действительно хотите использовать электронную отмычку?",">>>","x");
 		}
 		case 6:{
-			if(PI[playerid][pHacker] < 6) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
+			if(CI[playerid][pHacker] < 6) return SendClientMessage(playerid, COLOR_RED, "Вам не доступна данная функция.");
 			SPD(playerid, D_MENU_HACKER_SIX, DSM, "/hacker",""W"Вы действительно хотите взломать банк?",">>>","x");
 		}
 	}
@@ -555,7 +555,7 @@ stock System32Hacker(playerid, id){
 }
 stock GosCar(vehicleid){
 	switch(VehicleInfo[vehicleid][vTeam]){
-		case fLSPD,fFBI,fRCSO,fMEDICLS,fMEDICSF,fARMYLS,fLSNEWS,fWHITEHOUSE: return 1;
+		case fLSPD,fFBI,fRCSO,fMEDICLS,fFIRELS,fARMYLS,fLSNEWS,fWHITEHOUSE: return 1;
 	}
 	return 0;
 }
@@ -593,8 +593,8 @@ stock HideButton(playerid, id){
 		case 37:{
 			new vehicleid = GetPlayerVehicleID(playerid);
 			ToggleEngine(vehicleid, playerid);
-			PI[playerid][pKeyCar] --;
-			UpdatePlayerData(playerid,"pKeyCar", PI[playerid][pKeyCar]);
+			CI[playerid][pKeyCar] --;
+			UpdatePlayerData(playerid,"pKeyCar", CI[playerid][pKeyCar]);
 			SendClientMessage(playerid, COLOR_GREY, "Вы успешно завели двигатель с помощью электронной отммычки!");
 			InsertPlayerHacker(playerid, "Угон государственного транспорта");
 			SetPVarInt(playerid, "VehicleHackers", GetPlayerVehicleID(playerid));
@@ -606,9 +606,9 @@ stock HideButton(playerid, id){
 			switch(random(3))
 			{
 				case 2:{
-					PI[playerid][pSearch] = 4;
-					UpdatePlayerData(playerid,"pSearch",PI[playerid][pSearch]);
-					SetPlayerWantedLevel(playerid, PI[playerid][pSearch]);
+					CI[playerid][pSearch] = 4;
+					UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+					SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 					SendClientMessage(playerid, COLOR_RED, "[СИСТЕМА]: Вам было выдано 4 звезды. ");
 				}
 				default:{ SendClientMessage(playerid, COLOR_RED, "[Мысли]: Слава богу что обошёлся без всяких происшествий."); }
@@ -646,15 +646,15 @@ public FindGPS(){
 	return 1;
 }
 stock NextlvlHacker(playerid, count){
-	PI[playerid][pHackProg]+=count;
-	if(PI[playerid][pHackProg] > 19) {
-		PI[playerid][pHacker] ++;
-		UpdatePlayerData(playerid, "pHacker", PI[playerid][pHacker]);
-		PI[playerid][pHackProg] = 0;
+	CI[playerid][pHackProg]+=count;
+	if(CI[playerid][pHackProg] > 19) {
+		CI[playerid][pHacker] ++;
+		UpdatePlayerData(playerid, "pHacker", CI[playerid][pHacker]);
+		CI[playerid][pHackProg] = 0;
 	}
-	UpdatePlayerData(playerid, "pHackProg", PI[playerid][pHackProg]);
+	UpdatePlayerData(playerid, "pHackProg", CI[playerid][pHackProg]);
 	new str[150];
-	format(str, sizeof(str), "До следующего уровня хакера осталось %d/20", PI[playerid][pHackProg]);
+	format(str, sizeof(str), "До следующего уровня хакера осталось %d/20", CI[playerid][pHackProg]);
 	SendClientMessage(playerid, COLOR_YELLOW, str);
 	return 1;
 }
@@ -675,20 +675,20 @@ stock ShowButton(playerid, id){
 	return 1;
 }
 stock unarrest(playerid){
-	PI[playerid][pJail] = 0;
-	PI[playerid][pJailTime] = 0;
-	UpdatePlayerData(playerid,"pJail",PI[playerid][pJail]);
-	UpdatePlayerData(playerid,"pJailTime",PI[playerid][pJailTime]);
-	PI[playerid][pSearch] = 0;
-	UpdatePlayerData(playerid,"pSearch",PI[playerid][pSearch]);
-	SetPlayerWantedLevel(playerid, PI[playerid][pSearch]);
+	CI[playerid][pJail] = 0;
+	CI[playerid][pJailTime] = 0;
+	UpdatePlayerData(playerid,"pJail",CI[playerid][pJail]);
+	UpdatePlayerData(playerid,"pJailTime",CI[playerid][pJailTime]);
+	CI[playerid][pSearch] = 0;
+	UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+	SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 	PlayerSpawn(playerid);
 	return 1;
 }
 stock ShowStatsHacker(playerid, targetid)
 {
 	new query[156];
-	mysql_format(connects, query, sizeof(query),"SELECT * FROM `hacker_stats` WHERE `ID` = '%d'", PI[targetid][cID]);
+	mysql_format(connects, query, sizeof(query),"SELECT * FROM `hacker_stats` WHERE `ID` = '%d'", CI[targetid][cID]);
 	mysql_tquery(connects, query, "InfoHacker", "ii", playerid,targetid);
 	return 1;
 }
@@ -704,7 +704,7 @@ CB: InfoHacker(playerid, targetid){
 	{
 		if(rows >= 8) {
 			new query[128];
-			mysql_format(connects, query, sizeof(query),"DELETE FROM `hacker_stats` WHERE `ID` = '%i';",PI[targetid][cID]);
+			mysql_format(connects, query, sizeof(query),"DELETE FROM `hacker_stats` WHERE `ID` = '%i';",CI[targetid][cID]);
 			mysql_query(connects, query);
 			for ( new i = 0 ; i < rows ; i ++ )
 			{
@@ -728,10 +728,10 @@ CB: InfoHacker(playerid, targetid){
 stock Information(playerid, targetid, const text[])
 {
 	new title[35];
-	format(title, sizeof(title), "Досье %s", player_name[targetid]);
+	format(title, sizeof(title), "Досье %s", CI[targetid][cName]);
 	new str[800], string[1250];
-	format(str,128,""W"Имя:\t\t\t\t\t\t%s\n",player_name[targetid]), strcat(string,str);
-	format(str,128,""W"Профессиональность хакера : \t\t%d/6\n",PI[targetid][pHacker]),strcat(string,str);
+	format(str,128,""W"Имя:\t\t\t\t\t\t%s\n",CI[targetid][cName]), strcat(string,str);
+	format(str,128,""W"Профессиональность хакера : \t\t%d/6\n",CI[targetid][pHacker]),strcat(string,str);
 	strcat(string, ""W"Последние действия хакера:\n\n");
 	format(str,800,"%s\n\n", text), strcat(string,str);
 	SPD(playerid, dNull, DSM, title, string, ">>>","x");
@@ -739,7 +739,7 @@ stock Information(playerid, targetid, const text[])
 }
 stock InsertPlayerHacker(playerid, const text[]){
 	MYSQL_GLOBAL[0] = EOS;
-	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"INSERT INTO `hacker_stats` (`ID`,`text`,`date`) VALUES ('%d','%s',NOW())",PI[playerid][cID],text);
+	mysql_format(connects, MYSQL_GLOBAL,sizeof(MYSQL_GLOBAL),"INSERT INTO `hacker_stats` (`ID`,`text`,`date`) VALUES ('%d','%s',NOW())",CI[playerid][cID],text);
 	mysql_tquery(connects, MYSQL_GLOBAL, "","");
 	return 1;
 }

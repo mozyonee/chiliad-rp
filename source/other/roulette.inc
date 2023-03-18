@@ -139,10 +139,10 @@ stock roulette_NextPrize(playerid) {
 }
 stock roulette_UpdateBalanceTD(playerid) {
 	new roulette_string[36];
-	format(roulette_string, sizeof(roulette_string), "~>~ BALANCE: ~r~~h~~h~~h~%iUAH", PI[playerid][pRouble]);
+	format(roulette_string, sizeof(roulette_string), "~>~ BALANCE: ~r~~h~~h~~h~%iUAH", CI[playerid][pRouble]);
 	PlayerTextDrawSetString(playerid, Roulette_PTD[playerid][10], roulette_string);
 
-	new cases_amount = (PI[playerid][pRouble] / ROULETTE_OPEN_PRICE);
+	new cases_amount = (CI[playerid][pRouble] / ROULETTE_OPEN_PRICE);
 	switch (cases_amount) {
 		case 0..9: format(roulette_string, sizeof(roulette_string), "0000000~g~~h~%i", cases_amount);
 		case 10..99: format(roulette_string, sizeof(roulette_string), "000000~g~~h~%i", cases_amount);
@@ -153,12 +153,12 @@ stock roulette_UpdateBalanceTD(playerid) {
 stock roulette_Start(playerid) {
 	if (!RouletteInfo[playerid][rouletteShowed] || RouletteInfo[playerid][rouletteStarted])
 		return false;
-	if (PI[playerid][pRouble] < ROULETTE_OPEN_PRICE) {
+	if (CI[playerid][pRouble] < ROULETTE_OPEN_PRICE) {
 		PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 		return SendClientMessage(playerid, -1, "Для відкриття необхідно мати "#ROULETTE_OPEN_PRICE" UAH.");
 	}
-	PI[playerid][pRouble] -= ROULETTE_OPEN_PRICE;
-	UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
+	CI[playerid][pRouble] -= ROULETTE_OPEN_PRICE;
+	UpdatePlayerData(playerid, "donatemoney", CI[playerid][pRouble]);
 
 	roulette_UpdateBalanceTD(playerid);
 	PlayerTextDrawSetString(playerid, Roulette_PTD[playerid][27], "STARTING..");
@@ -195,18 +195,8 @@ stock roulette_Stop(playerid) {
 	getdate(day, month, year);
 	gettime(hour, minute, second);
 	format(string, sizeof(string), "%0d.%02d.%d | %d:%02d:%02d", day, month, year, hour, minute, second);
-	mysql_format(connects, roulette_string, sizeof(roulette_string),
-		"INSERT INTO "TABLE_ROULETTE" (player_name, name, model, type, arrayid, date)\
-		VALUES ('%s', '%s', '%i', '%i', '%i', '%s')",
-
-		GetName(playerid),
-
-		PrizeRouletInfo[player_prize_id][prize_text_name],
-		PrizeRouletInfo[player_prize_id][prize_model_id],
-		PrizeRouletInfo[player_prize_id][prize_type_id],
-		player_prize_id,
-		string
-	);
+	mysql_format(connects, roulette_string, sizeof(roulette_string), "INSERT INTO "TABLE_ROULETTE" (`player_name`, `name`, `model`, `type`, `arrayid`, `date`) VALUES ('%s', '%s', '%i', '%i', '%i', '%s')",
+		CI[playerid][cName], PrizeRouletInfo[player_prize_id][prize_text_name], PrizeRouletInfo[player_prize_id][prize_model_id], PrizeRouletInfo[player_prize_id][prize_type_id], player_prize_id, string);
 	mysql_tquery(connects, roulette_string);
 
 	roulette_GetPrizesArray(playerid);
@@ -216,11 +206,11 @@ stock roulette_Stop(playerid) {
 
 		PrizeRouletInfo[player_prize_id][prize_text_name]
 	);
-	SPD(playerid, D_ROULETTE, DSM, ""P"Рулетка", roulette_string, "Закрити", "");
+	SPD(playerid, D_ROULETTE, DSM, ""P"Рулетка.", roulette_string, "Закрити", "");
 
 	printf(
 		"Гравець %s виграв в рулетці - \"%s\". Поточний баланс: %d",
-		GetName(playerid), PrizeRouletInfo[player_prize_id][prize_text_name], PI[playerid][pRouble]
+		CI[playerid][cName], PrizeRouletInfo[player_prize_id][prize_text_name], CI[playerid][pRouble]
 	);
 	RouletteInfo[playerid][rouletteStarted] = 0;
 }
@@ -854,23 +844,23 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 		case PRIZE_TYPE_EXP: GiveMoney(playerid, 2500* db_model_id, "50% продаж 'EXP'");
 		case PRIZE_TYPE_VIP_UAHY:{
 			switch(db_model_id){
-				case 1:  PI[playerid][pRouble] += 15;
-				case 3:  PI[playerid][pRouble] += 45;
-				case 7:  PI[playerid][pRouble] += 105;
-				case 15: PI[playerid][pRouble] += 225;
-				case 30: PI[playerid][pRouble] += 450;
+				case 1:  CI[playerid][pRouble] += 15;
+				case 3:  CI[playerid][pRouble] += 45;
+				case 7:  CI[playerid][pRouble] += 105;
+				case 15: CI[playerid][pRouble] += 225;
+				case 30: CI[playerid][pRouble] += 450;
 			}
 		}
 		case PRIZE_TYPE_BOOST:{
 		    switch(db_model_id){
-				case 1:  PI[playerid][pRouble] += 7;
-				case 3:  PI[playerid][pRouble] += 21;
-				case 9:  PI[playerid][pRouble] += 63;
-				case 24: PI[playerid][pRouble] += 168;
+				case 1:  CI[playerid][pRouble] += 7;
+				case 3:  CI[playerid][pRouble] += 21;
+				case 9:  CI[playerid][pRouble] += 63;
+				case 24: CI[playerid][pRouble] += 168;
 			}
 		}
 		case PRIZE_TYPE_DONATE: {
-			PI[playerid][pRouble] += ((db_model_id/100)*50);
+			CI[playerid][pRouble] += ((db_model_id/100)*50);
 			
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, (db_model_id/100)*50, "usePrize");
@@ -892,7 +882,7 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 		default: return true;
 
 	}
-	UpdatePlayerData(playerid, "donatemoney", PI[playerid][pRouble]);
+	UpdatePlayerData(playerid, "donatemoney", CI[playerid][pRouble]);
     format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "{479FF2}[Успіх] "W"Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
 	SendClientMessage(playerid, COLOR_WHITE, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
@@ -908,48 +898,48 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 
 	switch (db_type_id) {
 		case PRIZE_TYPE_LEVEL: {
-			PI[playerid][pLevel] += db_model_id;
-			UpdatePlayerData(playerid, "pLevel", PI[playerid][pLevel]);
-			PI[playerid][pExp] = 0;
+			CI[playerid][pLevel] += db_model_id;
+			UpdatePlayerData(playerid, "pLevel", CI[playerid][pLevel]);
+			CI[playerid][pExp] = 0;
 
 			DollahScoreUpdate(playerid);
 			SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
 		}
 		case PRIZE_TYPE_EXP: {
-			PI[playerid][pExp] += db_model_id;
+			CI[playerid][pExp] += db_model_id;
 
-			if (PI[playerid][pExp] >= (PI[playerid][pLevel]) * 6) {
-				PI[playerid][pLevel] += 1;
-				UpdatePlayerData(playerid, "pLevel", PI[playerid][pLevel]);
-				PI[playerid][pExp] = 0;
+			if (CI[playerid][pExp] >= (CI[playerid][pLevel]) * 6) {
+				CI[playerid][pLevel] += 1;
+				UpdatePlayerData(playerid, "pLevel", CI[playerid][pLevel]);
+				CI[playerid][pExp] = 0;
 				DollahScoreUpdate(playerid);
 				SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
 			}
 		}
 		case PRIZE_TYPE_VIP_UAHY:{
-		    if(PI[playerid][pPremium] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є преміум-акаунт. Рекомендуємо активувати виграних після завершення старого!");
+		    if(CI[playerid][pPremium] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є преміум-акаунт. Рекомендуємо активувати виграних після завершення старого!");
 			switch(db_model_id){
-				case 1:  PI[playerid][pPremium] = gettime() + 60*60*24;
-				case 3:  PI[playerid][pPremium] = gettime() + 60*60*24*3;
-				case 7:  PI[playerid][pPremium] = gettime() + 60*60*24*7;
-				case 15: PI[playerid][pPremium] = gettime() + 60*60*24*15;
-				case 30: PI[playerid][pPremium] = gettime() + 60*60*24*30;
+				case 1:  CI[playerid][pPremium] = gettime() + 60*60*24;
+				case 3:  CI[playerid][pPremium] = gettime() + 60*60*24*3;
+				case 7:  CI[playerid][pPremium] = gettime() + 60*60*24*7;
+				case 15: CI[playerid][pPremium] = gettime() + 60*60*24*15;
+				case 30: CI[playerid][pPremium] = gettime() + 60*60*24*30;
 			}
-        	UpdatePlayerData(playerid,"Premium",PI[playerid][pPremium]);
+        	UpdatePlayerData(playerid,"Premium",CI[playerid][pPremium]);
 		}
 		case PRIZE_TYPE_BOOST:{
-		    if(PI[playerid][pBoost] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є х2 зарплата. Рекомендуємо активувати виграну після завершення старої!");
+		    if(CI[playerid][pBoost] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є х2 зарплата. Рекомендуємо активувати виграну після завершення старої!");
 		    switch(db_model_id){
-				case 1:  PI[playerid][pBoost] = gettime() + 60*60*24;
-				case 3:  PI[playerid][pBoost] = gettime() + 60*60*24*3;
-				case 9:  PI[playerid][pBoost] = gettime() + 60*60*24*9;
-				case 24: PI[playerid][pBoost] = gettime() + 60*60*24*24;
+				case 1:  CI[playerid][pBoost] = gettime() + 60*60*24;
+				case 3:  CI[playerid][pBoost] = gettime() + 60*60*24*3;
+				case 9:  CI[playerid][pBoost] = gettime() + 60*60*24*9;
+				case 24: CI[playerid][pBoost] = gettime() + 60*60*24*24;
 			}
-            UpdatePlayerData(playerid,"pBoost",PI[playerid][pBoost]);
+            UpdatePlayerData(playerid,"pBoost",CI[playerid][pBoost]);
 		}
 		case PRIZE_TYPE_DONATE: {
-			PI[playerid][pRouble] += db_model_id;
-			UpdatePlayerData(playerid, "donatemonegy", PI[playerid][pRouble]);
+			CI[playerid][pRouble] += db_model_id;
+			UpdatePlayerData(playerid, "donatemonegy", CI[playerid][pRouble]);
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id, "usePrize");
 		case PRIZE_TYPE_SKIN: AddItem(playerid, 140 + db_model_id, 1);
@@ -1019,7 +1009,7 @@ roulette_OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 			MYSQL_GLOBAL[0] = EOS, mysql_format(connects, MYSQL_GLOBAL, 144, 
 				"SELECT * FROM "TABLE_ROULETTE" WHERE `player_name` = '%s' ORDER BY `id` DESC LIMIT "#MAX_SHOW_PRIZES"", 
-				GetName(playerid)
+				CI[playerid][cName]
 			);
 			mysql_tquery(connects, MYSQL_GLOBAL, "roulette_ShowPrizes", "i", playerid), MYSQL_GLOBAL[0] = EOS;
 

@@ -14,7 +14,7 @@
 #endif
 
 #if !defined NO_SUSPICION_LOGS
-	//#define NO_SUSPICION_LOGS
+	// #define NO_SUSPICION_LOGS
 #endif
 
 #if defined NO_SUSPICION_LOGS
@@ -23,7 +23,7 @@
 #endif
 
 #if !defined _nex_ac_lang_included
-	#include <nex-ac_ru.lang>	//Localization
+	#include <nex-ac_en.lang>	// Localization
 #endif
 
 #define	NEX_AC_VERSION				"1.9.56"

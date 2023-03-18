@@ -10,7 +10,7 @@ enum _:frac_ids {
 	fARMYLS = 6,
 	fWHITEHOUSE = 7,
 	fMEDICLS = 8,
-	fMEDICSF = 9,
+	fFIRELS = 9,
 	fLSNEWS = 10,
 	fINSTRUCTORS = 11,
 	fLCN = 12,
