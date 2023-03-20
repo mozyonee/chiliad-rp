@@ -166,6 +166,7 @@ new email_number[MAX_PLAYERS];
 new Text:payment_td [ 2 ] ;
 new PlayerText:payment_ptd[ MAX_PLAYERS ] [ 2 ];
 new PlayerText:PhoneGUI[MAX_PLAYERS][44];
+new PlayerText:SelectSkin[MAX_PLAYERS][4];
 new bool:PhoneShow[MAX_PLAYERS];
 new PhoneLocked[MAX_PLAYERS] = 0; // 0 - Reseted, 1 - Locked, 2 - Unlocked, 3 - Internet item in list.
 new Text:Loading_TD[28];
@@ -6141,8 +6142,7 @@ enum cInfo {
 	pRoom,
 	pBusiness,
 	pSex,
-	pNation,
-	pCountry,
+	pRace,
 	pAge,
 	pArrested,
 	pMute,
@@ -6260,9 +6260,9 @@ enum cInfo {
 	pPremiumTime,
 	pYoutube
 };
-new CI[MAX_PLAYERS][cInfo],
+new CI[MAX_PLAYERS][cInfo];
 
-pPhoneName[MAX_PLAYERS][25][MAX_PLAYER_NAME],
+new pPhoneName[MAX_PLAYERS][25][MAX_PLAYER_NAME],
 lic[MAX_PLAYERS][64],
 start_work[MAX_PLAYERS],
 gOnlinePlayer[MAX_PLAYERS][2],
@@ -6386,7 +6386,7 @@ new TI[MAX_PLAYERS][tInfo];
 stock SPD(playerid, dialogid, style, const caption[], const info[], const button1[], const button2[]) {
 	if (!TI[playerid][tLogin]) {
 		switch (dialogid) { 
-		case D_LOGIN, D_REG, D_REG_EMAIL, D_REG_FRIEND, D_CHAR_ADD_SEX, D_CHAR_ADD_NATION, D_CHAR_ADD_AGE, 402, 462, 463, D_GOOGLE_2,D_CHANGE_PASS,dCode: { }
+		case D_LOGIN, D_REG, D_REG_EMAIL, D_REG_FRIEND, D_CHAR_ADD_NAME, D_CHAR_ADD_SEX, D_CHAR_ADD_RACE, D_CHAR_ADD_AGE, 402, 462, 463, D_GOOGLE_2,D_CHANGE_PASS,dCode: { }
 		default: {
 				SendError(playerid, "Вами було відкрито заборонений діалог під час авторизації чи реєстрації.");
 				KickEx(playerid);
@@ -7458,12 +7458,32 @@ new Colors_LOW[][12] = { "000000","FFFFFF","20B2AA","DC143C","6495ED","f0e68c","
 	"247C1B","0C8E5D","635B03","CB7ED3","65ADEB","5C1ACC","F2F853","11F891","7B39AA","53EB10","54137D", "275222","F09F5B","3D0A4F","22F767","D63034","9A6980","DFB935","3793FA","90239D","E9AB2F","AF2FF3",
 	"057F94","B98519","388EEA","028151","A55043","0DE018","93AB1C","95BAF0","369976","18F71F","4B8987", "491B9E","829DC7","BCE635","CEA6DF","20D4AD","2D74FD","3C1C0D","12D6D4","48C000","2A51E2","E3AC12",
 	"FC42A8","2FC827","1A30BF","B740C2","42ACF5","2FD9DE","FAFB71","05D1CD","C471BD","94436E","C1F7EC", "CE79EE","BD1EF2","93B7E4","3214AA","184D3B","AE4B99","7E49D7","4C436E","FA24CC","CE76BE","A04E0A",
-	"9F945C","DCDE3D","10C9C5","70524D","0BE472","8A2CD7","6152C2","CF72A9","E59338","EEDC2D","D8C762","3FE65C" };
-new skin_register[14][1] = {
-	{7}, {6}, {29}, {2}, {7}, {6}, {29}, {2},
+	"9F945C","DCDE3D","10C9C5","70524D","0BE472","8A2CD7","6152C2","CF72A9","E59338","EEDC2D","D8C762", "3FE65C"};
 
-	{12}, {40}, {12}, {40}, {12}, {40}
-};
+// new CharacterSkin[cSexSkin][cSkinSkin][cDressSkin] = {
+// 	{ 
+
+// 		{ 
+// 			{31, 38, 39, 41, 53, 54, 55, 56, 75, 77, 85, 88, 89, 130, 141, 151, 152, 157, 172, 178, 191, 192, 193, 194, 196, 197, 199, 201, 205, 216, 226, 231, 232, 169, 224, 225, 263}, // Dressed.
+// 			{75, 90, 92, 138, 145, 246, 251, 87, 257} // Undressed.
+// 		}, // 0 - White.
+// 		{
+// 			{9, 10, 11, 12, 13, 40, 64, 65, 69, 76, 91, 93, 131, 148, 150, 190, 195, 198, 207, 211, 214, 215, 218, 219, 233, 238, 243, 245, 256, 298, 237, 129}, // Dressed.
+// 			{63, 139, 140, 244} // Undressed.
+// 		}, // 1 - Black.
+// 	}, // 0, Female.
+// 	{
+// 		{
+// 			{1, 2, 3, 23, 26, 27, 29, 32, 33, 34, 37, 42, 44, 49, 52, 57, 58, 59, 60, 61, 62, 68, 70, 71, 72, 73, 78, 94, 95, 99, 100, 101, 111, 112, 113, 117, 118, 119, 120, 121, 122, 123, 125, 126, 127, 132, 133, 135, 137, 147, 154, 155, 158, 159, 160, 161, 162, 164, 165, 170, 171, 177, 179, 181, 186, 187, 188, 189, 200, 202, 203, 204, 206, 208, 209, 210, 212, 213, 217, 227, 228, 229, 234, 235, 236}, // Dressed.
+// 			{45, 81, 96, 97, 146, 154, } // Undressed.
+// 		}, // 0 - White.
+// 		{
+// 			{0, 4, 5, 6, 7, 8, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 28, 30, 35, 36, 46, 47, 48, 50, 51, 66, 67, 79, 82, 83, 84, 86, 98, 102, 103, 104, 105, 106, 107, 108, 109, 110, 114, 115, 116, 124, 128, 134, 136, 142, 143, 144, 149, 156, 163, 166, 167, 168, 173, 174, 175, 176, 180, 182, 183, 184, 185, 220, 221, 222, 223, 230, }, // Dressed.
+// 			{80, } // Undressed.
+// 		}, // 1 - Black.
+// 	} // 1, Male.
+// };
+
 new skin_undress[][] = {
 	{0},{142},{143},{144},{145},{146},{147},{148},{149},{150},{151},{152},{153},{154},{155},{156},{157},
 	{158},{159},{160},{161},{162},{163},{164},{165},{166},{167},{168},{169},{170},{171},{172},{173},{174},{175},
@@ -7712,6 +7732,38 @@ stock Float:GetPlayerDistanceToPlayer(playerid, targetid) {
 	return PointToPoint2D(x, y, x2, y2);
 }
 stock CreateTextDraws(playerid) {
+	SelectSkin[playerid][0] = CreatePlayerTextDraw(playerid, 245.000, 350.000, "LD_BEAT:left");
+	PlayerTextDrawTextSize(playerid, SelectSkin[playerid][0], 25.000, 25.000);
+	PlayerTextDrawAlignment(playerid, SelectSkin[playerid][0], 1);
+	PlayerTextDrawBackgroundColor(playerid, SelectSkin[playerid][0], 255);
+	PlayerTextDrawFont(playerid, SelectSkin[playerid][0], 4);
+	PlayerTextDrawSetProportional(playerid, SelectSkin[playerid][0], 1);
+	PlayerTextDrawSetSelectable(playerid, SelectSkin[playerid][0], 1);
+
+	SelectSkin[playerid][1] = CreatePlayerTextDraw(playerid, 370.000, 350.000, "LD_BEAT:right");
+	PlayerTextDrawTextSize(playerid, SelectSkin[playerid][1], 25.000, 25.000);
+	PlayerTextDrawAlignment(playerid, SelectSkin[playerid][1], 1);
+	PlayerTextDrawBackgroundColor(playerid, SelectSkin[playerid][1], 255);
+	PlayerTextDrawFont(playerid, SelectSkin[playerid][1], 4);
+	PlayerTextDrawSetProportional(playerid, SelectSkin[playerid][1], 1);
+	PlayerTextDrawSetSelectable(playerid, SelectSkin[playerid][1], 1);
+
+	SelectSkin[playerid][2] = CreatePlayerTextDraw(playerid, 330.000, 350.000, "LD_CHAT:thumbup");
+	PlayerTextDrawTextSize(playerid, SelectSkin[playerid][2], 25.000, 25.000);
+	PlayerTextDrawAlignment(playerid, SelectSkin[playerid][2], 1);
+	PlayerTextDrawBackgroundColor(playerid, SelectSkin[playerid][2], 255);
+	PlayerTextDrawFont(playerid, SelectSkin[playerid][2], 4);
+	PlayerTextDrawSetProportional(playerid, SelectSkin[playerid][2], 1);
+	PlayerTextDrawSetSelectable(playerid, SelectSkin[playerid][2], 1);
+
+	SelectSkin[playerid][3] = CreatePlayerTextDraw(playerid, 295.000, 350.000, "LD_CHAT:thumbdn");
+	PlayerTextDrawTextSize(playerid, SelectSkin[playerid][3], 25.000, 25.000);
+	PlayerTextDrawAlignment(playerid, SelectSkin[playerid][3], 1);
+	PlayerTextDrawBackgroundColor(playerid, SelectSkin[playerid][3], 255);
+	PlayerTextDrawFont(playerid, SelectSkin[playerid][3], 4);
+	PlayerTextDrawSetProportional(playerid, SelectSkin[playerid][3], 1);
+	PlayerTextDrawSetSelectable(playerid, SelectSkin[playerid][3], 1);
+	// Phone.
 	PhoneGUI[playerid][0] = CreatePlayerTextDraw(playerid,543.0, 300.0, "_");
 	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][0], 255);
 	PlayerTextDrawFont(playerid,PhoneGUI[playerid][0], 1);
@@ -9826,7 +9878,7 @@ public OnPlayerConnect(playerid) {
 	gpci(playerid, gpciStr);
 	if(!strcmp(gpciStr, MOBILE_AUTH_KEY)) TI[playerid][tMobile] = 1;
 	else TI[playerid][tMobile] = 0;
-	GetPlayerName(playerid,player_name[playerid],MAX_PLAYER_NAME);
+	GetPlayerName(playerid, player_name[playerid], MAX_PLAYER_NAME);
 	TI[playerid][tLoginTime] = 180;
 	// for(new l = 0; l < 2; l++)
 	// TextDrawShowForPlayer(playerid, logo334_TD[l]); // Показ логотипа.
@@ -10373,13 +10425,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(!strlen(inputtext)|| !strcmp(inputtext, "qwerty", true) || strlen(inputtext) < 6 || strlen(inputtext) > 16 || strfind(inputtext, "=",true) != -1 || strfind(inputtext, "'",true) != -1) return ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:", "Вхід", "Скасувати");
 					SetPVarString(playerid,"inputtext",inputtext);
 					MYSQL_GLOBAL[0] = EOS;
-					mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"SELECT * FROM `admin` WHERE `Name` = '%s' LIMIT 1", CI[playerid][cName]);
-					mysql_pquery(connects, MYSQL_GLOBAL, "alogin", "ds",playerid,CI[playerid][cName]);
+					mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"SELECT * FROM `admin` WHERE `Name` = '%s' LIMIT 1", PI[playerid][pName]);
+					mysql_pquery(connects, MYSQL_GLOBAL, "alogin", "ds",playerid,PI[playerid][pName]);
 				}
 			case 0: {
 					if(!strlen(inputtext)) return ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:", "Вхід", "Скасувати");
 					MYSQL_GLOBAL[0] = EOS;
-					mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"SELECT * FROM `admin` WHERE `Name` = '%s' AND `password` = '%s' LIMIT 1", CI[playerid][cName], MD5_Hash(inputtext));
+					mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"SELECT * FROM `admin` WHERE `Name` = '%s' AND `password` = '%s' LIMIT 1", PI[playerid][pName], MD5_Hash(inputtext));
 					mysql_pquery(connects, MYSQL_GLOBAL, "password_adm","ds", playerid, inputtext);
 				}
 			}
@@ -16619,9 +16671,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						return 1;
 					}
 					else if(!GetString(PI[playerid][pKey], "-")) load_captcha(playerid);
-					else {
-						characters_panel(playerid);
-					}
+					else characters_panel(playerid);
 				}
 			}
 		}
@@ -16669,16 +16719,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return KickEx(playerid);
 			if(!(strlen(inputtext) >= 6 && strlen(inputtext) <= 30 && CheckPassword(inputtext))) return account_registration(playerid);
 
-			new year, month, day, pass[67], query[1028];
+			new year, month, day, password[69], query[1028];
 			getdate(year, month, day);
-			GetPlayerIp(playerid, PI[playerid][pRegIP], 32);
-			SHA256_PassHash(inputtext, "jobiden", pass, 70);
-			PI[playerid][pLastIP] = PI[playerid][pRegIP];
-			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_ACCOUNTS" (`pName`, `pPassword`, `pRegDate`, `pRegIP`, `pLastIP`) VALUES ('%s', '%s', '%02i/%02i/%02i', '%i', '%i')", player_name[playerid], pass, day, month, year, PI[playerid][pRegIP], PI[playerid][pLastIP]);
-			mysql_tquery(connects, query, "player_register", "i", playerid);
+			GetPlayerIp(playerid, PI[playerid][pLastIP], 32);
+			SHA256_PassHash(inputtext, "jobiden", password, 69);
+			PI[playerid][pRegIP] = PI[playerid][pLastIP];
+			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_ACCOUNTS" (`pName`, `pPassword`, `pRegDate`, `pRegIP`, `pLastIP`) VALUES ('%s', '%s', '%02i/%02i/%02i', '%i', '%i')", player_name[playerid], password, day, month, year, PI[playerid][pRegIP], PI[playerid][pLastIP]);
+			mysql_query(connects, query);
 			
 			mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_ACCOUNTS" WHERE `pName` = '%s' LIMIT 1", player_name[playerid]);
-			mysql_tquery(connects, query, "load_account", "i", playerid);
+			mysql_tquery(connects, query, "check_account", "i", playerid);
 
 			characters_panel(playerid);
 
@@ -16715,7 +16765,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(!response) return KickEx(playerid);
 		if(!strcmp(inputtext, "@", true)) return ShowPlayerDialog(playerid, D_REG_EMAIL, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Електронна пошта.", ""W"Введіть вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.\n\n"E"* Введіть дійсну адресу електронної пошти", "Далі", "Назад");
 		SetPVarString(playerid, "email", inputtext);
-		ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DIALOG_STYLE_LIST, ""P"Реєстрація. "W"Національність.", "\
+		ShowPlayerDialog(playerid, D_CHAR_ADD_RACE, DIALOG_STYLE_LIST, ""P"Реєстрація. "W"Національність.", "\
 				"G"* Оберіть національність вашого персонажу:\n\
 				"P"1."W" Австралієць\n\
 				"P"2."W" Албанець\n\
@@ -16756,6 +16806,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 	case D_CHAR_LIST: {
 		if(!response) return KickEx(playerid);
+		if(!strcmp(inputtext, "- Створити персонажа.")) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DIALOG_STYLE_INPUT, ""P"Створення персонажа. "W"Ім'я.", ""W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
+			Приклади можливих імен: "P"Jerry_Baggett"W", "P"Jerry_Cory_Baggett"W", "P"Jerry_Baggett_Jr"W", "P"Jerry_IV_Baggett"W".\n\
+			Мінімальна довжина - "P"5 символів"W", максимальна - "P"24 символи"W".", "Далі", "Скасувати");
+		else if (!strcmp(inputtext, "- Увійти як адміністратор.")) return 1;
+
 		new header[128], cname[MAX_PLAYER_NAME];
 		strmid(cname, inputtext, 3, strlen(inputtext) - 1);
 		SetPVarString(playerid, "cname", cname);
@@ -16778,71 +16833,38 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		}
 		}
+	case D_CHAR_ADD_NAME: {
+		if(!response) return characters_panel(playerid);
+		if(strlen(inputtext) < 5 || strlen(inputtext) > 24) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DIALOG_STYLE_INPUT, ""P"Створення персонажа. "W"Ім'я.", ""W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
+					Приклади можливих імен: "P"Jerry_Baggett"W", "P"Jerry_Cory_Baggett"W", "P"Jerry_Baggett_Jr"W", "P"Jerry_IV_Baggett"W".\n\
+					Мінімальна довжина - "P"5 символів"W", максимальна - "P"24 символи"W".", "Далі", "Скасувати");
+		SetPVarString(playerid, "creatingcname", inputtext);
+		ShowPlayerDialog(playerid, D_CHAR_ADD_SEX, DIALOG_STYLE_LIST, ""P"Створення персонажа. "W"Стать.", ""P"1."W" Чоловіча.\n"P"2."W" Жіноча.", "Далі", "Назад");
+	}
 	case D_CHAR_ADD_SEX: {
-			if(response) CI[playerid][pSex] = 1;
-			else CI[playerid][pSex] = 2;
-			ChosePlayerSkin(playerid);
+		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DIALOG_STYLE_INPUT, ""P"Створення персонажа. "W"Ім'я.", ""W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
+					Приклади можливих імен: "P"Jerry_Baggett"W", "P"Jerry_Cory_Baggett"W", "P"Jerry_Baggett_Jr"W", "P"Jerry_IV_Baggett"W".\n\
+					Мінімальна довжина - "P"5 символів"W", максимальна - "P"24 символи"W".", "Далі", "Скасувати");
+		SetPVarInt(playerid, "creatingcsex", listitem); // 0 - Female, 1 - Male.
+		ShowPlayerDialog(playerid, D_CHAR_ADD_RACE, DIALOG_STYLE_LIST, ""P"Створення персонажа. "W"Колір шкіри.", ""P"1."W" Світлий.\n"P"2."W" Темний.", "Далі", "Назад");
 		}
-	case D_CHAR_ADD_NATION: {
-		if(!response) return KickEx(playerid);
-		if(listitem == 0) return ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DIALOG_STYLE_LIST, ""P"Реєстрація. "W"Національність.", "\
-				"G"* Оберіть національність вашого персонажа:\n\
-				"P"1."W" Австралієць\n\
-				"P"2."W" Албанець\n\
-				"P"3."W" Американець\n\
-				"P"4."W" Англієць\n\
-				"P"5."W" Бразилець\n\
-				"P"6."W" Вірменин\n\
-				"P"7."W" В'єтнамець\n\
-				"P"8."W" Єврей\n\
-				"P"9."W" Іспанець\n\
-				"P"10."W" Італієць\n\
-				"P"11."W" Китаєць\n\
-				"P"12."W" Колумбієць\n\
-				"P"13."W" Кореєць\n\
-				"P"14."W" Латиноамериканець\n\
-				"P"15."W" Мексиканець\n\
-				"P"16."W" Німець\n\
-				"P"17."W" Поляк\n\
-				"P"18."W" Португалець\n\
-				"P"19."W" Українець\n\
-				"P"20."W" Француз\n\
-				"P"21."W" Чех\n\
-				"P"22."W" Японець\n", "Обрати", "Скасувати");
-		new nation = listitem;
-		CI[playerid][pNation] = nation;
-		ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DIALOG_STYLE_LIST, ""P"Реєстрація. "W"Національність.", "\
-				"G"* Оберіть національність вашого персонажу:\n\
-				"P"1."W" Австралієць\n\
-				"P"2."W" Албанець\n\
-				"P"3."W" Американець\n\
-				"P"4."W" Англієць\n\
-				"P"5."W" Бразилець\n\
-				"P"6."W" Вірменин\n\
-				"P"7."W" В'єтнамець\n\
-				"P"8."W" Єврей\n\
-				"P"9."W" Іспанець\n\
-				"P"10."W" Італієць\n\
-				"P"11."W" Китаєць\n\
-				"P"12."W" Колумбієць\n\
-				"P"13."W" Кореєць\n\
-				"P"14."W" Латиноамериканець\n\
-				"P"15."W" Мексиканець\n\
-				"P"16."W" Німець\n\
-				"P"17."W" Поляк\n\
-				"P"18."W" Португалець\n\
-				"P"19."W" Українець\n\
-				"P"20."W" Француз\n\
-				"P"21."W" Чех\n\
-				"P"22."W" Японець\n", "Обрати", "Скасувати");
+	case D_CHAR_ADD_RACE: {
+		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_SEX, DIALOG_STYLE_LIST, ""P"Створення персонажа. "W"Стать.", ""P"1."W" Чоловіча.\n"P"2."W" Жіноча.", "Далі", "Назад");
+		SetPVarInt(playerid, "creatingcskin", listitem); // 0 - White, 1 - Black.
+		ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть вік персонажа, котрого ви збираєтесь грати, одним числом.\n\nМінімальне значення - "P"12 років"W".", "Далі", "Назад");
 		}
 	case D_CHAR_ADD_AGE: {
-		if(!response) return KickEx(playerid);
-		new age = strval(inputtext);
-		if(isNumeric(inputtext) || age < 16 || age > 70) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть вік вашого персонажу:\n"G"* Від 16 до 70 років", "Далі", "Скасувати");
-		CI[playerid][pAge] = age;
-		ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, ""P"Реєстрація. "W"Реферал.", "В базі данних "R"немає"W" такого акаунта\n\nВведіть нік гравця, що запросив вас на сервер\n\nПри досягненні "P"3"W" рівня він отримає винагороду", "Далі", "Пропуск");
+		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_RACE, DIALOG_STYLE_LIST, ""P"Створення персонажа. "W"Колір шкіри.", ""P"1."W" Світлий.\n"P"2."W" Темний.", "Далі", "Назад");
+		if(strval(inputtext) < 12) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть вік персонажа, котрого ви збираєтесь грати, одним числом.\n\nМінімальне значення - "P"12 років"W".", "Далі", "Назад");
+		SetPVarInt(playerid, "creatingcage", strval(inputtext));
+		ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Опис.", ""W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", Максимальна - "P"128"W".", "Далі", "Назад");
 		}
+	case D_CHAR_ADD_PAME: {
+		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть вік персонажа, котрого ви збираєтесь грати, одним числом.\n\nМінімальне значення - "P"12 років"W".", "Далі", "Назад");
+		if(strlen(inputtext) < 16 || strlen(inputtext) > 128) return ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Опис.", ""W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", Максимальна - "P"128"W".", "Далі", "Назад");
+		SetPVarString(playerid, "creatingcpame", inputtext);
+		SelectCharacterSkin(playerid);
+	}
 	case dPhoneCall: {
 		if(!response) {
 			if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
@@ -17362,9 +17384,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_format(connects, string, sizeof(string), "SELECT * FROM `punish_history` WHERE Nickname = %s", CI[playerid][cName]);
 					mysql_tquery(connects, string, "punish_history", "i", playerid);
 				}
-				case 13: {
-					characters_panel(playerid);
-				}
+				case 13: characters_panel(playerid);
 			}
 		}
 	case D_PLAYER_STATS: {
@@ -31153,6 +31173,8 @@ public OnDynamicObjectMoved(objectid) {
 	return 1;
 }
 public OnPlayerDisconnect(playerid, reason) {
+	SetPlayerName(playerid, PI[playerid][pName]);
+
 	if(deathphase[playerid] == 1) {
 		deathphase[playerid] = 0;
 		deathtimer[playerid][1] = 20;
@@ -32988,55 +33010,32 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		if(VehicleInfo[carid][vTeam] != 0) {
 			if(CI[playerid][pMember] == VehicleInfo[carid][vTeam] && IsABikers(playerid) && GetPVarInt(playerid, "Toms") == 1 && GetVehicleModel(carid) == 482)
 			{
-
 	            SetPVarInt(playerid, "VehicleMode", 1);
 	            SendClientMessage(playerid, COLOR_WHITE, "[Думки]: Ну що ж, поїхали.");
 	            DeletePVar(playerid, "Toms");
 	            SetPVarInt (playerid, "Ready", 1)     ;
-	            switch(GetPVarInt(playerid, "NumberSklad"))
-	            {
+	            switch(GetPVarInt(playerid, "NumberSklad")) {
 					case 1: SetPlayerCheckpoint(playerid, SkladOne, 5.0);
 					case 2: SetPlayerCheckpoint(playerid, SkladTwo, 5.0);
 					case 3: SetPlayerCheckpoint(playerid, SkladThree, 5.0);
 				}
 	            SetPVarInt(playerid, "VehicleID", GetPlayerVehicleID(playerid));
 	            WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240,1839.1799,1211.6302, 4.0);
-             	switch(GetPVarInt(playerid, "NumberSklad"))
-				{
-				    case 1:
-				    {
+             	switch(GetPVarInt(playerid, "NumberSklad")) {
+				    case 1: {
                         WareHouse = CreatePickup(11745,23,2360.8240,1839.1799,1211.6302, 1);
 						//WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240,1839.1799,1211.6302, 4.0, 1, 0);
 					}
-				    case 2:
-				    {
+				    case 2: {
                         WareHouse = CreatePickup(11745,23,2360.8240,1839.1799,1211.6302, 2);
 						//WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240,1839.1799,1211.6302, 4.0);
 					}
-				    case 3:
-				    {
+				    case 3: {
                         WareHouse = CreatePickup(11745,23,2360.8240,1839.1799,1211.6302, 3);
                         //WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240,1839.1799,1211.6302, 4.0, 3, 0);
 					}
 				}
-    
 			}
-			if(!GetPVarInt(playerid, "HackerQuest4") && !CI[playerid][pHacker])
-			{
-				if(!start_work[playerid]) {
-					SendError(playerid, "Службовий транспорт вам недоступний.");
-					RemovePlayerFromVehicleAC(playerid);
-					return false;
-				}
-				else 
-				{
-				if(CI[playerid][pRank] < VehicleInfo[carid][vRank]) {
-					SendError(playerid, "Недоступне для вашоого рангу.");
-					RemovePlayerFromVehicleAC(playerid);
-				}
-				}
-			}
-
 		}
 		if(VG[carid][vgWeste]) ShowPlayerDialog(playerid,D_STOP_LOAD,DSM, ""P"Завантаження.","\n\n"W"Ви хочете зупинити завантаження чи розвантаження сміття?\n\n","Так","Ні");
 		if(VG[carid][vgLoading] || VG[carid][vgUnloading]) {
@@ -33414,9 +33413,9 @@ public OnPlayerExitVehicle(playerid, vehicleid) {
 }
 public OnPlayerRequestSpawn(playerid) {
 	if(!TI[playerid][tLogin]) {
-		SendError(playerid, "Для гри на нашому сервері введіть пароль.");
+		SendError(playerid, "Для гри на нашому сервері авторизуйтесь.");
 		KickEx(playerid);
-		return false;
+		return 0;
 	}
 	return 1;
 }
@@ -33427,9 +33426,25 @@ public OnPlayerRequestClass(playerid, classid) {
 	} else {
 		TI[playerid][tJoined] = true;
 		ac_1{playerid} = true;
+
+		if(!IsPlayerConnected(playerid)) return 1;
+
+		SetSpawnInfo(playerid, 255, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0);
+
+		RemoveSettings(playerid);
+		SpecPl(playerid, true);
+		
+		SetPlayerInterior(playerid, 0);
+		SetPlayerVirtualWorld(playerid, 102);
+		SetPlayerPos(playerid, 1224.3334, -2236.6587, 21.2289);
+		SetPlayerCameraPos(playerid, 1218.2290, -2233.3933, 22.9547);
+		SetPlayerCameraLookAt(playerid, 1219.0100, -2234.0122, 22.8197);
+		ApplyAnimation(playerid,"MISC","seat_LR",0.0,0,0,0,0,0);
+		ApplyAnimation(playerid,"BAR","dnK_StndM_loop",0.0,0,0,0,0,0);
+
 		new query[512];
 		mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_ACCOUNTS" WHERE `pName` = '%s' LIMIT 1", player_name[playerid]);
-		mysql_tquery(connects, query, "OnPlayerRequestDetect", "i", playerid);
+		mysql_tquery(connects, query, "check_account", "i", playerid);
 	}
 	return 1;
 }
@@ -33503,24 +33518,8 @@ stock RemoveSettings(playerid) { // Скидання налаштувань при авторизації/реєстра
 	to_default(playerid);
 	gKilled[playerid] = 0;
 }
-CB: OnPlayerRequestDetect(playerid) {
-	if(!IsPlayerConnected(playerid)) return 1;
 
-	SetSpawnInfo(playerid, 255, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0);
-
-	RemoveSettings(playerid);
-	SpecPl(playerid, true);
-
-	for(new i = 0; i < 60; i++) SendClientMessage(playerid, COLOR_WHITE, "");
-	SendClientMessage(playerid,COLOR_WHITE,"Ласкаво просимо на "P"Chiliad RP"W"!");
-	InterpolateCameraPos(playerid, 1218.2290, -2233.3933, 22.9547, 1218.2290, -2233.3933, 22.9547, 3000);
-	InterpolateCameraLookAt(playerid, 1219.0100, -2234.0122, 22.8197, 1219.0100, -2234.0122, 22.8197, 3000);
-	SetPlayerPos(playerid,1224.3334,-2236.6587,21.2289);
-	SetPlayerFacingAngle(playerid, 90.0);
-	ApplyAnimation(playerid,"MISC","seat_LR",0.0,0,0,0,0,0);
-	ApplyAnimation(playerid,"BAR","dnK_StndM_loop",0.0,0,0,0,0,0);
-	SetPlayerVirtualWorld(playerid,102);
-	
+CB:check_account(playerid) {
 	new rows;
 	cache_get_row_count(rows);
 	if(rows) {
@@ -33599,7 +33598,7 @@ public OnPlayerRequestDownload(playerid, type, crc) {
 public OnGameModeInit() {
     // SetDisableSyncBugs(true);
 	gCurDay = GetDayNumber();
-	SetGameModeText("CRP 1.0");
+	SetGameModeText("CRP 0.X");
 	new MySQLOpt: option_id = mysql_init_options();
 	mysql_set_option(option_id, AUTO_RECONNECT, true);
     connects = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, DB_NAME, option_id);
@@ -44996,6 +44995,54 @@ public OnVehicleMod(playerid, vehicleid, componentid) {
 	return 1;
 }
 public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
+
+	if (playertextid == SelectSkin[playerid][0]) {
+		if (GetPlayerSkin(playerid) == 0) return SetPlayerSkin(playerid, 311);
+		else if(GetPlayerSkin(playerid) == 74) return SetPlayerSkin(playerid, 73);
+		SetPlayerSkin(playerid, GetPlayerSkin(playerid) - 1);
+	} else if (playertextid == SelectSkin[playerid][1]) {
+		if (GetPlayerSkin(playerid) == 311) return SetPlayerSkin(playerid, 0);
+		else if(GetPlayerSkin(playerid) == 74) return SetPlayerSkin(playerid, 75);
+		SetPlayerSkin(playerid, GetPlayerSkin(playerid) + 1);
+	} else if (playertextid == SelectSkin[playerid][2]) {
+		SetPVarInt(playerid, "creatingcskin", GetPlayerSkin(playerid));
+
+		SetPlayerInterior(playerid, 0);
+		SetPlayerCameraPos(playerid, 1218.2290, -2233.3933, 22.9547);
+		SetPlayerCameraLookAt(playerid, 1219.0100, -2234.0122, 22.8197);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][0]);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][1]);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][2]);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][3]);
+		TogglePlayerControllable(playerid, true);
+		CancelSelectTextDraw(playerid);
+
+		new csex = GetPVarInt(playerid, "creatingcsex"),
+		crace = GetPVarInt(playerid, "creatingcrace"),
+		cage = GetPVarInt(playerid, "creatingcage"),
+		cskin = GetPVarInt(playerid, "creatingcskin");
+		
+		new cname[MAX_PLAYER_NAME], cpame[128], query[512];
+		GetPVarString(playerid, "creatingcname", cname, sizeof(cname));
+		GetPVarString(playerid, "creatingcpame", cpame, sizeof(cpame));
+
+		mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CHARACTERS" (`Name`, `pSex`, `pRace`, `pAge`, `Pame`, `Skin`) VALUES ('%s', '%i', '%i', '%i', '%s', '%i')", cname, csex, crace, cage, cpame, cskin);
+		mysql_query(connects, query);
+		
+		characters_panel(playerid);
+
+	} else if (playertextid == SelectSkin[playerid][3]) {
+		SetPlayerInterior(playerid, 0);
+		SetPlayerCameraPos(playerid, 1218.2290, -2233.3933, 22.9547);
+		SetPlayerCameraLookAt(playerid, 1219.0100, -2234.0122, 22.8197);
+		ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Опис.", ""W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", Максимальна - "P"128"W".", "Далі", "Назад");
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][0]);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][1]);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][2]);
+		PlayerTextDrawHide(playerid, SelectSkin[playerid][3]);
+		CancelSelectTextDraw(playerid);
+	}
+
 	if(GetPVarInt(playerid,"inv")) {
 		if(GetPVarInt(playerid,"block_inv")) return 1;
 		for(new j = 0; j < 46; j++)
@@ -45139,8 +45186,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 	if(playertextid == Captcha[5]) {
 		DeletePVar(playerid, "CaptchaStep"); DeletePVar(playerid, "CaptchaText");
 		PlayerTextDrawSetString(playerid, Captcha[8], "-------");
-	}
-	else if(playertextid == Captcha[6]) {
+	} else if(playertextid == Captcha[6]) {
 		new sstring[96];
 		GetPVarString(playerid, "CaptchaText", sstring, sizeof(sstring));
 		if(!GetString(PI[playerid][pKey], sstring) || !GetPVarInt(playerid, "CaptchaStep")) {
@@ -45159,8 +45205,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			DeletePVar(playerid, "CaptchaStep"); DeletePVar(playerid, "CaptchaText");
 			KickEx(playerid);
 			return 1;
-		}
-		else {
+		} else {
 			new playerip[16], data2[64], day, month, year, query[256];
 			getdate(day, month, year);
 			format(data2, 64, "%d-%d-%d", day, month, year);
@@ -45269,6 +45314,10 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
     #if defined _roulette_included
 		if(roulette_OnPlayerClickTextDraw(playerid, clickedid)) return 1;
 	#endif
+	// switch (clickedid) {
+	
+	// }
+
 	if(BJ_PlayerInfo[playerid][pBlackJackTableID]) {
 		new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1);
 		if (clickedid == Blackjack_Tutorial_TD[1]) { // BACK
@@ -46108,14 +46157,32 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 	}
 	return 1;
 }
-stock ChosePlayerSkin(playerid) {
-	switch(CI[playerid][pSex]) {
-	case 1: SetPVarInt(playerid,"join_ped_item",Random(0,7));
-	case 2: SetPVarInt(playerid,"join_ped_item",Random(8,14));
-	}
-	CancelSelectTextDraw(playerid);
+stock SelectCharacterSkin(playerid) {
+
+	SpawnPlayer(playerid);
+
+	SetPlayerSkin(playerid, 0);
+	SetPlayerInterior(playerid, 15);
+	SetPlayerVirtualWorld(playerid, 102);
+	SetPlayerPos(playerid, 217.5, -100, 1005.3);
+	SetPlayerFacingAngle(playerid, 90.0);
+	TogglePlayerControllable(playerid, 0);
+	SetPlayerCameraPos(playerid, 212.5, -100.0, 1006.6);
+	SetPlayerCameraLookAt(playerid, 216.5, -100.0, 1005.9);
+
+	PlayerTextDrawShow(playerid, SelectSkin[playerid][0]);
+	PlayerTextDrawShow(playerid, SelectSkin[playerid][1]);
+	PlayerTextDrawShow(playerid, SelectSkin[playerid][2]);
+	PlayerTextDrawShow(playerid, SelectSkin[playerid][3]);
+	SelectTextDraw(playerid, 0x808080FF);
+
+	// switch(CI[playerid][pSex]) {
+	// case 1: SetPVarInt(playerid,"join_ped_item",Random(0,7));
+	// case 2: SetPVarInt(playerid,"join_ped_item",Random(8,14));
+	// }
+	// CancelSelectTextDraw(playerid);
 	
-	return A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	// return A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
 }
 CB: SpcarsAvto(playerid) {
 	for(new i = GetVehiclePoolSize()+1; --i != 0;) {
@@ -47211,31 +47278,31 @@ CB: reg_friend(playerid) {
 	}
 	return 1;
 }
-CB: player_register(playerid) {
+// CB: player_register(playerid) {
 
-	CI[playerid][pSettings][0] =
-	CI[playerid][pSettings][1] =
-	CI[playerid][pSettings][2] = 10;
-	CI[playerid][pSettings][3] =
-	CI[playerid][pSettings][6] =
-	CI[playerid][pSettings][8] =
-	CI[playerid][pSettings][10] = 1;
-	save_settings(playerid);
-	serv_stats[1]++;
-	// PlayerRegister(playerid);
-	return 1;
-}
+// 	CI[playerid][pSettings][0] =
+// 	CI[playerid][pSettings][1] =
+// 	CI[playerid][pSettings][2] = 10;
+// 	CI[playerid][pSettings][3] =
+// 	CI[playerid][pSettings][6] =
+// 	CI[playerid][pSettings][8] =
+// 	CI[playerid][pSettings][10] = 1;
+// 	save_settings(playerid);
+// 	serv_stats[1]++;
+// 	// PlayerRegister(playerid);
+// 	return 1;
+// }
 CB:characters_panel(playerid) {
-	new header[150], content[450], name[32], total = 0;
+	new header[150], content[450], name[32];
 	new query[512], rows;
 
 	mysql_format(connects, query, sizeof(query), "SELECT `Name`, `cID` FROM "TABLE_CHARACTERS" WHERE `owner` = %i", PI[playerid][pID]);
 	mysql_query(connects, query);
 	cache_get_row_count(rows);
 	if(rows) {
-		for(total; total < rows; total++) {
-			cache_get_value_name(total, "Name", name);
-			format(content, sizeof(content), "%s"P"%d."W" %s.\n", content, total + 1, name);
+		for(new i; i < rows; i++) {
+			cache_get_value_name(i, "Name", name);
+			format(content, sizeof(content), "%s"P"%d."W" %s.\n", content, i + 1, name);
 		}
 	}
 	format(content, sizeof(content), "%s"P"-"W" Створити персонажа.\n", content);
@@ -47533,52 +47600,10 @@ stock ShowStats(playerid,targetid,idx) {
 		case 8: jtext  = "Інкасатор";
 		default: jtext = "Безробітний";
 	}
-	switch(CI[targetid][pCountry]) {
-		case 1: ctext = "Австралія";
-		case 2: ctext = "Албанія";
-		case 3: ctext = "Бразилія";
-		case 4: ctext = "Вірменія";
-		case 5: ctext = "Великобританія";
-		case 6: ctext = "В'єтнам";
-		case 7: ctext = "Ізраїль";
-		case 8: ctext = "Іспанія";
-		case 9: ctext = "Італія";
-		case 10: ctext = "Китай";
-		case 11: ctext = "Колумбія";
-		case 12: ctext = "Корея";
-		case 13: ctext = "Мексика";
-		case 14: ctext = "Німеччина";
-		case 15: ctext = "Польща";
-		case 16: ctext = "Португалія";
-		case 17: ctext = "США";
-		case 18: ctext = "Україна";
-		case 19: ctext = "Франція";
-		case 20: ctext = "Чехія";
-		case 21: ctext = "Японія";
-	}
-	switch(CI[targetid][pNation]) {
-		case 1: ntext = "Австралієць";
-		case 2: ntext = "Албанець";
-		case 3: ntext = "Американець";
-		case 4: ntext = "Англієць";
-		case 5: ntext = "Бразилець";
-		case 6: ntext = "Вірменин";
-		case 7: ntext = "В'єтнамець";
-		case 8: ntext = "Єврей";
-		case 9: ntext = "Іспанець";
-		case 10: ntext = "Італієць";
-		case 11: ntext = "Китаєць";
-		case 12: ntext = "Колумбієць";
-		case 13: ntext = "Кореєць";
-		case 14: ntext = "Латиноамериканець";
-		case 15: ntext = "Мексиканець";
-		case 16: ntext = "Німець";
-		case 17: ntext = "Поляк";
-		case 18: ntext = "Португалець";
-		case 19: ntext = "Українець";
-		case 20: ntext = "Француз";
-		case 21: ntext = "Чех";
-		case 22: ntext = "Японець";
+	switch(CI[targetid][pRace]) {
+		case 0: ntext = "Європеоїд";
+		case 1: ntext = "Негроїд";
+		case 2: ntext = "Монголоїд";
 	}
 	new car[128], vips[60];
 	if(CI[playerid][pPremium]) {
@@ -48503,15 +48528,13 @@ CB:check_banned(playerid) {
 		timestamp_to_date(UNBAN_DATA + 10800, date_ban[0], date_ban[1], date_ban[2], date_ban[3], date_ban[4], date_ban[5]);
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), ""W"Ваш ігровий акаунт:\t"NO"%s\n\
-	"W"Разблокування:\t\t"NO"%02d/%02d/%04d %02d:%02d:%02d\n\
-	"W"Причина:"NO"\t\t\t%s\n\
-	"W"Заблокував:"NO"\t\t%s", NAME_PLAYER, date_ban[2], date_ban[1], date_ban[0], date_ban[3], date_ban[4], date_ban[5], BAN_REASON, NAME_ADMIN);
+			"W"Разблокування:\t\t"NO"%02d/%02d/%04d %02d:%02d:%02d\n\
+			"W"Причина:"NO"\t\t\t%s\n\
+			"W"Заблокував:"NO"\t\t%s", NAME_PLAYER, date_ban[2], date_ban[1], date_ban[0], date_ban[3], date_ban[4], date_ban[5], BAN_REASON, NAME_ADMIN);
 		ShowPlayerDialog(playerid, DIALOG_BAN, DSM, ""P"Цей акаунт заблокований", STRING_GLOBAL, "Закрити", "");
 		KickEx(playerid);
 		return 1;
-	}
-	else
-	{
+	} else {
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "DELETE FROM `ban` WHERE `Name` = '%s' LIMIT 1", CI[playerid][cName]);
 		mysql_tquery(connects, MYSQL_GLOBAL);
@@ -48527,6 +48550,7 @@ CB:check_banned(playerid) {
 // }
 
 CB:load_account(playerid) {
+	cache_get_value_name_int(0, "pID", PI[playerid][pID]);
 	cache_get_value_name(0, "pName", PI[playerid][pName], MAX_PLAYER_NAME);
 	cache_get_value_name(0, "pPassword", PI[playerid][pPassword], 69);
 	cache_get_value_name(0, "pKey", PI[playerid][pKey], 5);
@@ -48541,10 +48565,11 @@ CB:load_account(playerid) {
 	cache_get_value_name(0, "pRegDate", PI[playerid][pRegDate], 128);
 	cache_get_value_name(0, "pRegIP", PI[playerid][pRegIP], 17);
 	cache_get_value_name(0, "pLastIP", PI[playerid][pLastIP], 17);
+	return 1;
 }
 
 CB: load_character(playerid) {
-	new rows;
+	new rows, slotitem[64], skills[50], Hackers[50];
 	cache_get_row_count(rows);
 	if(!rows) return 1;
 
@@ -48555,21 +48580,19 @@ CB: load_character(playerid) {
 	cache_get_value_name(0, "pEmail", CI[playerid][pEmail], 36);
 	cache_get_value_name(0, "pAccusedof", CI[playerid][pAccusedof], 43);
 	cache_get_value_name(0, "pVictim", CI[playerid][pVictim], MAX_PLAYER_NAME);
-	cache_get_value_name(0,	"licenses", lic[playerid], 64);
-	cache_get_value_name(0,	"Settings", CI[playerid][pSettings], 48);
 	cache_get_value_name(0, "pPrefix_s", CI[playerid][pPrefix_s]);
     cache_get_value_name_int(0, "pPrefix_i", CI[playerid][pPrefix_i]);
 	cache_get_value_name_int(0,"spawn", CI[playerid][pSpawn]);
-
-	new slotitem[64], skills[50], Hackers[50];
-	cache_get_value_name(0,	"pSlotItem", slotitem, 63);
-	cache_get_value_name(0, "pGunSkills", skills, 50);
 	cache_get_value_name(0, "pQuestHacker", Hackers, 50);
-	sscanf(Hackers, 						"p<,>a<i>[4]",	CI[playerid][QuestHacker]);
-	sscanf(skills, 							"p<,>a<i>[6]",	CI[playerid][pGunSkill]);
-	sscanf(lic[playerid],					"p<,>a<i>[4]",	lic[playerid]);
-	sscanf(CI[playerid][pSettings],			"p<|>a<i>[12]",	CI[playerid][pSettings]);
-	sscanf(slotitem,						"p<|>a<i>[8]",	CI[playerid][pSlotItem]);
+	sscanf(Hackers, "p<,>a<i>[4]", CI[playerid][QuestHacker]);
+	cache_get_value_name(0, "pGunSkills", skills, 50);
+	sscanf(skills, "p<,>a<i>[6]", CI[playerid][pGunSkill]);
+	cache_get_value_name(0,	"licenses", lic[playerid], 64);
+	sscanf(lic[playerid], "p<,>a<i>[4]", lic[playerid]);
+	cache_get_value_name(0,	"Settings", CI[playerid][pSettings], 48);
+	sscanf(CI[playerid][pSettings], "p<|>a<i>[12]",	CI[playerid][pSettings]);
+	cache_get_value_name(0,	"pSlotItem", slotitem, 63);
+	sscanf(slotitem, "p<|>a<i>[8]",	CI[playerid][pSlotItem]);
 	cache_get_value_name_float(0,"pHP", CI[playerid][pHP]);
 	cache_get_value_name_int(0,"youtube", CI[playerid][pYoutube]);
 	cache_get_value_name_float(0,"pFish", CI[playerid][pFish]);
@@ -48585,8 +48608,7 @@ CB: load_character(playerid) {
 	cache_get_value_name_int(0,"pJail", CI[playerid][pJail]);
 	cache_get_value_name_int(0,"tempkey", CI[playerid][pTempKey]);
 	cache_get_value_name_int(0,"pSex", CI[playerid][pSex]);
-	cache_get_value_name_int(0,"pNation", CI[playerid][pNation]);
-	cache_get_value_name_int(0,"pCountry", CI[playerid][pCountry]);
+	cache_get_value_name_int(0,"pRace", CI[playerid][pRace]);
 	cache_get_value_name_int(0,"pAge", CI[playerid][pAge]);
 	cache_get_value_name_int(0,"pArrested", CI[playerid][pArrested]);
 	cache_get_value_name_int(0,"mute", CI[playerid][pMute]);
@@ -49511,7 +49533,7 @@ stock RandomMassive(massive[], size) {
 		massive[rand] = mass;
 	}
 }
-family_dialog(playerid) return ShowPlayerDialog(playerid,D_FAMILY,DSL, ""P"Сім'я", ""P"1."W" Інформація про сім'ю\n"P"2."W" Склад сім'ї онлайн\n"P"3."W" Склад сім'ї офлайн\n"P"4."W" Налаштування сім'ї\n"P"5."W" Передати семью\n"P"6."W" Покращення сім'ї\n"P"7."W" Розформувати сім'ю\n"P"8."W" Чорний список\n"P"9."W" Національність\n"P"10."W" Автопарк\n"P"11."W" Дім сім'ї\n"P"12."W" Рейтинг членів сім'ї\n"P"13."W" Покинути сім'ю", "Обрати", "Закрити");
+family_dialog(playerid) return ShowPlayerDialog(playerid,D_FAMILY,DSL, ""P"Сім'я.", ""P"1."W" Інформація про сім'ю\n"P"2."W" Склад сім'ї онлайн\n"P"3."W" Склад сім'ї офлайн\n"P"4."W" Налаштування сім'ї\n"P"5."W" Передати семью\n"P"6."W" Покращення сім'ї\n"P"7."W" Розформувати сім'ю\n"P"8."W" Чорний список\n"P"9."W" Національність\n"P"10."W" Автопарк\n"P"11."W" Дім сім'ї\n"P"12."W" Рейтинг членів сім'ї\n"P"13."W" Покинути сім'ю", "Обрати", "Закрити");
 family_setting(playerid) {
 	new fam = CI[playerid][pFamily]-1;
 	static const f_str[] = ""P"1."W" Може приймати:\t\t\t"P"%s(%i)"W"\n\
@@ -50182,9 +50204,9 @@ CB: alogin(playerid,const giveplayerid[]) {
 	if(!rows) return 1;
 	GetPVarString(playerid,"inputtext",inputtext,15);
 	new query[160];
-	mysql_format(connects, query, sizeof(query),"UPDATE `admin` SET `password` = MD5('%s') WHERE `name` = '%s'",inputtext, CI[playerid][cName]);
+	mysql_format(connects, query, sizeof(query),"UPDATE `admin` SET `password` = MD5('%s') WHERE `name` = '%s'",inputtext, PI[playerid][pName]);
 	mysql_pquery(connects,query);
-	SendClientMessage(playerid, CGOLD, "Ласкаво просимо в команду адміністрації Chiliad Role Play!");
+	SendClientMessage(playerid, CGOLD, "Ласкаво просимо в команду адміністрації Chiliad RP!");
 	cache_get_value_name_int(0,"rank",PI[playerid][pAdmin]);
 	cache_get_value_name_int(0,"kick",gAdmin[playerid][0]);
 	cache_get_value_name_int(0,"ban",gAdmin[playerid][1]);
@@ -50218,9 +50240,9 @@ CB: alogin(playerid,const giveplayerid[]) {
 	ACLoad(playerid);
 	static const f_str[] = "[A] Молодший модератор %s авторизувався в адмін панелі.";
 	new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
-	format(str, sizeof(str), f_str,CI[playerid][cName]), SendAdminMessage(0xfF0CA31ff, str);
+	format(str, sizeof(str), f_str,PI[playerid][pName]), SendAdminMessage(0xfF0CA31ff, str);
 	query = "";
-	mysql_format(connects, query, sizeof(query),"UPDATE `admin` SET online_status = 1 WHERE `Name` = '%s' LIMIT 1",CI[playerid][cName]);
+	mysql_format(connects, query, sizeof(query),"UPDATE `admin` SET online_status = 1 WHERE `Name` = '%s' LIMIT 1",PI[playerid][pName]);
 	mysql_pquery(connects, query, "", "");
 	return 1;
 }
@@ -50235,8 +50257,7 @@ CB: password_adm(playerid,const inputtext[]) {
 			gAdmin[playerid][7] = 1;
 			KickEx(playerid);
 		}
-	}
-	else {
+	} else {
 		cache_get_value_name_int(0,"rank",PI[playerid][pAdmin]);
 		cache_get_value_name_int(0,"kick",gAdmin[playerid][0]);
 		cache_get_value_name_int(0,"ban",gAdmin[playerid][1]);
@@ -50287,22 +50308,21 @@ CB: password_adm(playerid,const inputtext[]) {
 		}
 		static const f_str[] = "[A] %s %s авторизувався в адмін панелі.";
 		new str[sizeof(f_str) +1 + (-2 + 32) + (-2 + MAX_PLAYER_NAME)];
-		format(str, sizeof(str), f_str,Admin,CI[playerid][cName],Admin), SendAdminMessage(0xfF0CA31ff, str);
-		if(!GetString(player_ip_check[playerid],player_ip[playerid])) {
+		format(str, sizeof(str), f_str, Admin, PI[playerid][pName], Admin), SendAdminMessage(0xfF0CA31ff, str);
+		if(!GetString(player_ip_check[playerid], player_ip[playerid])) {
 			new str_adm[128];
 			foreach(new i:Player) {
 				if(!TI[i][tLogin]) continue;
 				if(!PI[i][pAdmin] || !dostup[i]) continue;
-				format(str_adm, sizeof(str_adm), "[! ADM !] Поточний IP (%s) у %s відрізняється від останнього IP (%s).", CI[playerid][cName],player_ip[playerid],PI[playerid][pRegIP]);
+				format(str_adm, sizeof(str_adm), "[! ADM !] Поточний IP (%s) у %s відрізняється від останнього IP (%s).", PI[playerid][pName], player_ip[playerid], PI[playerid][pRegIP]);
 				SendClientMessage(i, PP, str_adm);
 			}
 		}
-		foreach(new i:Player)
-		{
+		foreach(new i:Player) {
 		    SetPlayerMarkerForPlayer(playerid, i, TEAM_HIT_COLOR);
 		}
 		new qeury[128];
-		format(qeury, sizeof(qeury), "UPDATE `admin` SET `online_connection` = NOW(), online_status = 1 WHERE `Name` = '%s' LIMIT 1", CI[playerid][cName]);
+		format(qeury, sizeof(qeury), "UPDATE `admin` SET `online_connection` = NOW(), online_status = 1 WHERE `Name` = '%s' LIMIT 1", PI[playerid][pName]);
 		mysql_pquery(connects, qeury, "", "");
 	}
 	return 1;
@@ -50313,12 +50333,11 @@ CB: alogin1(playerid) {
 	cache_get_row_count(rows);
 	if(!rows) return 1;
 	cache_get_value(0, "password", passwords, 31);
-	if(!strcmp(passwords,"qwerty",true)) {
-		SetPVarInt(playerid,"aLogin",1);
+	if(!strcmp(passwords, "default", true)) {
+		SetPVarInt(playerid, "aLogin", 1);
 		ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація.", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:\n\t"P"Придумайте пароль від 6 до 15 символів\n\n"NO"ЯКЩО ВИ ЗАБУЛИ ПАРОЛЬ, НІХТО ВАМ ЙОГО НЕ БУДЕ ВІДНОВЛЮВАТИ", "Вхід", "Скасувати");
-	}
-	else {
-		SetPVarInt(playerid,"aLogin",0);
+	} else {
+		SetPVarInt(playerid, "aLogin", 0);
 		ShowPlayerDialog(playerid, D_ALOGIN, DSP, ""P"Авторизація.", ""W"Для доступу до адміністрування, вам необхідно авторизуватись:", "Вхід", "Скасувати");
 	}
 	return 1;
@@ -50338,10 +50357,9 @@ CB: Moderator(playerid,const giveplayerid[],level) {
 
 				format(string, sizeof(string), "%s успішно видаленний зі списку модераторів.", giveplayerid);
 				SendOK(playerid, string);
-			}
-			else {
+			} else {
 				MYSQL_GLOBAL[0] = EOS;
-				mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"UPDATE `admin` SET  `rank` = '%d' WHERE `Name` = '%s' LIMIT 1", level,giveplayerid);
+				mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"UPDATE `admin` SET  `rank` = '%d' WHERE `Name` = '%s' LIMIT 1", level, giveplayerid);
 				mysql_pquery(connects, MYSQL_GLOBAL, "", "");
 				format(string, sizeof(string), "Рівень адміністрування у %s змінений на %d", giveplayerid, level);
 				SendOK(playerid, string);
@@ -50349,7 +50367,7 @@ CB: Moderator(playerid,const giveplayerid[],level) {
 		}
 	}
 	else {
-		if(level == 0) return SendError(playerid, "Гравець не адміністратор.");
+		if(level < 1) return SendError(playerid, "Гравець не адміністратор.");
 
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL),"INSERT INTO `admin` (`Name`, `rank`, `online_connection`,`CheckName`, `date_start`) VALUES ('%s', %d, NOW(),'%s', NOW())", giveplayerid,level, CI[playerid][cName]);
@@ -50359,7 +50377,7 @@ CB: Moderator(playerid,const giveplayerid[],level) {
 		SendOK(playerid,string);
 	}
 	new query[200];
-	mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pAdmin` = '%d' WHERE `Name` = '%s' LIMIT 1",level, giveplayerid);
+	mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pAdmin` = '%d' WHERE `Name` = '%s' LIMIT 1", level, giveplayerid);
 	mysql_tquery(connects, query,"","");
 	return 1;
 }
@@ -52470,19 +52488,20 @@ CB: drug_effect(playerid) {
 	return 1;
 }
 CMD:aduty(playerid, params[]) {
-	if(PI[playerid][pAdmin] != 0 && dostup[playerid] != 0) return 1;
+	if(PI[playerid][pAdmin] < 1) return 1;
 	if(dostup[playerid] == 1) {
 		dostup[playerid] = 0;
 		static const f_str[] = "[A] Адміністратор %s вийшов з-під адмін панелі.";
 		new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
-		format(str, sizeof(str), f_str,CI[playerid][cName]);
+		format(str, sizeof(str), f_str, PI[playerid][pName]);
 		SendAdminMessage(0xfF0CA31ff, str);
+		SendOK(playerid, "Ви завершили адміністрування.");
 		return 1;
 	}
 	if(GetPVarInt(playerid, "check_alogin") > gettime()) return 1;
 	new query[156];
-	mysql_format(connects, query, sizeof(query),"SELECT * FROM `admin` WHERE `Name` = '%s'", CI[playerid][cName]);
-	mysql_tquery(connects, query, "alogin1", "i",playerid);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `admin` WHERE `Name` = '%s'", PI[playerid][pName]);
+	mysql_tquery(connects, query, "alogin1", "i", playerid);
 	SetPVarInt(playerid, "check_alogin", gettime()+5);
 	return 1;
 }
@@ -68235,23 +68254,18 @@ CB:check_ip_ban(playerid) {
 	cache_get_row_count(rows);
 	if (rows) {
 		cache_get_value_name(0, "reason", reason, 30);
-		if (strlen(reason) == 0)
-		{
+		if (strlen(reason) == 0) {
 			STRING_GLOBAL[0] = EOS;
 			format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "Ваша IP адреса заблокований. Причина: Невідомо", reason);
 			SendError(playerid, STRING_GLOBAL);
 			KickEx(playerid);
-		}
-		else
-		{
+		} else {
 			STRING_GLOBAL[0] = EOS;
 			format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "Ваша IP адреса заблокований. Причина: %s", reason);
 			SendError(playerid, STRING_GLOBAL);
 		}
 		KickEx(playerid);
-	}
-	else
-	{
+	} else {
 		MYSQL_GLOBAL[0] = EOS;
 		mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "SELECT * FROM `"TABLE_BAN"` WHERE `Name` = '%e' LIMIT 1", CI[playerid][cName]);
 		mysql_tquery(connects, MYSQL_GLOBAL, "check_banned", "i", playerid);
