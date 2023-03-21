@@ -16828,7 +16828,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				format(header, sizeof(header), ""P"Інформація про персонажа. "W"%s.", cname);
 				format(string, sizeof(string), ""P"ID"W"\t%i\n"P"Власник"W"\t%i\n"P"Стать"W"\t%i\n"P"Вік"W"\t%i\n"P"Національність"W"\t%s\n"P"Опис"W"\t%s\n"P"Скін"W"\t%i", cid, cownername, csex, cage, cnation, cpame, cskin);
-				ShowPlayerDialog(playerid, D_CHAR_CONTROL_INFO, DST, header, string, "Редагувати", "Назад");
+				ShowPlayerDialog(playerid, D_CHAR_CONTROL_INFO, DST, header, string, "Змінити", "Назад");
 			}
 			case 2: {
 				new query[128], cname[MAX_PLAYER_NAME];
@@ -16862,7 +16862,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 			format(header, sizeof(header), ""P"Інформація про персонажа. "W"%s.", cname);
 			format(string, sizeof(string), ""P"ID"W"\t%i\n"P"Власник"W"\t%i\n"P"Стать"W"\t%i\n"P"Вік"W"\t%i\n"P"Національність"W"\t%s\n"P"Опис"W"\t%s\n"P"Скін"W"\t%i", cid, cownername, csex, cage, cnation, cpame, cskin);
-			ShowPlayerDialog(playerid, D_CHAR_CONTROL_INFO, DST, header, string, "Редагувати", "Назад");
+			ShowPlayerDialog(playerid, D_CHAR_CONTROL_INFO, DST, header, string, "Змінити", "Назад");
 		}
 	}
 	case D_CHAR_ADD_NAME: {
