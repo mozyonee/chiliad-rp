@@ -16797,7 +16797,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		strmid(cname, inputtext, 3, strlen(inputtext) - 1);
 		SetPVarString(playerid, "cname", cname);
 		format(header, sizeof(header), ""P"Керування персонажами. "W"%s.", cname);
-		ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація.\n"P"3."W" Редагувати.\n"P"4."W" Видалити.", "Обрати", "Назад");
+		ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація. (Розробка)\n"P"3."W" Редагувати. (Розробка)\n"P"4."W" Видалити.", "Обрати", "Назад");
 		}
 	case D_CHAR_CONTROL: {
 		if(!response) return characters_panel(playerid);
@@ -16808,10 +16808,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query),"SELECT * FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
 				mysql_tquery(connects, query, "load_character", "i", playerid);
 			}
+			case 3: {
+				new query[128], cname[MAX_PLAYER_NAME];
+				GetPVarString(playerid, "cname", cname, MAX_PLAYER_NAME);
+				mysql_format(connects, query, sizeof(query),"DELETE FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
+				mysql_tquery(connects, query, "characters_panel", "i", playerid);
+			}
 			default: {
 				new header[128];
 				format(header, sizeof(header), ""P"Керування персонажами. "W"%s.", CI[playerid][cName]);
-				ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація.\n"P"3."W" Редагувати.\n"P"4."W" Видалити.", "Обрати", "Назад");
+				ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація. (Розробка)\n"P"3."W" Редагувати. (Розробка)\n"P"4."W" Видалити.", "Обрати", "Назад");
 			}
 		}
 		}
@@ -16833,16 +16839,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_CHAR_ADD_NATION: {
 		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_SEX, DIALOG_STYLE_LIST, ""P"Створення персонажа. "W"Стать.", ""P"1."W" Чоловіча.\n"P"2."W" Жіноча.", "Далі", "Назад");
 		SetPVarString(playerid, "creatingcnation", inputtext);
-		ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть, скільки років буде вашому персонажу одним числом.\n\nМінімальний - "P"12"W" років, максимальний - "P"90"W".", "Далі", "Назад");
+		ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть одним числом, скільки років вашому персонажу.\n\nМінімальний вік - "P"12"W" років, максимальний - "P"90"W" років.", "Далі", "Назад");
 		}
 	case D_CHAR_ADD_AGE: {
 		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Національність.", ""W"Національність показує приналежність вашого персонажа до певної етнічної спільноти зі своїми особливостями та специфіками.\n\nПриклад національності: "P"Мексиканець"W", "P"Китаєць"W", "P"Поляк"W".\nМінімальна довжина - "P"5"W" символів, максимальна - "P"25"W".", "Далі", "Назад");
-		if(strval(inputtext) < 12 || strval(inputtext) > 90) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть, скільки років буде вашому персонажу одним числом.\n\nМінімальний - "P"12"W" років, максимальний - "P"90"W".", "Далі", "Назад");
+		if(strval(inputtext) < 12 || strval(inputtext) > 90) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть одним числом, скільки років вашому персонажу.\n\nМінімальний вік - "P"12"W" років, максимальний - "P"90"W" років.", "Далі", "Назад");
 		SetPVarInt(playerid, "creatingcage", strval(inputtext));
 		ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Опис.", ""W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", максимальна - "P"128"W".", "Далі", "Назад");
 		}
 	case D_CHAR_ADD_PAME: {
-		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть, скільки років буде вашому персонажу одним числом.\n\nМінімальний - "P"12"W" років, максимальний - "P"90"W".", "Далі", "Назад");
+		if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Вік.", ""W"Вкажіть одним числом, скільки років вашому персонажу.\n\nМінімальний вік - "P"12"W" років, максимальний - "P"90"W" років.", "Далі", "Назад");
 		if(strlen(inputtext) < 16 || strlen(inputtext) > 128) return ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Опис.", ""W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", максимальна - "P"128"W".", "Далі", "Назад");
 		SetPVarString(playerid, "creatingcpame", inputtext);
 		ShowPlayerDialog(playerid, D_CHAR_ADD_SKIN, DIALOG_STYLE_INPUT, ""P"Реєстрація. "W"Скін.", ""W"Введіть ID скіна, який ви хочете бачити на своєму персонажі.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Skins_All.html"W".\nДопустимі значення - "P"0-299"W" ("P"74"W" - заборонений).", "Далі", "Назад");
@@ -17361,8 +17367,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	case D_MENU: {
 			if(!response) return 1;
 			switch(listitem) {
-				case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DIALOG_STYLE_LIST, ""P"Інформація про персонаж", ""P"1. "W"Статистикa\n"P"2. "W"Паспорт\n"P"3. "W"Ліцензії\n"P"4. "W"Медична карта", "Обрати", "Назад");
-				case 1: ShowPlayerDialog(playerid,D_MENU_COMMANDS,DSL, ""P"Команди", ""P"1."W" Загальні команди\n"P"2."W" Чати\n"P"3."W" По роботі\n"P"4."W" Фракційні\n"P"5."W" Дім\n"P"6."W" Бізнес\n"P"7."W" Автомобіль\n"P"8."W" Сім'я\n"P"9."W" Лідер\n"P"10."W" Автовикрадення\n"P"11."W" Будинок на колесах", "Обрати", "Назад");
+				case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DIALOG_STYLE_LIST, ""P"Інформація про персонажа.", ""P"1. "W"Статистикa\n"P"2. "W"Паспорт\n"P"3. "W"Ліцензії\n"P"4. "W"Медична карта", "Обрати", "Назад");
+				case 1: ShowPlayerDialog(playerid,D_MENU_COMMANDS,DSL, ""P"Команди.", ""P"1."W" Загальні команди\n"P"2."W" Чати\n"P"3."W" По роботі\n"P"4."W" Фракційні\n"P"5."W" Дім\n"P"6."W" Бізнес\n"P"7."W" Автомобіль\n"P"8."W" Сім'я\n"P"9."W" Лідер\n"P"10."W" Автовикрадення\n"P"11."W" Будинок на колесах", "Обрати", "Назад");
 				case 2: pc_cmd_jobskill(playerid);
 				case 3: {
 						if(GetPVarInt(playerid,"report_ac")) return SendError(playerid, "Ви вже подавали скаргу, очікуйте відповіді.");
@@ -17375,10 +17381,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if (CI[playerid][pWarns] >= 1) return SendError(playerid, "На вашому акаунті є попередження.");
 						return ShowPlayerDialog(playerid,D_CHANGE_NAME,DSI, ""P"Заявка на зміну нікнейму", ""W"Напишіть новий нік (за форматом Ім'я_Прізвище)", "Відправити", "Назад");
 					}
-				case 7: ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адреса\n"P"4."W" Google Authenticator\n"P"5."W" Telegram\n"P"6."W" Discord", "Обрати", "Назад");
-				case 8: return ShowPlayerDialog(playerid, D_USE_PROMO, DSI, ""P"Промокод", ""W"Введіть нижче діючий промокод"W" на сервері:", "Прийняти", "Назад");
+				case 7: ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, ""P"Безпека.", ""P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адреса\n"P"4."W" Google Authenticator\n"P"5."W" Telegram\n"P"6."W" Discord", "Обрати", "Назад");
+				case 8: return ShowPlayerDialog(playerid, D_USE_PROMO, DSI, ""P"Промокод.", ""W"Введіть нижче діючий промокод"W" на сервері:", "Прийняти", "Назад");
 				case 9: return pc_cmd_quest(playerid);
-				case 10: ShowPlayerDialog(playerid, D_CASES, DSL, ""P"Кейси", ""P"1."W" Кейс SILVER\n"P"2."W" Кейс GOLD\n"P"3."W" Кейс  VIP", "Обрати", "Закрити");
+				case 10: ShowPlayerDialog(playerid, D_CASES, DSL, ""P"Кейси.", ""P"1."W" Кейс SILVER\n"P"2."W" Кейс GOLD\n"P"3."W" Кейс  VIP", "Обрати", "Закрити");
 				case 11: return pc_cmd_donate(playerid);
 				case 12: {
 					new string[128];
@@ -41975,7 +41981,7 @@ CMD:gps(playerid){
 	ShowPlayerDialog(playerid, D_GPS, DSL, ""P"GPS", string, "Обрати", "Скасувати");
 	return 1;
 }
-CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги\n"P"13. "W"Історія покарань\n"P"14."W" Змінити персонажа", "Обрати", "Скасувати");
+CMD:menu(playerid,const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, ""P"Меню гравця",""P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги\n"P"13. "W"Історія покарань\n"P"14."W" Керування персонажами", "Обрати", "Скасувати");
 alias:menu("mm","mn")
 CMD:settings(playerid) {
 	ShowSettings(playerid);
