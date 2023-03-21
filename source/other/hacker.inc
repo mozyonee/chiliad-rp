@@ -233,7 +233,7 @@ stock ShowHackerStats(playerid, id){
 	format(str,128,""W"Имя:\t\t\t\t%s",CI[id][cName]), strcat(string,str);
 	format(str,128,"\n\nУровень:\t\t\t%i",CI[id][pLevel]), strcat(string,str);
 
-	format(str,128,"\n\nПол:\t\t\t\t%s",(CI[id][pSex] == 1) ? ("Мужчина") : ("Женщина")), strcat(string,str);
+	format(str,128,"\n\nПол:\t\t\t\t%s",(CI[id][cSex] == 1) ? ("Мужчина") : ("Женщина")), strcat(string,str);
 	format(str,128,"\nСупруг(а):\t\t\t%s",CI[id][pMarried]), strcat(string,str);
 	if(CI[id][pPhone] == 0) strcat(string,"\n\nНомер телефона:\t\tОтсутствует");
 	else format(str,128,"\n\nНомер телефона:\t\t%i",CI[id][pPhone]), strcat(string,str);

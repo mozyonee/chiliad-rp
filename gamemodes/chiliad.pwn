@@ -6128,7 +6128,13 @@ enum cInfo {
 	cID,
 	cOwner,
 	cName[MAX_PLAYER_NAME],
+	cSex,
+	cAge,
+	cNation[32],
+	cPame[128],
 	pEmail[36],
+	cSkin,
+
 	pLevel,
 	pHacker,
 	pCredit,
@@ -6141,9 +6147,6 @@ enum cInfo {
 	pTempKey,
 	pRoom,
 	pBusiness,
-	pSex,
-	cNation,
-	pAge,
 	pArrested,
 	pMute,
 	pCrimes,
@@ -6157,7 +6160,6 @@ enum cInfo {
 	pLeader,
 	pMember,
 	pRank,
-	pSkin,
 	pJob,
 	pFracSkin,
 	pPhone,
@@ -10698,7 +10700,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			UpdatePlayerData(playerid,"pJailTime",0);
 			UpdatePlayerData(playerid,"pJail",0);
 			SetCameraBehindPlayer(playerid);
-			A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+			A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 			GameTextForPlayer(playerid,"~g~Freedom", 5000, 1);
 			PlayerSpawn(playerid);
 		}
@@ -12399,7 +12401,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						DeletePVar(playerid,"burger_job");
 						DeletePVar(playerid,"burger_vehid");
 						DeletePVar(playerid,"check_pizza");
-						A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+						A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 						SendClientMessage(playerid,COLOR_WHITE,"Ви звільнилися з роботи.");
 						return 1;
 					}
@@ -14623,7 +14625,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			else
 			{
 				DeletePVar(playerid,"inc_start");
-				A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+				A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 				if(GetPVarInt(playerid,"inc_start")) SetVehicleToRespawn(GetPVarInt(playerid,"inc_start")), DeletePVar(playerid,"inc_start");
 				SendInfo(playerid, "Робочий день завершено.");
 			}
@@ -14712,7 +14714,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SendInfo(playerid, "Робочий день завершено.");
 					SetPlayerColor(playerid, TEAM_HIT_COLOR);
 					start_work[playerid] = 0;
-					A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+					A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 					SetArmour(playerid, 0);
 					UpdatePlayerData(playerid,"FracDuty",start_work[playerid]);
 				}
@@ -14740,7 +14742,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SendInfo(playerid, "Робочий день завершено.");
 					SetPlayerColor(playerid, TEAM_HIT_COLOR);
 					start_work[playerid] = 0;
-					A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+					A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 					SetArmour(playerid, 0);
 					UpdatePlayerData(playerid,"FracDuty",start_work[playerid]);
 				}
@@ -15192,7 +15194,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 					SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 				}
-				else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+				else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 				DisablePlayerRaceCheckpoint(playerid);
 				return 1;
 			}
@@ -15259,7 +15261,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			else {
 				if(CI[playerid][pMember] > 0) A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
-				else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+				else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 				DeletePVar(playerid,"kanal_skin");
 			}
 			SendOK(playerid,"Ви перевдягнулись.");
@@ -16796,8 +16798,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		new header[128], cname[MAX_PLAYER_NAME];
 		strmid(cname, inputtext, 3, strlen(inputtext) - 1);
 		SetPVarString(playerid, "cname", cname);
-		format(header, sizeof(header), ""P"Керування персонажами. "W"%s.", cname);
-		ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація. (Розробка)\n"P"3."W" Редагувати. (Розробка)\n"P"4."W" Видалити.", "Обрати", "Назад");
+		format(header, sizeof(header), ""P"Керування персонажем. "W"%s.", cname);
+		ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація.\n"P"4."W" Видалити.", "Обрати", "Назад");
 		}
 	case D_CHAR_CONTROL: {
 		if(!response) return characters_panel(playerid);
@@ -16808,19 +16810,61 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query),"SELECT * FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
 				mysql_tquery(connects, query, "load_character", "i", playerid);
 			}
-			case 3: {
+			case 1: {
+				new query[256], cname[MAX_PLAYER_NAME], cid, cownerid, cownername[MAX_PLAYER_NAME], csex, cage, cnation[32], cpame[128], cskin, header[64], string[512];
+				GetPVarString(playerid, "cname", cname, MAX_PLAYER_NAME);
+				mysql_format(connects, query, sizeof(query), "SELECT `cID`, `cOwner`, `Name`, `cSex`, `cAge`, `cNation`, `cPame`, `cSkin` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
+				mysql_query(connects, query);
+				cache_get_value_name_int(0, "cID", cid);
+				cache_get_value_name_int(0, "cOwner", cownerid);
+				cache_get_value_name_int(0, "cSex", csex);
+				cache_get_value_name_int(0, "cAge", cage);
+				cache_get_value_name(0, "cNation", cnation, sizeof(cnation));
+				cache_get_value_name(0, "cPame", cpame, sizeof(cpame));
+				cache_get_value_name_int(0, "cSkin", cskin);
+				mysql_format(connects, query, sizeof(query), "SELECT `pName` FROM "TABLE_ACCOUNTS" WHERE `pID` = '%s' LIMIT 1", cownerid);
+				mysql_query(connects, query);
+				cache_get_value_name(0, "pName", cownername, sizeof(cownername));
+
+				format(header, sizeof(header), ""P"Інформація про персонажа. "W"%s.", cname);
+				format(string, sizeof(string), ""P"ID"W"\t%i\n"P"Власник"W"\t%i\n"P"Стать"W"\t%i\n"P"Вік"W"\t%i\n"P"Національність"W"\t%s\n"P"Опис"W"\t%s\n"P"Скін"W"\t%i", cid, cownername, csex, cage, cnation, cpame, cskin);
+				ShowPlayerDialog(playerid, D_CHAR_CONTROL_INFO, DST, header, string, "Редагувати", "Назад");
+			}
+			case 2: {
 				new query[128], cname[MAX_PLAYER_NAME];
 				GetPVarString(playerid, "cname", cname, MAX_PLAYER_NAME);
-				mysql_format(connects, query, sizeof(query),"DELETE FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
+				mysql_format(connects, query, sizeof(query), "DELETE FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
 				mysql_tquery(connects, query, "characters_panel", "i", playerid);
 			}
-			default: {
-				new header[128];
-				format(header, sizeof(header), ""P"Керування персонажами. "W"%s.", CI[playerid][cName]);
-				ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація. (Розробка)\n"P"3."W" Редагувати. (Розробка)\n"P"4."W" Видалити.", "Обрати", "Назад");
-			}
 		}
 		}
+	case D_CHAR_CONTROL_INFO: {
+		if(!response) {
+			new header[128], cname[MAX_PLAYER_NAME];
+			GetPVarString(playerid, "cname", cname, MAX_PLAYER_NAME);
+			format(header, sizeof(header), ""P"Керування персонажем. "W"%s.", cname);
+			ShowPlayerDialog(playerid, D_CHAR_CONTROL, DIALOG_STYLE_LIST, header, ""P"1."W" Заспавнити.\n"P"2."W" Інформація.\n"P"3."W" Видалити.", "Обрати", "Назад");
+		} else {
+			new query[256], cname[MAX_PLAYER_NAME], cid, cownerid, cownername[MAX_PLAYER_NAME], csex, cage, cnation[32], cpame[128], cskin, header[64], string[512];
+			GetPVarString(playerid, "cname", cname, MAX_PLAYER_NAME);
+			mysql_format(connects, query, sizeof(query), "SELECT `cID`, `cOwner`, `Name`, `cSex`, `cAge`, `cNation`, `cPame`, `cSkin` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
+			mysql_query(connects, query);
+			cache_get_value_name_int(0, "cID", cid);
+			cache_get_value_name_int(0, "cOwner", cownerid);
+			cache_get_value_name_int(0, "cSex", csex);
+			cache_get_value_name_int(0, "cAge", cage);
+			cache_get_value_name(0, "cNation", cnation, sizeof(cnation));
+			cache_get_value_name(0, "cPame", cpame, sizeof(cpame));
+			cache_get_value_name_int(0, "cSkin", cskin);
+			mysql_format(connects, query, sizeof(query), "SELECT `pName` FROM "TABLE_ACCOUNTS" WHERE `pID` = '%s' LIMIT 1", cownerid);
+			mysql_query(connects, query);
+			cache_get_value_name(0, "pName", cownername, sizeof(cownername));
+
+			format(header, sizeof(header), ""P"Інформація про персонажа. "W"%s.", cname);
+			format(string, sizeof(string), ""P"ID"W"\t%i\n"P"Власник"W"\t%i\n"P"Стать"W"\t%i\n"P"Вік"W"\t%i\n"P"Національність"W"\t%s\n"P"Опис"W"\t%s\n"P"Скін"W"\t%i", cid, cownername, csex, cage, cnation, cpame, cskin);
+			ShowPlayerDialog(playerid, D_CHAR_CONTROL_INFO, DST, header, string, "Редагувати", "Назад");
+		}
+	}
 	case D_CHAR_ADD_NAME: {
 		if(!response) return characters_panel(playerid);
 		if(strlen(inputtext) < 5 || strlen(inputtext) > 24) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DIALOG_STYLE_INPUT, ""P"Створення персонажа. "W"Ім'я.", ""W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
@@ -16859,15 +16903,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		SetPVarInt(playerid, "creatingcskin", strval(inputtext));
 
 		new csex = GetPVarInt(playerid, "creatingcsex"),
-		cnation = GetPVarInt(playerid, "creatingcnation"),
 		cage = GetPVarInt(playerid, "creatingcage"),
 		cskin = GetPVarInt(playerid, "creatingcskin");
 		
-		new cname[MAX_PLAYER_NAME], cpame[128], query[512];
+		new cname[MAX_PLAYER_NAME], cnation[32], cpame[128], query[512];
+		GetPVarString(playerid, "creatingcnation", cnation, sizeof(cnation));
 		GetPVarString(playerid, "creatingcname", cname, sizeof(cname));
 		GetPVarString(playerid, "creatingcpame", cpame, sizeof(cpame));
 
-		mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CHARACTERS" (`owner`, `Name`, `pSex`, `cNation`, `pAge`, `Pame`, `Skin`) VALUES ('%i', '%s', '%i', '%i', '%i', '%s', '%i')", PI[playerid][pID], cname, csex, cnation, cage, cpame, cskin);
+		mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CHARACTERS" (`cOwner`, `Name`, `cSex`, `cNation`, `cAge`, `cPame`, `cSkin`) VALUES ('%i', '%s', '%i', '%s', '%i', '%s', '%i')", PI[playerid][pID], cname, csex, cnation, cage, cpame, cskin);
 		mysql_query(connects, query);
 		
 		characters_panel(playerid);
@@ -19526,7 +19570,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendOK(playerid,"Вітаємо. Ви успішно влаштувалися на роботу.");
 			SendOK(playerid,"Пройдіть до курника, щоб розпочати роботу.");
 			EnableGPSForPlayer(playerid, -81.0577,2.4603,3.1172);
-			if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid,132);
+			if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid,132);
 			else A_SetPlayerSkin(playerid, 131);
 			for(new i = 0;i < 4;i++) PlayerTextDrawShow(playerid,work_td[playerid][i]);
 			PlayerTextDrawSetString(playerid,work_td[playerid][2],"Money:_$0");
@@ -19544,7 +19588,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendOK(playerid,"Вітаємо. Ви успішно влаштувалися на ферму.");
 				SendOK(playerid,"Для догляду за деревом, візьміть лійку та підлийте дерево.");
 				EnableGPSForPlayer(playerid, -110.0173,12.1429,3.1257);
-				if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid,35);
+				if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid,35);
 				else A_SetPlayerSkin(playerid, 157);
 				// for(new i = 0;i < 4;i++) {
 				// 	PlayerTextDrawShow(playerid,work_td[playerid][i]);
@@ -19600,7 +19644,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				TI[playerid][tJobGun][1] = 1;
 				TI[playerid][tJobSalary] = 0;
 				TI[playerid][jJobGunCreated] = 0;
-				if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid, 73);
+				if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 73);
 				else A_SetPlayerSkin(playerid, 53);
 				for(new i = 0;i < 4;i++) {
 					PlayerTextDrawShow(playerid,work_td[playerid][i]);
@@ -19628,7 +19672,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendOK(playerid,"Вітаємо, ви влаштувалися на лісопильню.");
 				SendInfo(playerid,"Щоб напиляти деревини, підійдіть до дерева.");
 				EnableGPSForPlayer(playerid, 1094.5377, -283.6824, 73.9922);
-				if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid, 260);
+				if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 260);
 				else A_SetPlayerSkin(playerid, 131);
 				SetPlayerAttachedObject(playerid,8,341,6);
 				for(new i = 0;i < 4;i++) {
@@ -20377,7 +20421,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(GetPlayerMoneyEx(playerid) < gBusiness[id][bizzPrice]*150) return SendError(playerid, "У вас недостатньо грошей.");
 					bizz_pay(id,gBusiness[id][bizzPrice]*150);
 					GiveMoney(playerid, -gBusiness[id][bizzPrice]*150,"купівля в спортзалі");
-					if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid, 80);
+					if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 80);
 					else A_SetPlayerSkin(playerid,192);
 					SendOK(playerid,"Щоб вийти на ринг із суперником, введіть "P"/fight"W".");
 					TI[playerid][tGym] = true;
@@ -20438,7 +20482,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 						SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 					}
-					else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+					else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 					TI[playerid][tGym] = false;
 					SendOK(playerid,"Ви заверширил тренування");
 				}
@@ -22594,7 +22638,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarInt(playerid,"ChangingSkin",0);
 			SendOK(playerid,"Ви придбали собі новий одяг.");
 			if(CI[playerid][pMember]) A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
-			else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+			else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 			AddItem(playerid, invent, 1);
 			cancel_skin(playerid);
 		}
@@ -25219,7 +25263,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				Casino_Flag[playerid][casino_crup] = 1;
 			}
 			else Casino_Flag[playerid][casino_crup] = 0;
-			new skin_fix = (CI[playerid][pSex] == 1) ? (171) : (194);
+			new skin_fix = (CI[playerid][cSex] == 1) ? (171) : (194);
 			if(CI[playerid][pMember] > 0) A_SetPlayerSkin(playerid,(GetPVarInt(playerid,"krup")) ? (CI[playerid][pFracSkin]) : (skin_fix));
 			else A_SetPlayerSkin(playerid,(GetPVarInt(playerid,"krup")) ? (GetPVarInt(playerid,"oldskinkrup")) : (skin_fix));
 			SetPVarInt(playerid,"krup",(GetPVarInt(playerid,"krup")) ? (false) : (true));
@@ -27692,7 +27736,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendInfo(playerid, "Робочий день закінчено.");
 			SetPlayerColor(playerid, TEAM_HIT_COLOR);
 			start_work[playerid] = 0;
-			A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+			A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 			SetArmour(playerid, 0);
 			UpdatePlayerData(playerid,"FracDuty",start_work[playerid]);
 		}
@@ -27983,7 +28027,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SendInfo(playerid, "Робочий день завершено.");
 					SetPlayerColor(playerid, TEAM_HIT_COLOR);
 					start_work[playerid] = 0;
-					A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+					A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 					SetArmour(playerid, 0);
 					UpdatePlayerData(playerid,"FracDuty",start_work[playerid]);
 				}
@@ -30662,7 +30706,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					return 1;
 				}
 				else {
-					if(CI[playerid][pSkin] != GetPlayerSkin(playerid)) return SendError(playerid, "Закінчіть робочий день на поточній роботі");
+					if(CI[playerid][cSkin] != GetPlayerSkin(playerid)) return SendError(playerid, "Закінчіть робочий день на поточній роботі");
 					if(GetPVarInt(playerid,"ChangingSkin") == 0) {
 						SetPVarInt(playerid,"ChangingSkin",1);
 						new Float: pos[4];
@@ -30681,7 +30725,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 						SetPlayerCameraLookAt(playerid, 258.7497, -41.3828, 1002.0234);
 					}
 					SetPVarInt(playerid, "curskin", GetPlayerSkin(playerid));
-					switch(CI[playerid][pSex]) {
+					switch(CI[playerid][cSex]) {
 					case 1: SetPVarInt(playerid,"join_ped_item",0);
 					case 2: SetPVarInt(playerid,"join_ped_item",71);
 					}
@@ -32000,7 +32044,7 @@ public OnPlayerSpawn(playerid) {
 	if(CI[playerid][pMember] == 0) start_work[playerid] = 0;
 	else if(IsMafiaOrGang(playerid)) start_work[playerid] = 1;
 	if(CI[playerid][pMember] && start_work[playerid]) A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
-	else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 
 	if(GetPVarInt(playerid,"Animation") == 2) {
 		ApplyAnimation(playerid, "CARRY", "null", 1.0, 0, 0, 0, 0, 0, 0);
@@ -32208,9 +32252,9 @@ SettingSpawn(playerid) {
 				new player1 = RingInfo[r][rgPlayer][0];
 				new player2 = RingInfo[r][rgPlayer][1];
 				GiveMoney(TI[playerid][tFight],(RingInfo[r][rgPrice]*2),"победа поединок");
-				if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid, 80);
+				if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 80);
 				else A_SetPlayerSkin(playerid,192);
-				if(CI[playerid][pSex] == 1) A_SetPlayerSkin(TI[playerid][tFight], 80);
+				if(CI[playerid][cSex] == 1) A_SetPlayerSkin(TI[playerid][tFight], 80);
 				else A_SetPlayerSkin(TI[playerid][tFight],192);
 				CI[TI[playerid][tFight]][pFight_off] += 1;
 				CI[playerid][pFight_off] += 1;
@@ -32239,7 +32283,7 @@ SettingSpawn(playerid) {
 		SetPlayerPosAC(playerid, 770.9481, 5.4735, 1000.7145, 76, 5);
 		SetPlayerVirtualWorld(playerid, 76);
 		SetPlayerInterior(playerid, 5);
-		if(CI[playerid][pSex] == 1) A_SetPlayerSkin(playerid, 80);
+		if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 80);
 		else A_SetPlayerSkin(playerid, 192);
 		return 1;
 	}
@@ -46164,13 +46208,13 @@ stock SelectCharacterSkin(playerid) {
 	PlayerTextDrawShow(playerid, SelectSkin[playerid][3]);
 	SelectTextDraw(playerid, 0x808080FF);
 
-	// switch(CI[playerid][pSex]) {
+	// switch(CI[playerid][cSex]) {
 	// case 1: SetPVarInt(playerid,"join_ped_item",Random(0,7));
 	// case 2: SetPVarInt(playerid,"join_ped_item",Random(8,14));
 	// }
 	// CancelSelectTextDraw(playerid);
 	
-	// return A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	// return A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 }
 CB: SpcarsAvto(playerid) {
 	for(new i = GetVehiclePoolSize()+1; --i != 0;) {
@@ -47284,7 +47328,7 @@ CB:characters_panel(playerid) {
 	new header[150], content[450], name[32];
 	new query[512], rows;
 
-	mysql_format(connects, query, sizeof(query), "SELECT `Name`, `cID` FROM "TABLE_CHARACTERS" WHERE `owner` = %i", PI[playerid][pID]);
+	mysql_format(connects, query, sizeof(query), "SELECT `Name`, `cID` FROM "TABLE_CHARACTERS" WHERE `cOwner` = %i", PI[playerid][pID]);
 	mysql_query(connects, query);
 	cache_get_row_count(rows);
 	if(rows) {
@@ -47609,7 +47653,7 @@ stock ShowStats(playerid,targetid,idx) {
 		"W"Країна народження: "G"%s\n\
 		"W"Національність: "G"%s\n\
 		"W"Стать: "G"%s\n\
-		"W"Чоловік/Дружина: "G"%s", string, CI[targetid][pCash], CI[targetid][pBank], CI[targetid][pDeposit], ctext, CI[targetid][cNation], (CI[targetid][pSex] == 1) ? ("Чоловік") : ("Жінка"), CI[targetid][pMarried]);
+		"W"Чоловік/Дружина: "G"%s", string, CI[targetid][pCash], CI[targetid][pBank], CI[targetid][pDeposit], ctext, CI[targetid][cNation], (CI[targetid][cSex] == 1) ? ("Чоловік") : ("Жінка"), CI[targetid][pMarried]);
 	if(CI[targetid][pPhone] == 0) format(string, sizeof(string), "%s\n"W"Номер телефону: "G"Відсутній", string);
 	else format(string, sizeof(string), "%s\n"W"Номер телефону: "G"%d", string, CI[targetid][pPhone]);
 	format(string, sizeof(string), "\
@@ -48395,8 +48439,13 @@ CB: load_character(playerid) {
 	if(!rows) return 1;
 
 	cache_get_value_name_int(0, "cID", CI[playerid][cID]);
+	cache_get_value_name_int(0, "cOwner", CI[playerid][cOwner]);
 	cache_get_value_name(0, "Name", CI[playerid][cName], MAX_PLAYER_NAME);
-	cache_get_value_name(0, "Pame", player_pame[playerid], 64);
+	cache_get_value_name_int(0,"cSex", CI[playerid][cSex]);
+	cache_get_value_name_int(0,"cAge", CI[playerid][cAge]);
+	cache_get_value_name(0,"cNation", CI[playerid][cNation], 32);
+	cache_get_value_name(0, "cPame", CI[playerid][cPame], 128);
+	cache_get_value_name_int(0,"cSkin", CI[playerid][cSkin]);
 	cache_get_value_name(0, "pMarried", CI[playerid][pMarried], MAX_PLAYER_NAME);
 	cache_get_value_name(0, "pEmail", CI[playerid][pEmail], 36);
 	cache_get_value_name(0, "pAccusedof", CI[playerid][pAccusedof], 43);
@@ -48418,7 +48467,6 @@ CB: load_character(playerid) {
 	cache_get_value_name_int(0,"youtube", CI[playerid][pYoutube]);
 	cache_get_value_name_float(0,"pFish", CI[playerid][pFish]);
 	cache_get_value_name_float(0,"pSnow", CI[playerid][pSnow]);
-	cache_get_value_name_int(0,"Skin", CI[playerid][pSkin]);
 	cache_get_value_name_int(0,"pLevel", CI[playerid][pLevel]);
 	cache_get_value_name_int(0, "pHacker", CI[playerid][pHacker]);
 	cache_get_value_name_int(0, "pCredit", CI[playerid][pCredit]);
@@ -48428,9 +48476,6 @@ CB: load_character(playerid) {
 	cache_get_value_name_int(0,"donatemoney", CI[playerid][pRouble]);
 	cache_get_value_name_int(0,"pJail", CI[playerid][pJail]);
 	cache_get_value_name_int(0,"tempkey", CI[playerid][pTempKey]);
-	cache_get_value_name_int(0,"pSex", CI[playerid][pSex]);
-	cache_get_value_name_int(0,"cNation", CI[playerid][cNation]);
-	cache_get_value_name_int(0,"pAge", CI[playerid][pAge]);
 	cache_get_value_name_int(0,"pArrested", CI[playerid][pArrested]);
 	cache_get_value_name_int(0,"mute", CI[playerid][pMute]);
 	cache_get_value_name_int(0,"pCrimes", CI[playerid][pCrimes]);
@@ -49269,20 +49314,20 @@ stock sad_delete(ID) {
 	return 1;
 }
 CB: use_medsex(playerid) {
-	if(CI[playerid][pSex] == 1) {
+	if(CI[playerid][cSex] == 1) {
 		new rand = random(sizeof(med_gskin));
-		CI[playerid][pSex] = 2;
-		if(CI[playerid][pMember] == 0) CI[playerid][pSkin] = med_gskin[rand];
+		CI[playerid][cSex] = 0;
+		if(CI[playerid][pMember] == 0) CI[playerid][cSkin] = med_gskin[rand];
 	}
 	else {
 		new rand = random(sizeof(med_mskin));
-		CI[playerid][pSex] = 1;
-		if(CI[playerid][pMember] == 0) CI[playerid][pSkin] = med_mskin[rand];
+		CI[playerid][cSex] = 1;
+		if(CI[playerid][pMember] == 0) CI[playerid][cSkin] = med_mskin[rand];
 	}
-	UpdatePlayerData(playerid,"pSex",CI[playerid][pSex]);
+	UpdatePlayerData(playerid,"cSex",CI[playerid][cSex]);
 	if(CI[playerid][pMember] == 0) {
-		UpdatePlayerData(playerid,"Skin",CI[playerid][pSkin]);
-		A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+		UpdatePlayerData(playerid,"cSkin",CI[playerid][cSkin]);
+		A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 	}
 	return 1;
 }
@@ -49607,7 +49652,7 @@ stock EndGun(playerid) {
 		A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 		SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 	}
-	else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 	if(GetPVarInt(playerid,"gun_salary") > 0) {
 		static const f_str[] = "Ви заробили "GREEN"$%d"W".";
 		new string[sizeof(f_str) +1 + (-2 + 10)];
@@ -49641,7 +49686,7 @@ stock EndWood(playerid) {
 		A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 		SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 	}
-	else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 	DisablePlayerCheckpoint(playerid);
 	if(GetPVarInt(playerid,"wood_salary") > 0) {
 		static const f_str[] = "Ви заробили "GREEN"$%d"W".";
@@ -49678,7 +49723,7 @@ stock EggEnd(playerid) { // завершение на ферме
 		A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 		SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 	}
-	else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 	if(GetPVarInt(playerid,"sad_salary") > 0) {
 		static const f_str[] = "Ви заробили "GREEN"$%d"W".";
 		new string[sizeof(f_str) +1 + (-2 + 5)];
@@ -49714,7 +49759,7 @@ stock EndSad(playerid) {
 		A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 		SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 	}
-	else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 4)) RemovePlayerAttachedObject(playerid, 4);
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
 	if(GetPVarInt(playerid,"sad_salary") > 0) {
@@ -51551,7 +51596,7 @@ stock GetEngineStat(vehicleid) {
 }
 GetVehicleState(vehicleid) return VehicleState[vehicleid];
 stock skin_player(playerid) {
-	A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+	A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 	CI[playerid][pFracSkin] = 0;
 	UpdatePlayerData(playerid,"pModel",0);
 }
@@ -51845,7 +51890,7 @@ stock ShowFPass(playerid,actplayerid) {
 	}
 	strcat(string, "\n\t"P"ЗАГАЛЬНІ ДАНІ:\n\n");
 	format(string, sizeof(string), "%s"W"\tІм'я та Прізвище: "P"%s"W"\n\tВік: "P"%d років"W"\n\tМісце роботи: "P"%s"W"\n\t%s: "P"%s"W"\n\tЗаконослухняність: "P"%d"W"\n\n",
-	string,CI[playerid][cName],CI[playerid][pLevel],jobname,(CI[playerid][pSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(CI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"),CI[playerid][pZakonp]);
+	string,CI[playerid][cName],CI[playerid][pLevel],jobname,(CI[playerid][cSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(CI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"),CI[playerid][pZakonp]);
 	format(string, sizeof(string), "%s"W"\tМісце проживання:\n\n\t"W"Будинок: "P"%s"W"\n\tКлас будинку: "P"%s"W"\n\n", string,housenumber,classname);
 	if(CI[playerid][pRank] > 0 && CI[playerid][pMember] > 0) {
 		format(string, sizeof(string), "%s"W"\tМісце праці: "P""W"\n\n\tОрганізація: "P"%s"W"\n\tПосада: "P"%s"W"\n\n\n",string, FI[TI[playerid][tMasked]][fName],GetRankName(TI[playerid][tMasked],TI[playerid][tFakePass]+1));
@@ -51976,7 +52021,7 @@ stock ShowPass(playerid,actplayerid) {
 	}
 	strcat(string, "\n\t"P"Загальні дані:\n\n");
 	format(string, sizeof(string), "%s\t"W"Ім'я та прізвище: "P"%s\n\t"W"Вік: "P"%d років\n\t"W"Місце роботи: "P"%s\n\t"W"%s: "P"%s\n\t"W"Законослухняність: "P"%d\n\n",
-	string,CI[playerid][cName],CI[playerid][pLevel],jobname, (CI[playerid][pSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(CI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"),CI[playerid][pZakonp]);
+	string,CI[playerid][cName],CI[playerid][pLevel],jobname, (CI[playerid][cSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(CI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"),CI[playerid][pZakonp]);
 	format(string, sizeof(string), "%s\t"W"Місце проживання:\n\n\t"W"Дім: "P"%s\n\t"W"Клас будинку: "P"%s\n\n", string,housenumber,classname);
 	if(CI[playerid][pRank] > 0 && CI[playerid][pMember] > 0) {
 		format(string, sizeof(string), "%s\t"W"Місце праці:\n\n\t"W"Організація: "P"%s\n\t"W"Посада: "P"%s\n\n\n",string, FI[CI[playerid][pMember]][fName],GetRankName(CI[playerid][pMember],CI[playerid][pRank]));
@@ -53095,9 +53140,9 @@ CMD:skin(playerid, params[]) {
 	new skin;
 	if(sscanf(params, "d",skin)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /skin [skinid]");
 	//if(skin == 74 || skin > 311 || skin < 1) return SendError(playerid, "Неправильний ID скіна.");
-	CI[playerid][pSkin] = skin;
-	A_SetPlayerSkin(playerid, CI[playerid][pSkin]);
-	UpdatePlayerData(playerid,"Skin",CI[playerid][pSkin]);
+	CI[playerid][cSkin] = skin;
+	A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
+	UpdatePlayerData(playerid,"cSkin",CI[playerid][cSkin]);
 	return 1;
 }
 CMD:inf(playerid, params[]) { 
@@ -54634,12 +54679,12 @@ CMD:setskin(playerid, params[]) {
 	if(sscanf(params, "ud", giveplayerid,skin)) return SendClientMessage(playerid, COLOR_WHITE,"Використайте: /setskin [playerid] [skinid]");
 	//if(skin == 74 || skin > 311 || skin < 1) return SendError(playerid, "Неправильний ID Скіна.");
 	if(!IsPlayerConnected(giveplayerid)) return SendError(playerid,not_id);
-	CI[giveplayerid][pSkin] = skin;
+	CI[giveplayerid][cSkin] = skin;
 	new string[72];
 	format(string, sizeof(string), "Ви змінили скін %s на %i.",CI[giveplayerid][cName],skin);
 	SendOK(playerid, string);
-	A_SetPlayerSkin(giveplayerid, CI[giveplayerid][pSkin]);
-	UpdatePlayerData(giveplayerid,"Skin",CI[giveplayerid][pSkin]);
+	A_SetPlayerSkin(giveplayerid, CI[giveplayerid][cSkin]);
+	UpdatePlayerData(giveplayerid,"cSkin",CI[giveplayerid][cSkin]);
 	return 1;
 }
 CMD:fuelcars(playerid, params[]) {
@@ -55026,7 +55071,7 @@ CMD:pame(playerid, params[]) {
     FSCM(playerid,COLOR_BLUE,"Ви створили опис персонажа: %s.", params[0]);
 	new query[155];
 	format(player_pame[playerid],64,"%s",params[0]);
-	mysql_format(connects, query, sizeof(query),"UPDATE "TABLE_CHARACTERS" SET `Pame` = '%s' WHERE `cID` = '%d' LIMIT 1",player_pame[playerid],CI[playerid][cID]);
+	mysql_format(connects, query, sizeof(query),"UPDATE "TABLE_CHARACTERS" SET `cPame` = '%s' WHERE `cID` = '%d' LIMIT 1",player_pame[playerid],CI[playerid][cID]);
 	mysql_tquery(connects, query, "", "") ;
 	AddPame(playerid);
     return 1;
@@ -55035,7 +55080,7 @@ CMD:dellpame(playerid, params[]) {
     if(pame_text[playerid] == Text3D:-1) return SendError(playerid, "Ви не створювали опис персонажу. Використайте: /pame [description]"); // Чи є опис у гравця.
 	new query[155];
 	format(player_pame[playerid],64,"");
-	mysql_format(connects, query, sizeof(query),"UPDATE "TABLE_CHARACTERS" SET `Pame` = '' WHERE `cID` = '%d' LIMIT 1",player_pame[playerid],CI[playerid][cID]);
+	mysql_format(connects, query, sizeof(query),"UPDATE "TABLE_CHARACTERS" SET `cPame` = '' WHERE `cID` = '%d' LIMIT 1",player_pame[playerid],CI[playerid][cID]);
 	mysql_tquery(connects, query, "", "") ;
     SendOK(playerid, "Ви видалили опис свого персонажу.");
     Delete3DTextLabel(pame_text[playerid]);
@@ -64954,7 +64999,7 @@ CB: player_timer(playerid) {
 				A_SetPlayerSkin(playerid,CI[playerid][pFracSkin]);
 				SetPlayerColor(playerid,gFractionSpawn[CI[playerid][pMember]][fracColor]);
 			}
-			else A_SetPlayerSkin(playerid,CI[playerid][pSkin]);
+			else A_SetPlayerSkin(playerid,CI[playerid][cSkin]);
 			TI[playerid][tBuild] = 0;
 			TI[playerid][tBuildCount] = 0;
 			TI[playerid][tBuildAtt] = 0;
@@ -66836,7 +66881,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 							A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][0],GetPVarFloat(DI[id][duel_id][0],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_z"),0,0);
 						DI[id][duel_point_2]++;
 						duel_end_1(playerid);
@@ -66846,7 +66891,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 							A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][1],GetPVarFloat(DI[id][duel_id][1],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_z"),0,0);
 						DI[id][duel_leave][1] = 1;
 						DI[id][duel_id][1] = INVALID_PLAYER_ID;
@@ -66890,7 +66935,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 							A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][0],GetPVarFloat(DI[id][duel_id][0],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_z"),0,0);
 						DI[id][duel_leave][0] = 1;
 						DI[id][duel_id][0] = INVALID_PLAYER_ID;
@@ -66918,7 +66963,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 							A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][1],GetPVarFloat(DI[id][duel_id][1],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_z"),0,0);
 						DI[id][duel_leave][1] = 1;
 						DI[id][duel_id][1] = INVALID_PLAYER_ID;
@@ -66946,7 +66991,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][2]][pMember] && start_work[DI[id][duel_id][2]]) {
 							A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][2],GetPVarFloat(DI[id][duel_id][2],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_z"),0,0);
 						DI[id][duel_leave][2] = 1;
 						DI[id][duel_id][2] = INVALID_PLAYER_ID;
@@ -66974,7 +67019,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 							A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][3],GetPVarFloat(DI[id][duel_id][3],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_z"),0,0);
 						DI[id][duel_leave][3] = 1;
 						DI[id][duel_id][3] = INVALID_PLAYER_ID;
@@ -67036,7 +67081,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 							A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][0],GetPVarFloat(DI[id][duel_id][0],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_z"),0,0);
 						DI[id][duel_leave][0] = 1;
 						DI[id][duel_id][0] = INVALID_PLAYER_ID;
@@ -67064,7 +67109,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 							A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][1],GetPVarFloat(DI[id][duel_id][1],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_z"),0,0);
 						DI[id][duel_leave][1] = 1;
 						DI[id][duel_id][1] = INVALID_PLAYER_ID;
@@ -67092,7 +67137,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][2]][pMember] && start_work[DI[id][duel_id][2]]) {
 							A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][2],GetPVarFloat(DI[id][duel_id][2],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_z"),0,0);
 						DI[id][duel_leave][2] = 1;
 						DI[id][duel_id][2] = INVALID_PLAYER_ID;
@@ -67120,7 +67165,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 							A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][3],GetPVarFloat(DI[id][duel_id][3],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_z"),0,0);
 						DI[id][duel_leave][3] = 1;
 						DI[id][duel_id][3] = INVALID_PLAYER_ID;
@@ -67148,7 +67193,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][4]][pMember] && start_work[DI[id][duel_id][4]]) {
 							A_SetPlayerSkin(DI[id][duel_id][4],CI[DI[id][duel_id][4]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][4],CI[DI[id][duel_id][4]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][4],CI[DI[id][duel_id][4]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][4],GetPVarFloat(DI[id][duel_id][4],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][4],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][4],"pos_comp_z"),0,0);
 						DI[id][duel_leave][4] = 1;
 						DI[id][duel_id][4] = INVALID_PLAYER_ID;
@@ -67176,7 +67221,7 @@ stock end_duel(playerid,type) {
 						if(CI[DI[id][duel_id][5]][pMember] && start_work[DI[id][duel_id][5]]) {
 							A_SetPlayerSkin(DI[id][duel_id][5],CI[DI[id][duel_id][5]][pFracSkin]);
 						}
-						else A_SetPlayerSkin(DI[id][duel_id][5],CI[DI[id][duel_id][5]][pSkin]);
+						else A_SetPlayerSkin(DI[id][duel_id][5],CI[DI[id][duel_id][5]][cSkin]);
 						SetPlayerPosAC(DI[id][duel_id][5],GetPVarFloat(DI[id][duel_id][5],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][5],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][5],"pos_comp_z"),0,0);
 						DI[id][duel_leave][5] = 1;
 						DI[id][duel_id][5] = INVALID_PLAYER_ID;
@@ -67216,7 +67261,7 @@ stock duel_end_1(playerid) {
 			if(CI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 				A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][cSkin]);
 
 			SetPlayerPosAC(DI[id][duel_id][0],GetPVarFloat(DI[id][duel_id][0],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][0], 0);
@@ -67240,7 +67285,7 @@ stock duel_end_1(playerid) {
 			if(CI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 				A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][1],GetPVarFloat(DI[id][duel_id][1],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][1], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][1], 0);
@@ -67267,7 +67312,7 @@ stock duel_end_2(playerid) {
 			if(CI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 				A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][0],GetPVarFloat(DI[id][duel_id][0],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][0], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][0], 0);
@@ -67281,7 +67326,7 @@ stock duel_end_2(playerid) {
 			if(CI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 				A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][1],GetPVarFloat(DI[id][duel_id][1],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][1], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][1], 0);
@@ -67312,7 +67357,7 @@ stock duel_end_2(playerid) {
 			if(CI[DI[id][duel_id][2]][pMember] && start_work[DI[id][duel_id][2]]) {
 				A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][2],GetPVarFloat(DI[id][duel_id][2],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][2], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][2], 0);
@@ -67326,7 +67371,7 @@ stock duel_end_2(playerid) {
 			if(CI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 				A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][3],GetPVarFloat(DI[id][duel_id][3],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][3], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][3], 0);
@@ -67362,7 +67407,7 @@ stock duel_end_3(playerid) {
 			if(CI[DI[id][duel_id][0]][pMember] && start_work[DI[id][duel_id][0]]) {
 				A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][0],CI[DI[id][duel_id][0]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][0],GetPVarFloat(DI[id][duel_id][0],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][0],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][0], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][0], 0);
@@ -67376,7 +67421,7 @@ stock duel_end_3(playerid) {
 			if(CI[DI[id][duel_id][1]][pMember] && start_work[DI[id][duel_id][1]]) {
 				A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][1],CI[DI[id][duel_id][1]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][1],GetPVarFloat(DI[id][duel_id][1],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][1],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][1], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][1], 0);
@@ -67390,7 +67435,7 @@ stock duel_end_3(playerid) {
 			if(CI[DI[id][duel_id][2]][pMember] && start_work[DI[id][duel_id][2]]) {
 				A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][2],CI[DI[id][duel_id][2]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][2],GetPVarFloat(DI[id][duel_id][2],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][2],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][2], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][2], 0);
@@ -67428,7 +67473,7 @@ stock duel_end_3(playerid) {
 			if(CI[DI[id][duel_id][3]][pMember] && start_work[DI[id][duel_id][3]]) {
 				A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][2]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][3],CI[DI[id][duel_id][3]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][3],GetPVarFloat(DI[id][duel_id][3],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][3],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][3], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][3], 0);
@@ -67441,7 +67486,7 @@ stock duel_end_3(playerid) {
 			if(CI[DI[id][duel_id][4]][pMember] && start_work[DI[id][duel_id][4]]) {
 				A_SetPlayerSkin(DI[id][duel_id][4],CI[DI[id][duel_id][4]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][4],CI[DI[id][duel_id][4]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][4],CI[DI[id][duel_id][4]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][4],GetPVarFloat(DI[id][duel_id][4],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][4],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][4],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][4], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][4], 0);
@@ -67454,7 +67499,7 @@ stock duel_end_3(playerid) {
 			if(CI[DI[id][duel_id][5]][pMember] && start_work[DI[id][duel_id][5]]) {
 				A_SetPlayerSkin(DI[id][duel_id][5],CI[DI[id][duel_id][5]][pFracSkin]);
 			}
-			else A_SetPlayerSkin(DI[id][duel_id][5],CI[DI[id][duel_id][5]][pSkin]);
+			else A_SetPlayerSkin(DI[id][duel_id][5],CI[DI[id][duel_id][5]][cSkin]);
 			SetPlayerPosAC(DI[id][duel_id][5],GetPVarFloat(DI[id][duel_id][5],"pos_comp_x"),GetPVarFloat(DI[id][duel_id][5],"pos_comp_y"),GetPVarFloat(DI[id][duel_id][5],"pos_comp_z"),0,0);
 			SetPlayerInterior(DI[id][duel_id][5], 0);
 			SetPlayerVirtualWorld(DI[id][duel_id][5], 0);
@@ -67721,7 +67766,7 @@ stock UseItem(playerid, itemid, item) {
 			return 1;
 		}
 	case 1..286, 288..311: {
-			if(CI[playerid][pSkin] != GetPlayerSkin(playerid))
+			if(CI[playerid][cSkin] != GetPlayerSkin(playerid))
 			{
 				ShowPlayerDialog(playerid,DIALOG_NONE,DSM, ""P"Інвентар",""W"Закінчіть робочий день на поточній роботі","Закрити","");
 				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
@@ -67743,10 +67788,10 @@ stock UseItem(playerid, itemid, item) {
 				ClickInv[playerid] = -1;
 				return 1;
 			}
-			AddItem(playerid, skin_undress[CI[playerid][pSkin]][0], 1);
-			CI[playerid][pSkin] = ItemsInfo[CI[playerid][pInventory][item]][ItemModel];
+			AddItem(playerid, skin_undress[CI[playerid][cSkin]][0], 1);
+			CI[playerid][cSkin] = ItemsInfo[CI[playerid][pInventory][item]][ItemModel];
 			A_SetPlayerSkin(playerid, ItemsInfo[CI[playerid][pInventory][item]][ItemModel]);
-			UpdatePlayerData(playerid, "Skin", CI[playerid][pSkin]);
+			UpdatePlayerData(playerid, "cSkin", CI[playerid][cSkin]);
 			RefreshInv(playerid, item);
 			SaveInventory(playerid);
 			return 1;
@@ -67873,7 +67918,7 @@ stock ShowMedcard(playerid,actplayerid) {
 	new string[512];
 	strcat(string, "\n\t"P"Інформація:\n\n");
 	format(string, sizeof(string), "%s\t"W"Ім'я: "P"%s\n\t"W"Вік: "P"%d\n\t"W"Стать: "P"%s\n\n",
-	string,CI[playerid][cName],CI[playerid][pLevel],(CI[playerid][pSex] == 1) ? ("Чоловічий") : ("Жіночій"));
+	string,CI[playerid][cName],CI[playerid][pLevel],(CI[playerid][cSex] == 1) ? ("Чоловічий") : ("Жіночій"));
 	format(string, sizeof(string), "%s\t"W"Хвороби:\n\n\t"W"Наркозалежність: "P"%d\n\t"W"Грип: "P"%s\n\t"W"Анорексія: "P"%s\n\n", string,CI[playerid][pAddiction],(CI[playerid][pDisease][0] == 1) ? ("Хворий") : ("Здоровий"),(CI[playerid][pDisease][1] == 1) ? ("Хворий") : ("Здоровий"));
 	SPD(actplayerid,DIALOG_NONE,DSM,"        		{FAD086}Медична карта        		",string,"Закрити","");
 	return 1;
