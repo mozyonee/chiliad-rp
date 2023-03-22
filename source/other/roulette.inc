@@ -158,7 +158,7 @@ stock roulette_Start(playerid) {
 		return SendClientMessage(playerid, -1, "Для відкриття необхідно мати "#ROULETTE_OPEN_PRICE" UAH.");
 	}
 	CI[playerid][pRouble] -= ROULETTE_OPEN_PRICE;
-	UpdatePlayerData(playerid, "donatemoney", CI[playerid][pRouble]);
+	UpdateCharacterData(playerid, "donatemoney", CI[playerid][pRouble]);
 
 	roulette_UpdateBalanceTD(playerid);
 	PlayerTextDrawSetString(playerid, Roulette_PTD[playerid][27], "STARTING..");
@@ -882,7 +882,7 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 		default: return true;
 
 	}
-	UpdatePlayerData(playerid, "donatemoney", CI[playerid][pRouble]);
+	UpdateCharacterData(playerid, "donatemoney", CI[playerid][pRouble]);
     format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "{479FF2}[Успіх] "W"Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
 	SendClientMessage(playerid, COLOR_WHITE, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
@@ -899,7 +899,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 	switch (db_type_id) {
 		case PRIZE_TYPE_LEVEL: {
 			CI[playerid][pLevel] += db_model_id;
-			UpdatePlayerData(playerid, "pLevel", CI[playerid][pLevel]);
+			UpdateCharacterData(playerid, "pLevel", CI[playerid][pLevel]);
 			CI[playerid][pExp] = 0;
 
 			DollahScoreUpdate(playerid);
@@ -910,7 +910,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 
 			if (CI[playerid][pExp] >= (CI[playerid][pLevel]) * 6) {
 				CI[playerid][pLevel] += 1;
-				UpdatePlayerData(playerid, "pLevel", CI[playerid][pLevel]);
+				UpdateCharacterData(playerid, "pLevel", CI[playerid][pLevel]);
 				CI[playerid][pExp] = 0;
 				DollahScoreUpdate(playerid);
 				SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
@@ -925,7 +925,7 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 				case 15: CI[playerid][pPremium] = gettime() + 60*60*24*15;
 				case 30: CI[playerid][pPremium] = gettime() + 60*60*24*30;
 			}
-        	UpdatePlayerData(playerid,"Premium",CI[playerid][pPremium]);
+        	UpdateCharacterData(playerid,"Premium",CI[playerid][pPremium]);
 		}
 		case PRIZE_TYPE_BOOST:{
 		    if(CI[playerid][pBoost] > 1) return SendClientMessage(playerid, COLOR_GREY,"У Вас вже є х2 зарплата. Рекомендуємо активувати виграну після завершення старої!");
@@ -935,11 +935,11 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 				case 9:  CI[playerid][pBoost] = gettime() + 60*60*24*9;
 				case 24: CI[playerid][pBoost] = gettime() + 60*60*24*24;
 			}
-            UpdatePlayerData(playerid,"pBoost",CI[playerid][pBoost]);
+            UpdateCharacterData(playerid,"pBoost",CI[playerid][pBoost]);
 		}
 		case PRIZE_TYPE_DONATE: {
 			CI[playerid][pRouble] += db_model_id;
-			UpdatePlayerData(playerid, "donatemonegy", CI[playerid][pRouble]);
+			UpdateCharacterData(playerid, "donatemonegy", CI[playerid][pRouble]);
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id, "usePrize");
 		case PRIZE_TYPE_SKIN: AddItem(playerid, 140 + db_model_id, 1);

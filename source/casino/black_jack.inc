@@ -479,7 +479,7 @@ blackjack_CheckWinners(tableid)
 			if (player_score > 21)
 			{ // lose
 				CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
+				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_LOSE;
 			}
 			else if (dealer_score > 21)
@@ -489,7 +489,7 @@ blackjack_CheckWinners(tableid)
 				printf(str), /*WriteLog("logs_casino", STRING_GLOBAL), */
 
 				CI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
+				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_WON;
 			}
 			else if (player_score == dealer_score)
@@ -502,7 +502,7 @@ blackjack_CheckWinners(tableid)
 				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
 				CI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
+				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_WON;
 			}
 			else
@@ -512,7 +512,7 @@ blackjack_CheckWinners(tableid)
 				printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
 
 				CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
-				UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
+				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_LOSE;
 			}
 			switch (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id])
@@ -824,7 +824,7 @@ blackjack_LeaveGame(playerid) {
 					);
 					printf(str); /*WriteLog("logs_casino", str), */
 					CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][0];
-					UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
+					UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				}
 				if (BJ_PlayerInfo[playerid][pBlackJackBet][1] && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_LOSE) {
 					new str[300];
@@ -833,7 +833,7 @@ blackjack_LeaveGame(playerid) {
 					);
 					printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
 					CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][1];
-					UpdatePlayerData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
+					UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				}
 			}
 		}

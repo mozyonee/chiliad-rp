@@ -145,7 +145,7 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			{
 				case 1: {
 					CI[playerid][pSearch] = 3;
-					UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+					UpdateCharacterData(playerid,"pSearch",CI[playerid][pSearch]);
 					SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 					
 				}
@@ -295,7 +295,7 @@ stock HackerCamera(playerid, idx)
 			SetPlayerPos(playerid,1480.6001, -1768.7527, 50.7675);
 			TogglePlayerControllable(playerid, false);
 			CI[playerid][pSearch] = 2;
-			UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+			UpdateCharacterData(playerid,"pSearch",CI[playerid][pSearch]);
 			SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 			SetTimerEx("HackCamer",1000*5,false,"i",playerid);
 			SendClientMessage(playerid, COLOR_GRAY, "[Мысли]: Отлично, я ещё и в розыске...");
@@ -440,7 +440,7 @@ stock ShowTestHacker(playerid){
 }
 stock NextHacker(playerid){
 	CI[playerid][pHacker] = 1;
-	UpdatePlayerData(playerid,"pHacker",CI[playerid][pHacker]);
+	UpdateCharacterData(playerid,"pHacker",CI[playerid][pHacker]);
 	return 1;
 }
 //
@@ -459,7 +459,7 @@ CMD:sethacker(playerid, params[]){
 	if(!IsPlayerConnected(id)) return SendClientMessage(playerid, COLOR_GREY, "Игрок не в сети!");
 	if(!TI[id][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
 	CI[id][pHacker] = level;
-	UpdatePlayerData(id, "pHacker", CI[id][pHacker]);
+	UpdateCharacterData(id, "pHacker", CI[id][pHacker]);
 	new str[150];
 	format(str, sizeof(str), "Вы успешно выдали игроку %s %d hacker lvl", CI[id][cName], level);
 	SendClientMessage(playerid, COLOR_YELLOW, str);
@@ -594,7 +594,7 @@ stock HideButton(playerid, id){
 			new vehicleid = GetPlayerVehicleID(playerid);
 			ToggleEngine(vehicleid, playerid);
 			CI[playerid][pKeyCar] --;
-			UpdatePlayerData(playerid,"pKeyCar", CI[playerid][pKeyCar]);
+			UpdateCharacterData(playerid,"pKeyCar", CI[playerid][pKeyCar]);
 			SendClientMessage(playerid, COLOR_GREY, "Вы успешно завели двигатель с помощью электронной отммычки!");
 			InsertPlayerHacker(playerid, "Угон государственного транспорта");
 			SetPVarInt(playerid, "VehicleHackers", GetPlayerVehicleID(playerid));
@@ -607,7 +607,7 @@ stock HideButton(playerid, id){
 			{
 				case 2:{
 					CI[playerid][pSearch] = 4;
-					UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+					UpdateCharacterData(playerid,"pSearch",CI[playerid][pSearch]);
 					SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 					SendClientMessage(playerid, COLOR_RED, "[СИСТЕМА]: Вам было выдано 4 звезды. ");
 				}
@@ -649,10 +649,10 @@ stock NextlvlHacker(playerid, count){
 	CI[playerid][pHackProg]+=count;
 	if(CI[playerid][pHackProg] > 19) {
 		CI[playerid][pHacker] ++;
-		UpdatePlayerData(playerid, "pHacker", CI[playerid][pHacker]);
+		UpdateCharacterData(playerid, "pHacker", CI[playerid][pHacker]);
 		CI[playerid][pHackProg] = 0;
 	}
-	UpdatePlayerData(playerid, "pHackProg", CI[playerid][pHackProg]);
+	UpdateCharacterData(playerid, "pHackProg", CI[playerid][pHackProg]);
 	new str[150];
 	format(str, sizeof(str), "До следующего уровня хакера осталось %d/20", CI[playerid][pHackProg]);
 	SendClientMessage(playerid, COLOR_YELLOW, str);
@@ -677,10 +677,10 @@ stock ShowButton(playerid, id){
 stock unarrest(playerid){
 	CI[playerid][pJail] = 0;
 	CI[playerid][pJailTime] = 0;
-	UpdatePlayerData(playerid,"pJail",CI[playerid][pJail]);
-	UpdatePlayerData(playerid,"pJailTime",CI[playerid][pJailTime]);
+	UpdateCharacterData(playerid,"pJail",CI[playerid][pJail]);
+	UpdateCharacterData(playerid,"pJailTime",CI[playerid][pJailTime]);
 	CI[playerid][pSearch] = 0;
-	UpdatePlayerData(playerid,"pSearch",CI[playerid][pSearch]);
+	UpdateCharacterData(playerid,"pSearch",CI[playerid][pSearch]);
 	SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 	PlayerSpawn(playerid);
 	return 1;
