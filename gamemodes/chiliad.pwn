@@ -4,7 +4,7 @@
 #include 	<a_mysql>
 #include	<foreach>
 // #include <profiler> // CMD:dump
-#include <SKY>
+#include 	<SKY>
 #include 	<Pawn.RakNet>
 #include 	<streamer>
 #include 	<sscanf2>
@@ -31712,16 +31712,18 @@ public OnPlayerDeath(playerid, killerid, reason) {
 				if(CI[killerid][pMember] == GZInfo[i][gNapad] && CI[killerid][pMember] != CI[playerid][pMember] || CI[killerid][pMember] == GZInfo[i][gFrakVlad] && CI[killerid][pMember] != CI[playerid][pMember]) {
 					if(CI[playerid][pMember] == GZInfo[i][gNapad] || CI[playerid][pMember] == GZInfo[i][gFrakVlad]) {
 						switch(reason) {
-							case 0, 5: CountOnZone[CI[killerid][pMember]] += 3;
+							case 0,5: CountOnZone[CI[killerid][pMember]] += 3;
 							default: CountOnZone[CI[killerid][pMember]] ++;
 						}
 						ghetto_OnPlayerKill(killerid, playerid);
 						CI[killerid][pZahvat] += 1;
-						UpdateCharacterData(killerid,"zahvat", CI[killerid][pZahvat]);
-						SetPVarInt(killerid, "killed_shot", GetPVarInt(killerid, "killed_shot") + 1);
+						UpdateCharacterData(killerid,"zahvat",CI[killerid][pZahvat]);
+						SetPVarInt(killerid,"killed_shot",GetPVarInt(killerid,"killed_shot")+1);
 						SendDead(CI[killerid][pMember], CI[playerid][pMember], killerid, playerid, reason);
 						if(QuestProgress[killerid][18] < 50 && AcceptQuest[killerid][18] != 0) QuestProgress[killerid][18] ++,save_quest(killerid,18);
-						if(QuestProgress[killerid][18] == 50 && AcceptQuest[killerid][8] != 0) SPD(killerid, DIALOG_NONE, DSM, P"Виконання квесту.", W"Ви закінчили виконання квесту 'Війна за територію'\n\t"NO"Квест можна завершити в списку квестів (/quest)","Закрити","");
+						if(QuestProgress[killerid][18] == 50 && AcceptQuest[killerid][18] != 0) {
+							SPD(killerid, DIALOG_NONE, DSM, P"Виконання квесту.", W"Ви закінчили виконання квесту 'Війна за територію'\n\t"NO"Квест можна завершити в списку квестів (/quest)","Закрити","");
+						}
 					}
 				}
 			}
