@@ -4530,7 +4530,7 @@ forward WC_OnPlayerDamage(&playerid, &Float:amount, &issuerid, &weapon, &bodypar
 #endif
 #define OnPlayerPrepareDeath WC_OnPlayerPrepareDeath
 #if defined WC_OnPlayerPrepareDeath
-forward WC_OnPlayerPrepareDeath(playerid, const acinimlib[32], const animname[32], &anim_lock, &respawn_time);
+forward WC_OnPlayerPrepareDeath(playerid, const animlib[32], const animname[32], &anim_lock, &respawn_time);
 #endif
 
 
