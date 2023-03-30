@@ -50839,18 +50839,18 @@ stock ghetto_war() {
 					PlayerTextDrawColor(m, CaptPlayer[m][1], gang_color(GZInfo[i][gFrakVlad]));
 					GangZoneFlashForPlayer(m, GZInfo[i][gID], GetGangColor(GZInfo[i][gNapad]));
 					new string[128];
-					format(string, sizeof(string), "%s",gang_name(GZInfo[i][gNapad]));
+					format(string, sizeof(string), "%s", gang_name(GZInfo[i][gNapad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][0], string);
 
 					TI[m][tAttack] = GZInfo[i][gNapad];
 					TI[m][tDefend] = GZInfo[i][gFrakVlad];
-					format(string, sizeof(string), "%s",gang_name(GZInfo[i][gFrakVlad]));
+					format(string, sizeof(string), "%s", gang_name(GZInfo[i][gFrakVlad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][1], string);
 					PlayerTextDrawShow(m, CaptPlayer[m][1]);
 					SetPVarInt(m, "ppkz", true);
                     CreatePlayerCapture(m);
-					for(new z = 0;z < 34;z++) TextDrawShowForPlayer(m, Capture[z]);
-					for(new z = 0;z < 5;z++)  PlayerTextDrawShow(m, CaptPlayer[m][z]);
+					for(new z; z < 34; z++) TextDrawShowForPlayer(m, Capture[z]);
+					for(new z; z < 5; z++)  PlayerTextDrawShow(m, CaptPlayer[m][z]);
 				} else
 				{
 					new string[128];
@@ -50868,9 +50868,9 @@ stock ghetto_war() {
 					PlayerTextDrawColor(m, CaptPlayer[m][0], gang_color(GZInfo[i][gNapad]));
 					PlayerTextDrawColor(m, CaptPlayer[m][1], gang_color(GZInfo[i][gFrakVlad]));
 
-					format(string, sizeof(string), "%s",gang_name(GZInfo[i][gNapad]));
+					format(string, sizeof(string), "%s", gang_name(GZInfo[i][gNapad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][0], string);
-					format(string, sizeof(string), "%s",gang_name(GZInfo[i][gFrakVlad]));
+					format(string, sizeof(string), "%s", gang_name(GZInfo[i][gFrakVlad]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][1], string);
 					PlayerTextDrawShow(m, CaptPlayer[m][1]);
 				}
