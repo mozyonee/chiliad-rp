@@ -107,7 +107,7 @@ native 		IsValidVehicle(vehicleid);
 #define 	AUTO_CP_COUNT 							28	// Кількість чекпоінтів АШ.
 #define	 	MAX_OBJECT_MOVED 						34	// Кількість MOVED.
 #define 	TP_COUNT 								101	// Кількість пікапів (вхід/вихід).
-#define 	PICKUPS_COUNT 							100	// Кількість пікапів.
+#define 	PICKUPS_COUNT 							200	// Кількість пікапів.
 #define 	MOROZ_BALLAS 							0	// Ballas.
 #define 	MOROZ_VAGOS 							1	// Vagos.
 #define 	MOROZ_GROVE 							2	// Grove.
@@ -3284,6 +3284,13 @@ enum dialogs {
 	dEditPickup,
 	dEditPickupText,
 	dEditPickupPos,
+	dEditPickupComment,
+	dEditPickupStatus,
+	dEditPickupCategoryFirstList,
+	dEditPickupModel,
+	dEditPickupType,
+	dPickupCategory,
+	dPickupFractions,
 	
 	D_SELFISH,
 	D_BILBORDS,
@@ -24812,96 +24819,80 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			"W"%s\n\n", id, name, place, floatround(GetPlayerDistanceFromPoint(playerid, x, y, z)), time, reason, details);
 		ShowPlayerDialog(playerid, dManageCall, DSM, header, string, "Далі", "Назад");
 		}
+	case dPickupCategory:
+	{
+		if(!response) return 1;
+		new pcategory[32], string[256];
+		strmid(pcategory, inputtext, 0, strlen(inputtext));
+		if(!strcmp(pcategory, "Фракції")) return mysql_tquery(connects, "SELECT DISTINCT `ID`, `Name` FROM `factions`", "pickup_fractions", "i", playerid);
+			//mysql_tquery(connects, "SELECT DISTINCT `Fraction` FROM `pickups` WHERE `Category` = 'Фракції' AND `Fraction` IS NOT NULL", "pickup_fractions", "i", playerid);
+		else 
+		{
+			mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE `Category` = '%s' LIMIT 60", pcategory);
+			return mysql_tquery(connects, string, "pickup_list", "i", playerid);
+		}
+	}
+	case dPickupFractions:
+	{
+		if(!response) return 1;
+		new pfraction[56];
+		strmid(pfraction, inputtext, 0, strlen(inputtext));
+		new string[512];
+		mysql_format(connects, string, sizeof(string), "SELECT p.* from pickups p JOIN factions f on f.ID = p.Fraction WHERE f.Name LIKE '%s%s%s' LIMIT 60", "%", pfraction, "%");
+		mysql_tquery(connects, string, "pickup_list", "i", playerid);
+	}
 	case dPickupList:
 	{
 		if(!response) return 1;
-		new header[32];
+		/*
 		if(listitem == 60)
 		{
 			DeletePVar(playerid, "firstpage");
 			return mysql_tquery(connects, "SELECT * FROM `pickups` LIMIT 60, 60", "pickup_list", "i", playerid);
 		}
+		*/
 		strmid(pickup_id, inputtext, 0, 3);
 		SetPVarInt(playerid, "pickupid", strval(pickup_id));
 
-		format(header, sizeof(header), "PickupID: %d", GetPVarInt(playerid, "pickupid"));
-		SendOK(playerid, header);
-
-		/*
-
-        new stringer[128], status_text[32], string[3500];
-        mysql_format(connects, stringer, sizeof(stringer), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", GetPVarInt(playerid, "pickupid"));
-        new Cache: resultCache = mysql_query(connects, stringer, true);
-        if(!cache_num_rows()) return SendError(playerid, "Відбулася помилка #001 в #1231.");
-
-       	new pickkID, pickkText[72], Float:pickkX, Float:pickkY, Float:pickkZ, Float:tppX, Float:tppY, Float:tppZ, Float:tppAngle, tppWorld, tppInt, pickkWorld, pickkInt, pickkType, pickkCategory[32],
-       	pickkStatus, pickkComment[256], pickkModel;
-
-        cache_get_value_name_int(0, "ID", pickkID);
-		cache_get_value_name(0, "Text", pickkText, 72);
-		cache_get_value_float(0, "X", pickkX);
-		cache_get_value_float(0, "Y", pickkY);
-		cache_get_value_float(0, "Z", pickkZ);
-		cache_get_value_float(0, "tpX", tppX);
-		cache_get_value_float(0, "tpY", tppY);
-		cache_get_value_float(0, "tpZ", tppZ);
-		cache_get_value_float(0, "tpAngle", tppAngle);
-		cache_get_value_name_int(0, "tpWorld", tppWorld);
-		cache_get_value_name_int(0, "tpInt", tppInt);
-		cache_get_value_name_int(0, "World", pickkWorld);
-		cache_get_value_name_int(0, "Interior", pickkInt);
-		cache_get_value_name_int(0, "Model", pickkModel);
-		cache_get_value_name_int(0, "Type", pickkType);
-		cache_get_value_name(0, "Category", pickkCategory, 32);
-		cache_get_value_name_int(0, "Status", pickkStatus);
-		cache_get_value_name(0, "Comment", pickkComment, 256);
-
-		cache_delete(resultCache);
-
-		switch(pickkStatus)
-		{
-			case 2: format(status_text, sizeof(status_text), ""GREEN"Активний");
-			case 9: format(status_text, sizeof(status_text), ""E"Неактивний");
-		}
-
-		format(string, sizeof(string), "Pickup %d", pickkID);
-		SendOK(playerid, string);
-		*/
-		
-		/*
-		format(string, sizeof(string), "Pickup %d", GetPVarInt(playerid, "pickupid"));
-		SendOK(playerid, string);
-
-        format(header, sizeof(header), ""P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
-
-        format(string, sizeof(string), "\
-        	Атрибут\t"P"Значення\n"W"ID:\t"P"%d\n\
-        	"W"Текст пікапа:\t"P"%s\n\
-        	"W"Координати пікапа (X, Y, Z):\t"P"%.2f, %.2f, %.2f\n\
-        	"W"Світ та інтер'єр пікапа:\t"P"%d | %d\n\
-        	"W"Телепорт пікапа (X, Y, Z, Angle):\t"P"%.2f, %.2f, %.2f, %.2f\n\
-        	"W"Телепорт світ та інтер'єр:\t"P"%d | %d\n\
-        	"W"Модель:\t"P"%d\n\
-			"W"Тип:\t"P"%d\n\
-			"W"Категорія:\t"P"%s\n\
-			"W"Статус:\t"P"%s\n\n\
-			"P"Коментар:\t"P"%s", string, pickkID, pickkText, pickkX, pickkY, pickkZ, pickkWorld, pickkInt, tppX, tppY, tppZ, tppAngle, tppWorld, tppInt,
-			pickkModel, pickkType, pickkCategory, status_text, pickkComment);
-
-        ShowPlayerDialog(playerid, dEditPickup, DSTH, header, string, "Змінити", "Назад");*/
+		new string[256];
+		mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", GetPVarInt(playerid, "pickupid"));
+		mysql_tquery(connects, string, "choosen_pickup", "i", playerid);
 	}
 	case dEditPickup:
 	{
-		if(!response)
-		{
-			DeletePVar(playerid, "pickupid");
-			return mysql_tquery(connects, "SELECT * FROM `pickups` LIMIT 60", "pickup_list", "i", playerid);
-		}
+		if(!response) return 1;
 		new header[32];
-		format(header, sizeof(header), ""P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
+		format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
 		switch(listitem)
 		{
-			case 0: ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.", "Далі", "Назад");
+			case 1: ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.", "Далі", "Назад");
+			case 2:
+			{
+				SetPVarInt(playerid, "editpickuppos", 1);
+				SendHint(playerid, "Встаньте на нову позицію, куди хочете перенести пікап та введіть "P"/savepos.");
+				ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, header, ""W"Встаньте на нову позицію, куди хочете перенести пікап та введіть "P"/savepos.", "Закрити", "");
+			}
+			case 3: 
+			{
+				SetPVarInt(playerid, "editpickuppos", 2);
+				SendHint(playerid, "Встаньте на нову позицію, куди хочете перенести телепорт пікапа та введіть "P"/savepos.");
+				SendHint(playerid, "Зверніть увагу, у яку сторону дивиться Ваш персонаж. З таким FacingAngle буде відбуватися телепорт через пікап.");
+				ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, header, ""W"Встаньте на нову позицію, куди хочете перенести телепорт пікапа та введіть "P"/savepos.\n\n"W"Зверніть увагу, у яку сторону дивиться Ваш персонаж. З таким FacingAngle буде відбуватися телепорт через пікап.", "Закрити", "");
+			}
+			case 4: ShowPlayerDialog(playerid, dEditPickupModel, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий ID моделі пікапа.", "Далі", "Назад");
+			case 5: ShowPlayerDialog(playerid, dEditPickupType, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий ID типу пікапа.", "Далі", "Назад");
+			case 6: ShowPlayerDialog(playerid, dEditPickupCategoryFirstList, DIALOG_STYLE_LIST, header, ""P"1. "W"Роботи\n"P"2. "W"Фракції\n"P"3. "W"Інше", "Далі", "Назад");
+			case 7: ShowPlayerDialog(playerid, dEditPickupStatus, DIALOG_STYLE_LIST, header, ""GREEN"Активний\n"E"Неактивний", "Далі", "Назад");
+			case 8: ShowPlayerDialog(playerid, dEditPickupComment, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий коментар для пікапа.", "Далі", "Назад");
+			case 9:
+			{
+				SetPlayerPosAC(playerid, GetPVarFloat(playerid, "pickX"), GetPVarFloat(playerid, "pickY"), GetPVarFloat(playerid, "pickZ"), GetPVarInt(playerid, "pickWorld"), GetPVarInt(playerid, "pickInt"));
+				SetCameraBehindPlayer(playerid);
+				FreezePlayerForTime(playerid, 1);
+				new string[56];
+				format(string, sizeof(string), "Ви успішно телепортувалися на пікап ID "P"%d", GetPVarInt(playerid, "pickupid"));
+				SendOK(playerid, string);
+			}
 		}
 	}
 	case dEditPickupText:
@@ -24912,15 +24903,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		if(strlen(inputtext) > 72) return ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.\n\n"E"Максимальна довжина тексту - 72 символи.", "Далі", "Назад");
 		mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Text` = '%s' WHERE `ID` = '%d'", inputtext, GetPVarInt(playerid, "pickupid"));
 		mysql_tquery(connects, query);
+
+		DestroyDynamic3DTextLabel(pickinfo[GetPVarInt(playerid, "pickupid")][pickupText]);
+
+		new text[72];
+		GetPVarString(playerid, "pickText", text, sizeof(text));
+		FixSVarString(text);
+
+		pickinfo[GetPVarInt(playerid, "pickupid")][pickupText] = CreateDynamic3DTextLabel(inputtext, 0xFF7F50FF, GetPVarFloat(playerid, "pickX"), GetPVarFloat(playerid, "pickY"), GetPVarFloat(playerid, "pickZ")+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, GetPVarInt(playerid, "pickWorld"), GetPVarInt(playerid, "pickInt"));
+
 		format(string, sizeof(string), "Текст пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
 		SendOK(playerid, string);
 		format(string, sizeof(string), "Новий текст пікапа: "P"%s", inputtext);
 		SendInfo(playerid, string);
-	}
-	case dEditPickupPos:
-	{
-		SetPVarInt(playerid, "editpickuppos", 1);
-		SendHint(playerid, "Встаньте на нову позицію, куди хочете перенести пікап та введіть "P"/savepos.");
 	}
 	case dManageCall: {
 		if(!response) 
@@ -32988,7 +32983,7 @@ public OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid
 	return 1;
 }
 public OnPlayerSpawn(playerid) {
-	SendInfo(playerid, "OnPlayerSpawn");
+	//SendInfo(playerid, "OnPlayerSpawn");
 	if(!TI[playerid][tLogin] || !TI[playerid][tJoined]) return 1;
 	ShowPlayerDialog(playerid, -1, 0, " ", " ", " ", " ");
 	SetPlayerColor(playerid, 0xFFFFFF11);
@@ -41661,22 +41656,78 @@ CMD:phone(playerid, params[]) {
 cmd:pickups(playerid)
 {
 	if(PI[playerid][pAdmin] < 7) return 1;
-	SetPVarInt(playerid, "firstpage", 1);
-	mysql_tquery(connects, "SELECT * FROM `pickups` LIMIT 60", "pickup_list", "i", playerid);
+	mysql_tquery(connects, "SELECT DISTINCT `Category` FROM `pickups`", "pickupcategory", "i", playerid);
 	return 1;
 }
 cmd:savepos(playerid)
 {
-	new header[32], query[256], string[256], Float:x, Float:y, Float:z;
-	GetPlayerPos(playerid, x, y, z);
-	mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `X` = '%.2f', `Y` = '%.2f', `Z` = '%.2f' WHERE `ID` = '%d'", x, y, z, GetPVarInt(playerid, "pickupid"));
-	mysql_tquery(connects, query);
-	format(string, sizeof(string), "Координати пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
-	SendOK(playerid, string);
-	format(string, sizeof(string), "Нові координати пікапа: "P"%.2f, %.2f, %.2f", x, y, z);
-	SendInfo(playerid, string);
-	format(header, sizeof(header), ""P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
-	ShowPlayerDialog(playerid, dEditPickup, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про пікап\n"P"2. "W"Змінити текст пікапа\n"P"3. "W"Змінити позицію пікапа\n"P"4. "W"Змінити модель пікапа\n"P"5. "W"Змінити тип пікапа\n"P"6. "W"Змінити категорію пікапа\n"P"7. "W"Змінити статус пікапа\n"P"8. "W"Змінити коментар до пікапа", "Обрати", "Назад");
+	if(!GetPVarInt(playerid, "editpickuppos") && PI[playerid][pAdmin] < 7) return 1;
+	new pickup = GetPVarInt(playerid, "pickupid");
+	switch(GetPVarInt(playerid, "editpickuppos"))
+	{
+		case 1:
+		{
+			new query[256], string[256], Float:x, Float:y, Float:z, world, int;
+			GetPlayerPos(playerid, x, y, z);
+			world = GetPlayerInterior(playerid);
+			int = GetPlayerInterior(playerid);
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `X` = '%.2f', `Y` = '%.2f', `Z` = '%.2f', `World` = '%d', `Interior` = '%d' WHERE `ID` = '%d'", x, y, z, world, int, pickup);
+			mysql_tquery(connects, query);
+			format(string, sizeof(string), "Координати пікапа "P"ID %d "W"успішно змінено.", pickup);
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нові координати пікапа: "P"%.2f, %.2f, %.2f", x, y, z);
+			SendInfo(playerid, string);
+			format(string, sizeof(string), "Нові світ та інтер'єр пікапа: "P"%d, %d", world, int);
+			SendInfo(playerid, string);
+
+
+			DestroyDynamicPickup(pickinfo[pickup][pickObject]);
+
+			pickinfo[pickup][pickObject] = CreateDynamicPickup(GetPVarInt(playerid, "pickModel"), GetPVarInt(playerid, "pickType"), x, y, z, world, int);
+			
+			DestroyDynamicArea(SpherePickID[pickup]);
+
+			SpherePickID[pickup] = CreateDynamicSphere(x, y, z, 1.0, world, int);
+
+			DestroyDynamic3DTextLabel(pickinfo[pickup][pickupText]);
+
+			new text[72];
+			GetPVarString(playerid, "pickText", text, sizeof(text));
+			FixSVarString(text);
+
+			pickinfo[pickup][pickupText] = CreateDynamic3DTextLabel(text, 0xFF7F50FF, x, y, z+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, world, int);
+			
+	
+			mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", pickup);
+			mysql_tquery(connects, string, "choosen_pickup", "i", playerid);
+		}
+		case 2:
+		{
+			new header[32], query[256], string[256], Float:x, Float:y, Float:z, Float:angle, world, int;
+			GetPlayerPos(playerid, x, y, z);
+			world = GetPlayerInterior(playerid);
+			int = GetPlayerInterior(playerid);
+			GetPlayerFacingAngle(playerid, angle);
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `tpX` = '%.2f', `tpY` = '%.2f', `tpZ` = '%.2f', `tpAngle` = '%.2f', `tpWorld` = '%d', `tpInt` = '%d' WHERE `ID` = '%d'", x, y, z, angle, world, int, pickup);
+			mysql_tquery(connects, query);
+			format(string, sizeof(string), "Координати телепорту пікапа "P"ID %d "W"успішно змінено.", pickup);
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нові координати телепорту пікапа: "P"%.2f, %.2f, %.2f", x, y, z);
+			SendInfo(playerid, string);
+			format(header, sizeof(header), ""P"Pickup ID: "W"%d", pickup);
+
+			pickinfo[pickup][picktpX] = x;
+			pickinfo[pickup][picktpY] = y;
+			pickinfo[pickup][picktpZ] = z;
+			pickinfo[pickup][picktpAngle] = angle;
+			pickinfo[pickup][picktpWorld] = world;
+			pickinfo[pickup][picktpInt] = int;
+
+			mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", pickup);
+			mysql_tquery(connects, string, "choosen_pickup", "i", playerid);
+		}
+	}
+	DeletePVar(playerid, "editpickuppos");
 	return 1;
 }
 cmd:testemail(playerid) {
@@ -44021,7 +44072,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			 	SetPlayerFacingAngle(playerid, pickinfo[areaid][picktpAngle]);
 			 	SetPlayerPosAC(playerid, pickinfo[areaid][picktpX], pickinfo[areaid][picktpY], pickinfo[areaid][picktpZ], pickinfo[areaid][picktpWorld], pickinfo[areaid][picktpInt]);
 			 	SetCameraBehindPlayer(playerid);
-				SendOK(playerid, "you are in dynamic area.");
+				//SendOK(playerid, "you are in dynamic area.");
 				new freezeSeconds = 0;
 				switch (GetPlayerPing(playerid)) 
 				{
@@ -47668,14 +47719,14 @@ stock load_fractions() {
 
 	}
 	cache_delete(result);
-	printf("[Success] Factions successfully loaded. (%i pcs.)",rows);
+	printf("[Success] Fractions successfully loaded. (%i pcs.)",rows);
 	return 1;
 }
 stock load_pickups()
 {
 	new string[1024];
 	new Cache:result, rows;
-	format(string, sizeof(string), "SELECT * FROM `pickups`");
+	format(string, sizeof(string), "SELECT * FROM `pickups` WHERE `IsEnterExit` = 1");
 	result = mysql_query(connects, string);
 	rows = cache_num_rows();
 	for(new i = 0; i <= rows; i ++) 
@@ -47701,17 +47752,7 @@ stock load_pickups()
 
 		pickinfo[pickinfo[i][pickID]][pickObject] = CreateDynamicPickup(pickinfo[i][pickModel], pickinfo[i][pickType], pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], pickinfo[i][pickWorld], pickinfo[i][pickInt]);
 		SpherePickID[pickinfo[i][pickID]] = CreateDynamicSphere(pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], 1.0, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
-		pickinfo[pickinfo[i][pickID]][pickupText] = CreateDynamic3DTextLabel(pickinfo[i][pickText], 0xFFFFFFFF, pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
-
-		/*
-		pickinfo[pickinfo[i][pickID]][tpX] = pickinfo[i][tpX];
-		pickinfo[pickinfo[i][pickID]][tpY] = pickinfo[i][tpY];
-		pickinfo[pickinfo[i][pickID]][tpZ] = pickinfo[i][tpZ];	
-		pickinfo[pickinfo[i][pickID]][tpAngle] = pickinfo[i][tpAngle];
-		pickinfo[pickinfo[i][pickID]][tpWorld] = pickinfo[i][tpWorld];
-		pickinfo[pickinfo[i][pickID]][tpInt] = pickinfo[i][tpInt];
-		*/
-
+		pickinfo[pickinfo[i][pickID]][pickupText] = CreateDynamic3DTextLabel(pickinfo[i][pickText], 0xFF7F50FF, pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
 		
 		pickinfo[pickinfo[i][pickID]][picktpX] = pickinfo[i][tpX];
 		pickinfo[pickinfo[i][pickID]][picktpY] = pickinfo[i][tpY];
@@ -47722,7 +47763,35 @@ stock load_pickups()
 		
 	}
 	cache_delete(result);
-	printf("[Success] Pickups successfully loaded. (%i pcs.)",rows);
+	printf("[Success] Enter/exit pickups successfully loaded. (%i pcs.)", rows);
+
+
+	
+	format(string, sizeof(string), "SELECT * FROM `pickups` WHERE `IsEnterExit` = 0");
+	result = mysql_query(connects, string);
+	rows = cache_num_rows();
+	for(new i = 0; i <= rows; i ++) 
+	{
+		cache_get_value_name_int(i, "ID", pickinfo[i][pickID]);
+		cache_get_value_name(i, "Text", pickinfo[i][pickText], 72);
+		cache_get_value_float(i, "X", pickinfo[i][pickX]);
+		cache_get_value_float(i, "Y", pickinfo[i][pickY]);
+		cache_get_value_float(i, "Z", pickinfo[i][pickZ]);
+		cache_get_value_name_int(i, "World", pickinfo[i][pickWorld]);
+		cache_get_value_name_int(i, "Interior", pickinfo[i][pickInt]);
+		cache_get_value_name_int(i, "Model", pickinfo[i][pickModel]);
+		cache_get_value_name_int(i, "Type", pickinfo[i][pickType]);
+		cache_get_value_name(i, "Category", pickinfo[i][pickCategory], 32);
+		cache_get_value_name_int(i, "Status", pickinfo[i][pickStatus]);
+		cache_get_value_name(i, "Comment", pickinfo[i][pickComment], 256);
+
+		pickinfo[pickinfo[i][pickID]][pickObject] = CreateDynamicPickup(pickinfo[i][pickModel], pickinfo[i][pickType], pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], pickinfo[i][pickWorld], pickinfo[i][pickInt]);
+		SpherePickID[pickinfo[i][pickID]] = CreateDynamicSphere(pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], 1.0, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
+		pickinfo[pickinfo[i][pickID]][pickupText] = CreateDynamic3DTextLabel(pickinfo[i][pickText], 0xFF7F50FF, pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
+		
+	}
+	cache_delete(result);
+	printf("[Success] Other pickups successfully loaded. (%i pcs.)", rows);
 	return 1;
 }
 stock load_anticheat() {
@@ -52947,6 +53016,37 @@ CB: service_calls(playerid) {
 	ShowPlayerDialog(playerid, dGetServiceCall, DSTH, P"Список викликів.", string, "Обрати", "Закрити");
 	return 1;
 }
+
+CB: pickupcategory(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Категорій пікапів не знайдено.");
+	new string[1000], category[32];
+	strcat(string, ""P"Категорія\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 0, category, 32);
+		format(string, sizeof(string), "%s"W"%s\n", string, category);
+	}
+	ShowPlayerDialog(playerid, dPickupCategory, DIALOG_STYLE_TABLIST_HEADERS, ""P"Список категорій пікапів", string, "Обрати", "Закрити");
+	return 1;
+} 
+CB: pickup_fractions(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Фракцій не знайдено.");
+	new string[1000], fraction[32];
+	strcat(string, ""P"Фракція\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 1, fraction, 32);
+		format(string, sizeof(string), "%s"W"%s\n", string, fraction);
+	}
+	ShowPlayerDialog(playerid, dPickupFractions, DIALOG_STYLE_TABLIST_HEADERS, ""P"Список фракцій", string, "Обрати", "Закрити");
+	return 1;
+}
 CB: pickup_list(playerid) 
 {
 	new rows;
@@ -52969,6 +53069,77 @@ CB: pickup_list(playerid)
 	}
 	if(GetPVarInt(playerid, "firstpage")) format(string, sizeof(string), "%s\n"P">>> "W"Наступна сторінка", string);
 	ShowPlayerDialog(playerid, dPickupList, DSTH, P"Список пікапів.", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: choosen_pickup(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Не знайдено пікап з таким ID.");
+
+   	new pickkID, pickkText[72], Float:pickkX, Float:pickkY, Float:pickkZ, Float:tppX, Float:tppY, Float:tppZ, Float:tppAngle, tppWorld, tppInt, pickkWorld, pickkInt, pickkType, pickkCategory[32],
+   	pickkStatus, pickkComment[256], pickkModel, status_text[32], string[512], header[56];
+
+    cache_get_value_index_int(0, 0, pickkID);
+	cache_get_value_index(0,  1, pickkText, 72);
+	cache_get_value_index_float(0, 2, pickkX);
+	cache_get_value_index_float(0, 3, pickkY);
+	cache_get_value_index_float(0, 4, pickkZ);
+	cache_get_value_index_float(0, 7, tppX);
+	cache_get_value_index_float(0, 8, tppY);
+	cache_get_value_index_float(0, 9, tppZ);
+	cache_get_value_index_float(0, 10, tppAngle);
+	cache_get_value_index_int(0, 11, tppWorld);
+	cache_get_value_index_int(0, 12, tppInt);
+	cache_get_value_index_int(0, 5, pickkWorld);
+	cache_get_value_index_int(0, 6, pickkInt);
+	cache_get_value_index_int(0, 13, pickkModel);
+	cache_get_value_index_int(0, 14, pickkType);
+	cache_get_value_index(0, 15, pickkCategory, 32);
+	cache_get_value_index_int(0, 16, pickkStatus);
+	cache_get_value_index(0, 18, pickkComment, 256);
+
+	SetPVarString(playerid, "pickText", pickkText);
+	SetPVarFloat(playerid, "pickX", pickkX);
+	SetPVarFloat(playerid, "pickY", pickkY);
+	SetPVarFloat(playerid, "pickZ", pickkZ);
+	SetPVarFloat(playerid, "tpX", tppX);
+	SetPVarFloat(playerid, "tpY", tppY);
+	SetPVarFloat(playerid, "tpZ", tppZ);
+	SetPVarFloat(playerid, "tpAngle", tppAngle);
+	SetPVarInt(playerid, "tpWorld", tppWorld);
+	SetPVarInt(playerid, "tpInt", tppInt);
+	SetPVarInt(playerid, "pickWorld", pickkWorld);
+	SetPVarInt(playerid, "pickInt", pickkInt);
+	SetPVarInt(playerid, "pickModel", pickkModel);
+	SetPVarInt(playerid, "pickType", pickkType);
+
+	//cache_delete(resultCache);
+
+	switch(pickkStatus)
+	{
+		case 2: format(status_text, sizeof(status_text), ""GREEN"Активний");
+		case 9: format(status_text, sizeof(status_text), ""E"Неактивний");
+	}
+
+
+    format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
+
+    format(string, sizeof(string), "\
+    	"P"Атрибут\t"P"Значення\n\
+    	"W"ID:\t"P"%d\n\
+    	"W"Текст пікапа:\t"P"%s\n\
+    	"W"Координати пікапа (X, Y, Z, World, Int):\t"P"%.2f, %.2f, %.2f, %d, %d\n\
+    	"W"Телепорт пікапа (X, Y, Z, Angle, World, Int):\t"P"%.2f, %.2f, %.2f, %.2f, %d, %d\n\
+    	"W"Модель:\t"P"%d\n\
+		"W"Тип:\t"P"%d\n\
+		"W"Категорія:\t"P"%s\n\
+		"W"Статус:\t"P"%s\n\n\
+		"W"Коментар:\t"P"%s\n\
+		"W"- Телепортуватися на пікап", pickkID, pickkText, pickkX, pickkY, pickkZ, pickkWorld, pickkInt, tppX, tppY, tppZ, tppAngle, tppWorld, tppInt,
+		pickkModel, pickkType, pickkCategory, status_text, pickkComment);
+
+    ShowPlayerDialog(playerid, dEditPickup, DSTH, header, string, "Змінити", "Назад");
 	return 1;
 }
 CB: promo_show(playerid) {
