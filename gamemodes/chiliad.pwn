@@ -24824,6 +24824,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		strmid(pickup_id, inputtext, 0, 3);
 		SetPVarInt(playerid, "pickupid", strval(pickup_id));
 
+		format(header, sizeof(header), "PickupID: %d", GetPVarInt(playerid, "pickupid"));
+		SendOK(playerid, header);
+
+		/*
 
         new stringer[128], status_text[32], string[3500];
         mysql_format(connects, stringer, sizeof(stringer), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", GetPVarInt(playerid, "pickupid"));
@@ -24862,7 +24866,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 		format(string, sizeof(string), "Pickup %d", pickkID);
 		SendOK(playerid, string);
-
+		*/
 		
 		/*
 		format(string, sizeof(string), "Pickup %d", GetPVarInt(playerid, "pickupid"));
