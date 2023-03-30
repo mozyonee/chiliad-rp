@@ -7235,7 +7235,7 @@ new gPickupDataName[PICKUPS_COUNT][pick3dtext] ={ // 3dText | color
 };
 new gPickID[sizeof(gPickup)] = {-1, ...}; */
 CB: Float:GetDistanceBetweenPlayers(p1,p2) {
-	new Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2;
+	new Float:x1, Float:y1, Float:z1, Float:x2, Float:y2, Float:z2;
 	if(!IsPlayerConnected(p1) || !IsPlayerConnected(p2)) return -1.00;
 	GetPlayerPos(p1,x1,y1,z1);
 	GetPlayerPos(p2,x2,y2,z2);
@@ -8956,7 +8956,7 @@ stock IsPlayerInBandOnline(bandid) {
 	}
 	return false;
 }
-stock Float:PointToPoint2D(Float:x1,Float:y1,Float:x2,Float:y2) return floatsqroot(floatadd(floatpower(x2-x1, 2),floatpower(y2-y1, 2)));
+stock Float:PointToPoint2D(Float:x1, Float:y1, Float:x2, Float:y2) return floatsqroot(floatadd(floatpower(x2-x1, 2),floatpower(y2-y1, 2)));
 stock Float:GetPlayerDistanceToPlayer(playerid, targetid) {
 	new Float:x, Float:y, Float:z, Float:x2, Float:y2, Float:z2;
 	GetPlayerPos(playerid, x, y, z);
@@ -11511,7 +11511,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
                 mysql_format(connects, stringer, 128, "SELECT * FROM `bmap` WHERE `id` = '%s' LIMIT 1", pTemp[playerid][var_unit_4]);
                 new Cache: resultCache = mysql_query(connects, stringer, true);
                 if(!cache_num_rows()) return SendError(playerid, "Відбулася помилка #001 в #1231.");
-                new Float:x,Float:y,Float:z,namea[MAX_PLAYER_NAME],datein[32], string[500],objid,ingame;
+                new Float:x, Float:y, Float:z,namea[MAX_PLAYER_NAME],datein[32], string[500],objid,ingame;
                 cache_get_value_name_int(0, "objectid", objid);
                 cache_get_value_name_int(0, "ingameid", ingame);
                 cache_get_value_name(0, "name", namea);
@@ -16636,7 +16636,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				bizz_pay(bizid,yaxta_money[playerid]);
 			}
 
-			new Float:bd_x,Float:bd_y,Float:bd_z;
+			new Float:bd_x, Float:bd_y, Float:bd_z;
 			GetBoatDoorPos(TI[playerid][tBoat], bd_x, bd_y, bd_z);
 
 			yaxta_money[playerid] = 0;
@@ -28563,7 +28563,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
 			bizz_pay(bizz,price);
 			GiveMoney(playerid, -price, "огляд ріелторка");
-			new houseid = GetPVarInt(playerid, "hrieltor") -1,Float:pos[3];
+			new houseid = GetPVarInt(playerid, "hrieltor") -1, Float:pos[3];
 			GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
 			SetPVarFloat(playerid, "rielX",pos[0]);
 			SetPVarFloat(playerid, "rielY",pos[1]);
@@ -28607,7 +28607,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
 			bizz_pay(bizz,price);
 			GiveMoney(playerid, -price, "осмотр ріелторка");
-			new bizzid = GetPVarInt(playerid, "bizzrielor") -1,Float:pos[3];
+			new bizzid = GetPVarInt(playerid, "bizzrielor") -1, Float:pos[3];
 			GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
 			SetPVarFloat(playerid, "rielX",pos[0]);
 			SetPVarFloat(playerid, "rielY",pos[1]);
@@ -30040,7 +30040,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(object[idobject]==-1) break;
 			}
 			if(GetPlayerVirtualWorld(playerid) != 0 || GetPlayerInterior(playerid)!=0) return SendError(playerid, "Заборонено використовувати у приміщенні.");
-			new Float:x, Float:y, Float:z, Float:angle,Float:rx, Float:ry, Float:rz,Float:ox, Float:oy, Float:oz;
+			new Float:x, Float:y, Float:z, Float:angle, Float:rx, Float:ry, Float:rz, Float:ox, Float:oy, Float:oz;
 			GetPlayerPos(playerid, x, y, z);
 			GetPlayerFacingAngle(playerid, angle);
 			x += floatsin(-angle, degrees);
@@ -34958,7 +34958,7 @@ public CreateSphree() {
 	SetActorVirtualWorld(actor[52], 0);
 	Create3DTextLabel(""P"Інструктор\n\n"W"Для взаємодії натисніть: "P"'ALT'", 0xFFFFFFFF, 722.3, -1440, 13.55, 7.0, 0);
 	for(new i;i<MAX_ACTORSS;i++) {
-		new Float: x,Float:y,Float:z;
+		new Float: x, Float:y, Float:z;
 		GetActorPos(actor[i], x, y,z);
 		tActor[i] = Create3DTextLabel("",COLOR_GREY, x, y, z+1, 10.0, GetActorVirtualWorld(actor[i]));
 	}
@@ -38016,7 +38016,7 @@ stock SendFDMessage(color, const string[]) {
 	}
 	return 1;
 }
-stock MarkerGos(playerid, Float:x,Float:y,Float:z) {
+stock MarkerGos(playerid, Float:x, Float:y, Float:z) {
 	foreach(new i:Player) {
 		if(IsACop(i) || IsAArm(i) || IsAMedic(i) || IsANews(i) || CI[i][pMember] == fINSTRUCTORS || CI[i][pMember] == fWHITEHOUSE) {
 			SetPlayerCheckpoint(playerid, x,y,z, 5.0);
@@ -38775,7 +38775,7 @@ public LoadMapping() {
     new time = GetTickCount();
     new rows = cache_num_rows();
     if(!rows) return print("[Error] Maps weren't found in DB.");
-    new obje, Float:x,Float:y,Float:z,Float:rx,Float:ry,Float:rz,objectid,bdid;
+    new obje, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz,objectid,bdid;
     for(new i = 0; i < rows; i++) {
         cache_get_value_name_int(i, "id", bdid);
         cache_get_value_name_float(i, "x", x);
@@ -40076,7 +40076,7 @@ CMD:gnews(playerid, params[]) {
 }
 CMD:trunk(playerid) {
 	if(IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Не можна використовувати в автомобілі.");
-	new Float:x,Float:y,Float:z,Float:a;
+	new Float:x, Float:y, Float:z, Float:a;
 	if(idaofcar[playerid] != -1) {
 		GetVehicleShiftPos(idaofcar[playerid], 1,x,y,z, 2.0);
 		if(IsPlayerInRangeOfPoint(playerid, 2,x,y,z)) {
@@ -40105,13 +40105,13 @@ CMD:trunk(playerid) {
 		if(IsPlayerInRangeOfPoint(playerid, 2,x,y,z)) {
 			if(!TrunkInfo[c][tOpen] && c != house_car[playerid][0] && c != house_car[playerid][1]) return SendError(playerid, "Багажник зачинений.");
 			GetVehicleParamsEx(c, engine, lights, alarm, doors, bonnet, boot, objective);
-			new Float:pos_y,Float:pos_z;
+			new Float:pos_y, Float:pos_z;
 			GetPlayerPos(playerid,pos_y,pos_y,pos_z);
 			GetVehicleZAngle(c, a);
 			if(boot != VEHICLE_PARAMS_ON) {
-				AnimationTrunk(playerid,Float:x,Float:y,Float:z,Float:a,Float:pos_y,Float:pos_z);
+				AnimationTrunk(playerid, Float:x, Float:y, Float:z, Float:a, Float:pos_y, Float:pos_z);
 				SetVehicleParamsEx(c, engine, lights, alarm, doors, bonnet, VEHICLE_PARAMS_ON, objective);
-			} else AnimationTrunk(playerid,Float:x,Float:y,Float:z,Float:a,Float:pos_y,Float:pos_z);
+			} else AnimationTrunk(playerid, Float:x, Float:y, Float:z, Float:a, Float:pos_y, Float:pos_z);
 			idaofcar[playerid]=c;
 			static const f_str[] = "Найменування\tКількість\n\
 				"W"Багажник:\t%s\n\
@@ -40946,7 +40946,7 @@ CMD:hbjectedit(playerid, params[]) {
 }
 CMD:getobjectpos(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	new Float:x1,Float:y1,Float:z1, string[128],slot;
+	new Float:x1, Float:y1, Float:z1, string[128],slot;
 	if(sscanf(params, "d",slot)) return SendError(playerid, "Використайте: /getobjectpos [lot]");
 	GetObjectPos(SlotObject[slot],x1,y1,z1);
 	format(string, sizeof(string), "GetDynamicObjectPos %f,%f,%f",x1,y1,z1);
@@ -40956,11 +40956,11 @@ CMD:getobjectpos(playerid, params[]) {
 alias:hbjectedit("hbedit")
 CMD:cobj(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	new float:x1,float:y1,float:z1,float:rx1,float:ry1,float:rz1;
+	new float:x1, Float:y1, Float:z1, Float:rx1, Float:ry1, Float:rz1;
 	if(sscanf(params, "ddp<,>ffffff", params[0],params[1],x1,y1,z1,rx1,ry1,rz1)) return SendError(playerid, "Використайте: /cobj [slot] [objectid] [x][y][z] [rX][rY][rZ]");
 	if(SlotCObject[params[0]] != 0) return 1;
 	if(params[0] >= 499) return 1;
-	SlotCObject[params[0]] = CreateDynamicObject(params[1],Float:x1,Float:y1,Float:z1,Float:rx1,Float:ry1,Float:rz1);
+	SlotCObject[params[0]] = CreateDynamicObject(params[1], Float:x1, Float:y1, Float:z1, Float:rx1, Float:ry1, Float:rz1);
 	new string[128];
 	format(string, sizeof(string), "Об'єкт створено. (ID: "ORANGE"%d"W", слот: "ORANGE"%d"W")",params[1],params[0]);
 	SendOK(playerid, string);
@@ -40983,7 +40983,7 @@ CMD:obj(playerid, params[]) {
 	if(sscanf(params, "dd", params[0],params[1])) return SendInfo(playerid, "Використайте: /obj [slot] [objectid]");
 	if(SlotObject[params[0]] != 0) return 1;
 	if(params[0] >= 99) return 1;
-	new Float:x1,Float:y1,Float:z1;
+	new Float:x1, Float:y1, Float:z1;
 	GetPlayerPos(playerid,x1,y1,z1);
 	SlotObject[params[0]] = CreateDynamicObject(params[1],x1,y1,z1, 0.0, 0.0, 0.00);
 	new string[128];
@@ -41014,7 +41014,7 @@ CMD:eobject(playerid, params[]) {
 }
 stock CheckPlayerDistanceToVehicle(Float:radi, playerid, vehicleid) {
 	if(!IsPlayerConnected(playerid)) return 0;
-	new Float:PX,Float:PY,Float:PZ,Float:X,Float:Y,Float:Z;
+	new Float:PX, Float:PY, Float:PZ, Float:X, Float:Y, Float:Z;
 	GetPlayerPos(playerid,PX,PY,PZ);
 	GetVehiclePos(vehicleid, X,Y,Z);
 	new Float:Distance = (X-PX)*(X-PX) +(Y-PY)*(Y-PY) +(Z-PZ)*(Z-PZ);
@@ -41252,7 +41252,7 @@ CMD:refill(playerid,params[]) {
 }
 cmd:remp(playerid) {
 	if(IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Не можна використовувати в т/з.");
-	new Float:X,Float:Y,Float:Z;
+	new Float:X, Float:Y, Float:Z;
 	new vehicleid = GetPlayerVehicleID(playerid);
 	new car = GetNearestVehicle(playerid);
 	GetVehiclePos(car, X, Y, Z);
@@ -44163,7 +44163,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ShowPlayerDialog(playerid, D_BIZZ_TK, DSL, P"Транспортна компанія", P"1."W" Інформація\n"P"2."W" Керування касою\n"P"3."W" Керування автомобилями\n"P"4."W" Керування кольором\n"P"5."W" Працівники\n"P"6."W" Статистика доходів бізнесу\n"P"7."W" Персональна інформація\n"P"8."W" Продати транспортну компанію", "Обрати", "Скасувати");
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, -677.4073, 1727.0359, 1376.6718)) {
-			new Float:c_x,Float:c_y,Float:c_z, Float:a;
+			new Float:c_x, Float:c_y, Float:c_z, Float:a;
 			GetVehicleShiftPos(PlayerTrailer[GetPlayerVirtualWorld(playerid)][carVehicle], 2,c_x, c_y, c_z, 2.0);
 			GetVehicleZAngle(PlayerTrailer[GetPlayerVirtualWorld(playerid)][carVehicle], a);
 			SetPlayerPosAC(playerid, c_x, c_y, c_z, 0, 0);
@@ -44641,7 +44641,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		} else if(CI[playerid][pMember] == fFBI) {
 			for(new i = GetVehiclePoolSize() +1; --i != 0;) {
 				if(VehicleInfo[i][vTeam] == fFBI) {
-					new Float:X,Float:Y,Float:Z;
+					new Float:X, Float:Y, Float:Z;
 					GetVehicleShiftPos(i, 1,X,Y,Z, 3.0);
 					if(IsPlayerInRangeOfPoint(playerid, 3,X,Y,Z)) {
 						new string[256];
@@ -44920,20 +44920,20 @@ stock CarLic(carid) {
 	}
 	return false;
 }
-CB: PlayerToKvadrat(playerid,Float:min_x,Float:min_y,Float:max_x,Float:max_y) {
-	new Float:xxp,Float:yyp,Float:zzp;
+CB: PlayerToKvadrat(playerid, Float:min_x, Float:min_y, Float:max_x, Float:max_y) {
+	new Float:xxp, Float:yyp, Float:zzp;
 	GetPlayerPos(playerid, xxp, yyp, zzp);
 	if((xxp <= max_x && xxp >= min_x) && (yyp <= max_y && yyp >= min_y)) return 1;
 	return false;
 }
-CB: PlayerToKvadratGhetto(playerid,Float:min_x,Float:min_y,Float:max_x,Float:max_y) {
-	new Float:xxp,Float:yyp,Float:zzp;
+CB: PlayerToKvadratGhetto(playerid, Float:min_x, Float:min_y, Float:max_x, Float:max_y) {
+	new Float:xxp, Float:yyp, Float:zzp;
 	GetPlayerPos(playerid, xxp, yyp, zzp);
 	if((xxp <= max_x*2 && xxp >= min_x*2) && (yyp <= max_y*2 && yyp >= min_y*2)) return 1;
 	return false;
 }
 stock GetNearestVehicle(playerid) {
-	new Float:X,Float:Y,Float:Z;
+	new Float:X, Float:Y, Float:Z;
 	for(new i = GetVehiclePoolSize() +1; --i != 0;) {
 		GetVehiclePos(i,X,Y,Z);
 		if(IsPlayerInRangeOfPoint(playerid, 4.0, X, Y, Z)) return i;
@@ -45158,7 +45158,7 @@ stock Float:jfloatsub(Float:value1, Float:value2) {
 	if(diff > 300.0) diff = (360.0 - num1) + num2;
 	return diff;
 }
-stock Float:PointToPoint3D(Float:x1,Float:y1,Float:z1,Float:x2,Float:y2,Float:z2) return floatsqroot(floatadd(floatadd(floatpower(x2-x1, 2),floatpower(y2-y1, 2)),floatpower(z2-z1, 2)));
+stock Float:PointToPoint3D(Float:x1, Float:y1, Float:z1, Float:x2, Float:y2, Float:z2) return floatsqroot(floatadd(floatadd(floatpower(x2-x1, 2),floatpower(y2-y1, 2)),floatpower(z2-z1, 2)));
 CB: update_speedometer(playerid) {
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
 	new vehicleid = GetPlayerVehicleID(playerid);
@@ -46615,7 +46615,7 @@ enum attached_object_data {
 	Float:ao_sz
 }
 new ao[MAX_PLAYERS][MAX_PLAYER_ATTACHED_OBJECTS][attached_object_data];
-public OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, Float:fOffsetX, Float:fOffsetY, Float:fOffsetZ,Float:fRotX, Float:fRotY, Float:fRotZ,Float:fScaleX, Float:fScaleY, Float:fScaleZ) {
+public OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, Float:fOffsetX, Float:fOffsetY, Float:fOffsetZ, Float:fRotX, Float:fRotY, Float:fRotZ, Float:fScaleX, Float:fScaleY, Float:fScaleZ) {
 	new string[200];
 	format(string, sizeof(string), "%d,%d,%d,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",index,modelid,boneid,fOffsetX,fOffsetY,fOffsetZ,fRotX,fRotY,fRotZ,fScaleX,fScaleY,fScaleZ);
 	SendInfo(playerid, string);
@@ -48618,28 +48618,28 @@ stock FreezePlayerForTime(playerid, time) {
 	PlayerUnFreezeTimerFix[playerid] = (gettime() + time);
 	TogglePlayerControllable(playerid, 0);
 }
-stock CreateBizVehicle(biz,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
+stock CreateBizVehicle(biz,model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_BIZZ);
 	VehicleInfo[carid][vBizz] = biz;
 	return carid;
 }
-stock CreateJobVehicle(job,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
+stock CreateJobVehicle(job,model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
 	new carid;
 	carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_JOB);
 	VehicleInfo[carid][vJob] = job;
 	return carid;
 }
-stock CreateSpawnCar(model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
+stock CreateSpawnCar(model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_SPAWN);
 	return carid;
 }
-stock CreateBusVehicle(bus,job,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
+stock CreateBusVehicle(bus,job,model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_JOB);
 	VehicleInfo[carid][vJob] = job;
 	VehicleInfo[carid][vBus] = bus;
 	return carid;
 }
-stock CreateTaxiVehicle(job,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
+stock CreateTaxiVehicle(job,model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime,VEHICLE_TYPE_JOB);
 	VehicleInfo[carid][vJob] = job;
 	VehicleInfo[carid][vTaxi][0] = INVALID_OBJECT_ID;
@@ -48669,7 +48669,7 @@ IsAPlane(carid) return (GetVehicleState(carid) == VEHICLE_STATE_PLANE);
 IsAVelik(carid) return (GetVehicleState(carid) == VEHICLE_STATE_VELIK);
 IsABoat(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BOAT);
 IsABike(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BIKE);
-stock A_AddStaticVehicleEx(model,Float:x,Float:y,Float:z,Float:a,color_1,color_2,spawntime = 300,type,interior = 0,world = 0, addsiren = 0) {
+stock A_AddStaticVehicleEx(model, Float:x, Float:y, Float:z, Float:a,color_1,color_2,spawntime = 300,type,interior = 0,world = 0, addsiren = 0) {
 	if(IsValidVehicleModel(model)) {
 		new vehicleid = AddStaticVehicleEx(model,x,y,z,a,color_1,color_2,spawntime, addsiren);
 		if(vehicleid != INVALID_VEHICLE_ID) {
@@ -48740,7 +48740,7 @@ stock A_DestroyVehicle(vehicleid) {
 	}
 	return 0;
 }
-stock A_CreateVehicle(model,Float:x,Float:y,Float:z,Float:a,color_1,color_2,spawntime = 300,type,interior = 0,world = 0, addsiren = 0) {
+stock A_CreateVehicle(model, Float:x, Float:y, Float:z, Float:a,color_1,color_2,spawntime = 300,type,interior = 0,world = 0, addsiren = 0) {
 	if(IsValidVehicleModel(model)) {
 		new vehicleid = CreateVehicle(model,x,y,z,a,color_1,color_2,spawntime, addsiren);
 		if(VehicleInfo[vehicleid][vNumberAttached]) {
@@ -49896,7 +49896,7 @@ CB: BusStop(playerid) {
 	SetNextBusCP(playerid, true);
 	return 1;
 }
-stock radio_(playerid,const action[],Float:distance = 6.0) {
+stock radio_(playerid,const action[], Float:distance = 6.0) {
 	new mes[145];
 	format(mes, sizeof(mes), "%s сказав в рацію: %s", CI[playerid][cName],action);
 	foreach(new i:Player) {
@@ -49906,7 +49906,7 @@ stock radio_(playerid,const action[],Float:distance = 6.0) {
 	}
 	return 1;
 }
-stock MeAction(playerid,const action[],Float:distance = 13.0) {
+stock MeAction(playerid,const action[], Float:distance = 13.0) {
 	new mes[145];
 	format(mes, sizeof(mes), "%s %s", CI[playerid][cName],action);
 	foreach(new i:Player) {
@@ -50222,7 +50222,7 @@ Float:Z,
 		}
 	}
 }
-stock DoAction(playerid,action[],Float:distance = 13.0) {
+stock DoAction(playerid,action[], Float:distance = 13.0) {
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп в роті.");
 	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чата.");
 	new string[128];
@@ -50230,7 +50230,7 @@ stock DoAction(playerid,action[],Float:distance = 13.0) {
 	SendStreamMessage(distance, playerid, string, COLOR_PURPLE);
 	return 1;
 }
-stock TryAction(playerid,action[],Float:distance = 13.0) {
+stock TryAction(playerid,action[], Float:distance = 13.0) {
 	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп в роті.");
 	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чата.");
 	new luck[24], string[144];
@@ -50240,7 +50240,7 @@ stock TryAction(playerid,action[],Float:distance = 13.0) {
 	SendStreamMessage(distance, playerid, string, COLOR_PURPLE);
 	return 1;
 }
-stock AnimationTrunk(playerid,Float:x,Float:y,Float:z,Float:a,Float:pos_y,Float:pos_z) {
+stock AnimationTrunk(playerid, Float:x, Float:y, Float:z, Float:a, Float:pos_y, Float:pos_z) {
 	new Float:trunkpos[5][4];
 	trunkpos[2][0]=x;
 	trunkpos[2][1]=y;
@@ -50725,7 +50725,7 @@ CB: ShowNumber(playerid, str[]) {
 } */
 CMD:robload(playerid) {
 	if(GetPlayerVehicleID(playerid) != rob_veh[playerid]) return SendError(playerid, "Ви не у фургоні.");
-	new Float:angle,Float:distance,Float:vehx, Float:vehy, Float:vehz;
+	new Float:angle, Float:distance, Float:vehx, Float:vehy, Float:vehz;
 	GetVehicleModelInfo(GetVehicleModel(rob_veh[playerid]), 1, vehx, distance, vehz);
 	distance = distance/2 + 0.1;
 	GetVehiclePos(rob_veh[playerid], vehx, vehy, vehz);
@@ -50851,17 +50851,16 @@ stock ghetto_war() {
                     CreatePlayerCapture(m);
 					for(new z; z < 34; z++) TextDrawShowForPlayer(m, Capture[z]);
 					for(new z; z < 5; z++)  PlayerTextDrawShow(m, CaptPlayer[m][z]);
-				} else
-				{
+				} else {
 					new string[128];
 					format(string, sizeof(string), "%s",Convert(GZInfo[i][gTime]));
 					PlayerTextDrawSetString(m, CaptPlayer[m][2], string);
 					PlayerTextDrawShow(m, CaptPlayer[m][2]);
 					new str[10];
-					format(str, sizeof(str), "%d",CountOnZone[GZInfo[i][gFrakVlad]]);
+					format(str, sizeof(str), "%d", CountOnZone[GZInfo[i][gFrakVlad]]);
 					PlayerTextDrawSetString(m, CaptPlayer[m][3], str);
 					PlayerTextDrawShow(m, CaptPlayer[m][4]);
-					format(str, sizeof(str), "%d",CountOnZone[GZInfo[i][gNapad]]);
+					format(str, sizeof(str), "%d", CountOnZone[GZInfo[i][gNapad]]);
 					PlayerTextDrawSetString(m, CaptPlayer[m][4], str);
 					PlayerTextDrawShow(m, CaptPlayer[m][3]);
 
@@ -50891,8 +50890,8 @@ stock ghetto_war() {
 						new Float:K_D = GhettoInfo[x][ghettoDeaths];
 						if(K_D < 1.0) K_D = 1.0;
 						new cstat[250];
-						format(cstat, 250, ""ORANGE"[Статистика капта]"W" Kills: %i. Death: %i. K/D: %.1f.",
-						GhettoInfo[x][ghettoKills],GhettoInfo[x][ghettoDeaths], Float:(GhettoInfo[x][ghettoKills] / K_D));
+						format(cstat, 250, ""P"[Статистика капта]"W" Kills: %i. Death: %i. K/D: %.1f.",
+						GhettoInfo[x][ghettoKills], GhettoInfo[x][ghettoDeaths], Float:(GhettoInfo[x][ghettoKills] / K_D));
 						SendOK(x, cstat);
 						GhettoInfo[x][ghettoKills] = 0;
 						GhettoInfo[x][ghettoDeaths] = 0;
@@ -50902,11 +50901,11 @@ stock ghetto_war() {
 				}
 			}
 			if(CountOnZone[GZInfo[i][gNapad]] == CountOnZone[GZInfo[i][gFrakVlad]] || CountOnZone[GZInfo[i][gFrakVlad]] > CountOnZone[GZInfo[i][gNapad]]) {
-				format(strlolka, 112, "%s відстояли свою територію",GFrac(GZInfo[i][gFrakVlad]));
+				format(strlolka, 112, "%s відстояли свою територію", GFrac(GZInfo[i][gFrakVlad]));
 				if(i == 13) black_prods[0] = GZInfo[i][gFrakVlad];
 			} else
 			{
-				format(strlolka, 112, "%s захопили територію у банди %s",GFrac(GZInfo[i][gNapad]),GFrac(GZInfo[i][gFrakVlad]));
+				format(strlolka, 112, "%s захопили територію у банди %s", GFrac(GZInfo[i][gNapad]), GFrac(GZInfo[i][gFrakVlad]));
 				VladGzone[GZInfo[i][gFrakVlad]]--;
 				VladGzone[GZInfo[i][gNapad]]++;
 				GZInfo[i][gFrakVlad] = GZInfo[i][gNapad];
@@ -50926,7 +50925,7 @@ stock ghetto_war() {
 			GZInfo[i][ZoneOnBattle] = 0;
 			GangZoneStopFlashForAll(GZInfo[i][gID]);
 			GangZoneHideForAll(GZInfo[i][gID]);
-			GangZoneShowForAll(GZInfo[i][gID],GetGangZoneColor(i));
+			GangZoneShowForAll(GZInfo[i][gID], GetGangZoneColor(i));
 			SaveGZ(i);
 			break;
 		}
@@ -50936,17 +50935,17 @@ stock ghetto_war() {
 stock UpdateMorozed() {
 	new quer_moroz[350];
 	mysql_format(connects, quer_moroz, sizeof(quer_moroz), "UPDATE `fracmorozed` SET `MOROZ_BALLAS`='%d',`MOROZ_VAGOS`='%d',`MOROZ_GROVE`='%d',`MOROZ_RIFA`='%d',`MOROZ_AZTECAS`='%d',`MOROZ_LCN`='%d',`MOROZ_YAKUZA`='%d',`MOROZ_RM`='%d'",fracmoroz[0],fracmoroz[1],fracmoroz[2],fracmoroz[3],fracmoroz[4],fracmoroz[5],fracmoroz[6],fracmoroz[7]);
-	mysql_tquery(connects,quer_moroz, "", "");
+	mysql_tquery(connects, quer_moroz, "", "");
 	return 1;
 }
-stock SetPosInFrontOfPlayer(playerid,giveplayerid,Float:distance) {
-	new Float:x,Float:y,Float:z,Float:a;
-	GetPlayerPos(playerid, x, y,z);
+stock SetPosInFrontOfPlayer(playerid, giveplayerid, Float:distance) {
+	new Float:x, Float:y, Float:z, Float:a;
+	GetPlayerPos(playerid, x, y, z);
 	GetPlayerFacingAngle(playerid, a);
 	x += (distance * floatsin(-a, degrees));
 	y += (distance * floatcos(-a, degrees));
-	SetPlayerPosAC(giveplayerid,x,y,z,TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
-	SetPlayerFacingAngle(giveplayerid,a);
+	SetPlayerPosAC(giveplayerid, x, y, z, TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
+	SetPlayerFacingAngle(giveplayerid, a);
 }
 stock IsLeapYear(year) return (year % 4 == 0);
 stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, HourGMT, MinuteGMT = 0) {
@@ -50976,8 +50975,8 @@ stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, H
 		log_amount ++;
 		if(Timestamp >= 31536000) {
 			year ++;
-			Timestamp -= 31536000;
 			tmp ++;
+			Timestamp -= 31536000;
 			if(tmp == 4) {
 				if(Timestamp >= 31622400) {
 					tmp = 0;
@@ -51819,7 +51818,7 @@ CB: bizz_stats(playerid,bizz) {
 }
 stock EnableGPSForPlayer(playerid, Float:x, Float:y, Float:z) {
 	gpss[playerid] = 1;
-	SetPlayerRaceCheckpoint(playerid, 2, Float:x, Float:y, Float:z,Float:x, Float:y, Float:z, 3.0);
+	SetPlayerRaceCheckpoint(playerid, 2, Float:x, Float:y, Float:z, Float:x, Float:y, Float:z, 3.0);
 	return 1;
 }
 stock bizz_pay(bizz,price) {
@@ -53240,7 +53239,7 @@ CMD:spcar(playerid, params[]) {
 CMD:gotocar(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 3 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	if(sscanf(params, "d",params[0])) return SendError(playerid, "Використайте: /gotocar [playerid]");
-	new Float: x,Float:y,Float:z;
+	new Float: x, Float:y, Float:z;
 	GetVehiclePos(params[0],x,y,z);
 	SetPlayerPosAC(playerid,x,y,z,GetVehicleVirtualWorld(params[0]), 0);
 	return 1;
@@ -53837,7 +53836,7 @@ CMD:gethere(playerid,params[]) {
 	if(playerid == giveplayerid) return SendError(playerid, "Ви вказали свій ID");
 	if(CI[giveplayerid][pJailTime] > 0) return SendError(playerid, "Гравець у в'язниці.");
 	if(!TI[giveplayerid][tLogin]) return SendError(playerid, "Гравець не авторизований на сервері.");
-	new Float:X, Float:Y,Float:Z, 
+	new Float:X, Float:Y, Float:Z, 
 	Float:A,
 	vehicleid = GetPlayerVehicleID(giveplayerid),
 	interior = GetPlayerInterior(playerid),
@@ -54564,7 +54563,7 @@ CMD:amusic(playerid, params[]) {
 	format(stream, sizeof(stream), "%s",path);
 	rads = params[0];
 	Sounds = 1;
-	new Float:x1,Float:y1,Float:z1;
+	new Float:x1, Float:y1, Float:z1;
 	GetPlayerPos(playerid,x1,y1,z1);
 	streampos[0] = x1;
 	streampos[1] = y1;
@@ -54577,7 +54576,7 @@ CMD:amusic(playerid, params[]) {
 	return 1;
 }
 CMD:enter(playerid) {
-	new Float:x, Float:y,Float:z;
+	new Float:x, Float:y, Float:z;
 	new car = GetNearestVehicle(playerid);
 	GetVehiclePos(car, x, y, z);
 	GetVehicleParamsEx(car,engine,lights,alarm,doors,bonnet,boot,objective);
@@ -54774,7 +54773,7 @@ CMD:getdonate(playerid, params[]) {
 }
 CMD:respv(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 3 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	new Float: position[3],Float:rad;
+	new Float: position[3], Float:rad;
 	if(sscanf(params, "f", rad)) return SendError(playerid, "Використайте: /respv [radius]");
 	if(rad > 100 || rad < 2) return SendError(playerid, "Радіус від 2 до 100");
 	GetPlayerPos(playerid, position[0], position[1], position[2]);
@@ -54824,9 +54823,9 @@ CMD:delacc(playerid, params[]) {
 // 5 рівень.
 CMD:tpcor(playerid,params[]) {
 	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	new Float:x,Float:z,Float:y;
+	new Float:x, Float:z, Float:y;
 	if(sscanf(params, "p<,>fff",x,y,z)) return SendError(playerid, "Використайте: /tpcor [x] [y] [z]");
-	SetPlayerPosAC(playerid,Float:x,Float:y,Float:z,TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
+	SetPlayerPosAC(playerid, Float:x, Float:y, Float:z,TI[playerid][tVirtualWorld], TI[playerid][tInterior]);
 	return 1;
 }
 CMD:addzone(playerid, params[]) {
@@ -55643,7 +55642,7 @@ CMD:poscar(playerid, params[]) {
 	new carid = GetPlayerVehicleID(playerid);
 	if(GetVehicleModel(carid) != 560) return SendError(playerid, "Сядьте в султан.");
 
-	new Float: lwx, Float:lwy, Float:lwz,Float:a;
+	new Float: lwx, Float:lwy, Float:lwz, Float:a;
 	GetVehiclePos(carid,lwx, lwy, lwz);
 	GetVehicleZAngle(carid,a);
 	gHouses[params[0]-1][houseParkX] = lwx;
@@ -56441,7 +56440,7 @@ stock save_quest(playerid,id) {
 stock SendBotMessage(playerid, const mesage[]) {
 	new id;
 	if(!TI[playerid][tLogin]) return 0;
-	new Float:x, Float:y, Float:z,Float:x1, Float:y1, Float:z1;
+	new Float:x, Float:y, Float:z, Float:x1, Float:y1, Float:z1;
 	new Float: minDist,minA=-1, text[120];
 	GetPlayerPos(playerid, x1, y1, z1);
 	for(new i;i<MAX_ACTORSS;i++) {
@@ -62797,7 +62796,7 @@ stock Convertss(number) {
 	return string;
 }
 stock GetCoordDoorVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
-	new Float:angle,Float:distance;
+	new Float:angle, Float:distance;
 	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);  
 	distance = distance/2 + 0.1;
 	GetVehiclePos(vehicleid, x, y, z);
@@ -62807,7 +62806,7 @@ stock GetCoordDoorVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	return 1;
 }  
 stock GetCoordBonnetVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
-	new Float:angle,Float:distance;
+	new Float:angle, Float:distance;
 	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);
 	distance = distance/2 + 0.1;
 	GetVehiclePos(vehicleid, x, y, z);
@@ -62817,7 +62816,7 @@ stock GetCoordBonnetVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	return 1;
 }
 stock GetCoordBootVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
-	new Float:angle,Float:distance;
+	new Float:angle, Float:distance;
 	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);
 	distance = distance/2 + 0.1;
 	GetVehiclePos(vehicleid, x, y, z);
@@ -62841,7 +62840,7 @@ stock GetBoatDoorPos(vehicleid, &Float:x, &Float:y, &Float:z) {
 	return 1;
 }
 stock GetCoordDoorTrailer(vehicleid, &Float:x, &Float:y, &Float:z) {
-	new Float:angle,Float:distance;
+	new Float:angle, Float:distance;
 	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);
 	distance = distance/2 + 0.1;
 	GetVehiclePos(vehicleid, x, y, z);
@@ -62957,7 +62956,7 @@ stock IsValidVehicleModel(modelid) { // Проверка на существующую модель транспор
 	return false;
 }
 stock GetVehicleRotation(vehicleid,&Float:rx,&Float:ry,&Float:rz) {
-	new Float:qw,Float:qx,Float:qy,Float:qz;
+	new Float:qw, Float:qx, Float:qy, Float:qz;
 	GetVehicleRotationQuat(vehicleid,qw,qx,qy,qz);
 	rx = asin(2*qy*qz-2*qx*qw);
 	ry = -atan2(qx*qz+qy*qw, 0.5-qx*qx-qy*qy);
@@ -64667,7 +64666,7 @@ CB: player_timer(playerid) {
 		if(GotoInfo[playerid][gtGoID] != INVALID_PLAYER_ID) {
 			new goid = GotoInfo[playerid][gtGoID];
 			if(IsPlayerConnected(goid) && TI[goid][tLogin]) {
-				new Float:xX, Float:xY, Float:xZ,Float:agle;
+				new Float:xX, Float:xY, Float:xZ, Float:agle;
 				GetPlayerPos(goid, xX, xY, xZ);
 				GetPlayerFacingAngle(playerid, agle);
 				if(!IsPlayerInRangeOfPoint(playerid, 20, xX, xY, xZ)) {
@@ -69970,7 +69969,7 @@ stock Dialog_Robbit_WareHouse(playerid,response,listitem) {
 		case 0:{
 			if(AlkoGol < 5) return SendError(playerid, "Вам потрібно зібрати щонайменш 5 сумок з акоголем.");
 			DeletePVar(playerid, "StopEngine");
-            new Float:xx, Float:yy,Float:zz;
+            new Float:xx, Float:yy, Float:zz;
 		    GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, yy, zz);
 			if(IsPlayerInRangeOfPoint(playerid, 5.0, xx,yy,zz)){
 			    switch(CI[playerid][pMember]) {
@@ -70201,7 +70200,7 @@ CMD:statecars(playerid) {
 	"P"4. "W"Національна гвардія", "Далі", "Скасувати");
 	return 1;
 }
-stock CreateOrgsVehicle(carid,orgs,rank,model,Float:X,Float:Y,Float:Z,Float:A,Color_1,Color_2,spawntime) {
+stock CreateOrgsVehicle(carid,orgs,rank,model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
 	VehicleInfo[carid][vID] = A_AddStaticVehicleEx(model,X,Y,Z,A,Color_1,Color_2,spawntime,VEHICLE_TYPE_FRACTION);
 
 	VehicleInfo[VehicleInfo[carid][vID]][vTeam] = orgs;
