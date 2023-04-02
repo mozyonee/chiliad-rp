@@ -139,10 +139,10 @@ stock roulette_NextPrize(playerid) {
 }
 stock roulette_UpdateBalanceTD(playerid) {
 	new roulette_string[36];
-	format(roulette_string, sizeof(roulette_string), "~>~ BALANCE: ~r~~h~~h~~h~%iUAH", CI[playerid][pRouble]);
+	format(roulette_string, sizeof(roulette_string), "~>~ BALANCE: ~r~~h~~h~~h~%iUAH", CI[playerid][pDonate]);
 	PlayerTextDrawSetString(playerid, Roulette_PTD[playerid][10], roulette_string);
 
-	new cases_amount = (CI[playerid][pRouble] / ROULETTE_OPEN_PRICE);
+	new cases_amount = (CI[playerid][pDonate] / ROULETTE_OPEN_PRICE);
 	switch (cases_amount) {
 		case 0..9: format(roulette_string, sizeof(roulette_string), "0000000~g~~h~%i", cases_amount);
 		case 10..99: format(roulette_string, sizeof(roulette_string), "000000~g~~h~%i", cases_amount);
@@ -153,12 +153,12 @@ stock roulette_UpdateBalanceTD(playerid) {
 stock roulette_Start(playerid) {
 	if (!RouletteInfo[playerid][rouletteShowed] || RouletteInfo[playerid][rouletteStarted])
 		return false;
-	if (CI[playerid][pRouble] < ROULETTE_OPEN_PRICE) {
+	if (CI[playerid][pDonate] < ROULETTE_OPEN_PRICE) {
 		PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 		return SendClientMessage(playerid, -1, "Для відкриття необхідно мати "#ROULETTE_OPEN_PRICE" UAH.");
 	}
-	CI[playerid][pRouble] -= ROULETTE_OPEN_PRICE;
-	UpdateCharacterData(playerid, "donatemoney", CI[playerid][pRouble]);
+	CI[playerid][pDonate] -= ROULETTE_OPEN_PRICE;
+	UpdateCharacterData(playerid, "donatemoney", CI[playerid][pDonate]);
 
 	roulette_UpdateBalanceTD(playerid);
 	PlayerTextDrawSetString(playerid, Roulette_PTD[playerid][27], "STARTING..");
@@ -210,7 +210,7 @@ stock roulette_Stop(playerid) {
 
 	printf(
 		"Гравець %s виграв в рулетці - \"%s\". Поточний баланс: %d",
-		CI[playerid][cName], PrizeRouletInfo[player_prize_id][prize_text_name], CI[playerid][pRouble]
+		CI[playerid][cName], PrizeRouletInfo[player_prize_id][prize_text_name], CI[playerid][pDonate]
 	);
 	RouletteInfo[playerid][rouletteStarted] = 0;
 }
@@ -844,23 +844,23 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 		case PRIZE_TYPE_EXP: GiveMoney(playerid, 2500* db_model_id, "50% продаж 'EXP'");
 		case PRIZE_TYPE_VIP_UAHY:{
 			switch(db_model_id){
-				case 1:  CI[playerid][pRouble] += 15;
-				case 3:  CI[playerid][pRouble] += 45;
-				case 7:  CI[playerid][pRouble] += 105;
-				case 15: CI[playerid][pRouble] += 225;
-				case 30: CI[playerid][pRouble] += 450;
+				case 1:  CI[playerid][pDonate] += 15;
+				case 3:  CI[playerid][pDonate] += 45;
+				case 7:  CI[playerid][pDonate] += 105;
+				case 15: CI[playerid][pDonate] += 225;
+				case 30: CI[playerid][pDonate] += 450;
 			}
 		}
 		case PRIZE_TYPE_BOOST:{
 		    switch(db_model_id){
-				case 1:  CI[playerid][pRouble] += 7;
-				case 3:  CI[playerid][pRouble] += 21;
-				case 9:  CI[playerid][pRouble] += 63;
-				case 24: CI[playerid][pRouble] += 168;
+				case 1:  CI[playerid][pDonate] += 7;
+				case 3:  CI[playerid][pDonate] += 21;
+				case 9:  CI[playerid][pDonate] += 63;
+				case 24: CI[playerid][pDonate] += 168;
 			}
 		}
 		case PRIZE_TYPE_DONATE: {
-			CI[playerid][pRouble] += ((db_model_id/100)*50);
+			CI[playerid][pDonate] += ((db_model_id/100)*50);
 			
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, (db_model_id/100)*50, "usePrize");
@@ -882,7 +882,7 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 		default: return true;
 
 	}
-	UpdateCharacterData(playerid, "donatemoney", CI[playerid][pRouble]);
+	UpdateCharacterData(playerid, "donatemoney", CI[playerid][pDonate]);
     format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "{479FF2}[Успіх] "W"Ви успішно продали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
 	SendClientMessage(playerid, COLOR_WHITE, CHAT_GLOBAL), CHAT_GLOBAL[0] = EOS;
 
@@ -938,8 +938,8 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
             UpdateCharacterData(playerid,"pBoost",CI[playerid][pBoost]);
 		}
 		case PRIZE_TYPE_DONATE: {
-			CI[playerid][pRouble] += db_model_id;
-			UpdateCharacterData(playerid, "donatemonegy", CI[playerid][pRouble]);
+			CI[playerid][pDonate] += db_model_id;
+			UpdateCharacterData(playerid, "donatemonegy", CI[playerid][pDonate]);
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id, "usePrize");
 		case PRIZE_TYPE_SKIN: AddItem(playerid, 140 + db_model_id, 1);
