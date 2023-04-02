@@ -1,5 +1,0 @@
-[30.03.2023 13:25:17] [ERROR] Can't read from Discord websocket gateway: An existing connection was forcibly closed by the remote host (10054)
-[30.03.2023 13:26:28] [ERROR] Can't read from Discord websocket gateway: An existing connection was forcibly closed by the remote host (10054)
-[30.03.2023 13:57:28] [ERROR] Can't read from Discord websocket gateway: An existing connection was forcibly closed by the remote host (10054)
-[30.03.2023 13:58:51] [ERROR] Can't read from Discord websocket gateway: An existing connection was forcibly closed by the remote host (10054)
-[30.03.2023 13:58:51] [ERROR] Can't write to Discord websocket gateway: The I/O operation has been aborted because of either a thread exit or an application request (995)
