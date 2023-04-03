@@ -5241,3 +5241,1104 @@ Executing Server Config...
 [2023-03-30T16:44:06+0300] [Info] [part] Brian_Randall has left the server (0:1)
 [2023-03-30T16:44:10+0300] [Info] [Pawn.RakNet] plugin unloaded
 [2023-03-30T16:44:10+0300] [Info] discord-connector: Unloading componment...
+Starting open.mp server (1.0.1.2409) from commit dcd0190a91e67c99217e8ed3254baeb86733a0e4
+Loading component Actors.dll
+	Successfully loaded component Actors (1.0.1.2409) with UID c81ca021eae2ad5c
+Loading component Checkpoints.dll
+	Successfully loaded component Checkpoints (1.0.1.2409) with UID 44a937350d611dde
+Loading component Classes.dll
+	Successfully loaded component Classes (1.0.1.2409) with UID 8cfb3183976da208
+Loading component Console.dll
+	Successfully loaded component Console (1.0.1.2409) with UID bfa24e49d0c95ee4
+Loading component CustomModels.dll
+	Successfully loaded component CustomModels (1.0.1.2409) with UID 15e3cb1e7c77ffff
+Loading component Databases.dll
+	Successfully loaded component Databases (1.0.1.2409) with UID 80092e7eb5821a96
+Loading component Dialogs.dll
+	Successfully loaded component Dialogs (1.0.1.2409) with UID 44a111350d611dde
+Loading component discord-connector.dll
+	Successfully loaded component discord-connector (0.3.6.1) with UID 493dfe4f6ea1841f
+Loading component Fixes.dll
+	Successfully loaded component Fixes (1.0.1.2409) with UID b5c615eff0329ff7
+Loading component GangZones.dll
+	Successfully loaded component GangZones (1.0.1.2409) with UID b3351d11ee8d8056
+Loading component LegacyConfig.dll
+	Successfully loaded component LegacyConfig (1.0.1.2409) with UID 24ef6216838f9ffc
+Loading component LegacyNetwork.dll
+	Successfully loaded component RakNetLegacyNetwork (1.0.1.2409) with UID ea9799fd79cf8442
+Loading component Menus.dll
+	Successfully loaded component Menus (1.0.1.2409) with UID 621e219eb97ee0b2
+Loading component Objects.dll
+	Successfully loaded component Objects (1.0.1.2409) with UID 59f8415f72da6160
+Loading component Pawn.dll
+	Successfully loaded component Pawn (1.0.1.2409) with UID 78906cd9f19c36a6
+Loading component pawncmd.dll
+	Successfully loaded component Pawn.CMD (0.3.4.0) with UID a03b47c907a96c29
+Loading component pawnraknet.dll
+	Successfully loaded component Pawn.RakNet (0.1.6.0) with UID 4a8b15c16d23e42f
+Loading component pawnregex.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component Pickups.dll
+	Successfully loaded component Pickups (1.0.1.2409) with UID cf304faa363dd971
+Loading component SKY.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component sscanf.dll
+	Successfully loaded component sscanf (2.13.8.0) with UID a1e7c01e55caa1f2
+Loading component TextDraws.dll
+	Successfully loaded component TextDraws (1.0.1.2409) with UID 9b5dc2b1d15c992a
+Loading component TextLabels.dll
+	Successfully loaded component TextLabels (1.0.1.2409) with UID a0c57ea80a009742
+Loading component Timers.dll
+	Successfully loaded component Timers (1.0.1.2409) with UID 2ad8124c5ea257a3
+Loading component Unicode.dll
+	Successfully loaded component Unicode (1.0.1.2409) with UID 8ffb446f8353922b
+Loading component Variables.dll
+	Successfully loaded component Variables (1.0.1.2409) with UID 75e121848bc01fa2
+Loading component Vehicles.dll
+	Successfully loaded component Vehicles (1.0.1.2409) with UID 3f1f62ee9e22ab19
+Loaded 25 component(s) from C:\Users\User\Documents\GitHub\chiliad-rp\components
+Executing Server Config...
+[2023-03-30T21:50:52+0300] [Info]  >> discord-connector: afb7e3b successfully loaded.
+[2023-03-30T21:50:52+0300] [Info] 
+[2023-03-30T21:50:52+0300] [Info]  ===============================
+[2023-03-30T21:50:52+0300] [Info] 
+[2023-03-30T21:50:52+0300] [Info]      sscanf component loaded.   
+[2023-03-30T21:50:52+0300] [Info] 
+[2023-03-30T21:50:52+0300] [Info]          Version: 2.13.8
+[2023-03-30T21:50:52+0300] [Info] 
+[2023-03-30T21:50:52+0300] [Info]    (c) 2022 Alex "Y_Less" Cole  
+[2023-03-30T21:50:52+0300] [Info] 
+[2023-03-30T21:50:52+0300] [Info]  ===============================
+[2023-03-30T21:50:52+0300] [Info] 
+[2023-03-30T21:50:52+0300] [Info] [Pawn.RakNet] plugin v1.6.0 loading...
+[2023-03-30T21:50:52+0300] [Info] [Pawn.RakNet] 
+
+    | Pawn.RakNet 1.6.0 | open.mp | 2016 - 2023
+    |--------------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 16:51:14
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.RakNet/tree/omp
+    |--------------------------------------------------------------
+    | Wiki: https://github.com/katursis/Pawn.RakNet/wiki
+
+[2023-03-30T21:50:52+0300] [Info] [Pawn.CMD] plugin v3.4.0 loading...
+[2023-03-30T21:50:52+0300] [Info] [Pawn.CMD] 
+
+    | Pawn.CMD 3.4.0 | open.mp | 2016 - 2023
+    |-----------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 17:25:09
+    |----------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.CMD/tree/omp
+
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: crashdetect
+[2023-03-30T21:50:52+0300] [Info]   CrashDetect plugin 4.21
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: streamer
+[2023-03-30T21:50:52+0300] [Info] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: gvar
+[2023-03-30T21:50:52+0300] [Info] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: mysql
+[2023-03-30T21:50:52+0300] [Info]  >> plugin.mysql: R41-2 successfully loaded.
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: profiler
+[2023-03-30T21:50:52+0300] [Info]   Profiler plugin 2.15.3
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: pawnregex
+[2023-03-30T21:50:52+0300] [Info] [Pawn.Regex] plugin v1.2.3 loading...
+[2023-03-30T21:50:52+0300] [Info] [Pawn.Regex] 
+
+    | Pawn.Regex 1.2.3 | 2016 - 2021
+    |--------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Sep 26 2021 at 11:59:38
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.Regex
+
+[2023-03-30T21:50:52+0300] [Info] Loading plugin: TOTP
+[2023-03-30T21:50:52+0300] [Info] TOTP plugin v1.0.1 by Games loaded.
+[2023-03-30T21:50:53+0300] [Info] 
+--------------------------------------
+[2023-03-30T21:50:53+0300] [Info]  CamEditor by Drebin
+[2023-03-30T21:50:53+0300] [Info] --------------------------------------
+
+[2023-03-30T21:50:53+0300] [Warning] Deprecated function GetVehiclePoolSize used. This function was replaced by MAX_VEHICLES.
+[2023-03-30T21:50:53+0300] [Warning] Deprecated function GetPlayerPoolSize used. This function was replaced by MAX_PLAYERS.
+[2023-03-30T21:50:53+0300] [Warning] Deprecated functions will be removed in the next open.mp release.
+[2023-03-30T21:50:53+0300] [Warning] Parameter count does not match specifier in `Script_Call`. callback: Iter_OnGameModeInit - fmat:  - count: 3)
+[2023-03-30T21:50:53+0300] [Warning] Deprecated console variable "rcon", use "rcon.enable" instead.
+[2023-03-30T21:50:53+0300] [Info] Remote console disabled.
+[2023-03-30T21:50:53+0300] [Warning] Deprecated console variable "lagcompmode", use "game.lag_compensation_mode" instead.
+[2023-03-30T21:50:53+0300] [Info]  
+[2023-03-30T21:50:53+0300] [Info] --------------------------------------
+[2023-03-30T21:50:53+0300] [Info]  Anticheat Nex-AC loaded!
+[2023-03-30T21:50:53+0300] [Info]  Anticheat version: 1.9.56
+[2023-03-30T21:50:53+0300] [Info]  Author: Nexius
+[2023-03-30T21:50:53+0300] [Info] --------------------------------------
+
+[2023-03-30T21:50:53+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:50:53+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:50:53+0300] [Info] [debug] #0 00072e84 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2359
+[2023-03-30T21:50:53+0300] [Info] [debug] #1 000685d4 in public ac_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2161
+[2023-03-30T21:50:53+0300] [Info] [debug] #2 0001e69c in public PawnCmd_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:668
+[2023-03-30T21:50:53+0300] [Info] [debug] #3 000062c8 in public SSCANF_OnGameModeInit ()  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:131
+[2023-03-30T21:50:53+0300] [Info] [debug] #4 00005a10 in public PawnRakNet_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:120
+[2023-03-30T21:50:53+0300] [Info] [debug] #5 00005660 in public Iter_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:114
+[2023-03-30T21:50:53+0300] [Info] [debug] #6 native CallLocalFunction () in Pawn.dll
+[2023-03-30T21:50:53+0300] [Info] [debug] #7 000012f4 in public OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:28
+[2023-03-30T21:50:54+0300] [Info] [Success] Vehicle has been successfully loaded. (212 pcs.)
+[2023-03-30T21:50:54+0300] [Info] [Success] Gang/mafia freezes successfully loaded. (1 pcs.)
+[2023-03-30T21:50:55+0300] [Info] [Success] Houses successfully loaded. (425 pcs.)
+[2023-03-30T21:50:55+0300] [Info] [Error] Families weren't found in DB.
+[2023-03-30T21:50:55+0300] [Info] [Success] Families successfully loaded. (0 pcs.)
+[2023-03-30T21:50:55+0300] [Info] [Success] Business interiors successfully loaded. (32 pcs.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Businesses successfully loaded. (62 pcs.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Apartments successfully loaded. (0 pcs.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Green zones successfully loaded. (48 шpcsт.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Gangzones successfully loaded. (130 pcs.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Fractions successfully loaded. (19 pcs.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Enter/exit pickups successfully loaded. (93 pcs.)
+[2023-03-30T21:50:56+0300] [Info] [Success] Other pickups successfully loaded. (82 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Anti-cheat successfully loaded. (53 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Diplomacy successfully loaded. (8 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Black market successfully loaded. (1 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Economics successfully loaded.
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:50:57+0300] [Info] [Success] ATMs successfully loaded. (7 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Business functions successfully loaded. (7 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Faction weapons successfully loaded.
+[2023-03-30T21:50:57+0300] [Info] [Success] Billboards successfully loaded. (50 pcs.)
+[2023-03-30T21:50:57+0300] [Info] [Success] Graffiti successfully loaded. (120 pcs.)
+[2023-03-30T21:50:58+0300] [Info] [Success] Motorhouses successfully loaded. (3 pcs.)
+[2023-03-30T21:50:58+0300] [Warning] Vehicle created with respawn delay 0 which is undefined behaviour that might change in the future.
+[2023-03-30T21:50:58+0300] [Info] [Success] State vehicles successfully loaded. (142 pcs.)
+[2023-03-30T21:50:58+0300] [Info] [Success] Dynamic objects successfully loaded. (26611 pcs.)
+[2023-03-30T21:50:58+0300] [Info] [Nex-AC] This version of the anticheat is not suitable for the server version
+[2023-03-30T21:50:58+0300] [Info] [debug] Run time error 20: "Invalid index parameter (bad entry point)"
+[2023-03-30T21:50:58+0300] [Error] Invalid index parameter (bad entry point)
+[2023-03-30T21:50:58+0300] [Info] Legacy Network started on 127.0.0.1:7777.
+[2023-03-30T21:50:59+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:50:59+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:50:59+0300] [Info] [debug] #0 000137dc in public ac_DestroyDynamicPickup (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:434
+[2023-03-30T21:50:59+0300] [Info] [debug] #1 0001da68 in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:653
+[2023-03-30T21:50:59+0300] [Info] [debug] #2 00d4e7b8 in ?? (4) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:50:59+0300] [Info] [debug] #3 00d633e4 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:50:59+0300] [Info] [debug] #4 00a72764 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:50:59+0300] [Info] [debug] #5 00d9cbbc in public OnGameModeUpdate () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:51:24+0300] [Info] [connection] incoming connection: 127.0.0.1:52553 id: 0
+[2023-03-30T21:51:24+0300] [Info] [join] Brian_Randall has joined the server (0:127.0.0.1)
+[2023-03-30T21:51:36+0300] [Warning] Invalid dialog ID -1 used.  Use `HidePlayerDialog()`.
+[2023-03-30T21:51:36+0300] [Warning] Using unsafe hashing function SHA256_PassHash
+[2023-03-30T21:51:40+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:51:40+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:51:40+0300] [Info] [debug] #0 00008b3c in ?? (19534860, 19534884) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:182
+[2023-03-30T21:51:40+0300] [Info] [debug] #1 00007338 in ?? (19534860, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:152
+[2023-03-30T21:51:40+0300] [Info] [debug] #2 00006538 in ?? (19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:134
+[2023-03-30T21:51:40+0300] [Info] [debug] #3 000f3d44 in public ac_OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:4726
+[2023-03-30T21:51:40+0300] [Info] [debug] #4 000230dc in public OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:760
+[2023-03-30T21:51:40+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:51:40+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:51:40+0300] [Info] [debug] #0 0006489c in ?? (0, 19353476, 19353976, 0, 0, 0, 0, 0, 0, 0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2071
+[2023-03-30T21:51:40+0300] [Info] [debug] #1 00d628f4 in ?? (0, 19353476) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:51:40+0300] [Info] [debug] #2 00d624f0 in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:51:40+0300] [Info] [debug] #3 00b6c6e0 in public start_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:51:40+0300] [Info] [debug] #4 00b6a7c8 in public load_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:51:42+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:51:42+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:51:42+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:51:42+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:51:42+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:51:59+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:51:59+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:51:59+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:51:59+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:51:59+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:51:59+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:51:59+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:51:59+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:51:59+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 867) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:51:59+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 867) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:51:59+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:51:59+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:51:59+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:51:59+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:51:59+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:52:05+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:52:05+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:52:05+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:52:05+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:52:05+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:52:22+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:52:22+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:52:22+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:52:22+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 681) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:52:22+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 681) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:53:25+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:53:25+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:53:25+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:53:25+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 696) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:53:25+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 696) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:53:28+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:53:28+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:53:28+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:53:28+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 696) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:53:28+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 696) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:53:35+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:53:35+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:53:35+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:53:35+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:53:35+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:54:07+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:54:07+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:54:07+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:54:07+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 734) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:54:07+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 734) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:54:13+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T21:54:13+0300] [Info] SELECT DISTINCT `Name` FROM `factions
+[2023-03-30T21:55:58+0300] [Info] [chat] [Brian_Randall]: q
+[2023-03-30T21:56:03+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:56:03+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:56:03+0300] [Info] [debug] #0 0025eab0 in public WC_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12832
+[2023-03-30T21:56:03+0300] [Info] [debug] #1 00069414 in public ac_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2182
+[2023-03-30T21:56:03+0300] [Info] [debug] #2 00020e24 in public SSCANF_OnPlayerDisconnect (0, 1)  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:717
+[2023-03-30T21:56:03+0300] [Info] [debug] #3 00005c40 in public Iter_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:122
+[2023-03-30T21:56:03+0300] [Info] [debug] #4 native CallLocalFunction () in Pawn.dll
+[2023-03-30T21:56:03+0300] [Info] [debug] #5 00001878 in public OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36
+[2023-03-30T21:56:03+0300] [Info] [part] Brian_Randall has left the server (0:1)
+[2023-03-30T21:56:03+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T21:56:03+0300] [Info] UPDATE characters SET `pOnline` = '30-03-2023',`pSatiety` = '73' WHERE `cID` = '31' LIMIT 1
+[2023-03-30T21:56:03+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T21:56:03+0300] [Info] UPDATE `admin` SET `online_thursday` = '882', `kick` = '0', `ban` = '0', `mute` = '0', `pm` = '0', `warn` = '0', `jail` = '0',`vig`='0',`blockadmin`='0',online_status = '0' WHERE `Name` = 'Brian_Randall' LIMIT 1
+[2023-03-30T21:56:07+0300] [Info] [Pawn.RakNet] plugin unloaded
+[2023-03-30T21:56:07+0300] [Info] discord-connector: Unloading componment...
+Starting open.mp server (1.0.1.2409) from commit dcd0190a91e67c99217e8ed3254baeb86733a0e4
+Loading component Actors.dll
+	Successfully loaded component Actors (1.0.1.2409) with UID c81ca021eae2ad5c
+Loading component Checkpoints.dll
+	Successfully loaded component Checkpoints (1.0.1.2409) with UID 44a937350d611dde
+Loading component Classes.dll
+	Successfully loaded component Classes (1.0.1.2409) with UID 8cfb3183976da208
+Loading component Console.dll
+	Successfully loaded component Console (1.0.1.2409) with UID bfa24e49d0c95ee4
+Loading component CustomModels.dll
+	Successfully loaded component CustomModels (1.0.1.2409) with UID 15e3cb1e7c77ffff
+Loading component Databases.dll
+	Successfully loaded component Databases (1.0.1.2409) with UID 80092e7eb5821a96
+Loading component Dialogs.dll
+	Successfully loaded component Dialogs (1.0.1.2409) with UID 44a111350d611dde
+Loading component discord-connector.dll
+	Successfully loaded component discord-connector (0.3.6.1) with UID 493dfe4f6ea1841f
+Loading component Fixes.dll
+	Successfully loaded component Fixes (1.0.1.2409) with UID b5c615eff0329ff7
+Loading component GangZones.dll
+	Successfully loaded component GangZones (1.0.1.2409) with UID b3351d11ee8d8056
+Loading component LegacyConfig.dll
+	Successfully loaded component LegacyConfig (1.0.1.2409) with UID 24ef6216838f9ffc
+Loading component LegacyNetwork.dll
+	Successfully loaded component RakNetLegacyNetwork (1.0.1.2409) with UID ea9799fd79cf8442
+Loading component Menus.dll
+	Successfully loaded component Menus (1.0.1.2409) with UID 621e219eb97ee0b2
+Loading component Objects.dll
+	Successfully loaded component Objects (1.0.1.2409) with UID 59f8415f72da6160
+Loading component Pawn.dll
+	Successfully loaded component Pawn (1.0.1.2409) with UID 78906cd9f19c36a6
+Loading component pawncmd.dll
+	Successfully loaded component Pawn.CMD (0.3.4.0) with UID a03b47c907a96c29
+Loading component pawnraknet.dll
+	Successfully loaded component Pawn.RakNet (0.1.6.0) with UID 4a8b15c16d23e42f
+Loading component pawnregex.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component Pickups.dll
+	Successfully loaded component Pickups (1.0.1.2409) with UID cf304faa363dd971
+Loading component SKY.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component sscanf.dll
+	Successfully loaded component sscanf (2.13.8.0) with UID a1e7c01e55caa1f2
+Loading component TextDraws.dll
+	Successfully loaded component TextDraws (1.0.1.2409) with UID 9b5dc2b1d15c992a
+Loading component TextLabels.dll
+	Successfully loaded component TextLabels (1.0.1.2409) with UID a0c57ea80a009742
+Loading component Timers.dll
+	Successfully loaded component Timers (1.0.1.2409) with UID 2ad8124c5ea257a3
+Loading component Unicode.dll
+	Successfully loaded component Unicode (1.0.1.2409) with UID 8ffb446f8353922b
+Loading component Variables.dll
+	Successfully loaded component Variables (1.0.1.2409) with UID 75e121848bc01fa2
+Loading component Vehicles.dll
+	Successfully loaded component Vehicles (1.0.1.2409) with UID 3f1f62ee9e22ab19
+Loaded 25 component(s) from C:\Users\User\Documents\GitHub\chiliad-rp\components
+Executing Server Config...
+[2023-03-30T21:56:11+0300] [Info]  >> discord-connector: afb7e3b successfully loaded.
+[2023-03-30T21:56:11+0300] [Info] 
+[2023-03-30T21:56:11+0300] [Info]  ===============================
+[2023-03-30T21:56:11+0300] [Info] 
+[2023-03-30T21:56:11+0300] [Info]      sscanf component loaded.   
+[2023-03-30T21:56:11+0300] [Info] 
+[2023-03-30T21:56:11+0300] [Info]          Version: 2.13.8
+[2023-03-30T21:56:11+0300] [Info] 
+[2023-03-30T21:56:11+0300] [Info]    (c) 2022 Alex "Y_Less" Cole  
+[2023-03-30T21:56:11+0300] [Info] 
+[2023-03-30T21:56:11+0300] [Info]  ===============================
+[2023-03-30T21:56:11+0300] [Info] 
+[2023-03-30T21:56:11+0300] [Info] [Pawn.RakNet] plugin v1.6.0 loading...
+[2023-03-30T21:56:11+0300] [Info] [Pawn.RakNet] 
+
+    | Pawn.RakNet 1.6.0 | open.mp | 2016 - 2023
+    |--------------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 16:51:14
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.RakNet/tree/omp
+    |--------------------------------------------------------------
+    | Wiki: https://github.com/katursis/Pawn.RakNet/wiki
+
+[2023-03-30T21:56:11+0300] [Info] [Pawn.CMD] plugin v3.4.0 loading...
+[2023-03-30T21:56:11+0300] [Info] [Pawn.CMD] 
+
+    | Pawn.CMD 3.4.0 | open.mp | 2016 - 2023
+    |-----------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 17:25:09
+    |----------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.CMD/tree/omp
+
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: crashdetect
+[2023-03-30T21:56:11+0300] [Info]   CrashDetect plugin 4.21
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: streamer
+[2023-03-30T21:56:11+0300] [Info] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: gvar
+[2023-03-30T21:56:11+0300] [Info] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: mysql
+[2023-03-30T21:56:11+0300] [Info]  >> plugin.mysql: R41-2 successfully loaded.
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: profiler
+[2023-03-30T21:56:11+0300] [Info]   Profiler plugin 2.15.3
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: pawnregex
+[2023-03-30T21:56:11+0300] [Info] [Pawn.Regex] plugin v1.2.3 loading...
+[2023-03-30T21:56:11+0300] [Info] [Pawn.Regex] 
+
+    | Pawn.Regex 1.2.3 | 2016 - 2021
+    |--------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Sep 26 2021 at 11:59:38
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.Regex
+
+[2023-03-30T21:56:11+0300] [Info] Loading plugin: TOTP
+[2023-03-30T21:56:11+0300] [Info] TOTP plugin v1.0.1 by Games loaded.
+[2023-03-30T21:56:11+0300] [Info] 
+--------------------------------------
+[2023-03-30T21:56:11+0300] [Info]  CamEditor by Drebin
+[2023-03-30T21:56:11+0300] [Info] --------------------------------------
+
+[2023-03-30T21:56:11+0300] [Warning] Deprecated function GetVehiclePoolSize used. This function was replaced by MAX_VEHICLES.
+[2023-03-30T21:56:11+0300] [Warning] Deprecated function GetPlayerPoolSize used. This function was replaced by MAX_PLAYERS.
+[2023-03-30T21:56:11+0300] [Warning] Deprecated functions will be removed in the next open.mp release.
+[2023-03-30T21:56:11+0300] [Warning] Parameter count does not match specifier in `Script_Call`. callback: Iter_OnGameModeInit - fmat:  - count: 3)
+[2023-03-30T21:56:11+0300] [Warning] Deprecated console variable "rcon", use "rcon.enable" instead.
+[2023-03-30T21:56:11+0300] [Info] Remote console disabled.
+[2023-03-30T21:56:11+0300] [Warning] Deprecated console variable "lagcompmode", use "game.lag_compensation_mode" instead.
+[2023-03-30T21:56:11+0300] [Info]  
+[2023-03-30T21:56:11+0300] [Info] --------------------------------------
+[2023-03-30T21:56:11+0300] [Info]  Anticheat Nex-AC loaded!
+[2023-03-30T21:56:11+0300] [Info]  Anticheat version: 1.9.56
+[2023-03-30T21:56:11+0300] [Info]  Author: Nexius
+[2023-03-30T21:56:11+0300] [Info] --------------------------------------
+
+[2023-03-30T21:56:11+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:56:11+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:56:11+0300] [Info] [debug] #0 00072e84 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2359
+[2023-03-30T21:56:11+0300] [Info] [debug] #1 000685d4 in public ac_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2161
+[2023-03-30T21:56:11+0300] [Info] [debug] #2 0001e69c in public PawnCmd_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:668
+[2023-03-30T21:56:11+0300] [Info] [debug] #3 000062c8 in public SSCANF_OnGameModeInit ()  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:131
+[2023-03-30T21:56:11+0300] [Info] [debug] #4 00005a10 in public PawnRakNet_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:120
+[2023-03-30T21:56:11+0300] [Info] [debug] #5 00005660 in public Iter_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:114
+[2023-03-30T21:56:11+0300] [Info] [debug] #6 native CallLocalFunction () in Pawn.dll
+[2023-03-30T21:56:11+0300] [Info] [debug] #7 000012f4 in public OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:28
+[2023-03-30T21:56:13+0300] [Info] [Success] Vehicle has been successfully loaded. (212 pcs.)
+[2023-03-30T21:56:13+0300] [Info] [Success] Gang/mafia freezes successfully loaded. (1 pcs.)
+[2023-03-30T21:56:14+0300] [Info] [Success] Houses successfully loaded. (425 pcs.)
+[2023-03-30T21:56:14+0300] [Info] [Error] Families weren't found in DB.
+[2023-03-30T21:56:14+0300] [Info] [Success] Families successfully loaded. (0 pcs.)
+[2023-03-30T21:56:14+0300] [Info] [Success] Business interiors successfully loaded. (32 pcs.)
+[2023-03-30T21:56:14+0300] [Info] [Success] Businesses successfully loaded. (62 pcs.)
+[2023-03-30T21:56:14+0300] [Info] [Success] Apartments successfully loaded. (0 pcs.)
+[2023-03-30T21:56:14+0300] [Info] [Success] Green zones successfully loaded. (48 шpcsт.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Gangzones successfully loaded. (130 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Fractions successfully loaded. (19 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Enter/exit pickups successfully loaded. (93 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Other pickups successfully loaded. (82 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Anti-cheat successfully loaded. (53 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Diplomacy successfully loaded. (8 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Black market successfully loaded. (1 pcs.)
+[2023-03-30T21:56:15+0300] [Info] [Success] Economics successfully loaded.
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T21:56:15+0300] [Info] [Success] ATMs successfully loaded. (7 pcs.)
+[2023-03-30T21:56:16+0300] [Info] [Success] Business functions successfully loaded. (7 pcs.)
+[2023-03-30T21:56:16+0300] [Info] [Success] Faction weapons successfully loaded.
+[2023-03-30T21:56:16+0300] [Info] [Success] Billboards successfully loaded. (50 pcs.)
+[2023-03-30T21:56:16+0300] [Info] [Success] Graffiti successfully loaded. (120 pcs.)
+[2023-03-30T21:56:16+0300] [Info] [Success] Motorhouses successfully loaded. (3 pcs.)
+[2023-03-30T21:56:16+0300] [Warning] Vehicle created with respawn delay 0 which is undefined behaviour that might change in the future.
+[2023-03-30T21:56:16+0300] [Info] [Success] State vehicles successfully loaded. (142 pcs.)
+[2023-03-30T21:56:16+0300] [Info] [Success] Dynamic objects successfully loaded. (26611 pcs.)
+[2023-03-30T21:56:16+0300] [Info] [Nex-AC] This version of the anticheat is not suitable for the server version
+[2023-03-30T21:56:16+0300] [Info] [debug] Run time error 20: "Invalid index parameter (bad entry point)"
+[2023-03-30T21:56:16+0300] [Error] Invalid index parameter (bad entry point)
+[2023-03-30T21:56:16+0300] [Info] Legacy Network started on 127.0.0.1:7777.
+[2023-03-30T21:56:17+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:56:17+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:56:17+0300] [Info] [debug] #0 000137f8 in public ac_DestroyDynamicPickup (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:434
+[2023-03-30T21:56:17+0300] [Info] [debug] #1 0001da68 in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:653
+[2023-03-30T21:56:17+0300] [Info] [debug] #2 00d4e7b8 in ?? (4) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:17+0300] [Info] [debug] #3 00d633e4 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:17+0300] [Info] [debug] #4 00a72764 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:17+0300] [Info] [debug] #5 00d9cbbc in public OnGameModeUpdate () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:29+0300] [Info] [connection] incoming connection: 127.0.0.1:56581 id: 0
+[2023-03-30T21:56:29+0300] [Info] [join] Brian_Randall has joined the server (0:127.0.0.1)
+[2023-03-30T21:56:36+0300] [Warning] Invalid dialog ID -1 used.  Use `HidePlayerDialog()`.
+[2023-03-30T21:56:36+0300] [Warning] Using unsafe hashing function SHA256_PassHash
+[2023-03-30T21:56:38+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:56:39+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:56:39+0300] [Info] [debug] #0 00009cc0 in ?? (19534860, 19534884) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:204
+[2023-03-30T21:56:39+0300] [Info] [debug] #1 00007338 in ?? (19534860, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:152
+[2023-03-30T21:56:39+0300] [Info] [debug] #2 00006538 in ?? (19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:134
+[2023-03-30T21:56:39+0300] [Info] [debug] #3 000f3d44 in public ac_OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:4726
+[2023-03-30T21:56:39+0300] [Info] [debug] #4 000230dc in public OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:760
+[2023-03-30T21:56:39+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:56:39+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:56:39+0300] [Info] [debug] #0 00d628b8 in ?? (0, 19353404) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:39+0300] [Info] [debug] #1 00d6246c in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:39+0300] [Info] [debug] #2 00b6c6e0 in public start_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:39+0300] [Info] [debug] #3 00b6a7c8 in public load_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:56:40+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:56:40+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:56:40+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:56:40+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:56:40+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:57:11+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:57:11+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:57:11+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:57:11+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 702) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:57:11+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 702) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:57:20+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T21:57:20+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T21:57:20+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:57:20+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 702) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T21:57:20+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 702) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T21:57:29+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:57:29+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:57:29+0300] [Info] [debug] #0 00bafea0 in public pickup_list (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T21:57:47+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T21:57:47+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T21:57:47+0300] [Info] [debug] #0 00bafff0 in public pickup_list (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:00:01+0300] [Info] [Log] Admin Brian_Randall has changes his time: 811.
+[2023-03-30T22:00:01+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:00:01+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:00:01+0300] [Info] [debug] #0 00d62940 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:00:01+0300] [Info] [debug] #1 00a72764 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:00:01+0300] [Info] [debug] #2 00d9cbbc in public OnGameModeUpdate () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:00:01+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T22:00:01+0300] [Info] UPDATE admins SET `online_thursday` = '811', `kick` = '0', `ban` = '0', `mute` = '0', `pm` = '0', `warn` = '0', `jail` = '0',`vig`='0',`blockadmin`='0',`rep`='0',online_status = '0' WHERE `Name` = 'Brian_Randall' LIMIT 1
+[2023-03-30T22:00:42+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:00:42+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:00:42+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:00:42+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 703) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:00:42+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 703) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:02:19+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:02:19+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:02:19+0300] [Info] [debug] #0 00058434 in public ac_Timer (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1799
+[2023-03-30T22:06:17+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T22:06:17+0300] [Info] UPDATE characters SET `pSatiety` = '68' WHERE `cID` = '31' LIMIT 1
+[2023-03-30T22:06:42+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:06:42+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:06:42+0300] [Info] [debug] #0 0025ead4 in public WC_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12832
+[2023-03-30T22:06:42+0300] [Info] [debug] #1 00069414 in public ac_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2182
+[2023-03-30T22:06:42+0300] [Info] [debug] #2 00020e24 in public SSCANF_OnPlayerDisconnect (0, 1)  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:717
+[2023-03-30T22:06:42+0300] [Info] [debug] #3 00005c40 in public Iter_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:122
+[2023-03-30T22:06:42+0300] [Info] [debug] #4 native CallLocalFunction () in Pawn.dll
+[2023-03-30T22:06:42+0300] [Info] [debug] #5 00001878 in public OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36
+[2023-03-30T22:06:42+0300] [Info] [part] Brian_Randall has left the server (0:1)
+[2023-03-30T22:06:42+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T22:06:42+0300] [Info] UPDATE characters SET `pOnline` = '30-03-2023',`pSatiety` = '68' WHERE `cID` = '31' LIMIT 1
+[2023-03-30T22:06:59+0300] [Info] [Pawn.RakNet] plugin unloaded
+[2023-03-30T22:06:59+0300] [Info] discord-connector: Unloading componment...
+Starting open.mp server (1.0.1.2409) from commit dcd0190a91e67c99217e8ed3254baeb86733a0e4
+Loading component Actors.dll
+	Successfully loaded component Actors (1.0.1.2409) with UID c81ca021eae2ad5c
+Loading component Checkpoints.dll
+	Successfully loaded component Checkpoints (1.0.1.2409) with UID 44a937350d611dde
+Loading component Classes.dll
+	Successfully loaded component Classes (1.0.1.2409) with UID 8cfb3183976da208
+Loading component Console.dll
+	Successfully loaded component Console (1.0.1.2409) with UID bfa24e49d0c95ee4
+Loading component CustomModels.dll
+	Successfully loaded component CustomModels (1.0.1.2409) with UID 15e3cb1e7c77ffff
+Loading component Databases.dll
+	Successfully loaded component Databases (1.0.1.2409) with UID 80092e7eb5821a96
+Loading component Dialogs.dll
+	Successfully loaded component Dialogs (1.0.1.2409) with UID 44a111350d611dde
+Loading component discord-connector.dll
+	Successfully loaded component discord-connector (0.3.6.1) with UID 493dfe4f6ea1841f
+Loading component Fixes.dll
+	Successfully loaded component Fixes (1.0.1.2409) with UID b5c615eff0329ff7
+Loading component GangZones.dll
+	Successfully loaded component GangZones (1.0.1.2409) with UID b3351d11ee8d8056
+Loading component LegacyConfig.dll
+	Successfully loaded component LegacyConfig (1.0.1.2409) with UID 24ef6216838f9ffc
+Loading component LegacyNetwork.dll
+	Successfully loaded component RakNetLegacyNetwork (1.0.1.2409) with UID ea9799fd79cf8442
+Loading component Menus.dll
+	Successfully loaded component Menus (1.0.1.2409) with UID 621e219eb97ee0b2
+Loading component Objects.dll
+	Successfully loaded component Objects (1.0.1.2409) with UID 59f8415f72da6160
+Loading component Pawn.dll
+	Successfully loaded component Pawn (1.0.1.2409) with UID 78906cd9f19c36a6
+Loading component pawncmd.dll
+	Successfully loaded component Pawn.CMD (0.3.4.0) with UID a03b47c907a96c29
+Loading component pawnraknet.dll
+	Successfully loaded component Pawn.RakNet (0.1.6.0) with UID 4a8b15c16d23e42f
+Loading component pawnregex.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component Pickups.dll
+	Successfully loaded component Pickups (1.0.1.2409) with UID cf304faa363dd971
+Loading component SKY.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component sscanf.dll
+	Successfully loaded component sscanf (2.13.8.0) with UID a1e7c01e55caa1f2
+Loading component TextDraws.dll
+	Successfully loaded component TextDraws (1.0.1.2409) with UID 9b5dc2b1d15c992a
+Loading component TextLabels.dll
+	Successfully loaded component TextLabels (1.0.1.2409) with UID a0c57ea80a009742
+Loading component Timers.dll
+	Successfully loaded component Timers (1.0.1.2409) with UID 2ad8124c5ea257a3
+Loading component Unicode.dll
+	Successfully loaded component Unicode (1.0.1.2409) with UID 8ffb446f8353922b
+Loading component Variables.dll
+	Successfully loaded component Variables (1.0.1.2409) with UID 75e121848bc01fa2
+Loading component Vehicles.dll
+	Successfully loaded component Vehicles (1.0.1.2409) with UID 3f1f62ee9e22ab19
+Loaded 25 component(s) from C:\Users\User\Documents\GitHub\chiliad-rp\components
+Executing Server Config...
+[2023-03-30T22:12:19+0300] [Info]  >> discord-connector: afb7e3b successfully loaded.
+[2023-03-30T22:12:19+0300] [Info] 
+[2023-03-30T22:12:19+0300] [Info]  ===============================
+[2023-03-30T22:12:19+0300] [Info] 
+[2023-03-30T22:12:19+0300] [Info]      sscanf component loaded.   
+[2023-03-30T22:12:19+0300] [Info] 
+[2023-03-30T22:12:19+0300] [Info]          Version: 2.13.8
+[2023-03-30T22:12:19+0300] [Info] 
+[2023-03-30T22:12:19+0300] [Info]    (c) 2022 Alex "Y_Less" Cole  
+[2023-03-30T22:12:19+0300] [Info] 
+[2023-03-30T22:12:19+0300] [Info]  ===============================
+[2023-03-30T22:12:19+0300] [Info] 
+[2023-03-30T22:12:19+0300] [Info] [Pawn.RakNet] plugin v1.6.0 loading...
+[2023-03-30T22:12:19+0300] [Info] [Pawn.RakNet] 
+
+    | Pawn.RakNet 1.6.0 | open.mp | 2016 - 2023
+    |--------------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 16:51:14
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.RakNet/tree/omp
+    |--------------------------------------------------------------
+    | Wiki: https://github.com/katursis/Pawn.RakNet/wiki
+
+[2023-03-30T22:12:19+0300] [Info] [Pawn.CMD] plugin v3.4.0 loading...
+[2023-03-30T22:12:19+0300] [Info] [Pawn.CMD] 
+
+    | Pawn.CMD 3.4.0 | open.mp | 2016 - 2023
+    |-----------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 17:25:09
+    |----------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.CMD/tree/omp
+
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: crashdetect
+[2023-03-30T22:12:19+0300] [Info]   CrashDetect plugin 4.21
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: streamer
+[2023-03-30T22:12:19+0300] [Info] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: gvar
+[2023-03-30T22:12:19+0300] [Info] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: mysql
+[2023-03-30T22:12:19+0300] [Info]  >> plugin.mysql: R41-2 successfully loaded.
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: profiler
+[2023-03-30T22:12:19+0300] [Info]   Profiler plugin 2.15.3
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: pawnregex
+[2023-03-30T22:12:19+0300] [Info] [Pawn.Regex] plugin v1.2.3 loading...
+[2023-03-30T22:12:19+0300] [Info] [Pawn.Regex] 
+
+    | Pawn.Regex 1.2.3 | 2016 - 2021
+    |--------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Sep 26 2021 at 11:59:38
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.Regex
+
+[2023-03-30T22:12:19+0300] [Info] Loading plugin: TOTP
+[2023-03-30T22:12:19+0300] [Info] TOTP plugin v1.0.1 by Games loaded.
+[2023-03-30T22:12:19+0300] [Info] 
+--------------------------------------
+[2023-03-30T22:12:19+0300] [Info]  CamEditor by Drebin
+[2023-03-30T22:12:19+0300] [Info] --------------------------------------
+
+[2023-03-30T22:12:19+0300] [Warning] Deprecated function GetVehiclePoolSize used. This function was replaced by MAX_VEHICLES.
+[2023-03-30T22:12:19+0300] [Warning] Deprecated function GetPlayerPoolSize used. This function was replaced by MAX_PLAYERS.
+[2023-03-30T22:12:19+0300] [Warning] Deprecated functions will be removed in the next open.mp release.
+[2023-03-30T22:12:19+0300] [Warning] Parameter count does not match specifier in `Script_Call`. callback: Iter_OnGameModeInit - fmat:  - count: 3)
+[2023-03-30T22:12:19+0300] [Warning] Deprecated console variable "rcon", use "rcon.enable" instead.
+[2023-03-30T22:12:19+0300] [Info] Remote console disabled.
+[2023-03-30T22:12:19+0300] [Warning] Deprecated console variable "lagcompmode", use "game.lag_compensation_mode" instead.
+[2023-03-30T22:12:19+0300] [Info]  
+[2023-03-30T22:12:19+0300] [Info] --------------------------------------
+[2023-03-30T22:12:19+0300] [Info]  Anticheat Nex-AC loaded!
+[2023-03-30T22:12:19+0300] [Info]  Anticheat version: 1.9.56
+[2023-03-30T22:12:19+0300] [Info]  Author: Nexius
+[2023-03-30T22:12:19+0300] [Info] --------------------------------------
+
+[2023-03-30T22:12:19+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:12:19+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:19+0300] [Info] [debug] #0 00072e84 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2359
+[2023-03-30T22:12:19+0300] [Info] [debug] #1 000685d4 in public ac_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2161
+[2023-03-30T22:12:19+0300] [Info] [debug] #2 0001e69c in public PawnCmd_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:668
+[2023-03-30T22:12:19+0300] [Info] [debug] #3 000062c8 in public SSCANF_OnGameModeInit ()  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:131
+[2023-03-30T22:12:19+0300] [Info] [debug] #4 00005a10 in public PawnRakNet_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:120
+[2023-03-30T22:12:19+0300] [Info] [debug] #5 00005660 in public Iter_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:114
+[2023-03-30T22:12:19+0300] [Info] [debug] #6 native CallLocalFunction () in Pawn.dll
+[2023-03-30T22:12:19+0300] [Info] [debug] #7 000012f4 in public OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:28
+[2023-03-30T22:12:21+0300] [Info] [Success] Vehicle has been successfully loaded. (212 pcs.)
+[2023-03-30T22:12:21+0300] [Info] [Success] Gang/mafia freezes successfully loaded. (1 pcs.)
+[2023-03-30T22:12:22+0300] [Info] [Success] Houses successfully loaded. (425 pcs.)
+[2023-03-30T22:12:22+0300] [Info] [Error] Families weren't found in DB.
+[2023-03-30T22:12:22+0300] [Info] [Success] Families successfully loaded. (0 pcs.)
+[2023-03-30T22:12:22+0300] [Info] [Success] Business interiors successfully loaded. (32 pcs.)
+[2023-03-30T22:12:22+0300] [Info] [Success] Businesses successfully loaded. (62 pcs.)
+[2023-03-30T22:12:22+0300] [Info] [Success] Apartments successfully loaded. (0 pcs.)
+[2023-03-30T22:12:22+0300] [Info] [Success] Green zones successfully loaded. (48 шpcsт.)
+[2023-03-30T22:12:22+0300] [Info] [Success] Gangzones successfully loaded. (130 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Fractions successfully loaded. (19 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Enter/exit pickups successfully loaded. (93 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Other pickups successfully loaded. (82 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Anti-cheat successfully loaded. (53 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Diplomacy successfully loaded. (8 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Black market successfully loaded. (1 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Economics successfully loaded.
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-03-30T22:12:23+0300] [Info] [Success] ATMs successfully loaded. (7 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Business functions successfully loaded. (7 pcs.)
+[2023-03-30T22:12:23+0300] [Info] [Success] Faction weapons successfully loaded.
+[2023-03-30T22:12:24+0300] [Info] [Success] Billboards successfully loaded. (50 pcs.)
+[2023-03-30T22:12:24+0300] [Info] [Success] Graffiti successfully loaded. (120 pcs.)
+[2023-03-30T22:12:24+0300] [Info] [Success] Motorhouses successfully loaded. (3 pcs.)
+[2023-03-30T22:12:24+0300] [Warning] Vehicle created with respawn delay 0 which is undefined behaviour that might change in the future.
+[2023-03-30T22:12:24+0300] [Info] [Success] State vehicles successfully loaded. (142 pcs.)
+[2023-03-30T22:12:24+0300] [Info] [Success] Dynamic objects successfully loaded. (26612 pcs.)
+[2023-03-30T22:12:24+0300] [Info] [Nex-AC] This version of the anticheat is not suitable for the server version
+[2023-03-30T22:12:24+0300] [Info] [debug] Run time error 20: "Invalid index parameter (bad entry point)"
+[2023-03-30T22:12:24+0300] [Error] Invalid index parameter (bad entry point)
+[2023-03-30T22:12:24+0300] [Info] Legacy Network started on 127.0.0.1:7777.
+[2023-03-30T22:12:25+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:12:25+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:25+0300] [Info] [debug] #0 00d4e818 in ?? (4) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:25+0300] [Info] [debug] #1 00d6349c in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:25+0300] [Info] [debug] #2 00a7281c in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:25+0300] [Info] [debug] #3 00d9cc74 in public OnGameModeUpdate () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:36+0300] [Info] [connection] incoming connection: 127.0.0.1:55894 id: 0
+[2023-03-30T22:12:36+0300] [Info] [join] Brian_Randall has joined the server (0:127.0.0.1)
+[2023-03-30T22:12:43+0300] [Warning] Invalid dialog ID -1 used.  Use `HidePlayerDialog()`.
+[2023-03-30T22:12:43+0300] [Warning] Using unsafe hashing function SHA256_PassHash
+[2023-03-30T22:12:43+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:12:43+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:43+0300] [Info] [debug] #0 00b4e298 in public characters_panel (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:43+0300] [Info] [debug] #1 001675ec in public ac_OnDialogResponse (0, 17, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:7167
+[2023-03-30T22:12:43+0300] [Info] [debug] #2 000230dc in public OnDialogResponse (0, 17, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:760
+[2023-03-30T22:12:45+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:12:45+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:45+0300] [Info] [debug] #0 00007ab8 in ?? (19534860, 19534884) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:162
+[2023-03-30T22:12:45+0300] [Info] [debug] #1 00007338 in ?? (19534860, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:152
+[2023-03-30T22:12:45+0300] [Info] [debug] #2 00006538 in ?? (19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:134
+[2023-03-30T22:12:45+0300] [Info] [debug] #3 000f3d44 in public ac_OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:4726
+[2023-03-30T22:12:45+0300] [Info] [debug] #4 000230dc in public OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:760
+[2023-03-30T22:12:46+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:12:46+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:46+0300] [Info] [debug] #0 000648c0 in ?? (0, 19352936, 19353976, 0, 0, 0, 0, 0, 0, 0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2071
+[2023-03-30T22:12:46+0300] [Info] [debug] #1 00d629ac in ?? (0, 19352936) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:46+0300] [Info] [debug] #2 00d62290 in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:46+0300] [Info] [debug] #3 00b6c798 in public start_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:46+0300] [Info] [debug] #4 00b6a880 in public load_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-03-30T22:12:47+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:12:47+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:12:47+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:47+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:12:47+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:12:59+0300] [Info] [Nex-AC debug] ID 0 used NOP SetPlayerSpecialAction
+[2023-03-30T22:12:59+0300] [Info] [Nex-AC debug] AC spec act: 2, spec act: 0
+[2023-03-30T22:12:59+0300] [Info] [Nex-AC] Suspicion on the ID 0. Reason code: 052 (12)
+[2023-03-30T22:12:59+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:12:59+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:12:59+0300] [Info] [debug] #0 00037770 in public OnPlayerUpdate (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1169
+[2023-03-30T22:13:59+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:13:59+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:13:59+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:13:59+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:13:59+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:14:03+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:14:03+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:14:03+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:14:03+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:14:03+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:14:16+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:14:16+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:14:16+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:14:16+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:14:16+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:14:27+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:14:27+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:14:27+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:14:27+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:14:27+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 680) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:13+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:15:13+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:15:13+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:15:13+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 704) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:15:13+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 704) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:16+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:15:16+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:15:16+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:15:16+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 704) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:15:16+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 704) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:27+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:15:27+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:15:27+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:15:27+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 704) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:15:27+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 704) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:42+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:15:42+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:15:42+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:15:42+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 774) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:15:42+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 774) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:42+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:15:42+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:15:42+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:15:42+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:15:42+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:42+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-03-30T22:15:42+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-03-30T22:15:42+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:15:42+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 773) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-03-30T22:15:42+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 773) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-03-30T22:15:43+0300] [Info] [Nex-AC debug] ID 0 exceeded 11 flood attempts. Public ID: 8
+[2023-03-30T22:15:43+0300] [Info] [Nex-AC] Suspicion on the ID 0. Reason code: 049 (8)
+[2023-03-30T22:15:43+0300] [Info] [Nex-AC debug] ID 0 exceeded 11 flood attempts. Public ID: 8
+[2023-03-30T22:15:43+0300] [Info] [Nex-AC] Suspicion on the ID 0. Reason code: 049 (8)
+[2023-03-30T22:15:44+0300] [Info] [Nex-AC debug] ID 0 exceeded 11 flood attempts. Public ID: 8
+[2023-03-30T22:15:44+0300] [Info] [Nex-AC] Suspicion on the ID 0. Reason code: 049 (8)
+[2023-03-30T22:15:44+0300] [Info] [Nex-AC debug] ID 0 exceeded 11 flood attempts. Public ID: 8
+[2023-03-30T22:15:44+0300] [Info] [Nex-AC] Suspicion on the ID 0. Reason code: 049 (8)
+[2023-03-30T22:16:08+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-03-30T22:16:08+0300] [Info] [debug] AMX backtrace:
+[2023-03-30T22:16:08+0300] [Info] [debug] #0 000665a8 in public WC_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2113
+[2023-03-30T22:16:08+0300] [Info] [debug] #1 00069414 in public ac_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2182
+[2023-03-30T22:16:08+0300] [Info] [debug] #2 00020e24 in public SSCANF_OnPlayerDisconnect (0, 1)  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:717
+[2023-03-30T22:16:08+0300] [Info] [debug] #3 00005c40 in public Iter_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:122
+[2023-03-30T22:16:08+0300] [Info] [debug] #4 native CallLocalFunction () in Pawn.dll
+[2023-03-30T22:16:08+0300] [Info] [debug] #5 00001878 in public OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36
+[2023-03-30T22:16:08+0300] [Info] [part] Brian_Randall has left the server (0:1)
+[2023-03-30T22:16:08+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T22:16:08+0300] [Info] UPDATE characters SET `pOnline` = '30-03-2023',`pSatiety` = '68' WHERE `cID` = '31' LIMIT 1
+[2023-03-30T22:16:08+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-03-30T22:16:08+0300] [Info] UPDATE `admin` SET `online_thursday` = '884', `kick` = '0', `ban` = '0', `mute` = '0', `pm` = '0', `warn` = '0', `jail` = '0',`vig`='0',`blockadmin`='0',online_status = '0' WHERE `Name` = 'Brian_Randall' LIMIT 1
+[2023-03-30T22:16:29+0300] [Info] [Pawn.RakNet] plugin unloaded
+[2023-03-30T22:16:29+0300] [Info] discord-connector: Unloading componment...
+Starting open.mp server (1.0.1.2409) from commit dcd0190a91e67c99217e8ed3254baeb86733a0e4
+Loading component Actors.dll
+	Successfully loaded component Actors (1.0.1.2409) with UID c81ca021eae2ad5c
+Loading component Checkpoints.dll
+	Successfully loaded component Checkpoints (1.0.1.2409) with UID 44a937350d611dde
+Loading component Classes.dll
+	Successfully loaded component Classes (1.0.1.2409) with UID 8cfb3183976da208
+Loading component Console.dll
+	Successfully loaded component Console (1.0.1.2409) with UID bfa24e49d0c95ee4
+Loading component CustomModels.dll
+	Successfully loaded component CustomModels (1.0.1.2409) with UID 15e3cb1e7c77ffff
+Loading component Databases.dll
+	Successfully loaded component Databases (1.0.1.2409) with UID 80092e7eb5821a96
+Loading component Dialogs.dll
+	Successfully loaded component Dialogs (1.0.1.2409) with UID 44a111350d611dde
+Loading component discord-connector.dll
+	Successfully loaded component discord-connector (0.3.6.1) with UID 493dfe4f6ea1841f
+Loading component Fixes.dll
+	Successfully loaded component Fixes (1.0.1.2409) with UID b5c615eff0329ff7
+Loading component GangZones.dll
+	Successfully loaded component GangZones (1.0.1.2409) with UID b3351d11ee8d8056
+Loading component LegacyConfig.dll
+	Successfully loaded component LegacyConfig (1.0.1.2409) with UID 24ef6216838f9ffc
+Loading component LegacyNetwork.dll
+	Successfully loaded component RakNetLegacyNetwork (1.0.1.2409) with UID ea9799fd79cf8442
+Loading component Menus.dll
+	Successfully loaded component Menus (1.0.1.2409) with UID 621e219eb97ee0b2
+Loading component Objects.dll
+	Successfully loaded component Objects (1.0.1.2409) with UID 59f8415f72da6160
+Loading component Pawn.dll
+	Successfully loaded component Pawn (1.0.1.2409) with UID 78906cd9f19c36a6
+Loading component pawncmd.dll
+	Successfully loaded component Pawn.CMD (0.3.4.0) with UID a03b47c907a96c29
+Loading component pawnraknet.dll
+	Successfully loaded component Pawn.RakNet (0.1.6.0) with UID 4a8b15c16d23e42f
+Loading component pawnregex.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component Pickups.dll
+	Successfully loaded component Pickups (1.0.1.2409) with UID cf304faa363dd971
+Loading component SKY.dll
+	Failed to load component: it is a SA-MP plugin, put it in plugins/ folder.
+Loading component sscanf.dll
+	Successfully loaded component sscanf (2.13.8.0) with UID a1e7c01e55caa1f2
+Loading component TextDraws.dll
+	Successfully loaded component TextDraws (1.0.1.2409) with UID 9b5dc2b1d15c992a
+Loading component TextLabels.dll
+	Successfully loaded component TextLabels (1.0.1.2409) with UID a0c57ea80a009742
+Loading component Timers.dll
+	Successfully loaded component Timers (1.0.1.2409) with UID 2ad8124c5ea257a3
+Loading component Unicode.dll
+	Successfully loaded component Unicode (1.0.1.2409) with UID 8ffb446f8353922b
+Loading component Variables.dll
+	Successfully loaded component Variables (1.0.1.2409) with UID 75e121848bc01fa2
+Loading component Vehicles.dll
+	Successfully loaded component Vehicles (1.0.1.2409) with UID 3f1f62ee9e22ab19
+Loaded 25 component(s) from C:\Users\User\Documents\GitHub\chiliad-rp\components
+Executing Server Config...
+[2023-04-02T22:00:46+0300] [Info]  >> discord-connector: afb7e3b successfully loaded.
+[2023-04-02T22:00:46+0300] [Info] 
+[2023-04-02T22:00:46+0300] [Info]  ===============================
+[2023-04-02T22:00:46+0300] [Info] 
+[2023-04-02T22:00:46+0300] [Info]      sscanf component loaded.   
+[2023-04-02T22:00:46+0300] [Info] 
+[2023-04-02T22:00:46+0300] [Info]          Version: 2.13.8
+[2023-04-02T22:00:46+0300] [Info] 
+[2023-04-02T22:00:46+0300] [Info]    (c) 2022 Alex "Y_Less" Cole  
+[2023-04-02T22:00:46+0300] [Info] 
+[2023-04-02T22:00:46+0300] [Info]  ===============================
+[2023-04-02T22:00:46+0300] [Info] 
+[2023-04-02T22:00:46+0300] [Info] [Pawn.RakNet] plugin v1.6.0 loading...
+[2023-04-02T22:00:46+0300] [Info] [Pawn.RakNet] 
+
+    | Pawn.RakNet 1.6.0 | open.mp | 2016 - 2023
+    |--------------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 16:51:14
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.RakNet/tree/omp
+    |--------------------------------------------------------------
+    | Wiki: https://github.com/katursis/Pawn.RakNet/wiki
+
+[2023-04-02T22:00:46+0300] [Info] [Pawn.CMD] plugin v3.4.0 loading...
+[2023-04-02T22:00:46+0300] [Info] [Pawn.CMD] 
+
+    | Pawn.CMD 3.4.0 | open.mp | 2016 - 2023
+    |-----------------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Feb 12 2023 at 17:25:09
+    |----------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.CMD/tree/omp
+
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: crashdetect
+[2023-04-02T22:00:46+0300] [Info]   CrashDetect plugin 4.21
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: streamer
+[2023-04-02T22:00:46+0300] [Info] 
+
+*** Streamer Plugin v2.9.5 by Incognito loaded ***
+
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: gvar
+[2023-04-02T22:00:46+0300] [Info] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: mysql
+[2023-04-02T22:00:46+0300] [Info]  >> plugin.mysql: R41-2 successfully loaded.
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: profiler
+[2023-04-02T22:00:46+0300] [Info]   Profiler plugin 2.15.3
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: pawnregex
+[2023-04-02T22:00:46+0300] [Info] [Pawn.Regex] plugin v1.2.3 loading...
+[2023-04-02T22:00:46+0300] [Info] [Pawn.Regex] 
+
+    | Pawn.Regex 1.2.3 | 2016 - 2021
+    |--------------------------------
+    | Author and maintainer: katursis
+
+
+    | Compiled: Sep 26 2021 at 11:59:38
+    |--------------------------------------------------------------
+    | Repository: https://github.com/katursis/Pawn.Regex
+
+[2023-04-02T22:00:46+0300] [Info] Loading plugin: TOTP
+[2023-04-02T22:00:46+0300] [Info] TOTP plugin v1.0.1 by Games loaded.
+[2023-04-02T22:00:47+0300] [Info] 
+--------------------------------------
+[2023-04-02T22:00:47+0300] [Info]  CamEditor by Drebin
+[2023-04-02T22:00:47+0300] [Info] --------------------------------------
+
+[2023-04-02T22:00:47+0300] [Warning] Deprecated function GetVehiclePoolSize used. This function was replaced by MAX_VEHICLES.
+[2023-04-02T22:00:47+0300] [Warning] Deprecated function GetPlayerPoolSize used. This function was replaced by MAX_PLAYERS.
+[2023-04-02T22:00:47+0300] [Warning] Deprecated functions will be removed in the next open.mp release.
+[2023-04-02T22:00:47+0300] [Warning] Parameter count does not match specifier in `Script_Call`. callback: Iter_OnGameModeInit - fmat:  - count: 3)
+[2023-04-02T22:00:47+0300] [Warning] Deprecated console variable "rcon", use "rcon.enable" instead.
+[2023-04-02T22:00:47+0300] [Info] Remote console disabled.
+[2023-04-02T22:00:47+0300] [Warning] Deprecated console variable "lagcompmode", use "game.lag_compensation_mode" instead.
+[2023-04-02T22:00:47+0300] [Info]  
+[2023-04-02T22:00:47+0300] [Info] --------------------------------------
+[2023-04-02T22:00:47+0300] [Info]  Anticheat Nex-AC loaded!
+[2023-04-02T22:00:47+0300] [Info]  Anticheat version: 1.9.56
+[2023-04-02T22:00:47+0300] [Info]  Author: Nexius
+[2023-04-02T22:00:47+0300] [Info] --------------------------------------
+
+[2023-04-02T22:00:47+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-04-02T22:00:47+0300] [Info] [debug] AMX backtrace:
+[2023-04-02T22:00:47+0300] [Info] [debug] #0 00072e84 in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2359
+[2023-04-02T22:00:47+0300] [Info] [debug] #1 000685d4 in public ac_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2161
+[2023-04-02T22:00:47+0300] [Info] [debug] #2 0001e69c in public PawnCmd_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:668
+[2023-04-02T22:00:47+0300] [Info] [debug] #3 000062c8 in public SSCANF_OnGameModeInit ()  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:131
+[2023-04-02T22:00:47+0300] [Info] [debug] #4 00005a10 in public PawnRakNet_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:120
+[2023-04-02T22:00:47+0300] [Info] [debug] #5 00005660 in public Iter_OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:114
+[2023-04-02T22:00:47+0300] [Info] [debug] #6 native CallLocalFunction () in Pawn.dll
+[2023-04-02T22:00:47+0300] [Info] [debug] #7 000012f4 in public OnGameModeInit () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:28
+[2023-04-02T22:00:48+0300] [Info] [Success] Vehicle has been successfully loaded. (212 pcs.)
+[2023-04-02T22:00:48+0300] [Info] [Success] Gang/mafia freezes successfully loaded. (1 pcs.)
+[2023-04-02T22:00:49+0300] [Info] [Success] Houses successfully loaded. (425 pcs.)
+[2023-04-02T22:00:49+0300] [Info] [Error] Families weren't found in DB.
+[2023-04-02T22:00:49+0300] [Info] [Success] Families successfully loaded. (0 pcs.)
+[2023-04-02T22:00:49+0300] [Info] [Success] Business interiors successfully loaded. (32 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Businesses successfully loaded. (62 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Apartments successfully loaded. (0 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Green zones successfully loaded. (48 шpcsт.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Gangzones successfully loaded. (130 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Fractions successfully loaded. (1 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Enter/exit pickups successfully loaded. (93 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Other pickups successfully loaded. (82 pcs.)
+[2023-04-02T22:00:50+0300] [Info] [Success] Anti-cheat successfully loaded. (53 pcs.)
+[2023-04-02T22:00:51+0300] [Info] [Success] Diplomacy successfully loaded. (8 pcs.)
+[2023-04-02T22:00:51+0300] [Info] [Success] Black market successfully loaded. (1 pcs.)
+[2023-04-02T22:00:51+0300] [Info] [Success] Economics successfully loaded.
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Warning] Insufficient specifiers given to `format`: "лохлохлохлох" < 1
+[2023-04-02T22:00:51+0300] [Info] [Success] ATMs successfully loaded. (7 pcs.)
+[2023-04-02T22:00:51+0300] [Info] [Success] Business functions successfully loaded. (7 pcs.)
+[2023-04-02T22:00:51+0300] [Info] [Success] Faction weapons successfully loaded.
+[2023-04-02T22:00:51+0300] [Info] [Success] Billboards successfully loaded. (50 pcs.)
+[2023-04-02T22:00:51+0300] [Info] [Success] Graffiti successfully loaded. (120 pcs.)
+[2023-04-02T22:00:52+0300] [Info] [Success] Motorhouses successfully loaded. (3 pcs.)
+[2023-04-02T22:00:52+0300] [Warning] Vehicle created with respawn delay 0 which is undefined behaviour that might change in the future.
+[2023-04-02T22:00:52+0300] [Info] [Success] State vehicles successfully loaded. (142 pcs.)
+[2023-04-02T22:00:52+0300] [Info] [Success] Dynamic objects successfully loaded. (26612 pcs.)
+[2023-04-02T22:00:52+0300] [Info] [Nex-AC] This version of the anticheat is not suitable for the server version
+[2023-04-02T22:00:52+0300] [Info] [debug] Run time error 20: "Invalid index parameter (bad entry point)"
+[2023-04-02T22:00:52+0300] [Error] Invalid index parameter (bad entry point)
+[2023-04-02T22:00:52+0300] [Info] Legacy Network started on 127.0.0.1:7777.
+[2023-04-02T22:00:53+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-04-02T22:00:53+0300] [Info] [debug] AMX backtrace:
+[2023-04-02T22:00:53+0300] [Info] [debug] #0 000137cc in public ac_DestroyDynamicPickup (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:434
+[2023-04-02T22:00:53+0300] [Info] [debug] #1 0001da68 in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:653
+[2023-04-02T22:00:53+0300] [Info] [debug] #2 00d4e870 in ?? (8) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:00:53+0300] [Info] [debug] #3 00d6349c in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:00:53+0300] [Info] [debug] #4 00a7281c in ?? () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:00:53+0300] [Info] [debug] #5 00d9cc74 in public OnGameModeUpdate () at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:00:57+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-04-02T22:00:57+0300] [Info] WHERE `id` = '313' LIMIT 1
+[2023-04-02T22:00:58+0300] [Info] [OnQueryError] SQL ERROR. QUERY:
+[2023-04-02T22:00:58+0300] [Info] WHERE `id` = '313' LIMIT 1
+[2023-04-02T22:01:23+0300] [Info] [connection] incoming connection: 127.0.0.1:50011 id: 0
+[2023-04-02T22:01:23+0300] [Info] [join] Brian_Randall has joined the server (0:127.0.0.1)
+[2023-04-02T22:01:30+0300] [Warning] Invalid dialog ID -1 used.  Use `HidePlayerDialog()`.
+[2023-04-02T22:01:30+0300] [Warning] Using unsafe hashing function SHA256_PassHash
+[2023-04-02T22:01:32+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-04-02T22:01:32+0300] [Info] [debug] AMX backtrace:
+[2023-04-02T22:01:32+0300] [Info] [debug] #0 000086d4 in ?? (19534860, 19534884) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:176
+[2023-04-02T22:01:32+0300] [Info] [debug] #1 00007338 in ?? (19534860, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:152
+[2023-04-02T22:01:32+0300] [Info] [debug] #2 00006538 in ?? (19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:134
+[2023-04-02T22:01:32+0300] [Info] [debug] #3 000f3d44 in public ac_OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:4726
+[2023-04-02T22:01:32+0300] [Info] [debug] #4 000230dc in public OnDialogResponse (0, 148, 1, -1, 19519436) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:760
+[2023-04-02T22:01:33+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-04-02T22:01:33+0300] [Info] [debug] AMX backtrace:
+[2023-04-02T22:01:33+0300] [Info] [debug] #0 0006489c in ?? (0, 19352976, 19353976, 0, 0, 0, 0, 0, 0, 0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2071
+[2023-04-02T22:01:33+0300] [Info] [debug] #1 00d629ac in ?? (0, 19352976) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:01:33+0300] [Info] [debug] #2 00d622bc in ?? (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:01:33+0300] [Info] [debug] #3 00b6c798 in public start_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:01:33+0300] [Info] [debug] #4 00b6a880 in public load_character (0) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36601
+[2023-04-02T22:01:34+0300] [Info] [debug] Run time error 4: "Array index out of bounds"
+[2023-04-02T22:01:34+0300] [Info] [debug]  Attempted to read/write array element at negative index -1
+[2023-04-02T22:01:34+0300] [Info] [debug] AMX backtrace:
+[2023-04-02T22:01:34+0300] [Info] [debug] #0 0024f080 in public ac_OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12458
+[2023-04-02T22:01:34+0300] [Info] [debug] #1 00053f90 in public OnPlayerEnterDynamicArea (0, 865) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:1710
+[2023-04-02T22:01:46+0300] [Info] [chat] [Brian_Randall]: q
+[2023-04-02T22:01:47+0300] [Info] [chat] [Brian_Randall]: q
+[2023-04-02T22:01:47+0300] [Info] [debug] Long callback execution detected (hang or performance issue)
+[2023-04-02T22:01:47+0300] [Info] [debug] AMX backtrace:
+[2023-04-02T22:01:47+0300] [Info] [debug] #0 00066614 in ?? (0, 93) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2113
+[2023-04-02T22:01:47+0300] [Info] [debug] #1 0025eaf4 in public WC_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:12832
+[2023-04-02T22:01:47+0300] [Info] [debug] #2 00069414 in public ac_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:2182
+[2023-04-02T22:01:47+0300] [Info] [debug] #3 00020e24 in public SSCANF_OnPlayerDisconnect (0, 1)  at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:717
+[2023-04-02T22:01:47+0300] [Info] [debug] #4 00005c40 in public Iter_OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:122
+[2023-04-02T22:01:47+0300] [Info] [debug] #5 native CallLocalFunction () in Pawn.dll
+[2023-04-02T22:01:47+0300] [Info] [debug] #6 00001878 in public OnPlayerDisconnect (0, 1) at D:\programs\Pawno\chiliad-rp\filterscripts\vizzzet.pwn:36
+[2023-04-02T22:01:48+0300] [Info] [part] Brian_Randall has left the server (0:1)
+[2023-04-02T22:01:50+0300] [Info] [Pawn.RakNet] plugin unloaded
+[2023-04-02T22:01:50+0300] [Info] discord-connector: Unloading componment...
