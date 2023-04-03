@@ -92,9 +92,9 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			if(ID == playerid) return SendClientMessage(playerid,COLOR_GRAY,"Нельзя указывать свой ID!");
 			if(!IsPlayerConnected(ID)) return SendClientMessage(playerid,COLOR_GRAY,"Игрок не в сети");
 			if(!TI[ID][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-			new Float:X, Float:Y, Float:Z;
-			GetPlayerPos(ID, X,Y,Z);
-			if(!PlayerToPoint(15.0,playerid, X,Y,Z)) return SendClientMessage(playerid, COLOR_GRAY, "Игрок слишком далеко! Вы должны быть с ним в радиусе 15 метров!");
+			new Float:plX, Float:plY, Float:plZ;
+			GetPlayerPos(ID, plX, plY, plZ);
+			if(!IsPlayerInRangeOfPoint(playerid, 15.0, plX, plY, plZ)) return SendClientMessage(playerid, -1, "Игрок слишком далеко! Вы должны быть с ним в радиусе 15 метров!");
 			ShowHackerStats(playerid, ID);
 		}
 		case D_MENU_HACKER:{
@@ -303,8 +303,8 @@ stock HackerCamera(playerid, idx)
 	}
 	
 }
-stock StartHacker(playerid, idx){
-	switch(idx){
+stock StartHacker(playerid, idx) {
+	switch(idx) {
 		case 1: return SPD(playerid, D_QUEST_HACKER_1_INPUT, DIALOG_STYLE_INPUT,"/hacker",""W"Введите ID игрока о котором хотите узнать информацию",">>>","x");
 		case 2: {
 			if(!IsPlayerInRangeOfPoint(playerid, 20.0, 1462.8285,-775.3546,92.8073)) return 1;
@@ -316,12 +316,10 @@ stock StartHacker(playerid, idx){
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
-			RandomYareNforJOBS(playerid);
-			
+			return RandomYareNforJOBS(playerid);
 		}
 		case 3: {
 			if(!IsPlayerInRangeOfPoint(playerid, 15.0, 1643.3060,-1681.9083,21.4215)) return 1;
-			/**/
 			JobTempProcess[playerid] = 30;
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
@@ -330,12 +328,11 @@ stock StartHacker(playerid, idx){
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
-			RandomYareNforJOBS(playerid);
-			return 1;
+			return RandomYareNforJOBS(playerid);
 		}
 		case 4: {
 			new vehicleid = GetPlayerVehicleID(playerid);
-			if(VehicleInfo[vehicleid][vTeam] != fWHITEHOUSE) return SendClientMessage(playerid, COLOR_GRAY, "Вы не в транспорте мэрии.");
+			if(FI[VehicleInfo[vehicleid][vTeam]][fType] == fGOVERNMENT) return SendClientMessage(playerid, COLOR_GRAY, "Вы не в транспорте мэрии.");
 			JobTempProcess[playerid] = 32;
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
@@ -344,13 +341,12 @@ stock StartHacker(playerid, idx){
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
-			RandomYareNforJOBS(playerid);
-			return 1;
-
+			return RandomYareNforJOBS(playerid);
 		}
 	}
 	return 1;
 }
+
 stock SaveHacker(playerid, idx = false)
 {
 	new query[250];
@@ -373,19 +369,19 @@ stock SaveHacker(playerid, idx = false)
 }
 stock ShowQuestHacker(playerid, idx){
 	switch(idx){
-		case 1: SPD(playerid, D_QUEST_HACKER_1,DIALOG_STYLE_MSGBOX,"Хакер",""W"Привет, я слышал что ты хочешь стать хакером.\n\
+		case 1: return SPD(playerid, D_QUEST_HACKER_1,DIALOG_STYLE_MSGBOX,"Хакер",""W"Привет, я слышал что ты хочешь стать хакером.\n\
 		У меня есть к тебе предложение, ты получаешь опыт в сфере хакерства, а я получаю информацию о человеке.\n\
 		"R"Мне нельзя светиться, вот я ищу человечка который, сделает это вместо меня.\n"GREEN"Согласен"W"?", ">>>","x");
-		case 2: SPD(playerid, D_QUEST_HACKER_2,DIALOG_STYLE_MSGBOX,"Хакер",""W"Привет, мне вновь нужна твоя помощь.\n\
+		case 2: return SPD(playerid, D_QUEST_HACKER_2,DIALOG_STYLE_MSGBOX,"Хакер",""W"Привет, мне вновь нужна твоя помощь.\n\
 		Нужно приехать на радиовышку, взломать камеры безопасности.\n\
 		После взлома, буду ждать тебя тут.\n\
 		"GREEN"Согласен"W"?", ">>>","x");
-		case 3: SPD(playerid, D_QUEST_HACKER_3_1,DIALOG_STYLE_MSGBOX,"Хакер",""W"Привет\n\
+		case 3: return SPD(playerid, D_QUEST_HACKER_3_1,DIALOG_STYLE_MSGBOX,"Хакер",""W"Привет\n\
 		Я тебе скину координаты на GPS, приедишь туда и тебе надо будет взломать Базу Данных ФБР.\n\
 		Что-бы проверить взлома Базы Данных, освободи кого нибудь от розыска.\n\
 		После взлома буду ждать тебя тут.\n\
 		"GREEN"Согласен"W"?", ">>>","x");
-		case 4: SPD(playerid, D_QUEST_HACKER_4, DIALOG_STYLE_MSGBOX, "Хакер", ""W"Привет, в общем мне нужна транспорт мэрии для одного дела.\n\
+		case 4: return SPD(playerid, D_QUEST_HACKER_4, DIALOG_STYLE_MSGBOX, "Хакер", ""W"Привет, в общем мне нужна транспорт мэрии для одного дела.\n\
 		"R"Тебе нужно будет приехать к Мэрии нашего города, затем использовать электронную отмычку которую я тебе дам.\n\
 		"W"После этого перегнать машину в определённое место, координаты я тебе скину.\n\
 		"GREEN"Согласен?",">>>","x");
@@ -407,7 +403,7 @@ stock NPC_HackD(playerid){
 	if(CI[playerid][QuestHacker][1] == 1 && CI[playerid][QuestHacker][0] == 1 &&
 	CI[playerid][QuestHacker][2] == 1 && CI[playerid][QuestHacker][3] == 1) return SendClientMessage(playerid, COLOR_GRAY, "[Хакер]: Извини, но у меня нет для тебя больше задний.");
 	if(GetPVarInt(playerid, "QuesR")) return ContinueQuest(playerid);
-	if(IsAGos(playerid)) return SendClientMessage(playerid,COLOR_GREY,"Ты кто? Иди от сюда! Ты не туда попал.");
+	if(!IsState(playerid)) return SendClientMessage(playerid,COLOR_GREY,"Ты кто? Иди от сюда! Ты не туда попал.");
 	if(CI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "У вас маловат lvl. Использовать данный квест можно с 7 lvl");
 	if(GetPVarInt(playerid, "HackerQuest1") || GetPVarInt(playerid, "HackerQuest2") || 
 	GetPVarInt(playerid, "HackerQuest3") || GetPVarInt(playerid, "HackerQuest4")) return SendClientMessage(playerid, COLOR_GREY, "[Хакер]: Ты ещё тут?.");
@@ -443,7 +439,7 @@ stock NextHacker(playerid){
 	UpdateCharacterData(playerid,"pHacker",CI[playerid][pHacker]);
 	return 1;
 }
-//
+
 forward HackCamer(playerid);
 public HackCamer(playerid){
 	TogglePlayerControllable(playerid, true);
@@ -484,13 +480,13 @@ CMD:sethacker(playerid, params[]){
 	return 1;
 }
 CMD:hacker(playerid, params[]){
-	if(IsACop(playerid)){
+	if(IsAnEnforcement(playerid)){
 		extract params -> new id; else return SendClientMessage(playerid, COLOR_WHITE,"Используйте: /hacker [id]");
 		if(!IsPlayerConnected(id)) return SendClientMessage(playerid, COLOR_RED, "Игрок не в сети!");
 		if(!CI[playerid][pHacker]) return SendClientMessage(playerid, COLOR_RED, "Игрок не хакер!");
 		return ShowStatsHacker(playerid, id);
 	}
-	if(IsAGos(playerid)) return SendClientMessage(playerid,COLOR_GREY,"Вам не доступна данная команда!");
+	if(IsState(playerid)) return SendClientMessage(playerid,COLOR_GREY,"Вам не доступна данная команда!");
 	if(CI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "Данную команду использовать можно с 7 lvl");
 	switch(CI[playerid][pHacker]){
 		case 0: return ShowTestHacker(playerid);
@@ -554,9 +550,7 @@ stock System32Hacker(playerid, id){
 	return 1;
 }
 stock GosCar(vehicleid){
-	switch(VehicleInfo[vehicleid][vTeam]){
-		case fLSPD,fFBI,fRCSO,fMEDICLS,fFIRELS,fARMYLS,fLSNEWS,fWHITEHOUSE: return 1;
-	}
+	if(FI[VehicleInfo[vehicleid][vTeam]][fType] == fGOVERNMENT || FI[VehicleInfo[vehicleid][vTeam]][fType] == fENFORCEMENT || FI[VehicleInfo[vehicleid][vTeam]][fType] == fMEDIC) return 1;
 	return 0;
 }
 stock HideButton(playerid, id){
@@ -625,7 +619,7 @@ hacker_OnGameModeInit() SetTimer("FindGPS",1000*5,true);
 
 forward FindGPS();
 public FindGPS(){
-	foreach(Player, i){
+	foreach(new i:Player) {
 		if(!GetPVarInt(i, "HackReady")) continue;
 		new ID = GetPVarInt(i, "PlayerID");
 		if(!IsPlayerConnected(i)){
