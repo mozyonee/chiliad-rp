@@ -108,7 +108,7 @@ native 		IsValidVehicle(vehicleid);
 #define 	AUTO_CP_COUNT 							28	// Кількість чекпоінтів АШ.
 #define	 	MAX_OBJECT_MOVED 						34	// Кількість MOVED.
 #define 	TP_COUNT 								101	// Кількість пікапів (вхід/вихід).
-#define 	PICKUPS_COUNT 							100	// Кількість пікапів.
+#define 	PICKUPS_COUNT 							200	// Кількість пікапів.
 #define 	MOROZ_BALLAS 							0	// Ballas.
 #define 	MOROZ_VAGOS 							1	// Vagos.
 #define 	MOROZ_GROVE 							2	// Grove.
@@ -32492,7 +32492,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			);
 			ShowPlayerDialog(playerid, D_HOUSE, DSM, P"Будинок", mes2, "Увійти", "Скасувати");
 		}
-	} else if(areaid >= aArea[0] && areaid <= aArea[gAparmentCount - 1] && pstate == PLAYER_STATE_ONFOOT) {
+	} 
+	/*if(areaid >= aArea[0] && areaid <= aArea[gAparmentCount - 1] && pstate == PLAYER_STATE_ONFOOT) {
 		if(TI[playerid][tTPpick]) {
 			TI[playerid][tTPpick] = false;
 			return 1;
@@ -32507,7 +32508,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			format(mes2, sizeof(mes2), "\n\n"W"Квартира:"P" #%d\n"W"Власник:"P" %s"W"\n\nВи дійсно хочете увійти в цю квартиру?",room+ 1,Apartment[room][aOwner]);
 			ShowPlayerDialog(playerid, D_APART_ENTER, DSM, P"Інформація", mes2, "Увійти", "Закрити");
 		}
-	} else if(areaid >= b_area[0] && areaid <= b_area[gBusinessCount - 1] && pstate == PLAYER_STATE_ONFOOT) {
+	}*/
+	if(areaid >= b_area[0] && areaid <= b_area[gBusinessCount - 1] && pstate == PLAYER_STATE_ONFOOT) {
 		if(TI[playerid][tTPpick]) return TI[playerid][tTPpick] = false;
 		new businessid = areaid - b_area[0];
 		new mes2[128];
@@ -32561,7 +32563,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			}
 			FreezePlayerForTime(playerid, freezeSeconds);
 		}
-	} else if(areaid >= gBintEnterArea[0] && areaid <= gBintEnterArea[BINT_COUNT-1]) {
+	}
+	if(areaid >= gBintEnterArea[0] && areaid <= gBintEnterArea[BINT_COUNT-1]) {
 		if(TI[playerid][tTPpick]) {
 			TI[playerid][tTPpick] = false;
 			return 1;
@@ -32577,7 +32580,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		switch(id) {
 		case 51, 50, 55, 49: FreezePlayerForTime(playerid, 2);
 		}
-	} else if(areaid >= gBintBuyArea[0] && areaid <= gBintBuyArea[BINT_COUNT-1]) {
+	} 
+	if(areaid >= gBintBuyArea[0] && areaid <= gBintBuyArea[BINT_COUNT-1]) {
 		new id = TI[playerid][tSelectedBusinessID];
 		if(id < 0) return 1;
 		new products = gBusiness[id][bizzProduct];
@@ -32684,7 +32688,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				}
 			}
 		}
-	} else if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
+	}
+	if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
 		if(GetPVarInt(playerid, "pOff9") > gettime()) return SendError(playerid, "Зачекайте.");
 		ApplyAnimation(playerid, "CARRY", "putdwn", 4.0, 0, 1, 1, 0, 0, 1);
 		TI[playerid][tJobSalary] += SALARY_ARMS;
@@ -32713,7 +32718,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		TI[playerid][tJobGun][2] = 0;
 		SetPVarInt(playerid, "pOff9", gettime() + 20);
 		TI[playerid][tJobGun][1] = 1;
-	} else if(areaid >= sad_area[0] && areaid <= sad_area[119-1] && pstate == PLAYER_STATE_ONFOOT) {
+	}
+	if(areaid >= sad_area[0] && areaid <= sad_area[119-1] && pstate == PLAYER_STATE_ONFOOT) {
 		if(!TI[playerid][tJobSad][0]) return 1;
 		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) return 1;
 		new id = areaid - sad_area[0];
@@ -32748,7 +32754,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			}
 			RandomYareNforJOBS(playerid);
 		} else SendError(playerid, "Очікуйте стадії збирання яблук.");
-	} else if(areaid >= gAreas[arTurma][0] && areaid <= gAreas[arTurma][6] && TI[playerid][tClothesWork][0] == 1 && TI[playerid][tClothesWork][1] == 1) {
+	}
+	if(areaid >= gAreas[arTurma][0] && areaid <= gAreas[arTurma][6] && TI[playerid][tClothesWork][0] == 1 && TI[playerid][tClothesWork][1] == 1) {
 		JobTempProcess[playerid] = 24;
 		TI[playerid][tProcess][0] = 0;
 		TI[playerid][tProcess][1] = 10;
@@ -32758,7 +32765,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			if(YN < 2) PlayerTextDrawShow(playerid, YandNsysTDPlayer[playerid][YN]);
 		}
 		RandomYareNforJOBS(playerid);
-	} else if(areaid >= gAreas[arSkladTurm]) {
+	}
+	if(areaid >= gAreas[arSkladTurm]) {
 		if(TI[playerid][tClothesWork][1] == 2) {
 			if(GetPVarInt(playerid, "pOff9") > gettime()) return 1;
 			ApplyAnimation(playerid, "CARRY", "putdwn", 4.0, 0, 1, 1, 0, 0, 1);
@@ -32772,16 +32780,19 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			if(CI[playerid][pJailTime] > 10) CI[playerid][pJailTime] -= 10;
 			UpdateCharacterData(playerid, "pJailTime", CI[playerid][pJailTime]);
 		}
-	} else if(areaid == gAreas[arLoadProds][0]) {
+	}
+	if(areaid == gAreas[arLoadProds][0]) {
 		if(CI[playerid][pJob] != 3) return 1;
 		if(GetVehicleModel(GetPlayerVehicleID(playerid)) == 456) {
 			ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля продуктів", "\n\n"W"Введіть кількість продуктів для купівлі:\nПримітка: "ORANGE"10"W" продукт = "GREEN"$1\n\n", "Купити", "Скасувати");
 		}
-	} else if(areaid == gAreas[arLoadProds][1]) {
+	}
+	if(areaid == gAreas[arLoadProds][1]) {
 		if(GetVehicleModel(GetPlayerVehicleID(playerid)) == 403) {
 			ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля бензину", "\n\n"W"Введіть кількість літрів для купівлі:\nПримітка: "ORANGE"10"W" літр = "GREEN"$1\n\n", "Купити", "Скасувати");
 		}
-	} else if(areaid == gAreas[arSad] && pstate == PLAYER_STATE_ONFOOT) {
+	}
+	if(areaid == gAreas[arSad] && pstate == PLAYER_STATE_ONFOOT) {
 		if(!TI[playerid][tJobSad][0]) return 1;
 		if(!GetPVarInt(playerid, "bailer_3")) return SendError(playerid, "Ви не зібрали урожай");
 		if(IsPlayerAttachedObjectSlotUsed(playerid, 4)) RemovePlayerAttachedObject(playerid, 4);
@@ -32806,7 +32817,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		format(string, sizeof(string), "Collected:_%dkg", TI[playerid][tJobSad][3]);
 		PlayerTextDrawSetString(playerid, work_td[playerid][3], string);
 		*/
-	} else if(WD::[0][woodZone] <= areaid <= WD::[MAX_WOODS - 1][woodZone] && pstate == PLAYER_STATE_ONFOOT) {
+	} 
+	if(WD::[0][woodZone] <= areaid <= WD::[MAX_WOODS - 1][woodZone] && pstate == PLAYER_STATE_ONFOOT) {
 		new j = areaid - WD::[0][woodZone];
 		if(TI[playerid][tJobWood][1]) return 1;
 		if(TI[playerid][tJobWood][0]) {
@@ -35269,6 +35281,7 @@ stock SetPlayerCriminal(playerid, const killerid[], const reason[]) {
 	return 1;
 }
 stock other_timer() {
+	print("that's me");
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
 		if(SERIU[i][sID] != INVALID_PLAYER_ID) continue;
@@ -35519,6 +35532,7 @@ public OnGameModeInit() {
 	Streamer_TickRate(50);
 	new tmpobjid;
 	#include "modules/mapping.inc"
+
 	CreatePickup(1239, 23, 1123.7704, -892.0002, 1046.0126, 62);
 
 	CreatePickup(1239, 23, 1400.5125, -20.4098, 1010.3695, 61);
@@ -48358,9 +48372,7 @@ stock ShowStats(playerid, targetid) {
 }
 stock UpdateSkladFrakGang() {
 	ClearTotalGz();
-	for(new i; i < TOTALGZ; i++) {
-		TotalGZ[GZInfo[i][gFrakVlad]]++;
-	}
+	for(new i; i < TOTALGZ; i++) TotalGZ[GZInfo[i][gFrakVlad]]++;
 	new string[250];
 	for(new i = 1; i < MAX_FACTIONS; i++) {
 		if(FI[i][fType] == fGANG) {
@@ -48749,7 +48761,11 @@ stock update3dtext() {
 	UpdateSkladFrakGang();
 	UpdateSkladFrakMafia();
 }
-CB:ClearAnims(playerid) return ApplyAnimation(playerid, "BD_FIRE", "BD_Fire1", 4.1, 0, 0, 0, 0, 1, 1);
+CB:ClearAnims(playerid)
+{
+	ApplyAnimation(playerid, "BD_FIRE", "BD_Fire1", 4.1, 0, 0, 0, 0, 1, 1);
+	return 1;
+}
 stock UpdateEconomyData(const field[], data) {
 	new query[156];
 	mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `%s` = %i LIMIT 1", field, data);
@@ -67705,7 +67721,7 @@ CB:OnGameModeUpdate() {
 	}
 	if(++GlobalTimer_3SEC >= 3) {
 		GlobalTimer_3SEC = 0;
-		other_timer();
+		//other_timer();
 	}
 	ghetto_war();
 	race_game();
