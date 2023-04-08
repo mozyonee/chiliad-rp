@@ -103,7 +103,6 @@ native 		IsValidVehicle(vehicleid);
 #define 	SHOP_OBJECTS 							12	// Кількість предметів в 24/7.
 #define 	BINT_COUNT 								32	// Кількість Інтер'єров бізнесів.
 #define 	MAX_BUSINESS_COUNT 						65	// Кількість бізнесів.
-#define 	MAX_CARS_COUNT 							171	// Кількість державного транспорту.
 #define 	MAX_APARTMENT 						    32	// Кількість кватир.
 #define     BUSINESS_TYPE_COUNT 					25	// Кількість типов бізнесів.
 #define 	AUTO_CP_COUNT 							28	// Кількість чекпоінтів АШ.
@@ -609,47 +608,7 @@ new PlayerWarningTimeSilent[MAX_PLAYERS][2];
 new MPTeleportPlayer[MAX_PLAYERS];
 // new Float: deathpos[MAX_PLAYERS][6]; // World, interior, x, y, z, angle.
 // new deathphase[MAX_PLAYERS], deathtimer[MAX_PLAYERS][4], deatharea[MAX_PLAYERS], Text3D:deathlabel[MAX_PLAYERS]; // Timer (phase, phasevar, choice, choicevar).
-enum E_GosCars{
-	eID, 
-	eOrgs, 
-	eModel, 
-	ePrice,
-	eColor_1, 
-	eColor_2
-}
-static const eGC[][E_GosCars] ={
-	// Організація, Модель, вартість, Кольор 1, Кольор 2.
-	{1, 0, 0, 0, 0, 0},
-	{2, 1, 505, 210000, 0, 1}, // LSPD.
-	{3, 1, 523, 350000, 0, 1}, // LSPD.
-	{4, 1, 541, 2000000, 0, 1}, // LSPD.
-	{5, 1, 542, 100000, 0, 1}, // LSPD.
-	{6, 1, 550, 1450000, 0, 1}, // LSPD.
-	{7, 1, 560, 1750000, 0, 1}, // LSPD.
-	{8, 1, 596, 300000, 0, 1}, // LSPD.
-	{9, 1, 601, 4000000, 0, 1}, // LSPD.
-	{10, 4, 411, 2500000, 1, 1}, // FBI.
-	{11, 4, 415, 1500000, 1, 1}, // FBI.
-	{12, 4, 418, 700000, 1, 1}, // FBI.
-	{13, 4, 427, 900000, 1, 1}, // FBI.
-	{14, 4, 451, 2000000, 1, 1}, // FBI.
-	{15, 4, 490, 700000, 1, 1}, // FBI.
-	{16, 4, 522, 3500000, 1, 1}, // FBI.
-	{17, 5, 475, 150000, 0, 1}, // RCSO.
-	{18, 5, 529, 250000, 0, 1}, // RCSO.
-	{19, 5, 541, 2000000, 0, 1}, // RCSO.
-	{20, 5, 542, 100000, 0, 1}, // RCSO.
-	{21, 5, 559, 1000000, 0, 1}, // RCSO.
-	{22, 5, 560, 1750000, 0, 1}, // RCSO.
-	{23, 5, 596, 300000, 0, 1}, // RCSO.
-	{24, 5, 601, 4000000, 0, 1}, // RCSO.
-	{25, 5, 599, 1000000, 0, 1}, // RCSO.
-	{26, 6, 433, 1500000, 77, 77},
-	{27, 6, 470, 2500000, 77, 77},
-	{28, 6, 540, 500000, 77, 77},
-	{29, 6, 598, 1000000, 77, 77},
-	{30, 6, 603, 1500000, 77, 77}
-};
+
 enum airdrop_Data {
 	airObject,
 	Text3D:Text3Did,
@@ -1107,9 +1066,10 @@ new PlayerBuild2Fix[MAX_PLAYERS];
 new PlayerBuild2ExFix[MAX_PLAYERS];
 new PlayerSecondTimer[MAX_PLAYERS] = {-1, ...};
 
-#define MAX_FACTIONS 1 +				20
+#define MAX_FACTIONS 1 +				30
 #define MAX_FACTION_RANKS 1 +			30
-#define MAX_FACTION_SKINS 1 + 			40
+#define MAX_FACTION_SKINS 1 +			30
+#define MAX_FACTION_FLEET 1 +			30
 
 // ---------------------------------------------------------------------------
 #define MAX_BLACKJACK_PLAYER_CARD		5
@@ -1350,9 +1310,10 @@ new pl_update_speed[MAX_PLAYERS];
 new PlayerSpeedFix[MAX_PLAYERS];
 new PlayerUnFreezeFix[MAX_PLAYERS];
 new PlayerUnFreezeTimerFix[MAX_PLAYERS];
-new Text:inventory_TD[54];
-new PlayerText:inventory_PTD[MAX_PLAYERS][8];
-new PlayerText:inventory_slot[MAX_PLAYERS][46];
+
+new PlayerText:nInventory_TD[MAX_PLAYERS][15];
+new PlayerText:nInventorySlots_TD[MAX_PLAYERS][51];
+
 new Text:autoshop_TD[54];
 new PlayerText:auto_PTD[MAX_PLAYERS][2];
 new car_shop[MAX_PLAYERS];
@@ -1902,7 +1863,7 @@ new ItemsInfo[MAX_ITEM][ItemInfo] = {
 	{18644, "Цвяхи", 0.0, 0.0, 0.0, 1.0}, // 464.
 	{3117, "Метал", 0.0, 0.0, 0.0, 1.0}, // 465.
 	{19918, "Залізний ящик", 0.0, 0.0, 0.0, 1.0}, // 466.
-	{2040, "Ящик з патронівами", 0.0, 0.0, 0.0, 1.0}, // 467.
+	{2040, "Ящик з патронами", 0.0, 0.0, 0.0, 1.0}, // 467.
 	{335, "Ножик", 0.0, 0.0, 0.0, 1.0}, // 468.
 	{2036, "Військова гвинтівка", 0.0, 0.0, 0.0, 1.0}, // 469.
 	{19590, "Японський меч", 0.0, 0.0, 0.0, 1.0}, // 470.
@@ -1928,11 +1889,10 @@ new ItemsInfo[MAX_ITEM][ItemInfo] = {
     {560, "Автомобіль: Sultan (ID: 560)", 0.0, 0.0, 0.0, 1.0}, // 489.
     {562, "Автомобіль: Elegy (ID: 562)", 0.0, 0.0, 0.0, 1.0}, // 490.
     {565, "Автомобіль: Flash (ID: 565)", 0.0, 0.0, 0.0, 1.0} // 491.
-
-    
 };
 new ClickInv[MAX_PLAYERS];
 new InvPage[MAX_PLAYERS];
+
 new PlayerText:Speed_PTD[MAX_PLAYERS][7];
 new Text:Speed_TD[40];
 new biglet1ters[32][] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "2", "3", "4", "5", "6", "7"};
@@ -2555,6 +2515,20 @@ enum dialogs {
 	D_FACTION_EDIT_RANKS_INPUT,
 	D_FACTION_EDIT_SKINS,
 	D_FACTION_EDIT_SKINS_INPUT,
+	D_FACTION_EDIT_FLEET,
+	D_FACTION_EDIT_FLEET_ADD,
+	D_FACTION_EDIT_FLEET_EDIT,
+	D_FACTION_EDIT_FLEET_RANK,
+	D_FACTION_EDIT_FLEET_MODEL,
+	D_FACTION_EDIT_FLEET_COLOR_1,
+	D_FACTION_EDIT_FLEET_COLOR_2,
+	D_FACTION_EDIT_FLEET_SPAWN,
+	D_FACTION_EDIT_FLEET_SPAWN_X,
+	D_FACTION_EDIT_FLEET_SPAWN_Y,
+	D_FACTION_EDIT_FLEET_SPAWN_Z,
+	D_FACTION_EDIT_FLEET_SPAWN_A,
+	D_FACTION_EDIT_FLEET_SPAWN_VW,
+	D_FACTION_EDIT_FLEET_SPAWN_I,
     D_MAKELEADER_ADD,
     D_MAKELEADER_CLEAR,
     D_MAKELEADER,
@@ -7414,9 +7388,9 @@ enum cInfo {
 	ptheftTime,
 	pAdvert,
 	pThrist,
-	pInventory[46],
-	pInventoryKolvo[46],
-	pActivTrade[46],
+	pInventory[50],
+	pInventoryAmount[50],
+	pActiveTrade[50],
 	pMedCard,
 	pDisease[2],
 	pAcsJob[9],
@@ -7753,18 +7727,68 @@ enum fInfo {
 	fMedKits,
 	fDrugsBuy,
 	fDrugsPrice,
-	fSkins[MAX_FACTION_SKINS]
+	fSkins[MAX_FACTION_SKINS],
 }
 new FI[MAX_FACTIONS][fInfo];
 new fRanks[MAX_FACTIONS][MAX_FACTION_RANKS][24];
- 	/* {17, 57, 141, 147, 150, 163, 164, 165, 166, 186, 187, 208, 227, 228, 294, 295}, // 0 - Government
-	{71, 265, 266, 267, 280, 281, 282, 283, 284, 285, 286, 288, 300, 301, 302, 306, 307, 309, 310, 311}, // 1 - Police
-	{70, 71, 148, 219, 268, 274, 275, 276, 277, 278, 279, 308}, // 2 - Medics
-	{86, 102, 103, 104, 105, 106, 107, 108, 109, 110, 114, 115, 116, 149, 173, 174, 175, 269, 270, 271}, // 3 - Gangs
-	{100, 111, 112, 113, 117, 118, 120, 121, 122, 123, 124, 125, 126, 127, 169, 181, 186, 208, 247, 248, 254, 272, 294}, // 4 - Mafias
-	{20, 46, 59, 60, 72, 91, 98, 119, 192, 215, 250, 261}, // 5 - Newsmen
-	{20, 46, 59, 60, 72, 91, 98, 119, 192, 215, 250, 261} // 6 - Civil */
-	
+enum fFleetInfo {
+	fleetID,
+	fleetRank,
+	fleetModel,
+	fleetColor1,
+	fleetColor2,
+	fleetSiren,
+	Float:fleetSpawnX,
+	Float:fleetSpawnY,
+	Float:fleetSpawnZ,
+	Float:fleetSpawnA,
+	fleetSpawnVW,
+	fleetSpawnI
+}
+new fFleet[MAX_FACTIONS][MAX_FACTION_FLEET][fFleetInfo];	
+
+new CarsCount;
+enum E_GosCars{
+	eID, 
+	eOrgs, 
+	eModel, 
+	ePrice,
+	eColor_1, 
+	eColor_2
+}
+static const eGC[][E_GosCars] ={
+	// Організація, Модель, вартість, Кольор 1, Кольор 2.
+	{1, 0, 0, 0, 0, 0},
+	{2, 1, 505, 210000, 0, 1}, // LSPD.
+	{3, 1, 523, 350000, 0, 1}, // LSPD.
+	{4, 1, 541, 2000000, 0, 1}, // LSPD.
+	{5, 1, 542, 100000, 0, 1}, // LSPD.
+	{6, 1, 550, 1450000, 0, 1}, // LSPD.
+	{7, 1, 560, 1750000, 0, 1}, // LSPD.
+	{8, 1, 596, 300000, 0, 1}, // LSPD.
+	{9, 1, 601, 4000000, 0, 1}, // LSPD.
+	{10, 4, 411, 2500000, 1, 1}, // FBI.
+	{11, 4, 415, 1500000, 1, 1}, // FBI.
+	{12, 4, 418, 700000, 1, 1}, // FBI.
+	{13, 4, 427, 900000, 1, 1}, // FBI.
+	{14, 4, 451, 2000000, 1, 1}, // FBI.
+	{15, 4, 490, 700000, 1, 1}, // FBI.
+	{16, 4, 522, 3500000, 1, 1}, // FBI.
+	{17, 5, 475, 150000, 0, 1}, // RCSO.
+	{18, 5, 529, 250000, 0, 1}, // RCSO.
+	{19, 5, 541, 2000000, 0, 1}, // RCSO.
+	{20, 5, 542, 100000, 0, 1}, // RCSO.
+	{21, 5, 559, 1000000, 0, 1}, // RCSO.
+	{22, 5, 560, 1750000, 0, 1}, // RCSO.
+	{23, 5, 596, 300000, 0, 1}, // RCSO.
+	{24, 5, 601, 4000000, 0, 1}, // RCSO.
+	{25, 5, 599, 1000000, 0, 1}, // RCSO.
+	{26, 6, 433, 1500000, 77, 77},
+	{27, 6, 470, 2500000, 77, 77},
+	{28, 6, 540, 500000, 77, 77},
+	{29, 6, 598, 1000000, 77, 77},
+	{30, 6, 603, 1500000, 77, 77}
+};
 new f_diplomacy[9][9];
 enum Vacancy {
 	VacancyCreator[24],
@@ -7773,6 +7797,13 @@ enum Vacancy {
 	VacancyFraction,
 };
 new VacancyInfo[14][Vacancy];
+ 	/* {17, 57, 141, 147, 150, 163, 164, 165, 166, 186, 187, 208, 227, 228, 294, 295}, // 0 - Government
+	{71, 265, 266, 267, 280, 281, 282, 283, 284, 285, 286, 288, 300, 301, 302, 306, 307, 309, 310, 311}, // 1 - Police
+	{70, 71, 148, 219, 268, 274, 275, 276, 277, 278, 279, 308}, // 2 - Medics
+	{86, 102, 103, 104, 105, 106, 107, 108, 109, 110, 114, 115, 116, 149, 173, 174, 175, 269, 270, 271}, // 3 - Gangs
+	{100, 111, 112, 113, 117, 118, 120, 121, 122, 123, 124, 125, 126, 127, 169, 181, 186, 208, 247, 248, 254, 272, 294}, // 4 - Mafias
+	{20, 46, 59, 60, 72, 91, 98, 119, 192, 215, 250, 261}, // 5 - Newsmen
+	{20, 46, 59, 60, 72, 91, 98, 119, 192, 215, 250, 261} // 6 - Civil */
 // =================================================
 CB:kick(giveplayerid) {
 	return Kick(giveplayerid);
@@ -7790,20 +7821,6 @@ enum BINT_DATA {
 	Float:bintZB,
 	bintName[32]
 }
-enum GOSCAR{
-	gcID, 
-	gcOrgs,
-	gcRank, 
-	gcModel, 
-	Float:gcPosX,
-	Float:gcPosY,
-	Float:gcPosZ,
-	Float:gcPosA,
-	gcColor1, 
-	gcColor2, 
-	gcSpawntime
-}
-new GC[MAX_CARS_COUNT][GOSCAR], CarsCount;
 enum BUSINESS_DATA {
 	bizzID,
 	bizzName[64],
@@ -9478,7 +9495,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, FireTargetStatus[playerid][2], 51);
 	PlayerTextDrawFont(playerid, FireTargetStatus[playerid][2], 1);
 	PlayerTextDrawSetProportional(playerid, FireTargetStatus[playerid][2], 1);
-	//FireTotalProgress
+	// FireTotalProgress
 	FireTotalProgress[playerid][0] = CreatePlayerTextDraw(playerid, 617.666625, 124.285186, "usebox");
 	PlayerTextDrawLetterSize(playerid, FireTotalProgress[playerid][0], 0.0, 1.665225);
 	PlayerTextDrawTextSize(playerid, FireTotalProgress[playerid][0], 524.0, 0.0);
@@ -9508,7 +9525,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawBackgroundColor(playerid, FireTotalProgress[playerid][2], 51);
 	PlayerTextDrawFont(playerid, FireTotalProgress[playerid][2], 1);
 	PlayerTextDrawSetProportional(playerid, FireTotalProgress[playerid][2], 1);
-	// autosalon Вибір авто
+	// Autosalon Вибір авто
 	auto_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 465.7333, 380.6916, "_INFERNUS"); // пусто
 	PlayerTextDrawLetterSize(playerid, auto_PTD[playerid][0], 0.1150, 0.8118);
 	PlayerTextDrawAlignment(playerid, auto_PTD[playerid][0], 1);
@@ -9517,7 +9534,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, auto_PTD[playerid][0], 2);
 	PlayerTextDrawSetProportional(playerid, auto_PTD[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, auto_PTD[playerid][0], 0);
-	auto_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 467.4330, 361.1332, "$5000000"); // пусто
+	auto_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 467.4330, 361.1332, "$5000000"); // Пусто
 	PlayerTextDrawLetterSize(playerid, auto_PTD[playerid][1], 0.1246, 0.9114);
 	PlayerTextDrawTextSize(playerid, auto_PTD[playerid][1], 10.0000, 40.0000);
 	PlayerTextDrawAlignment(playerid, auto_PTD[playerid][1], 2);
@@ -9528,603 +9545,870 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, auto_PTD[playerid][1], 2);
 	PlayerTextDrawSetProportional(playerid, auto_PTD[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid, auto_PTD[playerid][1], 0);
-	inventory_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 176.9998, 137.5771, ""); // player skin
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][0], 90.0000, 114.0000);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][0], 1);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][0], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][0], 370810624);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][0], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][0], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][0], 0);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_PTD[playerid][0], 0);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_PTD[playerid][0], -10.0000, 0.0000, -5.0000, 1.0000);
-	inventory_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 169.7666, 318.3363, "LD_SPAC:white"); // health
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][1], 68.0000, 8.0000);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][1], 1);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][1], -347323649);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][1], 255);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][1], 4);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][1], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][1], 0);
-	inventory_PTD[playerid][2] = CreatePlayerTextDraw(playerid, 169.7666, 270.2182, "LD_SPAC:white"); // satiety
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][2], 85.0000, 8.0000);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][2], 1);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][2], -5963521);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][2], 255);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][2], 4);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][2], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][2], 0);
-	inventory_PTD[playerid][3] = CreatePlayerTextDraw(playerid, 169.7666, 295.1069, "LD_SPAC:white"); // thrist
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][3], 44.0000, 8.0000);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][3], 1);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][3], 9568255);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][3], 255);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][3], 4);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][3], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][3], 0);
-	inventory_PTD[playerid][4] = CreatePlayerTextDraw(playerid, 275.8663, 261.3481, "100%"); // satiety
-	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][4], 0.1246, 0.8615);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][4], 3);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][4], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][4], 255);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][4], 2);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][4], 1);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][4], 0);
-	inventory_PTD[playerid][5] = CreatePlayerTextDraw(playerid, 275.8663, 285.6184, "100%"); // thirst
-	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][5], 0.1246, 0.8615);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][5], 3);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][5], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][5], 255);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][5], 2);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][5], 1);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][5], 0);
-	inventory_PTD[playerid][6] = CreatePlayerTextDraw(playerid, 276.3330, 308.8481, "100%"); // health
-	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][6], 0.1246, 0.8615);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][6], 3);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][6], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_PTD[playerid][6], 255);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][6], 2);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][6], 1);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][6], 0);
-	inventory_PTD[playerid][7] = CreatePlayerTextDraw(playerid, 335.7001, 317.7626, "PAGE_1"); // пусто
-	PlayerTextDrawLetterSize(playerid, inventory_PTD[playerid][7], 0.1332, 0.8945);
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][7], 10.0000, 26.0000);
-	PlayerTextDrawAlignment(playerid, inventory_PTD[playerid][7], 2);
-	PlayerTextDrawColor(playerid, inventory_PTD[playerid][7], -1);
-	PlayerTextDrawUseBox(playerid, inventory_PTD[playerid][7], 1);
-	PlayerTextDrawBoxColor(playerid, inventory_PTD[playerid][7], 0);
-	PlayerTextDrawFont(playerid, inventory_PTD[playerid][7], 2);
-	PlayerTextDrawSetProportional(playerid, inventory_PTD[playerid][7], 1);
-	PlayerTextDrawSetShadow(playerid, inventory_PTD[playerid][7], 0);
-	// INVENTARY SLOT
-	inventory_slot[playerid][0] = CreatePlayerTextDraw(playerid, 313.1994, 145.0437, ""); // 1 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][0], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][0], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][0], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][0], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][0], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][0], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][0], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][0], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][0], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][0], 0.0000, 0.0000, 0.0000, 1.0000);
 
-	inventory_slot[playerid][1] = CreatePlayerTextDraw(playerid, 345.8663, 145.0437, ""); // 2 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][1], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][1], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][1], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][1], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][1], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][1], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][1], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][1], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][1], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][1], 0.0000, 0.0000, 0.0000, 1.0000);
+	// інвентар
+   
+    nInventory_TD[playerid][0] = CreatePlayerTextDraw(playerid, 170.000, 115.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][0], 315.000, 250.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][0], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][0], 858993663);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][0], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][0], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][0], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][0], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][0], 1);
 
-	inventory_slot[playerid][2] = CreatePlayerTextDraw(playerid, 378.5331, 145.0437, ""); // 3 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][2], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][2], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][2], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][2], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][2], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][2], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][2], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][2], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][2], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][2], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][1] = CreatePlayerTextDraw(playerid, 175.000, 120.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][1], 80.000, 160.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][1], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][1], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][1], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][1], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][1], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][1], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][1], 1);
 
-	inventory_slot[playerid][3] = CreatePlayerTextDraw(playerid, 411.1994, 145.0437, ""); // 4 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][3], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][3], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][3], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][3], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][3], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][3], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][3], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][3], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][3], 52);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][3], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][2] = CreatePlayerTextDraw(playerid, 135.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][2], 160.000, 160.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][2], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][2], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][2], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][2], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][2], 0);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][2], 5);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][2], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventory_TD[playerid][2], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventory_TD[playerid][2], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventory_TD[playerid][2], 0, 0);
 
-	inventory_slot[playerid][4] = CreatePlayerTextDraw(playerid, 443.1994, 145.0437, ""); // 5 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][4], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][4], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][4], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][4], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][4], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][4], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][4], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][4], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][4], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][4], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][3] = CreatePlayerTextDraw(playerid, 175.000, 285.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][3], 80.000, 15.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][3], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][3], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][3], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][3], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][3], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][3], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][3], 1);
+    PlayerTextDrawSetSelectable(playerid, nInventory_TD[playerid][3], 1);
 
-	inventory_slot[playerid][5] = CreatePlayerTextDraw(playerid, 313.1994, 181.5476, ""); // 6 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][5], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][5], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][5], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][5], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][5], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][5], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][5], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][5], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][5], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][5], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][4] = CreatePlayerTextDraw(playerid, 215.000, 285.000, "Use");
+    PlayerTextDrawLetterSize(playerid, nInventory_TD[playerid][4], 0.300, 1.500);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][4], 2);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][4], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][4], 1);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][4], 1);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][4], 218891195);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][4], 1);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][4], 1);
 
-	inventory_slot[playerid][6] = CreatePlayerTextDraw(playerid, 345.8663, 181.5476, ""); // 7 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][6], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][6], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][6], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][6], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][6], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][6], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][6], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][6], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][6], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][6], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][5] = CreatePlayerTextDraw(playerid, 175.000, 305.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][5], 80.000, 15.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][5], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][5], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][5], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][5], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][5], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][5], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][5], 1);
+    PlayerTextDrawSetSelectable(playerid, nInventory_TD[playerid][5], 1);
 
-	inventory_slot[playerid][7] = CreatePlayerTextDraw(playerid, 378.5331, 181.5476, ""); // 8 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][7], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][7], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][7], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][7], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][7], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][7], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][7], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][7], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][7], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][7], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][6] = CreatePlayerTextDraw(playerid, 215.000, 305.000, "Pass");
+    PlayerTextDrawLetterSize(playerid, nInventory_TD[playerid][6], 0.300, 1.500);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][6], 2);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][6], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][6], 1);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][6], 1);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][6], 150);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][6], 1);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][6], 1);
 
-	inventory_slot[playerid][8] = CreatePlayerTextDraw(playerid, 411.1994, 181.5476, ""); // 9 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][8], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][8], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][8], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][8], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][8], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][8], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][8], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][8], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][8], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][8], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][9] = CreatePlayerTextDraw(playerid, 443.1994, 181.5476, ""); // 10 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][9], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][9], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][9], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][9], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][9], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][9], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][9], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][9], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][9], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][9], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][7] = CreatePlayerTextDraw(playerid, 175.000, 325.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][7], 80.000, 15.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][7], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][7], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][7], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][7], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][7], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][7], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][7], 1);
+    PlayerTextDrawSetSelectable(playerid, nInventory_TD[playerid][7], 1);
 
-	inventory_slot[playerid][10] = CreatePlayerTextDraw(playerid, 313.1994, 218.0513, ""); // 11 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][10], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][10], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][10], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][10], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][10], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][10], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][10], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][10], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][10], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][10], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][8] = CreatePlayerTextDraw(playerid, 215.000, 325.000, "Throw");
+    PlayerTextDrawLetterSize(playerid, nInventory_TD[playerid][8], 0.300, 1.500);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][8], 2);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][8], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][8], 1);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][8], 1);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][8], 150);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][8], 1);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][8], 1);
 
-	inventory_slot[playerid][11] = CreatePlayerTextDraw(playerid, 345.8663, 218.0513, ""); // 12 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][11], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][11], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][11], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][11], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][11], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][11], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][11], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][11], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][11], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][11], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][9] = CreatePlayerTextDraw(playerid, 175.000, 345.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][9], 80.000, 15.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][9], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][9], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][9], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][9], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][9], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][9], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][9], 1);
+    PlayerTextDrawSetSelectable(playerid, nInventory_TD[playerid][9], 1);
 
-	inventory_slot[playerid][12] = CreatePlayerTextDraw(playerid, 378.5331, 218.0513, ""); // 13 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][12], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][12], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][12], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][12], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][12], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][12], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][12], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][12], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][12], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][12], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][10] = CreatePlayerTextDraw(playerid, 215.000, 345.000, "Close");
+    PlayerTextDrawLetterSize(playerid, nInventory_TD[playerid][10], 0.300, 1.500);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][10], 2);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][10], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][10], 1);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][10], 1);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][10], 150);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][10], 1);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][10], 1);
 
-	inventory_slot[playerid][13] = CreatePlayerTextDraw(playerid, 411.1994, 218.0513, ""); // 14 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][13], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][13], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][13], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][13], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][13], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][13], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][13], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][13], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][13], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][13], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][11] = CreatePlayerTextDraw(playerid, 260.000, 345.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][11], 40.000, 15.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][11], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][11], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][11], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][11], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][11], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][11], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][11], 1);
+    PlayerTextDrawSetSelectable(playerid, nInventory_TD[playerid][11], 1);
 
-	inventory_slot[playerid][14] = CreatePlayerTextDraw(playerid, 443.1994, 218.0513, ""); // 15 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][14], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][14], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][14], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][14], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][14], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][14], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][14], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][14], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][14], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][14], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][12] = CreatePlayerTextDraw(playerid, 280.000, 345.000, "Prev");
+    PlayerTextDrawLetterSize(playerid, nInventory_TD[playerid][12], 0.300, 1.500);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][12], 2);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][12], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][12], 1);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][12], 1);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][12], 150);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][12], 1);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][12], 1);
 
-	inventory_slot[playerid][15] = CreatePlayerTextDraw(playerid, 313.1994, 254.5554, ""); // 16 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][15], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][15], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][15], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][15], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][15], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][15], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][15], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][15], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][15], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][15], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][16] = CreatePlayerTextDraw(playerid, 345.8663, 254.5554, ""); // 17 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][16], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][16], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][16], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][16], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][16], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][16], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][16], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][16], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][16], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][16], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][13] = CreatePlayerTextDraw(playerid, 440.000, 345.000, "LD_SPAC:white");
+    PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][13], 40.000, 15.000);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][13], 1);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][13], 0x222222ff);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][13], 0);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][13], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][13], 255);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][13], 4);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][13], 1);
+    PlayerTextDrawSetSelectable(playerid, nInventory_TD[playerid][13], 1);
 
-	inventory_slot[playerid][17] = CreatePlayerTextDraw(playerid, 378.5331, 254.5554, ""); // 18 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][17], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][17], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][17], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][17], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][17], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][17], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][17], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][17], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][17], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][17], 0.0000, 0.0000, 0.0000, 1.0000);
+    nInventory_TD[playerid][14] = CreatePlayerTextDraw(playerid, 460.000, 345.000, "Next");
+    PlayerTextDrawLetterSize(playerid, nInventory_TD[playerid][14], 0.300, 1.500);
+    PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][14], 2);
+    PlayerTextDrawColor(playerid, nInventory_TD[playerid][14], -1);
+    PlayerTextDrawSetShadow(playerid, nInventory_TD[playerid][14], 1);
+    PlayerTextDrawSetOutline(playerid, nInventory_TD[playerid][14], 1);
+    PlayerTextDrawBackgroundColor(playerid, nInventory_TD[playerid][14], 150);
+    PlayerTextDrawFont(playerid, nInventory_TD[playerid][14], 1);
+    PlayerTextDrawSetProportional(playerid, nInventory_TD[playerid][14], 1);
 
-	inventory_slot[playerid][18] = CreatePlayerTextDraw(playerid, 411.1994, 254.5552, ""); // 19 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][18], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][18], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][18], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][18], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][18], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][18], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][18], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][18], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][18], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][18], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][19] = CreatePlayerTextDraw(playerid, 443.1994, 254.5552, ""); // 20 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][19], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][19], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][19], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][19], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][19], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][19], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][19], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][19], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][19], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][19], 0.0000, 0.0000, 0.0000, 1.0000);
-	///////////////////////////////
+    nInventorySlots_TD[playerid][0] = CreatePlayerTextDraw(playerid, 260.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][0], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][0], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][0], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][0], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][0], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][0], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][0], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][0], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][0], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][0], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][0], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][0], 1);
 
-	inventory_slot[playerid][20] = CreatePlayerTextDraw(playerid, 248.3329, 145.0437, ""); // player slot 2
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][20], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][20], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][20], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][20], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][20], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][20], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][20], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][20], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][20], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][20], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][21] = CreatePlayerTextDraw(playerid, 168.9998, 145.0437, ""); // player slot 1
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][21], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][21], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][21], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][21], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][21], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][21], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][21], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][21], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][21], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][21], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][22] = CreatePlayerTextDraw(playerid, 248.2976, 181.5475, ""); // player slot 4
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][22], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][22], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][22], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][22], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][22], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][22], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][22], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][22], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][22], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][22], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][23] = CreatePlayerTextDraw(playerid, 168.9642, 181.5475, ""); // player slot 3
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][23], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][23], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][23], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][23], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][23], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][23], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][23], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][23], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][23], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][23], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][24] = CreatePlayerTextDraw(playerid, 248.2976, 218.0513, ""); // player slot 6
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][24], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][24], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][24], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][24], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][24], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][24], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][24], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][24], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][24], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][24], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][25] = CreatePlayerTextDraw(playerid, 168.9642, 218.0513, ""); // player slot 5
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][25], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][25], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][25], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][25], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][25], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][25], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][25], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][25], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][25], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][25], 0.0000, 0.0000, 0.0000, 1.0000);
-	// INV PAGE 2.
+    nInventorySlots_TD[playerid][1] = CreatePlayerTextDraw(playerid, 305.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][1], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][1], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][1], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][1], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][1], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][1], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][1], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][1], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][1], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][1], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][1], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][1], 1);
 
-	inventory_slot[playerid][26] = CreatePlayerTextDraw(playerid, 313.1994, 145.0437, ""); // 1 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][26], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][26], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][26], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][26], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][26], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][26], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][26], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][26], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][26], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][26], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][27] = CreatePlayerTextDraw(playerid, 345.8663, 145.0437, ""); // 2 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][27], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][27], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][27], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][27], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][27], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][27], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][27], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][27], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][27], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][27], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][28] = CreatePlayerTextDraw(playerid, 378.5331, 145.0437, ""); // 3 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][28], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][28], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][28], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][28], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][28], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][28], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][28], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][28], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][28], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][28], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][29] = CreatePlayerTextDraw(playerid, 411.1994, 145.0437, ""); // 4 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][29], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][29], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][29], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][29], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][29], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][29], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][29], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][29], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][29], 52);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][29], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][30] = CreatePlayerTextDraw(playerid, 443.1994, 145.0437, ""); // 5 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][30], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][30], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][30], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][30], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][30], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][30], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][30], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][30], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][30], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][30], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][31] = CreatePlayerTextDraw(playerid, 313.1994, 181.5476, ""); // 6 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][31], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][31], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][31], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][31], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][31], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][31], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][31], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][31], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][31], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][31], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][32] = CreatePlayerTextDraw(playerid, 345.8663, 181.5476, ""); // 7 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][32], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][32], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][32], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][32], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][32], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][32], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][32], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][32], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][32], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][32], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][33] = CreatePlayerTextDraw(playerid, 378.5331, 181.5476, ""); // 8 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][33], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][33], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][33], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][33], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][33], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][33], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][33], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][33], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][33], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][33], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][34] = CreatePlayerTextDraw(playerid, 411.1994, 181.5476, ""); // 9 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][34], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][34], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][34], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][34], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][34], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][34], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][34], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][34], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][34], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][34], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][35] = CreatePlayerTextDraw(playerid, 443.1994, 181.5476, ""); // 10 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][35], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][35], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][35], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][35], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][35], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][35], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][35], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][35], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][35], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][35], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][36] = CreatePlayerTextDraw(playerid, 313.1994, 218.0513, ""); // 11 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][36], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][36], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][36], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][36], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][36], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][36], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][36], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][36], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][36], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][36], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][37] = CreatePlayerTextDraw(playerid, 345.8663, 218.0513, ""); // 12 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][37], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][37], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][37], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][37], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][37], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][37], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][37], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][37], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][37], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][37], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][38] = CreatePlayerTextDraw(playerid, 378.5331, 218.0513, ""); // 13 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][38], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][38], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][38], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][38], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][38], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][38], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][38], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][38], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][38], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][38], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][39] = CreatePlayerTextDraw(playerid, 411.1994, 218.0513, ""); // 14 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][39], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][39], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][39], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][39], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][39], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][39], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][39], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][39], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][39], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][39], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][40] = CreatePlayerTextDraw(playerid, 443.1994, 218.0513, ""); // 15 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][40], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][40], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][40], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][40], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][40], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][40], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][40], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][40], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][40], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][40], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][41] = CreatePlayerTextDraw(playerid, 313.1994, 254.5554, ""); // 16 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][41], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][41], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][41], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][41], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][41], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][41], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][41], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][41], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][41], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][41], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][42] = CreatePlayerTextDraw(playerid, 345.8663, 254.5554, ""); // 17 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][42], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][42], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][42], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][42], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][42], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][42], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][42], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][42], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][42], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][42], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][43] = CreatePlayerTextDraw(playerid, 378.5331, 254.5554, ""); // 18 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][43], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][43], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][43], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][43], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][43], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][43], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][43], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][43], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][43], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][43], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][44] = CreatePlayerTextDraw(playerid, 411.1994, 254.5552, ""); // 19 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][44], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][44], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][44], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][44], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][44], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][44], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][44], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][44], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][44], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][44], 0.0000, 0.0000, 0.0000, 1.0000);
-	inventory_slot[playerid][45] = CreatePlayerTextDraw(playerid, 443.1994, 254.5552, ""); // 20 slot
-	PlayerTextDrawTextSize(playerid, inventory_slot[playerid][45], 28.0000, 33.0000);
-	PlayerTextDrawAlignment(playerid, inventory_slot[playerid][45], 1);
-	PlayerTextDrawColor(playerid, inventory_slot[playerid][45], -1);
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][45], 370810879);
-	PlayerTextDrawFont(playerid, inventory_slot[playerid][45], 5);
-	PlayerTextDrawSetProportional(playerid, inventory_slot[playerid][45], 0);
-	PlayerTextDrawSetShadow(playerid, inventory_slot[playerid][45], 0);
-	PlayerTextDrawSetSelectable(playerid, inventory_slot[playerid][45], true);
-	PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][45], 18691);
-	PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][45], 0.0000, 0.0000, 0.0000, 1.0000);
-	//
-	buy_player_skins[playerid] = CreatePlayerTextDraw(playerid, 294.555664, 404.706756, "10000$");
+    nInventorySlots_TD[playerid][2] = CreatePlayerTextDraw(playerid, 350.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][2], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][2], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][2], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][2], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][2], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][2], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][2], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][2], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][2], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][2], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][2], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][2], 1);
+
+    nInventorySlots_TD[playerid][3] = CreatePlayerTextDraw(playerid, 395.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][3], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][3], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][3], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][3], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][3], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][3], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][3], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][3], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][3], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][3], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][3], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][3], 1);
+
+    nInventorySlots_TD[playerid][4] = CreatePlayerTextDraw(playerid, 440.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][4], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][4], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][4], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][4], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][4], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][4], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][4], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][4], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][4], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][4], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][4], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][4], 1);
+
+    nInventorySlots_TD[playerid][5] = CreatePlayerTextDraw(playerid, 260.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][5], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][5], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][5], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][5], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][5], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][5], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][5], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][5], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][5], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][5], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][5], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][5], 1);
+
+    nInventorySlots_TD[playerid][6] = CreatePlayerTextDraw(playerid, 305.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][6], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][6], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][6], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][6], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][6], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][6], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][6], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][6], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][6], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][6], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][6], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][6], 1);
+
+    nInventorySlots_TD[playerid][7] = CreatePlayerTextDraw(playerid, 350.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][7], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][7], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][7], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][7], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][7], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][7], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][7], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][7], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][7], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][7], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][7], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][7], 1);
+
+    nInventorySlots_TD[playerid][8] = CreatePlayerTextDraw(playerid, 395.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][8], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][8], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][8], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][8], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][8], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][8], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][8], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][8], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][8], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][8], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][8], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][8], 1);
+
+    nInventorySlots_TD[playerid][9] = CreatePlayerTextDraw(playerid, 440.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][9], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][9], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][9], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][9], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][9], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][9], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][9], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][9], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][9], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][9], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][9], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][9], 1);
+
+    nInventorySlots_TD[playerid][10] = CreatePlayerTextDraw(playerid, 260.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][10], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][10], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][10], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][10], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][10], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][10], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][10], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][10], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][10], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][10], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][10], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][10], 1);
+
+    nInventorySlots_TD[playerid][11] = CreatePlayerTextDraw(playerid, 305.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][11], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][11], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][11], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][11], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][11], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][11], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][11], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][11], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][11], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][11], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][11], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][11], 1);
+
+    nInventorySlots_TD[playerid][12] = CreatePlayerTextDraw(playerid, 350.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][12], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][12], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][12], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][12], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][12], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][12], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][12], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][12], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][12], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][12], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][12], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][12], 1);
+
+    nInventorySlots_TD[playerid][13] = CreatePlayerTextDraw(playerid, 395.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][13], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][13], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][13], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][13], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][13], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][13], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][13], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][13], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][13], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][13], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][13], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][13], 1);
+
+    nInventorySlots_TD[playerid][14] = CreatePlayerTextDraw(playerid, 440.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][14], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][14], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][14], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][14], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][14], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][14], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][14], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][14], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][14], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][14], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][14], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][14], 1);
+
+    nInventorySlots_TD[playerid][15] = CreatePlayerTextDraw(playerid, 260.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][15], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][15], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][15], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][15], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][15], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][15], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][15], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][15], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][15], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][15], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][15], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][15], 1);
+
+    nInventorySlots_TD[playerid][16] = CreatePlayerTextDraw(playerid, 305.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][16], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][16], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][16], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][16], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][16], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][16], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][16], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][16], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][16], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][16], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][16], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][16], 1);
+
+    nInventorySlots_TD[playerid][17] = CreatePlayerTextDraw(playerid, 350.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][17], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][17], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][17], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][17], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][17], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][17], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][17], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][17], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][17], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][17], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][17], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][17], 1);
+
+    nInventorySlots_TD[playerid][18] = CreatePlayerTextDraw(playerid, 395.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][18], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][18], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][18], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][18], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][18], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][18], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][18], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][18], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][18], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][18], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][18], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][18], 1);
+
+    nInventorySlots_TD[playerid][19] = CreatePlayerTextDraw(playerid, 440.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][19], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][19], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][19], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][19], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][19], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][19], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][19], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][19], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][19], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][19], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][19], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][19], 1);
+
+    nInventorySlots_TD[playerid][20] = CreatePlayerTextDraw(playerid, 260.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][20], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][20], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][20], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][20], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][20], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][20], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][20], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][20], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][20], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][20], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][20], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][20], 1);
+
+    nInventorySlots_TD[playerid][21] = CreatePlayerTextDraw(playerid, 305.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][21], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][21], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][21], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][21], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][21], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][21], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][21], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][21], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][21], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][21], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][21], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][21], 1);
+
+    nInventorySlots_TD[playerid][22] = CreatePlayerTextDraw(playerid, 350.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][22], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][22], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][22], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][22], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][22], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][22], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][22], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][22], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][22], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][22], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][22], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][22], 1);
+
+    nInventorySlots_TD[playerid][23] = CreatePlayerTextDraw(playerid, 395.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][23], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][23], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][23], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][23], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][23], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][23], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][23], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][23], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][23], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][23], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][23], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][23], 1);
+
+    nInventorySlots_TD[playerid][24] = CreatePlayerTextDraw(playerid, 440.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][24], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][24], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][24], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][24], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][24], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][24], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][24], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][24], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][24], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][24], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][24], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][24], 1);
+
+    nInventorySlots_TD[playerid][25] = CreatePlayerTextDraw(playerid, 260.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][25], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][25], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][25], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][25], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][25], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][25], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][25], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][25], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][25], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][25], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][25], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][25], 1);
+
+    nInventorySlots_TD[playerid][26] = CreatePlayerTextDraw(playerid, 305.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][26], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][26], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][26], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][26], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][26], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][26], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][26], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][26], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][26], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][26], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][26], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][26], 1);
+
+    nInventorySlots_TD[playerid][27] = CreatePlayerTextDraw(playerid, 350.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][27], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][27], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][27], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][27], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][27], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][27], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][27], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][27], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][27], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][27], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][27], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][27], 1);
+
+    nInventorySlots_TD[playerid][28] = CreatePlayerTextDraw(playerid, 395.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][28], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][28], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][28], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][28], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][28], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][28], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][28], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][28], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][28], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][28], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][28], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][28], 1);
+
+    nInventorySlots_TD[playerid][29] = CreatePlayerTextDraw(playerid, 440.000, 120.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][29], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][29], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][29], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][29], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][29], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][29], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][29], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][29], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][29], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][29], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][29], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][29], 1);
+
+    nInventorySlots_TD[playerid][30] = CreatePlayerTextDraw(playerid, 260.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][30], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][30], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][30], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][30], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][30], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][30], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][30], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][30], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][30], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][30], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][30], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][30], 1);
+
+    nInventorySlots_TD[playerid][31] = CreatePlayerTextDraw(playerid, 305.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][31], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][31], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][31], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][31], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][31], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][31], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][31], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][31], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][31], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][31], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][31], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][31], 1);
+
+    nInventorySlots_TD[playerid][32] = CreatePlayerTextDraw(playerid, 350.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][32], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][32], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][32], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][32], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][32], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][32], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][32], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][32], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][32], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][32], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][32], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][32], 1);
+
+    nInventorySlots_TD[playerid][33] = CreatePlayerTextDraw(playerid, 395.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][33], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][33], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][33], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][33], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][33], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][33], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][33], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][33], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][33], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][33], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][33], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][33], 1);
+
+    nInventorySlots_TD[playerid][34] = CreatePlayerTextDraw(playerid, 440.000, 165.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][34], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][34], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][34], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][34], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][34], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][34], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][34], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][34], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][34], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][34], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][34], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][34], 1);
+
+    nInventorySlots_TD[playerid][35] = CreatePlayerTextDraw(playerid, 260.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][35], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][35], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][35], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][35], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][35], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][35], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][35], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][35], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][35], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][35], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][35], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][35], 1);
+
+    nInventorySlots_TD[playerid][36] = CreatePlayerTextDraw(playerid, 305.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][36], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][36], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][36], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][36], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][36], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][36], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][36], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][36], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][36], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][36], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][36], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][36], 1);
+
+    nInventorySlots_TD[playerid][37] = CreatePlayerTextDraw(playerid, 350.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][37], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][37], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][37], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][37], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][37], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][37], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][37], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][37], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][37], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][37], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][37], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][37], 1);
+
+    nInventorySlots_TD[playerid][38] = CreatePlayerTextDraw(playerid, 395.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][38], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][38], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][38], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][38], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][38], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][38], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][38], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][38], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][38], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][38], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][38], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][38], 1);
+
+    nInventorySlots_TD[playerid][39] = CreatePlayerTextDraw(playerid, 440.000, 210.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][39], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][39], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][39], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][39], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][39], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][39], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][39], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][39], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][39], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][39], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][39], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][39], 1);
+
+    nInventorySlots_TD[playerid][40] = CreatePlayerTextDraw(playerid, 260.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][40], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][40], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][40], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][40], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][40], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][40], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][40], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][40], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][40], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][40], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][40], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][40], 1);
+
+    nInventorySlots_TD[playerid][41] = CreatePlayerTextDraw(playerid, 305.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][41], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][41], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][41], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][41], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][41], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][41], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][41], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][41], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][41], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][41], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][41], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][41], 1);
+
+    nInventorySlots_TD[playerid][42] = CreatePlayerTextDraw(playerid, 350.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][42], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][42], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][42], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][42], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][42], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][42], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][42], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][42], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][42], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][42], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][42], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][42], 1);
+
+    nInventorySlots_TD[playerid][43] = CreatePlayerTextDraw(playerid, 395.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][43], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][43], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][43], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][43], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][43], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][43], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][43], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][43], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][43], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][43], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][43], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][43], 1);
+
+    nInventorySlots_TD[playerid][44] = CreatePlayerTextDraw(playerid, 440.000, 255.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][44], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][44], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][44], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][44], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][44], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][44], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][44], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][44], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][44], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][44], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][44], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][44], 1);
+
+    nInventorySlots_TD[playerid][45] = CreatePlayerTextDraw(playerid, 260.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][45], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][45], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][45], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][45], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][45], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][45], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][45], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][45], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][45], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][45], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][45], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][45], 1);
+
+    nInventorySlots_TD[playerid][46] = CreatePlayerTextDraw(playerid, 305.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][46], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][46], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][46], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][46], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][46], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][46], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][46], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][46], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][46], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][46], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][46], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][46], 1);
+
+    nInventorySlots_TD[playerid][47] = CreatePlayerTextDraw(playerid, 350.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][47], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][47], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][47], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][47], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][47], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][47], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][47], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][47], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][47], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][47], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][47], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][47], 1);
+
+    nInventorySlots_TD[playerid][48] = CreatePlayerTextDraw(playerid, 395.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][48], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][48], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][48], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][48], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][48], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][48], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][48], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][48], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][48], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][48], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][48], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][48], 1);
+
+    nInventorySlots_TD[playerid][49] = CreatePlayerTextDraw(playerid, 440.000, 300.000, "_");
+    PlayerTextDrawTextSize(playerid, nInventorySlots_TD[playerid][49], 40.000, 40.000);
+    PlayerTextDrawAlignment(playerid, nInventorySlots_TD[playerid][49], 1);
+    PlayerTextDrawColor(playerid, nInventorySlots_TD[playerid][49], -1);
+    PlayerTextDrawSetShadow(playerid, nInventorySlots_TD[playerid][49], 0);
+    PlayerTextDrawSetOutline(playerid, nInventorySlots_TD[playerid][49], 0);
+    PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][49], 0x222222ff);
+    PlayerTextDrawFont(playerid, nInventorySlots_TD[playerid][49], 5);
+    PlayerTextDrawSetProportional(playerid, nInventorySlots_TD[playerid][49], 0);
+    PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][49], -1);
+    PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][49], 0.000, 0.000, 0.000, 1.000);
+    PlayerTextDrawSetPreviewVehCol(playerid, nInventorySlots_TD[playerid][49], 0, 0);
+    PlayerTextDrawSetSelectable(playerid, nInventorySlots_TD[playerid][49], 1);
+
+	// else
+	buy_player_skins[playerid] = CreatePlayerTextDraw(playerid, 294.555664, 404.706756, "$10.000");
 	PlayerTextDrawLetterSize(playerid, buy_player_skins[playerid], 0.217999, 1.316264);
 	PlayerTextDrawAlignment(playerid, buy_player_skins[playerid], 1);
 	PlayerTextDrawColor(playerid, buy_player_skins[playerid], -1);
@@ -10161,14 +10445,14 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawAlignment(playerid, RECON[playerid], 1);
 	PlayerTextDrawSetShadow(playerid, RECON[playerid], 0);
 	PlayerTextDrawBackgroundColor(playerid, RECON[playerid], 51);
-	//PlayerTextDrawUseBox(playerid,RECON[playerid], 1);
-	//PlayerTextDrawBoxColor(playerid,RECON[playerid], 100);
+	// PlayerTextDrawUseBox(playerid, RECON[playerid], 1);
+	// PlayerTextDrawBoxColor(playerid, RECON[playerid], 100);
 	load_tunes(playerid);
 	HungerProgres[playerid] = CreatePlayerTextDraw(playerid, 549.500000, 60.0, "____");PlayerTextDrawBackgroundColor(playerid,HungerProgres[playerid], 255);PlayerTextDrawFont(playerid,HungerProgres[playerid], 1);PlayerTextDrawLetterSize(playerid,HungerProgres[playerid], 0.490000, -0.0);
 	PlayerTextDrawColor(playerid,HungerProgres[playerid], -1);PlayerTextDrawSetOutline(playerid,HungerProgres[playerid], 0);PlayerTextDrawSetProportional(playerid,HungerProgres[playerid], 1);PlayerTextDrawSetShadow(playerid,HungerProgres[playerid], 1);
 	PlayerTextDrawUseBox(playerid,HungerProgres[playerid], 1);PlayerTextDrawBoxColor(playerid,HungerProgres[playerid], 0xfF2AB5Bff);PlayerTextDrawTextSize(playerid,HungerProgres[playerid], 604.0, 40.0);PlayerTextDrawSetSelectable(playerid,HungerProgres[playerid], 0);
 	DmArenaTextDraw[playerid] = CreatePlayerTextDraw(playerid, 56.0, 296.333374, "Kills: 0~n~Death: 0");
-	//PlayerTextDrawLetterSize(playerid, DmArenaTextDraw[playerid], 0.449999, 1.600000);
+	// PlayerTextDrawLetterSize(playerid, DmArenaTextDraw[playerid], 0.449999, 1.600000);
 	PlayerTextDrawAlignment(playerid, DmArenaTextDraw[playerid], 1);
 	PlayerTextDrawColor(playerid, DmArenaTextDraw[playerid], -1);
 	PlayerTextDrawSetShadow(playerid, DmArenaTextDraw[playerid], 0);
@@ -11695,28 +11979,28 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			switch(listitem) {
 				case 0: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 50) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 130, 1);
 						CI[playerid][pEvent] -= 50;
 						UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 					}
 				case 1: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 100) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 139, 1);
 						CI[playerid][pEvent] -= 100;
 						UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 					}
 				case 2: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 200) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 460, 1);
 						CI[playerid][pEvent] -= 200;
 						UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 					}
 				case 3: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 300) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 141, 1);
 						CI[playerid][pEvent] -= 300;
@@ -12262,26 +12546,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				SetPVarInt(playerid, "market_item",listitem);
 				new string[250];
-				format(string, sizeof(string), W"Максимально доступна кількість:"ORANGE" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000", CI[playerid][pInventoryKolvo][listitem]);
-				ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість", string, "Далі", "Закрити");
+				format(string, sizeof(string), W"Максимально доступна кількість:"P" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000", CI[playerid][pInventoryAmount][listitem]);
+				ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість.", string, "Далі", "Закрити");
 			}
 		case D_MARKET_PLAYER_1: {
 				if(!response) return 1;
 				new i = GetPVarInt(playerid, "market_item"), count, cash;
 				if(sscanf(inputtext, "p<,>ii",count, cash)) {
 					new string[250];
-					format(string, sizeof(string), W"Максимально доступна кількість:"ORANGE" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000", CI[playerid][pInventoryKolvo][GetPVarInt(playerid, "market_item")]);
-					return ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість", string, "Далі", "Закрити");
+					format(string, sizeof(string), W"Максимально доступна кількість:"P" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000", CI[playerid][pInventoryAmount][GetPVarInt(playerid, "market_item")]);
+					return ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість.", string, "Далі", "Закрити");
 				}
-				if(count <= 0 || CI[playerid][pInventoryKolvo][i] < count) {
+				if(count <= 0 || CI[playerid][pInventoryAmount][i] < count) {
 					new string[250];
-					format(string, sizeof(string), W"Максимально доступна кількість:"ORANGE" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000", CI[playerid][pInventoryKolvo][GetPVarInt(playerid, "market_item")]);
-					return ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість", string, "Далі", "Закрити");
+					format(string, sizeof(string), W"Максимально доступна кількість:"P" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000", CI[playerid][pInventoryAmount][GetPVarInt(playerid, "market_item")]);
+					return ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість.", string, "Далі", "Закрити");
 				}
 				if(cash <= 0 || cash > 90000000) {
 					new string[250];
-					format(string, sizeof(string), W"Максимально доступна кількість:"ORANGE" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000\n\n"G"Сума не може бути більше 90000000$", CI[playerid][pInventoryKolvo][GetPVarInt(playerid, "market_item")]);
-					return ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість", string, "Далі", "Закрити");
+					format(string, sizeof(string), W"Максимально доступна кількість:"P" %d\n"G"Введіть кількість і ціну за один товар, через кому\nНаприклад: "W"5, 30000\n\n"G"Сума не може бути більше 90000000$", CI[playerid][pInventoryAmount][GetPVarInt(playerid, "market_item")]);
+					return ShowPlayerDialog(playerid, D_MARKET_PLAYER_1, DSI, P"Кількість.", string, "Далі", "Закрити");
 				}
 				if(ItemsInfo[CI[playerid][pInventory][i]][Access]) {
 					CI[playerid][pSlotItem][ItemsInfo[CI[playerid][pInventory][i]][AcessBone]] = 0;
@@ -12292,9 +12576,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "INSERT INTO `market` (`Name`, `item`, `ammout`, `cash`) VALUES ('%s',%i,%i,%i)", CI[playerid][cName], CI[playerid][pInventory][i], count, cash);
 				mysql_pquery(connects, query, "", "");
 
-				CI[playerid][pInventoryKolvo][i] -= count;
-				if(CI[playerid][pInventoryKolvo][i] <= 0) {
-					CI[playerid][pInventoryKolvo][i] = 0;
+				CI[playerid][pInventoryAmount][i] -= count;
+				if(CI[playerid][pInventoryAmount][i] <= 0) {
+					CI[playerid][pInventoryAmount][i] = 0;
 					CI[playerid][pInventory][i] = 0;
 				}
 				SaveInventory(playerid);
@@ -12309,11 +12593,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						STRING_GLOBAL[0] = EOS;
 						format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Назва\t"W"Кількість\n");
 						for(new i = 0; i < 46; i++) {
-							if(CI[playerid][pInventoryKolvo][i] > 0) format(item, sizeof(item), W"%s\t%d",ItemsInfo[CI[playerid][pInventory][i]][ItemName], CI[playerid][pInventoryKolvo][i]);
+							if(CI[playerid][pInventoryAmount][i] > 0) format(item, sizeof(item), W"%s\t%d",ItemsInfo[CI[playerid][pInventory][i]][ItemName], CI[playerid][pInventoryAmount][i]);
 							else format(item, sizeof(item), G" Пустий слот");
 							format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "%s%s\n", STRING_GLOBAL, item);
 						}
-						ShowPlayerDialog(playerid, D_MARKET_PLAYER, DSTH, P"Оберіть товар", STRING_GLOBAL, "Обрати", "Закрити");
+						ShowPlayerDialog(playerid, D_MARKET_PLAYER, DSTH, P"Оберіть товар.", STRING_GLOBAL, "Обрати", "Закрити");
 						STRING_GLOBAL[0] = EOS;
 					}
 				case 1: {
@@ -12328,7 +12612,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				new i = market_id[playerid][listitem];
 				new p = GetPVarInt(playerid, "p_id");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 
 				new query[128];
 				mysql_format(connects, query, sizeof(query), "SELECT * FROM `market` WHERE `id` = %i", i);
@@ -13773,16 +14057,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(listitem) {
 				case 0: {
 						if(CountInfo[playerid][cont_type][id] == 1) {
-							if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+							if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 							AddItem(playerid, CountInfo[playerid][cont_model][id], 1);
 						}
 						if(CountInfo[playerid][cont_type][id] == 2) {
-							if(CI[playerid][pPremium]) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", G"На вашому акаунті вже є активний преміум", "Закрити", "");
+							if(CI[playerid][pPremium]) return SendError(playerid, "На вашому акаунті вже є активний преміум.");
 							CI[playerid][pPremium] = gettime() +(1*CountInfo[playerid][cont_model][id]*60*60);
 							UpdateCharacterData(playerid, "premium", CI[playerid][pPremium]);
 						}
 						if(CountInfo[playerid][cont_type][id] == 3) {
-							if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+							if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 							AddItem(playerid, skin_undress[CountInfo[playerid][cont_model][id]][0], 1);
 						}
 						if(CountInfo[playerid][cont_type][id] == 4) GiveMoney(playerid, 100000, "гроші з контейнера");
@@ -14347,7 +14631,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 0: SetPVarInt(playerid, "get_class", 2);
 				case 1: SetPVarInt(playerid, "get_class", 3);
 				}
-				ShowPlayerDialog(playerid, D_VIEW_CARS, DSM, P"Автосалон", W"Ласкаво просимо до "P"автосалону економ та середнього класу"W"!\nУ нашому автосалоні є великий вибір транспорту\nВи хочете перейти до вибору автомобілів? ", "Далі", "Закрити");
+				ShowPlayerDialog(playerid, D_VIEW_CARS, DSM, P"Автосалон.", W"Ласкаво просимо до "P"автосалону економ та середнього класу"W"!\nУ нашому автосалоні є великий вибір транспорту\nВи хочете перейти до вибору автомобілів? ", "Далі", "Закрити");
 			}
 		case D_INVENT_GIVE_1: {
 				if(!response) return DeletePVar(playerid, "block_inv");
@@ -14355,11 +14639,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new slot = ClickInv[playerid];
 				DeletePVar(playerid, "block_inv");
 				if(slot == -1) return SendError(playerid, "Ви не обрали в інвентарі предмет.");
-				if(!CI[playerid][pActivTrade][slot]) return SendError(playerid, "Ви не надсилали запит на передачу цього предмета.");
+				if(!CI[playerid][pActiveTrade][slot]) return SendError(playerid, "Ви не надсилали запит на передачу цього предмета.");
 				SendClientMessage(acter, COLOR_GREY, "Гравець відмовився від передачі предмету.");
 				SendError(playerid, "Ви відмовилися від передачі предмету.");
-				CI[playerid][pActivTrade][slot] = 0;
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][slot], 370810879);
+				CI[playerid][pActiveTrade][slot] = 0;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][slot], 0x222222ff);
 				InvUpdate(playerid, slot, CI[playerid][pInventory][slot]);
 				DeletePVar(acter, "give_inv");
 				DeletePVar(playerid, "activ_trade");
@@ -14371,8 +14655,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new slot = ClickInv[playerid];
 				if(sscanf(inputtext, "p<,>iii", id, ammout, money)) {
 					new model = ClickInv[playerid], str[350];
-					format(str, sizeof(str), W"Інформація про предмет:\n\nНазва предмета:"P" %s"W"\nкількість:"ORANGE" %d"W"\n\nВведіть нижче ID гравця, кількість, ціну за предмет",ItemsInfo[CI[playerid][pInventory][model]][ItemName], CI[playerid][pInventoryKolvo][ClickInv[playerid]]);
-					ShowPlayerDialog(playerid, D_INVENT_GIVE, DSI, P"Інвентар", str, "Далі", "Скасувати");
+					format(str, sizeof(str), W"Інформація про предмет:\n\nНазва предмета:"P" %s"W"\nкількість:"P" %d"W"\n\nВведіть нижче ID гравця, кількість, ціну за предмет.", ItemsInfo[CI[playerid][pInventory][model]][ItemName], CI[playerid][pInventoryAmount][ClickInv[playerid]]);
+					ShowPlayerDialog(playerid, D_INVENT_GIVE, DSI, P"Інвентар.", str, "Далі", "Скасувати");
 					return 1;
 				}
 				DeletePVar(playerid, "block_inv");
@@ -14381,43 +14665,48 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(id == playerid) return SendError(playerid, "Ви вказали свій ID.");
 				if(!IsPlayerStream(3.0, playerid, id)) return SendError(playerid, "Гравець не поруч з вами.");
 				if(active_accept(id)) return SendError(playerid, "Гравець вже має активну пропозицію.");
-				if(GetInvSet(id) >= 40) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
+				if(GetInvSet(id) >= 50) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
 				if(money < 1 || money > 5000000) return SendError(playerid, "Сума повинна бути не менше $1 не більше $5.000.000.");
-				if(ammout > CI[playerid][pInventoryKolvo][ClickInv[playerid]]) return SendError(playerid, "У вас немає цього предмета у такій кількості.");
+				if(ammout > CI[playerid][pInventoryAmount][ClickInv[playerid]]) return SendError(playerid, "У вас немає цього предмета у такій кількості.");
 
-				SetPVarInt(id, "give_inv", playerid+ 1);
+				SetPVarInt(id, "give_inv", playerid + 1);
 				SetPVarInt(id, "pl_inv", CI[playerid][pInventory][slot]);
 				SetPVarInt(id, "pl_money", money);
-				SetPVarInt(id, "pl_count",ammout);
+				SetPVarInt(id, "pl_count", ammout);
 
 				SetPVarInt(playerid, "pl_slot",slot);
-				SetPVarInt(playerid, "activ_trade",id+ 1);
+				SetPVarInt(playerid, "activ_trade", id + 1);
 
-				CI[playerid][pActivTrade][slot] = 1;
+				CI[playerid][pActiveTrade][slot] = 1;
 				STRING_GLOBAL[0] = EOS;
 
-				format(STRING_GLOBAL, sizeof(STRING_GLOBAL), P"%s"W" запропонував вам купити "P" %s "W"у кількості"P" %d за $%d.", CI[playerid][cName],ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryKolvo][ClickInv[playerid]], money);
+				format(STRING_GLOBAL, sizeof(STRING_GLOBAL), P"%s"W" запропонував вам купити "P"%s"W" у кількості "P"%i"W" за "GREEN"$%i"W".", CI[playerid][cName],ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryAmount][ClickInv[playerid]], money);
 				SendUse(id, STRING_GLOBAL);
 				SendHint(id, "Натисніть "YES"Y"W" щоб погодитися, або "NO"N"W" для відмови.");
 
 				STRING_GLOBAL[0] = EOS;
-				format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "Ви запропонували "P"%s"W" купити"P" %s "W"у кількості"P" %d за $%d.", CI[id][cName], ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryKolvo][ClickInv[playerid]], money);
+				format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "Ви запропонували "P"%s"W" купити "P"%s"W" у кількості "P"%i"W" за "GREEN"$%i"W".", CI[id][cName], ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryAmount][ClickInv[playerid]], money);
 				SendUse(playerid, STRING_GLOBAL);
-
 				ClickInv[playerid] = -1;
+				for(new i = 3; i <= 8; i++) {
+					PlayerTextDrawHide(playerid, nInventory_TD[playerid][i]);
+				}
 			}
 		case D_INVENT_DROP: {
-				if(!response) return DeletePVar(playerid, "block_inv");
-				new slot = ClickInv[playerid];
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][slot], 370810879);
-				CI[playerid][pInventory][slot] = 0;
-				CI[playerid][pInventoryKolvo][slot] = 0;
-				InvUpdate(playerid, slot, CI[playerid][pInventory][slot]);
-				ClickInv[playerid] = -1;
-				SaveInventory(playerid);
-				SendOK(playerid, "Предмет утилізовано.");
-				DeletePVar(playerid, "block_inv");
-				return 1;
+			if(!response) return DeletePVar(playerid, "block_inv");
+			new slot = ClickInv[playerid];
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][slot], 0x222222ff);
+			CI[playerid][pInventory][slot] = 0;
+			CI[playerid][pInventoryAmount][slot] = 0;
+			InvUpdate(playerid, slot, CI[playerid][pInventory][slot]);
+			ClickInv[playerid] = -1;
+			for(new i = 3; i <= 8; i++) {
+				PlayerTextDrawHide(playerid, nInventory_TD[playerid][i]);
+			}
+			SaveInventory(playerid);
+			SendOK(playerid, "Ви викинули предмет.");
+			DeletePVar(playerid, "block_inv");
+			return 1;
 			}
 		case D_TUNING_VIEW: {
 				if(!response) return 1;
@@ -14567,7 +14856,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case DIALOG_JOB_PROGRESS_2: {
 				if(!response) return pc_cmd_jobskill(playerid);
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 				switch(take_items[playerid][listitem]) {
 				case 0: {
 						CI[playerid][pAcsJob][0] = 0;
@@ -18457,7 +18746,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви відкрили кейс "P"GOLD"W". Ваш виграш: "P"10 годин преміум-акаунта"W".");
 					}
 				case 8: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
 						AddItem(playerid, 2, 1);
 						SendOK(playerid, "Ви відкрили кейс "P"GOLD"W". Ваш виграш: "P"Аксесуар 'Мініган'"W".");
 					}
@@ -18515,7 +18804,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				case 10: AddItem(playerid, 1, 20000), SendOK(playerid, "Ви відкрили кейс "P"VIP"W". Ваш виграш: "P"20 аптечок"W".");
 				case 11: {
-					if(GetInvSet(playerid) >= 40) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
+					if(GetInvSet(playerid) >= 50) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
 					AddItem(playerid, 453, 1);
 					SendOK(playerid, "Ви відкрили кейс "P"VIP"W". Ваш виграш: "P"аксесуар 'Дреди'"W".");
 					}
@@ -18562,7 +18851,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						CI[playerid][pSettings][7] = 1;
 					}
 					}
-				case 9: return ShowPlayerDialog(playerid, D_SPAWN, DSL, P"Вибір спавна", P"1."W" Вокзал\n"P"2."W" У домі чи квартирі\n"P"3."W" На базі організації\n"P"4."W" У домі сім'ї\n"P"5."W" У домі на колесах", "Обрати", "Скасувати");
+				case 9: return ShowPlayerDialog(playerid, D_SPAWN, DSL, P"Вибір спавна.", P"1."W" Вокзал.\n"P"2."W" У домі чи квартирі.\n"P"3."W" На базі організації.\n"P"4."W" У домі сім'ї.\n"P"5."W" У домі на колесах.", "Обрати", "Скасувати");
 				case 7: {
 					if(!CI[playerid][pSettings][10]) {
 						SendOK(playerid, "Ви ввімкнули інформацію про урон.");
@@ -19066,7 +19355,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(nedded[playerid]) {
 				case 1: {
 					if(bitem > TrunkInfo[idofcar][tKanistra]) return ShowPlayerDialog(playerid, D_TRUNK_INPUT, DSI, P"Багажник.", W"Введіть кількість каністр, яку хочете дістати з багажника:\n\n"NO"*"G" У багажнику немає такої к-сті канистр", "Прийняти", "Скасувати");
-					if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце."),trunk_close(playerid);
+					if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце."),trunk_close(playerid);
 					if(!TrunkInfo[idofcar][tOpen] && idaofcar[playerid] != house_car[playerid][0] && idaofcar[playerid] != house_car[playerid][1]) return SendError(playerid, "Багажник зачинено."),trunk_close(playerid);
 					AddItem(playerid, 454, bitem);
 					TrunkInfo[idofcar][tKanistra] -= bitem;
@@ -19675,32 +19964,32 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!strcmp(inputtext, "- Створити організацію.")) return ShowPlayerDialog(playerid, D_FACTION_ADD_NAME, DSI, P"|"W" Створення організації. Назва.", W"Введіть назву фракції.\nКількість символів повинна бути від "P"6"W" до "P"48"W".", "Далі", "Назад");
 			new header[128], content[1024], fid[4], ftype[24];
 			strmid(fid, inputtext, 0, strfind(inputtext, "."));
-			SetPVarInt(playerid, "fracid", strval(fid));
+			SetPVarInt(playerid, "factionid", strval(fid));
 			switch(FI[strval(fid)][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[strval(fid)][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[strval(fid)][fName], FI[strval(fid)][fColor], FI[strval(fid)][lRank], FI[strval(fid)][sRank], FI[strval(fid)][fLeader], FI[strval(fid)][fBank], FI[strval(fid)][fMedKits], FI[strval(fid)][fMaterials], FI[strval(fid)][fDrugs], FI[strval(fid)][fDrugsBuy], FI[strval(fid)][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[strval(fid)][fName], FI[strval(fid)][fColor], FI[strval(fid)][lRank], FI[strval(fid)][sRank], FI[strval(fid)][fLeader], FI[strval(fid)][fBank], FI[strval(fid)][fMedKits], FI[strval(fid)][fMaterials], FI[strval(fid)][fDrugs], FI[strval(fid)][fDrugsBuy], FI[strval(fid)][fDrugsPrice]);
 			// format(content, sizeof(content), P"1."W" Інформація про фракцію\n"P"2."W" Назначити лідера\n"P"3."W" Зняти лідера\n"P"4."W" Вступити в організацію");
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			
 		case D_FACTION_EDIT: {
-			new query[256], header[128], content[1024], ftype[24], membercid, fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], membercid, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
@@ -19714,7 +20003,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			switch(listitem) {
 				case 0: {
 					format(header, sizeof(header), P"|"W" Керування %s. Тип.", FI[fid][fName]);
-					ShowPlayerDialog(playerid, D_FACTION_EDIT_TYPE, DSL, header, P"1."W" Уряд.\n"P"2."W" Поліція.\n"P"3."W" Медики.\n"P"4."W" Банда.\n"P"5."W" Мафія.\n"P"6."W" Новини.\n"P"7."W" Цивільна.", "Готово", "Скасувати");
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_TYPE, DSL, header, P"1."W" Уряд.\n"P"2."W" Поліція.\n"P"3."W" Медики.\n"P"4."W" Банда.\n"P"5."W" Мафія.\n"P"6."W" Медіа.\n"P"7."W" Цивільна.", "Готово", "Скасувати");
 				}
 				case 1: {
 					format(header, sizeof(header), P"|"W" Керування %s. Назва.", FI[fid][fName]);
@@ -19722,7 +20011,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				case 2: {
 					format(header, sizeof(header), P"|"W" Керування %s. Колір.", FI[fid][fName]);
-					ShowPlayerDialog(playerid, D_FACTION_EDIT_COLOR, DSI, header, W"Введіть новий колір фракції у форматі HEX.\nОсь декілька прикладів: "P"aAF3b0"W", "P"5DC7a4"W".", "Готово", "Скасувати");
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_COLOR, DSI, header, W"Введіть новий колір фракції у форматі HEX.\nОсь декілька прикладів: "P"AD12FF"W", "P"5D4CBB"W".", "Готово", "Скасувати");
 				}
 				case 3: {
 					format(header, sizeof(header), P"|"W" Керування %s. Ранг лідера.", FI[fid][fName]);
@@ -19782,23 +20071,24 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS, DSL, header, content, "Обрати", "Назад");
 				}
 				case 15: {
+					for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+						if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
+					}
+					strcat(content, P"-"W" Додати транспорт.");
+					format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
+					return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
+				}
+				case 16: {
 					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pMember` = %i, `pRank` = %i, `pModel` = %i WHERE `cID` = %i", fid, FI[fid][lRank] - 1, FI[fid][fSkins][1], CI[playerid][cID]);
 					mysql_query(connects, query);
 					CI[playerid][pMember] = fid;
 					CI[playerid][pRank] = FI[fid][lRank] - 1;
 					CI[playerid][pFracSkin] = FI[fid][fSkins][1];
+					CI[playerid][pSpawn] = 2;
 					start_work[playerid] = 1;
 					PlayerSpawn(playerid);
 				}
-				case 16: {
-					mysql_format(connects, query, sizeof(query), "DELETE FROM "TABLE_FACTIONS" WHERE `ID` = %i", fid);
-					mysql_query(connects, query);
-					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_ranks` WHERE `Faction` = %i", fid);
-					mysql_query(connects, query);
-					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_skins` WHERE `Faction` = %i", fid);
-					mysql_query(connects, query);
-					remove_faction(fid);
-					
+				case 17: {
 					mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `pMember` = %i", fid);
 					mysql_query(connects, query);
 					for(new i; i < cache_num_rows(); i++) {
@@ -19807,14 +20097,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							if(CI[n][cID] == membercid) {
 								CI[n][pMember] = 0;
 								CI[n][pRank] = 0;
-								CI[n][pLeader] = 0;
+								CI[n][pLeader] = 0;	
 								CI[n][pFracSkin] = 0;
+								CI[n][pSpawn] = 0;
+								PlayerSpawn(n);
 							}
 						}
 					}
 					
-					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `pModel` = 0, `pMember` = 0, `pRank` = 0, `pLeader` = 0, WHERE `pMember` = '%s' LIMIT 1", fid);
+					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pModel` = 0, `pMember` = 0, `pRank` = 0, `pLeader` = 0 WHERE `pMember` = %i LIMIT 1", fid);
 					mysql_query(connects, query);
+
+					mysql_format(connects, query, sizeof(query), "DELETE FROM "TABLE_FACTIONS" WHERE `ID` = %i", fid);
+					mysql_query(connects, query);
+					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_ranks` WHERE `Faction` = %i", fid);
+					mysql_query(connects, query);
+					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_skins` WHERE `Faction` = %i", fid);
+					mysql_query(connects, query);
+					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_fleet` WHERE `Faction` = %i", fid);
+					mysql_query(connects, query);
+					remove_faction(fid);
 					
 					for(new i = 1; i < MAX_FACTIONS; i++) {
 						if(FI[i][fName]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, FI[i][fName]);
@@ -19825,20 +20127,20 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			}
 		case D_FACTION_EDIT_TYPE: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			UpdateFaction(fid, "Type", listitem + 1);
@@ -19849,33 +20151,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_NAME: {
-			new query[256], header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fname;
-			if(!(6 <= strlen(inputtext) <= 48) || sscanf(inputtext, "s", fname) || !HasNoApostrophe(inputtext)) {
+			new fname[64];
+			if(!(6 <= strlen(inputtext) <= 48) || sscanf(inputtext, "s[64]", fname) || !HasNoApostrophe(inputtext)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Назва.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_NAME, DSI, header, W"Введіть нову назву фракції.\nКількість символів повинна бути від "P"6"W" до "P"48"W".", "Готово", "Скасувати");
 			}
@@ -19884,32 +20186,32 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_query(connects, query);
 
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_COLOR: {
-			new query[256], header[128], content[1024], ftype[24], fcolor[16], membercid, fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], fcolor[16], membercid, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			if(!IsValidHex(inputtext)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Колір.", FI[fid][fName]);
-				return ShowPlayerDialog(playerid, D_FACTION_EDIT_COLOR, DSI, header, W"Введіть новий колір фракції у форматі HEX.\nОсь декілька прикладів: "P"aAF3b0"W", "P"5DC7a4"W".", "Готово", "Скасувати");
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_COLOR, DSI, header, W"Введіть новий колір фракції у форматі HEX.\nОсь декілька прикладів: "P"AD12FF"W", "P"5D4CBB"W".", "Готово", "Скасувати");
 			}
 			format(fcolor, sizeof(fcolor), "0x%sFF", inputtext);
-			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `Color` = %s WHERE `ID` = '%s' LIMIT 1", fcolor, fid);
+			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `Color` = '%s' WHERE `ID` = %i LIMIT 1", fcolor, fid);
 			mysql_query(connects, query);
 			sscanf(fcolor, "x", FI[fid][fColor]);
 			mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `pMember` = %i", fid);
@@ -19924,24 +20226,24 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_LRANK: {
-			new query[256], header[128], content[1024], ftype[24], frank[24], lrank, maxrank, leadercid, membercid, fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], frank[24], lrank, maxrank, leadercid, membercid, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд", frank = "Політик";
 				case 2: ftype = "Поліція", frank = "Офіцер";
 				case 3: ftype = "Медики", frank = "Парамедик";
 				case 4: ftype = "Банда", frank = "Бандит";
 				case 5: ftype = "Мафія", frank = "Мафіозі";
-				case 6: ftype = "Новини", frank = "Журналіст";
+				case 6: ftype = "Медіа", frank = "Журналіст";
 				case 7: ftype = "Цивільна", frank = "Адміністратор";
 				default: ftype = "Редагувати", frank = "Вільний ранг";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			if(sscanf(inputtext, "i", lrank) || !(FI[fid][sRank] <= strval(inputtext) <= MAX_FACTION_RANKS)) {
@@ -19995,27 +20297,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_SRANK: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], srank, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new srank;
 			if(sscanf(inputtext, "i", srank) || strval(inputtext) > FI[fid][lRank]) {
 				format(header, sizeof(header), P"|"W" Керування %s. Ранг керівника.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_SRANK, DSI, header, W"Введіть ранг, з якого будуть доступні керівні дії у фракції.", "Готово", "Скасувати");
@@ -20023,39 +20324,41 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][sRank] = srank;
 			UpdateFaction(fid, "sRank", FI[fid][sRank]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_LEADER: {
-			new query[256], header[128], content[1024], ftype[24], fleadercid, fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], fleadercid, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", inputtext);
-			mysql_query(connects, query);
-			cache_get_value_name_int(0, "cID", fleadercid);
-
 			if(FI[fid][fLeader]) {
-				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pLeader` = 0, `pMember` = 0, `pRank` = 0, `pModel` = 0 WHERE `cID` = '%s'", FI[fid][fLeader]);
+				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pLeader` = 0, `pMember` = 0, `pRank` = 0, `pModel` = 0 WHERE `Name` = '%s'", FI[fid][fLeader]);
 				mysql_query(connects, query);
+
+				mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", FI[fid][fLeader]);
+				mysql_query(connects, query);
+				cache_get_value_name_int(0, "cID", fleadercid);
+
 				foreach(new i:Player) {
 					if(CI[i][cID] == fleadercid) {
+						CI[i][pRank] = 0;
 						CI[i][pLeader] = 0,
 						CI[i][pMember] = 0,
-						CI[i][pRank] = 0;
 						CI[i][pFracSkin] = 0;
+						CI[i][pSpawn] = 0;
 						start_work[i] = 0;
 						PlayerSpawn(i);
 						break;
@@ -20063,16 +20366,20 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 			if(!strlen(inputtext)) {
-				strmid(FI[fid][fLeader], "", 0, 2);
-				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `Leader` = '' WHERE `ID` = %i LIMIT 1", fid);
+				strmid(FI[fid][fLeader], "Назначити", 0, 16);
+				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `Leader` = 'Назначити' WHERE `ID` = %i LIMIT 1", fid);
 				mysql_query(connects, query);
 
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			
-			if(!(4 <= strlen(inputtext) <= 24) || !IsValidLeader(inputtext)) {
+			mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", inputtext);
+			mysql_query(connects, query);
+			cache_get_value_name_int(0, "cID", fleadercid);
+
+			if(!(4 <= strlen(inputtext) <= 24) || !IsValidLeader(inputtext) || !fleadercid) {
 				format(header, sizeof(header), P"|"W" Керування %s. Лідер.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_LEADER, DSI, header, W"Введіть ім'я нового лідера.\nКількість символів повинна бути від "P"4"W" до "P"24"W".\nЩоб анулювати це поле, залиште діалог пустим.", "Готово", "Скасувати");
 			}
@@ -20080,8 +20387,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `Leader` = '%s' WHERE `ID` = %i LIMIT 1", inputtext, fid);
 			mysql_query(connects, query);
 
-			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pLeader` = %i, `pMember` = %i, `pRank` = %i, `pModel` = %i WHERE `cID` = '%i' LIMIT 1", fid, fid, FI[fid][lRank], FI[fid][fSkins][1], fleadercid);
+			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pLeader` = %i, `pMember` = %i, `pRank` = %i, `pModel` = %i WHERE `cID` = %i LIMIT 1", fid, fid, FI[fid][lRank], FI[fid][fSkins][1], fleadercid);
 			mysql_query(connects, query);
+
+			mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", inputtext);
+			mysql_query(connects, query);
+			cache_get_value_name_int(0, "cID", fleadercid);
+
 			strmid(FI[fid][fLeader], inputtext, 0, 24);
 			foreach(new i:Player) {
 				if(CI[i][cID] == fleadercid) {
@@ -20089,6 +20401,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					CI[i][pMember] = fid,
 					CI[i][pRank] = FI[fid][lRank];
 					CI[i][pFracSkin] = FI[fid][fSkins][1];
+					CI[i][pSpawn] = 2;
 					start_work[i] = 1;
 					PlayerSpawn(i);
 					break;
@@ -20096,27 +20409,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_BANK: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fbank, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fbank;
 			if(sscanf(inputtext, "i", fbank)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Бюджет.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_BANK, DSI, header, W"Введіть суму, яку бажаєте бачити у бюджеті фракції.", "Готово", "Скасувати");
@@ -20124,27 +20436,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][fBank] = fbank;
 			UpdateFaction(fid, "Bank", FI[fid][fBank]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_MEDKITS: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fmedkits, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fmedkits;
 			if(sscanf(inputtext, "i", fmedkits)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Аптечки.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_MEDKITS, DSI, header, W"Введіть кількість аптечок, яку бажаєте бачити на складі фракції.", "Готово", "Скасувати");
@@ -20152,27 +20463,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][fMedKits] = fmedkits;
 			UpdateFaction(fid, "MedKits", FI[fid][fMedKits]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_MATERIALS: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fmaterials, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fmaterials;
 			if(sscanf(inputtext, "i", fmaterials)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Матеріали.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_MATERIALS, DSI, header, W"Введіть кількість матеріалів, яку бажаєте бачити на складі фракції.", "Готово", "Скасувати");
@@ -20180,27 +20490,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][fMaterials] = fmaterials;
 			UpdateFaction(fid, "Materials", FI[fid][fMaterials]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_DRUGS: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fdrugs, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fdrugs;
 			if(sscanf(inputtext, "i", fdrugs)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Наркотики.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_DRUGS, DSI, header, W"Введіть кількість наркотиків, яку бажаєте бачити на складі фракції.", "Готово", "Скасувати");
@@ -20208,27 +20517,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][fDrugs] = fdrugs;
 			UpdateFaction(fid, "Drugs", FI[fid][fDrugs]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_DRUGSBUY: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fdrugsbuy, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fdrugsbuy;
 			if(sscanf(inputtext, "i", fdrugsbuy)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Ціна купівлі.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_DRUGSBUY, DSI, header, W"Введіть ціну, за яку фракція скуповуватиме наркотики.", "Готово", "Скасувати");
@@ -20236,27 +20544,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][fDrugsBuy] = fdrugsbuy;
 			UpdateFaction(fid, "DrugsBuy", FI[fid][fDrugsBuy]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_DRUGSPRICE: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fdrugsprice, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
 				case 1: ftype = "Уряд";
 				case 2: ftype = "Поліція";
 				case 3: ftype = "Медики";
 				case 4: ftype = "Банда";
 				case 5: ftype = "Мафія";
-				case 6: ftype = "Новини";
+				case 6: ftype = "Медіа";
 				case 7: ftype = "Цивільна";
 				default: ftype = "Редагувати";
 			}
 			if(!response) {
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			new fdrugsprice;
 			if(sscanf(inputtext, "i", fdrugsprice)) {
 				format(header, sizeof(header), P"|"W" Керування %s. Ціна продажу.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_DRUGSPRICE, DSI, header, W"Введіть ціну, за яку фракція продаватиме наркотики.", "Готово", "Скасувати");
@@ -20264,11 +20571,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			FI[fid][fDrugsPrice] = fdrugsprice;
 			UpdateFaction(fid, "DrugsPrice", FI[fid][fDrugsPrice]);
 			format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+			format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_SPAWN: {
-			new query[256], header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				switch(FI[fid][fType]) {
 					case 1: ftype = "Уряд";
@@ -20276,12 +20583,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					case 3: ftype = "Медики";
 					case 4: ftype = "Банда";
 					case 5: ftype = "Мафія";
-					case 6: ftype = "Новини";
+					case 6: ftype = "Медіа";
 					case 7: ftype = "Цивільна";
 					default: ftype = "Редагувати";
 				}
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			switch(listitem) {
@@ -20309,14 +20616,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(header, sizeof(header), P"|"W" Керування %s. Кут повороту.", FI[fid][fName]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN_I, DSI, header, W"Введіть інтер'єр для визначення точки спавна фракції.", "Готово", "Скасувати");
 				}
-				default: {
+				case 6: {
 					FI[fid][fSpawnI] = GetPlayerInterior(playerid);
 					FI[fid][fSpawnVW] = GetPlayerVirtualWorld(playerid);
 					GetPlayerFacingAngle(playerid, FI[fid][fSpawnA]);
 					GetPlayerPos(playerid, FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ]);
 					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnX` = %f, `SpawnY` = %f, `SpawnZ` = %f, `SpawnA` = %f, `SpawnVW` = %i, `SpawnI` = %i WHERE `ID` = %i", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI], fid);
 					mysql_query(connects, query);
-
+					
 					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
@@ -20324,7 +20631,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		}
 		case D_FACTION_EDIT_SPAWN_X: {
-			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "fracid");
+			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
@@ -20336,12 +20643,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnX` = %f WHERE `ID` = %i", fcoord, fid);
 			mysql_query(connects, query);
+			FI[fid][fSpawnX] = fcoord;
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_SPAWN_Y: {
-			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "fracid");
+			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
@@ -20353,12 +20661,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnY` = %f WHERE `ID` = %i", fcoord, fid);
 			mysql_query(connects, query);
+			FI[fid][fSpawnY] = fcoord;
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_SPAWN_Z: {
-			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "fracid");
+			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
@@ -20370,12 +20679,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnZ` = %f WHERE `ID` = %i", fcoord, fid);
 			mysql_query(connects, query);
+			FI[fid][fSpawnZ] = fcoord;
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_SPAWN_A: {
-			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "fracid");
+			new Float:fcoord, query[256], header[128], content[1024], fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
@@ -20387,12 +20697,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnA` = %f WHERE `ID` = %i", fcoord, fid);
 			mysql_query(connects, query);
+			FI[fid][fSpawnA] = fcoord;
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_SPAWN_VW: {
-			new query[256], header[128], content[1024], fcoord, fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], fcoord, fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
@@ -20404,12 +20715,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnVW` = %i WHERE `ID` = %i", fcoord, fid);
 			mysql_query(connects, query);
+			FI[fid][fSpawnVW] = fcoord;
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_SPAWN_I: {
-			new query[256], header[128], content[1024], fcoord, fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], fcoord, fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
@@ -20421,12 +20733,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnI` = %i WHERE `ID` = %i", fcoord, fid);
 			mysql_query(connects, query);
+			FI[fid][fSpawnI] = fcoord;
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
 		}
 		case D_FACTION_EDIT_RANKS: {
-			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "factionid");
 			if(!response) {
 				switch(FI[fid][fType]) {
 					case 1: ftype = "Уряд";
@@ -20434,12 +20747,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					case 3: ftype = "Медики";
 					case 4: ftype = "Банда";
 					case 5: ftype = "Мафія";
-					case 6: ftype = "Новини";
+					case 6: ftype = "Медіа";
 					case 7: ftype = "Цивільна";
 					default: ftype = "Редагувати";
 				}
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 			SetPVarInt(playerid, "rankid", listitem + 1);
@@ -20447,7 +20760,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_RANKS_INPUT, DSI, header, W"Введіть нову назву для цього рангу.\nМінімальна кількість символів - "P"4"W", максимальна - "P"24"W".", "Готово", "Назад");
 			}
 		case D_FACTION_EDIT_RANKS_INPUT: {
-			new header[128], content[1024], rname[24], rid = GetPVarInt(playerid, "rankid"), fid = GetPVarInt(playerid, "fracid");
+			new header[128], content[1024], rname[24], rid = GetPVarInt(playerid, "rankid"), fid = GetPVarInt(playerid, "factionid");
 			strcat(content, W);
 
 			if(!response) {
@@ -20469,7 +20782,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_RANKS, DSL, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_SKINS: {
-			new query[256], header[128], content[1024], ftype[24], sid[4], fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], ftype[24], sid[4], fid = GetPVarInt(playerid, "factionid");
 			strmid(sid, inputtext, 0, strfind(inputtext, "."));
 
 			if(!response) {
@@ -20479,12 +20792,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					case 3: ftype = "Медики";
 					case 4: ftype = "Банда";
 					case 5: ftype = "Мафія";
-					case 6: ftype = "Новини";
+					case 6: ftype = "Медіа";
 					case 7: ftype = "Цивільна";
 					default: ftype = "Редагувати";
 				}
 				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
-				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 
@@ -20505,7 +20818,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS, DSL, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_SKINS_INPUT: {
-			new query[256], header[128], content[1024], fid = GetPVarInt(playerid, "fracid");
+			new query[256], header[128], content[1024], fid = GetPVarInt(playerid, "factionid");
 
 			if(!response) {
 				for(new i = 1; i < MAX_FACTION_SKINS; i++) {
@@ -20522,7 +20835,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 
 			for(new i = 1; i < MAX_FACTION_SKINS; i++) {
-				if(!FI[fid][fSkins][i]) FI[fid][fSkins][i] = strval(inputtext), i = MAX_FACTION_SKINS;
+				if(!FI[fid][fSkins][i]) {
+					FI[fid][fSkins][i] = strval(inputtext);
+					break;
+				}
 			}
 			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_skins`(`Faction`, `Skin`) VALUES (%i, %i)", fid, strval(inputtext));
 			mysql_query(connects, query);
@@ -20534,32 +20850,406 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(header, sizeof(header), P"|"W" Керування %s. Скіни.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS, DSL, header, content, "Обрати", "Назад");
 			}
+		case D_FACTION_EDIT_FLEET: {
+			new header[128], content[1024], ftype[24], fid = GetPVarInt(playerid, "factionid");
+
+			if(!response) {
+				switch(FI[fid][fType]) {
+					case 1: ftype = "Уряд";
+					case 2: ftype = "Поліція";
+					case 3: ftype = "Медики";
+					case 4: ftype = "Банда";
+					case 5: ftype = "Мафія";
+					case 6: ftype = "Медіа";
+					case 7: ftype = "Цивільна";
+					default: ftype = "Редагувати";
+				}
+				format(header, sizeof(header), P"|"W" Керування %s.", FI[fid][fName]);
+				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+
+			if(!strcmp(inputtext, "- Додати транспорт.")) {
+				format(header, sizeof(header), P"|"W" Керування %s. Додавання транспорта.", FI[fid][fName]);
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_ADD, DSI, header, W"Введіть ID транспорта, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".\nДопустимі значення - "P"400-611"W".", "Готово", "Скасувати");
+			}
+			// [fleetID]
+			SetPVarInt(playerid, "vehicleid", listitem + 1);
+			format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][listitem + 1][fleetModel] - 400]);
+			format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][listitem + 1][fleetRank], fFleet[fid][listitem + 1][fleetModel], fFleet[fid][listitem + 1][fleetColor1], fFleet[fid][listitem + 1][fleetColor2], fFleet[fid][listitem + 1][fleetSiren] ? "Присутня" : "Відсутня");
+			return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+		case D_FACTION_EDIT_FLEET_ADD: {
+			new query[256], header[128], content[1024], vid, freeid, fid = GetPVarInt(playerid, "factionid");
+
+			if(!response) {
+				for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+					if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
+				}
+				strcat(content, P"-"W" Додати транспорт.");
+				format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
+			}
+
+			if(sscanf(inputtext, "i", vid) || !(400 <= strval(inputtext) <= 611)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Додавання транспорта.", FI[fid][fName]);
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_ADD, DSI, header, W"Введіть ID транспорта, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".\nДопустимі значення - "P"400-611"W".", "Готово", "Скасувати");
+			}
+
+			mysql_query(connects, "SELECT MIN(t1.ID + 1) AS freeID FROM `faction_fleet` t1 LEFT JOIN `faction_fleet` t2 ON t1.ID + 1 = t2.ID WHERE t2.ID IS NULL"); // Шукає перший вільний ID.
+			cache_get_value_name_int(0, "freeID", freeid);
+			if(!freeid) freeid++;
+			
+			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+				if(!fFleet[fid][i][fleetModel]) {
+					fFleet[fid][i][fleetID] = freeid;
+					fFleet[fid][i][fleetRank] = 0;
+					fFleet[fid][i][fleetModel] = vid;
+					fFleet[fid][i][fleetColor1] = 0;
+					fFleet[fid][i][fleetColor1] = 0;
+					fFleet[fid][i][fleetSpawnX] = 0.0;
+					fFleet[fid][i][fleetSpawnY] = 0.0;
+					fFleet[fid][i][fleetSpawnZ] = 0.0;
+					fFleet[fid][i][fleetSpawnA] = 0.0;
+					fFleet[fid][i][fleetSpawnVW] = 0;
+					fFleet[fid][i][fleetSpawnI] = 0;
+					CreateOrgsVehicle(fFleet[fid][i][fleetID], fid, fFleet[fid][i][fleetRank], fFleet[fid][i][fleetModel], fFleet[fid][i][fleetSpawnX], fFleet[fid][i][fleetSpawnY], fFleet[fid][i][fleetSpawnZ], fFleet[fid][i][fleetSpawnA], fFleet[fid][i][fleetColor1], fFleet[fid][i][fleetColor2], 0, fFleet[fid][i][fleetSpawnVW], fFleet[fid][i][fleetSpawnI]);
+					break;
+				}
+			}
+
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_fleet` (`ID`, `Faction`, `Model`) VALUES (%i, %i, %i)", freeid, fid, vid);
+			mysql_query(connects, query);
+			
+			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+				if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
+			}
+			strcat(content, P"-"W" Додати транспорт.");
+			format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
+			return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
+		}
+		case D_FACTION_EDIT_FLEET_EDIT: {
+			new query[256], header[128], content[1024], vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+					if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
+				}
+				strcat(content, P"-"W" Додати транспорт.");
+				format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
+			}
+			switch(listitem) {
+				case 0: {
+					format(header, sizeof(header), P"|"W" Керування %s. Ранг.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_RANK, DSI, header, W"Введіть ранг, з якого буде доступний фракційний транспорт.", "Готово", "Скасувати");
+				}
+				case 1: {
+					format(header, sizeof(header), P"|"W" Керування %s. Модель.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_MODEL, DSI, header, W"Введіть ID транспорта, який матиме фракційний транспорт.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".", "Готово", "Скасувати");
+				}
+				case 2: {
+					format(header, sizeof(header), P"|"W" Керування %s. Колір #1.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_COLOR_1, DSI, header, W"Введіть номер основного кольору, у який буде пофарбовано фракційний транспорт.", "Готово", "Скасувати");
+				}
+				case 3: {
+					format(header, sizeof(header), P"|"W" Керування %s. Колір #2.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_COLOR_2, DSI, header, W"Введіть номер додаткового кольору, у який буде пофарбовано фракційний транспорт.", "Готово", "Скасувати");
+				}
+				case 4: {
+					if(fFleet[fid][vid][fleetSiren]) fFleet[fid][vid][fleetSiren] = 0;
+					else fFleet[fid][vid][fleetSiren] = 1;
+					mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `Siren` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetSiren], fFleet[fid][vid][fleetID]);
+					mysql_query(connects, query);
+					format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+				}
+				case 5: {
+					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+				}
+				case 6: {
+					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_fleet` WHERE `ID` = %i", fFleet[fid][vid][fleetID]);
+					mysql_query(connects, query);
+					DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
+
+					fFleet[fid][vid][fleetID] = 0;
+					fFleet[fid][vid][fleetRank] = 0;
+					fFleet[fid][vid][fleetModel] = 0;
+					fFleet[fid][vid][fleetColor1] = 0;
+					fFleet[fid][vid][fleetColor1] = 0;
+					fFleet[fid][vid][fleetSiren] = 0;
+					fFleet[fid][vid][fleetSpawnX] = 0.0;
+					fFleet[fid][vid][fleetSpawnY] = 0.0;
+					fFleet[fid][vid][fleetSpawnZ] = 0.0;
+					fFleet[fid][vid][fleetSpawnA] = 0.0;
+					fFleet[fid][vid][fleetSpawnVW] = 0;
+					fFleet[fid][vid][fleetSpawnI] = 0;
+					
+					for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+						if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
+					}
+					strcat(content, P"-"W" Додати транспорт.");
+					format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
+					return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
+				}
+			}
+		}
+		case D_FACTION_EDIT_FLEET_RANK: {
+			new query[256], header[128], content[1024], vrank, vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "i", vrank) || !(1 <= strval(inputtext) <= FI[fid][lRank])) {
+				format(header, sizeof(header), P"|"W" Керування %s. Ранг.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_RANK, DSI, header, W"Введіть ранг, з якого буде доступний фракційний транспорт.", "Готово", "Скасувати");
+			}
+			fFleet[fid][vid][fleetRank] = vrank;
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `Rank` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+		case D_FACTION_EDIT_FLEET_MODEL: {
+			new query[256], header[128], content[1024], vmodel, vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "i", vmodel) || !(400 <= strval(inputtext) <= 611)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Модель.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_MODEL, DSI, header, W"Введіть ID транспорта, який матиме фракційний транспорт.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".", "Готово", "Скасувати");
+			}
+			fFleet[fid][vid][fleetModel] = vmodel;
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `Model` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+		case D_FACTION_EDIT_FLEET_COLOR_1: {
+			new query[256], header[128], content[1024], vcolor, vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "i", vcolor) || !(0 <= strval(inputtext) <= 255)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Колір #1.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_COLOR_1, DSI, header, W"Введіть номер основного кольору, у який буде пофарбовано фракційний транспорт.", "Готово", "Скасувати");
+			}
+			fFleet[fid][vid][fleetColor1] = vcolor;
+			ChangeVehicleColor(VehicleInfo[fFleet[fid][vid][fleetID]][vID], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2]);
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `Color1` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+		case D_FACTION_EDIT_FLEET_COLOR_2: {
+			new query[256], header[128], content[1024], vcolor, vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "i", vcolor) || !(0 <= strval(inputtext) <= 255)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Колір #2.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_COLOR_2, DSI, header, W"Введіть номер додаткового кольору, у який буде пофарбовано фракційний транспорт.", "Готово", "Скасувати");
+			}
+			fFleet[fid][vid][fleetColor2] = vcolor;
+			ChangeVehicleColor(VehicleInfo[fFleet[fid][vid][fleetID]][vID], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2]);
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `Color2` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+		case D_FACTION_EDIT_FLEET_SPAWN: {
+			new query[256], header[128], content[1024], vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				format(content, sizeof(content), "Ранг\t%i\nМодель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetRank], fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
+				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
+			}
+			switch(listitem) {
+				case 0: {
+					format(header, sizeof(header), P"|"W" Керування %s. Точка X.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_X, DSI, header, W"Введіть координату X для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+				}
+				case 1: {
+					format(header, sizeof(header), P"|"W" Керування %s. Точка Y.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_Y, DSI, header, W"Введіть координату Y для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+				}
+				case 2: {
+					format(header, sizeof(header), P"|"W" Керування %s. Точка Z.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_Z, DSI, header, W"Введіть координату Z для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+				}
+				case 3: {
+					format(header, sizeof(header), P"|"W" Керування %s. Кут повороту.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_A, DSI, header, W"Введіть кут повороту для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+				}
+				case 4: {
+					format(header, sizeof(header), P"|"W" Керування %s. Віртуальний світ.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_VW, DSI, header, W"Введіть віртуальний світ для визначення точки спавна транспорта.", "Готово", "Скасувати");
+				}
+				case 5: {
+					format(header, sizeof(header), P"|"W" Керування %s. Кут повороту.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_I, DSI, header, W"Введіть інтер'єр для визначення точки спавна транспорта.", "Готово", "Скасувати");
+				}
+				case 6: {
+					fFleet[fid][vid][fleetSpawnI] = GetPlayerInterior(playerid);
+					fFleet[fid][vid][fleetSpawnVW] = GetPlayerVirtualWorld(playerid);
+					GetPlayerFacingAngle(playerid, fFleet[fid][vid][fleetSpawnA]);
+					GetPlayerPos(playerid, fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ]);
+					mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnX` = %f, `SpawnY` = %f, `SpawnZ` = %f, `SpawnA` = %f, `SpawnVW` = %i, `SpawnI` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetID]);
+					mysql_query(connects, query);
+					
+					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+				}
+			}
+		}
+		case D_FACTION_EDIT_FLEET_SPAWN_X: {
+			new Float:fcoord, query[256], header[128], content[1024], vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "f", fcoord)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Точка X.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_X, DSI, header, W"Введіть координату X для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnX` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			fFleet[fid][vid][fleetSpawnX] = fcoord;
+			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+		}
+		case D_FACTION_EDIT_FLEET_SPAWN_Y: {
+			new Float:fcoord, query[256], header[128], content[1024], vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "f", fcoord)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Точка Y.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_Y, DSI, header, W"Введіть координату Y для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnY` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			fFleet[fid][vid][fleetSpawnY] = fcoord;
+			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+		}
+		case D_FACTION_EDIT_FLEET_SPAWN_Z: {
+			new Float:fcoord, query[256], header[128], content[1024], vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "f", fcoord)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Точка Z.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_Z, DSI, header, W"Введіть координату Z для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnZ` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			fFleet[fid][vid][fleetSpawnZ] = fcoord;
+			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+		}
+		case D_FACTION_EDIT_FLEET_SPAWN_A: {
+			new Float:fcoord, query[256], header[128], content[1024], vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "f", fcoord) || !( 0 <= fcoord <= 360)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Кут повороту.",vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_A, DSI, header, W"Введіть кут повороту для визначення точки спавна транспорта.\nВикористовуйте крапку у якості десяткового розділювача.", "Готово", "Скасувати");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnA` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			fFleet[fid][vid][fleetSpawnA] = fcoord;
+			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+		}
+		case D_FACTION_EDIT_FLEET_SPAWN_VW: {
+			new query[256], header[128], content[1024], fcoord, vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "i", fcoord)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Віртуальний світ.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_VW, DSI, header, W"Введіть віртуальний світ для визначення точки спавна транспорта.", "Готово", "Скасувати");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnVW` = %i WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			fFleet[fid][vid][fleetSpawnVW] = fcoord;
+			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+		}
+		case D_FACTION_EDIT_FLEET_SPAWN_I: {
+			new query[256], header[128], content[1024], fcoord, vid = GetPVarInt(playerid, "vehicleid"), fid = GetPVarInt(playerid, "factionid");
+			if(!response) {
+				format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+				format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+			}
+			if(sscanf(inputtext, "i", fcoord)) {
+				format(header, sizeof(header), P"|"W" Керування %s. Інтер'єр.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+				ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN_I, DSI, header, W"Введіть інтер'єр для визначення точки спавна транспорта.", "Готово", "Скасувати");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnI` = %i WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
+			mysql_query(connects, query);
+			fFleet[fid][vid][fleetSpawnVW] = fcoord;
+			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
+			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
+			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
+		}
 		/* case D_FACTION_EDIT: {
 			if(!response) return 1;
 			switch(listitem) {
 				case 0: {
-						if(!strcmp(FI[GetPVarInt(playerid, "fracid")][fLeader], "", true)) return SendError(playerid, "У цій організації немає лідера.");
-						new ID = GetPVarInt(playerid, "fracid");
+						if(!strcmp(FI[GetPVarInt(playerid, "factionid")][fLeader], "", true)) return SendError(playerid, "У цій організації немає лідера.");
+						new ID = GetPVarInt(playerid, "factionid");
 						new query[200];
 						mysql_format(connects, query, sizeof(query), "SELECT `Name`, `pRank` FROM "TABLE_CHARACTERS" WHERE `pMember` = %i", ID);
 						mysql_pquery(connects, query, "info_fraction", "ii", playerid, ID);
 					}
 				case 1: {
-						if(strcmp(FI[GetPVarInt(playerid, "fracid")][fLeader], "", true)) return SendError(playerid, "У цій організації вже є лідер.");
+						if(strcmp(FI[GetPVarInt(playerid, "factionid")][fLeader], "", true)) return SendError(playerid, "У цій організації вже є лідер.");
 						new string[128];
-						format(string, sizeof(string), W"Укажіть ID гравця, якого хочете назначити на посаду лідера "P"%s"W".", FI[GetPVarInt(playerid, "fracid")][fName]);
+						format(string, sizeof(string), W"Укажіть ID гравця, якого хочете назначити на посаду лідера "P"%s"W".", FI[GetPVarInt(playerid, "factionid")][fName]);
 						ShowPlayerDialog(playerid, D_MAKELEADER_ADD, DSI, P"Назначення.", string, "Обрати", "Скасувати");
 					}
 				case 2: {
-						if(!strcmp(FI[GetPVarInt(playerid, "fracid")][fLeader], "", true)) return SendError(playerid, "У цій організації немає лідера.");
+						if(!strcmp(FI[GetPVarInt(playerid, "factionid")][fLeader], "", true)) return SendError(playerid, "У цій організації немає лідера.");
 						static const f_str[] = ""W"Ви дійсно хочете зняти "P"%s "W"з посади лідера організації "P"%s"W".";
 						new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + 24];
 
-						format(string, sizeof(string), f_str, FI[GetPVarInt(playerid, "fracid")][fLeader], FI[GetPVarInt(playerid, "fracid")][fName]);
+						format(string, sizeof(string), f_str, FI[GetPVarInt(playerid, "factionid")][fLeader], FI[GetPVarInt(playerid, "factionid")][fName]);
 						ShowPlayerDialog(playerid, D_MAKELEADER_CLEAR, DSM, P"Зняття.", string, "Обрати", "Скасувати");
 					}
 				case 3: {
-					new frac = GetPVarInt(playerid, "fracid");
+					new frac = GetPVarInt(playerid, "factionid");
 					if(IsAGang(playerid) && GetPVarInt(playerid, "ppkz")) EndCapt(playerid);
 					CI[playerid][pLeader] = frac;
 					CI[playerid][pMember] = frac;
@@ -20596,7 +21286,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(!(6 <= strlen(inputtext) <= 48) || !HasNoApostrophe(inputtext)) return ShowPlayerDialog(playerid, D_FACTION_ADD_NAME, DSI, P"|"W" Створення організації. Назва.", W"Введіть назву фракції.\nКількість символів повинна бути від "P"6"W" до "P"48"W".", "Далі", "Назад");
 			SetPVarString(playerid, "creatingfname", inputtext);
-			ShowPlayerDialog(playerid, D_FACTION_ADD_TYPE, DSL, P"|"W" Створення організації. Тип.", P"1."W" Уряд.\n"P"2."W" Поліція.\n"P"3."W" Медики.\n"P"4."W" Банда.\n"P"5."W" Мафія.\n"P"6."W" Новини.\n"P"7."W" Цивільна.", "Готово", "Назад");
+			ShowPlayerDialog(playerid, D_FACTION_ADD_TYPE, DSL, P"|"W" Створення організації. Тип.", P"1."W" Уряд.\n"P"2."W" Поліція.\n"P"3."W" Медики.\n"P"4."W" Банда.\n"P"5."W" Мафія.\n"P"6."W" Медіа.\n"P"7."W" Цивільна.", "Готово", "Назад");
 			}
 		case D_FACTION_ADD_TYPE: {
 			if(!response) return ShowPlayerDialog(playerid, D_FACTION_ADD_NAME, DSI, P"|"W" Створення організації. Назва.", W"Введіть назву фракції.\nКількість символів повинна бути від "P"6"W" до "P"48"W".", "Далі", "Назад");
@@ -20633,11 +21323,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			strcat(content, P"-"W" Створити організацію.");
 			return ShowPlayerDialog(playerid, D_FACTIONS_LIST, DSL, P"|"W" Керування організаціями.", content, "Обрати", "Скасувати");
 			}
-		case D_MAKELEADER_ADD: {
+		/* case D_MAKELEADER_ADD: {
 				if(!response) return 1;
 				if(!strlen(inputtext)) {
 					new string[128];
-					format(string, sizeof(string), W"Вкажіть ID гравця, якого хочете назначити на посаду лідера "P"%s"W".", FI[GetPVarInt(playerid, "fracid")][fName]);
+					format(string, sizeof(string), W"Вкажіть ID гравця, якого хочете назначити на посаду лідера "P"%s"W".", FI[GetPVarInt(playerid, "factionid")][fName]);
 					return ShowPlayerDialog(playerid, D_MAKELEADER_ADD, DSI, P"Назначення.", string, "Обрати", "Скасувати");
 				}
 				if(!IsPlayerConnected(strval(inputtext))) return SendError(playerid, "Гравець офлайн.");
@@ -20646,12 +21336,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(CI[strval(inputtext)][pMember] != 0) return SendError(playerid, "Гравець знаходиться в організації.");
 				SetPVarInt(playerid, "use_leader", strval(inputtext));
 				new string[256];
-				format(string, sizeof(string), W"Ви дійсно хочете назначити "P"%s"W" на посаду лідера організації "P"%s"W"?", CI[strval(inputtext)][cName], FI[GetPVarInt(playerid, "fracid")][fName]);
+				format(string, sizeof(string), W"Ви дійсно хочете назначити "P"%s"W" на посаду лідера організації "P"%s"W"?", CI[strval(inputtext)][cName], FI[GetPVarInt(playerid, "factionid")][fName]);
 				ShowPlayerDialog(playerid, D_MAKELEADER, DSM, P"Назначення.", string, "Назначити", "Скасувати");
 			}
 		case D_MAKELEADER: {
 				if(!response) return 1;
-				new ID = GetPVarInt(playerid, "use_leader"), frac = GetPVarInt(playerid, "fracid"), year, month, day, string[256];
+				new ID = GetPVarInt(playerid, "use_leader"), frac = GetPVarInt(playerid, "factionid"), year, month, day, string[256];
 				CI[ID][pJob] = 0;
 				start_work[ID] = 1;
 				CI[ID][pSpawn] = 2;
@@ -20682,7 +21372,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case D_MAKELEADER_CLEAR: {
 				if(!response) return 1;
-				new ID = GetCheckID(FI[GetPVarInt(playerid, "fracid")][fLeader]);
+				new ID = GetCheckID(FI[GetPVarInt(playerid, "factionid")][fLeader]);
 				if(ID != INVALID_PLAYER_ID) {
 					if(IsAGang(ID) && GetPVarInt(ID, "ppkz")) EndCapt(ID);
 					add_jobinfo(ID, "Знятий з посади лідера.");
@@ -20705,7 +21395,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 					format(string, sizeof(string), f_str, CI[playerid][cName]);
 					SendOK(ID, string);
-					format(string, sizeof(string), "[A] %s[%d] зняв %s[%d] з посади лідера %s.", CI[playerid][cName], playerid, CI[ID][cName],ID, FI[GetPVarInt(playerid, "fracid")][fName]);
+					format(string, sizeof(string), "[A] %s[%d] зняв %s[%d] з посади лідера %s.", CI[playerid][cName], playerid, CI[ID][cName],ID, FI[GetPVarInt(playerid, "factionid")][fName]);
 					AdmMSG(0xAFAFAFAA, string);
 					if(CI[playerid][pHouse] > 0) CI[ID][pSpawn] = 1;
 					else CI[ID][pSpawn] = 0;
@@ -20717,17 +21407,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					PlayerSpawn(ID);
 				} else {
 					new string[128];
-					format(string, sizeof(string), "[A] %s[%d] зняв %s з посади лідера %s.", CI[playerid][cName], playerid, FI[GetPVarInt(playerid, "fracid")][fLeader], FI[GetPVarInt(playerid, "fracid")][fName]);
+					format(string, sizeof(string), "[A] %s[%d] зняв %s з посади лідера %s.", CI[playerid][cName], playerid, FI[GetPVarInt(playerid, "factionid")][fLeader], FI[GetPVarInt(playerid, "factionid")][fName]);
 					AdmMSG(0xAFAFAFAA, string);
-					off_add_jobinfo(FI[GetPVarInt(playerid, "fracid")][fName], "Недієспроможний");
+					off_add_jobinfo(FI[GetPVarInt(playerid, "factionid")][fName], "Недієспроможний");
 					SendOK(playerid, "Лідер організації успішно знятий в офлайн.");
 					new query[180];
-					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET pLeader = '0', pMember = '0', pRank = '0', pModel = '0', Advert = '0', zahvat = '0' WHERE Name = '%s'", FI[GetPVarInt(playerid, "fracid")][fLeader]);
+					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET pLeader = '0', pMember = '0', pRank = '0', pModel = '0', Advert = '0', zahvat = '0' WHERE Name = '%s'", FI[GetPVarInt(playerid, "factionid")][fLeader]);
 					mysql_tquery(connects, query, "", "");
 				}
-				format(FI[GetPVarInt(playerid, "fracid")][fLeader], 5, "");
-				SaveFaaction(GetPVarInt(playerid, "fracid"));
-			}
+				format(FI[GetPVarInt(playerid, "factionid")][fLeader], 5, "Назначити");
+				SaveFaaction(GetPVarInt(playerid, "factionid"));
+			} */
 		case D_BLACK_MARKET: {
 				if(!response) return 1;
 				switch(listitem) {
@@ -20987,7 +21677,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				if(GetPlayerMoneyEx(playerid) < black_prods[7]) return SendError(playerid, "У вас недостатньо грошей.");
 				if(black_prods[3] < 1) return SendError(playerid, "На складі закінчився товар.");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -black_prods[7], "купівля броні ЧР");
 				black_prods[3] -= 1;
 				SaveMarket();
@@ -21002,7 +21692,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				if(GetPlayerMoneyEx(playerid) < black_prods[8]) return SendError(playerid, "У вас недостатньо грошей.");
 				if(black_prods[4] < 1) return SendError(playerid, "На складі закінчився товар.");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -black_prods[8], "купівля форми ЧР");
 				black_prods[4] -= 1;
 				SaveMarket();
@@ -21027,7 +21717,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				if(black_prods[2] < strval(inputtext)) return SendError(playerid, "На складі закінчився товар.");
 				if(GetPlayerMoneyEx(playerid) < black_prods[6]*strval(inputtext)) return SendError(playerid, "У вас недостатньо грошей.");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -black_prods[6]*strval(inputtext), "купівля матів ЧР");
 				black_prods[2] -= strval(inputtext);
 				SaveMarket();
@@ -21236,8 +21926,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				if(!TI[playerid][tJobGun][0]) {
 					TI[playerid][tJobGun][0] = 1;
-					SendOK(playerid, "Вітаємо, ви влаштувалися на завод з виготовлення зброї.");
-					SendInfo(playerid, "Візьміть заготовку на складі та займіть вільний стіл для створення зброї.");
+					SendOK(playerid, "Ви влаштувалися на завод з виготовлення зброї.");
+					SendHint(playerid, "Візьміть заготовку на складі та займіть вільний стіл для створення зброї.");
 					TI[playerid][tJobGun][1] = 1;
 					TI[playerid][tJobSalary] = 0;
 					TI[playerid][jJobGunCreated] = 0;
@@ -22115,7 +22805,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви придбали букет квітів. Щоб подарувати їх комусь, введіть "P"/flowers"W".");
 					}
 				case 8: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 						AddItem(playerid, 121, 1);
 						GiveMoney(playerid, -gShopPrice[8]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля ремкомплекту");
 					}
@@ -22124,7 +22814,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви придбали балончик з фарбою.");
 					}
 				case 10: {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 						return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть к-сть відмичок, яку хочете придбати:", "Купити", "Закрити");
 					}
 				case 11:{
@@ -22149,10 +22839,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_BIZZ_OTM: {
 				if(!response) return 1;
 				new id = TI[playerid][tSelectedBusinessID];
-				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
-				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
+				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
+				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
 				if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
@@ -22209,7 +22899,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
 				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
 				if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"G" У вас недостатньо коштів", "Купити", "Закрити");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
 					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
@@ -22295,10 +22985,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_BIZZ_MASK: {
 				if(!response) return 1;
 				new id = TI[playerid][tSelectedBusinessID];
-				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
+				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок.", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
 				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
 				if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" У вас недостатньо грошей", "Купити", "Закрити");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 
 				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
@@ -22324,19 +23014,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(CI[playerid][pRod]) return SendError(playerid, "Ви вже маєте вудочку.");
 						CI[playerid][pRod] = 1;
 						UpdateCharacterData(playerid, "pRod", 1);
-						SendUse(playerid, "Вітаємо з придбанням вудочки!");
+						SendUse(playerid, "Вітаємо з придбанням вудочки.");
 					}
 				case 1: {
 						if(CI[playerid][pRopes]) return SendError(playerid, "Ви вже маєте снасті.");
 						CI[playerid][pRopes] = 1;
 						UpdateCharacterData(playerid, "pRopes", 1);
-						SendUse(playerid, "Вітаємо з придбанням снастей для вудочки!");
+						SendUse(playerid, "Вітаємо з придбанням снастей для вудочки.");
 					}
 				case 2: {
 						if(CI[playerid][pWorms] + 10 > 30) return SendError(playerid, "Ви не можете купити більше 30 шт. наживки.");
 						CI[playerid][pWorms] += 10;
 						UpdateCharacterData(playerid, "pWorms", CI[playerid][pWorms]);
-						SendUse(playerid, "Вітаємо з придбанням наживки!");
+						SendUse(playerid, "Вітаємо з придбанням наживки.");
 					}
 				case 3: {
 						if(GetPVarInt(playerid, "fish_yes")) return SendError(playerid, "Ви вже маєте перепустку на ловлю риби.");
@@ -22345,7 +23035,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendUse(playerid, "Вітаємо з придбанням одноразової перепустки для ловлі риби.");
 					}
 				case 4: {
-						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація", W"Спійману рибуви можете продати на складі\n біля рибальського магазину за курсом "ORANGE"$150 - 1кг"W",\n або покласти її в холодильник у будинку.\n\n\
+						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", W"Спійману рибуви можете продати на складі\n біля рибальського магазину за курсом "ORANGE"$150 - 1кг"W",\n або покласти її в холодильник у будинку.\n\n\
 							"NO"Увага! "W"Для найбільш ефективної та вигідної риболовлі рекомендуємо придбати 30шт.\n Наживки. Перепустка одноразова. Вудочка і снасті купляються лише один раз.\nУспішної рибалки.", "Закрити", "");
 						return 1;
 					}
@@ -22376,22 +23066,22 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви придбали шнурок.");
 					}
 				case 2: {
-						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація", W"Знайдені предметиви можете продати скупщику в касі навпроти.\n\nЦені знайдених речей:\n\n\
-							Цвяхи - 250$\n\
-							Метал - 500$\n\
-							Заліз. ящик - 900$\n\
-							Ящик з патронівами - 1.500$\n\
-							Ніж - 2.000$\n\
-							Військова гвинтівка - 3.200\n\
-							Японський меч - 5.000\n\
-							Боєголовка - 7.000$\n\
-							Кейс - 10.000\n\
-							Старовинна монета - 20.000$\n\n\
+						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", W"Знайдені предметиви можете продати скупщику в касі навпроти.\n\nЦіни знайдених речей:\n\n\
+							Цвяхи - $250\n\
+							Метал - $500\n\
+							Заліз. ящик - $900\n\
+							Ящик з патронівами - $1.500\n\
+							Ніж - $2.000\n\
+							Військова гвинтівка - $3.200\n\
+							Японський меч - $5.000\n\
+							Боєголовка - $7.000\n\
+							Кейс - $10.000\n\
+							Старовинна монета - $20.000\n\n\
 							Містознахождення озера /gps - 1 - 12. Вдалого пошуку!", "Закрити", "");
 						return 1;
 					}
 				}
-				GiveMoney(playerid, -gPoiskCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб.бізнесі");
+				GiveMoney(playerid, -gPoiskCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб. бізнесі");
 				if(gBusiness[id][bizzProduct]-(gPoiskCosts[listitem] / 10) > 0) {
 					gBusiness[id][bizzProduct] -= gPoiskCosts[listitem] / 10;
 					bizz_pay(id, gPoiskCosts[listitem]*gBusiness[id][bizzPrice]);
@@ -23013,7 +23703,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								return 1;
 							}
 							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні аптечок в сейфі.");
-							if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+							if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 							AddItem(playerid, 1, money);
 							PlayerTrailer[c][carHealth] -= money;
 							new query[128];
@@ -23371,7 +24061,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								return 1;
 							}
 							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків у сейфі.");
-							if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+							if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 							gHouses[houseid][houseDrugs] -= money;
 							CI[playerid][pDrugs] += money;
 							UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
@@ -23389,7 +24079,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								return 1;
 							}
 							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении аптечек у сейфі.");
-							if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+							if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 							gHouses[houseid][houseHealth] -= money;
 							AddItem(playerid, 1, money);
 							new query[128];
@@ -24165,7 +24855,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new invent = ped_buyclothes[GetPVarInt(playerid, "join_ped_item")][2];
 				new id = TI[playerid][tSelectedBusinessID];
 				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "В інвентері недостатньо місця.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -price, "покупка скіна");
 				if(QuestProgress[playerid][4] == 0 && AcceptQuest[playerid][4] != 0) {
 					QuestProgress[playerid][4] ++;
@@ -24375,11 +25065,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new model = GetVehicleModel(vehicleid);
 				if(vehicleid == INVALID_VEHICLE_ID || (model != 431 && model != 437)) return 1;
 				switch(route) {
-				case 0: SetString(gRouteName[0], "Автозавод м. ЛС - Завод - Ферма");
-				case 1: SetString(gRouteName[1], "Автозавод м. ЛС - Лісопильня");
-				case 2: SetString(gRouteName[2], "Автозавод м. ЛС - Банк - Автошкола");
-				case 3: SetString(gRouteName[3], "Внутрішньоміський м. ЛС");
-					//  4 маршрут
+					case 0: SetString(gRouteName[0], "Автозавод м. ЛС - Завод - Ферма");
+					case 1: SetString(gRouteName[1], "Автозавод м. ЛС - Лісопильня");
+					case 2: SetString(gRouteName[2], "Автозавод м. ЛС - Банк - Автошкола");
+					case 3: SetString(gRouteName[3], "Внутрішньоміський м. ЛС");
 				}
 				format(string, sizeof(string), P"%s\n"W"Вартість квитка: "GREEN"$%i", gRouteName[route], 100);
 				gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
@@ -24394,26 +25083,23 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_SPAWN: {
 				if(!response) return 1;
 				switch(listitem) {
-				case 0: SendOK(playerid, "Ви обрали місце спавну. (Вокзал)");
+				case 0: SendOK(playerid, "Ви обрали вокзал місцем спавну.");
 				case 1: {
 						if(CI[playerid][pHouse] == 0 && CI[playerid][pTempKey] == 0 && CI[playerid][pRoom] == 0) return SendError(playerid, "Ви не маєте будинку чи квартири.");
-						SendOK(playerid, "Ви обрали місце спавну. (Будинок чи квартира)");
+						SendOK(playerid, "Ви обрали юудинок чи квартиру місцем спавну.");
 					}
 				case 2:	{
 						if(!CI[playerid][pMember]) return SendError(playerid, "Ви не перебуваєте в організації.");
-						if(!IsAGang(playerid) || !IsAMafia(playerid)) {
-							if(!start_work[playerid]) return SendError(playerid, "Необхідно розпочати робочий день в організації.");
-						}
-						SendOK(playerid, "Ви обрали місце спавну. (Органзація)");
+						SendOK(playerid, "Ви обрали організацію місцем спавну.");
 					}
 				case 3: {
 						if(!CI[playerid][pFamily]) return SendError(playerid, "Ви не знаходитеся в сім'ї.");
-						if(CI[playerid][pFamily] && !gFamily[CI[playerid][pFamily]-1][famHouse]) return SendError(playerid, "Дім сім'ї не обраний.");
-						SendOK(playerid, "Ви обрали місце спавну. (Будинок сім'ї)");
+						if(CI[playerid][pFamily] && !gFamily[CI[playerid][pFamily] - 1][famHouse]) return SendError(playerid, "Дім сім'ї не обраний.");
+						SendOK(playerid, "Ви обрали сімейний будинок місцем спавну.");
 					}
 				case 4: {
 						if(!GetPlayerVehicles(playerid)) return SendError(playerid, "Ви не маєте будинку на колесах.");
-						SendOK(playerid, "Ви обрали місце спавну. (Будинок на колесах)");
+						SendOK(playerid, "Ви обрали будинок на колесах місцем спавну.");
 					}
 				}
 				CI[playerid][pSpawn] = listitem;
@@ -26245,7 +26931,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					gBusiness[fuel][bizzProduct] -= 10;
 					bizz_pay(fuel,price);
 				}
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				GiveMoney(playerid, -price, "купівля каністри");
 				UpdateBusinessText(fuel);
 				AddItem(playerid, 454, 1);
@@ -26544,16 +27230,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case dBizList: {
 				if(!response) return 1;
-				new fracid = CI[playerid][pMember], count_business = 1, string[3000];
+				new factionid = CI[playerid][pMember], count_business = 1, string[3000];
 				string = W"#\t"W"Назва бізнесу\t"W"Дохід за сьогодні\n";
 				for(new i; i < gBusinessCount; i++) {
 					if(gBusiness[i][bizzMafia] != CI[playerid][pMember]) continue;
-					if(fracid) {
+					if(factionid) {
 						if(count_business <= 50) {
 							count_business++;
 							continue;
 						}
-						format(string, sizeof(string), "%s"P"%i"W"\t%s\t$%d\n", string, gBusiness[i][bizzID], gBusiness[i][bizzName], gBankMafia[fracid][i]);
+						format(string, sizeof(string), "%s"P"%i"W"\t%s\t$%d\n", string, gBusiness[i][bizzID], gBusiness[i][bizzName], gBankMafia[factionid][i]);
 					}
 				}
 				ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, P"Бізнеси мафії.", string, "Закрити", "");
@@ -26822,9 +27508,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_DONATE_ACS_1: {
 				if(!response) return 1;
 				new string[150];
-				format(string, 150, W"Ви збираєтесь купити унікальний аксесуар\n\nНазва аксесуара: "P"%s"W"\nВартість: "GREEN"%d UAH",
+				format(string, 150, W"Ви збираєтесь купити унікальний аксесуар.\n\nНазва аксесуара: "P"%s"W"\nВартість: "GREEN"%d UAH",
 				Donate[listitem][dName],Donate[listitem][dRub]);
-				ShowPlayerDialog(playerid, D_DONATE_ACS_2, DSM, P"Купівля аксесуара", string, "Купити", "Назад");
+				ShowPlayerDialog(playerid, D_DONATE_ACS_2, DSM, P"Купівля аксесуара.", string, "Купити", "Назад");
 				SetPVarInt(playerid, "id_donate",listitem+ 1);
 			}
 		case D_DONATE_ACS_2: {
@@ -26834,15 +27520,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					for(new i = 0; i < 23; i++) {
 						format(string, 650, "%s%d. %s\t%d UAH\n", string, i + 1,Donate[i][dName],Donate[i][dRub]);
 					}
-					ShowPlayerDialog(playerid, D_DONATE_ACS_1, DSTH, P"Унікальні аксесуари", string, "Купити", "Закрити");
+					ShowPlayerDialog(playerid, D_DONATE_ACS_1, DSTH, P"Унікальні аксесуари.", string, "Купити", "Закрити");
 					DeletePVar(playerid, "id_donate");
 					return 1;
 				}
 				new id = GetPVarInt(playerid, "id_donate") -1;
 				if(CI[playerid][pDonate] < Donate[id][dRub]) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Недостатньо грошей на акаунті\n\nПоповнити свій рахунок можна на сайті{F2BB68} chiliad-rp.com/donate", "Закрити", "");
-				if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				AddItem(playerid, Donate[id][dModel], 1);
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Вітаємо з купівлею нового аксесуара!", "Закрити", "");
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Вітаємо з купівлею нового аксесуара.", "Закрити", "");
 				GiveDonate(playerid, -Donate[id][dRub], "купівля аксесуара");
 				DeletePVar(playerid, "id_donate");
 				CI[playerid][pEvent] += 5;
@@ -26857,7 +27543,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetPVarInt(playerid, "n_rub", 300);
 					SetPVarInt(playerid, "number",strval(inputtext));
 					format(str, 120, W"\nНомер телефону: %i\nВартість:{F2BB68} 300 UAH"W"\n\nВи хочете купити цей номер телефону?",strval(inputtext));
-					ShowPlayerDialog(playerid, D_DONATE_NUMBER_2, DSM, P"Елітний номера телефону", str, "Купити", "Назад");
+					ShowPlayerDialog(playerid, D_DONATE_NUMBER_2, DSM, P"Елітний номера телефону.", str, "Купити", "Назад");
 
 					result++;
 					return 1;
@@ -26964,7 +27650,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_DONATE_SKIN: {
 				if(!response) return pc_cmd_donate(playerid);
 				if(CI[playerid][pDonate] < 250) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Недостатньо грошей на акаунті\n\nПоповнити свій рахунок можна на сайті{F2BB68} chiliad-rp.com/donate", "Закрити", "");
-				if(GetInvSet(playerid) >= 40) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вашому інвентарі недостатньо місця", "Закрити", "");
+				if(GetInvSet(playerid) >= 50) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вашому інвентарі недостатньо місця", "Закрити", "");
 				if(strval(inputtext) == 74 || strval(inputtext) < 1 || strval(inputtext) > 311) return ShowPlayerDialog(playerid, D_DONATE_SKIN, DSI, P"Унікальний Скін", W"Введіть нижче номер Скіна від 1 до 311\n\nВартість: 250р", "Купити", "Назад");
 				GiveDonate(playerid, -250, "купівля унікального скіна");
 				AddItem(playerid, skin_undress[strval(inputtext)][0], 1);
@@ -28027,7 +28713,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					FI[team][fMaterials] -= count_minus;
 					UpdateFaction(team, "Materials", FI[team][fMaterials]);
 					if(FW[i][team][fwGunID] == 99) {
-						if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 						return AddItem(playerid, 120, 1);
 					}
 					GivePlayerWeapon(playerid,FW[i][team][fwGunID],FW[i][team][fwGunAmmo]);
@@ -28537,13 +29223,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				} else {
 					if(QuestProgress[playerid][id] == QI[id][LastProgress]) {
 						switch(id) {
-						case 57: GiveMoney(playerid, 7000, "quest 57");
-						case 58: GiveMoney(playerid, 10000, "quest 58");
-						case 59: GiveMoney(playerid, 3000, "quest 59");
-						case 60: GiveMoney(playerid, 7000, "quest 60");
-						case 61: {
-							AddItem(playerid, 463, 1);
-						}
+							case 57: GiveMoney(playerid, 7000, "quest 57");
+							case 58: GiveMoney(playerid, 10000, "quest 58");
+							case 59: GiveMoney(playerid, 3000, "quest 59");
+							case 60: GiveMoney(playerid, 7000, "quest 60");
+							case 61: AddItem(playerid, 463, 1);
 						}
 						SendOK(playerid, "Завдання виконано. Заберіть свою нагороду.");
 						QuestProgress[playerid][id] = 100;
@@ -29345,7 +30029,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new string[128];
 				format(string, sizeof(string), "Ви взяли шпигунський одяг - %s.", FI[fraction][fName]);
 				SendOK(playerid, string);
-				SendOK(playerid, "Щоб переодягнутися назад, встаньте ще раз на пікап.");
+				SendOK(playerid, "Щоб перевдягнутися назад, встаньте ще раз на пікап.");
 				return 1;
 			}
 		case D_SPY_3: {
@@ -29359,7 +30043,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							return 1;
 						}
 						if(CI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
-						ShowPlayerDialog(playerid, D_SPY, DSL, P"Оберіть фракцію", "Департамент поліції Лос-Сантоса\nОфіс шерифа округу Ред\nУряд\nНаціональна гвардія\nЦентральна лікарня Всіх Святих\nПожежна служба Лос-Сантоса\nЛос-Сантос Таймс\nКоза Ностра\n\
+						ShowPlayerDialog(playerid, D_SPY, DSL, P"Оберіть фракцію.", "Департамент поліції Лос-Сантоса\nОфіс шерифа округу Ред\nУряд\nНаціональна гвардія\nЦентральна лікарня Всіх Святих\nПожежна служба Лос-Сантоса\nЛос-Сантос Таймс\nКоза Ностра\n\
 						Тріада\nРосійська мафія\nBallas\nLos Santos Vagos\nGrove Street Families\nVarrios Los Aztecas\nSan Fierro Rifa", "Обрати", "Закрити");
 					}
 				case 1: ShowGetGun(playerid);
@@ -30211,21 +30895,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				SetPVarInt(playerid, "price_acs", price);
 				for(new i=0; i<9; i++) {
-					TextDrawShowForPlayer(playerid,buy_skins[i]);
+					TextDrawShowForPlayer(playerid, buy_skins[i]);
 				}
 				SetPVarInt(playerid, "buy_accses", 1);
-				PlayerTextDrawShow(playerid,buy_player_skins[playerid]);
+				PlayerTextDrawShow(playerid, buy_player_skins[playerid]);
 				new string[12];
-				format(string, sizeof(string), "$%d",price);
-				PlayerTextDrawSetString(playerid,buy_player_skins[playerid], string);
+				format(string, sizeof(string), "$%d", price);
+				PlayerTextDrawSetString(playerid, buy_player_skins[playerid], string);
 				SelectTextDraw(playerid, 0x0080FFFF);
 			}
 		case D_GAME_DM_2: {
 				if(!response) return 1;
 				if(strval(inputtext) < 1000 ||strval(inputtext) > 10000) {
 					new string[356];
-					format(string, sizeof(string), "\n\n"W"Для реєстрації, необхідно зробити внесок.\nНаразі, мінімальний внесок складає "ORANGE"$1.000\n"W"Всього зареєструвалось "P"%d "W"гравців\nЗагальний внесок складає "ORANGE"$%d\n\n"NO"*"G" Размер внеску від $1.000 до $10.000", players_in_game, money_in_game);
-					ShowPlayerDialog(playerid, D_GAME_DM_2, DSI, P"Реєстрація", string, "Внести", "Закрити");
+					format(string, sizeof(string), "\n\n"W"Для реєстрації, необхідно зробити внесок.\nНаразі, мінімальний внесок складає "GREEN"$1.000\n"W"Всього зареєструвалось "P"%d "W"гравців\nЗагальний внесок складає "ORANGE"$%d\n\n"NO"*"G" Размер внеску від $1.000 до $10.000", players_in_game, money_in_game);
+					ShowPlayerDialog(playerid, D_GAME_DM_2, DSI, P"Реєстрація.", string, "Внести", "Закрити");
 					return 1;
 				}
 				if(strval(inputtext) > CI[playerid][pCash]) return SendError(playerid, "У вас недостатньо коштів.");
@@ -31154,8 +31838,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	#if defined _hacker_inc
 	if(hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext)) return 1;
 	#endif
-	while(strfind(inputtext, "%s",true)!=-1) {
-		strdel(inputtext,strfind(inputtext, "%s",true), strfind(inputtext, "%s",true) + 2);
+	while(strfind(inputtext, "%s", true) != -1) {
+		strdel(inputtext,strfind(inputtext, "%s", true), strfind(inputtext, "%s", true) + 2);
 	}
 	return 1;
 }
@@ -31170,13 +31854,13 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 					"W"Доступно для розвантаження: "O"%d\n\
 					"W"Введіть кількість продуктів для продажу:"
 		, gBusiness[bizid][bizzName], gBusiness[bizid][bizzProdOrder], GetPVarInt(playerid, "count_prod"));
-		return ShowPlayerDialog(playerid, dProdSell, DSI, P"Доставка", string, "Продати", "Скасувати");
+		return ShowPlayerDialog(playerid, dProdSell, DSI, P"Доставка.", string, "Продати", "Скасувати");
 	}
 	if(checkpointid == EggSklad[playerid]) {
 		new money = 2*SALARY_EGG;
 		TI[playerid][tJobSalary] += money;
 		new string[102];
-		format(string, sizeof(string), W"Ви принесли"P" 2 шт."W" яєць. Всього принесено:"P" %d шт.",EggCount[playerid]);
+		format(string, sizeof(string), W"Ви принесли "P"2"W" яйця. Всього принесено "P"%i шт.", EggCount[playerid]);
 		SendInfo(playerid, string);
 		new s_[24];
 		format(s_, sizeof(s_), "Money:_$%d", TI[playerid][tJobSalary]);
@@ -31503,7 +32187,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			}
 		case 44: {
 				if(CI[playerid][pMember] != fFBI) return SendError(playerid, "Ви не агент Федерального бюро розслідувань.");
-				ShowPlayerDialog(playerid, D_SPY_3, DSL, P"Федеральне бюро розслідувань.", P"1."W" Маскування\n"P"2."W" Взяти зброю\n"P"3."W" Переодянутися", "Обрати", "Закрити");
+				ShowPlayerDialog(playerid, D_SPY_3, DSL, P"Федеральне бюро розслідувань.", P"1."W" Маскування\n"P"2."W" Взяти зброю\n"P"3."W" Перевдянутися", "Обрати", "Закрити");
 			}
 		case 45..49: {
 				switch(pick) {
@@ -32426,15 +33110,15 @@ public OnPlayerDisconnect(playerid, reason) {
 		for(new c = 0; c < 6; c++) PlayerTextDrawDestroy(playerid, CaptPlayer[playerid][c]);
 	}
 
-	for(new i = 0; i < 13; i++) PlayerTextDrawDestroy(playerid, hack_numbers[playerid][i]);
-	for(new i = 0; i < 46; i++) PlayerTextDrawDestroy(playerid, inventory_slot[playerid][i]); // del inv
-	for(new i = 0; i < 8; i++) PlayerTextDrawDestroy(playerid, inventory_PTD[playerid][i]); // del inv
+	for(new i; i < 13; i++) PlayerTextDrawDestroy(playerid, hack_numbers[playerid][i]);
+	for(new i; i < 50; i++) PlayerTextDrawDestroy(playerid, nInventorySlots_TD[playerid][i]); // del inv
+	for(new i; i < 15; i++) PlayerTextDrawDestroy(playerid, nInventory_TD[playerid][i]); // del inv
 	ghetto_HideGUI(playerid);
 	if(skill_gun[playerid] == 1) {
 		save_skill(playerid);
 		skill_gun[playerid] = 0;
 	}
-	for(new i = 0; i < 44; i++) {
+	for(new i; i < 44; i++) {
 		PlayerTextDrawDestroy(playerid, PhoneGUI[playerid][i]);
 	}
 	PhoneShow[playerid] = false;
@@ -33341,7 +34025,7 @@ SettingSpawn(playerid) {
 		SetCameraBehindPlayer(playerid);
 		return 1;
 	}
-	/*else if(TI[playerid][tFight] != -1) {
+	/* else if(TI[playerid][tFight] != -1) {
 		if(RingInfo[0][rgStart] > 0) {
 			if(RingInfo[0][rgLoad][1] == 1) {
 				new r = 0;
@@ -33374,7 +34058,7 @@ SettingSpawn(playerid) {
 				return 1;
 			}
 		}
-	}*/
+	} */
 	if(TI[playerid][tGym]) {
 		SetPlayerPosAC(playerid, 770.9481, 5.4735, 1000.7145, 76, 5);
 		SetPlayerVirtualWorld(playerid, 76);
@@ -33408,7 +34092,7 @@ SettingSpawn(playerid) {
 		}
 		SetCameraBehindPlayer(playerid);
 		return 1;
-	} else if(GetPlayerVehicles(playerid) && CI[playerid][pSpawn] == 4) {
+	} else if(CI[playerid][pSpawn] == 4 && GetPlayerVehicles(playerid)) {
 		new player_vehicleid = playerVehicleID[playerid];
 		if(PlayerTrailer[player_vehicleid][carOwnerID] == playerid) {
 			SetPlayerPosAC(playerid, -667.1129, 1726.8284, 1376.6718, player_vehicleid, 2);
@@ -33426,7 +34110,7 @@ SettingSpawn(playerid) {
 			FreezePlayerForTime(playerid, freezeSeconds);
 			return 1;
 		}
-	} else if((CI[playerid][pHouse] > 0 && CI[playerid][pSpawn] == 1) || (CI[playerid][pTempKey] > 0 && CI[playerid][pSpawn] == 1)) {
+	} else if((CI[playerid][pSpawn] == 1 && CI[playerid][pHouse] > 0) || (CI[playerid][pSpawn] == 1 && CI[playerid][pTempKey] > 0)) {
 		if(CI[playerid][pTempKey] > 0) {
 			new interior, Float:r;
 			new houseid = CI[playerid][pTempKey] - 1;
@@ -33465,7 +34149,7 @@ SettingSpawn(playerid) {
 			TI[playerid][tInHouse] = true;
 		}
 		return 1;
-	} else if(CI[playerid][pRoom] && CI[playerid][pSpawn] == 1) {
+	} else if(CI[playerid][pSpawn] == 1 && CI[playerid][pRoom]) {
 		new room = CI[playerid][pRoom]-1;
 		TI[playerid][tSelectedRoom] = room;
 		SetPVarInt(playerid, "selecthouse", Apartment[room][apID]);
@@ -33495,8 +34179,7 @@ SettingSpawn(playerid) {
 		TI[playerid][tInterior] = interior;
 		TI[playerid][tInHouse] = true;
 		return 1;
-	}
-	if(CI[playerid][pMember] && CI[playerid][pSpawn] == 2 && start_work[playerid]) {
+	} else if(CI[playerid][pSpawn] == 2 && CI[playerid][pMember] && (FI[CI[playerid][pMember]][fSpawnX] || FI[CI[playerid][pMember]][fSpawnY] || FI[CI[playerid][pMember]][fSpawnZ] || FI[CI[playerid][pMember]][fSpawnA] || FI[CI[playerid][pMember]][fSpawnVW] || FI[CI[playerid][pMember]][fSpawnI]) && start_work[playerid]) {
 		new fractionid = CI[playerid][pMember];
 		SetPlayerPosAC(playerid, FI[fractionid][fSpawnX], FI[fractionid][fSpawnY], FI[fractionid][fSpawnZ], FI[fractionid][fSpawnVW], FI[fractionid][fSpawnI]);
 		SetPlayerInterior(playerid, FI[fractionid][fSpawnI]);
@@ -34506,7 +35189,7 @@ stock RemoveSettings(playerid) { // Скидання налаштувань при авторизації/реєстра
 	TI[playerid][tBuildCount] = 0;
 	TI[playerid][tBuild] = 0;
 	TI[playerid][tStarted] = false;
-	PlayerArmour[playerid] 							= 0.0;
+	PlayerArmour[playerid] = 0.0;
 	GetPlayerIp(playerid, player_ip_check[playerid], 16);
 	CI[playerid][pAdmKL] = 0;
 	BizzID[playerid][0] = 0;
@@ -34522,10 +35205,10 @@ stock RemoveSettings(playerid) { // Скидання налаштувань при авторизації/реєстра
 	for(new i = 0; i < 10; i++) {
 		police_eqm[playerid][i] = 0;
 	}
-	for(new i = 0; i < 46; i++) {
+	for(new i = 0; i < 50; i++) {
 		CI[playerid][pInventory][i] = 0;
-		CI[playerid][pInventoryKolvo][i] = 0;
-		CI[playerid][pActivTrade][i] = 0;
+		CI[playerid][pInventoryAmount][i] = 0;
+		CI[playerid][pActiveTrade][i] = 0;
 	}
 	ClickInv[playerid] = -1;
 	InvPage[playerid] = 0;
@@ -34683,7 +35366,6 @@ public OnGameModeInit() {
 	load_bilboards();
 	load_graffity();
 	load_trailer();
-	load_goscars();
 	load_diplomation();
 	load_pickups();
 	// load_garage();
@@ -35528,10 +36210,6 @@ stock Create3dText() {
 	return 1;
 }
 stock CreateTexdraw() {
-	/*
-		Loading Textures
-	*/
-
 	Loading_TD[0] = TextDrawCreate(-1.0000, -4.2887, "loadsc5:loadsc5"); // пусто
 	TextDrawTextSize(Loading_TD[0], 712.0000, 466.0000);
 	TextDrawAlignment(Loading_TD[0], 1);
@@ -36171,7 +36849,7 @@ stock CreateTexdraw() {
 	autoshop_TD[39] = TextDrawCreate(443.0997, 396.0262, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[39], 21.0000, 26.0000);
 	TextDrawAlignment(autoshop_TD[39], 1);
-	TextDrawColor(autoshop_TD[39], 370810879);
+	TextDrawColor(autoshop_TD[39], 0x222222ff);
 	TextDrawBackgroundColor(autoshop_TD[39], 255);
 	TextDrawFont(autoshop_TD[39], 4);
 	TextDrawSetProportional(autoshop_TD[39], 0);
@@ -36179,7 +36857,7 @@ stock CreateTexdraw() {
 	autoshop_TD[40] = TextDrawCreate(513.8333, 396.0262, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[40], 21.0000, 26.0000);
 	TextDrawAlignment(autoshop_TD[40], 1);
-	TextDrawColor(autoshop_TD[40], 370810879);
+	TextDrawColor(autoshop_TD[40], 0x222222ff);
 	TextDrawBackgroundColor(autoshop_TD[40], 255);
 	TextDrawFont(autoshop_TD[40], 4);
 	TextDrawSetProportional(autoshop_TD[40], 0);
@@ -36187,7 +36865,7 @@ stock CreateTexdraw() {
 	autoshop_TD[41] = TextDrawCreate(462.8999, 396.1260, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[41], 21.0000, 25.8498);
 	TextDrawAlignment(autoshop_TD[41], 1);
-	TextDrawColor(autoshop_TD[41], 370810879);
+	TextDrawColor(autoshop_TD[41], 0x222222ff);
 	TextDrawBackgroundColor(autoshop_TD[41], 255);
 	TextDrawFont(autoshop_TD[41], 4);
 	TextDrawSetProportional(autoshop_TD[41], 0);
@@ -36195,7 +36873,7 @@ stock CreateTexdraw() {
 	autoshop_TD[42] = TextDrawCreate(493.8330, 396.1260, "LD_Beat:Chit"); // пусто
 	TextDrawTextSize(autoshop_TD[42], 21.0000, 25.8498);
 	TextDrawAlignment(autoshop_TD[42], 1);
-	TextDrawColor(autoshop_TD[42], 370810879);
+	TextDrawColor(autoshop_TD[42], 0x222222ff);
 	TextDrawBackgroundColor(autoshop_TD[42], 255);
 	TextDrawFont(autoshop_TD[42], 4);
 	TextDrawSetProportional(autoshop_TD[42], 0);
@@ -36203,7 +36881,7 @@ stock CreateTexdraw() {
 	autoshop_TD[43] = TextDrawCreate(474.2998, 400.4743, "LD_Spac:White"); // пусто
 	TextDrawTextSize(autoshop_TD[43], 29.1700, 17.1198);
 	TextDrawAlignment(autoshop_TD[43], 1);
-	TextDrawColor(autoshop_TD[43], 370810879);
+	TextDrawColor(autoshop_TD[43], 0x222222ff);
 	TextDrawBackgroundColor(autoshop_TD[43], 255);
 	TextDrawFont(autoshop_TD[43], 4);
 	TextDrawSetProportional(autoshop_TD[43], 0);
@@ -36300,477 +36978,6 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[53], 4);
 	TextDrawSetProportional(autoshop_TD[53], 0);
 	TextDrawSetShadow(autoshop_TD[53], 0);
-	inventory_TD[0] = TextDrawCreate(294.2997, 101.7145, ""); // пусто
-	TextDrawTextSize(inventory_TD[0], 195.0000, 211.0000);
-	TextDrawAlignment(inventory_TD[0], 1);
-	TextDrawColor(inventory_TD[0], -1);
-	TextDrawBackgroundColor(inventory_TD[0], 437918463);
-	TextDrawFont(inventory_TD[0], 5);
-	TextDrawSetProportional(inventory_TD[0], 0);
-	TextDrawSetShadow(inventory_TD[0], 0);
-	TextDrawSetPreviewModel(inventory_TD[0], 24);
-	TextDrawSetPreviewRot(inventory_TD[0], 0.0000, 0.0000, 0.0000, -0.0052);
-	inventory_TD[1] = TextDrawCreate(294.3327, 122.5251, ""); // пусто
-	TextDrawTextSize(inventory_TD[1], 195.0000, 213.0000);
-	TextDrawAlignment(inventory_TD[1], 1);
-	TextDrawColor(inventory_TD[1], -2139062017);
-	TextDrawBackgroundColor(inventory_TD[1], 437918463);
-	TextDrawFont(inventory_TD[1], 5);
-	TextDrawSetProportional(inventory_TD[1], 0);
-	TextDrawSetShadow(inventory_TD[1], 0);
-	TextDrawSetPreviewModel(inventory_TD[1], 33);
-	TextDrawSetPreviewRot(inventory_TD[1], 0.0000, 0.0000, 0.0000, -0.0052);
-	inventory_TD[2] = TextDrawCreate(153.6331, 101.7330, ""); // пусто
-	TextDrawTextSize(inventory_TD[2], 139.0000, 211.0000);
-	TextDrawAlignment(inventory_TD[2], 1);
-	TextDrawColor(inventory_TD[2], -1);
-	TextDrawBackgroundColor(inventory_TD[2], 437918463);
-	TextDrawFont(inventory_TD[2], 5);
-	TextDrawSetProportional(inventory_TD[2], 0);
-	TextDrawSetShadow(inventory_TD[2], 0);
-	TextDrawSetPreviewModel(inventory_TD[2], 24);
-	TextDrawSetPreviewRot(inventory_TD[2], 0.0000, 0.0000, 0.0000, -0.0052);
-	inventory_TD[3] = TextDrawCreate(153.6665, 122.5438, ""); // пусто
-	TextDrawTextSize(inventory_TD[3], 139.0000, 213.0000);
-	TextDrawAlignment(inventory_TD[3], 1);
-	TextDrawColor(inventory_TD[3], -2139062017);
-	TextDrawBackgroundColor(inventory_TD[3], 437918463);
-	TextDrawFont(inventory_TD[3], 5);
-	TextDrawSetProportional(inventory_TD[3], 0);
-	TextDrawSetShadow(inventory_TD[3], 0);
-	TextDrawSetPreviewModel(inventory_TD[3], 33);
-	TextDrawSetPreviewRot(inventory_TD[3], 0.0000, 0.0000, 0.0000, -0.0052);
-	inventory_TD[4] = TextDrawCreate(152.3332, 108.1110, "particle:lamp_shad_64"); // пусто
-	TextDrawTextSize(inventory_TD[4], 140.0000, 14.0000);
-	TextDrawAlignment(inventory_TD[4], 1);
-	TextDrawColor(inventory_TD[4], -251);
-	TextDrawBackgroundColor(inventory_TD[4], 255);
-	TextDrawFont(inventory_TD[4], 4);
-	TextDrawSetProportional(inventory_TD[4], 0);
-	TextDrawSetShadow(inventory_TD[4], 0);
-	inventory_TD[5] = TextDrawCreate(292.3330, 108.9402, "particle:lamp_shad_64"); // пусто
-	TextDrawTextSize(inventory_TD[5], 140.0000, 14.0000);
-	TextDrawAlignment(inventory_TD[5], 1);
-	TextDrawColor(inventory_TD[5], -251);
-	TextDrawBackgroundColor(inventory_TD[5], 255);
-	TextDrawFont(inventory_TD[5], 4);
-	TextDrawSetProportional(inventory_TD[5], 0);
-	TextDrawSetShadow(inventory_TD[5], 0);
-	inventory_TD[6] = TextDrawCreate(222.2328, 107.6949, "CHARACTER"); // пусто
-	TextDrawLetterSize(inventory_TD[6], 0.1342, 0.9775);
-	TextDrawAlignment(inventory_TD[6], 2);
-	TextDrawColor(inventory_TD[6], -1);
-	TextDrawBackgroundColor(inventory_TD[6], 255);
-	TextDrawFont(inventory_TD[6], 2);
-	TextDrawSetProportional(inventory_TD[6], 1);
-	TextDrawSetShadow(inventory_TD[6], 0);
-	inventory_TD[7] = TextDrawCreate(390.8663, 107.6949, "INVENTORY"); // пусто
-	TextDrawLetterSize(inventory_TD[7], 0.1342, 0.9775);
-	TextDrawAlignment(inventory_TD[7], 2);
-	TextDrawColor(inventory_TD[7], -1);
-	TextDrawBackgroundColor(inventory_TD[7], 255);
-	TextDrawFont(inventory_TD[7], 2);
-	TextDrawSetProportional(inventory_TD[7], 1);
-	TextDrawSetShadow(inventory_TD[7], 0);
-	inventory_TD[8] = TextDrawCreate(442.6329, 319.2661, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[8], 28.5998, 6.0000);
-	TextDrawAlignment(inventory_TD[8], 1);
-	TextDrawColor(inventory_TD[8], 370810879);
-	TextDrawBackgroundColor(inventory_TD[8], 255);
-	TextDrawFont(inventory_TD[8], 4);
-	TextDrawSetProportional(inventory_TD[8], 0);
-	TextDrawSetShadow(inventory_TD[8], 0);
-	inventory_TD[9] = TextDrawCreate(440.7994, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[9], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[9], 1);
-	TextDrawColor(inventory_TD[9], 370810879);
-	TextDrawBackgroundColor(inventory_TD[9], 255);
-	TextDrawFont(inventory_TD[9], 4);
-	TextDrawSetProportional(inventory_TD[9], 0);
-	TextDrawSetShadow(inventory_TD[9], 0);
-	inventory_TD[10] = TextDrawCreate(462.9009, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[10], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[10], 1);
-	TextDrawColor(inventory_TD[10], 370810879);
-	TextDrawBackgroundColor(inventory_TD[10], 255);
-	TextDrawFont(inventory_TD[10], 4);
-	TextDrawSetProportional(inventory_TD[10], 0);
-	TextDrawSetShadow(inventory_TD[10], 0);
-	inventory_TD[11] = TextDrawCreate(440.7994, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[11], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[11], 1);
-	TextDrawColor(inventory_TD[11], 370810879);
-	TextDrawBackgroundColor(inventory_TD[11], 255);
-	TextDrawFont(inventory_TD[11], 4);
-	TextDrawSetProportional(inventory_TD[11], 0);
-	TextDrawSetShadow(inventory_TD[11], 0);
-	inventory_TD[12] = TextDrawCreate(463.0010, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[12], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[12], 1);
-	TextDrawColor(inventory_TD[12], 370810879);
-	TextDrawBackgroundColor(inventory_TD[12], 255);
-	TextDrawFont(inventory_TD[12], 4);
-	TextDrawSetProportional(inventory_TD[12], 0);
-	TextDrawSetShadow(inventory_TD[12], 0);
-	inventory_TD[13] = TextDrawCreate(446.3330, 315.1177, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[13], 22.0000, 14.0000);
-	TextDrawAlignment(inventory_TD[13], 1);
-	TextDrawColor(inventory_TD[13], 370810879);
-	TextDrawBackgroundColor(inventory_TD[13], 255);
-	TextDrawFont(inventory_TD[13], 4);
-	TextDrawSetProportional(inventory_TD[13], 0);
-	TextDrawSetShadow(inventory_TD[13], 0);
-	inventory_TD[14] = TextDrawCreate(456.9331, 317.7626, "DROP"); // пусто
-	TextDrawLetterSize(inventory_TD[14], 0.1312, 0.9110);
-	TextDrawTextSize(inventory_TD[14], 10.0000, 26.0000);
-	TextDrawAlignment(inventory_TD[14], 2);
-	TextDrawColor(inventory_TD[14], -1);
-	TextDrawUseBox(inventory_TD[14], 1);
-	TextDrawBoxColor(inventory_TD[14], 0);
-	TextDrawFont(inventory_TD[14], 2);
-	TextDrawSetProportional(inventory_TD[14], 1);
-	TextDrawSetShadow(inventory_TD[14], 0);
-	TextDrawSetSelectable(inventory_TD[14], true);
-	inventory_TD[15] = TextDrawCreate(373.3002, 319.2662, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[15], 28.5998, 6.0000);
-	TextDrawAlignment(inventory_TD[15], 1);
-	TextDrawColor(inventory_TD[15], 370810879);
-	TextDrawBackgroundColor(inventory_TD[15], 255);
-	TextDrawFont(inventory_TD[15], 4);
-	TextDrawSetProportional(inventory_TD[15], 0);
-	TextDrawSetShadow(inventory_TD[15], 0);
-	inventory_TD[16] = TextDrawCreate(371.4667, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[16], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[16], 1);
-	TextDrawColor(inventory_TD[16], 370810879);
-	TextDrawBackgroundColor(inventory_TD[16], 255);
-	TextDrawFont(inventory_TD[16], 4);
-	TextDrawSetProportional(inventory_TD[16], 0);
-	TextDrawSetShadow(inventory_TD[16], 0);
-	inventory_TD[17] = TextDrawCreate(393.5682, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[17], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[17], 1);
-	TextDrawColor(inventory_TD[17], 370810879);
-	TextDrawBackgroundColor(inventory_TD[17], 255);
-	TextDrawFont(inventory_TD[17], 4);
-	TextDrawSetProportional(inventory_TD[17], 0);
-	TextDrawSetShadow(inventory_TD[17], 0);
-	inventory_TD[18] = TextDrawCreate(371.4667, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[18], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[18], 1);
-	TextDrawColor(inventory_TD[18], 370810879);
-	TextDrawBackgroundColor(inventory_TD[18], 255);
-	TextDrawFont(inventory_TD[18], 4);
-	TextDrawSetProportional(inventory_TD[18], 0);
-	TextDrawSetShadow(inventory_TD[18], 0);
-	inventory_TD[19] = TextDrawCreate(393.6679, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[19], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[19], 1);
-	TextDrawColor(inventory_TD[19], 370810879);
-	TextDrawBackgroundColor(inventory_TD[19], 255);
-	TextDrawFont(inventory_TD[19], 4);
-	TextDrawSetProportional(inventory_TD[19], 0);
-	TextDrawSetShadow(inventory_TD[19], 0);
-	inventory_TD[20] = TextDrawCreate(377.0000, 315.1181, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[20], 22.0000, 14.0000);
-	TextDrawAlignment(inventory_TD[20], 1);
-	TextDrawColor(inventory_TD[20], 370810879);
-	TextDrawBackgroundColor(inventory_TD[20], 255);
-	TextDrawFont(inventory_TD[20], 4);
-	TextDrawSetProportional(inventory_TD[20], 0);
-	TextDrawSetShadow(inventory_TD[20], 0);
-	inventory_TD[21] = TextDrawCreate(387.7001, 317.7626, "INFO"); // пусто
-	TextDrawLetterSize(inventory_TD[21], 0.1332, 0.8945);
-	TextDrawTextSize(inventory_TD[21], 10.0000, 26.0000);
-	TextDrawAlignment(inventory_TD[21], 2);
-	TextDrawColor(inventory_TD[21], -1);
-	TextDrawUseBox(inventory_TD[21], 1);
-	TextDrawBoxColor(inventory_TD[21], 0);
-	TextDrawFont(inventory_TD[21], 2);
-	TextDrawSetProportional(inventory_TD[21], 1);
-	TextDrawSetShadow(inventory_TD[21], 0);
-	TextDrawSetSelectable(inventory_TD[21], true);
-	inventory_TD[22] = TextDrawCreate(355.3662, 318.5921, ">>"); // пусто
-	TextDrawLetterSize(inventory_TD[22], 0.0671, 0.7702);
-	TextDrawTextSize(inventory_TD[22], 10.0000, 26.0000);
-	TextDrawAlignment(inventory_TD[22], 2);
-	TextDrawColor(inventory_TD[22], -1);
-	TextDrawUseBox(inventory_TD[22], 1);
-	TextDrawBoxColor(inventory_TD[22], 0);
-	TextDrawFont(inventory_TD[22], 2);
-	TextDrawSetProportional(inventory_TD[22], 1);
-	TextDrawSetShadow(inventory_TD[22], 0);
-	TextDrawSetSelectable(inventory_TD[22], true);
-	inventory_TD[23] = TextDrawCreate(316.0328, 318.5921, "<<"); // пусто
-	TextDrawLetterSize(inventory_TD[23], 0.0671, 0.7702);
-	TextDrawTextSize(inventory_TD[23], 10.0000, 26.0000);
-	TextDrawAlignment(inventory_TD[23], 2);
-	TextDrawColor(inventory_TD[23], -1);
-	TextDrawUseBox(inventory_TD[23], 1);
-	TextDrawBoxColor(inventory_TD[23], 0);
-	TextDrawFont(inventory_TD[23], 2);
-	TextDrawSetProportional(inventory_TD[23], 1);
-	TextDrawSetShadow(inventory_TD[23], 0);
-	TextDrawSetSelectable(inventory_TD[23], true);
-	inventory_TD[24] = TextDrawCreate(169.0000, 316.7770, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[24], 107.5597, 11.0000);
-	TextDrawAlignment(inventory_TD[24], 1);
-	TextDrawColor(inventory_TD[24], 437918463);
-	TextDrawBackgroundColor(inventory_TD[24], 255);
-	TextDrawFont(inventory_TD[24], 4);
-	TextDrawSetProportional(inventory_TD[24], 0);
-	TextDrawSetShadow(inventory_TD[24], 0);
-	inventory_TD[25] = TextDrawCreate(169.7666, 318.3363, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[25], 105.5895, 7.8797);
-	TextDrawAlignment(inventory_TD[25], 1);
-	TextDrawColor(inventory_TD[25], -2061238017);
-	TextDrawBackgroundColor(inventory_TD[25], 255);
-	TextDrawFont(inventory_TD[25], 4);
-	TextDrawSetProportional(inventory_TD[25], 0);
-	TextDrawSetShadow(inventory_TD[25], 0);
-	inventory_TD[26] = TextDrawCreate(169.0000, 268.6589, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[26], 107.5597, 11.0000);
-	TextDrawAlignment(inventory_TD[26], 1);
-	TextDrawColor(inventory_TD[26], 437918463);
-	TextDrawBackgroundColor(inventory_TD[26], 255);
-	TextDrawFont(inventory_TD[26], 4);
-	TextDrawSetProportional(inventory_TD[26], 0);
-	TextDrawSetShadow(inventory_TD[26], 0);
-	inventory_TD[27] = TextDrawCreate(169.7666, 270.2182, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[27], 105.5895, 7.8797);
-	TextDrawAlignment(inventory_TD[27], 1);
-	TextDrawColor(inventory_TD[27], -7864065);
-	TextDrawBackgroundColor(inventory_TD[27], 255);
-	TextDrawFont(inventory_TD[27], 4);
-	TextDrawSetProportional(inventory_TD[27], 0);
-	TextDrawSetShadow(inventory_TD[27], 0);
-	inventory_TD[28] = TextDrawCreate(169.0000, 293.5476, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[28], 107.5597, 11.0000);
-	TextDrawAlignment(inventory_TD[28], 1);
-	TextDrawColor(inventory_TD[28], 437918463);
-	TextDrawBackgroundColor(inventory_TD[28], 255);
-	TextDrawFont(inventory_TD[28], 4);
-	TextDrawSetProportional(inventory_TD[28], 0);
-	TextDrawSetShadow(inventory_TD[28], 0);
-	inventory_TD[29] = TextDrawCreate(169.7666, 295.1069, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[29], 105.5895, 7.8797);
-	TextDrawAlignment(inventory_TD[29], 1);
-	TextDrawColor(inventory_TD[29], 7536639);
-	TextDrawBackgroundColor(inventory_TD[29], 255);
-	TextDrawFont(inventory_TD[29], 4);
-	TextDrawSetProportional(inventory_TD[29], 0);
-	TextDrawSetShadow(inventory_TD[29], 0);
-	inventory_TD[30] = TextDrawCreate(169.1997, 260.5184, "Satiety"); // пусто
-	TextDrawLetterSize(inventory_TD[30], 0.1246, 0.8615);
-	TextDrawAlignment(inventory_TD[30], 1);
-	TextDrawColor(inventory_TD[30], -1);
-	TextDrawBackgroundColor(inventory_TD[30], 255);
-	TextDrawFont(inventory_TD[30], 2);
-	TextDrawSetProportional(inventory_TD[30], 1);
-	TextDrawSetShadow(inventory_TD[30], 0);
-	inventory_TD[31] = TextDrawCreate(169.1997, 284.7889, "THRIST"); // пусто
-	TextDrawLetterSize(inventory_TD[31], 0.1246, 0.8615);
-	TextDrawAlignment(inventory_TD[31], 1);
-	TextDrawColor(inventory_TD[31], -1);
-	TextDrawBackgroundColor(inventory_TD[31], 255);
-	TextDrawFont(inventory_TD[31], 2);
-	TextDrawSetProportional(inventory_TD[31], 1);
-	TextDrawSetShadow(inventory_TD[31], 0);
-	inventory_TD[32] = TextDrawCreate(169.6665, 308.0184, "HEALTH"); // пусто
-	TextDrawLetterSize(inventory_TD[32], 0.1246, 0.8615);
-	TextDrawAlignment(inventory_TD[32], 1);
-	TextDrawColor(inventory_TD[32], -1);
-	TextDrawBackgroundColor(inventory_TD[32], 255);
-	TextDrawFont(inventory_TD[32], 2);
-	TextDrawSetProportional(inventory_TD[32], 1);
-	TextDrawSetShadow(inventory_TD[32], 0);
-	inventory_TD[33] = TextDrawCreate(321.3001, 319.2662, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[33], 28.5998, 6.0000);
-	TextDrawAlignment(inventory_TD[33], 1);
-	TextDrawColor(inventory_TD[33], 370810879);
-	TextDrawBackgroundColor(inventory_TD[33], 255);
-	TextDrawFont(inventory_TD[33], 4);
-	TextDrawSetProportional(inventory_TD[33], 0);
-	TextDrawSetShadow(inventory_TD[33], 0);
-	inventory_TD[34] = TextDrawCreate(260.7994, 337.5184, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[34], 52.0000, 17.0000);
-	TextDrawAlignment(inventory_TD[34], 1);
-	TextDrawColor(inventory_TD[34], 168430335);
-	TextDrawBackgroundColor(inventory_TD[34], 255);
-	TextDrawFont(inventory_TD[34], 4);
-	TextDrawSetProportional(inventory_TD[34], 0);
-	TextDrawSetShadow(inventory_TD[34], 0);
-	inventory_TD[35] = TextDrawCreate(153.0664, 337.5184, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[35], 52.0000, 17.0000);
-	TextDrawAlignment(inventory_TD[35], 1);
-	TextDrawColor(inventory_TD[35], 438316543);
-	TextDrawBackgroundColor(inventory_TD[35], 255);
-	TextDrawFont(inventory_TD[35], 4);
-	TextDrawSetProportional(inventory_TD[35], 0);
-	TextDrawSetShadow(inventory_TD[35], 0);
-	inventory_TD[36] = TextDrawCreate(319.4666, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[36], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[36], 1);
-	TextDrawColor(inventory_TD[36], 370810879);
-	TextDrawBackgroundColor(inventory_TD[36], 255);
-	TextDrawFont(inventory_TD[36], 4);
-	TextDrawSetProportional(inventory_TD[36], 0);
-	TextDrawSetShadow(inventory_TD[36], 0);
-	inventory_TD[37] = TextDrawCreate(341.5681, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[37], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[37], 1);
-	TextDrawColor(inventory_TD[37], 370810879);
-	TextDrawBackgroundColor(inventory_TD[37], 255);
-	TextDrawFont(inventory_TD[37], 4);
-	TextDrawSetProportional(inventory_TD[37], 0);
-	TextDrawSetShadow(inventory_TD[37], 0);
-	inventory_TD[38] = TextDrawCreate(319.4666, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[38], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[38], 1);
-	TextDrawColor(inventory_TD[38], 370810879);
-	TextDrawBackgroundColor(inventory_TD[38], 255);
-	TextDrawFont(inventory_TD[38], 4);
-	TextDrawSetProportional(inventory_TD[38], 0);
-	TextDrawSetShadow(inventory_TD[38], 0);
-	inventory_TD[39] = TextDrawCreate(341.6679, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[39], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[39], 1);
-	TextDrawColor(inventory_TD[39], 370810879);
-	TextDrawBackgroundColor(inventory_TD[39], 255);
-	TextDrawFont(inventory_TD[39], 4);
-	TextDrawSetProportional(inventory_TD[39], 0);
-	TextDrawSetShadow(inventory_TD[39], 0);
-	inventory_TD[40] = TextDrawCreate(437.2994, 337.5184, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[40], 52.0000, 17.0000);
-	TextDrawAlignment(inventory_TD[40], 1);
-	TextDrawColor(inventory_TD[40], 168430335);
-	TextDrawBackgroundColor(inventory_TD[40], 255);
-	TextDrawFont(inventory_TD[40], 4);
-	TextDrawSetProportional(inventory_TD[40], 0);
-	TextDrawSetShadow(inventory_TD[40], 0);
-	inventory_TD[41] = TextDrawCreate(179.3332, 340.9926, "TRADE"); // пусто
-	TextDrawLetterSize(inventory_TD[41], 0.1286, 0.9279);
-	TextDrawTextSize(inventory_TD[41], 10.0000, 49.0000);
-	TextDrawAlignment(inventory_TD[41], 2);
-	TextDrawColor(inventory_TD[41], -1);
-	TextDrawUseBox(inventory_TD[41], 1);
-	TextDrawBoxColor(inventory_TD[41], 0);
-	TextDrawBackgroundColor(inventory_TD[41], 255);
-	TextDrawFont(inventory_TD[41], 2);
-	TextDrawSetProportional(inventory_TD[41], 1);
-	TextDrawSetShadow(inventory_TD[41], 0);
-	TextDrawSetSelectable(inventory_TD[41], true);
-	inventory_TD[42] = TextDrawCreate(463.8998, 340.9926, "CLOSE"); // пусто
-	TextDrawLetterSize(inventory_TD[42], 0.1286, 0.9279);
-	TextDrawTextSize(inventory_TD[42], 10.0000, 49.0000);
-	TextDrawAlignment(inventory_TD[42], 2);
-	TextDrawColor(inventory_TD[42], -1);
-	TextDrawUseBox(inventory_TD[42], 1);
-	TextDrawBoxColor(inventory_TD[42], 0);
-	TextDrawBackgroundColor(inventory_TD[42], 255);
-	TextDrawFont(inventory_TD[42], 2);
-	TextDrawSetProportional(inventory_TD[42], 1);
-	TextDrawSetShadow(inventory_TD[42], 0);
-	TextDrawSetSelectable(inventory_TD[42], true);
-	inventory_TD[43] = TextDrawCreate(286.5667, 340.9926, "MENU"); // пусто
-	TextDrawLetterSize(inventory_TD[43], 0.1286, 0.9279);
-	TextDrawTextSize(inventory_TD[43], 10.0000, 49.0000);
-	TextDrawAlignment(inventory_TD[43], 2);
-	TextDrawColor(inventory_TD[43], -1);
-	TextDrawUseBox(inventory_TD[43], 1);
-	TextDrawBoxColor(inventory_TD[43], 0);
-	TextDrawBackgroundColor(inventory_TD[43], 255);
-	TextDrawFont(inventory_TD[43], 2);
-	TextDrawSetProportional(inventory_TD[43], 1);
-	TextDrawSetShadow(inventory_TD[43], 0);
-	TextDrawSetSelectable(inventory_TD[43], true);
-	inventory_TD[44] = TextDrawCreate(325.0000, 315.1181, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[44], 22.0000, 14.0000);
-	TextDrawAlignment(inventory_TD[44], 1);
-	TextDrawColor(inventory_TD[44], 370810879);
-	TextDrawBackgroundColor(inventory_TD[44], 255);
-	TextDrawFont(inventory_TD[44], 4);
-	TextDrawSetProportional(inventory_TD[44], 0);
-	TextDrawSetShadow(inventory_TD[44], 0);
-	inventory_TD[45] = TextDrawCreate(407.9667, 319.2662, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[45], 28.5998, 6.0000);
-	TextDrawAlignment(inventory_TD[45], 1);
-	TextDrawColor(inventory_TD[45], 370810879);
-	TextDrawBackgroundColor(inventory_TD[45], 255);
-	TextDrawFont(inventory_TD[45], 4);
-	TextDrawSetProportional(inventory_TD[45], 0);
-	TextDrawSetShadow(inventory_TD[45], 0);
-	inventory_TD[46] = TextDrawCreate(406.1333, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[46], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[46], 1);
-	TextDrawColor(inventory_TD[46], 370810879);
-	TextDrawBackgroundColor(inventory_TD[46], 255);
-	TextDrawFont(inventory_TD[46], 4);
-	TextDrawSetProportional(inventory_TD[46], 0);
-	TextDrawSetShadow(inventory_TD[46], 0);
-	inventory_TD[47] = TextDrawCreate(428.2348, 319.2590, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[47], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[47], 1);
-	TextDrawColor(inventory_TD[47], 370810879);
-	TextDrawBackgroundColor(inventory_TD[47], 255);
-	TextDrawFont(inventory_TD[47], 4);
-	TextDrawSetProportional(inventory_TD[47], 0);
-	TextDrawSetShadow(inventory_TD[47], 0);
-	inventory_TD[48] = TextDrawCreate(406.1333, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[48], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[48], 1);
-	TextDrawColor(inventory_TD[48], 370810879);
-	TextDrawBackgroundColor(inventory_TD[48], 255);
-	TextDrawFont(inventory_TD[48], 4);
-	TextDrawSetProportional(inventory_TD[48], 0);
-	TextDrawSetShadow(inventory_TD[48], 0);
-	inventory_TD[49] = TextDrawCreate(428.3345, 313.0585, "LD_Beat:Chit"); // пусто
-	TextDrawTextSize(inventory_TD[49], 10.0000, 12.0000);
-	TextDrawAlignment(inventory_TD[49], 1);
-	TextDrawColor(inventory_TD[49], 370810879);
-	TextDrawBackgroundColor(inventory_TD[49], 255);
-	TextDrawFont(inventory_TD[49], 4);
-	TextDrawSetProportional(inventory_TD[49], 0);
-	TextDrawSetShadow(inventory_TD[49], 0);
-	inventory_TD[50] = TextDrawCreate(411.6665, 315.1181, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[50], 22.0000, 14.0000);
-	TextDrawAlignment(inventory_TD[50], 1);
-	TextDrawColor(inventory_TD[50], 370810879);
-	TextDrawBackgroundColor(inventory_TD[50], 255);
-	TextDrawFont(inventory_TD[50], 4);
-	TextDrawSetProportional(inventory_TD[50], 0);
-	TextDrawSetShadow(inventory_TD[50], 0);
-	inventory_TD[51] = TextDrawCreate(422.3669, 317.7626, "USE"); // пусто
-	TextDrawLetterSize(inventory_TD[51], 0.1332, 0.8945);
-	TextDrawTextSize(inventory_TD[51], 10.0000, 26.0000);
-	TextDrawAlignment(inventory_TD[51], 2);
-	TextDrawColor(inventory_TD[51], -1);
-	TextDrawUseBox(inventory_TD[51], 1);
-	TextDrawBoxColor(inventory_TD[51], 0);
-	TextDrawFont(inventory_TD[51], 2);
-	TextDrawSetProportional(inventory_TD[51], 1);
-	TextDrawSetShadow(inventory_TD[51], 0);
-	TextDrawSetSelectable(inventory_TD[51], true);
-	inventory_TD[52] = TextDrawCreate(207.2996, 337.5184, "LD_SPAC:white"); // пусто
-	TextDrawTextSize(inventory_TD[52], 52.0000, 17.0000);
-	TextDrawAlignment(inventory_TD[52], 1);
-	TextDrawColor(inventory_TD[52], 168430335);
-	TextDrawBackgroundColor(inventory_TD[52], 255);
-	TextDrawFont(inventory_TD[52], 4);
-	TextDrawSetProportional(inventory_TD[52], 0);
-	TextDrawSetShadow(inventory_TD[52], 0);
-	inventory_TD[53] = TextDrawCreate(233.8999, 340.9926, "SHOP"); // пусто
-	TextDrawLetterSize(inventory_TD[53], 0.1286, 0.9279);
-	TextDrawTextSize(inventory_TD[53], 10.0000, 49.0000);
-	TextDrawAlignment(inventory_TD[53], 2);
-	TextDrawColor(inventory_TD[53], -1);
-	TextDrawUseBox(inventory_TD[53], 1);
-	TextDrawBoxColor(inventory_TD[53], 0);
-	TextDrawBackgroundColor(inventory_TD[53], 255);
-	TextDrawFont(inventory_TD[53], 2);
-	TextDrawSetProportional(inventory_TD[53], 1);
-	TextDrawSetShadow(inventory_TD[53], 0);
-	TextDrawSetSelectable(inventory_TD[53], true);
 	// ограбление банка
 	hack_magaz_TD[0] = TextDrawCreate(206.3332, 103.9776, "LD_SPAC:white"); // ?????
 	TextDrawTextSize(hack_magaz_TD[0], 224.0000, 162.0000);
@@ -38772,21 +38979,21 @@ CMD:stats(playerid, params[]) {
 	return ShowStats(playerid, playerid);
 }
 CMD:fight(playerid, params[]) {
-	if(!TI[playerid][tGym]) return SendError(playerid, "Необхідно переодягнутися у спортивну форму");
-	if(RingInfo[0][rgStart] == 1) return SendError(playerid, "Ринг зайнят, необхідно зачекати");
-	if(sscanf(params, "ui",params[0],params[1])) return SendError(playerid, "Використайте: /fight [playerid] [ставка]");
+	if(!TI[playerid][tGym]) return SendError(playerid, "Необхідно перевдягнутися у спортивну форму.");
+	if(RingInfo[0][rgStart] == 1) return SendError(playerid, "Ринг зайнят, необхідно зачекати.");
+	if(sscanf(params, "ui",params[0],params[1])) return SendError(playerid, "Використайте: /fight [playerid] [bet]");
 	if(params[0] == playerid) return SendError(playerid, not_id);
-	if(!TI[params[0]][tGym]) return SendError(playerid, "Гравець повинен знаходитись в спортзалі і бути одягненим в спортивную форму");
-	if(params[1] < 1000 || params[1] > 10000) return SendError(playerid, "Ставка не повинна бути менше $1000 і більше $10000");
-	if(CI[playerid][pCash] < params[1]) return SendError(playerid, "У вас недостатньо коштів");
-	if(CI[params[0]][pCash] < params[1]) return SendError(playerid, "У гравця недостатньо коштів");
+	if(!TI[params[0]][tGym]) return SendError(playerid, "Гравець повинен знаходитись в спортзалі і бути одягненим в спортивну форму.");
+	if(params[1] < 1000 || params[1] > 10000) return SendError(playerid, "Ставка не повинна бути менше $1.000 і більше $10.000.");
+	if(CI[playerid][pCash] < params[1]) return SendError(playerid, "У вас недостатньо коштів.");
+	if(CI[params[0]][pCash] < params[1]) return SendError(playerid, "У гравця недостатньо коштів.");
 	new string[144];
-	format(string, sizeof(string), P"%s "W"запропонував вам взяти участь в бою. Ставка: "P"$%d.", CI[playerid][cName], params[1]);
+	format(string, sizeof(string), P"%s"W" запропонував вам взяти участь в бою. Ставка: "GREEN"$%d"W".", CI[playerid][cName], params[1]);
 	SendUse(params[0], string);
-	SendHint(params[0], "Натисніть "YES"Y "BLUE"щоб погодитися "NO"N "BLUE"для відмови");
-	format(string, sizeof(string), "Ви запропонували "P"%s "W"взяти участь в бою. Ставка: "P"$%d.", CI[params[0]][cName],params[1]);
+	SendHint(params[0], "Натисніть "YES"Y"BLUE" щоб погодитися "NO"N"BLUE" для відмови.");
+	format(string, sizeof(string), "Ви запропонували "P"%s"W" взяти участь в бою. Ставка: "GREEN"$%i"W".", CI[params[0]][cName], params[1]);
 	SendUse(playerid, string);
-	SetPVarInt(params[0], "fight_offer", playerid+ 1), SetPVarInt(params[0], "fight_price",params[1]);
+	SetPVarInt(params[0], "fight_offer", playerid + 1), SetPVarInt(params[0], "fight_price", params[1]);
 	return 1;
 }
 CMD:skills(playerid, params[]) {
@@ -39257,47 +39464,27 @@ CB:poisk_player(playerid) {
 	ClearAnims(playerid);
 	Poisk[playerid] = false;
 	switch(rand_fish) {
-	case 0..10: {
-			AddItem(playerid, 464, 1); // Цвяхи
-		}
-	case 11..19: {
-			AddItem(playerid, 465, 1); // метал
-		}
-	case 20..28: {
-			AddItem(playerid, 466, 1); // метал.ящик
-		}
-	case 29..35: {
-			AddItem(playerid, 467, 1); // Ящик з патронівами
-		}
-	case 36..42: {
-			AddItem(playerid, 468, 1); // Ножик
-		}
-	case 43..48: {
-			AddItem(playerid, 469, 1); // Військова гвинтівка
-		}
-	case 49..53: {
-			AddItem(playerid, 470, 1); // Японський меч
-  		}
-	case 54..57: {
-			AddItem(playerid, 471, 1); // Боєголовка
-  		}
-	case 58..60: {
-			AddItem(playerid, 472, 1); // Кейс
-  		}
-	case 61..62: {
-			AddItem(playerid, 473, 1); // Старинна монета
-  		}
-	case 63..70: {
-			SendOK(playerid, "Магніт відірвався.");
+		case 0..10: AddItem(playerid, 464, 1); // Цвяхи
+		case 11..19: AddItem(playerid, 465, 1); // метал
+		case 20..28: AddItem(playerid, 466, 1); // метал.ящик
+		case 29..35: AddItem(playerid, 467, 1); // Ящик з патронівами
+		case 36..42: AddItem(playerid, 468, 1); // Ножик
+		case 43..48: AddItem(playerid, 469, 1); // Військова гвинтівка
+		case 49..53: AddItem(playerid, 470, 1); // Японський меч
+		case 54..57: AddItem(playerid, 471, 1); // Боєголовка
+		case 58..60: AddItem(playerid, 472, 1); // Кейс
+		case 61..62: AddItem(playerid, 473, 1); // Старинна монета
+		case 63..70: {
+			SendError(playerid, "Магніт відірвався.");
 			CI[playerid][pMag] --;
 			UpdateCharacterData(playerid, "pMag", CI[playerid][pMag]);
 		}
-	case 71..80: {
-			SendOK(playerid, "Мотузка порвалась.");
-			CI[playerid][pRope] --;
-			UpdateCharacterData(playerid, "pRope", CI[playerid][pRope]);
+		case 71..80: {
+				SendError(playerid, "Мотузка порвалась.");
+				CI[playerid][pRope] --;
+				UpdateCharacterData(playerid, "pRope", CI[playerid][pRope]);
 		}
-	default: SendOK(playerid, "Ви нічого не витягли.");
+		default: SendError(playerid, "Ви нічого не витягли.");
 	}
 	return 1;
 }
@@ -39365,19 +39552,19 @@ CMD:fill(playerid) {
 	static const f_str[] = "\n"W"Вкажіть, на скільки літрів ви хочете заправити ваш транспорт:\n\nДоступно літрів в баці: "P"%.0f"W"\nМісткість бака: "P"%d"W"\nМожна заправити на: "P"%.0fл"W"\nВартість 1л: "GREEN"$%d\n";
 	new string[sizeof(f_str) + 1 + 30];
 	format(string, sizeof(string), f_str, VehicleInfo[vehicleid][vFuel], gTransport[modelid][trTank], gTransport[modelid][trTank]-VehicleInfo[vehicleid][vFuel], gBusiness[i][bizzPrice]);
-	ShowPlayerDialog(playerid, D_FUEL, DSI, P"Заправка", string, "Заправить", "Скасувати");
+	ShowPlayerDialog(playerid, D_FUEL, DSI, P"Заправка.", string, "Заправить", "Скасувати");
 	SetPVarInt(playerid, "azs_id",i);
 	return 1;
 }
 CMD:buyfuel(playerid) {
-	if(GetInvent(playerid, 454) + 1 > 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце");
+	if(GetInvent(playerid, 454) + 1 >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце");
 	new i = GetNearestTrunckFuel(playerid);
-	if(i == -1) return SendError(playerid, "Ви повинні бути на АЗС");
+	if(i == -1) return SendError(playerid, "Ви повинні бути на АЗС.");
 	static const f_str[] = ""W"Ви збираєтеся купити канистру вартістю: "GREEN"$%d"W"\nЗ її допомогою ви можете заправити свій т/з на "P"10 літрів"W"\n\n\
 						Ви дійсно хочете купити каністру?";
 	new string[sizeof(f_str) + 1 + (-2 + 5)];
 	format(string, sizeof(string), f_str, gBusiness[i][bizzPrice]*10);
-	ShowPlayerDialog(playerid, D_BUY_FUEL, DSM, P"Купівля каністри", string, "Так", "Ні");
+	ShowPlayerDialog(playerid, D_BUY_FUEL, DSM, P"Купівля каністри.", string, "Так", "Ні");
 	return 1;
 }
 CMD:fillcar(playerid) {
@@ -40007,15 +40194,15 @@ CMD:egmenu(playerid,const params[]) {
 	new g = PlayerEgg[playerid];
 	if(PlayerEgg[playerid] == -1) return SendError(playerid, "Ви не займали курник.");
 	if(!IsPlayerInRangeOfPoint(playerid, 1.0,Egg[g][gX],Egg[g][gY],Egg[g][gZ])) return 1;
-	ShowPlayerDialog(playerid, D_FARM_EGG, DSL, P"Курник", P"1."W" Зібрати знесені яйця\n"P"2."W" Погодувати курей\n"P"3."W" Звільнити курник", "Далі", "Закрити");
+	ShowPlayerDialog(playerid, D_FARM_EGG, DSL, P"Курник.", P"1."W" Зібрати знесені яйця.\n"P"2."W" Погодувати курей.\n"P"3."W" Звільнити курник.", "Далі", "Закрити");
 	return 1;
 }
 CMD:setspawn(playerid) {
-	ShowPlayerDialog(playerid, D_SPAWN, DSL, P"Вибір спавна", P"1."W" Вокзал\n"P"2."W" У будинку чи квартирі\n"P"3."W" На базі організації\n"P"4."W" У будинку сім'ї\n"P"5."W" У будинку на колесах", "Обрати", "Скасувати");
+	ShowPlayerDialog(playerid, D_SPAWN, DSL, P"Вибір спавна.", P"1."W" Вокзал.\n"P"2."W" У будинку чи квартирі.\n"P"3."W" На базі організації.\n"P"4."W" У будинку сім'ї.\n"P"5."W" У будинку на колесах.", "Обрати", "Скасувати");
 	return 1;
 }
 CMD:jobskill(playerid) {
-	ShowPlayerDialog(playerid, DIALOG_JOB_PROGRESS, DSL, P"Навики персонажа", P"1."W" Будівельник\n"P"2."W" Мийник доріг\n"P"3."W" Рибак\n"P"4."W" Інкасатор\n"P"5."W" Чистильник каналізацій\n"P"6."W" Водій автобуса\n"P"7."W" Розвізник їжі\n"P"8."W" Механік\n"P"9."W" Розвізник піци\n"P"10."W" Отримання аксесуарів", "Обрати", "Закрити");
+	ShowPlayerDialog(playerid, DIALOG_JOB_PROGRESS, DSL, P"Навички персонажа.", P"1."W" Будівельник.\n"P"2."W" Мийник доріг.\n"P"3."W" Рибак.\n"P"4."W" Інкасатор.\n"P"5."W" Чистильник каналізацій.\n"P"6."W" Водій автобуса.\n"P"7."W" Розвізник їжі.\n"P"8."W" Механік.\n"P"9."W" Розвізник піци.\n"P"10."W" Отримання аксесуарів.", "Обрати", "Закрити");
 	return 1;
 }
 CMD:sellbusiness(playerid,params[]) {
@@ -40025,7 +40212,7 @@ CMD:sellbusiness(playerid,params[]) {
 	if(CI[playerid][pBusiness] == -1) return SendError(playerid, "У вас немає бізнесу.");
 	if(!IsPlayerInRangeOfPoint(playerid, 3.0, gBusiness[bizid][bizzX], gBusiness[bizid][bizzY], gBusiness[bizid][bizzZ])) return SendError(playerid, "Необхідно знаходитись поруч зі своїм бізнесом.");
 	if(!IsPlayerConnected(params[0])) return SendError(playerid, not_id);
-	if(CI[params[0]][pBusiness]) return SendError(playerid, "У гравця вже є бізнес");
+	if(CI[params[0]][pBusiness]) return SendError(playerid, "У гравця вже є бізнес.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	new price,price2;
 	price = gBusiness[bizid][bizzSellPrice];
@@ -40174,7 +40361,7 @@ CMD:selldrugs(playerid, params[]) {
 	if(price > GetPlayerMoneyEx(id)) return SendError(playerid, "У гравця недостатньо грошей.");
 	if(IsPlayerInRangeOfPoint(playerid, 15.5, 2080.7615, 1710.6829, 1113.5668)) return SendError(playerid, "Продаж наркотиків в казино заборонений.");
 	if(active_accept(id)) return SendError(playerid, "У гравця вже є активна пропозиція.");
-	if(GetInvSet(id) >= 40) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
+	if(GetInvSet(id) >= 50) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
 
 	SetPVarInt(playerid, "drugoffee", id);
 	SetPVarInt(id, "drugoffee", id);
@@ -41556,21 +41743,20 @@ CMD:leaders(playerid) {
 	new countleader = 0;
 	new string[1650];
 	new leader[25];
-	format(string, sizeof(string), W"Фракція\t"W"Лідер\t"W"Номер\t"W"Статус\n");
-	// format(string, sizeof(string), "%s"ORANGE"Заместители організацій - /subleaders\n", string);
+	format(string, sizeof(string), W"Фракція\tЛідер\tНомер\tСтатус\n");
+	// format(string, sizeof(string), "%s"P"Заместители організацій - /subleaders\n", string);
 	for(new i = 1; i < MAX_FACTIONS; i++) {
-		if(!strcmp(FI[i][fLeader], "", true)) strmid(leader, "Відсутній", 0, strlen("Відсутній"), 25);
+		if(!strcmp(FI[i][fLeader], "Назначити", true)) strmid(leader, "Відсутній", 0, strlen("Відсутній"), 25);
 		else strmid(leader, "Відсутній", 0, strlen("Відсутній"), 25);
 		new idFrac = GetCheckID(FI[i][fLeader]);
 		if(idFrac != INVALID_PLAYER_ID) {
 			format(string, sizeof(string), "%s"W"%s\t"W"%s[%i]%s\t"W"т. %d\t"GREEN"Онлайн\n", string, FI[i][fName], CI[idFrac][cName], idFrac, TI[idFrac][tAFK] >= 3 ? (" {ffa800}[AFK]") : (""), CI[idFrac][pPhone]);
 			countleader++;
 		} else {
-			if(!strcmp(FI[i][fLeader], "", true)) format(string, sizeof(string), "%s"W"%s\tВідсутній лідер\n", string, FI[i][fName]);
+			if(!strcmp(FI[i][fLeader], "Назначити", true)) format(string, sizeof(string), "%s"W"%s\tВідсутній лідер\n", string, FI[i][fName]);
 			else format(string, sizeof(string), "%s"W"%s\t"W"%s\t"W"-\t"NO"Офлайн\n", string, FI[i][fName], FI[i][fLeader]);
 		}
 	}
-	format(string, sizeof(string), "%s\nВ мережі "P"%i"W" лідерів", string, countleader);
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, P"Лідери організацій.", string, "Закрити", "");
 	return 1;
 }
@@ -42362,67 +42548,30 @@ CMD:theftskill(playerid) {
 }
 CMD:theft(playerid) {
 	if(thef_timer[playerid] == -1) return SendError(playerid, "Ви не починали викрадення транспорта.");
-	ShowPlayerDialog(playerid, D_THEFT_LIST, DSL, P"Автовикрадення", P"1."W" Зламати автомобіль відмичкою\n"P"2."W" Завести двигун\n"P"3."W" Оновити координати автомобіля\n"P"4."W" Відлючити сигналізацію", "Обрати", "Скасувати");
+	ShowPlayerDialog(playerid, D_THEFT_LIST, DSL, P"Автовикрадення.", P"1."W" Зламати автомобіль відмичкою.\n"P"2."W" Завести двигун.\n"P"3."W" Оновити координати автомобіля.\n"P"4."W" Відлючити сигналізацію.", "Обрати", "Скасувати");
 	return 1;
 }
 CMD:inv(playerid) {
-	if(GetPVarInt(playerid, "inv")) return 1;
-	if(GetPVarInt(playerid, "get_class")) return 1;
-	if(BJ_PlayerInfo[playerid][pBlackJackTableID] > 0) return 1;
-	if(GhettoInfo[playerid][GhettoGUI]) return 1;
-	new str_eat[12],str_health[12],str_thrist[12], Float:health;
-	PlayerTextDrawSetString(playerid, inventory_PTD[playerid][7], "PAGE_1");
-
-	if(GetPVarInt(playerid, "ppkz")) {
-		for(new t = 0;t < 34;t++) {
-			TextDrawHideForPlayer(playerid, Capture[t]);
-		}
-	}
-
-	for(new i = 0; i < 54; i++) TextDrawShowForPlayer(playerid, inventory_TD[i]);
-	for(new i = 0; i < 8; i++) PlayerTextDrawShow(playerid, inventory_PTD[playerid][i]);
-
-	SelectTextDraw(playerid, 0xfD5B93Fff);
-
-	GetPlayerHealth(playerid, health);
-
-	PlayerTextDrawSetPreviewModel(playerid, inventory_PTD[playerid][0], GetPlayerSkin(playerid));
-	PlayerTextDrawHide(playerid, inventory_PTD[playerid][0]);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][0]);
-
-	format(str_eat, sizeof(str_eat), "%d%", CI[playerid][pSatiety]);
-	PlayerTextDrawSetString(playerid, inventory_PTD[playerid][4], str_eat);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][4]);
-
-	format(str_health, sizeof(str_health), "%.0f%",health);
-	PlayerTextDrawSetString(playerid, inventory_PTD[playerid][6], str_health);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][6]);
-
-	format(str_thrist, sizeof(str_thrist), "%d%", CI[playerid][pThrist]);
-	PlayerTextDrawSetString(playerid, inventory_PTD[playerid][5], str_thrist);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][5]);
-
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][2], CI[playerid][pSatiety]*105.5895/100, 7.8797);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][2]);
-
-	PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][3], CI[playerid][pThrist]*105.5895/100, 7.8797);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][3]);
-
-	if(health > 100) PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][1], 100*105.5895/100, 7.8797);
-	else PlayerTextDrawTextSize(playerid, inventory_PTD[playerid][1], health*105.5895/100, 7.8797);
-	PlayerTextDrawShow(playerid, inventory_PTD[playerid][1]);
-
-	for(new i = 0; i < 26; i++) {
-		new ID = CI[playerid][pInventory][i];
-		PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][i], ItemsInfo[ID][ItemModel]);
-		PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][i], ItemsInfo[ID][POSTDx], ItemsInfo[ID][POSTDy], ItemsInfo[ID][POSTDz], ItemsInfo[ID][POSTDc]);
-		PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][i], 370810879);
-		PlayerTextDrawShow(playerid, inventory_slot[playerid][i]);
-	}
-
-	InvPage[playerid] = 0;
+	if(GetPVarInt(playerid, "inv") || GetPVarInt(playerid, "get_class") || GhettoInfo[playerid][GhettoGUI] || BJ_PlayerInfo[playerid][pBlackJackTableID] > 0 || JobTempProcess[playerid] || TI[playerid][tProcess][0] != -1 || PhoneShow[playerid]) return SendError(playerid, "Помилка");
+	if(GetPVarInt(playerid, "ppkz")) for(new t = 0; t < 34; t++) TextDrawHideForPlayer(playerid, Capture[t]);
+	PlayerTextDrawSetPreviewModel(playerid, nInventory_TD[playerid][2], GetPlayerSkin(playerid));
 	DeletePVar(playerid, "block_inv");
 	SetPVarInt(playerid, "inv", 1);
+	InvPage[playerid] = 0;
+
+	for (new i;	i < 15; i++) {
+		if(3 <= i <= 8) continue;
+		if(11 <= i <= 12) continue;
+		PlayerTextDrawShow(playerid, nInventory_TD[playerid][i]);
+	}
+	for(new i; i < 25; i++) {
+		new ID = CI[playerid][pInventory][i];
+		PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][i], ItemsInfo[ID][ItemModel]);
+		PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][i], ItemsInfo[ID][POSTDx], ItemsInfo[ID][POSTDy], ItemsInfo[ID][POSTDz], ItemsInfo[ID][POSTDc]);
+		PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][i], 0x222222ff); // Дефолт промальовка.
+		PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][i]);
+	}
+	SelectTextDraw(playerid, 0x808080ff);
 	return 1;
 }
 CMD:lock(playerid, params[]) {
@@ -43136,9 +43285,10 @@ public OnPlayerUpdate(playerid) {
 }
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	if(!TI[playerid][tLogin]) return 1;
+	if(TI[playerid][tTazer]) ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 0, 1, 1, 1, 1, 0);
 	new tickcount1 = GetTickCount();
-	if(IsPlayerInRangeOfPoint(playerid, 12.0, 289.3965, -113.4112, 1035.4241)) {
-		if(!BJ_PlayerInfo[playerid][pBlackJackTableID] && (newkeys & KEY_SECONDARY_ATTACK && oldkeys != KEY_SECONDARY_ATTACK)) {
+	if(IsPlayerInRangeOfPoint(playerid, 12.0, 289.3965, -113.4112, 1035.4241) && (newkeys & KEY_SECONDARY_ATTACK && oldkeys != KEY_SECONDARY_ATTACK)) {
+		if(!BJ_PlayerInfo[playerid][pBlackJackTableID]) {
 			foreach(new blackjack_id: blackjackTables) {
 				if(IsPlayerInDynamicArea(playerid, blackjackTableInfo[blackjack_id][blackjackTableAreaID], 1)) {
 					blackjack_JoinGame(playerid, blackjack_id);
@@ -43211,7 +43361,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	if(TI[playerid][tTazer]) ApplyAnimation(playerid, "CRACK", "crckidle2", 4.1, 0, 1, 1, 1, 1, 0);
 	if((oldkeys & KEY_SECONDARY_ATTACK) && !(newkeys & KEY_SECONDARY_ATTACK)) {
 		if(SERIU[playerid][sID] != INVALID_PLAYER_ID) {
 			SpecPlayer(playerid,SERIU[playerid][sID]);
@@ -43241,8 +43390,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TextDrawHideForPlayer(playerid, AnimDraw);
 		}
 	}
-	/*if(!IsPlayerInAnyVehicle(playerid)) {
-		if((newkeys & KEY_FIRE) || (( newkeys & KEY_HANDBRAKE) && (oldkeys & KEY_HANDBRAKE) && (newkeys & KEY_SECONDARY_ATTACK))) {
+	if((newkeys & KEY_FIRE) || (( newkeys & KEY_HANDBRAKE) && (oldkeys & KEY_HANDBRAKE) && (newkeys & KEY_SECONDARY_ATTACK))) {
+		if(!IsPlayerInAnyVehicle(playerid)) {
 			if(!IsAnEnforcement(playerid) && !IsAGovernment(playerid) && IsAGreenZone(playerid) && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_DRINK_SPRUNK && GetPlayerWeapon(playerid) != 43 && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_DRINK_WINE && GetPlayerSpecialAction(playerid)!= SPECIAL_ACTION_SMOKE_CIGGY && GetPlayerSpecialAction(playerid)!=SPECIAL_ACTION_DRINK_BEER && (PI[playerid][pAdmin] < 1 || GetPVarInt(playerid, "adminaccess") != 1)) {
 				anti_dm{playerid} = 7;
 				FreezePlayerForTime(playerid, 6);
@@ -43251,7 +43400,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Зелена зона", str, "Закрити", "");
 			}
 		}
-	}*/
+	}
 	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
 		switch(GetPlayerWeapon(playerid)) {
 		case 23..25, 29..31: {
@@ -44849,14 +44998,13 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SelectTextDraw(playerid, 0xFFD900FF);
 			PhoneLocked[playerid] = 2;
 			SendClientMessage(playerid, -1, "DEBUG: Phone is unlocked!");
-		} else if(JobTempProcess[playerid] == 0 && TI[playerid][tProcess][0] == -1 && PhoneShow[playerid] == false) pc_cmd_inv(playerid);
-		else if(TI[playerid][tProcess][0] != -1) {
+		} else if(TI[playerid][tProcess][0] != -1) {
 			if(GetPVarInt(playerid, "Klavisha") == 65536) MyButtonSystem(playerid);
 			else {
 				TI[playerid][tProcess][0] += -(3*(10/TI[playerid][tProcess][1]));
 				RandomYareNforJOBS(playerid);
 			}
-		}
+		} else pc_cmd_inv(playerid);
 		return 1;
 	}
 	if(PRESSED(KEY_SECONDARY_ATTACK)) {
@@ -45527,8 +45675,155 @@ public OnVehicleMod(playerid, vehicleid, componentid) {
 	return 1;
 }
 public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
+	if(playertextid == nInventory_TD[playerid][9]) return HideInvent(playerid);
+	/* else if(playertextid == nInventory_TD[playerid][21]) {
+		if(ClickInv[playerid] == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
+		new ID = CI[playerid][pInventory][ClickInv[playerid]];
+		new str[150];
+		format(str, sizeof(str), W"Назва предмета:"P" %s\n"W"Кількість:"P" %d",ItemsInfo[ID][ItemName], CI[playerid][pInventoryAmount][ClickInv[playerid]]);
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", str, "Закрити", "");
+	} */
+	else if(playertextid == nInventory_TD[playerid][13]) {
+		if(GetPVarInt(playerid, "inv")) {
+			if(InvPage[playerid]) return 1;
+			InvPage[playerid] ++;
+			for(new i; i < 25; i++) {
+				PlayerTextDrawHide(playerid, nInventorySlots_TD[playerid][i]);
+			}
+			for(new i = 25; i < 50; i++) {
+				new ID = CI[playerid][pInventory][i];
+				PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][i], ItemsInfo[ID][ItemModel]);
+				PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][i], ItemsInfo[ID][POSTDx], ItemsInfo[ID][POSTDy], ItemsInfo[ID][POSTDz], ItemsInfo[ID][POSTDc]);
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][i], 0x222222ff);
+				PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][i]);
+			}
+			PlayerTextDrawShow(playerid, nInventory_TD[playerid][11]);
+			PlayerTextDrawShow(playerid, nInventory_TD[playerid][12]);
+			PlayerTextDrawHide(playerid, nInventory_TD[playerid][13]);
+			PlayerTextDrawHide(playerid, nInventory_TD[playerid][14]);
+		}
+	} else if(playertextid == nInventory_TD[playerid][11]) {
+		if(GetPVarInt(playerid, "inv")) {
+			if(!InvPage[playerid]) return 1;
+			InvPage[playerid]--;
+			for(new i = 25; i < 50; i++) {
+				PlayerTextDrawHide(playerid, nInventorySlots_TD[playerid][i]);
+			}
+			for(new i; i < 25; i++) {
+				new ID = CI[playerid][pInventory][i];
+				PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][i], ItemsInfo[ID][ItemModel]);
+				PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][i], ItemsInfo[ID][POSTDx], ItemsInfo[ID][POSTDy], ItemsInfo[ID][POSTDz], ItemsInfo[ID][POSTDc]);
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][i], 0x222222ff);
+				PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][i]);
+			}
+			PlayerTextDrawHide(playerid, nInventory_TD[playerid][11]);
+			PlayerTextDrawHide(playerid, nInventory_TD[playerid][12]);
+			PlayerTextDrawShow(playerid, nInventory_TD[playerid][13]);
+			PlayerTextDrawShow(playerid, nInventory_TD[playerid][14]);
+		}
+	} else if(playertextid == nInventory_TD[playerid][7]) {
+		new slot = ClickInv[playerid];
+		if(slot == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
+		if(CI[playerid][pActiveTrade][slot]) return SendError(playerid, "Не можна взаємодіяти з предметом, поки передача активна.");
+		new string[550];
+		format(string, sizeof(string), W"Предмет: "P"%s"W"\nКількість: "P"%d"W"\n\nВи дійсно хочете викинути предмет?", ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryAmount][slot]);
+		ShowPlayerDialog(playerid, D_INVENT_DROP, DSM, P"Викидання предмета.", string, "Так", "Скасувати");
+		SetPVarInt(playerid, "block_inv", 1);
+	} else if(playertextid == nInventory_TD[playerid][5]) {
+		new slot = ClickInv[playerid], str[350];
+		if(slot == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
+		SetPVarInt(playerid, "block_inv", 1);
+		if(GetPVarInt(playerid, "activ_trade")) return ShowPlayerDialog(playerid, D_INVENT_GIVE_1, DSM, P"Інвентар.", W"Ви хочете скасувати поточну передачу предмета?", "Далі", "Скасувати");
+		format(str, sizeof(str), W"Предмет:"P" %s"W"\nКількість: "P"%d"W"\n\nВведіть нижче ID гравця, кількість, вартість за предмет", ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryAmount][ClickInv[playerid]]);
+		ShowPlayerDialog(playerid, D_INVENT_GIVE, DSI, P"Передача предмета.", str, "Далі", "Скасувати");
+	} else if(playertextid == nInventory_TD[playerid][3]) { 
+		new model = ClickInv[playerid];
+		if(model == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
+		// if(ItemsInfo[CI[playerid][pInventory][model]][Access]) return SendError(playerid, "Перемістіть аксесуар в комірку з персонажем.");
+		if(CI[playerid][pActiveTrade][model]) return SendError(playerid, "Не можна взаємодіяти з предметом, поки передача активна.");
+		UseItem(playerid, ItemsInfo[CI[playerid][pInventory][model]][ItemModel], model);
+		ClickInv[playerid] = -1;
+		for(new i = 3; i <= 8; i++) {
+			PlayerTextDrawHide(playerid, nInventory_TD[playerid][i]);
+		}
+	} else if(GetPVarInt(playerid, "inv") && !GetPVarInt(playerid, "block_inv")) {
+		for(new j = 0; j < 50; j++) {
+			if(playertextid == nInventorySlots_TD[playerid][j]) {
+				if(CI[playerid][pInventory][j] != 0) {
+					if(ClickInv[playerid] != -1) {
+						PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][ClickInv[playerid]], 0x222222ff);
+						PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][ClickInv[playerid]]);
+						PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][j], 0x222222ff); // Зняття виділення.
+						PlayerTextDrawHide(playerid, nInventorySlots_TD[playerid][j]);
+						PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][j]);
+						ClickInv[playerid] = -1;
+						for(new i = 3; i <= 8; i++) {
+							PlayerTextDrawHide(playerid, nInventory_TD[playerid][i]);
+						}
+						return 1;
+					}
+					for(new i = 3; i <= 8; i++) {
+						PlayerTextDrawShow(playerid, nInventory_TD[playerid][i]);
+					}
+					PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][j], 0x111111ff); // Вибраний слот.
+					PlayerTextDrawHide(playerid, nInventorySlots_TD[playerid][j]);
+					PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][j]);
+					ClickInv[playerid] = j;
+					break;
+				} else {
+					if(CI[playerid][pInventory][j] == 0 && ClickInv[playerid] != -1 && CI[playerid][pActiveTrade][ClickInv[playerid]] == 0) {
+						new id = ClickInv[playerid];
+						// if(!(20 <= j <= 25)) {
+						// 	if(ItemsInfo[CI[playerid][pInventory][id]][Access] == 1) {
+						// 		CI[playerid][pSlotItem][ItemsInfo[CI[playerid][pInventory][id]][AcessBone]] = 0; // Записуємо ID об'єкта в слот.
+						// 		RemovePlayerAttachedObject(playerid, ItemsInfo[CI[playerid][pInventory][id]][AcessBone]);
+						// 		save_slotitem(playerid);
+						// 		ClickInv[playerid] = -1;
+						// 	}
+						// } else {
+						// if(ItemsInfo[CI[playerid][pInventory][id]][Access] == 0) {
+						// 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Цей предмет не є аксесуаром.", "Закрити", "");
+						// 	PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][ClickInv[playerid]], 0x222222ff);
+						// 	PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][ClickInv[playerid]]);
+						// 	ClickInv[playerid] = -1;
+						// 	return 1;
+						// }
+						// if(IsPlayerAttachedObjectSlotUsed(playerid, ItemsInfo[CI[playerid][pInventory][id]][AcessBone])) {
+						// 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Обрана частина тіла вже зайнята, звільніть її.", "Закрити", "");
+						// 	PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][id], 0x222222ff);
+						// 	PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][ClickInv[playerid]]);
+						// 	ClickInv[playerid] = -1;
+						// 	return 1;
+						// }
+						// CI[playerid][pSlotItem][ItemsInfo[CI[playerid][pInventory][id]][AcessBone]] = ItemsInfo[CI[playerid][pInventory][id]][ItemModel]; // Записуємо ID об'єкта в слот.
+						// AtachPlayerAcces(playerid, ItemsInfo[CI[playerid][pInventory][id]][ItemModel], GetPlayerSkin(playerid));
+						// save_slotitem(playerid);
+						// }
 
-	if(playertextid == SelectSkin[playerid][0]) {
+						CI[playerid][pInventory][j] = CI[playerid][pInventory][id];
+						CI[playerid][pInventoryAmount][j] = CI[playerid][pInventoryAmount][id];
+						CI[playerid][pInventory][id] = 0;
+						CI[playerid][pInventoryAmount][id] = 0;
+
+						PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][id], 0x222222ff);
+						InvUpdate(playerid, j, CI[playerid][pInventory][j]);
+
+						if(id < 26 && j < 21) InvUpdate(playerid, id, CI[playerid][pInventory][id]);
+						if(id > 25 && j > 25) InvUpdate(playerid, id, CI[playerid][pInventory][id]);
+
+						if(id >= 20 && id <= 25) InvUpdate(playerid, id, CI[playerid][pInventory][id]);
+						if(j >= 20 && j <= 25) InvUpdate(playerid, id, CI[playerid][pInventory][id]); // Оновлюємо попередню ячейку.
+						SaveInventory(playerid);
+						ClickInv[playerid] = -1;
+						for(new i = 3; i <= 8; i++) {
+							PlayerTextDrawHide(playerid, nInventory_TD[playerid][i]);
+						}
+						break;
+					}
+				}
+			}
+		}
+	} else if(playertextid == SelectSkin[playerid][0]) {
 		if(GetPlayerSkin(playerid) == 0) return SetPlayerSkin(playerid, 311);
 		else if(GetPlayerSkin(playerid) == 74) return SetPlayerSkin(playerid, 73);
 		SetPlayerSkin(playerid, GetPlayerSkin(playerid) - 1);
@@ -45552,11 +45847,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 		PlayerTextDrawHide(playerid, SelectSkin[playerid][3]);
 		TogglePlayerControllable(playerid, true);
 		CancelSelectTextDraw(playerid);
-
-
-
 	} else if(playertextid == SelectSkin[playerid][3]) {
-
 		SetPlayerVirtualWorld(playerid, 102);
 		SetPlayerPos(playerid, 1224.3334, -2236.6587, 21.2289);
 		SetPlayerCameraPos(playerid, 1218.2290, -2233.3933, 22.9547);
@@ -45570,78 +45861,6 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 		PlayerTextDrawHide(playerid, SelectSkin[playerid][2]);
 		PlayerTextDrawHide(playerid, SelectSkin[playerid][3]);
 		CancelSelectTextDraw(playerid);
-	}
-
-	if(GetPVarInt(playerid, "inv")) {
-		if(GetPVarInt(playerid, "block_inv")) return 1;
-		for(new j = 0; j < 46; j++) {
-			if(playertextid == inventory_slot[playerid][j]) {
-				if(CI[playerid][pInventory][j] != 0) {
-					if(ClickInv[playerid] != -1) {
-						PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][ClickInv[playerid]], 370810879);
-						PlayerTextDrawShow(playerid, inventory_slot[playerid][ClickInv[playerid]]);
-						PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][j], 370810879);
-						PlayerTextDrawHide(playerid, inventory_slot[playerid][j]);
-						PlayerTextDrawShow(playerid, inventory_slot[playerid][j]);
-						ClickInv[playerid] = -1;
-						return 1;
-					}
-					PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][j], 0xfD5B93F33);
-					PlayerTextDrawHide(playerid, inventory_slot[playerid][j]);
-					PlayerTextDrawShow(playerid, inventory_slot[playerid][j]);
-					ClickInv[playerid] = j;
-					break;
-				} else {
-					if(CI[playerid][pInventory][j] == 0 && ClickInv[playerid] != -1 && CI[playerid][pActivTrade][ClickInv[playerid]] == 0) {
-						new id = ClickInv[playerid];
-						if(j != 20 && j != 21 && j != 22 && j != 23 && j != 24 && j != 25) {
-							if(ItemsInfo[CI[playerid][pInventory][id]][Access] == 1) {
-								CI[playerid][pSlotItem][ItemsInfo[CI[playerid][pInventory][id]][AcessBone]] = 0; // Записуємо ID об'єкта в слот.
-								RemovePlayerAttachedObject(playerid, ItemsInfo[CI[playerid][pInventory][id]][AcessBone]);
-								save_slotitem(playerid);
-								ClickInv[playerid] = -1;
-							}
-						}
-						if(j >= 20 && j <= 25) {
-							if(ItemsInfo[CI[playerid][pInventory][id]][Access] == 0) {
-								ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Цей предмет не є аксесуаром", "Закрити", "");
-								PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][ClickInv[playerid]], 370810879);
-								PlayerTextDrawShow(playerid, inventory_slot[playerid][ClickInv[playerid]]);
-								ClickInv[playerid] = -1;
-								return 1;
-							}
-							if(IsPlayerAttachedObjectSlotUsed(playerid, ItemsInfo[CI[playerid][pInventory][id]][AcessBone])) {
-								ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Обрана частина тіла вже зайнята, звільніть її", "Закрити", "");
-								PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][id], 370810879);
-								PlayerTextDrawShow(playerid, inventory_slot[playerid][ClickInv[playerid]]);
-								ClickInv[playerid] = -1;
-								return 1;
-							}
-							CI[playerid][pSlotItem][ItemsInfo[CI[playerid][pInventory][id]][AcessBone]] = ItemsInfo[CI[playerid][pInventory][id]][ItemModel]; // Записуємо ID об'єкта в слот.
-							AtachPlayerAcces(playerid, ItemsInfo[CI[playerid][pInventory][id]][ItemModel], GetPlayerSkin(playerid));
-							save_slotitem(playerid);
-						}
-
-						CI[playerid][pInventory][j] = CI[playerid][pInventory][id];
-						CI[playerid][pInventoryKolvo][j] = CI[playerid][pInventoryKolvo][id];
-						CI[playerid][pInventory][id] = 0;
-						CI[playerid][pInventoryKolvo][id] = 0;
-
-						PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][id], 370810879);
-						InvUpdate(playerid, j, CI[playerid][pInventory][j]);
-
-						if(id < 26 && j < 21)  InvUpdate(playerid, id, CI[playerid][pInventory][id]);
-						if(id > 25 && j > 25)  InvUpdate(playerid, id, CI[playerid][pInventory][id]);
-						//
-						if(id >= 20 && id <= 25) InvUpdate(playerid, id, CI[playerid][pInventory][id]);
-						if(j >= 20 && j <= 25) InvUpdate(playerid, id, CI[playerid][pInventory][id]); // Оновлюємо попередню ячейку.
-						SaveInventory(playerid);
-						ClickInv[playerid] = -1;
-						break;
-					}
-				}
-			}
-		}
 	}
 	if(GetPVarInt(playerid, "bank_rob")) {
 		new idx = GetPVarInt(playerid, "ExpectedSelectionTD");
@@ -45743,15 +45962,13 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 	}
 	if(playertextid == PhoneGUI[playerid][36]) // Back botton.
     {
-    	if(PhoneLocked[playerid] == 2)
-    	{
+    	if(PhoneLocked[playerid] == 2) {
     		HidePlayerPhoneMenu(playerid);
     		PhoneLocked[playerid] = 1;
     		CancelSelectTextDraw(playerid);
     		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on BACK!");
     	}
-    	else if(PhoneLocked[playerid] == 3)
-    	{
+    	else if(PhoneLocked[playerid] == 3) {
     		ShowPlayerPhoneMenu(playerid);
     		PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
     		PhoneLocked[playerid] = 2;
@@ -45760,8 +45977,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
     }
     if(playertextid == PhoneGUI[playerid][37]) // Call.
     {
-        if(PhoneLocked[playerid] == 2)
-    	{
+        if(PhoneLocked[playerid] == 2) {
     		// HidePlayerPhoneMenu(playerid);
     		// PhoneLocked[playerid] = 1;
     		// CancelSelectTextDraw(playerid);
@@ -45771,8 +45987,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
     }
     if(playertextid == PhoneGUI[playerid][38]) // SMS
     {
-        if(PhoneLocked[playerid] == 2)
-    	{
+        if(PhoneLocked[playerid] == 2) {
     		// HidePlayerPhoneMenu(playerid);
     		// PhoneLocked[playerid] = 1;
     		// CancelSelectTextDraw(playerid);
@@ -45782,8 +45997,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
     }
     if(playertextid == PhoneGUI[playerid][39]) // Add Contacts
     {
-       if(PhoneLocked[playerid] == 2)
-    	{
+       if(PhoneLocked[playerid] == 2) {
     		HidePlayerPhoneMenu(playerid);
     		PhoneLocked[playerid] = 1;
     		CancelSelectTextDraw(playerid);
@@ -45792,8 +46006,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
     }
     if(playertextid == PhoneGUI[playerid][40]) // List Contacts
     {
-       	if(PhoneLocked[playerid] == 2)
-    	{
+       	if(PhoneLocked[playerid] == 2) {
     		HidePlayerPhoneMenu(playerid);
     		PhoneLocked[playerid] = 1;
     		CancelSelectTextDraw(playerid);
@@ -45802,8 +46015,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
     }
     if(playertextid == PhoneGUI[playerid][41]) // Camera
     {
-       	if(PhoneLocked[playerid] == 2)
-    	{
+       	if(PhoneLocked[playerid] == 2) {
     		HidePlayerPhoneMenu(playerid);
     		PhoneLocked[playerid] = 1;
     		CancelSelectTextDraw(playerid);
@@ -45812,8 +46024,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
     }
     if(playertextid == PhoneGUI[playerid][42]) // Internet
     {
-    	if(PhoneLocked[playerid] == 2)
-    	{
+    	if(PhoneLocked[playerid] == 2) {
     		HidePlayerPhoneMenu(playerid);
     		PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
 			PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
@@ -45855,7 +46066,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				blackjack_StopTutorial(playerid);
 			} else {
 				SelectTextDraw(playerid, 0x000000FF);
-				return ShowPlayerDialog(playerid, DIALOG_BLACKJACK_LEAVE, DSM, "{9932CC}Black Jack", W"Ви дійсно хочете покинути ігровий стіл?", "Так", "Ні"), true;
+				return ShowPlayerDialog(playerid, DIALOG_BLACKJACK_LEAVE, DSM, P"Black Jack.", W"Ви дійсно хочете покинути ігровий стіл?", "Так", "Ні"), true;
 			}
 			return 1;
 		}
@@ -45953,8 +46164,8 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			SkinSelect(playerid, 1);
 		} else if(clickedid == buy_skins[0]) {
 			new string[128];
-			format(string, sizeof(string), W"Ви хочете купити цей одяг за "GREEN"$%i?",ped_buyclothes[GetPVarInt(playerid, "join_ped_item")][1]);
-			ShowPlayerDialog(playerid, D_BUY_SKIN, DSM, P"Купівля одягу", string, "Купити", "Скасувати");
+			format(string, sizeof(string), W"Ви хочете купити цей одяг за "GREEN"$%i"W"?",ped_buyclothes[GetPVarInt(playerid, "join_ped_item")][1]);
+			ShowPlayerDialog(playerid, D_BUY_SKIN, DSM, P"Купівля одягу.", string, "Купити", "Скасувати");
 		} else if(clickedid == buy_skins[1] || Text:INVALID_TEXT_DRAW) {
 			A_SetPlayerSkin(playerid, GetPVarInt(playerid, "curskin"));
 			cancel_skin(playerid);
@@ -46029,93 +46240,19 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		if(clickedid == autoshop_TD[45]) cars_select(playerid, 1);
 		if(clickedid == autoshop_TD[44]) cars_select(playerid, 0);
 		if(clickedid == autoshop_TD[46]) { 
-			if(CI[playerid][pFamily]) return ShowPlayerDialog(playerid, D_BUY_CAR, DSM, P"Купівля транспорта", W"Оберіть комірку, яку буде займати придбаний транспорт.", "Прийняти", "Скасувати");
+			if(CI[playerid][pFamily]) return ShowPlayerDialog(playerid, D_BUY_CAR, DSM, P"Купівля транспорта.", W"Оберіть комірку, яку буде займати придбаний транспорт.", "Прийняти", "Скасувати");
 			new string[250];
 			format(string, sizeof(string), W"1. Транспорт #1 "P"[%s]\n"W"2. Транспорт #2 "P"[%s]", gTransport[CarsInfo[playerid][carModel][0]-400][trName], gTransport[CarsInfo[playerid][carModel][1]-400][trName]);
-			ShowPlayerDialog(playerid, D_BUY_CAR_1, DSL, P"Оберіть слот", string, "Купити", "Закрити");
+			ShowPlayerDialog(playerid, D_BUY_CAR_1, DSL, P"Оберіть слот.", string, "Купити", "Закрити");
 		}
 		if(clickedid == autoshop_TD[37]) HideAuto(playerid);
-	}
-	if(clickedid == inventory_TD[21]) {
-		if(ClickInv[playerid] == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
-		new ID = CI[playerid][pInventory][ClickInv[playerid]];
-		new str[150];
-		format(str, sizeof(str), W"Назва предмета:"P" %s\n"W"Кількість:"ORANGE" %d",ItemsInfo[ID][ItemName], CI[playerid][pInventoryKolvo][ClickInv[playerid]]);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", str, "Закрити", "");
-	}
-	if(clickedid == inventory_TD[22]) {
-		if(GetPVarInt(playerid, "inv")) {
-			if(InvPage[playerid]) return 1;
-			InvPage[playerid]++;
-			PlayerTextDrawSetString(playerid, inventory_PTD[playerid][7], "PAGE_2");
-			PlayerTextDrawShow(playerid, inventory_PTD[playerid][7]);
-			// ClickInv[playerid] = -1;
-			for(new i = 0; i < 20; i++) PlayerTextDrawHide(playerid, inventory_slot[playerid][i]);
-			for(new i = 26; i < 46; i++) {
-				new ID = CI[playerid][pInventory][i];
-				PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][i], ItemsInfo[ID][ItemModel]);
-				PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][i], ItemsInfo[ID][POSTDx], ItemsInfo[ID][POSTDy], ItemsInfo[ID][POSTDz], ItemsInfo[ID][POSTDc]);
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][i], 370810879);
-				PlayerTextDrawShow(playerid, inventory_slot[playerid][i]);
-			}
-		}
-	}
-	if(clickedid == inventory_TD[23]) {
-		if(GetPVarInt(playerid, "inv")) {
-			if(!InvPage[playerid]) return 1;
-			InvPage[playerid]--;
-			PlayerTextDrawSetString(playerid, inventory_PTD[playerid][7], "PAGE_1");
-			PlayerTextDrawShow(playerid, inventory_PTD[playerid][7]);
-			//	ClickInv[playerid] = -1;
-			for(new i = 26; i < 46; i++) PlayerTextDrawHide(playerid, inventory_slot[playerid][i]);
-			for(new i = 0; i < 20; i++) {
-				new ID = CI[playerid][pInventory][i];
-				PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][i], ItemsInfo[ID][ItemModel]);
-				PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][i], ItemsInfo[ID][POSTDx], ItemsInfo[ID][POSTDy], ItemsInfo[ID][POSTDz], ItemsInfo[ID][POSTDc]);
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][i], 370810879);
-				PlayerTextDrawShow(playerid, inventory_slot[playerid][i]);
-			}
-		}
-	}
-	if(clickedid == inventory_TD[14]) {
-		new slot = ClickInv[playerid];
-		if(slot == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
-		if(CI[playerid][pActivTrade][slot]) return SendError(playerid, "Не можна використовувати предмет, поки передача активна.");
-		if(slot == 20 || slot == 21 || slot == 22 || slot == 23 || slot == 24 || slot == 25) return SendError(playerid, "Щоб утилізувати предмет, переместіть його в інвентар.");
-		new string[550];
-		format(string, sizeof(string), W"Предмет: "P"%s"W"\nКількість: "P"%d"W"\n\nВи дійсно хочете утилізувати предмет?",ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryKolvo][slot]);
-		ShowPlayerDialog(playerid, D_INVENT_DROP, DSM, P"Утилізація предмета", string, "Так", "Скасувати");
-		SetPVarInt(playerid, "block_inv", 1);
-	}
-	if(clickedid == inventory_TD[42]) HideInvent(playerid);
-	if(clickedid == inventory_TD[41]) {
-		if(!IsPlayerInRangeOfPoint(playerid, 30.0, 384.4618, -1913.3921, 7.8359)) return SendError(playerid, "Ви повинні знаходитися на центральном ринку.");
-		new slot = ClickInv[playerid], str[350];
-		if(slot == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
-		if(slot == 20 || slot == 21 || slot == 22 || slot == 23 || slot == 24 || slot == 25) return SendError(playerid, "Щоб передати предмет, переместіть його в інвентар.");
-		SetPVarInt(playerid, "block_inv", 1);
-		if(GetPVarInt(playerid, "activ_trade")) {
-			ShowPlayerDialog(playerid, D_INVENT_GIVE_1, DSM, P"Інвентар", W"Ви хочете скасувати поточну передачу предмета?", "Далі", "Скасувати");
-			return 1;
-		}
-		format(str, sizeof(str), W"Предмет:"P" %s"W"\nКількість: "P"%d"W"\n\nВведіть нижче ID гравця, кількість, вартість за предмет",ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryKolvo][ClickInv[playerid]]);
-		ShowPlayerDialog(playerid, D_INVENT_GIVE, DSI, P"Передача предмета", str, "Далі", "Скасувати");
-	}
-	if(clickedid == inventory_TD[53]) pc_cmd_donate(playerid), HideInvent(playerid);
-	if(clickedid == inventory_TD[43]) pc_cmd_menu(playerid, ""), HideInvent(playerid);
-	if(clickedid == inventory_TD[51]) { 
-		new model = ClickInv[playerid];
-		if(model == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
-		if(ItemsInfo[CI[playerid][pInventory][model]][Access]) return SendError(playerid, "Переместіть аксесуар в комірку з персонажем.");
-		if(CI[playerid][pActivTrade][model]) return SendError(playerid, "Не можна використовувати предмет, поки передача активна.");
-		UseItem(playerid, ItemsInfo[CI[playerid][pInventory][model]][ItemModel], model);
 	} else if(GetPVarInt(playerid, "buy_accses")) {
 		if(clickedid == buy_skins[5]) accs_select(playerid, 0);
 		else if(clickedid == buy_skins[6]) accs_select(playerid, 1);
 		else if(clickedid == buy_skins[0]) {
 			if(GetPlayerMoneyEx(playerid) < GetPVarInt(playerid, "price_acs")) {
 				AtachPlayerAcces(playerid, CI[playerid][pSlotItem][GetPVarInt(playerid, "slot_acs")], GetPlayerSkin(playerid));
-				DeletePVar(playerid, "slot_acs"),DeletePVar(playerid, "id_acs"),DeletePVar(playerid, "price_acs"), DeletePVar(playerid, "id_invent");
+				DeletePVar(playerid, "slot_acs"),DeletePVar(playerid, "id_acs"), DeletePVar(playerid, "price_acs"), DeletePVar(playerid, "id_invent");
 				buyacces(playerid);
 				return 1;
 			}
@@ -46123,16 +46260,16 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				gBusiness[TI[playerid][tSelectedBusinessID]][bizzProduct] -= 80;
 				bizz_pay(TI[playerid][tSelectedBusinessID], GetPVarInt(playerid, "price_acs"));
 			}
-			if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+			if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 			RemovePlayerAttachedObject(playerid, GetPVarInt(playerid, "slot_acs"));
 			SendOK(playerid, "Вітаємо з купівлею аксесуара.");
 			AddItem(playerid, GetPVarInt(playerid, "id_invent"), 1);
 
 			GiveMoney(playerid, -GetPVarInt(playerid, "price_acs"), "купівля аксесуара");
-			DeletePVar(playerid, "slot_acs"),DeletePVar(playerid, "id_acs"),DeletePVar(playerid, "price_acs");
+			DeletePVar(playerid, "slot_acs"), DeletePVar(playerid, "id_acs"), DeletePVar(playerid, "price_acs");
 			buyacces(playerid);
 
-			for(new i=0; i<9; i++) {
+			for(new i; i < 9; i++) {
 				TextDrawHideForPlayer(playerid,buy_skins[i]);
 			}
 			PlayerTextDrawHide(playerid,buy_player_skins[playerid]);
@@ -46532,17 +46669,17 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		return 1;
 	} else if(Casino_Flag[playerid][show_casino_td] == 1 && Casino_Flag[playerid][select_casino_table] != -1) {
 		if(_:clickedid == INVALID_TEXT_DRAW) {
-			if((InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start] && Casino_Flag[playerid][casino_crup] == 1) || (Casino_Flag[playerid][casino_bet_cash] != 0 && InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start])) return SendError(playerid, "Ви не можете покинуть партию пока идёт Гру"),SelectTextDraw(playerid, 0x9BF2EAAA);
+			if((InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start] && Casino_Flag[playerid][casino_crup] == 1) || (Casino_Flag[playerid][casino_bet_cash] != 0 && InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start])) return SendError(playerid, "Ви не можете покинути партію поки йде гра."),SelectTextDraw(playerid, 0x9BF2EAAA);
 			else return ShowCasino_TD(playerid, Casino_Flag[playerid][select_casino_table], false);
 		} else if(clickedid == Casino_TD[Casino_TD_Exit]) {
-			if((InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start] && Casino_Flag[playerid][casino_crup] == 1) || (Casino_Flag[playerid][casino_bet_cash] != 0 && InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start])) return SendError(playerid, "Ви не можете покинуть партию пока идёт Гру"),SelectTextDraw(playerid, 0x9BF2EAAA);
+			if((InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start] && Casino_Flag[playerid][casino_crup] == 1) || (Casino_Flag[playerid][casino_bet_cash] != 0 && InfoDice[Casino_Flag[playerid][select_casino_table]][dice_game_start])) return SendError(playerid, "Ви не можете покинути партію поки йде гра."),SelectTextDraw(playerid, 0x9BF2EAAA);
 			else return ShowCasino_TD(playerid, Casino_Flag[playerid][select_casino_table]);
 		} else if(clickedid == Casino_TD[Casino_TD_Set_Bet]) {
 			new s = Casino_Flag[playerid][select_casino_table];
 			if(InfoDice[s][dice_game_start]) return SendError(playerid, "В цей момент йде гра.");
 			if(Casino_Flag[playerid][casino_crup] == 1) {
 				if(InfoDice[s][dice_bank] != 0) return SendError(playerid, "Хтось з гравців вже встановили ставку.");
-				ShowPlayerDialog(playerid, D_SET_BET, DSI, P"Ставка", W"Введіть суму ставки!\nСтавка повинна бути не менше "ORANGE""#MIN_STAVKA" фішок\n"W"і не більше ніж "ORANGE""#MAX_STAVKA" фішок", "Далі", "Скасувати");
+				ShowPlayerDialog(playerid, D_SET_BET, DSI, P"Ставка", W"Введіть суму ставки!\nСтавка повинна бути не менше "ORANGE""#MIN_STAVKA" фішок\n"W"і не більше ніж "P""#MAX_STAVKA" фішок", "Далі", "Скасувати");
 			} else {
 				if(InfoDice[s][dice_stavka] == 0) return SendError(playerid, "Ставка не встановлена.");
 				if(Casino_Flag[playerid][casino_bet_cash] != 0) return SendError(playerid, "Ви вже встановили ставку.");
@@ -46640,7 +46777,6 @@ stock SelectCharacterSkin(playerid) {
 CB:SpcarsAvto(playerid) {
 	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
 		if(IsVehicleOccupied(i)) continue;
-		if(GetVehicleModel(i) == 450) continue;
 		SetVehicleToRespawn(i);
 	}
 	new string[100];
@@ -46837,8 +46973,8 @@ stock load_atm() {
 		ATMData[i][atm_Object] = CreateDynamicObject(19526, ATMData[i][ATM_Pos][0], ATMData[i][ATM_Pos][1], ATMData[i][ATM_Pos][2], ATMData[i][ATM_Pos][3], ATMData[i][ATM_Pos][4], ATMData[i][ATM_Pos][5], ATMData[i][atm_VW], ATMData[i][atm_INT]);
 		SetDynamicObjectMaterial(ATMData[i][atm_Object], 3, 2942, "kmb_atmx", "kmb_atm_sign", 0x00000000);
 		new str[128];
-		// format(str, sizeof(str), "Банкомат\nВ банкоматі: "GREEN"$%d"W"\n\nНатисніть"P" ALT",ATMData[i][atm_cash]);
-		format(str, sizeof(str), "лохлохлохлох",ATMData[i][atm_cash]);
+		format(str, sizeof(str), "Банкомат\nВ банкоматі: "GREEN"$%d"W"\n\nНатисніть"P" ALT", ATMData[i][atm_cash]);
+		// format(str, sizeof(str), "лохлохлохлох", ATMData[i][atm_cash]);
 		ATMData[i][atm_Label] = Create3DTextLabel(str, -1, ATMData[i][ATM_Pos][0], ATMData[i][ATM_Pos][1], ATMData[i][ATM_Pos][2]+ 1, 10.0, ATMData[i][atm_VW]);
 	}
 	cache_delete(result);
@@ -47275,7 +47411,7 @@ stock insert_faction(fid, ftype, fname[], frank[], fskin) {
 	FI[fid][fSpawnI] = 0,
 	FI[fid][lRank] = 10,
 	FI[fid][sRank] = 7,
-	strmid(FI[fid][fLeader], "", 0, 2),
+	strmid(FI[fid][fLeader], "Назначити", 0, 16),
 	FI[fid][fBank] = 0,
 	FI[fid][fDrugs] = 0,
 	FI[fid][fMaterials] = 0,
@@ -47313,9 +47449,26 @@ stock remove_faction(fid) {
 	for(new i = 1; i < MAX_FACTION_SKINS; i++) {
 		FI[fid][fSkins][i] = 0;
 	}
+	for(new i = 1; i < MAX_FACTION_FLEET; i++) {
+		fFleet[fid][i][fleetID] = 0;
+		fFleet[fid][i][fleetRank] = 0;
+		fFleet[fid][i][fleetModel] = 0;
+		fFleet[fid][i][fleetColor1] = 0;
+		fFleet[fid][i][fleetColor1] = 0;
+		fFleet[fid][i][fleetSiren] = 0;
+		fFleet[fid][i][fleetSpawnX] = 0.0;
+		fFleet[fid][i][fleetSpawnY] = 0.0;
+		fFleet[fid][i][fleetSpawnZ] = 0.0;
+		fFleet[fid][i][fleetSpawnA] = 0.0;
+		fFleet[fid][i][fleetSpawnVW] = 0;
+		fFleet[fid][i][fleetSpawnI] = 0;
+		for(new n; n < MAX_VEHICLES; n++) {
+			if(VehicleInfo[n][vTeam] == fid) DestroyVehicle(n);
+		}
+	}
 }
 stock load_factions() {
-	new rRows, sRows, query[256], fcolor[16];
+	new rRows, sRows, fRows, query[256], fcolor[16];
 	for(new i = 1; i < MAX_FACTIONS; i++) {
 		mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_FACTIONS" WHERE `ID` = %i LIMIT 1", i);
 		mysql_query(connects, query);
@@ -47340,21 +47493,43 @@ stock load_factions() {
 			cache_get_value_name_int(0, "sRank", FI[i][sRank]);
 			cache_get_value_name_int(0, "DrugsBuy", FI[i][fDrugsBuy]);
 			cache_get_value_name_int(0, "DrugsPrice", FI[i][fDrugsPrice]);
-			mysql_format(connects, query, sizeof(query), "SELECT `Rank`, `Name` FROM `faction_ranks` WHERE `Faction` = %i ORDER BY `Rank`", i);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `faction_ranks` WHERE `Faction` = %i ORDER BY `Rank`", i);
 			mysql_query(connects, query);
 			cache_get_row_count(rRows);
-			for(new n = 1; n <= FI[i][lRank]; n++) {
+			for(new n; n <= FI[i][lRank]; n++) {
+				if(n >= MAX_FACTION_RANKS) break;
 				new rank;
-				cache_get_value_name_int(n - 1, "Rank", rank);
-				cache_get_value_name(n - 1, "Name", fRanks[i][rank], 24);
+				cache_get_value_name_int(n, "Rank", rank);
+				cache_get_value_name(n, "Name", fRanks[i][rank], 24);
 			}
-			mysql_format(connects, query, sizeof(query), "SELECT `Skin` FROM `faction_skins` WHERE `Faction` = %i", i);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `faction_skins` WHERE `Faction` = %i ORDER BY `Skin`", i);
 			mysql_query(connects, query);
 			cache_get_row_count(sRows);
 			for(new n; n < sRows; n++) {
+				if(n >= MAX_FACTION_SKINS) break;
 				cache_get_value_name_int(n, "Skin", FI[i][fSkins][n + 1]);
 			}
-			printf("[Success] %i faction successfully loaded. (%i ranks, %i skins)", i, rRows, sRows);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `faction_fleet` WHERE `Faction` = %i ORDER BY `Model`", i);
+			mysql_query(connects, query);
+			cache_get_row_count(fRows);
+			for(new n; n < fRows; n++) {
+				if(n >= MAX_FACTION_FLEET) break;
+				cache_get_value_name_int(n, "ID", fFleet[i][n + 1][fleetID]);
+				cache_get_value_name_int(n, "Rank", fFleet[i][n + 1][fleetRank]);
+				cache_get_value_name_int(n, "Model", fFleet[i][n + 1][fleetModel]);
+				cache_get_value_name_int(n, "Color1", fFleet[i][n + 1][fleetColor1]);
+				cache_get_value_name_int(n, "Color2", fFleet[i][n + 1][fleetColor2]);
+				cache_get_value_name_int(n, "Siren", fFleet[i][n + 1][fleetSiren]);
+				cache_get_value_name_float(n, "SpawnX", fFleet[i][n + 1][fleetSpawnX]);
+				cache_get_value_name_float(n, "SpawnY", fFleet[i][n + 1][fleetSpawnY]);
+				cache_get_value_name_float(n, "SpawnZ", fFleet[i][n + 1][fleetSpawnZ]);
+				cache_get_value_name_float(n, "SpawnA", fFleet[i][n + 1][fleetSpawnA]);
+				cache_get_value_name_int(n, "SpawnVW", fFleet[i][n + 1][fleetSpawnVW]);
+				cache_get_value_name_int(n, "SpawnI", fFleet[i][n + 1][fleetSpawnI]);
+				CreateOrgsVehicle(fFleet[i][n + 1][fleetID], i, fFleet[i][n + 1][fleetRank], fFleet[i][n + 1][fleetModel], fFleet[i][n + 1][fleetSpawnX], fFleet[i][n + 1][fleetSpawnY], fFleet[i][n + 1][fleetSpawnZ], fFleet[i][n + 1][fleetSpawnA], fFleet[i][n + 1][fleetColor1], fFleet[i][n + 1][fleetColor2], 0, fFleet[i][n + 1][fleetSpawnVW], fFleet[i][n + 1][fleetSpawnI], fFleet[i][n + 1][fleetSiren]);
+			}
+
+			printf("[Success] %i faction successfully loaded. (%i ranks, %i skins, %i vehicles)", i, rRows, sRows, fRows);
 		} else remove_faction(i);
 	}
 	return 1;
@@ -48726,7 +48901,7 @@ IsAPlane(carid) return (GetVehicleState(carid) == VEHICLE_STATE_PLANE);
 IsAVelik(carid) return (GetVehicleState(carid) == VEHICLE_STATE_VELIK);
 IsABoat(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BOAT);
 IsABike(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BIKE);
-stock A_AddStaticVehicleEx(model, Float:x, Float:y, Float:z, Float:a,color_1,color_2,spawntime = 300,type, interior = 0,world = 0, addsiren = 0) {
+stock A_AddStaticVehicleEx(model, Float:x, Float:y, Float:z, Float:a, color_1, color_2, spawntime = 300, type, interior = 0, world = 0, addsiren = 0) {
 	if(IsValidVehicleModel(model)) {
 		new vehicleid = AddStaticVehicleEx(model, x, y, z,a,color_1,color_2,spawntime, addsiren);
 		if(vehicleid != INVALID_VEHICLE_ID) {
@@ -49040,10 +49215,10 @@ CB:load_character(playerid) {
 
 	new maximum[600];
 	cache_get_value_name(0, "Item", maximum, 600);
-	sscanf(maximum, "p<,>a<i>[46]", CI[playerid][pInventory]);
+	sscanf(maximum, "p<,>a<i>[50]", CI[playerid][pInventory]);
 	new maximum_[600];
 	cache_get_value_name(0, "ItemKolvo", maximum_, 600);
-	sscanf(maximum_, "p<,>a<i>[46]", CI[playerid][pInventoryKolvo]);
+	sscanf(maximum_, "p<,>a<i>[50]", CI[playerid][pInventoryAmount]);
 	new get_name_store[1024];
 	cache_get_value(0, "phonename", get_name_store, 1024);
 	sscanf(get_name_store, "p<|>s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]s[24]",
@@ -49417,7 +49592,7 @@ stock IsValidLeader(const string[]) return Regex_Check(string, Regex_New("^(?!.*
 stock IsValidName(const string[]) return Regex_Check(string, Regex_New("^(?!.*?_$)(?!.*?__)([A-Za-z][A-Za-z_]*)?$"));
 stock IsCyrillicLettersOnly(const string[]) return Regex_Check(string, Regex_New("^[А-Яа-яґҐєЄіІїЇ]+$"));
 stock HasNoApostrophe(const string[]) return Regex_Check(string, Regex_New("^[^']*$"));
-stock IsValidHex(const string[]) return Regex_Check(string, Regex_New("^([A-F0-9]{6})$"));
+stock IsValidHex(const string[]) return Regex_Check(string, Regex_New("^([a-fA-F0-9]{6})$"));
 stock IsNumbersOnly(const string[]) return Regex_Check(string, Regex_New("^[0-9]+$"));
 
 CB:donate_shop(playerid, number, id, price) {
@@ -52658,37 +52833,54 @@ CMD:kick(playerid, params[]) {
 			"W"Якщо ви вважаєте, що це була помилка, зробіть скріншот(F8) цього вікна,\n\
 			інакше ваша скарга не буде прийнята.";
 	format(string, sizeof(string), f_str, CI[playerid][cName], day, month, year,hour, minute, text);
-	new str[MAX_PLAYER_NAME+ 1];
+	new str[MAX_PLAYER_NAME + 1];
 	format(str, sizeof(str), P"%s.", CI[giveplayerid][cName]);
 	SPD(giveplayerid, DIALOG_NONE, DSM, str, string, "Закрити", "");
 	KickEx(giveplayerid);
 	return 1;
 }
+CMD:giveitem(playerid, params[]) {
+	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return SendError(playerid, "Недоступно.");
+	new itemtarget, itemid, itemamount;
+	if(sscanf(params, "uii", itemtarget, itemid, itemamount)) return SendError(playerid, "Використайте: /giveitem [playerid] [item] [amount]");
+	AddItem(itemtarget, itemid, itemamount);
+	return 1;
+}
 CMD:pm(playerid, params[]) {
+	new targetid, text[128], string[256];
+	if(sscanf(params, "us[128]", targetid, text)) return SendError(playerid, "Використайте: /pm [playerid] [text]");
+	if(!IsPlayerConnected(targetid) || targetid == INVALID_PLAYER_ID || targetid == playerid) return SendError(playerid, not_id);
+	if(strlen(text) > 128) return SendError(playerid, "Не більше 150 символів.");
+	format(string, sizeof(string), "(( PM до %s[%i]: %s ))", CI[targetid][cName], targetid, text);
+	SendClientMessage(playerid, COLOR_YELLOW, string);
+	format(string, sizeof(string), "(( PM від %s[%i]: %s ))", CI[playerid][cName], playerid, text);
+	SendClientMessage(targetid, COLOR_YELLOW, string);
+	return 1;
+}
+CMD:ans(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	new text[130], string[144], giveplayerid;
-	if(sscanf(params, "us[128]", giveplayerid,text)) return SendError(playerid, "Використайте: /pm [playerid] [text]");
+	if(sscanf(params, "us[128]", giveplayerid, text)) return SendError(playerid, "Використайте: /ans [playerid] [text]");
 	if(!IsPlayerConnected(giveplayerid)) return SendError(playerid, not_id);
 	if(strlen(text) > 150) return SendError(playerid, "Не більше 150 символів.");
 	if(IsAIP(text)) return 1;
 	if(giveplayerid == playerid) return SendError(playerid, "Не можна відповісти самому собі.");
-	format(string, sizeof(string), "Адміністратор %s[%i] відповів:"W" %s", CI[playerid][cName], playerid,text);
+	format(string, sizeof(string), "Адміністратор %s відповів: "W"%s", CI[playerid][cName], text);
 	SendClientMessage(giveplayerid, COLOR_LIGHTRED, string);
-	format(string, sizeof(string), "Адміністратор %s[%d] відповів %s[%d]:"W" %s", CI[playerid][cName], playerid, CI[giveplayerid][cName], giveplayerid,text);
+	format(string, sizeof(string), "Адміністратор %s[%d] відповів %s[%d]: "W"%s", CI[playerid][cName], playerid, CI[giveplayerid][cName], giveplayerid,text);
 	SendAdminMessage(COLOR_LIGHTRED, string);
 	PlayerPlaySound(giveplayerid, 4203, 0.0, 0.0, 0.0);
 	return 1;
 }
-alias:pm("ans")
 CMD:reps(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	if(!rep_system) return SendError(playerid, "Тимчасово недоступно, використовуйте /pm.");
+	if(!rep_system) return SendError(playerid, "Тимчасово недоступно, використовуйте /ans.");
 	for(new i;i<MAX_REPORTS;i++) {
 		if(PlayerReport[i] != -1) {
 			if(ReportSlot[i] == 1) continue;
 			new string[400];
 			format(string, sizeof(string), W"Скарга від %s[%i]\n\n"G"%s\n", CI[PlayerReport[i]][cName], PlayerReport[i], TextReport[i]);
-			ShowPlayerDialog(playerid, D_REPORT_1, DSI, P"Репорт", string, "Прийняти", "Скасувати");
+			ShowPlayerDialog(playerid, D_REPORT_1, DSI, P"Репорт.", string, "Прийняти", "Скасувати");
 			ReportID[playerid] = i;
 			ReportSlot[i] = 1;
 			return 1;
@@ -53107,8 +53299,7 @@ CMD:re(playerid,params[]) {
 	if(IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Заборонено починати стеження з транспорту.");
 	new giveplayerid;
 	if(sscanf(params, "u", giveplayerid)) return SendError(playerid, "Використайте: /re(con) [playerid]");
-	if(giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
-	if(giveplayerid == playerid) return SendError(playerid, not_id);
+	if(giveplayerid == INVALID_PLAYER_ID || giveplayerid == playerid) return SendError(playerid, not_id);
 	if(!TI[giveplayerid][tLogin]) return SendError(playerid, "Гравець не авторизований.");
 	if(SERIU[playerid][sID] == INVALID_PLAYER_ID) {
 		//if(TI[playerid][tSpectate]==true) SpecPl(playerid,false);
@@ -53258,7 +53449,7 @@ CMD:goto(playerid,params[]) {
 	return 1;
 }
 alias:goto("g")
-CMD:hp(playerid, params[]) {
+CMD:fix(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 1 && GetPVarInt(playerid, "adminaccess") != 1 && CI[playerid][pYoutube] == 0) return 1;
 	SetHealth(playerid, 100);
 	SetFullness(playerid, 100);
@@ -53284,7 +53475,7 @@ CMD:fv(playerid, const params[]) {
 		return 1;
 	} else {
 		if(sscanf(params, "u", giveplayerid)) return SendError(playerid, "Використайте: /fv [playerid]");
-		if(GetPlayerState(giveplayerid) != 2) return SendError(playerid, "Цей гравець не в автомобілі");
+		if(GetPlayerState(giveplayerid) != 2) return SendError(playerid, "Цей гравець не в автомобілі.");
 		SetVehicleHealth(GetPlayerVehicleID(giveplayerid), 1000.0);
 		RepairVehicle(GetPlayerVehicleID(giveplayerid));
 		return 1;
@@ -54990,7 +55181,7 @@ CMD:setstat(playerid, params[]) {
 		}
 	case 13: CI[giveplayerid][pAddiction] = amount;
 	case 14: {
-			if(GetInvSet(giveplayerid) >= 40) return SendError(playerid, "В інвентарі гравця недостатньо місця.");
+			if(GetInvSet(giveplayerid) >= 50) return SendError(playerid, "В інвентарі гравця недостатньо місця.");
 			AddItem(giveplayerid, 1, amount);
 		}
 	case 15: SetFullness(giveplayerid, amount);
@@ -55235,7 +55426,7 @@ CMD:dellpame(playerid, params[]) {
 } 
 CMD:aedit(playerid) {
 	if(PI[playerid][pAdmin] < 7 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	ShowPlayerDialog(playerid, 5736, DSL, P"Керування оновленнями.", P"1."W" Керування акторами\n"P"2."W" Керування сервером", "Обрати", "Скасувати");
+	ShowPlayerDialog(playerid, 5736, DSL, P"Керування оновленнями.", P"1."W" Керування акторами.\n"P"2."W" Керування сервером.", "Обрати", "Скасувати");
 	return 1;
 }
 CMD:prefix(playerid,params[]) {
@@ -55248,7 +55439,7 @@ CMD:prefix(playerid,params[]) {
 	if(!PI[params[0]][pAdmin]) return 1;
     if(CI[params[0]][pPrefix_i]) return SendError(playerid, "У гравця вже є префікс. Щоб видалити його, введіть "P"/delprefix"W".");
     SetPVarInt(playerid, "EditingPlayerPrefix",params[0]);
-    ShowPlayerDialog(playerid, 2095, DSI, P"Створення префікса для гравця", W"Введіть префікс, якийви хочете видати гравцю.\nВрахуйте, щови можете використовувати HEX колір в {}", "Зберегти", "Закрити");
+    ShowPlayerDialog(playerid, 2095, DSI, P"Створення префікса для гравця.", W"Введіть префікс, якийви хочете видати гравцю.\nВрахуйте, щови можете використовувати HEX колір в {}", "Зберегти", "Закрити");
     return 1;
 }
 stock UpdatePrefixAuto(playerid) {
@@ -55640,12 +55831,12 @@ CMD:bizlist(playerid, params[]) {
 	if(!IsAMafia(playerid)) return SendError(playerid, "Ви не мафіозі.");
 	new count_business = 1, string[3400];
 	string = ""W"#\t"W"Назва бізнесу\t"W"Прибуток за сьогодні\n";
-	new fracid = CI[playerid][pMember];
+	new factionid = CI[playerid][pMember];
 	for(new i; i<gBusinessCount; i++) {
 		if(gBusiness[i][bizzMafia] != CI[playerid][pMember]) continue;
-		if(fracid) {
+		if(factionid) {
 			if(count_business > 50) break;
-			format(string, sizeof(string), "%s"P"%i\t%s\t$%d\n", string, count_business, gBusiness[i][bizzName], gBankMafia[fracid][i]);
+			format(string, sizeof(string), "%s"P"%i\t%s\t$%d\n", string, count_business, gBusiness[i][bizzName], gBankMafia[factionid][i]);
 			count_business++;
 		}
 	}
@@ -56356,33 +56547,33 @@ stock RandomYareNforJOBS(playerid) {
 	new yarentext[32],yarenbutton;
 	format(yarentext, 32, "~w~PRESS_");
 	switch(random(3)) {
-	case 0:strcat(yarentext, "~g~Y"),yarenbutton = 65536;
-	case 1:strcat(yarentext, "~g~H"),yarenbutton = 2455;
-	case 2:strcat(yarentext, "~g~N"),yarenbutton = 131072;
+	case 0:strcat(yarentext, "~g~Y"), yarenbutton = 65536;
+	case 1:strcat(yarentext, "~g~H"), yarenbutton = 2455;
+	case 2:strcat(yarentext, "~g~N"), yarenbutton = 131072;
 	}
 	PlayerTextDrawFont(playerid, YandNsysTDPlayer[playerid][0], 1);
-	PlayerTextDrawSetString(playerid,YandNsysTDPlayer[playerid][0],yarentext);
-	PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][0]);
-	SetPVarInt(playerid, "Klavisha",yarenbutton);
+	PlayerTextDrawSetString(playerid, YandNsysTDPlayer[playerid][0],yarentext);
+	PlayerTextDrawShow(playerid, YandNsysTDPlayer[playerid][0]);
+	SetPVarInt(playerid, "Klavisha", yarenbutton);
 	if(TI[playerid][tProcess][0] > 10) TI[playerid][tProcess][0] = 10;
 	switch(TI[playerid][tProcess][0]) {
-	case 0:PlayerTextDrawSetString(playerid,YandNsysTDPlayer[playerid][1], "~w~IIIIIIIIII");
+	case 0:PlayerTextDrawSetString(playerid, YandNsysTDPlayer[playerid][1], "~w~IIIIIIIIII");
 	case 1..9: {
 			new yarenstring[100];
-			for(new g = 0;g < TI[playerid][tProcess][0];g++) {
+			for(new g; g < TI[playerid][tProcess][0]; g++) {
 				if(g == 0)strcat(yarenstring, "~g~I");
 				else strcat(yarenstring, "I");
 			}
 			new svoboda = 10 - TI[playerid][tProcess][0];
-			for(new go = 0;go < svoboda;go++) {
-				if(go == 0)strcat(yarenstring, "~w~I");
+			for(new go; go < svoboda; go++) {
+				if(go == 0) strcat(yarenstring, "~w~I");
 				else strcat(yarenstring, "I");
 			}
-			PlayerTextDrawSetString(playerid,YandNsysTDPlayer[playerid][1],yarenstring);
+			PlayerTextDrawSetString(playerid, YandNsysTDPlayer[playerid][1], yarenstring);
 		}
-	case 10:PlayerTextDrawSetString(playerid,YandNsysTDPlayer[playerid][1], "~g~IIIIIIIIII");
+	case 10:PlayerTextDrawSetString(playerid, YandNsysTDPlayer[playerid][1], "~g~IIIIIIIIII");
 	}
-	PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][1]);
+	PlayerTextDrawShow(playerid, YandNsysTDPlayer[playerid][1]);
 	return 1;
 }
 stock MyButtonSystem(playerid) {
@@ -56905,12 +57096,12 @@ stock GetXYInFrontOfPoint(&Float:x, &Float:y, Float:angle, Float:distance) {
 	x += (distance * floatsin(-angle, degrees));
 	y += (distance * floatcos(-angle, degrees));
 }
-stock GetMN(fraca) {
-	return FI[fraca][fName];
+stock GetMN(faction) {
+	return FI[faction][fName];
 }
 stock MafiaTimeCapture(faction, MafiaNapadss) {
-	SendFactionMessage(faction, 0xFF0000FF, "Увага, стріла розпочалась!");
-	SendFactionMessage(MafiaNapadss, 0xFF0000FF, "Увага, стріла розпочалась!");
+	SendFactionMessage(faction, 0xFF0000FF, "Увага, стріла розпочалась.");
+	SendFactionMessage(MafiaNapadss, 0xFF0000FF, "Увага, стріла розпочалась.");
 	BizWarTime[0] = 0;
 	BizWarTime[1] = 60*10;
 	return 1;
@@ -56934,7 +57125,7 @@ BizWarTimer() {
 				format(string, 50, "~w~%s Kills: ~g~0", GetMN(MZInfo[bNapad]));
 				TextDrawSetString(Bizwar[2], string);
 				TextDrawShowForPlayer(m, Bizwar[2]);
-				SetPVarInt(m, "ppkz2",true);
+				SetPVarInt(m, "ppkz2", true);
 			} else {
 				format(string, 50, "~w~Time: ~g~%s",date("%ii:%ss",BizWarTime[1]));
 				TextDrawSetString(Bizwar[0], string);
@@ -63360,9 +63551,9 @@ stock key_activate(playerid) {
 					DeletePVar(playerid, "ammout");
 					return 1;
 				}
-				if(GetInvSet(playerid) >= 40) {
-					SendClientMessage(acter, COLOR_GREY, "В інвентарі у гравця недостатньо місця");
-					SendError(playerid, "У Вашому інвентарі недостатньо місця");
+				if(GetInvSet(playerid) >= 50) {
+					SendClientMessage(acter, COLOR_GREY, "В інвентарі у гравця недостатньо місця.");
+					SendError(playerid, "У вашому інвентарі недостатньо місця.");
 					DeletePVar(playerid, "give_inv");
 					DeletePVar(playerid, "invent");
 					DeletePVar(playerid, "ammout");
@@ -63377,26 +63568,26 @@ stock key_activate(playerid) {
 					return 1;
 				}
 				if(CI[playerid][pCash] < cash) {
-					SendClientMessage(acter, COLOR_GREY, "У гравця недостатньо грошей");
-					SendError(playerid, "У вас недостатньо грошей");
+					SendClientMessage(acter, COLOR_GREY, "У гравця недостатньо грошей.");
+					SendError(playerid, "У вас недостатньо грошей.");
 					DeletePVar(playerid, "give_inv");
 					DeletePVar(playerid, "invent");
 					DeletePVar(playerid, "ammout");
 					return 1;
 				}
-				CI[acter][pInventoryKolvo][slot] -= ammout;
-				if(CI[acter][pInventoryKolvo][slot] <= 0) {
-					CI[acter][pInventoryKolvo][slot] = 0;
+				CI[acter][pInventoryAmount][slot] -= ammout;
+				if(CI[acter][pInventoryAmount][slot] <= 0) {
+					CI[acter][pInventoryAmount][slot] = 0;
 					CI[acter][pInventory][slot] = 0;
 				}
 				SaveInventory(acter);
 
-				PlayerTextDrawBackgroundColor(acter, inventory_slot[playerid][slot], 370810879);
+				PlayerTextDrawBackgroundColor(acter, nInventorySlots_TD[playerid][slot], 0x222222ff);
 				InvUpdate(acter, slot, CI[acter][pInventory][slot]);
 
 				AddItem(playerid, invent, ammout);
 
-				CI[acter][pActivTrade][slot] = 0;
+				CI[acter][pActiveTrade][slot] = 0;
 
 				ClickInv[acter] = -1;
 
@@ -64009,7 +64200,7 @@ stock key_deactivate(playerid) {
 		new acter = GetPVarInt(playerid, "give_inv") -1;
 		SendError(playerid, "Ви відмовились приймати предмет.");
 		SendClientMessage(GetPVarInt(playerid, "give_inv") -1, COLOR_GREY, "Гравець відмовився приймати предмет.");
-		CI[acter][pActivTrade][GetPVarInt(acter, "pl_slot")] = 0;
+		CI[acter][pActiveTrade][GetPVarInt(acter, "pl_slot")] = 0;
 
 		DeletePVar(acter, "activ_trade");
 		DeletePVar(playerid, "give_inv");
@@ -64601,7 +64792,7 @@ CB:player_timer(playerid) {
 		if(CI[playerid][pStartLomka] == 1 && PI[playerid][pAdmin] == 0 && TI[playerid][tDuel] == -1 && CI[playerid][pAddiction] > 2000 && CI[playerid][pNarcoLomka] == 0) {
 			CI[playerid][pNarcoLomka] = 1;
 			UpdateCharacterData(playerid, "lomka", CI[playerid][pNarcoLomka]);
-			SendClientMessage(playerid, 0xFF0000FF, "Увага, у вас почалась ломка, прийміть наркотик. (/usedrugs)");
+			SendError(playerid, "Увага, у вас почалась ломка, прийміть наркотик. (/usedrugs)");
 		}
 		if(oldpickup[playerid] != -1) {
 			new Float:z;
@@ -67147,7 +67338,7 @@ stock CarPass(playerid, giveplayerid) {
 	VehicleInfo[vehicleid][vDrived],
 	VehicleInfo[vehicleid][vAkum],
 	VehicleInfo[vehicleid][vFuel], gTransport[GetVehicleModel(vehicleid) -400][trTank]);
-	SPD(giveplayerid, DIALOG_NONE,DSTH, P"Документи на т/з", string, "Закрити", "");
+	SPD(giveplayerid, DIALOG_NONE,DSTH, P"Документи на т/з.", string, "Закрити", "");
 }
 stock ReportDell(i) {
 	PlayerReport[i] = -1;
@@ -67158,270 +67349,268 @@ stock ReportDell(i) {
 }
 stock InvUpdate(playerid, td, jdk) {
 	if(GetPVarInt(playerid, "inv")) {
-		PlayerTextDrawSetPreviewModel(playerid, inventory_slot[playerid][td], ItemsInfo[jdk][ItemModel]);
-		PlayerTextDrawSetPreviewRot(playerid, inventory_slot[playerid][td], ItemsInfo[jdk][POSTDx], ItemsInfo[jdk][POSTDy], ItemsInfo[jdk][POSTDz], ItemsInfo[jdk][POSTDc]);
-		PlayerTextDrawHide(playerid, inventory_slot[playerid][td]);
-		PlayerTextDrawShow(playerid, inventory_slot[playerid][td]);
+		PlayerTextDrawSetPreviewModel(playerid, nInventorySlots_TD[playerid][td], ItemsInfo[jdk][ItemModel]);
+		PlayerTextDrawSetPreviewRot(playerid, nInventorySlots_TD[playerid][td], ItemsInfo[jdk][POSTDx], ItemsInfo[jdk][POSTDy], ItemsInfo[jdk][POSTDz], ItemsInfo[jdk][POSTDc]);
+		PlayerTextDrawHide(playerid, nInventorySlots_TD[playerid][td]);
+		PlayerTextDrawShow(playerid, nInventorySlots_TD[playerid][td]);
 	}
 	return 1;
 }
 stock HideInvent(playerid) {
-	for(new i = 0; i < 54; i++) TextDrawHideForPlayer(playerid, inventory_TD[i]);
-	for(new i = 0; i < 8; i++) PlayerTextDrawHide(playerid, inventory_PTD[playerid][i]);
-	for(new i = 0; i < 46; i++) PlayerTextDrawHide(playerid, inventory_slot[playerid][i]);
+	for(new i; i < 15; i++) PlayerTextDrawHide(playerid, nInventory_TD[playerid][i]);
+	for(new i; i < 50; i++) PlayerTextDrawHide(playerid, nInventorySlots_TD[playerid][i]);
 	ClickInv[playerid] = -1;
 	DeletePVar(playerid, "inv");
 	CancelSelectTextDraw(playerid);
 
 	if(GetPVarInt(playerid, "ppkz")) {
-		for(new t = 0;t < 34;t++) {
+		for(new t; t < 34; t++) {
 			TextDrawShowForPlayer(playerid, Capture[t]);
 		}
 	}
 	return 1;
 }
 stock SaveInventory(playerid) {
-	new saveinv[800], saveinv_kolvo[800];
-	for(new i = 0; i < 46; i++) {
+	new saveinv[800], saveinv_amount[800];
+	for(new i = 0; i < 50; i++) {
 		format(saveinv, 800, "%s%d, ", saveinv, CI[playerid][pInventory][i]);
-		format(saveinv_kolvo, 800, "%s%d, ", saveinv_kolvo, CI[playerid][pInventoryKolvo][i]);
+		format(saveinv_amount, 800, "%s%d, ", saveinv_amount, CI[playerid][pInventoryAmount][i]);
 	}
 	MYSQL_GLOBAL[0] = EOS;
 	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "UPDATE "TABLE_CHARACTERS" SET `Item` = '%s' WHERE `Name` = '%s'", saveinv, CI[playerid][cName]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
 	MYSQL_GLOBAL[0] = EOS;
-	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "UPDATE "TABLE_CHARACTERS" SET `ItemKolvo` = '%s' WHERE `Name` = '%s'", saveinv_kolvo, CI[playerid][cName]);
+	mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "UPDATE "TABLE_CHARACTERS" SET `ItemKolvo` = '%s' WHERE `Name` = '%s'", saveinv_amount, CI[playerid][cName]);
 	mysql_tquery(connects, MYSQL_GLOBAL, "", "");
 	return 1;
 }
 stock UseItem(playerid, itemid, item) {
 	switch(itemid) {
-	case 11738: {
+		case 11738: {
 			pc_cmd_healme(playerid);
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
 			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			ClickInv[playerid] = -1;
 			return 1;
-		}
-	case 1575: {
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			CI[playerid][pInventory][item] = 0;
-			CI[playerid][pInventoryKolvo][item] = 0;
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			ClickInv[playerid] = -1;
-			SaveInventory(playerid);
-			return 1;
-		}
-	case 19163: {
-			pc_cmd_mask(playerid);
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 19627: {
-			pc_cmd_remp(playerid);
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			HideInvent(playerid);
-			return 1;
-		}
-	case 11746: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Відмичка: Цей предмет можна використовувати при пограбуваннях та взломах", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 18644: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Цвяхи: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 3117: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Метал: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 19918: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Залізний ящик: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 2040: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Ящик з патронами: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 335: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Ножик: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 2036: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Військова гвинтівка: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 19590: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Меч: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 1636: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Боєголовка: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 1210: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Кейс: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-  	case 1944: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Старовинна монета: Цей предмет можна продати", "Закрити", "");
-			ClickInv[playerid] = -1;
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-			return 1;
-		}
-	case 1..286, 288..311: {
+			}
+		case 1575: {
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				CI[playerid][pInventory][item] = 0;
+				CI[playerid][pInventoryAmount][item] = 0;
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				ClickInv[playerid] = -1;
+				SaveInventory(playerid);
+				return 1;
+			}
+		case 19163: {
+				pc_cmd_mask(playerid);
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 19627: {
+				pc_cmd_remp(playerid);
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				HideInvent(playerid);
+				return 1;
+			}
+		case 11746: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Відмичка: Цей предмет можна використовувати при пограбуваннях та взломах.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 18644: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Цвяхи: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 3117: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Метал: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 19918: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Залізний ящик: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 2040: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ящик з патронами: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 335: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ножик: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 2036: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Військова гвинтівка: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 19590: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Меч: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 1636: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Боєголовка: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 1210: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Кейс: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 1944: {
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Старовинна монета: Цей предмет можна продати.", "Закрити", "");
+				ClickInv[playerid] = -1;
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+				return 1;
+			}
+		case 1..311: {
 			if(CI[playerid][cSkin] != GetPlayerSkin(playerid)) {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Закінчіть робочий день на поточній роботі", "Закрити", "");
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Здайте зміну на своїй поточній роботі.", "Закрити", "");
+				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
 				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 				ClickInv[playerid] = -1;
 				return 1;
 			}
-			if(!IsPlayerInRangeOfPoint(playerid, 20.0, 207.2038, -5.4559, 1001.2109)) {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Переодягтись можна тільки в магазині одягу", "Закрити", "");
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				ClickInv[playerid] = -1;
-				return 1;
+			if(CI[playerid][cSkin] != 154 && CI[playerid][cSkin] != 138) {
+				if(GetInvSet(playerid) >= 50) {
+					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ваш інвентар повний, звільніть місце.", "Закрити", "");
+					PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+					InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+					ClickInv[playerid] = -1;
+					return 1;
+				}
+				for(new i; i < 50; i++) {
+					if(CI[playerid][pInventory][i] == skin_undress[CI[playerid][cSkin]][0]) continue;
+					if(CI[playerid][pInventory][i] != 0) continue;
+					CI[playerid][pInventory][i] = skin_undress[CI[playerid][cSkin]][0];
+					CI[playerid][pInventoryAmount][i] = 1;
+					SaveInventory(playerid);
+					InvUpdate(playerid, i, CI[playerid][pInventory][i]);
+					break;
+				}
 			}
-			if(GetInvSet(playerid) >= 40) {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Ваш інвентар повний, звільніть місце", "Закрити", "");
-				PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				ClickInv[playerid] = -1;
-				return 1;
-			}
-			AddItem(playerid, skin_undress[CI[playerid][cSkin]][0], 1);
 			CI[playerid][cSkin] = ItemsInfo[CI[playerid][pInventory][item]][ItemModel];
 			A_SetPlayerSkin(playerid, ItemsInfo[CI[playerid][pInventory][item]][ItemModel]);
 			UpdateCharacterData(playerid, "cSkin", CI[playerid][cSkin]);
+			PlayerTextDrawSetPreviewModel(playerid, nInventory_TD[playerid][2], CI[playerid][cSkin]);
+			PlayerTextDrawHide(playerid, nInventory_TD[playerid][2]);
+			PlayerTextDrawShow(playerid, nInventory_TD[playerid][2]);
 			RefreshInv(playerid, item);
 			SaveInventory(playerid);
 			return 1;
-		}
-	case 1242: SetArmour(playerid, 100);
-	case 287: {
-			A_SetPlayerSkin(playerid, 287);
-			SetPlayerColor(playerid, COLOR_GREEN);
-		}
-	case 19843: {
-			PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][item], 370810879);
+			}
+		case 1242: SetArmour(playerid, 100);
+		case 19843: {
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
 			CI[playerid][pInventory][item] = 0;
-			CI[playerid][pInventoryKolvo][item] = 0;
+			CI[playerid][pInventoryAmount][item] = 0;
 			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			ClickInv[playerid] = -1;
 			SaveInventory(playerid);
 			return 1;
-		}
-	case 400..611: return ShowPlayerDialog(playerid,USE_CAR_GARAGE, DSM, P"Інвентар", W"Ви дійсно хочете використати купон на автомобіль?", "Далі", "Скасувати"), SetPVarInt(playerid, "UseCarGarage", itemid),SetPVarInt(playerid, "UseCarGarageItem", item);
-	case 1650: return ClickInv[playerid] = -1, ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар", W"Використайте в т/з команду /fillcar", "Закрити", "");
+			}
+		case 400..611: return ShowPlayerDialog(playerid, USE_CAR_GARAGE, DSM, P"Інвентар.", W"Ви дійсно хочете використати купон на автомобіль?", "Далі", "Скасувати"), SetPVarInt(playerid, "UseCarGarage", itemid),SetPVarInt(playerid, "UseCarGarageItem", item);
+		case 1650: return ClickInv[playerid] = -1, ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Використайте в т/з команду /fillcar", "Закрити", "");
 	}
 	RefreshInv(playerid, item);
 	return 1;
 }
 stock RefreshInv(playerid, slot) {
-	if(CI[playerid][pInventoryKolvo][slot] > 0) {
-		CI[playerid][pInventoryKolvo][slot] -= 1;
-		if(CI[playerid][pInventoryKolvo][slot] == 0) {
-			CI[playerid][pInventoryKolvo][slot] = 0;
+	if(CI[playerid][pInventoryAmount][slot] > 0) {
+		CI[playerid][pInventoryAmount][slot] -= 1;
+		if(CI[playerid][pInventoryAmount][slot] == 0) {
+			CI[playerid][pInventoryAmount][slot] = 0;
 			CI[playerid][pInventory][slot] = 0;
 		}
 		SaveInventory(playerid);
 	}
 	ClickInv[playerid] = -1;
-	PlayerTextDrawBackgroundColor(playerid, inventory_slot[playerid][slot], 370810879);
+	PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][slot], 0x222222ff);
 	InvUpdate(playerid, slot, CI[playerid][pInventory][slot]);
 	return 1;
 }
 stock GetInvSet(playerid) {
 	new num;
-	for(new i = 0; i < 46; i++) {
-		if(20 <= i <= 25) continue;
+	for(new i; i < 50; i++) {
 		if(CI[playerid][pInventory][i] != 0) num++;
 	}
 	return num;
 }
 stock AddItem(playerid, itemid, amount) {
-	if(GetInvSet(playerid) >= 40) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-	for(new i = 0; i < 46; i++) {
-		if(20 <= i <= 25) continue;
-		if(CI[playerid][pInventory][i] == itemid) continue;
+	if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+	for(new i; i < 50; i++) {
 		if(CI[playerid][pInventory][i] != 0) continue;
 		CI[playerid][pInventory][i] = itemid;
-		CI[playerid][pInventoryKolvo][i] = amount;
-		new str[350];
-		format(str, sizeof(str), W" Вам був доданий предмет '%s' (%d шт). використайте 'Y' або /inv",ItemsInfo[itemid][ItemName], CI[playerid][pInventoryKolvo][i]);
-		SendInfo(playerid, str);
+		CI[playerid][pInventoryAmount][i] = amount;
 		SaveInventory(playerid);
 		InvUpdate(playerid, i, CI[playerid][pInventory][i]);
 
 		new string[450];
-		mysql_format(connects, string, sizeof(string), "INSERT INTO `invent_log` (`Name`,`item`,`amount`) VALUES ('%s','%s',%i)", CI[playerid][cName], ItemsInfo[itemid][ItemName],amount);
+		mysql_format(connects, string, sizeof(string), "INSERT INTO `invent_log` (`Name`, `item`, `amount`) VALUES ('%s', '%s', %i)", CI[playerid][cName], ItemsInfo[itemid][ItemName], amount);
 		mysql_tquery(connects, string, "", "");
+		
+		format(string, sizeof(string), W"Вам був доданий предмет '%s' у кількості %d шт.", ItemsInfo[itemid][ItemName], CI[playerid][pInventoryAmount][i]);
+		SendInfo(playerid, string);
 		break;
 	}
 	return 1;
 }
 stock GetInvent(playerid, slot) {
 	new colvo = 0;
-	for(new i = 0; i < 46; i++) {
+	for(new i = 0; i < 50; i++) {
 		if(CI[playerid][pInventory][i] != slot) continue;
-		colvo += CI[playerid][pInventoryKolvo][i];
+		colvo += CI[playerid][pInventoryAmount][i];
 	}
 	return colvo;
 }
 stock DeleteItem(playerid, itemid, amount) {
 	new item_amount = amount;
-	for(new i = 0; i < 46; i++) {
+	for(new i = 0; i < 50; i++) {
 		if(CI[playerid][pInventory][i] != itemid) continue;
 		if(CI[playerid][pInventory][i] == itemid && item_amount > 0) {
-			if(CI[playerid][pInventoryKolvo][i] >= amount) {
-				new new_amount = CI[playerid][pInventoryKolvo][i];
-				CI[playerid][pInventoryKolvo][i] -= item_amount;
+			if(CI[playerid][pInventoryAmount][i] >= amount) {
+				new new_amount = CI[playerid][pInventoryAmount][i];
+				CI[playerid][pInventoryAmount][i] -= item_amount;
 				item_amount -= new_amount;
-				if(CI[playerid][pInventoryKolvo][i] <= 0) {
-					CI[playerid][pInventoryKolvo][i] = 0;
+				if(CI[playerid][pInventoryAmount][i] <= 0) {
+					CI[playerid][pInventoryAmount][i] = 0;
 					CI[playerid][pInventory][i] = 0;
 				}
 			} else
 			{
-				item_amount -= CI[playerid][pInventoryKolvo][i];
-				CI[playerid][pInventoryKolvo][i] = 0;
+				item_amount -= CI[playerid][pInventoryAmount][i];
+				CI[playerid][pInventoryAmount][i] = 0;
 				CI[playerid][pInventory][i] = 0;
 			}
 		}
@@ -67687,27 +67876,27 @@ CB:offwarn(playerid, const Nick[], const Reason[]) {
 stock wininfo(playerid, id) {
 	switch(id) {
 	case 1: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
 	"P"1."W" Аксесуар 'Чорні окуляри'\n"P"2."W" Аксесуар 'Біла кепка з узором'\n"P"3."W" Аксесуар 'Меч'\n"P"4."W" Аксесуар 'Біла маска'\n\
 	"P"5."W" Аксесуар 'Золотий годинник'\n"P"6."W" Преміум-акаунт на 1 час\n"P"7."W" Одяг (15, 50, 95)", "Закрити", "");
 		}
 	case 2: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
 	"P"1."W" Аксесуар 'Чорні окуляри'\n"P"2."W" Аксесуар 'Чорна панама'\n"P"3."W" Аксесуар 'Меч'\n"P"4."W" Аксесуар 'Біло-блакитний шолом'\n"P"5."W" Аксесуар 'Біла маска'\n\
 	"P"6."W" Аксесуар 'Вогнегасник'\n"P"7."W" Преміум-акаунт на 2 години\n"P"8."W" Внутрішньоігрова валюта $15.000\n"P"9."W" Одяг (155, 185, 217)\n"P"10."W" GOLD кейси", "Закрити", "");
 		}
 	case 3: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
 	"P"1."W" Аксесуар 'Біло-блакитний шолом'\n"P"2."W" Аксесуар 'Маска демона'\n"P"3."W" Аксесуар 'Папуга'\n"P"4."W" Внутрішньоігрова валюта ($200.000)\n"P"5."W" EXP (3 шт.)\n\
 	"P"6."W" Преміум-акаунт на 3 години\n"P"7."W" Одяг (223, 241, 208)\n"P"8."W" GOLD кейси", "Закрити", "");
 		}
 	case 4: {
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
 	"P"1."W" Аксесуар 'Валіза'\n"P"2."W" Аксесуар 'Літачок'\n"P"3."W" Аксесуар 'Біла гітара'\n\
 	"P"4."W" Внутрішньоігрова валюта ($200.000)\n"P"5."W" EXP (3 шт.)\n"P"6."W" Преміум-акаунт на 4 години\n"P"7."W" UAH (1-3)\n"P"8."W" Одяг (289, 264)\n"P"9."W" GOLD кейси", "Закрити", "");
 		}
 	case 5:{
-        ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
+        ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", "{F9C7A1}Список предметів, які можуть випасти в контейнері:\n\n\
 	"P"1."W" Аксесуар 'Долар'\n\
 	"P"2."W" Аксесуар 'Мініган'\n\
 	"P"3."W" Внутрішньоігрова валюта ($150.000)\n\
@@ -67800,35 +67989,35 @@ stock container_win(playerid, id) {
 		new rand = Random(0, 8);
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет додано до списку всіх призів "G"/priz", PrizeInfo[rand][cont_name]);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", STRING_GLOBAL, "Закрити", "");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", STRING_GLOBAL, "Закрити", "");
 		mysql_format(connects, query, sizeof(query), "INSERT INTO `priz`(`accid`, `prize`, `type`, `cash`) VALUES (%i,%i,%i,%i)", CI[playerid][cID],PrizeInfo[rand][cont_model],PrizeInfo[rand][cont_type],PrizeInfo[rand][cont_price]);
 	}
 	if(gContainer[id][cClass] == 2) {
 		new rand = Random(9, 20);
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет додано до списку всіх призів "G"/priz", PrizeInfo[rand][cont_name]);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", STRING_GLOBAL, "Закрити", "");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", STRING_GLOBAL, "Закрити", "");
 		mysql_format(connects, query, sizeof(query), "INSERT INTO `priz`(`accid`, `prize`, `type`, `cash`) VALUES (%i,%i,%i,%i)", CI[playerid][cID],PrizeInfo[rand][cont_model],PrizeInfo[rand][cont_type],PrizeInfo[rand][cont_price]);
 	}
 	if(gContainer[id][cClass] == 3) {
 		new rand = Random(20, 29);
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет додано до списку всіх призів "G"/priz", PrizeInfo[rand][cont_name]);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", STRING_GLOBAL, "Закрити", "");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", STRING_GLOBAL, "Закрити", "");
 		mysql_format(connects, query, sizeof(query), "INSERT INTO `priz`(`accid`, `prize`, `type`, `cash`) VALUES (%i,%i,%i,%i)", CI[playerid][cID],PrizeInfo[rand][cont_model],PrizeInfo[rand][cont_type],PrizeInfo[rand][cont_price]);
 	}
 	if(gContainer[id][cClass] == 4) {
 		new rand = Random(29, 40);
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет додано до списку всіх призів "G"/priz", PrizeInfo[rand][cont_name]);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", STRING_GLOBAL, "Закрити", "");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", STRING_GLOBAL, "Закрити", "");
 		mysql_format(connects, query, sizeof(query), "INSERT INTO `priz`(`accid`, `prize`, `type`, `cash`) VALUES (%i,%i,%i,%i)", CI[playerid][cID],PrizeInfo[rand][cont_model],PrizeInfo[rand][cont_type],PrizeInfo[rand][cont_price]);
 	}
 	if(gContainer[id][cClass] == 5) {
 		new rand = Random(41, 53);
 		STRING_GLOBAL[0] = EOS;
 		format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет додано до списку всіх призів "G"/priz", PrizeInfo[rand][cont_name]);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів", STRING_GLOBAL, "Закрити", "");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список призів.", STRING_GLOBAL, "Закрити", "");
 		mysql_format(connects, query, sizeof(query), "INSERT INTO `priz`(`accid`, `prize`, `type`, `cash`) VALUES (%i,%i,%i,%i)", CI[playerid][cID],PrizeInfo[rand][cont_model],PrizeInfo[rand][cont_type],PrizeInfo[rand][cont_price]);
 	}
 	mysql_pquery(connects, query, "", "");
@@ -69764,32 +69953,7 @@ CMD:radiocar(playerid) {
 	if(!IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Ви повинні знаходитись в машині.");
 	GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine,lights,alarm,doors,bonnet,boot,objective);
 	if(!engine) return SendError(playerid, "Двигун не заведений.");
-    ShowPlayerDialog(playerid, D_RADIO_101, DSL, "Увімкнути радіо", P"1."W" Kiss FM\n"P"2."W" Радіо Байрактар\n"P"3."W" Львівська хвиля\n"P"4."W" NRJ Ukraine\n"R"Вимкнути", "Обрати", "Скасувати");
-	return 1;
-}
-stock load_goscars() {
-	new Cache:result;
-	result = mysql_query(connects, "SELECT * FROM `goscar`");
-	CarsCount = cache_num_rows();
-	if(CarsCount >= MAX_CARS_COUNT)  return print("[Error] There are more state vehicles than allowed.");
-	else if(!CarsCount) return print("[Error] State vehicles weren't found in DB.");
-	for(new i=0; i<CarsCount;i++) {
-		cache_get_value_name_int(i, "ID", GC[i][gcID]);
-		cache_get_value_name_int(i, "orgs", GC[i][gcOrgs]);
-
-		cache_get_value_name_int(i, "rank", GC[i][gcRank]);
-		cache_get_value_name_int(i, "model", GC[i][gcModel]);
-		cache_get_value_name_float(i, "X", GC[i][gcPosX]);
-		cache_get_value_name_float(i, "Y", GC[i][gcPosY]);
-		cache_get_value_name_float(i, "Z", GC[i][gcPosZ]);
-		cache_get_value_name_float(i, "A", GC[i][gcPosA]);
-		cache_get_value_name_int(i, "color1", GC[i][gcColor1]);
-		cache_get_value_name_int(i, "color2", GC[i][gcColor2]);
-		cache_get_value_name_int(i, "spawntime", GC[i][gcSpawntime]);
-		CreateOrgsVehicle(GC[i][gcID], GC[i][gcOrgs], GC[i][gcRank], GC[i][gcModel], GC[i][gcPosX], GC[i][gcPosY], GC[i][gcPosZ], GC[i][gcPosA], GC[i][gcColor1], GC[i][gcColor2], GC[i][gcSpawntime]);
-	}
-	printf("[Success] State vehicles successfully loaded. (%i pcs.)",CarsCount);
-	cache_delete(result);
+    ShowPlayerDialog(playerid, D_RADIO_101, DSL, "Увімкнути радіо.", P"1."W" Kiss FM.\n"P"2."W" Радіо Байрактар.\n"P"3."W" Львівська хвиля.\n"P"4."W" NRJ Ukraine.\n"P"-"W" Вимкнути.", "Обрати", "Скасувати");
 	return 1;
 }
 stock dialog_goscar(playerid, listitem, id) {
@@ -69803,23 +69967,23 @@ stock dialog_goscar(playerid, listitem, id) {
 		new string[1512], str[128];
 		new counts = 0;
 		strcat(string, "#\tАвтомобіль\tДоступ\n");
-		for(new i=0; i < CarsCount; i ++) {
-			if(GC[i][gcOrgs] != listitem) continue;
+		for(new i; i < CarsCount; i ++) {
+			// if(fFleet[i][fleetOrgs] != listitem) continue;
 			counts++;
-			format(str, sizeof(str), "%d\t%s\t%d\n", counts, gTransport[GC[i][gcModel]-400][trName], GC[i][gcRank]);
+			format(str, sizeof(str), "%d\t%s\t%d\n", counts, gTransport[fFleet[listitem][i][fleetModel]-400][trName], fFleet[i][fleetRank]);
 			strcat(string, str);
 
 		}
 		SetPVarInt(playerid, "GosTryk", listitem);
-		ShowPlayerDialog(playerid, D_GOSCAR_2, DSTH, "Державні машини", string, "Обрати", "Скасувати");
+		ShowPlayerDialog(playerid, D_GOSCAR_2, DSTH, "Державні машини.", string, "Обрати", "Скасувати");
 		return 1;
 	} else if(id == 1) {
-		for(new i=0; i < CarsCount; i ++) {
-			if(GC[i][gcOrgs] != GetPVarInt(playerid, "GosTryk")) continue;
-			SetPVarInt(playerid, "IDgosCar", GC[i+listitem-1][gcID]);
+		for(new i; i < CarsCount; i ++) {
+			// if(fFleet[i][fleetOrgs] != GetPVarInt(playerid, "GosTryk")) continue;
+			SetPVarInt(playerid, "IDgosCar", fFleet[GetPVarInt(playerid, "GosTryk")][i+listitem-1][fleetID]);
 			break;
 		}
-		ShowPlayerDialog(playerid, D_GOSCAR_3, DSM, "Державні машини", W"Ви дійсно хочете замінити цю машину?", "Обрати", "Скасувати");
+		ShowPlayerDialog(playerid, D_GOSCAR_3, DSM, "Державні машини.", W"Ви дійсно хочете замінити цю машину?", "Обрати", "Скасувати");
 		return 1;
 	} else if(id == 2) {
 		if(DontCar(GetPVarInt(playerid, "IDgosCar"))) return pc_cmd_statecars(playerid), SendClientMessage(playerid, COLOR_YELLOW, "Цей т/з не можна змінити.");
@@ -69833,7 +69997,7 @@ stock dialog_goscar(playerid, listitem, id) {
 			format(str, sizeof(str), P"%d\t"W"%s\t"GREEN"$%d\n", counts, gTransport[eGC[i][eModel]-400][trName],eGC[i][ePrice]);
 			strcat(string, str);
 		}
-		ShowPlayerDialog(playerid, D_GOSCAR_4, DSTH, "Державні машини", string, "Обрати", "Скасувати");
+		ShowPlayerDialog(playerid, D_GOSCAR_4, DSTH, "Державні машини.", string, "Обрати", "Скасувати");
 		return 1;
 
 	} else{
@@ -69851,13 +70015,13 @@ stock dialog_goscar(playerid, listitem, id) {
 		FI[CI[playerid][pMember]][fBank] -= eGC[egID][ePrice];
 		UpdateFaction(CI[playerid][pMember], "Bank", FI[CI[playerid][pMember]][fBank]);
 		new query[128];
-		mysql_format(connects, query, sizeof(query), "UPDATE `goscar` SET `model` = %i WHERE `ID` = %i LIMIT 1",eGC[egID-1][eModel], IDModel+ 1);
+		mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `Model` = %i WHERE `ID` = %i LIMIT 1",eGC[egID-1][eModel], IDModel+ 1);
 		mysql_tquery(connects, query, "", "");
-		GC[IDModel][gcModel] = eGC[egID-1][eModel];
-		A_DestroyVehicle(VehicleInfo[IDModel+ 1][vID]);
-		CreateOrgsVehicle(IDModel+ 1,eGC[egID-1][eOrgs], GC[IDModel][gcRank], GC[IDModel][gcModel], GC[IDModel][gcPosX], GC[IDModel][gcPosY], GC[IDModel][gcPosZ], GC[IDModel][gcPosA], GC[IDModel][gcColor1], GC[IDModel][gcColor2], GC[IDModel][gcSpawntime]);
+		fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetModel] = eGC[egID - 1][eModel];
+		A_DestroyVehicle(VehicleInfo[IDModel + 1][vID]);
+		CreateOrgsVehicle(IDModel + 1, eGC[egID - 1][eOrgs], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetRank], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetModel], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnX], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnY], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnZ], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnA], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetColor1], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetColor2], 0, fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnVW], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnI], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSiren]);
 		new str[150];
-		format(str, sizeof(str), W"Ви придбали автомобіль: "P"%s"W" за "GREEN"$%d"W".", gTransport[eGC[egID-1][eModel]-400][trName], eGC[egID-1][ePrice]);
+		format(str, sizeof(str), W"Ви придбали автомобіль: "P"%s"W" за "GREEN"$%d"W".", gTransport[eGC[egID - 1][eModel] - 400][trName], eGC[egID-1][ePrice]);
 		SendOK(playerid, str);
 		return pc_cmd_statecars(playerid);
 	}
@@ -69873,10 +70037,10 @@ CMD:statecars(playerid) {
 	"P"4. "W"Національна гвардія", "Далі", "Скасувати");
 	return 1;
 }
-stock CreateOrgsVehicle(carid,orgs,rank, model, Float:X, Float:Y, Float:Z, Float:A,Color_1,Color_2,spawntime) {
-	VehicleInfo[carid][vID] = A_AddStaticVehicleEx(model, X, Y, Z,A,Color_1,Color_2,spawntime,VEHICLE_TYPE_FRACTION);
+stock CreateOrgsVehicle(carid, faction, rank, model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2, spawntime, world, int, siren = 0) {
+	VehicleInfo[carid][vID] = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime, VEHICLE_TYPE_FRACTION, world, int, siren);
 
-	VehicleInfo[VehicleInfo[carid][vID]][vTeam] = orgs;
+	VehicleInfo[VehicleInfo[carid][vID]][vTeam] = faction;
 	VehicleInfo[VehicleInfo[carid][vID]][vRank] = rank;
 	if(VehicleInfo[VehicleInfo[carid][vID]][vNumberAttached]) {
 		DestroyDynamic3DTextLabelEx(VehicleInfo[VehicleInfo[carid][vID]][vNumberTextID]);
@@ -70250,7 +70414,7 @@ public LottoInf() {
 }
 forward hour_timer();
 public hour_timer() {
-	SendClientMessageToAll(COLOR_WHITE, P"|"W" Щоб переглянути список доступних вакансій, введіть "P"/vacancy"W".");
+	// SendClientMessageToAll(COLOR_WHITE, P"|"W" Щоб переглянути список доступних вакансій, введіть "P"/vacancy"W".");
 	return 1;
 }
 stock dialog_autoschool_exam(playerid) {
@@ -70259,7 +70423,7 @@ stock dialog_autoschool_exam(playerid) {
 	format(tmp_string, 500, "\
 		"W"Перш ніж розпочати складання теорії, радимо вам ретельно ознайомитися з ПДР.\n\
 		Кожна невдала спроба складання іспиту буде вартувати вам грошей, тому будьте уважними.");
-	SPD(playerid, D_LICENSE_CAR_EXAM, DSM, P"Теоретичний іспит з водіння", tmp_string, "Розпочати", "Скасувати");
+	SPD(playerid, D_LICENSE_CAR_EXAM, DSM, P"Теоретичний іспит з водіння.", tmp_string, "Розпочати", "Скасувати");
 	tmp_string[0] = EOS;
 	return true;
 }
