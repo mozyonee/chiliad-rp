@@ -165,7 +165,14 @@ new bool:Vizod;
 #define		KickEx(%0)						SetTimerEx("kick", 250, false, "d",%0)
 FixSVarString(str[], size = sizeof(str))	for (new i = 0; ((str[i] &= 0xFF) != '\0') && (++i != size);) {}
 #define 	MAILER_URL              		"chiliad-rp.com/mailer.php" 
-#define 	MAILER_MAX_MAIL_SIZE			(1024) 
+#define 	MAILER_MAX_MAIL_SIZE			(1024)
+#define		MAX_STREAMS						50
+enum sInfo {
+	sStream,
+	Float:sRadius,
+	sLink[128]
+};
+new Streams[MAX_STREAMS][sInfo];
 new email_number[MAX_PLAYERS];
 new Text:payment_td[2];
 new PlayerText:payment_ptd[MAX_PLAYERS][2];
@@ -625,7 +632,7 @@ enum aRadio{
 	rURL[64],
 	uSCM[64]
 };
-new Radio[][aRadio] ={
+new Radio[][aRadio] = {
 	{ "https://online.kissfm.ua/KissFM_HD", "Ви успішно увімкнули 'Kiss FM'"   },
 	{ "https://online.radiobayraktar.com.ua/RadioBayraktar", "Ви успішно увімкнули 'Радіо Байрактар'"    },
 	{ "http://onair.lviv.fm:8000/lviv.fm", "Ви успішно увімкнули 'Львівська хвиля'"},
@@ -1393,9 +1400,8 @@ enum ItemInfo
 	Access,
 	AcessBone
 };
-#define MAX_ITEM 474 + 18
-new ItemsInfo[MAX_ITEM][ItemInfo] = {
-	{1649, " ", 0.0, 0.0, 90.0, 2.0},
+new ItemsInfo[][ItemInfo] = {
+	{1649, " ", 0.0, 0.0, 90.0, 2.0}, // 0.
 	{11738, "Аптечка", 0.0, 351.0, 180.0, 1.100103}, // 1.
 	{362, "Мініган", 0.0, 3.0, 241.0, 0.860271, 1, 5}, // 2.
 	{19035, "Голубі окуляри", -20.0, 0.0, 90.0, 1.0, 1, 1}, // 3.
@@ -1888,7 +1894,9 @@ new ItemsInfo[MAX_ITEM][ItemInfo] = {
     {555, "Автомобіль: Windsor (ID: 555)", 0.0, 0.0, 0.0, 1.0}, // 488.
     {560, "Автомобіль: Sultan (ID: 560)", 0.0, 0.0, 0.0, 1.0}, // 489.
     {562, "Автомобіль: Elegy (ID: 562)", 0.0, 0.0, 0.0, 1.0}, // 490.
-    {565, "Автомобіль: Flash (ID: 565)", 0.0, 0.0, 0.0, 1.0} // 491.
+    {565, "Автомобіль: Flash (ID: 565)", 0.0, 0.0, 0.0, 1.0}, // 491.
+
+    {19942, "Рація", 0.0, 0.0, 180.0, 1.0} // 492.
 };
 new ClickInv[MAX_PLAYERS];
 new InvPage[MAX_PLAYERS];
@@ -2823,6 +2831,10 @@ enum dialogs {
 	D_RADIO,
 	D_RADIO_1,
 	
+	D_RADIO_SETTINGS,
+	D_RADIO_CHANNEL,
+	D_RADIO_SLOT,
+
 	D_BL,
 	D_BL_1,
 	D_BLINVITE,
@@ -7285,6 +7297,8 @@ enum cInfo {
 	cPame[128],
 	pEmail[36],
 	cSkin,
+	cRadioChannel,
+	cRadioSlot,
 
 	pLevel,
 	pHacker,
@@ -7574,45 +7588,45 @@ stock IsVehicleOccupied(vehicleid) {
 	}
 	return 0;
 }
-stock SendMedic(color,const str[]) {
+stock SendMedic(color, const str[]) {
 	foreach(new x:Player) {
 		if(!TI[x][tLogin]) continue;
-		if(IsAMedic(x)) SendClientMessage(x,color, str);
+		if(IsAMedic(x)) SendClientMessage(x, color, str);
 	}
 	return 1;
 }
-stock SendMafia(color,const str[]) {
+stock SendMafia(color, const str[]) {
 	foreach(new x:Player) {
 		if(!TI[x][tLogin]) continue;
-		if(IsAMafia(x)) SendClientMessage(x,color, str);
+		if(IsAMafia(x)) SendClientMessage(x, color, str);
 	}
 	return 1;
 }
-stock SendArmy(color,const str[]) {
+stock SendGovernment(color, const str[]) {
 	foreach(new x:Player) {
 		if(!TI[x][tLogin]) continue;
-		if(IsAnEnforcement(x)) SendClientMessage(x,color, str);
+		if(IsAGovernment(x)) SendClientMessage(x, color, str);
 	}
 	return 1;
 }
-stock SendCop(color,const str[]) {
+stock SendEnforcement(color, const str[]) {
 	foreach(new x:Player) {
 		if(!TI[x][tLogin]) continue;
-		if(IsAnEnforcement(x)) SendClientMessage(x,color, str);
+		if(IsAnEnforcement(x)) SendClientMessage(x, color, str);
 	}
 	return 1;
 }
-stock SendNews(color,const str[]) {
+stock SendMedia(color, const str[]) {
 	foreach(new x:Player) {
 		if(!TI[x][tLogin]) continue;
-		if(IsAMedia(x)) SendClientMessage(x,color, str);
+		if(IsAMedia(x)) SendClientMessage(x, color, str);
 	}
 	return 1;
 }
-stock SendBand(color,const str[]) {
+stock SendBand(color, const str[]) {
 	foreach(new x:Player) {
 		if(!TI[x][tLogin]) continue;
-		if(IsAGang(x)) SendClientMessage(x,color, str);
+		if(IsAGang(x)) SendClientMessage(x, color, str);
 	}
 	return 1;
 }
@@ -10780,11 +10794,6 @@ stock RemoveBuildings(playerid) {
 		RemoveBuildingForPlayer(playerid, 1290, 1341.349, -1476.599, 18.226, 0.250);
 		RemoveBuildingForPlayer(playerid, 1297, 1336.699, -1508.989, 15.890, 0.250);
 	}
-// lsfd
-	RemoveBuildingForPlayer(playerid, 1308, 1971.147949, -2082.531006, 12.609000, 0.250000);
-	RemoveBuildingForPlayer(playerid, 5198, 1983.531006, -2085.116943, 18.077999, 0.250000);
-	RemoveBuildingForPlayer(playerid, 5189, 1983.531006, -2085.116943, 18.077999, 0.250000);
-	RemoveBuildingForPlayer(playerid, 5337, 1995.437012, -2066.147949, 18.531000, 0.250000);
 // bank
 	RemoveBuildingForPlayer(playerid, 729, 604.6875, -1296.0859, 14.6328, 0.25);
 	RemoveBuildingForPlayer(playerid, 733, 587.2969, -1300.0703, 14.5234, 0.25);
@@ -11580,9 +11589,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					StopAudioStreamForPlayer(playerid);
 					SendOK(playerid, "Ви увімкнули радіо.");
 				}
-				PlayAudioStreamForPlayer(playerid,Radio[listitem][rURL]);
-				SendOK(playerid, Radio[listitem][uSCM]);
-				return 1;
+				PlayAudioStreamForPlayer(playerid, Radio[listitem][rURL]);
+				return SendOK(playerid, Radio[listitem][uSCM]);
 			}
 		case dDeleteActor: {
 				if(!response) return choosen_actor[playerid] = -1;
@@ -11979,28 +11987,28 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			switch(listitem) {
 				case 0: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 50) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 130, 1);
 						CI[playerid][pEvent] -= 50;
 						UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 					}
 				case 1: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 100) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 139, 1);
 						CI[playerid][pEvent] -= 100;
 						UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 					}
 				case 2: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 200) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 460, 1);
 						CI[playerid][pEvent] -= 200;
 						UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 					}
 				case 3: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 						if(CI[playerid][pEvent] < 300) return SendBotMessage(playerid, "У вас недостатньо гарбузів.");
 						AddItem(playerid, 141, 1);
 						CI[playerid][pEvent] -= 300;
@@ -12612,7 +12620,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				new i = market_id[playerid][listitem];
 				new p = GetPVarInt(playerid, "p_id");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 
 				new query[128];
 				mysql_format(connects, query, sizeof(query), "SELECT * FROM `market` WHERE `id` = %i", i);
@@ -14057,7 +14065,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(listitem) {
 				case 0: {
 						if(CountInfo[playerid][cont_type][id] == 1) {
-							if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+							if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 							AddItem(playerid, CountInfo[playerid][cont_model][id], 1);
 						}
 						if(CountInfo[playerid][cont_type][id] == 2) {
@@ -14066,7 +14074,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							UpdateCharacterData(playerid, "premium", CI[playerid][pPremium]);
 						}
 						if(CountInfo[playerid][cont_type][id] == 3) {
-							if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+							if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 							AddItem(playerid, skin_undress[CountInfo[playerid][cont_model][id]][0], 1);
 						}
 						if(CountInfo[playerid][cont_type][id] == 4) GiveMoney(playerid, 100000, "гроші з контейнера");
@@ -14357,18 +14365,18 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				спрямованого на лікування хворих та/або спеціалізовану вгамлену\nдиференційовану діагностику захворювань у стаціонарних умовах", "Назад", "");
 					}
 				case 1: {
-						static const f_str[] = ""W"Трансгендерний перехід може включати соціалізацію в новій гендерній ролі,\n\
+						static const f_str[] = ""W"Зміна статі може включати соціалізацію в новій гендерній ролі,\n\
 															медичні процедури з корекції статі,\n\
 															зміну паспортного імені та юридичної статі\n\
-															Вартість хірургічного втручання - "GREEN"50.000$\n\n\
-															"G"Примітка: при зміні статі буде змінено ваш Скін";
+															Вартість хірургічного втручання - "GREEN"$50.000\n\n\
+															"G"Примітка: при зміні статі буде змінено ваш скін";
 						new string[sizeof(f_str) + 1 + (-2 + 5)];
 						format(string, sizeof(string), f_str);
-						ShowPlayerDialog(playerid, D_MEDSEX, DSM, P"Трансгендерний перехід", string, "Операція", "Назад");
+						ShowPlayerDialog(playerid, D_MEDSEX, DSM, P"Зміна статі.", string, "Операція", "Назад");
 					}
 				case 2: {
 						if(CI[playerid][pMedCard]) return SendError(playerid, "Ви вже маєте медичну карту.");
-						ShowPlayerDialog(playerid, D_MEDCARD, DSM, P"Медична карта", W"Вартість медичної картки - "GREEN"$5.000\n"W"Ви дійсно хочете отримати медичну карту?", "Отримати", "Скасувати");
+						ShowPlayerDialog(playerid, D_MEDCARD, DSM, P"Медична карта.", W"Вартість медичної картки - "GREEN"$5.000\n"W"Ви дійсно хочете отримати медичну карту?", "Отримати", "Скасувати");
 					}
 				case 3: {
 						new string[200];
@@ -14665,7 +14673,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(id == playerid) return SendError(playerid, "Ви вказали свій ID.");
 				if(!IsPlayerStream(3.0, playerid, id)) return SendError(playerid, "Гравець не поруч з вами.");
 				if(active_accept(id)) return SendError(playerid, "Гравець вже має активну пропозицію.");
-				if(GetInvSet(id) >= 50) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
+				if(GetItemAmount(id, 0) <= 0) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
 				if(money < 1 || money > 5000000) return SendError(playerid, "Сума повинна бути не менше $1 не більше $5.000.000.");
 				if(ammout > CI[playerid][pInventoryAmount][ClickInv[playerid]]) return SendError(playerid, "У вас немає цього предмета у такій кількості.");
 
@@ -14856,7 +14864,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case DIALOG_JOB_PROGRESS_2: {
 				if(!response) return pc_cmd_jobskill(playerid);
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Звільніть місце у своєму інвентарі.");
 				switch(take_items[playerid][listitem]) {
 				case 0: {
 						CI[playerid][pAcsJob][0] = 0;
@@ -15437,7 +15445,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					duel_message(playerid, TI[playerid][tDuel]);
 					return 1;
 				}
-				if(strlen(inputtext) != 4 || isNotNumeric(inputtext) || inputtext[0] == '0') return ShowPlayerDialog(playerid, D_DUEL_PASSWORD, DSI, P"Пароль", "\n\n"W"Введіть пароль для входу до лобі:\n\n\
+				if(strlen(inputtext) != 4 || !HasNumbersOnly(inputtext) || inputtext[0] == '0') return ShowPlayerDialog(playerid, D_DUEL_PASSWORD, DSI, P"Пароль", "\n\n"W"Введіть пароль для входу до лобі:\n\n\
 																	Пароль повинен складатися з 4 цифр:", "Змінити", "Скасувати");
 				DI[TI[playerid][tDuel]][duel_password] = strval(inputtext);
 
@@ -17817,38 +17825,42 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 		case D_LOGIN: {
-				if(!response) return KickEx(playerid);
-				if(!strlen(inputtext) || !CheckPassword(inputtext)) {
-					if(!CheckPassword(inputtext)) SendError(playerid, "Змініть розкладку клавіатури.");
+			if(!response) return account_authorization(playerid);
+			if(!strlen(inputtext) || !CheckPassword(inputtext)) {
+				if(!CheckPassword(inputtext)) SendError(playerid, "Змініть розкладку клавіатури.");
+				account_authorization(playerid);
+			} else {
+				new hash[75];
+				SHA256_PassHash(inputtext, "jobiden", hash, 75);
+				if(strcmp(hash, PI[playerid][pPassword])) {
+					if(GetPVarInt(playerid, "wrongPass") == 2) return SendError(playerid, "Неправильний пароль. Використайте /q для виходу."), KickEx(playerid);
+					SetPVarInt(playerid, "wrongPass", GetPVarInt(playerid, "wrongPass") + 1);
+					static const f_str_1[] = "Ви ввели неправильний пароль. У вас залишилося "R"%d"W" спроби.";
+					new string_1[sizeof(f_str_1) + 3];
+					format(string_1, sizeof(string_1), f_str_1, 3-GetPVarInt(playerid, "wrongPass"));
+					SendError(playerid, string_1);
 					account_authorization(playerid);
 				} else {
-					new hash[75];
-					SHA256_PassHash(inputtext, "jobiden", hash, 75);
-					if(strcmp(hash, PI[playerid][pPassword])) {
-						if(GetPVarInt(playerid, "wrongPass") == 2) return SendError(playerid, "Неправильний пароль. Використайте /q для виходу."), KickEx(playerid);
-						SetPVarInt(playerid, "wrongPass", GetPVarInt(playerid, "wrongPass") + 1);
-						static const f_str_1[] = "Ви ввели неправильний пароль. У вас залишилося "R"%d"W" спроби.";
-						new string_1[sizeof(f_str_1) + 3];
-						format(string_1, sizeof(string_1), f_str_1, 3-GetPVarInt(playerid, "wrongPass"));
-						SendError(playerid, string_1);
-						account_authorization(playerid);
-					} else {
-						if(PI[playerid][pGoogleSec] && strcmp(player_ip_check[playerid], player_ip[playerid]) != 0) {
-							TI[playerid][tLoginTime] = 90;
-							ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, P"Google Authenticator.", "\n\n"W"Введіть код Google Authenticator:", "Далі", "Скасувати");
-						} else if(!GetString(PI[playerid][pKey], "-")) load_captcha(playerid);
-						else {
-							TI[playerid][tLoginTime] = 0;
-							TI[playerid][tLogin] = true;
-							SetPVarInt(playerid, "adminaccess", 0);
-							characters_panel(playerid);
-						}
+					if(PI[playerid][pGoogleSec] && strcmp(player_ip_check[playerid], player_ip[playerid]) != 0) {
+						TI[playerid][tLoginTime] = 90;
+						ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, P"Google Authenticator.", "\n\n"W"Введіть код Google Authenticator:", "Далі", "Скасувати");
+					} else if(!GetString(PI[playerid][pKey], "-")) load_captcha(playerid);
+					else {
+						TI[playerid][tLoginTime] = 0;
+						TI[playerid][tLogin] = true;
+						SetPVarInt(playerid, "adminaccess", 0);
+						new currentip[17], query[256];
+						GetPlayerIp(playerid, currentip, 17);
+						mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_ACCOUNTS" SET `pLastIP` = '%s' WHERE `pID` = %i", currentip, PI[playerid][pID]);
+						mysql_query(connects, query);
+						characters_panel(playerid);
 					}
 				}
 			}
+			}
 		case D_GOOGLE_2: {
 				if(!response) return KickEx(playerid);
-				if(strlen(inputtext) != 6 || isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, P"Google Authenticator.", "\n\n"W"Введіть код Google Authenticator:\n\n"NO"*"G" Ключ повинен складатися з 6 цифр.\n\n", "Далі", "Закрити");
+				if(strlen(inputtext) != 6 || !HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, D_GOOGLE_2, DSI, P"Google Authenticator.", "\n\n"W"Введіть код Google Authenticator:\n\n"NO"*"G" Ключ повинен складатися з 6 цифр.\n\n", "Далі", "Закрити");
 				new colvo = strval(inputtext);
 				new heh = GoogleAuthenticatorCode(PI[playerid][pGoogleCode], gettime());
 				if(heh == colvo) {
@@ -17888,59 +17900,59 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		case D_REG: {
-				if(!response) return KickEx(playerid);
-				if(!(strlen(inputtext) >= 6 && strlen(inputtext) <= 30 && CheckPassword(inputtext))) return account_registration(playerid);
+			if(!response) return account_registration(playerid);
+			if(!(strlen(inputtext) >= 6 && strlen(inputtext) <= 30 && CheckPassword(inputtext))) return account_registration(playerid);
 
-				new query[1028];
-				mysql_format(connects, query, sizeof(query), "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", player_name[playerid]);
-				mysql_query(connects, query);
+			new query[1028];
+			mysql_format(connects, query, sizeof(query), "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", player_name[playerid]);
+			mysql_query(connects, query);
 
-				new rows;
-				cache_get_row_count(rows);
-				if(rows) return account_registration(playerid), SendError(playerid, "Це ім'я вже використовується.");
+			new rows;
+			cache_get_row_count(rows);
+			if(rows) return account_registration(playerid), SendError(playerid, "Це ім'я вже використовується.");
 
-				new year, month, day, password[69];
-				getdate(year, month, day);
-				GetPlayerIp(playerid, PI[playerid][pLastIP], 32);
-				SHA256_PassHash(inputtext, "jobiden", password, 69);
-				PI[playerid][pRegIP] = PI[playerid][pLastIP];
-				mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_ACCOUNTS" (`pName`, `pPassword`, `pRegDate`, `pRegIP`, `pLastIP`) VALUES ('%s', '%s', '%02i/%02i/%02i', %i, %i)", player_name[playerid], password, day, month, year, PI[playerid][pRegIP], PI[playerid][pLastIP]);
-				mysql_query(connects, query);
+			new year, month, day, password[69];
+			getdate(year, month, day);
+			GetPlayerIp(playerid, PI[playerid][pLastIP], 17);
+			SHA256_PassHash(inputtext, "jobiden", password, 69);
+			strmid(PI[playerid][pRegIP], PI[playerid][pLastIP], 0, strlen(PI[playerid][pLastIP]));
+			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_ACCOUNTS" (`pName`, `pPassword`, `pRegDate`, `pRegIP`, `pLastIP`) VALUES ('%s', '%s', '%02i/%02i/%02i', %i, %i)", player_name[playerid], password, day, month, year, PI[playerid][pRegIP], PI[playerid][pLastIP]);
+			mysql_query(connects, query);
 
-				mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CHARACTERS" (`cOwner`, `Name`) VALUES ('%s', '%s')", player_name[playerid], player_name[playerid]);
-				mysql_query(connects, query);
+			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_CHARACTERS" (`cOwner`, `Name`) VALUES ('%s', '%s')", player_name[playerid], player_name[playerid]);
+			mysql_query(connects, query);
 
-				mysql_format(connects, query, sizeof(query), "SELECT `cOwner` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", player_name[playerid]);
-				mysql_tquery(connects, query, "check_account", "i", playerid);
+			mysql_format(connects, query, sizeof(query), "SELECT `cOwner` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", player_name[playerid]);
+			mysql_tquery(connects, query, "check_account", "i", playerid);
 
-				mysql_escape_string(inputtext, PI[playerid][pPassword], 128);
-				/* ShowPlayerDialog(playerid, D_REG_NATION, DSL, P"Реєстрація. "W"Національність.", "\
-					"G"* Оберіть національність вашого персонажу:\n\
-					"P"1."W" Австралієць\n\
-					"P"2."W" Албанець\n\
-					"P"3."W" Американець\n\
-					"P"4."W" Англієць\n\
-					"P"5."W" Бразилець\n\
-					"P"6."W" Вірменин\n\
-					"P"7."W" В'єтнамець\n\
-					"P"8."W" Єврей\n\
-					"P"9."W" Іспанець\n\
-					"P"10."W" Італієць\n\
-					"P"11."W" Китаєць\n\
-					"P"12."W" Колумбієць\n\
-					"P"13."W" Кореєць\n\
-					"P"14."W" Латиноамериканець\n\
-					"P"15."W" Мексиканець\n\
-					"P"16."W" Німець\n\
-					"P"17."W" Поляк\n\
-					"P"18."W" Португалець\n\
-					"P"19."W" Українець\n\
-					"P"20."W" Француз\n\
-					"P"21."W" Чех\n\
-					"P"22."W" Японець\n", "Обрати", "Скасувати");
-				ShowPlayerDialog(playerid, D_REG_EMAIL, DSI, P"Реєстрація. "W"Електронна пошта.", W"Введіть вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.", "Далі", "Назад");
-				ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, P"Реферал.", W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск"); */
-				return 1;
+			mysql_escape_string(inputtext, PI[playerid][pPassword], 128);
+			/* ShowPlayerDialog(playerid, D_REG_NATION, DSL, P"Реєстрація. "W"Національність.", "\
+				"G"* Оберіть національність вашого персонажу:\n\
+				"P"1."W" Австралієць\n\
+				"P"2."W" Албанець\n\
+				"P"3."W" Американець\n\
+				"P"4."W" Англієць\n\
+				"P"5."W" Бразилець\n\
+				"P"6."W" Вірменин\n\
+				"P"7."W" В'єтнамець\n\
+				"P"8."W" Єврей\n\
+				"P"9."W" Іспанець\n\
+				"P"10."W" Італієць\n\
+				"P"11."W" Китаєць\n\
+				"P"12."W" Колумбієць\n\
+				"P"13."W" Кореєць\n\
+				"P"14."W" Латиноамериканець\n\
+				"P"15."W" Мексиканець\n\
+				"P"16."W" Німець\n\
+				"P"17."W" Поляк\n\
+				"P"18."W" Португалець\n\
+				"P"19."W" Українець\n\
+				"P"20."W" Француз\n\
+				"P"21."W" Чех\n\
+				"P"22."W" Японець\n", "Обрати", "Скасувати");
+			ShowPlayerDialog(playerid, D_REG_EMAIL, DSI, P"Реєстрація. "W"Електронна пошта.", W"Введіть вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.", "Далі", "Назад");
+			ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, P"Реферал.", W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск"); */
+			return 1;
 			}
 		case D_REG_EMAIL: {
 			if(!response) return KickEx(playerid);
@@ -17965,7 +17977,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_CHAR_LIST: {
 			if(!response) {
 				if(!TI[playerid][tStarted]) return KickEx(playerid);
-				else return ShowPlayerDialog(playerid, D_MENU, DSL, P"Меню гравця.", P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги\n"P"13. "W"Історія покарань\n"P"14."W" Керування персонажами", "Обрати", "Скасувати");
+				else return ShowPlayerDialog(playerid, D_MENU, DSL, P"Меню гравця.", P"1."W" Інформація про персонажа.\n"P"2."W" Команди сервера.\n"P"3."W" Навички персонажа.\n"P"4."W" Зв'язок з адміністрацією.\n"P"5."W" Інвентар.\n"P"6."W" Налаштування.\n"P"7."W" Змінити ігровий нікнейм.\n"P"8."W" Безпека.\n"P"9."W" Промокод.\n"P"10."W" Мої завдання.\n"P"11."W" Кейси.\n"P"12."W" Донат-послуги.\n"P"13. "W"Історія покарань.\n"P"14."W" Змінити персонажа.", "Обрати", "Скасувати");
 			}
 			if(!strcmp(inputtext, "- Створити персонажа.")) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DSI, P"|"W" Створення персонажа. Ім'я.", W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
 				Приклади можливих імен: "P"Jerry_Baggett"W", "P"Jerry_Cory_Baggett"W", "P"Jerry_Baggett_Jr"W", "P"Jerry_IV_Baggett"W".\n\
@@ -17979,11 +17991,27 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				else ShowPlayerDialog(playerid, D_ALOGIN, DSP, P"|"W" Авторизація.", W"Для доступу до адміністрування, вам необхідно авторизуватись:", "Вхід", "Назад");
 				return 1;
 			}
-			new cname[MAX_PLAYER_NAME], header[128];
+			
+			new cname[MAX_PLAYER_NAME], query[128];
+			
 			strcat(cname, inputtext);
 			SetPVarString(playerid, "cname", cname);
-			format(header, sizeof(header), P"|"W" Керування %s.", cname);
-			ShowPlayerDialog(playerid, D_CHAR_CONTROL, DSL, header, P"1."W" Заспавнити.\n"P"2."W" Інформація.\n"P"3."W" Редагувати.\n"P"4."W" Видалити.", "Обрати", "Назад");
+
+			if(strcmp(cname, PI[playerid][pName]) && GetPVarInt(playerid, "adminaccess") == 1) {
+				static const f_str[] = "[A] %s[%i] закінчив адміністрування %i рівня.";
+				new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME)];
+				format(str, sizeof(str), f_str, PI[playerid][pName], playerid, PI[playerid][pAdmin]);
+				SendAdminMessage(0xfF0CA31ff, str);
+				SetPVarInt(playerid, "adminaccess", 0);
+			}
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", cname);
+			mysql_tquery(connects, query, "load_character", "i", playerid);
+
+			// new cname[MAX_PLAYER_NAME], header[128];
+			// strcat(cname, inputtext);
+			// SetPVarString(playerid, "cname", cname);
+			// format(header, sizeof(header), P"|"W" Керування %s.", cname);
+			// ShowPlayerDialog(playerid, D_CHAR_CONTROL, DSL, header, P"1."W" Заспавнити.\n"P"2."W" Інформація.\n"P"3."W" Редагувати.\n"P"4."W" Видалити.", "Обрати", "Назад");
 			}
 		case D_CHAR_CONTROL: {
 			if(!response) return characters_panel(playerid);
@@ -18120,13 +18148,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case D_CHAR_ADD_NATION: {
 			if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_SEX, DSL, P"|"W" Створення персонажа. Стать.", P"1."W" Чоловіча.\n"P"2."W" Жіноча.", "Далі", "Назад");
-			if(!IsCyrillicLettersOnly(inputtext)) return ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DSI, P"|"W" Створення персонажа. Національність.", W"Національність показує приналежність вашого персонажа до певної етнічної спільноти зі своїми особливостями та специфіками.\n\nПриклад національності: "P"Мексиканець"W", "P"Китаєць"W", "P"Поляк"W".\nМінімальна довжина - "P"5"W" символів, максимальна - "P"25"W".", "Далі", "Назад");
+			if(!HasCyrillicOnly(inputtext)) return ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DSI, P"|"W" Створення персонажа. Національність.", W"Національність показує приналежність вашого персонажа до певної етнічної спільноти зі своїми особливостями та специфіками.\n\nПриклад національності: "P"Мексиканець"W", "P"Китаєць"W", "P"Поляк"W".\nМінімальна довжина - "P"5"W" символів, максимальна - "P"25"W".", "Далі", "Назад");
 			SetPVarString(playerid, "creatingcnation", inputtext);
 			ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DSI, P"|"W" Створення персонажа. Вік.", W"Вкажіть одним числом, скільки років вашому персонажу.\n\nМінімальний вік - "P"12"W" років, максимальний - "P"90"W" років.", "Далі", "Назад");
 			}
 		case D_CHAR_ADD_AGE: {
 			if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_NATION, DSI, P"|"W" Створення персонажа. Національність.", W"Національність показує приналежність вашого персонажа до певної етнічної спільноти зі своїми особливостями та специфіками.\n\nПриклад національності: "P"Мексиканець"W", "P"Китаєць"W", "P"Поляк"W".\nМінімальна довжина - "P"5"W" символів, максимальна - "P"25"W".", "Далі", "Назад");
-			if(!(12 <= strval(inputtext) <= 90) || !IsNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DSI, P"|"W" Створення персонажа. Вік.", W"Вкажіть одним числом, скільки років вашому персонажу.\n\nМінімальний вік - "P"12"W" років, максимальний - "P"90"W" років.", "Далі", "Назад");
+			if(!(12 <= strval(inputtext) <= 90) || !HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, D_CHAR_ADD_AGE, DSI, P"|"W" Створення персонажа. Вік.", W"Вкажіть одним числом, скільки років вашому персонажу.\n\nМінімальний вік - "P"12"W" років, максимальний - "P"90"W" років.", "Далі", "Назад");
 			SetPVarInt(playerid, "creatingcage", strval(inputtext));
 			ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DSI, P"|"W" Створення персонажа. Опис.", W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", максимальна - "P"128"W".", "Далі", "Назад");
 			}
@@ -18138,7 +18166,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case D_CHAR_ADD_SKIN: {
 			if(!response) return ShowPlayerDialog(playerid, D_CHAR_ADD_PAME, DSI, P"|"W" Створення персонажа. Опис.", W"Опис потрібен, щоб інші гравці розуміли, що ваш персонаж собою являє.\nЗрозуміло та чітко розпишіть, яким ви його бачите.\n\nМінімальна кількість символів - "P"16"W", максимальна - "P"128"W".", "Далі", "Назад");
-			if(!(1 <= strval(inputtext) <= 299) || strval(inputtext) == 74 || !IsNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, D_CHAR_ADD_SKIN, DSI, P"|"W" Створення персонажа. Скін.", W"Введіть ID скіна, який ви хочете бачити на своєму персонажі.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Skins_All.html"W".\nДопустимі значення - "P"1-299"W" ("P"74"W" - заборонений).", "Далі", "Назад");
+			if(!(1 <= strval(inputtext) <= 299) || strval(inputtext) == 74 || !HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, D_CHAR_ADD_SKIN, DSI, P"|"W" Створення персонажа. Скін.", W"Введіть ID скіна, який ви хочете бачити на своєму персонажі.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Skins_All.html"W".\nДопустимі значення - "P"1-299"W" ("P"74"W" - заборонений).", "Далі", "Назад");
 			SetPVarInt(playerid, "creatingcskin", strval(inputtext));
 
 			new csexid = GetPVarInt(playerid, "creatingcsex"),
@@ -18181,7 +18209,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
 				return 1;
 			}
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dPhoneCall, DSI, P"Телефон. "W"Вихідний виклик.", W"Введіть номер телефону, за яким ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.\n\n"E"Введіть коректний номер телефону.", "Виклик", "Скасувати");
+			if(!HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, dPhoneCall, DSI, P"Телефон. "W"Вихідний виклик.", W"Введіть номер телефону, за яким ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.\n\n"E"Введіть коректний номер телефону.", "Виклик", "Скасувати");
 			if(CI[playerid][pMute]) return SendError(playerid, "Ви не можете здійснити виклик, у вас бан чату.");
 			if(TI[playerid][tGag]) return SendError(playerid, "Ви не можете здійснити виклик. У вашого персонажа кляп у роті.");
 			new number = strval(inputtext);
@@ -18266,7 +18294,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case dPhoneSMSNumber: {
 			if(!response) return 1;
 			if(CI[playerid][pMobile] < 5) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dPhoneSMSNumber, DSI, P"Вихідне повідомлення. "W"Номер телефону.", W"Введіть номер телефону, за яким ви збираєтеся відправити вихідне повідомлення\n\n"E"Введіть коректний номер телефону", "Виклик", "Скасувати");
+			if(!HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, dPhoneSMSNumber, DSI, P"Вихідне повідомлення. "W"Номер телефону.", W"Введіть номер телефону, за яким ви збираєтеся відправити вихідне повідомлення\n\n"E"Введіть коректний номер телефону", "Виклик", "Скасувати");
 			new number = strval(inputtext);
 			new string[128];
 			foreach(new i:Player) {
@@ -18412,7 +18440,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					DeletePVar(playerid, "dscode");
 					return ShowPlayerDialog(playerid, dDiscord, DSL, P"Discord", P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
 				}	    
-				if(isNotNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
+				if(!HasNumbersOnly(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
 				PI[playerid][pDiscord] = 0;
 				new query[200];
 				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET pDiscord = '0', pDiscordName = '0' WHERE cID = %i LIMIT 1", CI[playerid][cID]);
@@ -18421,13 +18449,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendInfo(playerid, "Наполегливо рекомендуємо прив'язати його назад для забезпечення вищого рівня безпеки акаунта.");   
 			}
 			case dDiscordLink: {
-			if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, P"Discord", P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-			if(strlen(inputtext) < 17 || strlen(inputtext) > 18) return ShowPlayerDialog(playerid, dDiscordLink, DSI, P"Discord", W"Введіть ваш ID користувача (USER ID) у поле нижче\nID користувача повинен містити не менше, ніж 17, і не більше, ніж 18 цифр", "Далі", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, P"Discord.", P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
+			if(17 <= strlen(inputtext) <= 18) return ShowPlayerDialog(playerid, dDiscordLink, DSI, P"Discord.", W"Введіть ваш ID користувача (USER ID) у поле нижче\nID користувача повинен містити не менше, ніж 17, і не більше, ніж 18 цифр", "Далі", "Назад");
 			new DCC_User:user;
 			user = DCC_FindUserById(inputtext);
 			SetPVarString(playerid, "discordID", inputtext);
 			SendDiscordMessage(playerid, user);
-			ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
+			ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord.", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче", "Далі", "Скасувати");
 		}
 		case dDiscordLink_2: {
 			if(!response) {
@@ -18437,7 +18465,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			new discordID[20];
 			GetPVarString(playerid, "discordID", discordID, 20);
-			if(isNotNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
+			if(!HasNumbersOnly(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
 			new DCC_User:user, name[32+ 1];
 			user = DCC_FindUserById(discordID);
 			DCC_GetUserName(user, name, sizeof(name));
@@ -18522,7 +18550,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SendOK(playerid, String64);
 					new String256[256];
 					format(String256, sizeof(String256), "{4362AF}1."W" Купити білет - "GREEN"$%d"W"\n{4362AF}2."W" Подивитися свої білети\n{4362AF}3."W" Інформація про лотерею", LOTTOPRICE);
-					ShowPlayerDialog(playerid,dLotto, DSL, "{FFFD72}Державна лотерея.", String256, "Далі", "Вихід");
+					ShowPlayerDialog(playerid,dLotto, DSL, P"Державна лотерея.", String256, "Далі", "Вихід");
 				} else if(listitem == 1) {
 					format(String1024, sizeof(String1024), "SELECT `lotto` FROM `lottob` WHERE `id` = %i", CI[playerid][cID]);
 					new Cache:r = mysql_query(connects, String1024);
@@ -18536,10 +18564,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						format(String2048, sizeof(String2048), "%s{4362AF}%d."W" Білет #%d\n", String2048, i+ 1, lottonn);
 					}
 					cache_delete(r);
-					ShowPlayerDialog(playerid,dLotto2, DSM, "{FFFD72}Державна лотерея.", String2048, "Закрити", "");
+					ShowPlayerDialog(playerid,dLotto2, DSM, P"Державна лотерея.", String2048, "Закрити", "");
 				} else if(listitem == 2) {
 					new String2048[2048];
-					format(String2048, sizeof(String2048), W"Щотижнева лотерея від {FFFD72}Державного Лото"W"\n\nВи можете придбати до {FFB272}50"W" білетів і прийняти участь в лотереї\n\
+					format(String2048, sizeof(String2048), W"Щотижнева лотерея від Державного Лото"W"\n\nВи можете придбати до {FFB272}50"W" білетів і прийняти участь в лотереї\n\
 						Чим більше білетів у вас придбано, тим більшим є шанс на перемогу.\nРозіграш відбувається кожної неділі о {FFB272}18:00"W"\nПереможець отримує всю суму зібрану за тиждень\n\
 						Якщо переможця не визначено, вся сума додається до наступного розіграшу");
 					ShowPlayerDialog(playerid,dLotto2, DSM, "{FFFD72}Державна лотерея.", String2048, "Закрити", "");
@@ -18600,9 +18628,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case dCode: {
 				if(!response) return ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, P"Безпека.", P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" Електронна пошта\n"P"4."W" Google Authenticator\n"P"5."W" Telegram", "Обрати", "Назад");
-				if(strlen(inputtext) != 4 || isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dCode, DSI, P"Захисний код:", "\n\n"W"Придумайте новий захисний ключ:\n"G"Захисний ключ буде запитуватись після кожного входу у гру\n\n"NO"*"G" Ключ повинен складатися з 4 цифр\n\n", "Далі", "Скасувати");
+				if(strlen(inputtext) != 4 || !HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, dCode, DSI, P"Захисний код:", "\n\n"W"Придумайте новий захисний ключ:\n"G"Захисний ключ буде запитуватись після кожного входу у гру\n\n"NO"*"G" Ключ повинен складатися з 4 цифр\n\n", "Далі", "Скасувати");
 				new string[200];
-				format(string, sizeof(string), "Ваш новий захисний ключ: "P"%s"W". Він буде запитуватись при вході в гру.", (inputtext));
+				format(string, sizeof(string), "Ваш новий захисний ключ: "P"%s"W". Він буде запитуватись при вході в гру.", inputtext);
 				SendInfo(playerid, string);
 				SendInfo(playerid, "Ми рекомендуємо вам зробити скріншот, відновити ключ при його втраті буде неможливо. Клавіша - "P"F8"W".");
 				SetString(PI[playerid][pKey], inputtext);
@@ -18631,8 +18659,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_MENU: {
 				if(!response) return 1;
 				switch(listitem) {
-					case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DSL, P"Інформація про персонажа.", P"1. "W"Статистикa\n"P"2. "W"Паспорт\n"P"3. "W"Ліцензії\n"P"4. "W"Медична карта", "Обрати", "Назад");
-					case 1: ShowPlayerDialog(playerid, D_MENU_COMMANDS, DSL, P"Команди.", P"1."W" Загальні команди\n"P"2."W" Чати\n"P"3."W" По роботі\n"P"4."W" Фракційні\n"P"5."W" Дім\n"P"6."W" Бізнес\n"P"7."W" Автомобіль\n"P"8."W" Сім'я\n"P"9."W" Лідер\n"P"10."W" Автовикрадення\n"P"11."W" Будинок на колесах", "Обрати", "Назад");
+					case 0: ShowPlayerDialog(playerid, D_PLAYER_STATS, DSL, P"Інформація про персонажа.", P"1. "W"Статистикa.\n"P"2. "W"ID карта.\n"P"3. "W"Ліцензії.\n"P"4. "W"Медична карта.", "Обрати", "Назад");
+					case 1: ShowPlayerDialog(playerid, D_MENU_COMMANDS, DSL, P"Команди.", P"1."W" Загальні команди.\n"P"2."W" Чати.\n"P"3."W" По роботі.\n"P"4."W" Фракційні.\n"P"5."W" Дім.\n"P"6."W" Бізнес.\n"P"7."W" Автомобіль.\n"P"8."W" Сім'я.\n"P"9."W" Лідер.\n"P"10."W" Автовикрадення.\n"P"11."W" Будинок на колесах.", "Обрати", "Назад");
 					case 2: pc_cmd_jobskill(playerid);
 					case 3: {
 							if(GetPVarInt(playerid, "report_ac")) return SendError(playerid, "Ви вже подавали скаргу, очікуйте відповіді.");
@@ -18645,10 +18673,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							if(CI[playerid][pWarns] >= 1) return SendError(playerid, "На вашому акаунті є попередження.");
 							return ShowPlayerDialog(playerid, D_CHANGE_NAME, DSI, P"Заявка на зміну нікнейму.", W"Напишіть новий нік (за форматом Ім'я_Прізвище)", "Відправити", "Назад");
 						}
-					case 7: ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, P"Безпека.", P"1."W" Змінити пароль\n"P"2."W" Захисний ключ\n"P"3."W" E-Mail адреса\n"P"4."W" Google Authenticator\n"P"5."W" Telegram\n"P"6."W" Discord", "Обрати", "Назад");
-					case 8: return ShowPlayerDialog(playerid, D_USE_PROMO, DSI, P"Промокод.", W"Введіть нижче діючий промокод"W" на сервері:", "Прийняти", "Назад");
+					case 7: ShowPlayerDialog(playerid, D_CONTROL_EDIT, DSL, P"Безпека.", P"1."W" Змінити пароль.\n"P"2."W" Захисний ключ.\n"P"3."W" E-Mail адреса.\n"P"4."W" Google Authenticator.\n"P"5."W" Telegram.\n"P"6."W" Discord.", "Обрати", "Назад");
+					case 8: return ShowPlayerDialog(playerid, D_USE_PROMO, DSI, P"Промокод.", W"Введіть нижче діючий промокод на сервері:", "Прийняти", "Назад");
 					case 9: return pc_cmd_quest(playerid);
-					case 10: ShowPlayerDialog(playerid, D_CASES, DSL, P"Кейси.", P"1."W" Кейс SILVER\n"P"2."W" Кейс GOLD\n"P"3."W" Кейс  VIP", "Обрати", "Закрити");
+					case 10: ShowPlayerDialog(playerid, D_CASES, DSL, P"Кейси.", P"1."W" Кейс SILVER.\n"P"2."W" Кейс GOLD.\n"P"3."W" Кейс  VIP.", "Обрати", "Закрити");
 					case 11: return pc_cmd_donate(playerid);
 					case 12: {
 						new string[128];
@@ -18659,7 +18687,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		case D_PLAYER_STATS: {
-			if(!response) return 1;
+			if(!response) return ShowPlayerDialog(playerid, D_MENU, DSL, P"Меню гравця.", P"1."W" Інформація про персонажа.\n"P"2."W" Команди сервера.\n"P"3."W" Навички персонажа.\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм.\n"P"8."W" Безпека.\n"P"9."W" Промокод.\n"P"10."W" Мої завдання.\n"P"11."W" Кейси.\n"P"12."W" Донат-послуги.\n"P"13. "W"Історія покарань.\n"P"14."W" Змінити персонажа.", "Обрати", "Скасувати");
 			switch(listitem) {
 				case 0: ShowStats(playerid, playerid);
 				case 1:	ShowPass(playerid, playerid);
@@ -18673,7 +18701,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 0: {
 						STRING_GLOBAL[0] = 0;
 						format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Кейсів SILVER %dшт."W"\n\nЗ кейсу може випасти:\n\n$10.000\n$50.000\n$75.000\n\
-				2 EXP\n3 EXP\n3 години премімум-акаунта\n500 наркотиків\n\n\nНатисніть 'Відкрити' щоб дізнатися що всередині кейсу.", CI[playerid][pCases][0]);
+							2 EXP\n3 EXP\n3 години премімум-акаунта\n500 наркотиків\n\n\nНатисніть 'Відкрити' щоб дізнатися що всередині кейсу.", CI[playerid][pCases][0]);
 						ShowPlayerDialog(playerid, D_CASES_1, DSM, P"Кейс SILVER.", STRING_GLOBAL, "Відкрити", "Скасувати");
 					}
 				case 1: {
@@ -18746,7 +18774,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви відкрили кейс "P"GOLD"W". Ваш виграш: "P"10 годин преміум-акаунта"W".");
 					}
 				case 8: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
 						AddItem(playerid, 2, 1);
 						SendOK(playerid, "Ви відкрили кейс "P"GOLD"W". Ваш виграш: "P"Аксесуар 'Мініган'"W".");
 					}
@@ -18804,7 +18832,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				case 10: AddItem(playerid, 1, 20000), SendOK(playerid, "Ви відкрили кейс "P"VIP"W". Ваш виграш: "P"20 аптечок"W".");
 				case 11: {
-					if(GetInvSet(playerid) >= 50) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
+					if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Кейс виявився пустим, вам надана повторна спроба.");
 					AddItem(playerid, 453, 1);
 					SendOK(playerid, "Ви відкрили кейс "P"VIP"W". Ваш виграш: "P"аксесуар 'Дреди'"W".");
 					}
@@ -18894,7 +18922,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					strcat(string, P"/sms"W" - написати SMS\n");
 					strcat(string, P"/book"W" - адресна книга\n");
 					strcat(string, P"/time"W" - переглянути час\n");
-					strcat(string, P"/pass"W" - показати паспорт\n");
+					strcat(string, P"/pass"W" - показати ID карту\n");
 					strcat(string, P"/lic"W" - показати лицензии\n");
 					strcat(string, P"/togphone"W" - ввімкнути та вимкнути телефон\n");
 					strcat(string, P"/pay"W" - передати нроші\n");
@@ -18905,7 +18933,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					strcat(string, P"/divorce"W" - розлучитися\n");
 					strcat(string, P"/play"W" - онлайн радіо\n");
 					strcat(string, P"/top"W" - рейтинг гравців\n");
-					strcat(string, P"/medcard"W" - показати медичну карту\n");
+					strcat(string, P"/showmc"W" - показати медичну карту\n");
 					strcat(string, P"/referals"W" - список рефералів\n");
 					strcat(string, P"/leave"W" - звільнитися з організації (VIP)\n");
 					strcat(string, P"/inv"W" - відкрити інвентар\n");
@@ -19027,7 +19055,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								strcat(string, P"/load"W" - завантаження боєприпасів\n");
 								strcat(string, P"/unload"W" - розвантаження боєприпасів\n");
 								strcat(string, P"/carm"W" - перевезення боєприпасів\n");
-								strcat(string, P"/fakepass"W" - показати підробний паспорт\n");
+								strcat(string, P"/fakepass"W" - показати підробну ID карту\n");
 								strcat(string, P"/givekey"W" - видати або забрати перепустку\n");
 								}
 							case fMEDIC: {
@@ -19355,7 +19383,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(nedded[playerid]) {
 				case 1: {
 					if(bitem > TrunkInfo[idofcar][tKanistra]) return ShowPlayerDialog(playerid, D_TRUNK_INPUT, DSI, P"Багажник.", W"Введіть кількість каністр, яку хочете дістати з багажника:\n\n"NO"*"G" У багажнику немає такої к-сті канистр", "Прийняти", "Скасувати");
-					if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце."),trunk_close(playerid);
+					if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце."),trunk_close(playerid);
 					if(!TrunkInfo[idofcar][tOpen] && idaofcar[playerid] != house_car[playerid][0] && idaofcar[playerid] != house_car[playerid][1]) return SendError(playerid, "Багажник зачинено."),trunk_close(playerid);
 					AddItem(playerid, 454, bitem);
 					TrunkInfo[idofcar][tKanistra] -= bitem;
@@ -20829,7 +20857,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS, DSL, header, content, "Обрати", "Назад");
 			}
 
-			if(!IsNumbersOnly(inputtext) || !(1 <= strval(inputtext) <= 311) || strval(inputtext) == 74) {
+			if(!HasNumbersOnly(inputtext) || !(1 <= strval(inputtext) <= 311) || strval(inputtext) == 74) {
 				format(header, sizeof(header), P"|"W" Керування %s. Додавання скіна.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS_INPUT, DSI, header, W"Введіть ID скіна, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Skins_All.html"W".\nДопустимі значення - "P"1-311"W" ("P"74"W" - заборонений).", "Готово", "Назад");
 			}
@@ -20922,7 +20950,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_query(connects, query);
 			
 			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
-				if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
+			if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
 			}
 			strcat(content, P"-"W" Додати транспорт.");
 			format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
@@ -21677,7 +21705,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				if(GetPlayerMoneyEx(playerid) < black_prods[7]) return SendError(playerid, "У вас недостатньо грошей.");
 				if(black_prods[3] < 1) return SendError(playerid, "На складі закінчився товар.");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -black_prods[7], "купівля броні ЧР");
 				black_prods[3] -= 1;
 				SaveMarket();
@@ -21692,7 +21720,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				if(GetPlayerMoneyEx(playerid) < black_prods[8]) return SendError(playerid, "У вас недостатньо грошей.");
 				if(black_prods[4] < 1) return SendError(playerid, "На складі закінчився товар.");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -black_prods[8], "купівля форми ЧР");
 				black_prods[4] -= 1;
 				SaveMarket();
@@ -21717,7 +21745,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				if(black_prods[2] < strval(inputtext)) return SendError(playerid, "На складі закінчився товар.");
 				if(GetPlayerMoneyEx(playerid) < black_prods[6]*strval(inputtext)) return SendError(playerid, "У вас недостатньо грошей.");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -black_prods[6]*strval(inputtext), "купівля матів ЧР");
 				black_prods[2] -= strval(inputtext);
 				SaveMarket();
@@ -22805,7 +22833,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви придбали букет квітів. Щоб подарувати їх комусь, введіть "P"/flowers"W".");
 					}
 				case 8: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 						AddItem(playerid, 121, 1);
 						GiveMoney(playerid, -gShopPrice[8]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля ремкомплекту");
 					}
@@ -22814,7 +22842,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви придбали балончик з фарбою.");
 					}
 				case 10: {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 						return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть к-сть відмичок, яку хочете придбати:", "Купити", "Закрити");
 					}
 				case 11:{
@@ -22842,7 +22870,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
 				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
 				if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
@@ -22862,7 +22890,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 		case D_BIZZ_SIM: {
 				if(!response) return 1;
-				if(isNotNumeric(inputtext) || strlen(inputtext) != 6 || inputtext[0] == '0') {
+				if(!HasNumbersOnly(inputtext) || strlen(inputtext) != 6 || inputtext[0] == '0') {
 					ShowPlayerDialog(playerid, D_BIZZ_SIM, DSI, P"Купівля номера", "\n\n"W"Введіть номер, який хочете використовувати (6 цифр):\n\n"NO"*"G" Номер повинен складатись з 6 цифр. Первая цифра не повинні бути \"ноль\"\n\n", "Купити", "Закрити");
 					return 1;
 				}
@@ -22899,7 +22927,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
 				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
 				if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"G" У вас недостатньо коштів", "Купити", "Закрити");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
 					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
@@ -22988,7 +23016,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок.", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
 				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
 				if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" У вас недостатньо грошей", "Купити", "Закрити");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 
 				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
@@ -23138,7 +23166,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case D_BOOK_2: {
 				if(!response) return DeletePVar(playerid, "select_idphone");
-				if(isNotNumeric(inputtext) || strlen(inputtext) < 2 || strlen(inputtext) > 6) {
+				if(!HasNumbersOnly(inputtext) || strlen(inputtext) < 2 || strlen(inputtext) > 6) {
 					ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт.", W"Введіть номер телефону:\n\n"NO"*"G" Номер повинен складатися з 6 цифр", "Далі", "Скасувати");
 					return 1;
 				}
@@ -23703,7 +23731,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								return 1;
 							}
 							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні аптечок в сейфі.");
-							if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+							if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 							AddItem(playerid, 1, money);
 							PlayerTrailer[c][carHealth] -= money;
 							new query[128];
@@ -24061,7 +24089,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								return 1;
 							}
 							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків у сейфі.");
-							if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+							if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 							gHouses[houseid][houseDrugs] -= money;
 							CI[playerid][pDrugs] += money;
 							UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
@@ -24079,7 +24107,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								return 1;
 							}
 							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении аптечек у сейфі.");
-							if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+							if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 							gHouses[houseid][houseHealth] -= money;
 							AddItem(playerid, 1, money);
 							new query[128];
@@ -24466,7 +24494,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return 1;
 				new house = CI[playerid][pHouse] -1;
 				new id_rent = GetPVarInt(playerid, "arenda_listitem") -1;
-				if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Відбулася помилка при спробі ввести ID. Спробуйте ще раз\n\n", "Ввести", "Закрити");
+				if(!HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Відбулася помилка при спробі ввести ID. Спробуйте ще раз\n\n", "Ввести", "Закрити");
 				if(!IsPlayerConnected(strval(inputtext)) && !TI[strval(inputtext)][tLogin]) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Цей гравець не авторизованийий на сервері\n\n", "Ввести", "Закрити");
 				if(!ProxDetectorS(5.0, playerid, strval(inputtext))) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Гравець далеко від вас\n\n", "Ввести", "Закрити");
 				if(CI[strval(inputtext)][pTempKey] || CI[strval(inputtext)][pHouse] || CI[strval(inputtext)][pRoom]) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Гравець вже має будинок/квартиру або ж підселений в одному з будинків\n\n", "Ввести", "Закрити");
@@ -24855,7 +24883,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new invent = ped_buyclothes[GetPVarInt(playerid, "join_ped_item")][2];
 				new id = TI[playerid][tSelectedBusinessID];
 				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "В інвентарі недостатньо місця.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
 				GiveMoney(playerid, -price, "покупка скіна");
 				if(QuestProgress[playerid][4] == 0 && AcceptQuest[playerid][4] != 0) {
 					QuestProgress[playerid][4] ++;
@@ -25557,7 +25585,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(CI[playerid][pCash] < 5000) return SendError(playerid, "У вас недостатньо грошей.");
 				CI[playerid][pMedCard] = 1;
 				UpdateCharacterData(playerid, "MedCard", 1);
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Медицинська карта.", W"Вітаємо з купівлею медкарти.\n\nЩоб показати медкарту, введіть "P"/medcard"W".", "Закрити", "");
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Медицинська карта.", W"Ви купили медичну карту.\n\nЩоб показати її іншому грацю, введіть "P"/showmc"W".", "Закрити", "");
 				GiveMoney(playerid, -5000, "купівля мед карти");
 			}
 		case D_MEDSEX:{
@@ -26931,7 +26959,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					gBusiness[fuel][bizzProduct] -= 10;
 					bizz_pay(fuel,price);
 				}
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				GiveMoney(playerid, -price, "купівля каністри");
 				UpdateBusinessText(fuel);
 				AddItem(playerid, 454, 1);
@@ -27526,7 +27554,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				new id = GetPVarInt(playerid, "id_donate") -1;
 				if(CI[playerid][pDonate] < Donate[id][dRub]) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Недостатньо грошей на акаунті\n\nПоповнити свій рахунок можна на сайті{F2BB68} chiliad-rp.com/donate", "Закрити", "");
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+				if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				AddItem(playerid, Donate[id][dModel], 1);
 				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Вітаємо з купівлею нового аксесуара.", "Закрити", "");
 				GiveDonate(playerid, -Donate[id][dRub], "купівля аксесуара");
@@ -27538,7 +27566,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) return pc_cmd_donate(playerid);
 				new result;
 				new str[120];
-				if(strval(inputtext) < 0 || isNotNumeric(inputtext) || strval(inputtext) == 5555 || inputtext[0] == '0') return ShowPlayerDialog(playerid, D_DONATE_NUMBER, DSI, P"Елітний номера телефона", W"Введіть нижче бажаний номер телефона\n- 5-значний номер: 250 UAH\n- 4-значний номер: 300 UAH", "Купити", "Назад");
+				if(strval(inputtext) < 0 || !HasNumbersOnly(inputtext) || strval(inputtext) == 5555 || inputtext[0] == '0') return ShowPlayerDialog(playerid, D_DONATE_NUMBER, DSI, P"Елітний номера телефона", W"Введіть нижче бажаний номер телефона\n- 5-значний номер: 250 UAH\n- 4-значний номер: 300 UAH", "Купити", "Назад");
 				if(strlen(inputtext) == 4) {
 					SetPVarInt(playerid, "n_rub", 300);
 					SetPVarInt(playerid, "number",strval(inputtext));
@@ -27650,7 +27678,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_DONATE_SKIN: {
 				if(!response) return pc_cmd_donate(playerid);
 				if(CI[playerid][pDonate] < 250) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"Недостатньо грошей на акаунті\n\nПоповнити свій рахунок можна на сайті{F2BB68} chiliad-rp.com/donate", "Закрити", "");
-				if(GetInvSet(playerid) >= 50) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вашому інвентарі недостатньо місця", "Закрити", "");
+				if(GetItemAmount(playerid, 0) <= 0) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вашому інвентарі недостатньо місця", "Закрити", "");
 				if(strval(inputtext) == 74 || strval(inputtext) < 1 || strval(inputtext) > 311) return ShowPlayerDialog(playerid, D_DONATE_SKIN, DSI, P"Унікальний Скін", W"Введіть нижче номер Скіна від 1 до 311\n\nВартість: 250р", "Купити", "Назад");
 				GiveDonate(playerid, -250, "купівля унікального скіна");
 				AddItem(playerid, skin_undress[strval(inputtext)][0], 1);
@@ -28713,7 +28741,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					FI[team][fMaterials] -= count_minus;
 					UpdateFaction(team, "Materials", FI[team][fMaterials]);
 					if(FW[i][team][fwGunID] == 99) {
-						if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+						if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 						return AddItem(playerid, 120, 1);
 					}
 					GivePlayerWeapon(playerid,FW[i][team][fwGunID],FW[i][team][fwGunAmmo]);
@@ -29445,7 +29473,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(CI[playerid][pFamily]) reputation_family(CI[playerid][pFamily]-1, 1);
 						QuestProgress[playerid][id] = 100;
 						new query[256];
-						mysql_format(connects, query, sizeof(query), "UPDATE `questsprogress` SET `progress`=%i WHERE `idquest`=%i AND `name`='%s';", QuestProgress[playerid][id], id, CI[playerid][cName]);
+						mysql_format(connects, query, sizeof(query), "UPDATE `questsprogress` SET `progress` = %i WHERE `idquest` = %i AND `name` = '%s'", QuestProgress[playerid][id], id, CI[playerid][cName]);
 						mysql_tquery(connects, query);
 					}
 				}
@@ -29821,6 +29849,41 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendOK(playerid, "Аудіопоток успішно ввімкнено.");
 				return 1;
 			}
+		case D_RADIO_SETTINGS: {
+			if(!response) return 1;
+			switch(listitem) {
+				case 0: ShowPlayerDialog(playerid, D_RADIO_CHANNEL, DSI, P"|"W" Рація. Канал.", W"Введіть номер бажаного канала.\nМінімальний - "P"1"W", максимальний - "P"999"W".", "Зберегти", "Назад");
+				case 1: ShowPlayerDialog(playerid, D_RADIO_SLOT, DSI, P"|"W" Рація. Підканал.", W"Введіть номер бажаного підканала.\nМінімальний - "P"1"W", максимальний - "P"99"W".", "Зберегти", "Назад");
+			}
+			}
+		case D_RADIO_CHANNEL: {
+			if(!response) {
+				new string[128];
+				format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+				return ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
+			}
+			new string[128], query[128], channel;
+			if(sscanf(inputtext, "i", channel) || !(1 <= strval(inputtext) <= 999)) return ShowPlayerDialog(playerid, D_RADIO_CHANNEL, DSI, P"|"W" Рація. Канал.", W"Введіть номер бажаного канала.\nМінімальний - "P"1"W", максимальний - "P"999"W".", "Зберегти", "Назад");
+			CI[playerid][cRadioChannel] = channel;
+			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `cRadioChannel` = %i WHERE `cID` = %i", CI[playerid][cRadioChannel], CI[playerid][cID]);
+			mysql_query(connects, query);
+			format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+			ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
+			}
+		case D_RADIO_SLOT: {
+			if(!response) {
+				new string[128];
+				format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+				return ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
+			}
+			new string[128], query[128], slot;
+			if(sscanf(inputtext, "i", slot) || !(1 <= strval(inputtext) <= 99)) return ShowPlayerDialog(playerid, D_RADIO_SLOT, DSI, P"|"W" Рація. Підканал.", W"Введіть номер бажаного підканала.\nМінімальний - "P"1"W", максимальний - "P"99"W".", "Зберегти", "Назад");
+			CI[playerid][cRadioSlot] = slot;
+			mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `cRadioSlot` = %i WHERE `cID` = %i", CI[playerid][cRadioSlot], CI[playerid][cID]);
+			mysql_query(connects, query);
+			format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+			ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
+			}
 		case D_FAMILY_BL: {
 				if(!response) return 1;
 				switch(listitem) {
@@ -30168,7 +30231,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						format(string, sizeof(string), "Шановний %s, ви вже маєте цю ліцензію.", CI[playerid][cName]);
 						SendBotMessage(playerid, string);
 						SendError(playerid, "Ви вже маєте цю ліцензію.");
-						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 						SendHint(playerid, string);
 						return 1;
 					}
@@ -30187,7 +30250,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						format(string, sizeof(string), "Шановний %s, ви вже маєте цю ліцензію.", CI[playerid][cName]);
 						SendBotMessage(playerid, string);
 						SendError(playerid, "Ви вже маєте цю ліцензію.");
-						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+						format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 						SendHint(playerid, string);
 						return 1;
 					}
@@ -30216,7 +30279,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								format(string, sizeof(string), "Шановний %s, ви вже маєте цю ліцензію.", CI[playerid][cName]);
 								SendBotMessage(playerid, string);
 								SendError(playerid, "Ви вже маєте цю ліцензію.");
-								format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+								format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 								SendHint(playerid, string);
 								return 1;
 							}
@@ -30231,7 +30294,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							CI[playerid][pTLicCar] = gettime() +(30*24*60*60);
 							UpdateCharacterData(playerid, "TLicCar", CI[playerid][pTLicCar]);
 							SendOK(playerid, "Ви придбали ліцензію на водіння.");
-							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 							SendHint(playerid, string);
 						}
 						case 1: {
@@ -30239,7 +30302,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								format(string, sizeof(string), "Шановний %s, ви вже маєте цю ліцензію.", CI[playerid][cName]);
 								SendBotMessage(playerid, string);
 								SendError(playerid, "Ви вже маєте цю ліцензію.");
-								format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+								format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 								SendHint(playerid, string);
 								return 1;
 							}
@@ -30254,7 +30317,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							CI[playerid][pTLicAir] = gettime() +(30*24*60*60);
 							UpdateCharacterData(playerid, "TLicAir", CI[playerid][pTLicAir]);
 							SendOK(playerid, "Ви придбали ліцензію на польоти.");
-							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 							SendHint(playerid, string);
 						}
 						case 2: {
@@ -30262,7 +30325,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 								format(string, sizeof(string), "Шановний %s, вви вже маєте цю ліцензію.", CI[playerid][cName]);
 								SendBotMessage(playerid, string);
 								SendError(playerid, "Ви вже маєте цю ліцензію.");
-								format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+								format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 								SendHint(playerid, string);
 								return 1;
 							}
@@ -30277,7 +30340,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							CI[playerid][pTLicBoat] = gettime() +(30*24*60*60);
 							UpdateCharacterData(playerid, "TLicBoat", CI[playerid][pTLicBoat]);
 							SendOK(playerid, "Ви придбали ліцензію на керування водним транспортом.");
-							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонаж -> Ліцензії", playerid);
+							format(string, sizeof(string), "Для перегляду наявних ліцензій використайте "P"/mn -> Інформація про персонажа -> Ліцензії", playerid);
 							SendHint(playerid, string);
 						}
 					}
@@ -30744,10 +30807,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				TI[playerid][tFakePass] = listitem;
 				new string[144];
 
-				format(string, sizeof(string), P"%s "W"хоче показати вам паспорт.", CI[playerid][cName]);
+				format(string, sizeof(string), P"%s "W"хоче показати вам ID карту.", CI[playerid][cName]);
 				SendUse(id, string);
 				SendHint(id, "Натисніть "YES"Y"W" щоб погодитися, або "NO"N"W" для відмови.");
-				format(string, sizeof(string), "Ви запропонували "P"%s"W" показати ваш паспорт.", CI[id][cName]);
+				format(string, sizeof(string), "Ви запропонували "P"%s"W" показати вашу ID карту.", CI[id][cName]);
 				SendUse(playerid, string);
 				SetPVarInt(id, "fpass", playerid + 1);
 			}
@@ -31877,6 +31940,9 @@ public OnPlayerLeaveDynamicCP(playerid, checkpointid) {
 public OnPlayerEnterDynamicArea(playerid, areaid) {
 	if(!TI[playerid][tLogin] || !TI[playerid][tStarted]) return 1;
 	if(SERIU[playerid][sID] != INVALID_PLAYER_ID) return 1;
+	for(new i; i < MAX_STREAMS; i++) {
+		if(areaid == Streams[i][sStream]) PlayAudioStreamForPlayer(playerid, Streams[i][sLink]);
+	}
 	if(GetPVarInt(playerid, "ChangingSkin")) {
 		A_SetPlayerSkin(playerid, GetPVarInt(playerid, "curskin"));
 		cancel_skin(playerid);
@@ -32985,6 +33051,9 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 	return 1;
 }
 public OnPlayerLeaveDynamicArea(playerid, areaid) {
+	for(new i; i < MAX_STREAMS; i++) {
+		if(areaid == Streams[i][sStream]) StopAudioStreamForPlayer(playerid);
+	}
 	if(CI[playerid][cStage] == 1 && areaid == CI[playerid][cDeathArea]) PlayerSpawn(playerid);
 	else if(areaid >= gHouseArea[0] && areaid <= gHouseArea[gHouseCount]) TI[playerid][tSelectHouse] = 0;
 	else if(areaid >= b_area[0] && areaid <= b_area[gBusinessCount - 1] && TI[playerid][tTPpick] == false) TI[playerid][tSelectedBusinessID] = -1;
@@ -33852,7 +33921,7 @@ public OnPlayerGiveDamageActor(playerid, damaged_actorid, Float:amount, weaponid
 	return 1;
 }
 public OnPlayerSpawn(playerid) {
-	SendInfo(playerid, "OnPlayerSpawn");
+	// SendInfo(playerid, "OnPlayerSpawn");
 	if(!TI[playerid][tLogin] || !TI[playerid][tJoined]) return 1;
 	ShowPlayerDialog(playerid, -1, 0, " ", " ", " ", " ");
 	SetPlayerColor(playerid, 0xFFFFFF11);
@@ -35243,8 +35312,7 @@ CB:check_account(playerid) {
 	if(!rows) return account_registration(playerid);
 
 	cache_get_value_name(0, "cOwner", PI[playerid][pName], MAX_PLAYER_NAME);
-	
-	for(new i; i < MAX_PLAYERS; i++) {
+	foreach(new i:Player) {
 		if(TI[i][tLogin] && !strcmp(PI[i][pName], PI[playerid][pName])) return SendError(playerid, "Ваш акаунт вже знаходиться у грі."); 
 	}
 
@@ -35265,8 +35333,16 @@ CB:check_account(playerid) {
 	cache_get_value_name(0, "pRegDate", PI[playerid][pRegDate], 128);
 	cache_get_value_name(0, "pRegIP", PI[playerid][pRegIP], 17);
 	cache_get_value_name(0, "pLastIP", PI[playerid][pLastIP], 17);
-
-	return account_authorization(playerid);
+	new currentip[17];
+	GetPlayerIp(playerid, currentip, 17);
+	if(strcmp(PI[playerid][pLastIP], currentip)) account_authorization(playerid);
+	else {
+		TI[playerid][tLoginTime] = 0;
+		TI[playerid][tLogin] = true;
+		SetPVarInt(playerid, "adminaccess", 0);
+		characters_panel(playerid);
+	}
+	return 1;
 }
 
 stock SetPlayerCriminal(playerid, const killerid[], const reason[]) {
@@ -35276,12 +35352,11 @@ stock SetPlayerCriminal(playerid, const killerid[], const reason[]) {
 	strmid(CI[playerid][pAccusedof], reason, 0, strlen(reason), 43);
 	if(CI[playerid][pSearch] > 6) CI[playerid][pSearch] = 6;
 	new query[200];
-	mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pVictim`= '%s',`pAccusedof`= '%s' WHERE `Name` = '%s' LIMIT 1", CI[playerid][pVictim], CI[playerid][pAccusedof], CI[playerid][cName]);
+	mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pVictim`= '%s', `pAccusedof`= '%s' WHERE `Name` = '%s' LIMIT 1", CI[playerid][pVictim], CI[playerid][pAccusedof], CI[playerid][cName]);
 	mysql_tquery(connects, query);
 	return 1;
 }
 stock other_timer() {
-	print("that's me");
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
 		if(SERIU[i][sID] != INVALID_PLAYER_ID) continue;
@@ -35290,8 +35365,7 @@ stock other_timer() {
 			if(UseSound[i] == 0 && distance <= rads) {
 				PlayAudioStreamForPlayer(i, stream, streampos[0], streampos[1], streampos[2], rads, 1);
 				UseSound[i] = 1;
-			}
-			if(UseSound[i] == 1 && distance > rads) {
+			} else if(UseSound[i] == 1 && distance > rads) {
 				UseSound[i] = 0;
 			}
 		}
@@ -35531,12 +35605,14 @@ public OnGameModeInit() {
 
 	Streamer_TickRate(50);
 	new tmpobjid;
-	#include "modules/mapping.inc"
+	#include "mapping/original.inc"
+	// #include "mapping/businesses.inc"
+	// #include "mapping/general.inc"
 
 	CreatePickup(1239, 23, 1123.7704, -892.0002, 1046.0126, 62);
 
 	CreatePickup(1239, 23, 1400.5125, -20.4098, 1010.3695, 61);
-	CreateDynamic3DTextLabel(""W"Для продажу\n\n Натисніть клавішу '"G"ALT'"W"", -1, 1123.7704, -892.0002, 1046.0126, 2.0);
+	CreateDynamic3DTextLabel(W"Для продажу\n\n Натисніть клавішу '"G"ALT'"W, -1, 1123.7704, -892.0002, 1046.0126, 2.0);
 	tmpobjid = CreateObject(4821, 1745.199951, -1882.849975, 26.140600, 0.0, 0.0, 0.0, 300.00);
 	SetObjectMaterial(tmpobjid, 5, 18029, "genintintsmallrest", "GB_restaursmll03", 0x00000000);
 	SetObjectMaterial(tmpobjid, 7, 7555, "bballcpark1", "ws_carparknew2", 0x00000000);
@@ -35547,7 +35623,7 @@ public OnGameModeInit() {
 
 	printf("[Success] Dynamic objects successfully loaded. (%d pcs.)",CountDynamicObjects());
 
-	for(new i = 0; i < MAX_CONTAINER; i++) {
+	for(new i; i < MAX_CONTAINER; i++) {
 	    switch(gContainer[i][cClass]) {
 			case 5: {
                 CreateDynamicPickup(1254, 23, gContainer[i][cX], gContainer[i][cY], gContainer[i][cZ]);
@@ -35571,19 +35647,19 @@ public OnGameModeInit() {
 
 	}
 
-	for(new i = 0; i < MAX_MARKET; i++) { 
+	for(new i; i < MAX_MARKET; i++) { 
 		CreateDynamicPickup(1239, 23, Market[i][m_x], Market[i][m_y], Market[i][m_z]);
 		new string[120];
 		format(string, sizeof(string), P"Прилавок "P"#%d"W"\nОрендар: "P"немає"W"\nНатисніть "P"ALT"W" щоб орендувати", i + 1);
 		Market[i][m_text] = CreateDynamic3DTextLabel(string, -1, Market[i][m_x], Market[i][m_y], Market[i][m_z], 6.0);
 	}
 
-	for(new g = 0; g < MAX_EGG; g++) {
+	for(new g; g < MAX_EGG; g++) {
 		CreateDynamicObject(1451,Egg[g][gX],Egg[g][gY],Egg[g][gZ], Egg[g][grX],Egg[g][grY], Egg[g][grZ]);
 		Egg[g][gText] = CreateDynamic3DTextLabel(""P"Курник\n\n"W"Доглядає:"P" None\n"W"Курячий корм:"P" [0/10]\n"W"Знесено яєць:"P" [0/20]\n\n"W"Почати догляд"P" [ALT]", -1,Egg[g][gX],Egg[g][gY],Egg[g][gZ]+ 1, 4.0);
 		strmid(Egg[g][gName], "None", 0, strlen("None"), 5);
 	}
-	for(new u = 0; u < MAX_SEWER; u++) { 
+	for(new u; u < MAX_SEWER; u++) { 
 		Sewer[u][seText] = CreateDynamic3DTextLabel(""P"Каналізаційний люк\n"W"Для входу натисніть "P"ALT", -1,Sewer[u][seX],Sewer[u][seY],Sewer[u][seZ]-0.5, 2.0);
 		Sewer[u][seAmmout] = 15;
 	}
@@ -38307,17 +38383,11 @@ stock PayDay() {
 		else SetPlayerTime(i, 12, 00);
 		if(CI[i][pMember] && start_work[i]) CI[i][pSalary] += fSalary[CI[i][pMember]][CI[i][pRank]];
 		SendClientMessage(i, COLOR_GREY, "----------[ Банківський чек ]----------");
-		format(string, sizeof(string), "Балас телефону: "GREEN"$%i"W".", CI[i][pMobile]);
-		SendClientMessage(i, -1, string);
 		CI[i][pExp] += 3 * PayDayX;
 		if(CI[i][pBoost]) format(string, sizeof(string), "Заробітня плата: "GREEN"$%i"W".", CI[i][pSalary]*2);
 		else format(string, sizeof(string), "Заробітня плата: "GREEN"$%i"W".", CI[i][pSalary]);
 		SendClientMessage(i, -1, string);
-		if(PI[i][pAdmin] > 0) {
-			SendClientMessage(i, -1, "Адмін-зарплата: "GREEN"$7.000"W".");
-			CI[i][pBank] += 7000;
-		}
-		if(CI[i][pBoost]) CI[i][pBank] += CI[i][pSalary]*2;
+		if(CI[i][pBoost]) CI[i][pBank] += CI[i][pSalary] * 2;
 		else CI[i][pBank] += CI[i][pSalary];
 		CI[i][pSalary] = 0;
 		UpdateCharacterData(i, "salary", CI[i][pSalary]);
@@ -38332,8 +38402,6 @@ stock PayDay() {
 				}
 			}
 		}
-		format(string, sizeof(string), "Баланс: "GREEN"$%i"W".", CI[i][pBank]);
-		SendClientMessage(i, -1, string);
 		SendClientMessage(i, COLOR_GREY, "--------------------------------------------------");
 		if(CI[i][pExp]+ 1 >= (CI[i][pLevel])*6) {
 			CI[i][pLevel] += 1;
@@ -38481,44 +38549,40 @@ stock SendMCMessage(color, const string[]) {
 }
 stock MarkerGos(playerid, Float:x, Float:y, Float:z) {
 	foreach(new i:Player) {
-		if(IsState(i)) SetPlayerCheckpoint(playerid, x,y,z, 5.0);
+		if(IsState(i)) SetPlayerCheckpoint(playerid, x, y, z, 5.0);
 	}
 }
-stock SendRadioMessage(member, color, const str[]) {
+stock SendRadioMessage(playerid, const text[], channel, slot) {
+	new string[256];
+	format(string, sizeof(string), "[CH: %i, S: %i] %s: %s", channel, slot, CI[playerid][cName], text);
+	SendSpyMessage(CI[playerid][pMember], 0xFFFFCCFF, string);
 	foreach(new i:Player) {
-		if(!TI[i][tLogin]) continue;
-		if(CI[i][pSettings][1] && start_work[i] && (CI[i][pMember] == member || CI[i][pLeader] == member)) SendClientMessage(i, color, str);
+		if(TI[i][tLogin] && CI[i][pSettings][1]) {
+			if(channel == CI[i][cRadioChannel] && slot == 0) SendClientMessage(i, 0xFFFFCCFF, string);
+			else if(channel == CI[i][cRadioChannel] && slot == CI[i][cRadioSlot]) SendClientMessage(i, 0xFFFFCCFF, string);
+		}
+		if(GetPVarInt(i, "admin_tipster") == CI[playerid][pMember]) SendClientMessage(i, 0xFFFFCCFF, string);
 	}
 }
 stock SendFactionMessage(family, color, const str[]) {
-	foreach(new i:Player) {
-		if(!TI[i][tLogin]) continue;
-		if(start_work[i]) {
-			if(CI[i][pSettings][1]) {
-				if(CI[i][pMember] == family) {
-					SendClientMessage(i, color, str);
-				}
-			}
-		}
-	}
+	foreach(new i:Player) if(TI[i][tLogin] && CI[i][pSettings][1] && CI[i][pMember] == family) SendClientMessage(i, color, str);
 }
 stock SendAdminMessage(color, const str[]) {
 	foreach(new i:Player) {
-		if(!TI[i][tLogin]) continue;
-		if(!PI[i][pAdmin] || GetPVarInt(i, "adminaccess") != 1) continue;
+		if(TI[i][tLogin] && !PI[i][pAdmin] || GetPVarInt(i, "adminaccess") != 1) continue;
 		SendClientMessage(i, color, str);
 	}
 }
 stock FamMSG(fam, const str[]) {
 	foreach(new i:Player) {
-		if(!TI[i][tLogin]) continue;
-		if(CI[i][pFamily] != fam) continue;
+		if(TI[i][tLogin] && CI[i][pFamily] != fam) continue;
 		SendClientMessage(i, FamilyColorG[gFamily[fam-1][famColor]], str);
 	}
 }
 CMD:mycollab(playerid) {
-	ShowPlayerDialog(playerid, D_MYCOLLAB, DSL, P"Статистика співпраці", "Інформація про мій промокод\nМої реферали", "Обрати", "Закрити");
+	ShowPlayerDialog(playerid, D_MYCOLLAB, DSL, P"Статистика співпраці.", "Інформація про мій промокод.\nМої реферали.", "Обрати", "Закрити");
 }
+
 alias:mycollab("mypromo", "promo")
 stock IsText(const name[], const name2[]) {
 	if(!strcmp(name, name2, true)) return 1;
@@ -38619,7 +38683,7 @@ CMD:vacancy(playerid) {
 		return ShowPlayerDialog(playerid, D_VACANCY, DSL, P"Вакансії", str, "Далі", "Закрити");
 	}
 	if(vacancies == 0) return SendError(playerid, "Наразі немає доступних вакансій.");
-	return ShowPlayerDialog(playerid, D_VACANCY, DSL, P"Вакансії", str, "Далі", "Закрити");
+	return ShowPlayerDialog(playerid, D_VACANCY, DSL, P"Вакансії.", str, "Далі", "Закрити");
 }
 CMD:taxitest(playerid) {
 	new string[128];
@@ -38654,7 +38718,7 @@ CMD:taxilist(playerid) {
 		format(str, sizeof(str), ""ORANGE"%d. "W"%s\t%d\t%.1f\n",number, CI[i][cName], CI[i][pPhone], GetDistanceBetweenPlayers(i, playerid)),strcat(string, str);
 	}
 	if(!number) return SendError(playerid, "Немає доступних замовлень.");
-	ShowPlayerDialog(playerid, D_TAXIST, DSTH, P"Замовлення", string, "Далі", "Закрити");
+	ShowPlayerDialog(playerid, D_TAXIST, DSTH, P"Замовлення.", string, "Далі", "Закрити");
 	return 1;
 }
 CMD:count(playerid) {
@@ -38850,7 +38914,7 @@ CMD:id(playerid, params[]) {
 	if(isnull(params) || strlen(params) > 25) return SendError(playerid, "Використайте: /id [playername]");
 	SendInfo(playerid, "Гравці онлайн:");
 	new string[144];
-	if(!isNotNumeric(params)) {
+	if(!HasNumbersOnly(params)) {
 		if(!IsPlayerConnected(strval(params))) return SendError(playerid, not_id);
 		format(string, sizeof(string), "%s (%i). Рівень: %d. %s", CI[strval(params)][cName],strval(params), GetPlayerScore(strval(params)), (TI[strval(params)][tAFK] > 3) ? (""P"[AFK]"):(""));
 		SendOK(playerid, string);
@@ -38960,28 +39024,29 @@ CMD:todo(playerid,params[]) {
 	SendStreamMessage(15.0, playerid, string, 0xE75480FF);
 	return 1;
 }
-CMD:b(playerid, params[]) {
+CMD:an(playerid, params[]) {
 	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	new mes[128];
-	if(isnull(params) || strlen(params) > 100) return SendError(playerid, "Використайте: /b [text]");
+	if(isnull(params) || strlen(params) > 100) return SendError(playerid, "Використайте: /n [text]");
+	format(mes, sizeof(mes), "(( %s[%d]: %s ))", CI[playerid][cName], playerid, params);
+	SetPlayerChatBubble(playerid, mes, 0xcecf9cFF, 15.0, 7000);
+	return 1;
+}
+alias:an("ab")
+CMD:n(playerid, params[]) {
+	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
+	new mes[128];
+	if(isnull(params) || strlen(params) > 100) return SendError(playerid, "Використайте: /n [text]");
 	format(mes, sizeof(mes), "(( %s[%d]: %s ))", CI[playerid][cName], playerid, params);
 	new len = strlen(mes), i_len = len / MAX_CHARS_PER_LINE;
 	if(len % MAX_CHARS_PER_LINE) i_len ++;
 	new line[MAX_CHARS_PER_LINE + 5], _:index;
 	while(index < i_len) {
-		strmid(
-			line, 
-			mes, 
-			(index * MAX_CHARS_PER_LINE), 
-			(index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE 
-		);
+		strmid(line, mes, (index * MAX_CHARS_PER_LINE), (index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE);
 		if(i_len > 1) {
-			if(!index)
-				format(line, sizeof line, "%s ...", line);
-			else if(index > 0 && (index + 1) < i_len)
-				format(line, sizeof line, "... %s ...", line);
-			else 
-				format(line, sizeof line, "... %s", line);
+			if(!index) format(line, sizeof(line), "%s ...", line);
+			else if(index > 0 && (index + 1) < i_len) format(line, sizeof(line), "... %s ...", line);
+			else format(line, sizeof(line), "... %s", line);
 		}
 		ProxDetector(15.0, playerid, line, 0xcecf9cFF);
 		index++;
@@ -38989,6 +39054,7 @@ CMD:b(playerid, params[]) {
 	// ProxDetector(15.0, playerid, mes, 0xcecf9cFF);
 	return 1;
 }
+alias:n("b")
 CMD:stats(playerid, params[]) {
 	return ShowStats(playerid, playerid);
 }
@@ -40375,7 +40441,7 @@ CMD:selldrugs(playerid, params[]) {
 	if(price > GetPlayerMoneyEx(id)) return SendError(playerid, "У гравця недостатньо грошей.");
 	if(IsPlayerInRangeOfPoint(playerid, 15.5, 2080.7615, 1710.6829, 1113.5668)) return SendError(playerid, "Продаж наркотиків в казино заборонений.");
 	if(active_accept(id)) return SendError(playerid, "У гравця вже є активна пропозиція.");
-	if(GetInvSet(id) >= 50) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
+	if(GetItemAmount(id, 0) <= 0) return SendError(playerid, "В інвентарі у гравця недостатньо місця.");
 
 	SetPVarInt(playerid, "drugoffee", id);
 	SetPVarInt(id, "drugoffee", id);
@@ -40686,10 +40752,10 @@ CMD:pass(playerid, params[]) {
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
 	if(playerid == params[0]) return ShowPass(playerid, playerid);
 	new string[144];
-	format(string, sizeof(string), P"%s"W" хоче показати вам паспорт.", CI[playerid][cName]);
+	format(string, sizeof(string), P"%s"W" хоче показати вам ID карту.", CI[playerid][cName]);
 	SendUse(params[0], string);
 	SendHint(params[0], "Натисніть "YES"Y"W" щоб погодитися, або "NO"N"W" для відмови.");
-	format(string, sizeof(string), "Ви запропонували "P"%s"W" показати ваш паспорт.", CI[params[0]][cName]);
+	format(string, sizeof(string), "Ви запропонували "P"%s"W" показати вашу ID карту.", CI[params[0]][cName]);
 	SendUse(playerid, string);
 	SetPVarInt(params[0], "pass", playerid + 1);
 	return 1;
@@ -41482,9 +41548,9 @@ CMD:wbook(playerid, params[]) {
 	}
 	return 1;
 }
-CMD:medcard(playerid,params[]) {
-	if(!CI[playerid][pMedCard]) return SendError(playerid, "У вас немає медичної карти. Отримати її можна в Центральній лікарні всіх Святих.");
-	if(sscanf(params, "d",params[0])) return SendError(playerid, "Використайте: /medcard [playerid]");
+CMD:showmc(playerid,params[]) {
+	if(!CI[playerid][pMedCard]) return SendError(playerid, "У вас немає медичної карти. Отримати її можна в лікарні.");
+	if(sscanf(params, "i", params[0])) return SendError(playerid, "Використайте: /showmc [playerid]");
 	if(!IsPlayerConnected(params[0])) return SendError(playerid, not_id);
 	if(GetPlayerDistanceToPlayer(playerid, params[0]) > 3.0 || GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(params[0])) return SendError(playerid, "Гравець дуже далеко.");
 	if(params[0] == playerid) ShowMedcard(playerid, playerid);
@@ -42373,117 +42439,61 @@ CMD:rank(playerid, params[]) {
 			format(string, sizeof(string), "%s%s%s (%i)\n", string,(CI[params[0]][pRank] == i) ? (""P"") : (""), GetRankName(CI[playerid][pMember],i),i);
 			ShowPlayerDialog(playerid,dRank, DSL, P"Оберіть ранг.", string, "Обрати", "Закрити");
 		}
-		SetPVarInt(playerid, "id_giverank",params[0]);
+		SetPVarInt(playerid, "id_giverank", params[0]);
 	}
 	return 1;
 }
 alias:rank("giverank")
 CMD:f(playerid, params[]) {
-	if(!IsCrime(playerid)) return 1;
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації (/mn > Налаштування > Чат організації)");
-	if(CI[playerid][pFmute] > 0) return SendError(playerid, "У вас заглушка.");
-	new result[128];
-	if(sscanf(params, "s[128]",result)) return SendError(playerid, "Використайте: /f [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	static const f_str[] = "[F] %s %s: %s";
-	new string[sizeof(f_str) + 1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-	format(string, sizeof(string), f_str, GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], result);
-	SendFactionMessage(CI[playerid][pMember], 0x6699ccFF, string);
-	foreach(new i:Player) if(GetPVarInt(i, "admin_tipster") == CI[playerid][pMember]) SendClientMessage(i, COLOR_LIGHTRED, string);
-	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
-	return 1;
-}
-CMD:fb(playerid, params[]) {
-	if(!IsCrime(playerid)) return 1;
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації. (/mn > налаштування > чат організації)");
-	if(CI[playerid][pFmute] > 0) return SendError(playerid, "У вас заглушка.");
-	new result[128];
-	if(sscanf(params, "s[128]",result)) return SendError(playerid, "Використайте: /fb [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	static const f_str[] = "[F] %s %s[%d]: (( %s ))";
-	new string[sizeof(f_str) + 1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-	format(string, sizeof(string), f_str, GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], playerid, result);
-	SendFactionMessage(CI[playerid][pMember], 0x6699ccFF, string);
-	foreach(new i:Player) if(GetPVarInt(i, "admin_tipster") == CI[playerid][pMember]) SendClientMessage(i, COLOR_LIGHTRED, string);
-	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
-	return 1;
-}
-CMD:rb(playerid, params[]) {
-	if(!IsState(playerid)) return 1;
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації. (/mn > налаштування > чат організації)");
-	if(CI[playerid][pFmute] > 0) return SendError(playerid, "У вас заглушка.");
-	new result[128];
-	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /rb [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	if(!start_work[playerid]) return 1;
-	static const f_str[] = "[R] %s %s[%d]: (( %s ))";
-	new string[sizeof(f_str) + 1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-
-	format(string, sizeof(string), f_str, GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], playerid, result);
-	SendFactionMessage(CI[playerid][pMember], 0x31cf63FF, string);
-	foreach(new i:Player) if(GetPVarInt(i, "admin_tipster") == CI[playerid][pMember]) SendClientMessage(i, COLOR_LIGHTRED, string);
-	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
+	if(CI[playerid][pMember] == 0) return SendError(playerid, "У вас немає доступу до цієї команди.");
+	new result[128], string[256];
+	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /f [text]");
+	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
+	format(string, sizeof(string), "(( [F] %s[%d]: %s ))", CI[playerid][cName], playerid, result);
+	SendFactionMessage(CI[playerid][pMember], 0x569CD6FF, string);
+	SendSpyMessage(CI[playerid][pMember], 0xFFFFCCFF, string);
+	foreach(new i:Player) if(GetPVarInt(i, "admin_tipster") == CI[playerid][pMember]) SendClientMessage(i, 0xFFFFCCFF, string);
 	return 1;
 }
 CMD:r(playerid, params[]) {
-	if(!IsState(playerid)) return 1;
-	if(GetPVarInt(playerid, "takeradio")) return SendError(playerid, "У вас немає рації.");
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації. (/mn > налаштування > чат організації)");
-	if(CI[playerid][pFmute] > 0) return SendError(playerid, "У вас заглушка.");
-	new result[128];
+	if(!GetItemAmount(playerid, 492)) return SendError(playerid, "У вас немає рації.");
+	new result[128], string[256];
 	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /r [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	if(!start_work[playerid]) return 1;
-	static const f_str[] = "[R] %s %s: %s";
-	new string[sizeof(f_str) + 1 + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 105)];
-	format(string, sizeof(string), f_str, GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], result);
-	SendFactionMessage(CI[playerid][pMember], 0x31cf63FF, string);
-	radio_(playerid,result);
-	foreach(new i:Player) if(GetPVarInt(i, "admin_tipster") == CI[playerid][pMember]) SendClientMessage(i, COLOR_LIGHTRED, string);
-	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
+	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
+	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп в роті.");
+	if(!CI[playerid][cRadioChannel]) return SendError(playerid, "Налаштуйте свою рацію.");
+	SendRadioMessage(playerid, result, CI[playerid][cRadioChannel], 0);
+	format(string, sizeof(string), "%s сказав в рацію: %s", CI[playerid][cName], result);
+	foreach(new i:Player) {
+		if(!TI[i][tLogin] || playerid == i) continue;
+		if(GetPlayerDistanceToPlayer(playerid, i) > 6.0 || GetPlayerVirtualWorld(i) != GetPlayerVirtualWorld(playerid)) continue;
+		SendClientMessage(i, COLOR_PURPLE, string);
+	}
 	return 1;
 }
 CMD:rr(playerid, params[]) {
-	if(!IsAnEnforcement(playerid) && !IsAMedic(playerid) && !IsAnEnforcement(playerid) && !IsAMedia(playerid) && !IsAMafia(playerid)) return 1;
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації. (/mn > Налаштування > Чат організації)");
-	if(CI[playerid][pFmute] > 0) return SendError(playerid, "У вас заглушка.");
-	new result[128];
-	if(sscanf(params, "s[128]",result)) return SendError(playerid, "Використайте: /rr [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	if(!start_work[playerid]) return 1;
-	new string[156];
-	if(CI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
-	format(string, sizeof(string), "[%s] %s %s[%d]: %s", FI[CI[playerid][pMember]][fName], GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], playerid, result);
-	if(IsAGovernment(playerid) && CI[playerid][pRank] == MINISTRE_NEWS) SendNews(0x54548CFF, string);
-	if(IsAGovernment(playerid) && CI[playerid][pRank] == MINISTRE_PD) SendCop(0x54548CFF, string);
-	if(IsAGovernment(playerid) && CI[playerid][pRank] == MINISTRE_MEDICS) SendMedic(0x54548CFF, string);
-	if(IsAGovernment(playerid) && CI[playerid][pRank] == MINISTRE_ARMY) SendArmy(0x54548CFF, string);
-	if(IsAnEnforcement(playerid)) SendCop(0x54548CFF, string);
-	if(IsAnEnforcement(playerid)) SendArmy(0x54548CFF, string);
-	if(IsAMedic(playerid)) SendMedic(0x54548CFF, string);
-	if(IsAMedia(playerid)) SendNews(0x54548CFF, string);
-	if(IsAMafia(playerid)) SendMafia(0x54548CFF, string);
+	if(!GetItemAmount(playerid, 492)) return SendError(playerid, "У вас немає рації.");
+	new result[128], string[256];
+	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /rr [text]");
+	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
+	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп в роті.");
+	if(!CI[playerid][cRadioChannel]) return SendError(playerid, "Налаштуйте свою рацію.");
+	SendRadioMessage(playerid, result, CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+	format(string, sizeof(string), "%s сказав в рацію: %s", CI[playerid][cName], result);
+	foreach(new i:Player) {
+		if(!TI[i][tLogin] || playerid == i) continue;
+		if(GetPlayerDistanceToPlayer(playerid, i) > 6.0 || GetPlayerVirtualWorld(i) != GetPlayerVirtualWorld(playerid)) continue;
+		SendClientMessage(i, COLOR_PURPLE, string);
+	}
 	return 1;
 }
 CMD:d(playerid, params[]) {
 	if(!IsState(playerid)) return 1;
-	if(GetPVarInt(playerid, "takradio")) return SendError(playerid, "У вас немає рації.");
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації. (/mn > Налаштування > Чат організації)");
-	if(CI[playerid][pFmute] > 0) return SendError(playerid, "У вас заглушка.");
-	new result[128];
-	if(sscanf(params, "s[128]",result)) return SendError(playerid, "Використайте: /d [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	if(!start_work[playerid]) return 1;
-	new string[156];
-	if(CI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
-	if(GetSVarInt("d_timer") > gettime()) return SendError(playerid, "Користуватися рацією департамента можна раз в 5 секунд.");
-	SetSVarInt("d_timer", gettime() + 5);
+	if(!GetItemAmount(playerid, 492)) return SendError(playerid, "У вас немає рації.");
+	new result[128], string[256];
+	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /d [text]");
+	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
+	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп в роті.");
 	format(string, sizeof(string), "[%s] %s %s: %s", FI[CI[playerid][pMember]][fName], GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], result);
 	SendDeptMessage(COLOR_MINJUST, string);
 	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
@@ -42497,18 +42507,11 @@ CMD:d(playerid, params[]) {
 }
 CMD:db(playerid, params[]) {
 	if(!IsState(playerid)) return 1;
-	if(!CI[playerid][pSettings][1]) return SendError(playerid, "Для початку ввімкніть чат організації. (/mn > Налаштування > Чат організації)");
-	new result[128];
+	if(!GetItemAmount(playerid, 492)) return SendError(playerid, "У вас немає рації.");
+	new result[128], string[256];
 	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /db [text]");
-	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
-	if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-	if(CI[playerid][pRank] < 3) return SendError(playerid, "Доступно з 3 рангу.");
-	if(GetSVarInt("d_timer") > gettime()) return SendError(playerid, "Користуватися рацією департамента можна раз в 15 секунд.");
-	SetSVarInt("d_timer", gettime() + 15);
-	static const f_str[] = "[%s] %s %s: (( %s ))";
-	new string[sizeof(f_str) + 1 + (-2 + 20) + (-2 + 24) + (-2 + MAX_PLAYER_NAME) + (-2 + 100)];
-
-	format(string, sizeof(string), f_str, FI[CI[playerid][pMember]][fName], GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], result);
+	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
+	format(string, sizeof(string), "[%s] %s %s: (( %s ))", FI[CI[playerid][pMember]][fName], GetRankName(CI[playerid][pMember], CI[playerid][pRank]), CI[playerid][cName], result);
 	SendDeptMessage(COLOR_MINJUST, string);
 	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
 	return 1;
@@ -42906,7 +42909,7 @@ CMD:gps(playerid) {
 	ShowPlayerDialog(playerid, D_GPS, DSL, P"GPS", string, "Обрати", "Скасувати");
 	return 1;
 }
-CMD:menu(playerid, const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, P"Меню гравця", P"1."W" Інформація про персонаж\n"P"2."W" Команди сервера\n"P"3."W" Навички персонажа\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм\n"P"8."W" Безпека\n"P"9."W" Промокод\n"P"10."W" Мої завдання\n"P"11."W" Кейси\n"P"12."W" Донат послуги\n"P"13. "W"Історія покарань\n"P"14."W" Керування персонажами", "Обрати", "Скасувати");
+CMD:menu(playerid, const params[]) return ShowPlayerDialog(playerid, D_MENU, DSL, P"Меню гравця.", P"1."W" Інформація про персонажа.\n"P"2."W" Команди сервера.\n"P"3."W" Навички персонажа.\n"P"4."W" Зв'язок з адміністрацією\n"P"5."W" Інвентар\n"P"6."W" Налаштування\n"P"7."W" Змінити ігровий нікнейм.\n"P"8."W" Безпека.\n"P"9."W" Промокод.\n"P"10."W" Мої завдання.\n"P"11."W" Кейси.\n"P"12."W" Донат-послуги.\n"P"13. "W"Історія покарань.\n"P"14."W" Змінити персонажа.", "Обрати", "Скасувати");
 alias:menu("mm", "mn")
 CMD:settings(playerid) {
 	ShowSettings(playerid);
@@ -42961,7 +42964,7 @@ CMD:report(playerid,params[]) {
 	return 1;
 }
 alias:report("rep")
-CMD:play(playerid) return ShowPlayerDialog(playerid, D_RADIO, DSL, P"Онлайн радіо", P"1."W" Kiss FM\n"P"2."W" Радіо Байрактар\n"P"3."W" Львівська хвиля\n"P"4."W" NRJ Ukraine\n"P"5."W" Своя музика\n"P"9."W" Вимкнути", "Прийняти", "Скасувати");
+CMD:play(playerid) return ShowPlayerDialog(playerid, D_RADIO, DSL, P"Онлайн радіо.", P"1."W" Kiss FM.\n"P"2."W" Радіо Байрактар.\n"P"3."W" Львівська хвиля.\n"P"4."W" NRJ Ukraine.\n"P"5."W" Своя музика.\n"P"9."W" Вимкнути", "Прийняти", "Скасувати");
 CMD:eject(playerid, params[]) {
 	if(!IsPlayerInAnyVehicle(playerid)) return 1;
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Ви не за кермом.");
@@ -43262,9 +43265,9 @@ public OnPlayerText(playerid, text[]) {
 			(index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE 
 		);
 		if(i_len > 1) {
-			if(!index) format(line, sizeof line, "%s ...", line);
-			else if(index > 0 && (index + 1) < i_len) format(line, sizeof line, "... %s ...", line);
-			else format(line, sizeof line, "... %s", line);
+			if(!index) format(line, sizeof(line), "%s ...", line);
+			else if(index > 0 && (index + 1) < i_len) format(line, sizeof(line), "... %s ...", line);
+			else format(line, sizeof(line), "... %s", line);
 		}
 		ProxDetector(20.0, playerid, line, -1);
 		index++;
@@ -43410,8 +43413,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				anti_dm{playerid} = 7;
 				FreezePlayerForTime(playerid, 6);
 				new str[120];
-				format(str, sizeof(str), W"У цьому місці заборонено "P"битись або стріляти"W"\n\nВи будете розморожені через"P" %d"W" секунд", anti_dm{playerid});
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Зелена зона", str, "Закрити", "");
+				format(str, sizeof(str), W"У цьому місці "R"заборонено"W" битись або стріляти\n\nВи будете розморожені через "P"%d"W" секунд", anti_dm{playerid});
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Зелена зона.", str, "Закрити", "");
 			}
 		}
 	}
@@ -43594,7 +43597,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		} else if(IsPlayerInRangeOfPoint(playerid, 4.0, 2179.1509, -1661.0247, 14.9291)) {
 			if(gBusiness[56][bizzMafia] != CI[playerid][pMember]) return 1;
 			if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 482)  return SendError(playerid, "Ви не у фургоні для розвезення наркотиків.");
-			ShowPlayerDialog(playerid, DIALOG_PRITON_6, DSL, P"Склад наркопритона", P"1."W" Розвантажити наркотики\n"P"2."W" Завантажити наркотики", "Обрати", "Закрити");
+			ShowPlayerDialog(playerid, DIALOG_PRITON_6, DSL, P"Склад наркопритона.", P"1."W" Розвантажити наркотики.\n"P"2."W" Завантажити наркотики.", "Обрати", "Закрити");
 		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1078.4210, -352.8502, 74.5498)) // ЛЕС
 		{
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулeм тягача.");
@@ -44938,11 +44941,10 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		if(IsPlayerInRangeOfPoint(playerid, 50, 2072.4404, 1710.0946, 1113.7882)) ClearAnimations(playerid);
 		if(GetPlayerInterior(playerid) == 5 && GetPlayerVirtualWorld(playerid) == 76) ClearAnimations(playerid);
 		if(CI[playerid][pSatiety] < 25 && !IsPlayerInAnyVehicle(playerid)) {
-
 			ClearAnimations(playerid);
 			if(GetPVarInt(playerid, "AntiFloodH") > gettime()) return 1;
 			SetPVarInt(playerid, "AntiFloodH", gettime() + 300);
-			SendClientMessage(playerid, 0xd61839ff, "Ви зголодніли, і тепер не зможете бігати і стрибати. Щоб відновити ситість, перекусіть у найближчій закусочній.");
+			SendError(playerid, "Ваш персонаж зголоднів, відвідайте найближчу закусочну.");
 		}
 	}
 	/*if(newkeys & KEY_JUMP && newkeys & KEY_SPRINT) {
@@ -46274,7 +46276,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				gBusiness[TI[playerid][tSelectedBusinessID]][bizzProduct] -= 80;
 				bizz_pay(TI[playerid][tSelectedBusinessID], GetPVarInt(playerid, "price_acs"));
 			}
-			if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+			if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 			RemovePlayerAttachedObject(playerid, GetPVarInt(playerid, "slot_acs"));
 			SendOK(playerid, "Вітаємо з купівлею аксесуара.");
 			AddItem(playerid, GetPVarInt(playerid, "id_invent"), 1);
@@ -48281,8 +48283,6 @@ stock ShowStats(playerid, targetid) {
 		case 0: stext = "Чоловік";
 		case 1: stext = "Жінка";
 	}
-	if(!strcmp(CI[targetid][pMarried], "-")) mtext = "Відсутній";
-	else mtext = CI[targetid][pMarried];
 	switch(CI[targetid][pMember]) {
 		case 0: {
 			ftext = "Відсутня";
@@ -48304,14 +48304,25 @@ stock ShowStats(playerid, targetid) {
 		case 8: jtext  = "Інкасатор";
 		default: jtext = "Відсутня";
 	}
-	if(CI[targetid][pHouse] && !CI[targetid][pRoom]) format(htext, sizeof(htext), "Будинок #%d", gHouses[CI[targetid][pHouse]-1][houseID]);
-	else if(CI[targetid][pRoom] && !CI[targetid][pHouse]) format(htext, sizeof(htext), "Квартира #%d", CI[targetid][pRoom]);
-	else if(GetPlayerVehicles(targetid)) htext = "Будинок на колесах";
-	else htext = "Відсутнє";
 	switch(CI[targetid][pBusiness]) {
 		case 0: btext = "Відсутній";
 		default: format(btext, sizeof(btext), "%s (ID: %i)", gBusiness[CI[targetid][pBusiness]-1][bizzName], CI[targetid][pBusiness]);
 	}
+	switch(CI[targetid][pWarns]) {
+		case 0: wtext = "Відсутні";
+		default: {
+			new second, minute, hour, day, month, year;
+			new esc = floatround(( CI[targetid][punWarnstime] - gettime()) / 3600 / 24, floatround_ceil);
+			timestamp_to_date(CI[targetid][punWarnstime] - unix, year, month, day, hour, minute, second);
+			format(wtext, sizeof(wtext), "%i (%i:%i:%i)", CI[targetid][pWarns], esc, hour, minute);
+		}
+	}
+	if(CI[targetid][pHouse] && !CI[targetid][pRoom]) format(htext, sizeof(htext), "Будинок #%d", gHouses[CI[targetid][pHouse]-1][houseID]);
+	else if(CI[targetid][pRoom] && !CI[targetid][pHouse]) format(htext, sizeof(htext), "Квартира #%d", CI[targetid][pRoom]);
+	else if(GetPlayerVehicles(targetid)) htext = "Будинок на колесах";
+	else htext = "Відсутнє";
+	if(!strcmp(CI[targetid][pMarried], "-")) mtext = "Відсутній";
+	else mtext = CI[targetid][pMarried];
 	if(CI[targetid][pPremium]) {
 		new second, minute, hour, day, month, year;
 		new esc = floatround(( CI[targetid][pPremiumTime] - gettime()) / 3600 / 24, floatround_ceil);
@@ -48324,28 +48335,7 @@ stock ShowStats(playerid, targetid) {
 		}
 	} else prtext = "Відсутній";
 
-	switch(CI[targetid][pWarns]) {
-		case 0: wtext = "Відсутні";
-		default: {
-			new second, minute, hour, day, month, year;
-			new esc = floatround(( CI[targetid][punWarnstime] - gettime()) / 3600 / 24, floatround_ceil);
-			timestamp_to_date(CI[targetid][punWarnstime] - unix, year, month, day, hour, minute, second);
-			format(wtext, sizeof(wtext), "%i (%i:%i:%i)", CI[targetid][pWarns], esc, hour, minute);
-		}
-	}
-
-	/* format(string, sizeof(string), "%s\n\n"W"Транспорт:", string);
-	for(new i; i <2; i++) 
-		if(CarsInfo[targetid][carModel][i] == 481) return format(car, sizeof(car), "Відсутній\n");
-		format(car, sizeof(car), "%s\n", gTransport[CarsInfo[targetid][carModel][i]-400][trName]);
-	}
-	format(string, sizeof(string), "%s\n"G"%s", string, car); */
-	/* if(CarsInfo[targetid][carModel][0] == 481 && CarsInfo[targetid][carModel][1] == 481) return format(string, sizeof(string), "%s\n"G"Відсутній", string);
-	if(CarsInfo[targetid][carModel][0] == 481 && CarsInfo[targetid][carModel][1] != 481) return format(string, sizeof(string), "%s\n"G"%s", string, gTransport[CarsInfo[targetid][carModel][1]-400][trName]);
-	if(CarsInfo[targetid][carModel][0] != 481 && CarsInfo[targetid][carModel][1] == 481) return format(string, sizeof(string), "%s\n"G"%s", string, gTransport[CarsInfo[targetid][carModel][0]-400][trName]);
-	if(CarsInfo[targetid][carModel][0] != 481 && CarsInfo[targetid][carModel][1] != 481) return format(string, sizeof(string), "%s\n"G"%s\n%s", string, gTransport[CarsInfo[targetid][carModel][0]-400][trName], gTransport[CarsInfo[targetid][carModel][1]-400][trName]); */
-
-	format(string, sizeof(string), P"|"W" Персонаж "P"%s (ID: %i)"W":\n\n\
+	format(string, sizeof(string), P"|"W" Персонаж "P"%s (ID: %i)"W".\n\n\
 		Національність: "G"%s"W".\n\
 		Стать: "G"%s"W".\n\
 		Вік: "G"%i"W".\n\
@@ -48360,14 +48350,14 @@ stock ShowStats(playerid, targetid) {
 		Бізнес: "G"%s"W".\n\n",
 		CI[targetid][cName], CI[targetid][cID], CI[targetid][cNation], stext, CI[targetid][cAge], mtext, ftext, postext, jtext, CI[targetid][pCash], CI[targetid][pBank], CI[targetid][pDeposit], htext, btext);
 
-	format(string, sizeof(string), "%s"P"|"W" Акаунт "P"%s (ID: %i)"W":\n\n\
+	format(string, sizeof(string), "%s"P"|"W" Акаунт "P"%s (ID: %i)"W".\n\n\
 		Преміум: "G"%s"W".\n\
 		Рівень: "G"%i (%i/%i)"W".\n\
 		Попередження: "G"%s"W".\n\
 		Дата реєстрації: "G"%s"W".",
 		string, PI[targetid][pName], PI[targetid][pID], prtext, CI[targetid][pLevel], CI[targetid][pExp], CI[targetid][pLevel] * 6, wtext, PI[targetid][pRegDate]);
 	
-	format(header, sizeof(header), W" Статистика гравця "P"#%i"W".", targetid);
+	format(header, sizeof(header), P"|"W" Статистика гравця "P"#%i"W".", targetid);
 	return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, header, string, "Закрити", "");
 }
 stock UpdateSkladFrakGang() {
@@ -48900,7 +48890,7 @@ stock CreateTaxiVehicle(job, model, Float:X, Float:Y, Float:Z, Float:A,Color_1,C
 	return carid;
 }
 stock IsABikeSped(carid) {
-	switch(GetVehicleModel(carid)) { case 448, 435, 449, 450, 457, 464, 465, 481, 485, 501, 509, 510, 530, 564, 569, 570, 584, 594, 606, 607, 608, 610, 611: return 1; }
+	switch(GetVehicleModel(carid)) { case 448, 435, 449..450, 457, 464..465, 481, 485, 501, 509..510, 530, 564, 569..570, 584, 594, 606..608, 610..611: return 1; }
 	return 0;
 }
 stock IsACarNumber(carid) {
@@ -49066,6 +49056,8 @@ CB:load_character(playerid) {
 	cache_get_value_name(0, "cNation", CI[playerid][cNation], 32);
 	cache_get_value_name(0, "cPame", CI[playerid][cPame], 128);
 	cache_get_value_name_int(0, "cSkin", CI[playerid][cSkin]);
+	cache_get_value_name_int(0, "cRadioChannel", CI[playerid][cRadioChannel]);
+	cache_get_value_name_int(0, "cRadioSlot", CI[playerid][cRadioSlot]);
 	cache_get_value_name(0, "pMarried", CI[playerid][pMarried], MAX_PLAYER_NAME);
 	cache_get_value_name(0, "pEmail", CI[playerid][pEmail], 36);
 	cache_get_value_name(0, "pAccusedof", CI[playerid][pAccusedof], 43);
@@ -49524,18 +49516,9 @@ stock SaveMarket() {
 	return mysql_errno();
 }
 stock SaveHome(houseid) {
-	new strings[100],query[512];
-	query = "UPDATE `houses` SET ";
-	acc_str_strcat(query, sizeof(query), "owner", gHouses[houseid][houseOwner]);
-	acc_int_strcat(query, sizeof(query), "close", gHouses[houseid][houseClose]);
-	acc_int_strcat(query, sizeof(query), "day", gHouses[houseid][houseDay]);
-	acc_str_strcat(query, sizeof(query), "people1", gHouseArendator[houseid][0]);
-	acc_str_strcat(query, sizeof(query), "people2", gHouseArendator[houseid][1]);
-	acc_int_strcat(query, sizeof(query), "safecode", gHouses[houseid][houseSafeCode]);
-	strdel(query, strlen(query) -1, strlen(query));
-	mysql_format(connects, query, sizeof(query), "WHERE `id` = %i LIMIT 1", gHouses[houseid][houseID]);
-	strcat(query, strings);
-	mysql_tquery(connects, query, "", "");
+	new query[512];
+	mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `owner` = '%s', `close` = %i, `day` = %i, `people1` = '%s', `people2` = '%s', `safecode` = %i WHERE `id` = %i LIMIT 1", gHouses[houseid][houseOwner], gHouses[houseid][houseClose], gHouses[houseid][houseDay], gHouseArendator[houseid][0], gHouseArendator[houseid][1], gHouses[houseid][houseSafeCode], gHouses[houseid][houseID]);
+	mysql_query(connects, query);
 	return 1;
 }
 stock UpdateFaction(fractionID, const field[], data) {
@@ -49556,7 +49539,7 @@ stock UpdateFamily(id, const field[], data) {
 	mysql_tquery(connects, query, "", "");
 	return mysql_errno();
 }
-SavefRank(rank,fam) {
+SavefRank(rank, fam) {
 	new query[256];
 	mysql_format(connects, query, sizeof(query), "UPDATE `family` SET `Rank_%d` = '%s' WHERE `id` = %i", rank, FamRanks[fam][rank-1], fam+ 1);
 	return mysql_tquery(connects, query, "", "");
@@ -49597,19 +49580,12 @@ stock ShowHotelInformation(playerid, id, dialogid) {
 	return ShowPlayerDialog(playerid, DIALOGid, DSM, P"Бізнес.", string, "Закрити", "");
 }
 stock GetPlayerMoneyEx(playerid) return CI[playerid][pCash];
-stock isNotNumeric(const string[]) {
-	for (new i = 0, j = strlen(string); i < j; i++) {
-		if(string[i] > '9' || string[i] < '0') return 1;
-	}
-	return 0;
-}
-
 stock IsValidLeader(const string[]) return Regex_Check(string, Regex_New("^(?!.*?_$)(?!.*?__)([A-Za-z0-9][A-Za-z0-9_]*)?$"));
 stock IsValidName(const string[]) return Regex_Check(string, Regex_New("^(?!.*?_$)(?!.*?__)([A-Za-z][A-Za-z_]*)?$"));
-stock IsCyrillicLettersOnly(const string[]) return Regex_Check(string, Regex_New("^[А-Яа-яґҐєЄіІїЇ]+$"));
-stock HasNoApostrophe(const string[]) return Regex_Check(string, Regex_New("^[^']*$"));
 stock IsValidHex(const string[]) return Regex_Check(string, Regex_New("^([a-fA-F0-9]{6})$"));
-stock IsNumbersOnly(const string[]) return Regex_Check(string, Regex_New("^[0-9]+$"));
+stock HasCyrillicOnly(const string[]) return Regex_Check(string, Regex_New("^[А-Яа-яґҐєЄіІїЇ]+$"));
+stock HasNoApostrophe(const string[]) return Regex_Check(string, Regex_New("^[^']*$"));
+stock HasNumbersOnly(const string[]) return Regex_Check(string, Regex_New("^[0-9]+$"));
 
 CB:donate_shop(playerid, number, id, price) {
 	new rows;
@@ -49978,7 +49954,7 @@ stock RandomMassive(massive[], size) {
 		massive[rand] = mass;
 	}
 }
-family_dialog(playerid) return ShowPlayerDialog(playerid, D_FAMILY, DSL, P"Сім'я.", P"1."W" Інформація про сім'ю\n"P"2."W" Склад сім'ї онлайн\n"P"3."W" Склад сім'ї офлайн\n"P"4."W" Налаштування сім'ї\n"P"5."W" Передати семью\n"P"6."W" Покращення сім'ї\n"P"7."W" Розформувати сім'ю\n"P"8."W" Чорний список\n"P"9."W" Національність\n"P"10."W" Автопарк\n"P"11."W" Дім сім'ї\n"P"12."W" Рейтинг членів сім'ї\n"P"13."W" Покинути сім'ю", "Обрати", "Закрити");
+family_dialog(playerid) return ShowPlayerDialog(playerid, D_FAMILY, DSL, P"Сім'я.", P"1."W" Інформація про сім'ю.\n"P"2."W" Склад сім'ї онлайн.\n"P"3."W" Склад сім'ї офлайн.\n"P"4."W" Налаштування сім'ї.\n"P"5."W" Передати семью.\n"P"6."W" Покращення сім'ї.\n"P"7."W" Розформувати сім'ю.\n"P"8."W" Чорний список.\n"P"9."W" Національність.\n"P"10."W" Автопарк.\n"P"11."W" Дім сім'ї.\n"P"12."W" Рейтинг членів сім'ї.\n"P"13."W" Покинути сім'ю.", "Обрати", "Закрити");
 family_setting(playerid) {
 	new fam = CI[playerid][pFamily]-1;
 	static const f_str[] = ""P"1."W" Може приймати:\t\t\t"P"%s(%i)"W"\n\
@@ -50104,16 +50080,6 @@ stock SetNextBusCP(playerid, stop = false) {
 CB:BusStop(playerid) {
 	DeletePVar(playerid, "busstop");
 	SetNextBusCP(playerid, true);
-	return 1;
-}
-stock radio_(playerid,const action[], Float:distance = 6.0) {
-	new mes[145];
-	format(mes, sizeof(mes), "%s сказав в рацію: %s", CI[playerid][cName],action);
-	foreach(new i:Player) {
-		if(!TI[i][tLogin] || playerid == i) continue;
-		if(GetPlayerDistanceToPlayer(playerid,i) > distance || GetPlayerVirtualWorld(i) != GetPlayerVirtualWorld(playerid)) continue;
-		SendClientMessage(i,COLOR_PURPLE, mes);
-	}
 	return 1;
 }
 stock MeAction(playerid,const action[], Float:distance = 13.0) {
@@ -50420,10 +50386,7 @@ SavePlayerNumber(playerid) {
 	mysql_tquery(connects, query, "", "");
 }
 SendStreamMessage(Float:radius, playerid, const mes[], color) {
-	new Float:X,
-Float:Y,
-Float:Z,
-	vw = GetPlayerVirtualWorld(playerid);
+	new Float:X, Float:Y, Float:Z, vw = GetPlayerVirtualWorld(playerid);
 	GetPlayerPos(playerid, X, Y, Z);
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
@@ -51511,10 +51474,10 @@ CB:load_captcha(playerid) {
 		if(i > 18) {
 			new string[512];
 			format(string, sizeof(string), "%c", TextArray[i - 19]);
-			if(i >= 19) Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 154.640762, string); //123
-			if(i == 22) cindex_2 = 0, Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 189.570419, string); //4
-			if(i > 22) Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 189.570419, string); //56
-			if(i == 25) cindex_2 = 0, Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 224.414886, string); //7
+			if(i >= 19) Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 154.640762, string); // 123.
+			if(i == 22) cindex_2 = 0, Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 189.570419, string); // 4.
+			if(i > 22) Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 189.570419, string); // 56.
+			if(i == 25) cindex_2 = 0, Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 224.414886, string); // 7.
 			if(i > 25) Captcha[i] = CreatePlayerTextDraw(playerid, 277.633422 + (32.5 * cindex_2), 224.414886, string);
 			if(i == 28) cindex_2 = 0, Captcha[i] = CreatePlayerTextDraw(playerid, 310.333691, 257.600158, string);
 			PlayerTextDrawTextSize(playerid, Captcha[i], 16.0, 16.0);
@@ -52274,43 +52237,12 @@ arendaor_closed(h) {
 	}
 }
 stock ShowFPass(playerid,actplayerid) {
-	new jobname[32],classname[15], string[1024];
-	new houseid = CI[playerid][pHouse]-1;
-	if(CI[playerid][pJob] > 0) {
-		switch(CI[playerid][pJob]) {
-		case 1: jobname = "Водій автобуса";
-		case 2: jobname = "Механік";
-		case 3: jobname = "Розвізник продуктів та палива";
-		case 4: jobname = "Розвізник їжі";
-		case 5: jobname = "Мийщик доріг";
-		case 6: jobname = "Чистильник каналізацій";
-		case 7: jobname  = "Таксист";
-		case 8: jobname  = "Інкасатор";
-		default: jobname = "Безробітній";
-		}
-	}
-	new housenumber[15];
-	if(houseid > 0) {
-		switch(gHouses[houseid][houseClass]) {
-		case 0: classname = "Економ";
-		case 1: classname = "Cредний";
-		case 2: classname = "Елітний";
-		case 3: classname = "Особняк";
-		}
-		valstr(housenumber, CI[playerid][pHouse]);
-	} else {
-		housenumber = "Відсутній";
-		classname = "Відсутній";
-	}
-	strcat(string, "\n\t"P"ЗАГАЛЬНІ ДАНІ:\n\n");
-	format(string, sizeof(string), "%s"W"\tІм'я та Прізвище: "P"%s"W"\n\tВік: "P"%d років"W"\n\tМісце роботи: "P"%s"W"\n\t%s: "P"%s"W"\n\tЗаконослухняність: "P"%d"W"\n\n",
-	string, CI[playerid][cName], CI[playerid][pLevel],jobname,(CI[playerid][cSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(CI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"), CI[playerid][pZakonp]);
-	format(string, sizeof(string), "%s"W"\tМісце проживання:\n\n\t"W"Будинок: "P"%s"W"\n\tКлас будинку: "P"%s"W"\n\n", string,housenumber,classname);
-	if(CI[playerid][pRank] > 0 && CI[playerid][pMember] > 0) {
-		format(string, sizeof(string), "%s"W"\tМісце праці: "P""W"\n\n\tОрганізація: "P"%s"W"\n\tПосада: "P"%s"W"\n\n\n", string, FI[TI[playerid][tMasked]][fName], GetRankName(TI[playerid][tMasked], TI[playerid][tFakePass]+ 1));
-	} else strcat(string, "\t"P"Місце праці:\n\t"W"Відсутнє\n\n");
-	SPD(actplayerid, DIALOG_NONE, DSM, P"Паспорт.", string, "Закрити", "");
-	return 1;
+	new housenumber[16], string[1024];
+	if(CI[playerid][pHouse] - 1 > 0) valstr(housenumber, CI[playerid][pHouse]);
+	else housenumber = "Відсутній";
+	format(string, sizeof(string), "Номер карти: "P"%i"W"\nІм'я: "P"%s"W"\nВік: "P"%d"W"\nСтать: "P"%s"W"\nНаціональність: "P"%s"W"\nМісце проживання: "P"Дім #%s"W,
+	CI[playerid][cID], CI[playerid][cName], CI[playerid][cAge], CI[playerid][cSex] ? "Жіноча" : "Чоловіча", CI[playerid][cNation], housenumber);
+	return ShowPlayerDialog(actplayerid, DIALOG_NONE, DSM, P"|"W" ID карта.", string, "Закрити", "");
 }
 stock ShowUdJur(playerid, giveplayerid) {
 	new string[236];
@@ -52368,80 +52300,42 @@ stock ShowSkill(playerid, giveplayerid) {
 }
 stock ShowWBook(playerid, giveplayerid) {
 	new query[138];
-	mysql_format(connects, query, sizeof(query), "SELECT * FROM `jobinfo` WHERE `ji_uid` =%i AND (`ji_fraction` < 15 OR `ji_fraction` > 22)", CI[playerid][cID]);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `jobinfo` WHERE `ji_uid` = %i AND (`ji_fraction` < 15 OR `ji_fraction` > 22)", CI[playerid][cID]);
 	mysql_tquery(connects, query, "joblist_callback", "ii", playerid, giveplayerid);
 }
 stock ShowLic(playerid, giveplayerid) {
-	new stringcar[128], stringair[128], stringboat[128], stringweapon[128];
-	new second, minute, hour, day, month, year;
+	new stringcar[128], stringair[128], stringboat[128], stringweapon[128], second, minute, hour, day, month, year;
 	if(lic[playerid][0]) {
-		new car = floatround(( CI[playerid][pTLicCar]-gettime())/3600/24, floatround_ceil);
+		new car = floatround((CI[playerid][pTLicCar]-gettime())/3600/24, floatround_ceil);
 		timestamp_to_date(CI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
-		format(stringcar, sizeof(stringcar), "(%iд %iг %iхв)", car, hour, minute);
-	}
+		format(stringcar, sizeof(stringcar), GREEN"%i:%i:%i"W, car, hour, minute);
+	} else stringcar = R"Немає"W;
 	if(lic[playerid][1]) {
-		new air = floatround(( CI[playerid][pTLicAir]-gettime())/3600/24, floatround_ceil);
+		new air = floatround((CI[playerid][pTLicAir]-gettime())/3600/24, floatround_ceil);
 		timestamp_to_date(CI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
-		format(stringair, sizeof(stringair), "(%iд %iг %iхв)", air, hour, minute);
-	}
+		format(stringair, sizeof(stringair), GREEN"%i:%i:%i"W, air, hour, minute);
+	} else stringair = R"Немає"W;
 	if(lic[playerid][2]) {
-		new boat = floatround(( CI[playerid][pTLicBoat]-gettime())/3600/24, floatround_ceil);
+		new boat = floatround((CI[playerid][pTLicBoat]-gettime())/3600/24, floatround_ceil);
 		timestamp_to_date(CI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
-		format(stringboat, sizeof(stringboat), "(%iд %iг %iхв)", boat, hour, minute);
-	}
+		format(stringboat, sizeof(stringboat), GREEN"%i:%i:%i"W, boat, hour, minute);
+	} else stringboat = R"Немає"W;
 	if(lic[playerid][3]) {
-		new weapon = floatround(( CI[playerid][pTLicWeapon]-gettime())/3600/24, floatround_ceil);
+		new weapon = floatround((CI[playerid][pTLicWeapon]-gettime())/3600/24, floatround_ceil);
 		timestamp_to_date(CI[playerid][pTLicCar]-unix, year, month, day, hour, minute, second);
-		format(stringweapon, sizeof(stringweapon), "%iд %iг %iхв", weapon, hour, minute);
-	}
-	static const f_str[] = ""W"Водійські права: %s %s\n\
-							"W"Ліцензія пілота: %s %s\n\
-							"W"Ліцензія на водний транспорт: %s %s\n\
-							"W"Ліцензія на зброю: %s %s";
-	new string[sizeof(f_str) +300];
-	format(string, sizeof(string), f_str,(lic[playerid][0]) ? (""GREEN"Є") : (""NO"Немає"), stringcar,(lic[playerid][1]) ? (""GREEN"Є") : (""NO"Немає"), stringair, (lic[playerid][2]) ? (""GREEN"Є") : (""NO"Немає"), stringboat, (lic[playerid][3]) ? (""GREEN"Є") : (""NO"Немає"), stringweapon);
-	SPD(giveplayerid, DIALOG_NONE, DSM, P"Ліцензії", string, "Закрити", "");
+		format(stringweapon, sizeof(stringweapon), GREEN"%i:%i:%i"W, weapon, hour, minute);
+	} else stringweapon = R"Немає"W;
+	new string[512];
+	format(string, sizeof(string), W"Водійські права: %s.\nЛіцензія пілота: %s.\nЛіцензія на водний транспорт: %s.\nЛіцензія на зброю: %s.", stringcar, stringair, stringboat, stringweapon);
+	return ShowPlayerDialog(giveplayerid, DIALOG_NONE, DSM, P"|"W" Ліцензії.", string, "Закрити", "");
 }
 stock ShowPass(playerid,actplayerid) {
-	new jobname[32],classname[15], string[1024];
-	new houseid = CI[playerid][pHouse]-1;
-	if(CI[playerid][pJob] > 0) {
-		switch(CI[playerid][pJob]) {
-		case 1: jobname = "Водій автобуса";
-		case 2: jobname = "Механік";
-		case 3: jobname = "Розвізник продуктів та палива";
-		case 4: jobname = "Розвізник їжі";
-		case 5: jobname = "Мийщик доріг";
-		case 6: jobname = "Чистильник каналізацій";
-		case 7: jobname  = "Таксист";
-		case 8: jobname  = "Інкасатор";
-		default: jobname = "Безробітній";
-		}
-	}
-	new housenumber[15];
-	if(houseid > 0) {
-		switch(gHouses[houseid][houseClass]) {
-		case 0: classname = "Економ";
-		case 1: classname = "Cредний";
-		case 2: classname = "Елітний";
-		case 3: classname = "Особняк";
-		}
-		valstr(housenumber, CI[playerid][pHouse]);
-	} else {
-		housenumber = "Відсутній";
-		classname = "Відсутній";
-	}
-	strcat(string, "\n\t"P"Загальні дані:\n\n");
-	format(string, sizeof(string), "%s\t"W"Ім'я та прізвище: "P"%s\n\t"W"Вік: "P"%d років\n\t"W"Місце роботи: "P"%s\n\t"W"%s: "P"%s\n\t"W"Законослухняність: "P"%d\n\n",
-	string, CI[playerid][cName], CI[playerid][pLevel],jobname, (CI[playerid][cSex] == 1) ? ("Дружина") : ("Чоловік"),(strlen(CI[playerid][pMarried]) > 4) ? ("Є") : ("Немає"), CI[playerid][pZakonp]);
-	format(string, sizeof(string), "%s\t"W"Місце проживання:\n\n\t"W"Дім: "P"%s\n\t"W"Клас будинку: "P"%s\n\n", string,housenumber,classname);
-	if(CI[playerid][pRank] > 0 && CI[playerid][pMember] > 0) {
-		format(string, sizeof(string), "%s\t"W"Місце праці:\n\n\t"W"Організація: "P"%s\n\t"W"Посада: "P"%s\n\n\n", string, FI[CI[playerid][pMember]][fName], GetRankName(CI[playerid][pMember], CI[playerid][pRank]));
-	}
-
-	else strcat(string, "\t"P"Місце праці:\n\t"W"Відсутнє\n\n");
-	SPD(actplayerid, DIALOG_NONE, DSM, P"ID карта.", string, "Закрити", "");
-	return 1;
+	new string[1024], houseid[16];
+	if(CI[playerid][pHouse] - 1 > 0) format(houseid, sizeof(houseid), "Дім #%i", CI[playerid][pHouse]);
+	else houseid = "Відсутній";
+	format(string, sizeof(string), W"Номер карти: "G"%i"W".\nІм'я: "G"%s"W".\nВік: "G"%i"W".\nСтать: "G"%s"W".\nНаціональність: "G"%s"W".\nМісце проживання: "G"%s"W".",
+	CI[playerid][cID], CI[playerid][cName], CI[playerid][cAge], CI[playerid][cSex] ? "Жіноча" : "Чоловіча", CI[playerid][cNation], houseid);
+	return ShowPlayerDialog(actplayerid, DIALOG_NONE, DSM, P"|"W" ID карта.", string, "Закрити", "");
 }
 stock Police_eqment(playerid) {
 	if(FI[CI[playerid][pMember]][fType] != fENFORCEMENT && !start_work[playerid]) return SendError(playerid, "Доступно тільки правоохоронцям.");
@@ -54530,8 +54424,8 @@ CMD:settime(playerid, params[]) {
 CMD:uval(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 2 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	new reason[130], giveplayerid;
-	if(sscanf(params, "ds[128]", giveplayerid, reason)) return SendError(playerid, "Використайте: /uval [playerid] [reason]");
-	if(strlen(reason)>40) return SendError(playerid, "Не більше 40 символів.");
+	if(sscanf(params, "is[128]", giveplayerid, reason)) return SendError(playerid, "Використайте: /uval [playerid] [reason]");
+	if(strlen(reason) > 40) return SendError(playerid, "Не більше 40 символів.");
 	if(giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
 	if(!CI[giveplayerid][pMember]) return SendError(playerid, "Гравець не знаходиться в організації.");
 	if(!strcmp(FI[CI[giveplayerid][pMember]][fLeader], CI[giveplayerid][cName], false)) return SendError(playerid, "Лідера можна зняти тільки через /factions.");
@@ -54679,38 +54573,36 @@ CMD:gun(playerid, params[]) {
 	return 1;
 }
 alias:gun("givegun")
-// 5 рівень.
-CMD:amusic(playerid, params[]) {
-	if(PI[playerid][pAdmin] < 4 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
-	new nonf;
-	if(sscanf(params, "f",nonf)) return SendError(playerid, "Використайте: /amusic [radius 1-300, 0 - off] [link]");
-	if(nonf == 0) {
-		Sounds = 0;
-		foreach(new i:Player) {
-			if(!TI[i][tLogin]) continue;
-			StopAudioStreamForPlayer(i);
-			UseSound[i] = 0;
-		}
-		return SendOK(playerid, "Музика вимкнена");
+
+CMD:caudio(playerid, params[]) {
+	if(PI[playerid][pAdmin] <= 3 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
+	for(new i; i < MAX_STREAMS; i++) {
+		if(Streams[i][sStream]) continue;
+		if(!(1 <= params[0] <= 300) || sscanf(params, "fs[128]", Streams[i][sRadius], Streams[i][sLink])) return SendError(playerid, "Використайте: /caudio [radius 1-300] [link 1-128]");
+		new Float:X, Float:Y, Float:Z, string[128];
+		GetPlayerPos(playerid, X, Y, Z);
+		Streams[i][sStream] = CreateDynamicSphere(X, Y, Z, Streams[i][sRadius]);
+		format(string, sizeof(string), "Ви створити аудіопотік #%i.", i + 1);
+		SendOK(playerid, string);
+		break;
 	}
-	new path[150];
-	if(sscanf(params, "ds[150]",params[0],path)) return SendError(playerid, "Використайте: /amusic [radius 1-300, 0 - off] [link]");
-	if(params[0] < 1 || params[0] > 300) return SendError(playerid, "Від 1 до 300");
-	format(stream, sizeof(stream), "%s",path);
-	rads = params[0];
-	Sounds = 1;
-	new Float:x1, Float:y1, Float:z1;
-	GetPlayerPos(playerid,x1,y1,z1);
-	streampos[0] = x1;
-	streampos[1] = y1;
-	streampos[2] = z1;
+	return 1;
+}	
+CMD:daudio(playerid, params[]) {
+	if(PI[playerid][pAdmin] <= 3 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
+	new id, string[128];
+	if(!(1 <= params[0] <= 50) || sscanf(params, "i", id)) return SendError(playerid, "Використайте: /daudio [streamid 1-50]");
 	foreach(new i:Player) {
-		if(!TI[i][tLogin]) continue;
-		UseSound[i] = 0;
+		if(IsPlayerInDynamicArea(i, Streams[id - 1][sStream])) StopAudioStreamForPlayer(i);
 	}
-	SendOK(playerid, "Музика увімкнена.");
+	Streams[id - 1][sStream] = 0;
+	Streams[id - 1][sRadius] = 0;
+	strmid(Streams[id - 1][sLink], "", 0, 2);
+	format(string, sizeof(string), "Ви видалили аудіопотік #%i.", id);
+	SendOK(playerid, string);
 	return 1;
 }
+// 5 рівень.
 CMD:enter(playerid) {
 	new Float:x, Float:y, Float:z;
 	new car = GetNearestVehicle(playerid);
@@ -55197,7 +55089,7 @@ CMD:setstat(playerid, params[]) {
 		}
 	case 13: CI[giveplayerid][pAddiction] = amount;
 	case 14: {
-			if(GetInvSet(giveplayerid) >= 50) return SendError(playerid, "В інвентарі гравця недостатньо місця.");
+			if(GetItemAmount(giveplayerid, 0) <= 0) return SendError(playerid, "В інвентарі гравця недостатньо місця.");
 			AddItem(giveplayerid, 1, amount);
 		}
 	case 15: SetFullness(giveplayerid, amount);
@@ -56342,7 +56234,7 @@ CB:unitpay_callback(playerid, type) {
 				%s\n\
 				"ORANGE"Поповнити рахунок можна на "P"chiliad-rp.com",
 			CI[playerid][pDonate], str);
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація про поповнення", string, "Закрити", "");
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація про поповнення.", string, "Закрити", "");
 		}
 	case 1: {
 			new rows;
@@ -63567,7 +63459,7 @@ stock key_activate(playerid) {
 					DeletePVar(playerid, "ammout");
 					return 1;
 				}
-				if(GetInvSet(playerid) >= 50) {
+				if(GetItemAmount(playerid, 0) <= 0) {
 					SendClientMessage(acter, COLOR_GREY, "В інвентарі у гравця недостатньо місця.");
 					SendError(playerid, "У вашому інвентарі недостатньо місця.");
 					DeletePVar(playerid, "give_inv");
@@ -63636,9 +63528,7 @@ stock key_activate(playerid) {
 		new acter = GetPVarInt(playerid, "lices") -1;
 		DeletePVar(playerid, "lices");
 		if(acter >= 0) {
-			if(IsPlayerConnected(playerid) && IsPlayerConnected(acter)) {
-				ShowLic(acter, playerid);
-			}
+			if(IsPlayerConnected(playerid) && IsPlayerConnected(acter)) ShowLic(acter, playerid);
 		}
 	} else if(GetPVarInt(playerid, "skillss")) {
 		new acter = GetPVarInt(playerid, "skillss") -1;
@@ -63707,11 +63597,7 @@ stock key_activate(playerid) {
 	} else if(GetPVarInt(playerid, "pass")) {
 		new acter = GetPVarInt(playerid, "pass") -1;
 		DeletePVar(playerid, "pass");
-		if(acter >= 0) {
-			if(IsPlayerConnected(playerid) && IsPlayerConnected(acter)) {
-				ShowPass(acter, playerid);
-			}
-		}
+		if(acter >= 0 && IsPlayerConnected(playerid) && IsPlayerConnected(acter)) ShowPass(acter, playerid);
 	} else if(GetPVarInt(playerid, "fpass")) {
 		new acter = GetPVarInt(playerid, "fpass") -1;
 		DeletePVar(playerid, "fpass");
@@ -63723,11 +63609,7 @@ stock key_activate(playerid) {
 	} else if(GetPVarInt(playerid, "medcard")) {
 		new acter = GetPVarInt(playerid, "medcard") -1;
 		DeletePVar(playerid, "medcard");
-		if(acter >= 0) {
-			if(IsPlayerConnected(playerid) && IsPlayerConnected(acter)) {
-				ShowMedcard(acter, playerid);
-			}
-		}
+		if(acter >= 0 && IsPlayerConnected(playerid) && IsPlayerConnected(acter)) ShowMedcard(acter, playerid);
 	} else if(GetPVarInt(playerid, "selectpoint") == 2) {
 		new driverid = GetPVarInt(playerid, "taxidriver");
 		if(GetPlayerState(playerid) != PLAYER_STATE_PASSENGER) {
@@ -64257,12 +64139,12 @@ stock key_deactivate(playerid) {
 		SendError(GetPVarInt(playerid, "udjur") -1, "Гравець відмовився від перегляду посвідчення журналіста.");
 		DeletePVar(playerid, "udjur");
 	} else if(GetPVarInt(playerid, "pass")) {
-		SendOK(playerid, "Ви відмовились від перегляду паспорта.");
-		SendError(GetPVarInt(playerid, "pass") -1, "Гравець відмовився від перегляду паспорта.");
+		SendOK(playerid, "Ви відмовились від перегляду ID карти.");
+		SendError(GetPVarInt(playerid, "pass") -1, "Гравець відмовився від перегляду ID карти.");
 		DeletePVar(playerid, "pass");
 	} else if(GetPVarInt(playerid, "fpass")) {
-		SendOK(playerid, "Ви відмовились від перегляду паспорта.");
-		SendError(GetPVarInt(playerid, "fpass") -1, "Гравець відмовився від перегляду паспорта.");
+		SendOK(playerid, "Ви відмовились від перегляду ID карти.");
+		SendError(GetPVarInt(playerid, "fpass") -1, "Гравець відмовився від перегляду ID карти.");
 		DeletePVar(playerid, "fpass");
 	} else if(GetPVarInt(playerid, "medcard")) {
 		SendOK(playerid, "Ви відмовились від перегляду медицинської карти.");
@@ -65468,7 +65350,7 @@ CB:minute_timer() {
 			SetPVarFloat(i, "timer_satiety_2", GetPVarFloat(i, "timer_satiety_2") + 1);
 			if(GetPVarFloat(i, "timer_satiety_2") >= 3) {
 				SetHealth(i, CI[i][pHP] - 3);
-				SendClientMessage(i, 0xd61839ff, "Ви зголодніли, і тепер не зможете бігати і стрибати. Щоб відновити ситість, перекусіть у найближчій закусочній.");
+				SendError(i, "Ваш персонаж зголоднів, відвідайте найближчу закусочну.");
 			}
 			DeletePVar(i, "timer_satiety_2");
 		}
@@ -65929,7 +65811,7 @@ stock seat_player() {
 				ClearAnimations(playerid);
 				if(GetPVarInt(playerid, "AntiFloodH") > gettime()) return 1;
 				SetPVarInt(playerid, "AntiFloodH", gettime() + 300);
-				SendClientMessage(playerid, 0xd61839ff, "Ви зголодніли, і тепер не зможете бігати і стрибати. Щоб відновити ситість, перекусіть у найближчій закусочній.");
+				SendError(playerid, "Ваш персонаж зголоднів, відвідайте найближчу закусочну.");
 			}
 		}
 	}
@@ -67407,108 +67289,93 @@ stock UseItem(playerid, itemid, item) {
 			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
 			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			ClickInv[playerid] = -1;
-			return 1;
 			}
 		case 1575: {
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				CI[playerid][pInventory][item] = 0;
-				CI[playerid][pInventoryAmount][item] = 0;
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				ClickInv[playerid] = -1;
-				SaveInventory(playerid);
-				return 1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			CI[playerid][pInventory][item] = 0;
+			CI[playerid][pInventoryAmount][item] = 0;
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+			ClickInv[playerid] = -1;
+			SaveInventory(playerid);
 			}
 		case 19163: {
-				pc_cmd_mask(playerid);
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			pc_cmd_mask(playerid);
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 19627: {
-				pc_cmd_remp(playerid);
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				HideInvent(playerid);
-				return 1;
+			pc_cmd_remp(playerid);
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+			HideInvent(playerid);
 			}
 		case 11746: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Відмичка: Цей предмет можна використовувати при пограбуваннях та взломах.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Відмичка: Цей предмет можна використовувати при пограбуваннях та взломах.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 18644: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Цвяхи: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Цвяхи: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 3117: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Метал: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Метал: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 19918: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Залізний ящик: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Залізний ящик: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 2040: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ящик з патронами: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ящик з патронами: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 335: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ножик: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ножик: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 2036: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Військова гвинтівка: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Військова гвинтівка: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 19590: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Меч: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Меч: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 1636: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Боєголовка: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Боєголовка: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 1210: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Кейс: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Кейс: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 1944: {
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Старовинна монета: Цей предмет можна продати.", "Закрити", "");
-				ClickInv[playerid] = -1;
-				PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
-				InvUpdate(playerid, item, CI[playerid][pInventory][item]);
-				return 1;
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Старовинна монета: Цей предмет можна продати.", "Закрити", "");
+			ClickInv[playerid] = -1;
+			PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			}
 		case 1..311: {
 			if(CI[playerid][cSkin] != GetPlayerSkin(playerid)) {
@@ -67519,7 +67386,7 @@ stock UseItem(playerid, itemid, item) {
 				return 1;
 			}
 			if(CI[playerid][cSkin] != 154 && CI[playerid][cSkin] != 138) {
-				if(GetInvSet(playerid) >= 50) {
+				if(GetItemAmount(playerid, 0) <= 0) {
 					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Ваш інвентар повний, звільніть місце.", "Закрити", "");
 					PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
 					InvUpdate(playerid, item, CI[playerid][pInventory][item]);
@@ -67542,9 +67409,7 @@ stock UseItem(playerid, itemid, item) {
 			PlayerTextDrawSetPreviewModel(playerid, nInventory_TD[playerid][2], CI[playerid][cSkin]);
 			PlayerTextDrawHide(playerid, nInventory_TD[playerid][2]);
 			PlayerTextDrawShow(playerid, nInventory_TD[playerid][2]);
-			RefreshInv(playerid, item);
 			SaveInventory(playerid);
-			return 1;
 			}
 		case 1242: SetArmour(playerid, 100);
 		case 19843: {
@@ -67558,6 +67423,11 @@ stock UseItem(playerid, itemid, item) {
 			}
 		case 400..611: return ShowPlayerDialog(playerid, USE_CAR_GARAGE, DSM, P"Інвентар.", W"Ви дійсно хочете використати купон на автомобіль?", "Далі", "Скасувати"), SetPVarInt(playerid, "UseCarGarage", itemid),SetPVarInt(playerid, "UseCarGarageItem", item);
 		case 1650: return ClickInv[playerid] = -1, ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Використайте в т/з команду /fillcar", "Закрити", "");
+		case 19942: {
+			new string[128];
+			format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+			ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
+		}
 	}
 	RefreshInv(playerid, item);
 	return 1;
@@ -67576,15 +67446,15 @@ stock RefreshInv(playerid, slot) {
 	InvUpdate(playerid, slot, CI[playerid][pInventory][slot]);
 	return 1;
 }
-stock GetInvSet(playerid) {
-	new num;
+stock GetItemAmount(playerid, itemid) {
+	new result;
 	for(new i; i < 50; i++) {
-		if(CI[playerid][pInventory][i] != 0) num++;
+		if(CI[playerid][pInventory][i] == itemid) result ++;
 	}
-	return num;
+	return result;
 }
 stock AddItem(playerid, itemid, amount) {
-	if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+	if(GetItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 	for(new i; i < 50; i++) {
 		if(CI[playerid][pInventory][i] != 0) continue;
 		CI[playerid][pInventory][i] = itemid;
@@ -67623,8 +67493,7 @@ stock DeleteItem(playerid, itemid, amount) {
 					CI[playerid][pInventoryAmount][i] = 0;
 					CI[playerid][pInventory][i] = 0;
 				}
-			} else
-			{
+			} else {
 				item_amount -= CI[playerid][pInventoryAmount][i];
 				CI[playerid][pInventoryAmount][i] = 0;
 				CI[playerid][pInventory][i] = 0;
@@ -67651,14 +67520,11 @@ stock HideAuto(playerid) {
 	PlayerTextDrawHide(playerid, auto_PTD[playerid][1]);
 	CancelSelectTextDraw(playerid);
 }
-stock ShowMedcard(playerid,actplayerid) {
+stock ShowMedcard(playerid, actplayerid) {
 	new string[512];
-	strcat(string, "\n\t"P"Інформація:\n\n");
-	format(string, sizeof(string), "%s\t"W"Ім'я: "P"%s\n\t"W"Вік: "P"%d\n\t"W"Стать: "P"%s\n\n",
-	string, CI[playerid][cName], CI[playerid][pLevel],(CI[playerid][cSex] == 1) ? ("Чоловічий") : ("Жіночій"));
-	format(string, sizeof(string), "%s\t"W"Хвороби:\n\n\t"W"Наркозалежність: "P"%d\n\t"W"Грип: "P"%s\n\t"W"Анорексія: "P"%s\n\n", string, CI[playerid][pAddiction],(CI[playerid][pDisease][0] == 1) ? ("Хворий") : ("Здоровий"),(CI[playerid][pDisease][1] == 1) ? ("Хворий") : ("Здоровий"));
-	SPD(actplayerid, DIALOG_NONE, DSM, "        		{FAD086}Медична карта        		", string, "Закрити", "");
-	return 1;
+	format(string, sizeof(string), P"|"W" Загальна інформація.\n\nІм'я: "G"%s"W".\nВік: "G"%i"W".\nСтать: "G"%s"W".\n\n"P"|"W" Хвороби.\n\nНаркозалежність: "G"%i"W".\n"W"Грип: "G"%s"W".\nАнорексія: "G"%s"W".",
+	CI[playerid][cName], CI[playerid][cAge], CI[playerid][cSex] ? "Жіноча" : "Чоловіча", CI[playerid][pAddiction], CI[playerid][pDisease][0] ? "Хворий" : "Здоровий", CI[playerid][pDisease][1] ? "Хворий" : "Здоровий");
+	return ShowPlayerDialog(actplayerid, DIALOG_NONE, DSM, P"|"W" Медична карта.", string, "Закрити", "");
 }
 stock save_acsjob(playerid) {
 	new query[120], str[120];
@@ -67705,24 +67571,18 @@ CB:OnGameModeUpdate() {
 	if(tmpminute == 50 && tmpsecond == 0) {
 		for(new i = 0; i < 24; i++) capture_kd[i] = 0;
 	}
-
 	if((tmphour > ghour) || (tmphour == 0 && ghour == 23)) {
 		ghour = tmphour;
 		format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), P"|"W" Поточний час: "P"%d:00"W".", tmphour);
 		SendClientMessageToAll(COLOR_WHITE, CHAT_GLOBAL);
 		PayDay();
 	}
-	//if(tmpminute == 13 && tmpsecond == 0 || tmpminute == 45 && tmpsecond == 0) SendClientMessageToAll(COLOR_WHITE, P"|"W" Щоб переглянути список доступних вакансій, введіть "P"/vacancy"W".");
-
 	second_timer();
 	if(++GlobalTimer_1MIN >= (1 * 60)) {
 		GlobalTimer_1MIN = 0;
 		minute_timer();
 	}
-	if(++GlobalTimer_3SEC >= 3) {
-		GlobalTimer_3SEC = 0;
-		//other_timer();
-	}
+	if(++GlobalTimer_3SEC >= 3) GlobalTimer_3SEC = 0;
 	ghetto_war();
 	race_game();
 	game_dm();
@@ -70372,7 +70232,7 @@ public LottoInf2() {
 	   	new Cache:zr = mysql_query(connects, String256);
 		if(cache_num_rows()) {
 			cache_get_value_name(0, "Name", pppname);
-			format(String256, sizeof(String256), "{FEFF91}Державна лотерея"W": Номер {758AA8}%d (%s)"W" виграв в лотерею. Сума виграшу склала: "GREEN"$%d"W".", winn, pppname, lotom);
+			format(String256, sizeof(String256),  P"[Державна лотерея]"W" Власник номера "P"%i"W" переміг і забрав свої "GREEN"$%i"W".", winn, pppname, lotom);
 			SendClientMessageToAll(-1, String256);
 			new to_break;
 			foreach(new i: Player) {
@@ -70381,7 +70241,7 @@ public LottoInf2() {
 					to_break = 1;
 				   	format(String256f, sizeof(String256f), "UPDATE "TABLE_CHARACTERS" SET `pBank` = %i WHERE `id` = %i", CI[i][pBank], PID);
 				   	mysql_query(connects, String256f);
-				   	SendInfo(i, "Виграш було переведено на ваш банківський рахунок.");
+				   	SendOK(i, "Виграш було переведено на ваш банківський рахунок.");
 					break;
 				}
 			}
@@ -70397,17 +70257,13 @@ public LottoInf2() {
 			format(String256, sizeof(String256), "DELETE FROM `lottob`");
 			mysql_query(connects, String256);
 		} else {
-			format(String256, sizeof(String256), "{FEFF91}Державна лотерея"W": Випав номер {758AA8}%d"W", переможця не визначено.",winn);
-			SendClientMessageToAll(-1, String256);
-			format(String256, sizeof(String256), "{FEFF91}Державна лотерея"W": Сума в розмірі {76D35D}%d долларів"W" переноситься на наступний розіграш.",lotom);
+			format(String256, sizeof(String256),  P"[Державна лотерея]"W" Випав номер "P"%i"W" без власника, тому розіграш "GREEN"$%i"W" переноситься.",winn,lotom);
 			SendClientMessageToAll(-1, String256);
 		}
 		cache_delete(zr);
 	} else {
 		new String256[256];
-		format(String256, sizeof(String256), "{FEFF91}Державна лотерея"W": Випав номер {758AA8}%d"W", переможця не визначено.",winn);
-		SendClientMessageToAll(-1, String256);
-		format(String256, sizeof(String256), "{FEFF91}Державна лотерея"W": Сума в розмірі {76D35D}%d долларів"W" переноситься на наступний розіграш.",lotom);
+		format(String256, sizeof(String256),  P"[Державна лотерея]"W" Випав номер "P"%i"W" без власника, тому розіграш "GREEN"$%i"W" переноситься.",winn,lotom);
 		SendClientMessageToAll(-1, String256);
 	}
 	cache_delete(r);
