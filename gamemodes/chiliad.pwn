@@ -39547,7 +39547,12 @@ CMD:fmenu(playerid) {
 	family_dialog(playerid);
 	return 1;
 }
-CMD:radio(playerid) return ShowPlayerDialog(playerid, D_NEWS_SELECT_2, DSL, P"Ефіри", P"1."W" Лос-Сантос Таймс\n"P"-"W" Вимкнути", "Обрати", "Закрити");
+CMD:radio(playerid) {
+	new string[128];
+	format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
+	ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
+	return 1;
+}
 CMD:ad(playerid, params[]) {
 	if(!CI[playerid][pPhone]) return SendError(playerid, "У вас немає телефону або SIM-карти.");
 	if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
