@@ -67461,7 +67461,9 @@ stock UseItem(playerid, itemid, item) {
 		case 1650: ClickInv[playerid] = -1, ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Використайте в транспорт команду /fillcar", "Закрити", "");
 		case 19942: pc_cmd_radio(playerid);
 	}
-	RefreshInv(playerid, item);
+	PlayerTextDrawBackgroundColor(playerid, nInventorySlots_TD[playerid][item], 0x222222ff);
+	InvUpdate(playerid, item, CI[playerid][pInventory][item]);
+	ClickInv[playerid] = -1;
 	return 1;
 }
 stock RefreshInv(playerid, slot) {
