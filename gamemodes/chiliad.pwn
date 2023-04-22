@@ -39548,6 +39548,7 @@ CMD:fmenu(playerid) {
 	return 1;
 }
 CMD:radio(playerid) {
+	if(!GetItemAmount(playerid, 492)) return SendError(playerid, "У вас немає рації.");
 	new string[128];
 	format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
 	ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
@@ -67455,15 +67456,10 @@ stock UseItem(playerid, itemid, item) {
 			InvUpdate(playerid, item, CI[playerid][pInventory][item]);
 			ClickInv[playerid] = -1;
 			SaveInventory(playerid);
-			return 1;
 			}
-		case 400..611: return ShowPlayerDialog(playerid, USE_CAR_GARAGE, DSM, P"Інвентар.", W"Ви дійсно хочете використати купон на автомобіль?", "Далі", "Скасувати"), SetPVarInt(playerid, "UseCarGarage", itemid),SetPVarInt(playerid, "UseCarGarageItem", item);
-		case 1650: return ClickInv[playerid] = -1, ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Використайте в транспорт команду /fillcar", "Закрити", "");
-		case 19942: {
-			new string[128];
-			format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
-			ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
-		}
+		case 400..611: ShowPlayerDialog(playerid, USE_CAR_GARAGE, DSM, P"Інвентар.", W"Ви дійсно хочете використати купон на автомобіль?", "Далі", "Скасувати"), SetPVarInt(playerid, "UseCarGarage", itemid),SetPVarInt(playerid, "UseCarGarageItem", item);
+		case 1650: ClickInv[playerid] = -1, ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інвентар.", W"Використайте в транспорт команду /fillcar", "Закрити", "");
+		case 19942: pc_cmd_radio(playerid);
 	}
 	RefreshInv(playerid, item);
 	return 1;
