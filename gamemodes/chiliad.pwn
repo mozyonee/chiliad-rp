@@ -42213,7 +42213,7 @@ CMD:gps(playerid) {
 
 	new string[sizeof(f_str)];
 	format(string, sizeof(string), "%s", f_str);
-	ShowPlayerDialog(playerid, D_GPS, DSL, P"GPS", string, "Обрати", "Скасувати");
+	ShowPlayerDialog(playerid, D_GPS, DSL, P"GPS.", string, "Обрати", "Скасувати");
 	return 1;
 }
 CMD:menu(playerid) return ShowPlayerDialog(playerid, D_MENU, DSL, P"|"W" Меню гравця.", P"1."W" Інформація про персонажа.\n"P"2."W" Команди сервера.\n"P"3."W" Зв'язок з адміністрацією.\n"P"4."W" Налаштування.\n"P"5."W" Промокод.\n"P"6."W" Завдання.\n"P"7."W" Донат-послуги.\n"P"8."W" Змінити персонажа.", "Обрати", "Закрити");
