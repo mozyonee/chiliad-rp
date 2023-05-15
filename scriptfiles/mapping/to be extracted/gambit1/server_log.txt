@@ -1,0 +1,1038 @@
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[00:11:50] 
+[00:11:50] Server Plugins
+[00:11:50] --------------
+[00:11:50]  Loading plugin: crashdetect
+[00:11:50]   CrashDetect v4.15.1 is OK.
+[00:11:50]   Loaded.
+[00:11:50]  Loading plugin: streamer
+[00:11:50] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[00:11:50]   Loaded.
+[00:11:50]  Loading plugin: mysql
+[00:11:50]  >> plugin.mysql: R39-2 successfully loaded.
+[00:11:50]   Loaded.
+[00:11:50]  Loading plugin: sscanf
+[00:11:50] 
+
+[00:11:50]  ===============================
+
+[00:11:50]       sscanf plugin loaded.     
+
+[00:11:50]          Version:  2.8.1        
+
+[00:11:50]    (c) 2012 Alex "Y_Less" Cole  
+
+[00:11:50]  ===============================
+
+[00:11:50]   Loaded.
+[00:11:50]  Loading plugin: CRP
+[00:11:50] 
+
+[00:11:50] ______________________________________
+
+[00:11:50]  Convert Rus To Pwn v0.1.1 loaded
+[00:11:50] ______________________________________
+
+[00:11:50]  By: Fro (c) Copyright <TBG> 2009-2011
+[00:11:50] ______________________________________
+
+[00:11:50]   Loaded.
+[00:11:50]  Loading plugin: gvar
+[00:11:51] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[00:11:51]   Loaded.
+[00:11:51]  Loaded 6 plugins.
+
+[00:11:51] 
+[00:11:51] Ban list
+[00:11:51] --------
+[00:11:51]  Loaded: samp.ban
+[00:11:51] 
+[00:11:51] 
+[00:11:51] Filterscripts
+[00:11:51] ---------------
+[00:11:51]   Loading filterscript 'yom_buttons.amx'...
+[00:11:51]   Loaded 1 filterscripts.
+
+[00:11:51]  
+[00:11:51]  
+[00:11:51]  
+[00:11:51]  ======================================= 
+[00:11:51]  |                                     | 
+[00:11:51]  |        YSI version 3.09.0684        | 
+[00:11:51]  |        By Alex "Y_Less" Cole        | 
+[00:11:51]  |                                     | 
+[00:11:51]  ======================================= 
+[00:11:51]  
+[00:11:51]  
+[00:11:51]  
+[00:11:52] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[00:11:52] [Объекты] Оптимизированно объектов: 2626
+[00:11:52] Number of vehicle models: 80
+[00:11:56] --- Server Shutting Down.
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[00:15:47] 
+[00:15:47] Server Plugins
+[00:15:47] --------------
+[00:15:47]  Loading plugin: crashdetect
+[00:15:47]   CrashDetect v4.15.1 is OK.
+[00:15:47]   Loaded.
+[00:15:47]  Loading plugin: streamer
+[00:15:47] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[00:15:47]   Loaded.
+[00:15:47]  Loading plugin: mysql
+[00:15:47]  >> plugin.mysql: R39-2 successfully loaded.
+[00:15:47]   Loaded.
+[00:15:47]  Loading plugin: sscanf
+[00:15:47] 
+
+[00:15:47]  ===============================
+
+[00:15:47]       sscanf plugin loaded.     
+
+[00:15:47]          Version:  2.8.1        
+
+[00:15:47]    (c) 2012 Alex "Y_Less" Cole  
+
+[00:15:47]  ===============================
+
+[00:15:47]   Loaded.
+[00:15:47]  Loading plugin: CRP
+[00:15:47] 
+
+[00:15:47] ______________________________________
+
+[00:15:47]  Convert Rus To Pwn v0.1.1 loaded
+[00:15:47] ______________________________________
+
+[00:15:47]  By: Fro (c) Copyright <TBG> 2009-2011
+[00:15:47] ______________________________________
+
+[00:15:47]   Loaded.
+[00:15:47]  Loading plugin: gvar
+[00:15:47] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[00:15:47]   Loaded.
+[00:15:47]  Loaded 6 plugins.
+
+[00:15:47] 
+[00:15:47] Ban list
+[00:15:47] --------
+[00:15:47]  Loaded: samp.ban
+[00:15:47] 
+[00:15:47] 
+[00:15:47] Filterscripts
+[00:15:47] ---------------
+[00:15:47]   Loading filterscript 'yom_buttons.amx'...
+[00:15:47]   Loaded 1 filterscripts.
+
+[00:15:47]  
+[00:15:47]  
+[00:15:47]  
+[00:15:47]  ======================================= 
+[00:15:47]  |                                     | 
+[00:15:47]  |        YSI version 3.09.0684        | 
+[00:15:47]  |        By Alex "Y_Less" Cole        | 
+[00:15:47]  |                                     | 
+[00:15:47]  ======================================= 
+[00:15:47]  
+[00:15:47]  
+[00:15:47]  
+[00:15:48] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[00:15:48] [Объекты] Оптимизированно объектов: 2626
+[00:15:48] Number of vehicle models: 80
+[00:15:48] [SYSTEM] Входы в интерьеры загружены [53][time 8 ms]
+[00:15:48] [SYSTEM] Квартиры загружены - [0]
+[00:15:48] [SYSTEM] Дома загруженны - [5] [time 2 ms]
+[00:15:48] [SYSTEM] Криминальные структуры загруженны - [2]
+[00:15:48] [LOADING MODE] Bizz Loading Done..
+[00:15:48] [LOADING MODE] Frac Loading Done..
+[00:15:48] [SYSTEM] Зарплаты загружены
+[00:18:13] [connection] 127.0.0.1:62187 requests connection cookie.
+[00:18:14] Incoming connection: 127.0.0.1:62187 id: 0
+[00:18:14] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[00:21:50] [death] Cheat_Master died 255
+[00:21:50] [INVENTORY] Saved for player Cheat_Master.
+[00:23:13] [INVENTORY] Saved for player Cheat_Master.
+[00:23:19] Playerid: 0 | Death: 1
+[00:23:33] [chat] [Cheat_Master]: a
+[00:26:03] [INVENTORY] Saved for player Cheat_Master.
+[00:26:03] [part] Cheat_Master has left the server (0:1)
+[00:28:53] [connection] 127.0.0.1:57433 requests connection cookie.
+[00:28:54] Incoming connection: 127.0.0.1:57433 id: 0
+[00:28:54] [join] William_Dreams has joined the server (0:127.0.0.1)
+[00:29:01] [part] William_Dreams has left the server (0:2)
+[00:29:33] [connection] 127.0.0.1:49856 requests connection cookie.
+[00:29:34] Incoming connection: 127.0.0.1:49856 id: 0
+[00:29:34] [join] William_Dreams has joined the server (0:127.0.0.1)
+[00:29:42] [part] William_Dreams has left the server (0:2)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[00:42:24] 
+[00:42:24] Server Plugins
+[00:42:24] --------------
+[00:42:24]  Loading plugin: crashdetect
+[00:42:24]   CrashDetect v4.15.1 is OK.
+[00:42:24]   Loaded.
+[00:42:24]  Loading plugin: streamer
+[00:42:24] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[00:42:24]   Loaded.
+[00:42:24]  Loading plugin: mysql
+[00:42:24]  >> plugin.mysql: R39-2 successfully loaded.
+[00:42:24]   Loaded.
+[00:42:24]  Loading plugin: sscanf
+[00:42:24] 
+
+[00:42:24]  ===============================
+
+[00:42:24]       sscanf plugin loaded.     
+
+[00:42:24]          Version:  2.8.1        
+
+[00:42:24]    (c) 2012 Alex "Y_Less" Cole  
+
+[00:42:24]  ===============================
+
+[00:42:24]   Loaded.
+[00:42:24]  Loading plugin: CRP
+[00:42:24] 
+
+[00:42:24] ______________________________________
+
+[00:42:24]  Convert Rus To Pwn v0.1.1 loaded
+[00:42:24] ______________________________________
+
+[00:42:24]  By: Fro (c) Copyright <TBG> 2009-2011
+[00:42:24] ______________________________________
+
+[00:42:24]   Loaded.
+[00:42:24]  Loading plugin: gvar
+[00:42:24] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[00:42:24]   Loaded.
+[00:42:24]  Loaded 6 plugins.
+
+[00:42:24] 
+[00:42:24] Ban list
+[00:42:24] --------
+[00:42:24]  Loaded: samp.ban
+[00:42:24] 
+[00:42:24] 
+[00:42:24] Filterscripts
+[00:42:24] ---------------
+[00:42:24]   Loading filterscript 'yom_buttons.amx'...
+[00:42:24]   Loaded 1 filterscripts.
+
+[00:42:24]  
+[00:42:24]  
+[00:42:24]  
+[00:42:24]  ======================================= 
+[00:42:24]  |                                     | 
+[00:42:24]  |        YSI version 3.09.0684        | 
+[00:42:24]  |        By Alex "Y_Less" Cole        | 
+[00:42:24]  |                                     | 
+[00:42:24]  ======================================= 
+[00:42:24]  
+[00:42:24]  
+[00:42:24]  
+[00:42:25] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[00:42:25] [Объекты] Оптимизированно объектов: 2626
+[00:42:25] Number of vehicle models: 80
+[00:42:25] [SYSTEM] Входы в интерьеры загружены [53][time 9 ms]
+[00:42:25] [SYSTEM] Квартиры загружены - [0]
+[00:42:25] [SYSTEM] Дома загруженны - [5] [time 2 ms]
+[00:42:25] [SYSTEM] Криминальные структуры загруженны - [2]
+[00:42:25] [LOADING MODE] Bizz Loading Done..
+[00:42:25] [LOADING MODE] Frac Loading Done..
+[00:42:25] [SYSTEM] Зарплаты загружены
+[00:43:54] [connection] 127.0.0.1:54243 requests connection cookie.
+[00:43:55] Incoming connection: 127.0.0.1:54243 id: 0
+[00:43:55] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[00:44:10] Playerid: 0 | Death: 1
+[00:44:43] [chat] [Cheat_Master]: a
+[00:45:28] [chat] [Cheat_Master]: a
+[00:45:35] [chat] [Cheat_Master]: a
+[00:46:06] [INVENTORY] Saved for player Cheat_Master.
+[00:46:06] [part] Cheat_Master has left the server (0:1)
+[00:50:28] [connection] 127.0.0.1:62095 requests connection cookie.
+[00:50:29] Incoming connection: 127.0.0.1:62095 id: 0
+[00:50:29] [join] William_Dreams has joined the server (0:127.0.0.1)
+[00:50:37] [part] William_Dreams has left the server (0:2)
+[00:52:02] [connection] 127.0.0.1:51261 requests connection cookie.
+[00:52:03] Incoming connection: 127.0.0.1:51261 id: 0
+[00:52:03] [join] William_Dreams has joined the server (0:127.0.0.1)
+[00:52:21] Playerid: 0 | Death: 1
+[00:53:18] [INVENTORY] Saved for player William_Dreams.
+[00:53:18] [part] William_Dreams has left the server (0:1)
+[00:53:54] [connection] 127.0.0.1:65347 requests connection cookie.
+[00:53:55] Incoming connection: 127.0.0.1:65347 id: 0
+[00:53:55] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[00:54:03] [part] Cheat_Master has left the server (0:2)
+[00:56:06] [connection] 127.0.0.1:56770 requests connection cookie.
+[00:56:07] Incoming connection: 127.0.0.1:56770 id: 0
+[00:56:07] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[00:56:12] [part] Cheat_Master has left the server (0:2)
+[00:57:26] [connection] 127.0.0.1:63495 requests connection cookie.
+[00:57:27] Incoming connection: 127.0.0.1:63495 id: 0
+[00:57:27] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[00:58:29] У игрока Cheat_Master [0] произошел PayDay
+[01:01:05] [LOGS] 30, Cheat_Master установил Cheat_Master количество денег - $10000., 2, 2, 10000, -1, -1
+[01:06:13] [INVENTORY] Saved for player Cheat_Master.
+[01:06:13] [part] Cheat_Master has left the server (0:1)
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[20:38:55] 
+[20:38:55] Server Plugins
+[20:38:55] --------------
+[20:38:55]  Loading plugin: crashdetect
+[20:38:55]   CrashDetect v4.15.1 is OK.
+[20:38:55]   Loaded.
+[20:38:55]  Loading plugin: streamer
+[20:38:55] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[20:38:55]   Loaded.
+[20:38:55]  Loading plugin: mysql
+[20:38:55]  >> plugin.mysql: R39-2 successfully loaded.
+[20:38:55]   Loaded.
+[20:38:55]  Loading plugin: sscanf
+[20:38:55] 
+
+[20:38:55]  ===============================
+
+[20:38:55]       sscanf plugin loaded.     
+
+[20:38:55]          Version:  2.8.1        
+
+[20:38:55]    (c) 2012 Alex "Y_Less" Cole  
+
+[20:38:55]  ===============================
+
+[20:38:55]   Loaded.
+[20:38:55]  Loading plugin: CRP
+[20:38:55] 
+
+[20:38:55] ______________________________________
+
+[20:38:55]  Convert Rus To Pwn v0.1.1 loaded
+[20:38:55] ______________________________________
+
+[20:38:55]  By: Fro (c) Copyright <TBG> 2009-2011
+[20:38:55] ______________________________________
+
+[20:38:55]   Loaded.
+[20:38:55]  Loading plugin: gvar
+[20:38:55] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[20:38:55]   Loaded.
+[20:38:55]  Loaded 6 plugins.
+
+[20:38:55] 
+[20:38:55] Ban list
+[20:38:55] --------
+[20:38:55]  Loaded: samp.ban
+[20:38:55] 
+[20:38:55] 
+[20:38:55] Filterscripts
+[20:38:55] ---------------
+[20:38:55]   Loading filterscript 'yom_buttons.amx'...
+[20:38:55]   Loaded 1 filterscripts.
+
+[20:38:55]  
+[20:38:55]  
+[20:38:55]  
+[20:38:55]  ======================================= 
+[20:38:55]  |                                     | 
+[20:38:55]  |        YSI version 3.09.0684        | 
+[20:38:55]  |        By Alex "Y_Less" Cole        | 
+[20:38:55]  |                                     | 
+[20:38:55]  ======================================= 
+[20:38:55]  
+[20:38:55]  
+[20:38:55]  
+[20:38:55] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[20:38:55] [Объекты] Оптимизированно объектов: 2626
+[20:38:55] Number of vehicle models: 80
+[20:38:55] [SYSTEM] Входы в интерьеры загружены [53][time 2 ms]
+[20:38:55] [SYSTEM] Квартиры загружены - [0]
+[20:38:55] [SYSTEM] Дома загруженны - [3] [time 0 ms]
+[20:38:55] [SYSTEM] Криминальные структуры загруженны - [1]
+[20:38:55] [LOADING MODE] Bizz Loading Done..
+[20:38:55] [LOADING MODE] Frac Loading Done..
+[20:38:55] [SYSTEM] Зарплаты загружены
+[20:39:09] [connection] 127.0.0.1:57108 requests connection cookie.
+[20:39:09] Incoming connection: 127.0.0.1:57108 id: 0
+[20:39:10] [join] Owen_Henderson has joined the server (0:127.0.0.1)
+[20:39:15] [part] Owen_Henderson has left the server (0:2)
+[20:41:25] [connection] 127.0.0.1:40892 requests connection cookie.
+[20:41:25] Incoming connection: 127.0.0.1:40892 id: 0
+[20:41:29] [join] Zen_Ryzen has joined the server (0:127.0.0.1)
+[20:41:32] [part] Zen_Ryzen has left the server (0:2)
+[20:41:45] [connection] 127.0.0.1:51635 requests connection cookie.
+[20:41:45] Incoming connection: 127.0.0.1:51635 id: 0
+[20:41:45] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[20:42:12] [part] Walther_Ribbentrop has left the server (0:2)
+[20:42:14] [connection] 127.0.0.1:36584 requests connection cookie.
+[20:42:15] Incoming connection: 127.0.0.1:36584 id: 0
+[20:42:15] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[20:42:15] [INVENTORY] Saved for player .
+[20:42:17] [INVENTORY] Saved for player .
+[20:42:24] [part] Walther_Ribbentrop has left the server (0:1)
+[20:42:25] [connection] 127.0.0.1:59102 requests connection cookie.
+[20:42:25] Incoming connection: 127.0.0.1:59102 id: 0
+[20:42:25] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[20:44:12] [INVENTORY] Saved for player Walther_Ribbentrop.
+[20:44:23] [INVENTORY] Saved for player Walther_Ribbentrop.
+[20:44:31] [INVENTORY] Saved for player Walther_Ribbentrop.
+[20:44:31] [death] Walther_Ribbentrop died 54
+[20:44:31] [INVENTORY] Saved for player Walther_Ribbentrop.
+[20:44:34] Playerid: 0 | Death: 1
+[21:05:33] [LOGS] 23, [G-AC] Walther_Ribbentrop отсоединен. Причина: Foot FlyHack/AirBreak 277.86, 2, -1, -1, -1, -1
+[21:05:33] [INVENTORY] Saved for player Walther_Ribbentrop.
+[21:05:33] [part] Walther_Ribbentrop has left the server (0:2)
+[21:05:38] [connection] 127.0.0.1:59102 requests connection cookie.
+[21:05:38] Incoming connection: 127.0.0.1:59102 id: 0
+[21:05:39] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[21:05:40] [INVENTORY] Saved for player .
+[21:05:42] [INVENTORY] Saved for player .
+[21:05:48] Playerid: 0 | Death: 1
+[21:06:19] [INVENTORY] Saved for player Walther_Ribbentrop.
+[21:06:19] [part] Walther_Ribbentrop has left the server (0:1)
+[21:06:19] [connection] 127.0.0.1:50052 requests connection cookie.
+[21:06:20] Incoming connection: 127.0.0.1:50052 id: 0
+[21:06:20] [join] Tommy_Spark has joined the server (0:127.0.0.1)
+[21:06:20] [INVENTORY] Saved for player .
+[21:06:22] [INVENTORY] Saved for player .
+[21:06:24] [INVENTORY] Saved for player .
+[21:06:26] [part] Tommy_Spark has left the server (0:2)
+[21:07:07] [connection] 127.0.0.1:50052 requests connection cookie.
+[21:07:07] Incoming connection: 127.0.0.1:50052 id: 0
+[21:07:07] [join] Tommy_Spark has joined the server (0:127.0.0.1)
+[21:07:18] [SYSTEM] Car 328 has been loaded for Tommy_Spark.
+[21:07:18] Playerid: 0 | Death: 1
+[21:08:26] [INVENTORY] Saved for player Tommy_Spark.
+[21:08:26] [part] Tommy_Spark has left the server (0:1)
+[21:08:26] [connection] 127.0.0.1:51992 requests connection cookie.
+[21:08:27] Incoming connection: 127.0.0.1:51992 id: 0
+[21:08:27] [join] Tommy_Spark has joined the server (0:127.0.0.1)
+[21:08:28] [INVENTORY] Saved for player .
+[21:08:30] [INVENTORY] Saved for player .
+[21:08:36] Playerid: 0 | Death: 1
+[21:13:03] [death] Tommy_Spark died 54
+[21:13:07] Playerid: 0 | Death: 2
+[21:19:08] [INVENTORY] Saved for player Tommy_Spark.
+[21:19:13] [INVENTORY] Saved for player Tommy_Spark.
+[21:19:13] [death] Tommy_Spark died 54
+[21:19:13] [INVENTORY] Saved for player Tommy_Spark.
+[21:19:17] Playerid: 0 | Death: 2
+[21:35:28] [LOGS] 23, [G-AC] Tommy_Spark отсоединен. Причина: Foot FlyHack/AirBreak 134.68, 4, -1, -1, -1, -1
+[21:35:28] [INVENTORY] Saved for player Tommy_Spark.
+[21:35:28] [part] Tommy_Spark has left the server (0:2)
+[21:41:03] [SYSTEM] Car 328 has been destroyed. [ By Tommy_Spark ]
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[01:00:12] 
+[01:00:12] Server Plugins
+[01:00:12] --------------
+[01:00:12]  Loading plugin: crashdetect
+[01:00:13]   CrashDetect v4.15.1 is OK.
+[01:00:13]   Loaded.
+[01:00:13]  Loading plugin: streamer
+[01:00:13] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[01:00:13]   Loaded.
+[01:00:13]  Loading plugin: mysql
+[01:00:13]  >> plugin.mysql: R39-2 successfully loaded.
+[01:00:13]   Loaded.
+[01:00:13]  Loading plugin: sscanf
+[01:00:13] 
+
+[01:00:13]  ===============================
+
+[01:00:13]       sscanf plugin loaded.     
+
+[01:00:13]          Version:  2.8.1        
+
+[01:00:13]    (c) 2012 Alex "Y_Less" Cole  
+
+[01:00:13]  ===============================
+
+[01:00:13]   Loaded.
+[01:00:13]  Loading plugin: CRP
+[01:00:13] 
+
+[01:00:13] ______________________________________
+
+[01:00:13]  Convert Rus To Pwn v0.1.1 loaded
+[01:00:13] ______________________________________
+
+[01:00:13]  By: Fro (c) Copyright <TBG> 2009-2011
+[01:00:13] ______________________________________
+
+[01:00:13]   Loaded.
+[01:00:13]  Loading plugin: gvar
+[01:00:13] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[01:00:13]   Loaded.
+[01:00:13]  Loaded 6 plugins.
+
+[01:00:13] 
+[01:00:13] Ban list
+[01:00:13] --------
+[01:00:13]  Loaded: samp.ban
+[01:00:13] 
+[01:00:13] 
+[01:00:13] Filterscripts
+[01:00:13] ---------------
+[01:00:13]   Loading filterscript 'yom_buttons.amx'...
+[01:00:13]   Loaded 1 filterscripts.
+
+[01:00:14]  
+[01:00:14]  
+[01:00:14]  
+[01:00:14]  ======================================= 
+[01:00:14]  |                                     | 
+[01:00:14]  |        YSI version 3.09.0684        | 
+[01:00:14]  |        By Alex "Y_Less" Cole        | 
+[01:00:14]  |                                     | 
+[01:00:14]  ======================================= 
+[01:00:14]  
+[01:00:14]  
+[01:00:14]  
+[01:00:14] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[01:00:14] [Объекты] Оптимизированно объектов: 2626
+[01:00:14] Number of vehicle models: 80
+[01:00:14] [SYSTEM] Входы в интерьеры загружены [53][time 3 ms]
+[01:00:14] [SYSTEM] Квартиры загружены - [0]
+[01:00:14] [SYSTEM] Дома загруженны - [3] [time 2 ms]
+[01:00:14] [SYSTEM] Криминальные структуры загруженны - [1]
+[01:00:14] [LOADING MODE] Bizz Loading Done..
+[01:00:14] [LOADING MODE] Frac Loading Done..
+[01:00:14] [SYSTEM] Зарплаты загружены
+[01:00:42] [connection] 127.0.0.1:51981 requests connection cookie.
+[01:00:43] Incoming connection: 127.0.0.1:51981 id: 0
+[01:00:43] [join] Brandon_Perry has joined the server (0:127.0.0.1)
+[01:00:49] [part] Brandon_Perry has left the server (0:2)
+[01:00:57] Incoming connection: 127.0.0.1:52704 id: 0
+[01:00:57] [join] Brandon_Perry has joined the server (0:127.0.0.1)
+[01:01:00] [part] Brandon_Perry has left the server (0:2)
+[01:01:48] [connection] 127.0.0.1:55807 requests connection cookie.
+[01:01:49] Incoming connection: 127.0.0.1:55807 id: 0
+[01:01:49] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[01:02:17] [part] Walther_Ribbentrop has left the server (0:2)
+[01:02:32] Incoming connection: 127.0.0.1:45261 id: 0
+[01:02:32] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[01:02:32] [INVENTORY] Saved for player .
+[01:02:34] [INVENTORY] Saved for player .
+[01:02:36] [INVENTORY] Saved for player Walther_Ribbentrop.
+[01:06:35] [chat] [Walther_Ribbentrop]: 2765.085, -1454.437, 29
+[01:06:52] [LOGS] 23, [G-AC] Walther_Ribbentrop отсоединен. Причина: Foot FlyHack/AirBreak 73.17, 2, -1, -1, -1, -1
+[01:06:52] [INVENTORY] Saved for player Walther_Ribbentrop.
+[01:06:52] [part] Walther_Ribbentrop has left the server (0:2)
+[01:07:36] [connection] 127.0.0.1:45261 requests connection cookie.
+[01:07:37] Incoming connection: 127.0.0.1:45261 id: 0
+[01:07:37] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[01:07:38] [INVENTORY] Saved for player .
+[01:07:40] [INVENTORY] Saved for player .
+[01:09:43] [INVENTORY] Saved for player Walther_Ribbentrop.
+[01:09:43] [part] Walther_Ribbentrop has left the server (0:1)
+[01:09:53] [connection] 127.0.0.1:51000 requests connection cookie.
+[01:09:54] Incoming connection: 127.0.0.1:51000 id: 0
+[01:09:54] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[01:15:30] [INVENTORY] Saved for player Walther_Ribbentrop.
+[01:18:48] [LOGS] 23, [G-AC] Walther_Ribbentrop отсоединен. Причина: Foot FlyHack/AirBreak 73.77, 2, -1, -1, -1, -1
+[01:18:48] [INVENTORY] Saved for player Walther_Ribbentrop.
+[01:18:48] [part] Walther_Ribbentrop has left the server (0:2)
+[01:18:51] [connection] 127.0.0.1:40179 requests connection cookie.
+[01:18:51] Incoming connection: 127.0.0.1:40179 id: 0
+[01:18:52] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[01:18:53] [INVENTORY] Saved for player .
+[01:18:55] [INVENTORY] Saved for player .
+[01:25:52] [INVENTORY] Saved for player Walther_Ribbentrop.
+[01:25:52] [part] Walther_Ribbentrop has left the server (0:1)
+[01:26:02] [connection] 127.0.0.1:59756 requests connection cookie.
+[01:26:03] Incoming connection: 127.0.0.1:59756 id: 0
+[01:26:03] [join] Walther_Ribbentrop has joined the server (0:127.0.0.1)
+[02:14:52] [LOGS] 23, [G-AC] Walther_Ribbentrop отсоединен. Причина: AFK, 2, -1, -1, -1, -1
+[02:14:53] [INVENTORY] Saved for player Walther_Ribbentrop.
+[02:14:53] [part] Walther_Ribbentrop has left the server (0:2)
+[05:05:45]  
+[05:05:45]  
+[05:05:45]  
+[05:05:45]  ======================================= 
+[05:05:45]  |                                     | 
+[05:05:45]  |        YSI version 3.09.0684        | 
+[05:05:45]  |        By Alex "Y_Less" Cole        | 
+[05:05:45]  |                                     | 
+[05:05:45]  ======================================= 
+[05:05:45]  
+[05:05:46]  
+[05:05:46]  
+[05:05:46] [STREAMER] Streamer_GetIntData: Invalid ID specified
+[05:05:46] [Объекты] Оптимизированно объектов: 2626
+[05:05:46] Number of vehicle models: 80
+[05:05:46] [SYSTEM] Входы в интерьеры загружены [53][time 9 ms]
+[05:05:46] [SYSTEM] Квартиры загружены - [0]
+[05:05:46] [SYSTEM] Дома загруженны - [3] [time 1 ms]
+[05:05:46] [SYSTEM] Криминальные структуры загруженны - [1]
+[05:05:46] [LOADING MODE] Bizz Loading Done..
+[05:05:46] [LOADING MODE] Frac Loading Done..
+[05:05:46] [SYSTEM] Зарплаты загружены
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[14:42:44] 
+[14:42:44] Server Plugins
+[14:42:44] --------------
+[14:42:44]  Loading plugin: crashdetect
+[14:42:44]   CrashDetect v4.15.1 is OK.
+[14:42:44]   Loaded.
+[14:42:44]  Loading plugin: streamer
+[14:42:44] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[14:42:44]   Loaded.
+[14:42:44]  Loading plugin: mysql
+[14:42:44]  >> plugin.mysql: R39-2 successfully loaded.
+[14:42:44]   Loaded.
+[14:42:44]  Loading plugin: sscanf
+[14:42:44] 
+
+[14:42:44]  ===============================
+
+[14:42:44]       sscanf plugin loaded.     
+
+[14:42:44]          Version:  2.8.1        
+
+[14:42:44]    (c) 2012 Alex "Y_Less" Cole  
+
+[14:42:44]  ===============================
+
+[14:42:44]   Loaded.
+[14:42:44]  Loading plugin: CRP
+[14:42:44] 
+
+[14:42:44] ______________________________________
+
+[14:42:44]  Convert Rus To Pwn v0.1.1 loaded
+[14:42:44] ______________________________________
+
+[14:42:44]  By: Fro (c) Copyright <TBG> 2009-2011
+[14:42:44] ______________________________________
+
+[14:42:44]   Loaded.
+[14:42:44]  Loading plugin: gvar
+[14:42:44] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[14:42:44]   Loaded.
+[14:42:44]  Loaded 6 plugins.
+
+[14:42:44] 
+[14:42:44] Ban list
+[14:42:44] --------
+[14:42:44]  Loaded: samp.ban
+[14:42:44] 
+[14:42:44] 
+[14:42:44] Filterscripts
+[14:42:44] ---------------
+[14:42:44]   Loading filterscript 'yom_buttons.amx'...
+[14:42:44]   Loaded 1 filterscripts.
+
+[14:42:45]  
+[14:42:45]  
+[14:42:45]  
+[14:42:45]  ======================================= 
+[14:42:45]  |                                     | 
+[14:42:45]  |        YSI version 3.09.0684        | 
+[14:42:45]  |        By Alex "Y_Less" Cole        | 
+[14:42:45]  |                                     | 
+[14:42:45]  ======================================= 
+[14:42:45]  
+[14:42:45]  
+[14:42:45]  
+[14:42:47] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[14:42:47] [Объекты] Оптимизированно объектов: 2626
+[14:42:47] Number of vehicle models: 80
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[14:46:30] 
+[14:46:30] Server Plugins
+[14:46:30] --------------
+[14:46:30]  Loading plugin: crashdetect
+[14:46:30]   CrashDetect v4.15.1 is OK.
+[14:46:30]   Loaded.
+[14:46:30]  Loading plugin: streamer
+[14:46:30] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[14:46:30]   Loaded.
+[14:46:30]  Loading plugin: mysql
+[14:46:30]  >> plugin.mysql: R39-2 successfully loaded.
+[14:46:30]   Loaded.
+[14:46:30]  Loading plugin: sscanf
+[14:46:30] 
+
+[14:46:30]  ===============================
+
+[14:46:30]       sscanf plugin loaded.     
+
+[14:46:30]          Version:  2.8.1        
+
+[14:46:30]    (c) 2012 Alex "Y_Less" Cole  
+
+[14:46:30]  ===============================
+
+[14:46:30]   Loaded.
+[14:46:30]  Loading plugin: CRP
+[14:46:30] 
+
+[14:46:30] ______________________________________
+
+[14:46:30]  Convert Rus To Pwn v0.1.1 loaded
+[14:46:30] ______________________________________
+
+[14:46:30]  By: Fro (c) Copyright <TBG> 2009-2011
+[14:46:30] ______________________________________
+
+[14:46:30]   Loaded.
+[14:46:30]  Loading plugin: gvar
+[14:46:30] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[14:46:30]   Loaded.
+[14:46:30]  Loaded 6 plugins.
+
+[14:46:30] 
+[14:46:30] Ban list
+[14:46:30] --------
+[14:46:30]  Loaded: samp.ban
+[14:46:30] 
+[14:46:30] 
+[14:46:30] Filterscripts
+[14:46:30] ---------------
+[14:46:30]   Loading filterscript 'yom_buttons.amx'...
+[14:46:30]   Loaded 1 filterscripts.
+
+[14:46:30]  
+[14:46:30]  
+[14:46:30]  
+[14:46:30]  ======================================= 
+[14:46:30]  |                                     | 
+[14:46:30]  |        YSI version 3.09.0684        | 
+[14:46:30]  |        By Alex "Y_Less" Cole        | 
+[14:46:30]  |                                     | 
+[14:46:30]  ======================================= 
+[14:46:30]  
+[14:46:30]  
+[14:46:30]  
+[14:46:30] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[14:46:30] [Объекты] Оптимизированно объектов: 2626
+[14:46:30] Number of vehicle models: 80
+[14:46:30] [SYSTEM] Входы в интерьеры загружены [53][time 3 ms]
+[14:46:30] [SYSTEM] Квартиры загружены - [0]
+[14:46:30] [SYSTEM] Дома загруженны - [5] [time 1 ms]
+[14:46:30] [SYSTEM] Криминальные структуры загруженны - [2]
+[14:46:30] [LOADING MODE] Bizz Loading Done..
+[14:46:30] [LOADING MODE] Frac Loading Done..
+[14:46:30] [SYSTEM] Зарплаты загружены
+[14:46:56] [connection] 127.0.0.1:54644 requests connection cookie.
+[14:46:57] Incoming connection: 127.0.0.1:54644 id: 0
+[14:46:58] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[14:48:12] [LOGS] 23, [G-AC] Cheat_Master отсоединен. Причина: Foot FlyHack/AirBreak 69.82, 2, -1, -1, -1, -1
+[14:48:13] [INVENTORY] Saved for player Cheat_Master.
+[14:48:13] [part] Cheat_Master has left the server (0:2)
+[14:48:28] Incoming connection: 127.0.0.1:63002 id: 0
+[14:48:29] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[14:48:29] [INVENTORY] Saved for player .
+[14:48:31] [INVENTORY] Saved for player .
+[14:48:33] [INVENTORY] Saved for player .
+[14:50:47] [INVENTORY] Saved for player Cheat_Master.
+[14:52:03] [INVENTORY] Saved for player Cheat_Master.
+[14:53:28] [INVENTORY] Saved for player Cheat_Master.
+[14:53:28] [part] Cheat_Master has left the server (0:1)
+[14:59:05] [connection] 127.0.0.1:58052 requests connection cookie.
+[14:59:06] Incoming connection: 127.0.0.1:58052 id: 0
+[14:59:06] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[14:59:20] [chat] [Cheat_Master]: 960.9060100,-1554.1790000,20.8140000
+[15:01:01] [INVENTORY] Saved for player Cheat_Master.
+[15:01:47] [chat] [Cheat_Master]: 2622.110,-814.119,2882.010
+
+----------
+Loaded log file: "server_log.txt".
+----------
+
+SA-MP Dedicated Server
+----------------------
+v0.3.7, (C)2005-2015 SA-MP Team
+
+[15:04:00] 
+[15:04:00] Server Plugins
+[15:04:00] --------------
+[15:04:00]  Loading plugin: crashdetect
+[15:04:00]   CrashDetect v4.15.1 is OK.
+[15:04:00]   Loaded.
+[15:04:00]  Loading plugin: streamer
+[15:04:00] 
+
+*** Streamer Plugin v2.7.8 by Incognito loaded ***
+
+[15:04:00]   Loaded.
+[15:04:00]  Loading plugin: mysql
+[15:04:00]  >> plugin.mysql: R39-2 successfully loaded.
+[15:04:00]   Loaded.
+[15:04:00]  Loading plugin: sscanf
+[15:04:00] 
+
+[15:04:00]  ===============================
+
+[15:04:00]       sscanf plugin loaded.     
+
+[15:04:00]          Version:  2.8.1        
+
+[15:04:00]    (c) 2012 Alex "Y_Less" Cole  
+
+[15:04:00]  ===============================
+
+[15:04:00]   Loaded.
+[15:04:00]  Loading plugin: CRP
+[15:04:00] 
+
+[15:04:00] ______________________________________
+
+[15:04:00]  Convert Rus To Pwn v0.1.1 loaded
+[15:04:00] ______________________________________
+
+[15:04:00]  By: Fro (c) Copyright <TBG> 2009-2011
+[15:04:00] ______________________________________
+
+[15:04:00]   Loaded.
+[15:04:00]  Loading plugin: gvar
+[15:04:00] 
+
+*** GVar Plugin v1.3 by Incognito loaded ***
+
+[15:04:00]   Loaded.
+[15:04:00]  Loaded 6 plugins.
+
+[15:04:00] 
+[15:04:00] Ban list
+[15:04:00] --------
+[15:04:00]  Loaded: samp.ban
+[15:04:00] 
+[15:04:00] 
+[15:04:00] Filterscripts
+[15:04:00] ---------------
+[15:04:00]   Loading filterscript 'yom_buttons.amx'...
+[15:04:01]   Loaded 1 filterscripts.
+
+[15:04:01]  
+[15:04:01]  
+[15:04:01]  
+[15:04:01]  ======================================= 
+[15:04:01]  |                                     | 
+[15:04:01]  |        YSI version 3.09.0684        | 
+[15:04:01]  |        By Alex "Y_Less" Cole        | 
+[15:04:01]  |                                     | 
+[15:04:01]  ======================================= 
+[15:04:01]  
+[15:04:01]  
+[15:04:01]  
+[15:04:01] *** Streamer Plugin: Streamer_GetIntData: Invalid ID specified
+[15:04:01] [Объекты] Оптимизированно объектов: 2626
+[15:04:01] Number of vehicle models: 80
+[15:04:01] [SYSTEM] Входы в интерьеры загружены [53][time 2 ms]
+[15:04:01] [SYSTEM] Квартиры загружены - [0]
+[15:04:01] [SYSTEM] Дома загруженны - [5] [time 1 ms]
+[15:04:01] [SYSTEM] Криминальные структуры загруженны - [2]
+[15:04:01] [LOADING MODE] Bizz Loading Done..
+[15:04:01] [LOADING MODE] Frac Loading Done..
+[15:04:01] [SYSTEM] Зарплаты загружены
+[15:04:42] [connection] 127.0.0.1:64350 requests connection cookie.
+[15:04:43] Incoming connection: 127.0.0.1:64350 id: 0
+[15:04:43] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[15:05:19] [chat] [Cheat_Master]: 2622.110,-814.119,2882.010
+[15:05:21] [chat] [Cheat_Master]: 2622.110,-814.119,2882.010
+[15:05:24] [chat] [Cheat_Master]: tg
+[15:12:46] [chat] [Cheat_Master]: 1312.163,-870.532,38.
+[15:14:24] [chat] [Cheat_Master]: 2767.633,-1458.464,29.474,
+[15:16:44] [chat] [Cheat_Master]: -923.000,-535.000,2500.000
+[15:17:47] [chat] [Cheat_Master]: 1298.792,-894.900,3001
+[15:19:34] [chat] [Cheat_Master]: 1298.792,-894.900,3001
+[15:20:18] [chat] [Cheat_Master]: 389.000,-1526.199,31.73
+[15:21:37] [chat] [Cheat_Master]: 1136.885,-1328.855,2805.209
+[15:24:36] [chat] [Cheat_Master]: 1099.811,-1365.163,12.732
+[15:25:31] [chat] [Cheat_Master]: 1907.63708, 145.84979, 1999
+[15:27:18] [chat] [Cheat_Master]: 449.83859, -413.33466, 3116
+[15:29:06] [chat] [Cheat_Master]: 569.273,83.827,3135
+[15:30:16] [chat] [Cheat_Master]: -481.06223, -784.77405, 2011
+[15:32:23] [chat] [Cheat_Master]:  466.03326, 927.03906, 1955.
+[15:33:29] [chat] [Cheat_Master]: 304.38489, 1083.7828
+[15:34:55] [chat] [Cheat_Master]: -99.90022, -1599.67981, 3863.
+[15:36:52] [chat] [Cheat_Master]:  1208.86, 1348.18, 1500.5
+[15:38:55] [chat] [Cheat_Master]: 777.89801, -42.10700, 1002
+[15:41:13] [chat] [Cheat_Master]: -2744.710,828.204,2000.88
+[15:45:31] [chat] [Cheat_Master]: 2598.320,-208.110,3882
+[15:46:11] [INVENTORY] Saved for player Cheat_Master.
+[15:46:11] [part] Cheat_Master has left the server (0:0)
+[15:46:59] [connection] 127.0.0.1:51005 requests connection cookie.
+[15:47:00] Incoming connection: 127.0.0.1:51005 id: 0
+[15:47:01] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[15:47:20] [chat] [Cheat_Master]: 2598.320,-208.110,3882
+[15:54:46] [chat] [Cheat_Master]: 1134.46, -1227.39, 3906
+[15:55:56] [chat] [Cheat_Master]: 2142.759,-1646.816,3904
+[15:57:44] [chat] [Cheat_Master]: -2821.908,-57.857,3003.1
+[16:00:16] У игрока Cheat_Master [0] произошел PayDay
+[16:00:32] [chat] [Cheat_Master]: -2528.797,764.487,2000.517
+[16:02:39] [chat] [Cheat_Master]: 2807.500,-731.200,3882.010
+[16:06:08] [chat] [Cheat_Master]: 1543.380,-1666.325,12.563
+[16:06:57] [INVENTORY] Saved for player Cheat_Master.
+[16:06:57] [part] Cheat_Master has left the server (0:1)
+[16:06:57] [connection] 127.0.0.1:61214 requests connection cookie.
+[16:06:58] Incoming connection: 127.0.0.1:61214 id: 0
+[16:06:59] [join] Cheat_Master has joined the server (0:127.0.0.1)
+[16:06:59] [INVENTORY] Saved for player .
+[16:07:01] [INVENTORY] Saved for player .
+[16:07:03] [INVENTORY] Saved for player .
+[16:11:37] [chat] [Cheat_Master]: 700 -40 1000
+[16:12:51] [chat] [Cheat_Master]: 1543.380,-1666.325,12.563
+[16:19:03] [chat] [Cheat_Master]: 1506.068,-1490.002,3498.806
+[16:20:43] [chat] [Cheat_Master]: 1564.800,-1668.699,2495
+[16:20:55] [chat] [Cheat_Master]: 1303.731,-1511.211,2493
+[16:24:04] [chat] [Cheat_Master]: 394.899,-1850.500,2500
+[16:26:21] [chat] [Cheat_Master]: -134.419,-1869.930,2500
+[16:26:27] [chat] [Cheat_Master]: -134.419,-1869.930,2500
+[16:28:35] [chat] [Cheat_Master]: 911.402,-1882.676,2501
+[16:30:54] [chat] [Cheat_Master]: 596.359,-1523.385,1996
+[16:32:15] [chat] [Cheat_Master]: 2436.885,-1764.338,2500
+[16:33:12] [chat] [Cheat_Master]: 2438.600,-1369.400,2500
+[16:41:13] [chat] [Cheat_Master]: 2438.600,-1369.400,2500
+[16:42:07] [chat] [Cheat_Master]: 3230.800,-1770.300,2500
+[16:44:25] [chat] [Cheat_Master]: 2435.750,-971.000,2500
+[16:47:59] [chat] [Cheat_Master]: 645.359,-584.200,1994
+[16:52:07] [chat] [Cheat_Master]: 1796.270,-1765.160,2512
+[16:53:32] [chat] [Cheat_Master]: -482.27850, -217.74800, 1995
+[16:55:07] [chat] [Cheat_Master]: .пзі
+[16:56:22] [chat] [Cheat_Master]: f
+[16:56:33] [chat] [Cheat_Master]: -462.11362, -87.06445, 2780
+[16:59:39] [INVENTORY] Saved for player Cheat_Master.
+[17:03:46] [chat] [Cheat_Master]: 1443.79004, -1002.79999, 2725
+[17:05:50] [chat] [Cheat_Master]: 1651.91431, -1577.98804, 4700
+[17:08:57] [chat] [Cheat_Master]: 1054.63000, -366.47000, 1849
+[17:10:47] [chat] [Cheat_Master]: 265.70187, 1135.68628, 1915
+[17:11:34] [chat] [Cheat_Master]: 1111.61743, 616.50922, 4962
+[17:12:46] [chat] [Cheat_Master]: 642.84003, 196.61000, 2001
+[17:13:50] [chat] [Cheat_Master]: 2328.77515, -34.99605, 3718
+[17:16:07] [chat] [Cheat_Master]: 2250.59229, -50.89996, 2609
+[17:17:26] [chat] [Cheat_Master]: 539.700,-1770.932,7.176
+[17:18:44] [chat] [Cheat_Master]: 440.765,-1442.617,29.391
+[17:20:58] [INVENTORY] Saved for player Cheat_Master.
+[17:20:58] [death] Cheat_Master died 54
+[17:20:59] [INVENTORY] Saved for player Cheat_Master.
+[17:21:02] Playerid: 0 | Death: 1
+[17:21:33] [LOGS] 27, Cheat_Master посадил в Де Морган на 1 минут Cheat_Master. Причина: 1, 2, 2, -1, -1, -1
+[17:21:52] [chat] [Cheat_Master]: 440.765,-1442.617,29.391
+[17:24:10] [chat] [Cheat_Master]: 1099.811,-1365.163,12
+[17:24:57] [death] Cheat_Master died 54
+[17:25:01] Playerid: 0 | Death: 2
+[17:25:54] [chat] [Cheat_Master]: 2307.907,-2011.354,14.006
+[17:26:07] У игрока Cheat_Master [0] произошел PayDay
+[17:30:44] [chat] [Cheat_Master]: 2307.907,-2011.354,14.006
+[17:31:10] [chat] [Cheat_Master]: 2307.907,-2011.354,14.006
+[17:32:03] [chat] [Cheat_Master]: 2307.907,-2011.354,14
+[17:32:57] [chat] [Cheat_Master]: 2307.907,-2011.354,14
+[17:34:06] [chat] [Cheat_Master]: 1660.089,-2309.800,13.189
+[17:35:31] [chat] [Cheat_Master]: 2183.679,-2640.550,17.209
+[17:37:34] [chat] [Cheat_Master]: 1292.38000, -1215.10999, 13.12000
+[17:40:46] [chat] [Cheat_Master]: 1150.520,1362.979,9.720
+[17:41:27] [chat] [Cheat_Master]: 1150.520,1362.979,9.720
+[17:41:37] [chat] [Cheat_Master]: 1150.520,1362.979,9.720
+[17:42:25] [chat] [Cheat_Master]: 357.200,1852.239,4999.
+[17:47:41] [chat] [Cheat_Master]: 1582.58032, -1637.87561, 13.70280
+[17:48:40] [chat] [Cheat_Master]: 1582.58032, -1637.87561, 13.70280
+[17:49:21] [chat] [Cheat_Master]: 1099.811,-1365.163
+[17:55:23] [chat] [Cheat_Master]: 457.015,-1801.148,2600
+[17:56:34] [chat] [Cheat_Master]: 436.071,-1816.771,-0.182
+[17:58:24] [chat] [Cheat_Master]: 2763.699,-978.070,2880
+[18:00:58] [chat] [Cheat_Master]: 2838.091,-1767.537,2500
+[18:02:10] [chat] [Cheat_Master]: 1327.4297, -1239.9844, 13.
+[18:02:37] [chat] [Cheat_Master]: 2525.800,-535.719,3882
+[18:03:55] [chat] [Cheat_Master]: 2716.500,-500.600,2882
+[18:07:25] [chat] [Cheat_Master]: 2140.520,-1735.140,15.904
+[18:08:06] [chat] [Cheat_Master]: 2140.520,-1735.140,15.904

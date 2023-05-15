@@ -1,0 +1,165 @@
+[00:11:51] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[00:11:52] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[00:11:53] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[00:11:53] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[00:11:53] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[00:11:56] [WARNING] CMySQLConnection::Disconnect - no connection available
+[00:15:48] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[00:42:24] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[20:38:55] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[21:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[21:03:41] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[21:13:03] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[21:16:11] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[22:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[01:00:14] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[01:06:52] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[01:15:30] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[01:18:48] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[02:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[03:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[04:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[05:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[05:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[05:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[05:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[05:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[05:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[05:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[05:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[05:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[05:05:46] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[06:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[07:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[08:00:01] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[09:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[10:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[14:42:45] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[14:42:47] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[14:42:49] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[14:42:49] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[14:42:49] [ERROR] CMySQLConnection::Connect - (error #2003) Can't connect to MySQL server on 'localhost' (10061)
+[14:46:30] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[15:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[15:04:01] [ERROR] "mysql_tquery" - invalid connection handle (id: 0)
+[15:46:11] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[16:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[16:11:04] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[16:59:39] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[17:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1
+[17:24:57] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[17:31:41] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #2013) Lost connection to MySQL server during query
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'Mikael_Blomkvist' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: 'ÂNone' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '#=None' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '' for column 'bSellHour' at row 1
+[18:00:00] [ERROR] CMySQLQuery::Execute[] - (error #1366) Incorrect integer value: '³NDwight_Fisher' for column 'bSellHour' at row 1

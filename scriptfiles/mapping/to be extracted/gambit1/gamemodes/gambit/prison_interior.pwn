@@ -1,0 +1,6 @@
+
+stock loadPrisonInterior() {
+
+
+	return true;
+}
