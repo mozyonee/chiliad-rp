@@ -10863,6 +10863,7 @@ stock CreateTextDraws(playerid) {
 }
 #include "../scriptfiles/other/hacker.inc"
 stock RemoveBuildings(playerid) {
+	#include "../scriptfiles/mapping/remove.inc"
 	if(FireStatus) {
 		// fire
 		RemoveBuildingForPlayer(playerid, 4114, 1350.410, -1512.010, 23.046, 0.250);
@@ -22039,2006 +22040,1679 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendOK(playerid, string);
 			}
 		case D_BIZZ_ENTERS: {
-				if(!response) return 1;
-				new businessid = TI[playerid][tSelectedBusinessID];
-				if(businessid < 0) return 1;
-				new price = gBusiness[businessid][bizzEnter];
-				new bint = gBusiness[businessid][bizzBint]-1;
-				if(bint < 0 || bint >= BINT_COUNT) return 1;
-				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
-				if(businessid == 57) {
-					if(!casino) return SendError(playerid, "Вхід в казино тимчасово закрито.");
-				}
-				GiveMoney(playerid, -price, "вхід в бізнес");
-				bizz_pay(businessid,price);
-				TI[playerid][tTPpick] = true;
-				SetPlayerPosAC(playerid, gBints[bint][bintX], gBints[bint][bintY], gBints[bint][bintZ], businessid+ 1, gBints[bint][bintInterior]);
-				SetPlayerFacingAngle(playerid, gBints[bint][bintR]);
-				gBusiness[businessid][bizzVisitors]++;
-				SetCameraBehindPlayer(playerid);
-				new freezeSeconds = 0;
-				switch (GetPlayerPing(playerid)) {
-				case 0 .. 49: freezeSeconds = 2;
-				case 50 .. 199: freezeSeconds = 3;
-				case 200 .. 499: freezeSeconds = 4;
-				default: freezeSeconds = 5;
-				}
-				FreezePlayerForTime(playerid, freezeSeconds);
+			if(!response) return 1;
+			new businessid = TI[playerid][tSelectedBusinessID];
+			if(businessid < 0) return 1;
+			new price = gBusiness[businessid][bizzEnter];
+			new bint = gBusiness[businessid][bizzBint]-1;
+			if(bint < 0 || bint >= BINT_COUNT) return 1;
+			if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
+			if(businessid == 57) {
+				if(!casino) return SendError(playerid, "Вхід в казино тимчасово закрито.");
+			}
+			GiveMoney(playerid, -price, "вхід в бізнес");
+			bizz_pay(businessid,price);
+			TI[playerid][tTPpick] = true;
+			SetPlayerPosAC(playerid, gBints[bint][bintX], gBints[bint][bintY], gBints[bint][bintZ], businessid+ 1, gBints[bint][bintInterior]);
+			SetPlayerFacingAngle(playerid, gBints[bint][bintR]);
+			gBusiness[businessid][bizzVisitors]++;
+			SetCameraBehindPlayer(playerid);
+			new freezeSeconds = 0;
+			switch (GetPlayerPing(playerid)) {
+			case 0 .. 49: freezeSeconds = 2;
+			case 50 .. 199: freezeSeconds = 3;
+			case 200 .. 499: freezeSeconds = 4;
+			default: freezeSeconds = 5;
+			}
+			FreezePlayerForTime(playerid, freezeSeconds);
 			}
 		case dBusinessProd: {
-				if(!response) return pc_cmd_business(playerid);
-				new put = strval(inputtext);
-				new bizid = CI[playerid][pBusiness] - 1;
-				if(gBusiness[bizid][bizzProdOrder]) return SendError(playerid, "Ви вже замовили продукти. Очікуйте, коли розвізники доставлять їх у ваш бізнес.");
-				if(put < 500 || put > gBusiness[bizid][bizzUpgrade][0]) {
-					static const f_str[] = "\n\n"W"Введіть к-сть продуктів, яку ви хочете замовити:\n\n"NO"*"G" Мінімум 500, максимум %i\n\n";
-					new string[sizeof(f_str) + 1 + (-2 + 6)];
-					format(string, sizeof(string), f_str, gBusiness[bizid][bizzUpgrade][0]);
-					ShowPlayerDialog(playerid, dBusinessProd, DSI, P"Замовлення продуктів", string, "Далі", "Скасувати");
-					return 1;
-				}
-				if(gBusiness[bizid][bizzProduct] + put > gBusiness[bizid][bizzUpgrade][0])
-				return ShowPlayerDialog(playerid, dBusinessProd, DSI, P"Замовлення продуктів", "\n\n"W"Введіть к-сть продуктів, яку ви хочете замовити:\n\n"NO"*"G" На складі вашого бізнесу достатньо продуктів\n\n", "Далі", "Скасувати");
-				PlayerBuyProdFix[playerid] = put;
-				ShowPlayerDialog(playerid, dBusinessProd2, DSI, P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
+			if(!response) return pc_cmd_business(playerid);
+			new put = strval(inputtext);
+			new bizid = CI[playerid][pBusiness] - 1;
+			if(gBusiness[bizid][bizzProdOrder]) return SendError(playerid, "Ви вже замовили продукти. Очікуйте, коли розвізники доставлять їх у ваш бізнес.");
+			if(put < 500 || put > gBusiness[bizid][bizzUpgrade][0]) {
+				static const f_str[] = "\n\n"W"Введіть к-сть продуктів, яку ви хочете замовити:\n\n"NO"*"G" Мінімум 500, максимум %i\n\n";
+				new string[sizeof(f_str) + 1 + (-2 + 6)];
+				format(string, sizeof(string), f_str, gBusiness[bizid][bizzUpgrade][0]);
+				ShowPlayerDialog(playerid, dBusinessProd, DSI, P"Замовлення продуктів", string, "Далі", "Скасувати");
 				return 1;
 			}
+			if(gBusiness[bizid][bizzProduct] + put > gBusiness[bizid][bizzUpgrade][0])
+			return ShowPlayerDialog(playerid, dBusinessProd, DSI, P"Замовлення продуктів", "\n\n"W"Введіть к-сть продуктів, яку ви хочете замовити:\n\n"NO"*"G" На складі вашого бізнесу достатньо продуктів\n\n", "Далі", "Скасувати");
+			PlayerBuyProdFix[playerid] = put;
+			ShowPlayerDialog(playerid, dBusinessProd2, DSI, P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
+			return 1;
+			}
 		case dBusinessProd2: {
-				if(!response) return pc_cmd_business(playerid), PlayerBuyProdFix[playerid] = 0;
-				new put;
-				new bizid = CI[playerid][pBusiness] - 1;
-				if(sscanf(inputtext, "i", put)) return ShowPlayerDialog(playerid, dBusinessProd2, DSI, P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
-				if(put < 2 || put > 4) return ShowPlayerDialog(playerid, dBusinessProd2, DSI, P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
-				new string[144];
-				new prod = PlayerBuyProdFix[playerid] * put / 10;
-				if(gBusiness[bizid][bizzBank] < prod) {
-					format(string, sizeof(string), "Недостатньо коштів на рахунку бізнесу. Для оплати необхідно: "NO"$%i"W".", prod);
-					SendError(playerid, string);
-					PlayerBuyProdFix[playerid] = 0;
-					return 1;
-				}
-				gBusiness[bizid][bizzBank] -= prod;
-				gBusiness[bizid][bizzProdOrder] = PlayerBuyProdFix[playerid];
-				gBusiness[bizid][bizzProdOrderPrice] = put;
-				SaveBusiness(bizid);
-				format(string, sizeof(string), W"Замовлено продуктів: "O"%i\n"W"Оплачено з рахунку бізнесу: "GREEN"$%i", gBusiness[bizid][bizzProdOrder], gBusiness[bizid][bizzProdOrderPrice]*gBusiness[bizid][bizzProdOrder]);
-				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Замовлення продуктів", string, "Закрити", "");
+			if(!response) return pc_cmd_business(playerid), PlayerBuyProdFix[playerid] = 0;
+			new put;
+			new bizid = CI[playerid][pBusiness] - 1;
+			if(sscanf(inputtext, "i", put)) return ShowPlayerDialog(playerid, dBusinessProd2, DSI, P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
+			if(put < 2 || put > 4) return ShowPlayerDialog(playerid, dBusinessProd2, DSI, P"Замовлення продуктів", "\n\n"W"Введіть ціну за "P"10"W" продуктів:\nПримітка: від "GREEN"$2"W" до "GREEN"$4\n\n", "Замовити", "Скасувати");
+			new string[144];
+			new prod = PlayerBuyProdFix[playerid] * put / 10;
+			if(gBusiness[bizid][bizzBank] < prod) {
+				format(string, sizeof(string), "Недостатньо коштів на рахунку бізнесу. Для оплати необхідно: "NO"$%i"W".", prod);
+				SendError(playerid, string);
 				PlayerBuyProdFix[playerid] = 0;
 				return 1;
 			}
+			gBusiness[bizid][bizzBank] -= prod;
+			gBusiness[bizid][bizzProdOrder] = PlayerBuyProdFix[playerid];
+			gBusiness[bizid][bizzProdOrderPrice] = put;
+			SaveBusiness(bizid);
+			format(string, sizeof(string), W"Замовлено продуктів: "O"%i\n"W"Оплачено з рахунку бізнесу: "GREEN"$%i", gBusiness[bizid][bizzProdOrder], gBusiness[bizid][bizzProdOrderPrice]*gBusiness[bizid][bizzProdOrder]);
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Замовлення продуктів", string, "Закрити", "");
+			PlayerBuyProdFix[playerid] = 0;
+			return 1;
+			}
 		case D_BIZZ_STATS: return 1;
 		case D_AMMO: {
-				if(!response) return 1;
-				switch(listitem) {
-				case 0..4, 11, 12, 13: {
-						new bizid = TI[playerid][tSelectedBusinessID];
-						new slot = listitem, string[128];
-						if(CI[playerid][pCash] < gSellGunPrice[slot]*gBusiness[bizid][bizzPrice]) return SendError(playerid, "Недостатньо грошей.");
-						else if(listitem == 13) {
-							if(CI[playerid][pCash] < gSellGunPrice[12] * gBusiness[bizid][bizzPrice]) return SendError(playerid, "Недостатньо грошей.");
-							format(string, sizeof(string), "Ви придбали "P"перепустку в тир"W" за "GREEN"$%i"W". Підіймайтеся на другий поверх.", gSellGunPrice[12] * gBusiness[bizid][bizzPrice]);
-							SendOK(playerid, string);
-							TI[playerid][tTir] = true;
-							GiveMoney(playerid, -gSellGunPrice[12] * gBusiness[bizid][bizzPrice], "перепустка в тир");
-							if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] > 0) {
-								gBusiness[bizid][bizzProduct] -= gSellGunProds[slot];
-								bizz_pay(bizid, 1000);
-							}
-							return 1;
-						}
-						new result_weapon = 0, ammow = 0, weap = 0;
-						switch(listitem) {
-						case 0: result_weapon = 6;
-						case 1: result_weapon = 5;
-						case 2: result_weapon = 8;
-						case 3: result_weapon = 1;
-						case 4: result_weapon = 17;
-						case 5: result_weapon = 46;
-						}
-						if(result_weapon > 0) {
-							for(new i = 0; i < 13; i++) {
-								GetPlayerWeaponData(playerid,i, weap,ammow);
-								if(weap == result_weapon) {
-									SendError(playerid, "Ви вже маєте цей вид зброї.");
-									return 1;
-								}
-							}
-						}
-						new gun_name[32 + 1];
-						GetWeaponName(gSellGun[slot], gun_name, 32);
+			if(!response) return 1;
+			switch(listitem) {
+			case 0..4, 11, 12, 13: {
+					new bizid = TI[playerid][tSelectedBusinessID];
+					new slot = listitem, string[128];
+					if(CI[playerid][pCash] < gSellGunPrice[slot]*gBusiness[bizid][bizzPrice]) return SendError(playerid, "Недостатньо грошей.");
+					else if(listitem == 13) {
+						if(CI[playerid][pCash] < gSellGunPrice[12] * gBusiness[bizid][bizzPrice]) return SendError(playerid, "Недостатньо грошей.");
+						format(string, sizeof(string), "Ви придбали "P"перепустку в тир"W" за "GREEN"$%i"W". Підіймайтеся на другий поверх.", gSellGunPrice[12] * gBusiness[bizid][bizzPrice]);
+						SendOK(playerid, string);
+						TI[playerid][tTir] = true;
+						GiveMoney(playerid, -gSellGunPrice[12] * gBusiness[bizid][bizzPrice], "перепустка в тир");
 						if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] > 0) {
 							gBusiness[bizid][bizzProduct] -= gSellGunProds[slot];
-							bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]));
-						} 
-
-
-						UpdateBusinessText(bizid);
-						if(listitem < 12) {
-							format(string, sizeof(string), "Ви придбали "P"%s"W" за "GREEN"$%i.", gun_name, gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]);
-							SendOK(playerid, string);
-							GivePlayerWeapon(playerid, gSellGun[slot], 1);
-						} else if(listitem == 12) {
-							SetArmour(playerid, 100);
-							format(string, sizeof(string), "Ви придбали "P"броню"W" за "GREEN"$%i.", gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]);
-							SendOK(playerid, string);
+							bizz_pay(bizid, 1000);
 						}
-						GiveMoney(playerid, -gSellGunPrice[slot] * gBusiness[bizid][bizzPrice], "купівля зброї(аммо)");
+						return 1;
 					}
-				case 5..10: {
-						ShowPlayerDialog(playerid, D_AMMO_2, DSI, "Меню аммо", W"Введіть кількість патронівів, яку ви хочете купити:", "Далі", "Скасувати");
-						SetPVarInt(playerid, "slot_ammo", listitem);
+					new result_weapon = 0, ammow = 0, weap = 0;
+					switch(listitem) {
+					case 0: result_weapon = 6;
+					case 1: result_weapon = 5;
+					case 2: result_weapon = 8;
+					case 3: result_weapon = 1;
+					case 4: result_weapon = 17;
+					case 5: result_weapon = 46;
 					}
+					if(result_weapon > 0) {
+						for(new i = 0; i < 13; i++) {
+							GetPlayerWeaponData(playerid,i, weap,ammow);
+							if(weap == result_weapon) {
+								SendError(playerid, "Ви вже маєте цей вид зброї.");
+								return 1;
+							}
+						}
+					}
+					new gun_name[32 + 1];
+					GetWeaponName(gSellGun[slot], gun_name, 32);
+					if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] > 0) {
+						gBusiness[bizid][bizzProduct] -= gSellGunProds[slot];
+						bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]));
+					} 
+
+
+					UpdateBusinessText(bizid);
+					if(listitem < 12) {
+						format(string, sizeof(string), "Ви придбали "P"%s"W" за "GREEN"$%i.", gun_name, gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]);
+						SendOK(playerid, string);
+						GivePlayerWeapon(playerid, gSellGun[slot], 1);
+					} else if(listitem == 12) {
+						SetArmour(playerid, 100);
+						format(string, sizeof(string), "Ви придбали "P"броню"W" за "GREEN"$%i.", gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]);
+						SendOK(playerid, string);
+					}
+					GiveMoney(playerid, -gSellGunPrice[slot] * gBusiness[bizid][bizzPrice], "купівля зброї(аммо)");
 				}
-				return 1;
+			case 5..10: {
+					ShowPlayerDialog(playerid, D_AMMO_2, DSI, "Меню аммо", W"Введіть кількість патронівів, яку ви хочете купити:", "Далі", "Скасувати");
+					SetPVarInt(playerid, "slot_ammo", listitem);
+				}
+			}
+			return 1;
 			}
 		case D_AMMO_2: {
-				if(!response) return DeletePVar(playerid, "slot_ammo");
-				new slot = GetPVarInt(playerid, "slot_ammo");
-				new bizid = TI[playerid][tSelectedBusinessID];
-				new patron = strval(inputtext);
-				if(patron <= 0 || patron > 1000) return ShowPlayerDialog(playerid, D_AMMO_2, DSI, "Меню аммо", W"Введіть кількість патронівів, яку ви хочете купити:\n\n"NO"*"G" Від 1 до 1000 патронівів", "Далі", "Скасувати");
-				if(CI[playerid][pCash] < gSellGunPrice[slot]*gBusiness[bizid][bizzPrice] * patron) return ShowPlayerDialog(playerid, D_AMMO_2, DSI, "Меню аммо", W"Введіть кількість патронівів, яку ви хочете купити:\n\n"NO"*"G" Недостатньо коштів", "Далі", "Скасувати");
-				new gun_name[32 + 1], string[128];
-				GetWeaponName(gSellGun[slot], gun_name, 32);
-				format(string, sizeof(string), "Ви придбали "P"%s (%i пт.) "W"за "GREEN"$%i"W".", gun_name,patron, gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron);
-				SendOK(playerid, string);
-				if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] * patron > 0) {
-					gBusiness[bizid][bizzProduct] -= gSellGunProds[slot]*patron;
-					bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron));
-				} 
-				GivePlayerWeapon(playerid, gSellGun[slot],patron);
-				GiveMoney(playerid, -gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron, "купівля зброї(аммо)");
-				DeletePVar(playerid, "slot_ammo");
-				return 1;
+			if(!response) return DeletePVar(playerid, "slot_ammo");
+			new slot = GetPVarInt(playerid, "slot_ammo");
+			new bizid = TI[playerid][tSelectedBusinessID];
+			new patron = strval(inputtext);
+			if(patron <= 0 || patron > 1000) return ShowPlayerDialog(playerid, D_AMMO_2, DSI, "Меню аммо", W"Введіть кількість патронівів, яку ви хочете купити:\n\n"NO"*"G" Від 1 до 1000 патронівів", "Далі", "Скасувати");
+			if(CI[playerid][pCash] < gSellGunPrice[slot]*gBusiness[bizid][bizzPrice] * patron) return ShowPlayerDialog(playerid, D_AMMO_2, DSI, "Меню аммо", W"Введіть кількість патронівів, яку ви хочете купити:\n\n"NO"*"G" Недостатньо коштів", "Далі", "Скасувати");
+			new gun_name[32 + 1], string[128];
+			GetWeaponName(gSellGun[slot], gun_name, 32);
+			format(string, sizeof(string), "Ви придбали "P"%s (%i пт.) "W"за "GREEN"$%i"W".", gun_name,patron, gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron);
+			SendOK(playerid, string);
+			if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] * patron > 0) {
+				gBusiness[bizid][bizzProduct] -= gSellGunProds[slot]*patron;
+				bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron));
+			} 
+			GivePlayerWeapon(playerid, gSellGun[slot],patron);
+			GiveMoney(playerid, -gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron, "купівля зброї(аммо)");
+			DeletePVar(playerid, "slot_ammo");
+			return 1;
 			}
 		case D_BOX_2: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(id < 0) return 1;
-				switch(listitem) {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(id < 0) return 1;
+			switch(listitem) {
 				case 0: {
-						if(GetPlayerMoneyEx(playerid) < gBusiness[id][bizzPrice]*150) return SendError(playerid, "У вас недостатньо грошей.");
-						bizz_pay(id, gBusiness[id][bizzPrice]*150);
-						GiveMoney(playerid, -gBusiness[id][bizzPrice]*150, "купівля в спортзалі");
-						if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 80);
-						else A_SetPlayerSkin(playerid, 192);
-						SendOK(playerid, "Щоб вийти на ринг із суперником, введіть "P"/fight"W".");
-						TI[playerid][tGym] = true;
+					if(GetPlayerMoneyEx(playerid) < gBusiness[id][bizzPrice]*150) return SendError(playerid, "У вас недостатньо грошей.");
+					bizz_pay(id, gBusiness[id][bizzPrice]*150);
+					GiveMoney(playerid, -gBusiness[id][bizzPrice]*150, "купівля в спортзалі");
+					if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 80);
+					else A_SetPlayerSkin(playerid, 192);
+					SendOK(playerid, "Щоб вийти на ринг із суперником, введіть "P"/fight"W".");
+					TI[playerid][tGym] = true;
 					}
 				case 1..3: {
-						if(!TI[playerid][tGym]) return SendError(playerid, "Для початку придбайте спортивну форму.");
-						if(TI[playerid][tGymSkill]) return SendError(playerid, "Ви вже вивчаєте стиль бою.");
-						if(CI[playerid][pBox] == listitem) return SendError(playerid, "Ви вже вивчили цей стиль бою.");
-						if(CI[playerid][pBox]+ 1 < listitem) return SendError(playerid, "Для початку вивчіть попередній стиль бою.");
-						if(GetPlayerMoneyEx(playerid) < 5000) return SendError(playerid, "У вас недостатньо грошей.");
-						if(gBusiness[id][bizzProduct]-130 > 0) {
-							gBusiness[id][bizzProduct] -= 130;
-							bizz_pay(id, 5000);
-						}
-						GiveMoney(playerid, -5000, "купівля в спортзалі");
-						SendOK(playerid, "Ви почали тренування. Наносьте удари по грушах для прокачування навичок бою.");
-						TI[playerid][tGymSkill] = listitem;
-						TI[playerid][tGym] = true;
+					if(!TI[playerid][tGym]) return SendError(playerid, "Для початку придбайте спортивну форму.");
+					if(TI[playerid][tGymSkill]) return SendError(playerid, "Ви вже вивчаєте стиль бою.");
+					if(CI[playerid][pBox] == listitem) return SendError(playerid, "Ви вже вивчили цей стиль бою.");
+					if(CI[playerid][pBox]+ 1 < listitem) return SendError(playerid, "Для початку вивчіть попередній стиль бою.");
+					if(GetPlayerMoneyEx(playerid) < 5000) return SendError(playerid, "У вас недостатньо грошей.");
+					if(gBusiness[id][bizzProduct]-130 > 0) {
+						gBusiness[id][bizzProduct] -= 130;
+						bizz_pay(id, 5000);
+					}
+					GiveMoney(playerid, -5000, "купівля в спортзалі");
+					SendOK(playerid, "Ви почали тренування. Наносьте удари по грушах для прокачування навичок бою.");
+					TI[playerid][tGymSkill] = listitem;
+					TI[playerid][tGym] = true;
 					}
 				case 4: {
-						if(GetPlayerMoneyEx(playerid) < 200) return SendError(playerid, "У вас недостатньо грошей.");
-						if(TI[playerid][tGyms] + 250 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
-						if(gBusiness[id][bizzProduct]-20 > 0) {
-							gBusiness[id][bizzProduct] -= 20;
-							bizz_pay(id, 200);
-						}
-						GiveMoney(playerid, -200, "купівля в спортзалі");
-						TI[playerid][tGyms] += 250;
-						SendOK(playerid, "Ви придбали шейкер Smart 250мл на 250 ударів.");
+					if(GetPlayerMoneyEx(playerid) < 200) return SendError(playerid, "У вас недостатньо грошей.");
+					if(TI[playerid][tGyms] + 250 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
+					if(gBusiness[id][bizzProduct]-20 > 0) {
+						gBusiness[id][bizzProduct] -= 20;
+						bizz_pay(id, 200);
+					}
+					GiveMoney(playerid, -200, "купівля в спортзалі");
+					TI[playerid][tGyms] += 250;
+					SendOK(playerid, "Ви придбали шейкер Smart 250мл на 250 ударів.");
 					}
 				case 5: {
-						if(GetPlayerMoneyEx(playerid) < 350) return SendError(playerid, "У вас недостатньо грошей.");
-						if(TI[playerid][tGyms] + 500 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
-						if(gBusiness[id][bizzProduct]-35 > 0) {
-							gBusiness[id][bizzProduct] -= 35;
-							bizz_pay(id, 350);
-						}
-						GiveMoney(playerid, -350, "купівля в спортзалі");
-						TI[playerid][tGyms] += 500;
-						SendOK(playerid, "Ви придбали шейкер BSN 500мл на 500 ударів.");
+					if(GetPlayerMoneyEx(playerid) < 350) return SendError(playerid, "У вас недостатньо грошей.");
+					if(TI[playerid][tGyms] + 500 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
+					if(gBusiness[id][bizzProduct]-35 > 0) {
+						gBusiness[id][bizzProduct] -= 35;
+						bizz_pay(id, 350);
+					}
+					GiveMoney(playerid, -350, "купівля в спортзалі");
+					TI[playerid][tGyms] += 500;
+					SendOK(playerid, "Ви придбали шейкер BSN 500мл на 500 ударів.");
 					}
 				case 6: {
-						if(GetPlayerMoneyEx(playerid) < 500) return SendError(playerid, "У вас недостатньо грошей.");
-						if(TI[playerid][tGyms] + 750 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
-						if(gBusiness[id][bizzProduct]-50 > 0) {
-							gBusiness[id][bizzProduct] -= 50;
-							bizz_pay(id, 500);
-						}
-						GiveMoney(playerid, -500, "купівля в спортзалі");
-						TI[playerid][tGyms] += 750;
-						SendOK(playerid, "Ви придбали шейкер Biotech 750мл на 750 ударів.");
+					if(GetPlayerMoneyEx(playerid) < 500) return SendError(playerid, "У вас недостатньо грошей.");
+					if(TI[playerid][tGyms] + 750 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
+					if(gBusiness[id][bizzProduct]-50 > 0) {
+						gBusiness[id][bizzProduct] -= 50;
+						bizz_pay(id, 500);
 					}
-				case 7: {
-						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація", W"Шейкер допоможе тобі прискорити прокачку стилю бою на "P"30%.\n"W"Для найбільш ефективного тренування рекомендуємо придбати "ORANGE"1000мл шейкера.\n\n"NO"Увага!"W" Якщови вийшли з сервера, не завершивши тренування, ваш прогрес буде збережено.\nЗа форму, тренування та шейкер прийдеться заплатити повторно. Успішного тренування!\n\n", "Закрити", "");
+					GiveMoney(playerid, -500, "купівля в спортзалі");
+					TI[playerid][tGyms] += 750;
+					SendOK(playerid, "Ви придбали шейкер Biotech 750мл на 750 ударів.");
 					}
+				case 7: ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація", W"Шейкер допоможе тобі прискорити прокачку стилю бою на "P"30%.\n"W"Для найбільш ефективного тренування рекомендуємо придбати "ORANGE"1000мл шейкера.\n\n"NO"Увага!"W" Якщови вийшли з сервера, не завершивши тренування, ваш прогрес буде збережено.\nЗа форму, тренування та шейкер прийдеться заплатити повторно. Успішного тренування!\n\n", "Закрити", "");
 				case 8: {
-						if(CI[playerid][pMember] && start_work[playerid]) {
-							A_SetPlayerSkin(playerid, CI[playerid][pFracSkin]);
-							SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
-						} else A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
-						TI[playerid][tGym] = false;
-						SendOK(playerid, "Ви заверширил тренування");
+					if(CI[playerid][pMember] && start_work[playerid]) {
+						A_SetPlayerSkin(playerid, CI[playerid][pFracSkin]);
+						SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
+					} else A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
+					TI[playerid][tGym] = false;
+					SendOK(playerid, "Ви заверширил тренування");
 					}
-				}
+			}
 			}
 		case D_BIZZ_24: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(id < 0) return 1;
-				new price = gShopPrice[listitem]*gBusiness[id][bizzPrice];
-				if(gBusiness[id][bizzProduct]-gShopProduct[listitem] <= 0) return SendError(playerid, "У бізнесі немає продуктів.");
-				if(CI[playerid][pCash] < price) return SendError(playerid, "У вас недостатньо грошей.");
-				switch(listitem) {
-				case 0: {
-						if(CI[playerid][pPhone]) return SendError(playerid, "Ви вже маєте телефон."),show_24(playerid, id);
-						new number;
-						number = Random(100000, 999999);
-						new query[220];
-						mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_CHARACTERS" WHERE `pPhone` = %i", number);
-						mysql_tquery(connects, query, "check_phone", "ii", playerid, number);
-					}
-				case 1: {
-						GivePlayerWeapon(playerid, 43, 20);
-						SendOK(playerid, "Ви придбали камеру і плівку до неї на 20 знімків.");
-					}
-				case 2: {
-						if(CI[playerid][pWatch]) return SendError(playerid, "Ви вже маєте годинник."),show_24(playerid, id);
-						CI[playerid][pWatch] = 1;
-						UpdateCharacterData(playerid, "watch", 1);
-						SendOK(playerid, "Ви придбали годинник. Щоб подивитися час, введіть "P"/time"W".");
-					}
-				case 3: {
-						if(CI[playerid][pBook]) return SendError(playerid, "Ви вже маєте телефонну книгу."),show_24(playerid, id);
-						CI[playerid][pBook] = 1;
-						UpdateCharacterData(playerid, "book", 1);
-						SendOK(playerid, "Ви придбали телефонну книгу. Щоб подивитися контакти, введіть "P"/book"W".");
-					}
-				case 4: {
-						if(!CI[playerid][pPhone]) return SendError(playerid, "У вас немає телефону."),show_24(playerid, id);
-						return ShowPlayerDialog(playerid, D_BIZZ_SIM, DSI, P"Купівля номера", "\n\n"W"Введіть номер, який хочете використовувати (6 цифр):\n\n", "Купити", "Закрити");
-					}
-				case 5: return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку бажаєте придбати:", "Купити", "Закрити");
-				case 6: return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT, DSL, P"Купівля аптечки", P"1."W" Собі\n"P"2."W" В будинок\n"P"3."W" В банду", "Купити", "Закрити");
-				case 7: {
-						for(new i; i <= 11; i++) {
-							new gunid, ammo;
-							GetPlayerWeaponData(playerid, i, gunid,ammo);
-							if(gunid == 14) return SendError(playerid, "Ви вже маєте квіти."),show_24(playerid, id);
-						}
-						GivePlayerWeapon(playerid, 14, 1);
-						SendOK(playerid, "Ви придбали букет квітів. Щоб подарувати їх комусь, введіть "P"/flowers"W".");
-					}
-				case 8: {
-						if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
-						AddInactiveItem(playerid, 121, 1);
-						GiveMoney(playerid, -gShopPrice[8]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля ремкомплекту");
-					}
-				case 9: {
-						GivePlayerWeapon(playerid, 41, 5000);
-						SendOK(playerid, "Ви придбали балончик з фарбою.");
-					}
-				case 10: {
-						if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
-						return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть к-сть відмичок, яку хочете придбати:", "Купити", "Закрити");
-					}
-				case 11:{
-						CI[playerid][pKeyCar]++;
-						UpdateCharacterData(playerid, "pKeyCar", CI[playerid][pKeyCar]);
-						SendOK(playerid, "Ви придбали електрону відмичку.");
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(id < 0) return 1;
+			new price = gShopPrice[listitem]*gBusiness[id][bizzPrice];
+			if(gBusiness[id][bizzProduct]-gShopProduct[listitem] <= 0) return SendError(playerid, "У бізнесі немає продуктів.");
+			if(CI[playerid][pCash] < price) return SendError(playerid, "У вас недостатньо грошей.");
+			switch(listitem) {
+			case 0: {
+				if(CI[playerid][pPhone]) return SendError(playerid, "Ви вже маєте телефон."),show_24(playerid, id);
+				new number;
+				number = Random(100000, 999999);
+				new query[220];
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_CHARACTERS" WHERE `pPhone` = %i", number);
+				mysql_tquery(connects, query, "check_phone", "ii", playerid, number);
 				}
+			case 1: {
+				GivePlayerWeapon(playerid, 43, 20);
+				SendOK(playerid, "Ви придбали камеру і плівку до неї на 20 знімків.");
 				}
-				if(gBusiness[id][bizzProduct]-gShopProduct[listitem] > 0) {
-					gBusiness[id][bizzProduct] -= gShopProduct[listitem];
-					bizz_pay(id,price);
-				} 
-				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
-					QuestProgress[playerid][43] ++;
-					save_quest(playerid, 43);
-					SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
+			case 2: {
+				if(CI[playerid][pWatch]) return SendError(playerid, "Ви вже маєте годинник."),show_24(playerid, id);
+				CI[playerid][pWatch] = 1;
+				UpdateCharacterData(playerid, "watch", 1);
+				SendOK(playerid, "Ви придбали годинник. Щоб подивитися час, введіть "P"/time"W".");
 				}
-				if(listitem != 0) show_24(playerid, id);
-				GiveMoney(playerid, -price, "купівля в 24/7");
-				show_24(playerid, id);
+			case 3: {
+				if(CI[playerid][pBook]) return SendError(playerid, "Ви вже маєте телефонну книгу."),show_24(playerid, id);
+				CI[playerid][pBook] = 1;
+				UpdateCharacterData(playerid, "book", 1);
+				SendOK(playerid, "Ви придбали телефонну книгу. Щоб подивитися контакти, введіть "P"/book"W".");
+				}
+			case 4: {
+				if(!CI[playerid][pPhone]) return SendError(playerid, "У вас немає телефону."),show_24(playerid, id);
+				return ShowPlayerDialog(playerid, D_BIZZ_SIM, DSI, P"Купівля номера", "\n\n"W"Введіть номер, який хочете використовувати (6 цифр):\n\n", "Купити", "Закрити");
+				}
+			case 5: return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку бажаєте придбати:", "Купити", "Закрити");
+			case 6: return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT, DSL, P"Купівля аптечки", P"1."W" Собі\n"P"2."W" В будинок\n"P"3."W" В банду", "Купити", "Закрити");
+			case 7: {
+				for(new i; i <= 11; i++) {
+					new gunid, ammo;
+					GetPlayerWeaponData(playerid, i, gunid,ammo);
+					if(gunid == 14) return SendError(playerid, "Ви вже маєте квіти."),show_24(playerid, id);
+				}
+				GivePlayerWeapon(playerid, 14, 1);
+				SendOK(playerid, "Ви придбали букет квітів. Щоб подарувати їх комусь, введіть "P"/flowers"W".");
+				}
+			case 8: {
+				if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
+				AddInactiveItem(playerid, 121, 1);
+				GiveMoney(playerid, -gShopPrice[8]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля ремкомплекту");
+				}
+			case 9: {
+				GivePlayerWeapon(playerid, 41, 5000);
+				SendOK(playerid, "Ви придбали балончик з фарбою.");
+				}
+			case 10: {
+				if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
+				return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть к-сть відмичок, яку хочете придбати:", "Купити", "Закрити");
+				}
+			case 11:{
+				CI[playerid][pKeyCar]++;
+				UpdateCharacterData(playerid, "pKeyCar", CI[playerid][pKeyCar]);
+				SendOK(playerid, "Ви придбали електрону відмичку.");
+			}
+			}
+			if(gBusiness[id][bizzProduct]-gShopProduct[listitem] > 0) {
+				gBusiness[id][bizzProduct] -= gShopProduct[listitem];
+				bizz_pay(id,price);
+			} 
+			if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
+				QuestProgress[playerid][43] ++;
+				save_quest(playerid, 43);
+				SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
+			}
+			if(listitem != 0) show_24(playerid, id);
+			GiveMoney(playerid, -price, "купівля в 24/7");
+			show_24(playerid, id);
 			}
 		case D_BIZZ_OTM: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
-				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
-				if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
-				if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
-				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
-					gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
-					bizz_pay(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
-				}
-				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
-					QuestProgress[playerid][43] ++;
-					save_quest(playerid, 43);
-					SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest.");
-				}
-				SendOK(playerid, "Ви придбали відмичку. Вона знадобиться вам при зламі дверного замка.");
-				UpdateBusinessText(id);
-				show_24(playerid, id);
-				AddInactiveItem(playerid, 122, strval(inputtext));
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
+			if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок.", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
+			if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_OTM, DSI, P"Купівля відмичок", W"Введіть кількість відмичок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 відмичок", "Купити", "Закрити");
+			if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+			GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
+			if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
+				gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
+				bizz_pay(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
+			}
+			if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
+				QuestProgress[playerid][43] ++;
+				save_quest(playerid, 43);
+				SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest.");
+			}
+			SendOK(playerid, "Ви придбали відмичку. Вона знадобиться вам при зламі дверного замка.");
+			UpdateBusinessText(id);
+			show_24(playerid, id);
+			AddInactiveItem(playerid, 122, strval(inputtext));
 			}
 
 
 		case D_BIZZ_SIM: {
-				if(!response) return 1;
-				if(!HasNumbersOnly(inputtext) || strlen(inputtext) != 6 || inputtext[0] == '0') {
-					ShowPlayerDialog(playerid, D_BIZZ_SIM, DSI, P"Купівля номера", "\n\n"W"Введіть номер, який хочете використовувати (6 цифр):\n\n"NO"*"G" Номер повинен складатись з 6 цифр. Первая цифра не повинні бути \"ноль\"\n\n", "Купити", "Закрити");
-					return 1;
-				}
-				new query[128], id = TI[playerid][tSelectedBusinessID], price = gShopPrice[4]*gBusiness[id][bizzPrice];
-				mysql_format(connects, query, sizeof(query), "SELECT `pPhone` FROM "TABLE_CHARACTERS" WHERE `pPhone` = %i",strval(inputtext));
-				mysql_tquery(connects, query, "sim_shop", "dddd", playerid, strval(inputtext), id, price);
-			}
-		case D_BIZZ_MEDKIT: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				switch(listitem) {
-				case 0: ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:", "Купити", "Закрити");
-				case 1: {
-						if(!CI[playerid][pHouse]) return SendError(playerid, "Ви не маєте будинку."),show_24(playerid, id);
-						if(gHouses[CI[playerid][pHouse]-1][houseHealth] == 500) return SendError(playerid, "Не можна зберігати більше 500 аптечок у сейфі будинку."),show_24(playerid, id);
-						static const f_str[] = "\n\n"W"Введіть кількість аптечок, яку хочете придбати:\nВ сейф будинку влізе: "P"%i"W" аптечок";
-						new string[sizeof(f_str) + 5];
-						format(string, sizeof(string), f_str, 500-gHouses[CI[playerid][pHouse]-1][houseHealth]);
-						return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-					}
-				case 2: {
-						if(!IsAGang(playerid)) return SendError(playerid, "Ви не состоите в банде"),show_24(playerid, id);
-						if(FI[CI[playerid][pMember]][fMedKits] == 500) return SendError(playerid, "Не можна зберігати більше 500 аптечок на складі банди."),show_24(playerid, id);
-						static const f_str[] = "\n\n"W"Введіть кількість аптечок, яку хочете придбати:\nНа склад банди влізе: "P"%i"W" аптечок";
-						new string[sizeof(f_str) + 5];
-						format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
-						return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-					}
-				}
-			}
-		case D_BIZZ_MEDKIT_2: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
-				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
-				if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"G" У вас недостатньо коштів", "Купити", "Закрити");
-				if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
-					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
-					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
-				}
-				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
-					QuestProgress[playerid][43] ++;
-					save_quest(playerid, 43);
-					SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
-				}
-				UpdateBusinessText(id);
-				show_24(playerid, id);
-				AddInactiveItem(playerid, 1, strval(inputtext));
-				GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
-			}
-		case D_BIZZ_MEDKIT_3: {
-				if(!response) return 1;
-				if(strval(inputtext) < 1 || strval(inputtext) > 500) {
-					static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nНа склад банди поміститься: "P"%i"W" аптечок\n\n"NO"*"G" Від 1 та до 500";
-					new string[sizeof(f_str) + 5];
-					format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
-					return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-				}
-				if(FI[CI[playerid][pMember]][fMedKits]+strval(inputtext)>500) {
-					static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nНа склад банди поміститься: "P"%i"W" аптечок\n\n"NO"*"G" На склад банди не поміститься стільки аптечок";
-					new string[sizeof(f_str) + 5];
-					format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
-					return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-				}
-				new id = TI[playerid][tSelectedBusinessID];
-				if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) {
-					static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nНа склад банди поміститься: "P"%i"W" аптечок\n\n"NO"*"G" У вас недостатньо коштів";
-					new string[sizeof(f_str) + 5];
-					format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
-					return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-				}
-				GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
-				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
-					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
-					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
-				}
-				UpdateBusinessText(id);
-				show_24(playerid, id);
-				FI[CI[playerid][pMember]][fMedKits] += strval(inputtext);
-				UpdateFaction(CI[playerid][pMember], "MedKits", FI[CI[playerid][pMember]][fMedKits]);
-				SendOK(playerid, "Ви придбали аптечки.");
-			}
-		case D_BIZZ_MEDKIT_4: {
-				if(!response) return 1;
-				if(!CI[playerid][pHouse]) return 1;
-				new houseid = CI[playerid][pHouse]-1;
-				if(strval(inputtext) < 1 || strval(inputtext) > 500) {
-					static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nУ сейфі будинку поміститься: "P"%i"W" аптечок\n\n"NO"*"G" Від 1 та до 500";
-					new string[sizeof(f_str) + 5];
-					format(string, sizeof(string), f_str, 500-gHouses[houseid][houseHealth]);
-					return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-				}
-				if(gHouses[houseid][houseHealth]+strval(inputtext)>500) {
-					static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nУ сейфі будинку поміститься: "P"%i"W" аптечок\n\n"NO"*"G" У сейф будинку не поміститься стілько аптечок";
-					new string[sizeof(f_str) + 5];
-					format(string, sizeof(string), f_str, 500-gHouses[houseid][houseHealth]);
-					return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-				}
-				new id = TI[playerid][tSelectedBusinessID];
-				if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) {
-					static const f_str[] = "\n\n"W"ВВведіть к-сть аптечок, яку ви хочете купити:\nУ сейфі будинку поміститься: "P"%i"W" аптечок\n\n"NO"*"G" У вас недостатньо коштів";
-					new string[sizeof(f_str) + 5];
-					format(string, sizeof(string), f_str, 500-gHouses[houseid][houseHealth]);
-					return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
-				}
-				GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
-				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
-					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
-					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
-				}
-				UpdateBusinessText(id);
-				show_24(playerid, id);
-				gHouses[houseid][houseHealth] += strval(inputtext);
-				new query[128];
-				mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `medkit` = %i WHERE id = %i", gHouses[houseid][houseHealth],houseid+ 1);
-				mysql_tquery(connects, query);
-				SendOK(playerid, "Ви придбали аптечу. Щоб скористуватися нею вдома, введіть "P"/hhealme"W".");
-			}
-		case D_BIZZ_MASK: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок.", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
-				if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
-				if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" У вас недостатньо грошей", "Купити", "Закрити");
-				if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
-
-				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
-				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
-					gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
-					bizz_pay(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
-				}
-				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
-					QuestProgress[playerid][43] ++;
-					save_quest(playerid, 43);
-					SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
-				}
-				UpdateBusinessText(id);
-				show_24(playerid, id);
-				AddInactiveItem(playerid, 120, strval(inputtext));
-			}
-		case D_BIZZ_FISH: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(id < 0) return 1;
-				if(listitem != 4) if(GetPlayerMoneyEx(playerid) < gfishCosts[listitem]*gBusiness[id][bizzPrice]) return SendError(playerid, "У вас недостатньо грошей.");
-				switch(listitem) {
-				case 0: {
-						if(CI[playerid][pRod]) return SendError(playerid, "Ви вже маєте вудочку.");
-						CI[playerid][pRod] = 1;
-						UpdateCharacterData(playerid, "pRod", 1);
-						SendOK(playerid, "Вітаємо з придбанням вудочки.");
-					}
-				case 1: {
-						if(CI[playerid][pRopes]) return SendError(playerid, "Ви вже маєте снасті.");
-						CI[playerid][pRopes] = 1;
-						UpdateCharacterData(playerid, "pRopes", 1);
-						SendOK(playerid, "Вітаємо з придбанням снастей для вудочки.");
-					}
-				case 2: {
-						if(CI[playerid][pWorms] + 10 > 30) return SendError(playerid, "Ви не можете купити більше 30 шт. наживки.");
-						CI[playerid][pWorms] += 10;
-						UpdateCharacterData(playerid, "pWorms", CI[playerid][pWorms]);
-						SendOK(playerid, "Вітаємо з придбанням наживки.");
-					}
-				case 3: {
-						if(GetPVarInt(playerid, "fish_yes")) return SendError(playerid, "Ви вже маєте перепустку на ловлю риби.");
-						if(!lic[playerid][2]) return SendError(playerid, "У вас немає ліцензії на водяний транспорт.");
-						SetPVarInt(playerid, "fish_yes", 1);
-						SendOK(playerid, "Вітаємо з придбанням одноразової перепустки для ловлі риби.");
-					}
-				case 4: {
-						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", W"Спійману рибуви можете продати на складі\n біля рибальського магазину за курсом "ORANGE"$150 - 1кг"W",\n або покласти її в холодильник у будинку.\n\n\
-							"NO"Увага! "W"Для найбільш ефективної та вигідної риболовлі рекомендуємо придбати 30шт.\n Наживки. Перепустка одноразова. Вудочка і снасті купляються лише один раз.\nУспішної рибалки.", "Закрити", "");
-						return 1;
-					}
-				}
-				GiveMoney(playerid, -gfishCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб.бізнесі");
-				if(gBusiness[id][bizzProduct]-(gfishCosts[listitem] / 10) > 0) {
-					gBusiness[id][bizzProduct] -= gfishCosts[listitem] / 10;
-					bizz_pay(id, gfishCosts[listitem]*gBusiness[id][bizzPrice]);
-				} 
-				show_fish(playerid);
-			}
-		case D_BIZZ_POISK: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(id < 0) return 1;
-				if(listitem != 2) if(GetPlayerMoneyEx(playerid) < gPoiskCosts[listitem]*gBusiness[id][bizzPrice]) return SendError(playerid, "У вас недостатньо грошей.");
-				switch(listitem) {
-				case 0: {
-						if(CI[playerid][pMag]) return SendError(playerid, "Ви вже маєте магніт.");
-						CI[playerid][pMag] = 1;
-						UpdateCharacterData(playerid, "pMag", 1);
-						SendOK(playerid, "Ви придбали магніт.");
-					}
-				case 1: {
-						if(CI[playerid][pRope]) return SendError(playerid, "Ви вже маєте шнурок.");
-						CI[playerid][pRope] = 1;
-						UpdateCharacterData(playerid, "pRope", 1);
-						SendOK(playerid, "Ви придбали шнурок.");
-					}
-				case 2: {
-						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", W"Знайдені предметиви можете продати скупщику в касі навпроти.\n\nЦіни знайдених речей:\n\n\
-							Цвяхи - $250\n\
-							Метал - $500\n\
-							Заліз. ящик - $900\n\
-							Ящик з патронівами - $1.500\n\
-							Ніж - $2.000\n\
-							Військова гвинтівка - $3.200\n\
-							Японський меч - $5.000\n\
-							Боєголовка - $7.000\n\
-							Кейс - $10.000\n\
-							Старовинна монета - $20.000\n\n\
-							Містознахождення озера /gps - 1 - 12. Вдалого пошуку!", "Закрити", "");
-						return 1;
-					}
-				}
-				GiveMoney(playerid, -gPoiskCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб. бізнесі");
-				if(gBusiness[id][bizzProduct]-(gPoiskCosts[listitem] / 10) > 0) {
-					gBusiness[id][bizzProduct] -= gPoiskCosts[listitem] / 10;
-					bizz_pay(id, gPoiskCosts[listitem]*gBusiness[id][bizzPrice]);
-				}
-				show_poisk(playerid);
-			}
-		case D_BIZZ_BAR: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				if(id < 0) return 1;
-				new price = gBarCosts[listitem] * 10 * gBusiness[id][bizzPrice];
-				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
-				GiveMoney(playerid, -price, "купівля в барі");
-				if(gBusiness[id][bizzProduct] - (gBarCosts[listitem]) > 0) {
-					gBusiness[id][bizzProduct] -= gBarCosts[listitem];
-					bizz_pay(id,price);
-				} 
-				if(QuestProgress[playerid][41] == 0 && AcceptQuest[playerid][41] != 0) {
-					QuestProgress[playerid][41] ++;
-					save_quest(playerid, 41);
-					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.", "Закрити", "");
-				}
-				if(listitem == 0) SetPlayerSpecialAction(playerid, 22);
-				else SetPlayerSpecialAction(playerid, 20);
-			}
-		case D_BIZZ_TAVERN: {
-				if(!response) return 1;
-				new id = TI[playerid][tSelectedBusinessID];
-				new price = gTavernCosts[listitem] * gBusiness[id][bizzPrice] * 10;
-				if(id < 0) return 1;
-				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
-				if(CI[playerid][pSatiety] >= 100) return SendError(playerid, "Ви не голодні.");
-				new amount = gTavernCosts[listitem];
-				if(gBusiness[id][bizzProduct] - amount > 0) {
-					gBusiness[id][bizzProduct] -= amount;
-					bizz_pay(id,price);
-				} else return 1;
-				GiveMoney(playerid, -price, "купівля в закусочній");
-				ApplyAnimation(playerid, "FOOD", "EAT_Burger", 2.0, 0, 0, 0, 0, 5000, 1);
-				SetFullness(playerid, amount);
-				show_tavern(playerid, id);
-				if(QuestProgress[playerid][42] == 0 && AcceptQuest[playerid][42] != 0) {
-					QuestProgress[playerid][42] ++;
-					save_quest(playerid, 42);
-					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.", "Закрити", "");
-				}
-			}
-		case D_BOOK: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "select_idphone",listitem);
-				if(CI[playerid][pPhoneNumber][listitem] == 0) return  ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт", W"Введіть номер телефону:", "Далі", "Скасувати");
-				ShowPlayerDialog(playerid, D_BOOK_3, DSL, P"Телефонна книга.", P"1."W" Зателефонувати\n"P"2."W" Написати повідомлення\n"P"3."W" Видалити контакт", "Обрати", "Скасувати");
+			if(!response) return 1;
+			if(!HasNumbersOnly(inputtext) || strlen(inputtext) != 6 || inputtext[0] == '0') {
+				ShowPlayerDialog(playerid, D_BIZZ_SIM, DSI, P"Купівля номера", "\n\n"W"Введіть номер, який хочете використовувати (6 цифр):\n\n"NO"*"G" Номер повинен складатись з 6 цифр. Первая цифра не повинні бути \"ноль\"\n\n", "Купити", "Закрити");
 				return 1;
 			}
-		case D_BOOK_2: {
-				if(!response) return DeletePVar(playerid, "select_idphone");
-				if(!HasNumbersOnly(inputtext) || strlen(inputtext) < 2 || strlen(inputtext) > 6) {
-					ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт.", W"Введіть номер телефону:\n\n"NO"*"G" Номер повинен складатися з 6 цифр", "Далі", "Скасувати");
-					return 1;
+			new query[128], id = TI[playerid][tSelectedBusinessID], price = gShopPrice[4]*gBusiness[id][bizzPrice];
+			mysql_format(connects, query, sizeof(query), "SELECT `pPhone` FROM "TABLE_CHARACTERS" WHERE `pPhone` = %i",strval(inputtext));
+			mysql_tquery(connects, query, "sim_shop", "dddd", playerid, strval(inputtext), id, price);
+			}
+		case D_BIZZ_MEDKIT: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			switch(listitem) {
+			case 0: ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:", "Купити", "Закрити");
+			case 1: {
+				if(!CI[playerid][pHouse]) return SendError(playerid, "Ви не маєте будинку."),show_24(playerid, id);
+				if(gHouses[CI[playerid][pHouse]-1][houseHealth] == 500) return SendError(playerid, "Не можна зберігати більше 500 аптечок у сейфі будинку."),show_24(playerid, id);
+				static const f_str[] = "\n\n"W"Введіть кількість аптечок, яку хочете придбати:\nВ сейф будинку влізе: "P"%i"W" аптечок";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-gHouses[CI[playerid][pHouse]-1][houseHealth]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
 				}
-				new number = strval(inputtext), count = 0;
-				foreach(new i:Player) {
-					if(!TI[i][tLogin]) continue;
-					if(CI[i][pPhone] == number) {
-						new id = GetPVarInt(playerid, "select_idphone");
-						CI[playerid][pPhoneNumber][id] = number;
-						strmid(pPhoneName[playerid][id], CI[i][cName], 0,strlen(CI[i][cName]), MAX_PLAYER_NAME);
-						SavePlayerNumber(playerid);
-						count++;
-						SendOK(playerid, "Контакт успішно додано.");
-						break;
+			case 2: {
+				if(!IsAGang(playerid)) return SendError(playerid, "Ви не є членом банди."),show_24(playerid, id);
+				if(FI[CI[playerid][pMember]][fMedKits] == 500) return SendError(playerid, "Не можна зберігати більше 500 аптечок на складі банди."),show_24(playerid, id);
+				static const f_str[] = "\n\n"W"Введіть кількість аптечок, яку хочете придбати:\nНа склад банди влізе: "P"%i"W" аптечок";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+				}
+			}
+			}
+		case D_BIZZ_MEDKIT_2: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
+			if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"W" За раз можна придбати до 5 аптечок", "Купити", "Закрити");
+			if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_2, DSI, P"Купівля аптечки.", W"Введіть кількість аптечок, яку хочете придбати:\n\n"NO"*"G" У вас недостатньо коштів", "Купити", "Закрити");
+			if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+			if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
+				gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
+				bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
+			}
+			if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
+				QuestProgress[playerid][43] ++;
+				save_quest(playerid, 43);
+				SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
+			}
+			UpdateBusinessText(id);
+			show_24(playerid, id);
+			AddInactiveItem(playerid, 1, strval(inputtext));
+			GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
+			}
+		case D_BIZZ_MEDKIT_3: {
+			if(!response) return 1;
+			if(strval(inputtext) < 1 || strval(inputtext) > 500) {
+				static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nНа склад банди поміститься: "P"%i"W" аптечок\n\n"NO"*"G" Від 1 та до 500";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+			}
+			if(FI[CI[playerid][pMember]][fMedKits]+strval(inputtext)>500) {
+				static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nНа склад банди поміститься: "P"%i"W" аптечок\n\n"NO"*"G" На склад банди не поміститься стільки аптечок";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+			}
+			new id = TI[playerid][tSelectedBusinessID];
+			if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) {
+				static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nНа склад банди поміститься: "P"%i"W" аптечок\n\n"NO"*"G" У вас недостатньо коштів";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-FI[CI[playerid][pMember]][fMedKits]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_3, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+			}
+			GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
+			if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
+				gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
+				bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
+			}
+			UpdateBusinessText(id);
+			show_24(playerid, id);
+			FI[CI[playerid][pMember]][fMedKits] += strval(inputtext);
+			UpdateFaction(CI[playerid][pMember], "MedKits", FI[CI[playerid][pMember]][fMedKits]);
+			SendOK(playerid, "Ви придбали аптечки.");
+			}
+		case D_BIZZ_MEDKIT_4: {
+			if(!response) return 1;
+			if(!CI[playerid][pHouse]) return 1;
+			new houseid = CI[playerid][pHouse]-1;
+			if(strval(inputtext) < 1 || strval(inputtext) > 500) {
+				static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nУ сейфі будинку поміститься: "P"%i"W" аптечок\n\n"NO"*"G" Від 1 та до 500";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-gHouses[houseid][houseHealth]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+			}
+			if(gHouses[houseid][houseHealth]+strval(inputtext)>500) {
+				static const f_str[] = "\n\n"W"Введіть к-сть аптечок, яку ви хочете купити:\nУ сейфі будинку поміститься: "P"%i"W" аптечок\n\n"NO"*"G" У сейф будинку не поміститься стілько аптечок";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-gHouses[houseid][houseHealth]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+			}
+			new id = TI[playerid][tSelectedBusinessID];
+			if(GetPlayerMoneyEx(playerid)<gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext)) {
+				static const f_str[] = "\n\n"W"ВВведіть к-сть аптечок, яку ви хочете купити:\nУ сейфі будинку поміститься: "P"%i"W" аптечок\n\n"NO"*"G" У вас недостатньо коштів";
+				new string[sizeof(f_str) + 5];
+				format(string, sizeof(string), f_str, 500-gHouses[houseid][houseHealth]);
+				return ShowPlayerDialog(playerid, D_BIZZ_MEDKIT_4, DSI, P"Купівля аптечки.", string, "Купити", "Закрити");
+			}
+			GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
+			if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
+				gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
+				bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
+			}
+			UpdateBusinessText(id);
+			show_24(playerid, id);
+			gHouses[houseid][houseHealth] += strval(inputtext);
+			new query[128];
+			mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `medkit` = %i WHERE id = %i", gHouses[houseid][houseHealth],houseid+ 1);
+			mysql_tquery(connects, query);
+			SendOK(playerid, "Ви придбали аптечу. Щоб скористуватися нею вдома, введіть "P"/hhealme"W".");
+			}
+		case D_BIZZ_MASK: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(!strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок.", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
+			if(strval(inputtext) < 0 || strval(inputtext) > 5) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" За один раз можна придбати до 5 масок", "Купити", "Закрити");
+			if(GetPlayerMoneyEx(playerid) < gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext)) return ShowPlayerDialog(playerid, D_BIZZ_MASK, DSI, P"Купівля масок", W"Введіть к-сть масок, яку ви хочете придбати:\n\n"NO"*"W" У вас недостатньо грошей", "Купити", "Закрити");
+			if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "В інвентарі недостатньо місця.");
+
+			GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
+			if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
+				gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
+				bizz_pay(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
+			}
+			if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
+				QuestProgress[playerid][43] ++;
+				save_quest(playerid, 43);
+				SendOK(playerid, "Ви завершили виконання щоденного квесту. Квест можна завершити в "P"/quest"W".");
+			}
+			UpdateBusinessText(id);
+			show_24(playerid, id);
+			AddInactiveItem(playerid, 120, strval(inputtext));
+			}
+		case D_BIZZ_FISH: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(id < 0) return 1;
+			if(listitem != 4) if(GetPlayerMoneyEx(playerid) < gfishCosts[listitem]*gBusiness[id][bizzPrice]) return SendError(playerid, "У вас недостатньо грошей.");
+			switch(listitem) {
+				case 0: {
+					if(CI[playerid][pRod]) return SendError(playerid, "Ви вже маєте вудочку.");
+					CI[playerid][pRod] = 1;
+					UpdateCharacterData(playerid, "pRod", 1);
+					SendOK(playerid, "Вітаємо з придбанням вудочки.");
 					}
+				case 1: {
+					if(CI[playerid][pRopes]) return SendError(playerid, "Ви вже маєте снасті.");
+					CI[playerid][pRopes] = 1;
+					UpdateCharacterData(playerid, "pRopes", 1);
+					SendOK(playerid, "Вітаємо з придбанням снастей для вудочки.");
+					}
+				case 2: {
+					if(CI[playerid][pWorms] + 10 > 30) return SendError(playerid, "Ви не можете купити більше 30 шт. наживки.");
+					CI[playerid][pWorms] += 10;
+					UpdateCharacterData(playerid, "pWorms", CI[playerid][pWorms]);
+					SendOK(playerid, "Вітаємо з придбанням наживки.");
+					}
+				case 3: {
+					if(GetPVarInt(playerid, "fish_yes")) return SendError(playerid, "Ви вже маєте перепустку на ловлю риби.");
+					if(!lic[playerid][2]) return SendError(playerid, "У вас немає ліцензії на водяний транспорт.");
+					SetPVarInt(playerid, "fish_yes", 1);
+					SendOK(playerid, "Вітаємо з придбанням одноразової перепустки для ловлі риби.");
+					}
+				case 4: {
+					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", W"Спійману рибуви можете продати на складі\n біля рибальського магазину за курсом "ORANGE"$150 - 1кг"W",\n або покласти її в холодильник у будинку.\n\n\
+						"NO"Увага! "W"Для найбільш ефективної та вигідної риболовлі рекомендуємо придбати 30шт.\n Наживки. Перепустка одноразова. Вудочка і снасті купляються лише один раз.\nУспішної рибалки.", "Закрити", "");
+					return 1;
+					}
+			}
+			GiveMoney(playerid, -gfishCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб.бізнесі");
+			if(gBusiness[id][bizzProduct]-(gfishCosts[listitem] / 10) > 0) {
+				gBusiness[id][bizzProduct] -= gfishCosts[listitem] / 10;
+				bizz_pay(id, gfishCosts[listitem]*gBusiness[id][bizzPrice]);
+			} 
+			show_fish(playerid);
+			}
+		case D_BIZZ_POISK: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(id < 0) return 1;
+			if(listitem != 2) if(GetPlayerMoneyEx(playerid) < gPoiskCosts[listitem]*gBusiness[id][bizzPrice]) return SendError(playerid, "У вас недостатньо грошей.");
+			switch(listitem) {
+				case 0: {
+					if(CI[playerid][pMag]) return SendError(playerid, "Ви вже маєте магніт.");
+					CI[playerid][pMag] = 1;
+					UpdateCharacterData(playerid, "pMag", 1);
+					SendOK(playerid, "Ви придбали магніт.");
+					}
+				case 1: {
+					if(CI[playerid][pRope]) return SendError(playerid, "Ви вже маєте шнурок.");
+					CI[playerid][pRope] = 1;
+					UpdateCharacterData(playerid, "pRope", 1);
+					SendOK(playerid, "Ви придбали шнурок.");
+					}
+				case 2: {
+					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", W"Знайдені предметиви можете продати скупщику в касі навпроти.\n\nЦіни знайдених речей:\n\n\
+						Цвяхи - $250\n\
+						Метал - $500\n\
+						Заліз. ящик - $900\n\
+						Ящик з патронівами - $1.500\n\
+						Ніж - $2.000\n\
+						Військова гвинтівка - $3.200\n\
+						Японський меч - $5.000\n\
+						Боєголовка - $7.000\n\
+						Кейс - $10.000\n\
+						Старовинна монета - $20.000\n\n\
+						Містознахождення озера /gps - 1 - 12. Вдалого пошуку!", "Закрити", "");
+					return 1;
+					}
+			}
+			GiveMoney(playerid, -gPoiskCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб. бізнесі");
+			if(gBusiness[id][bizzProduct]-(gPoiskCosts[listitem] / 10) > 0) {
+				gBusiness[id][bizzProduct] -= gPoiskCosts[listitem] / 10;
+				bizz_pay(id, gPoiskCosts[listitem]*gBusiness[id][bizzPrice]);
+			}
+			show_poisk(playerid);
+			}
+		case D_BIZZ_BAR: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			if(id < 0) return 1;
+			new price = gBarCosts[listitem] * 10 * gBusiness[id][bizzPrice];
+			if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
+			GiveMoney(playerid, -price, "купівля в барі");
+			if(gBusiness[id][bizzProduct] - (gBarCosts[listitem]) > 0) {
+				gBusiness[id][bizzProduct] -= gBarCosts[listitem];
+				bizz_pay(id,price);
+			} 
+			if(QuestProgress[playerid][41] == 0 && AcceptQuest[playerid][41] != 0) {
+				QuestProgress[playerid][41] ++;
+				save_quest(playerid, 41);
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.", "Закрити", "");
+			}
+			if(listitem == 0) SetPlayerSpecialAction(playerid, 22);
+			else SetPlayerSpecialAction(playerid, 20);
+			}
+		case D_BIZZ_TAVERN: {
+			if(!response) return 1;
+			new id = TI[playerid][tSelectedBusinessID];
+			new price = gTavernCosts[listitem] * gBusiness[id][bizzPrice] * 10;
+			if(id < 0) return 1;
+			if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей.");
+			if(CI[playerid][pSatiety] >= 100) return SendError(playerid, "Ви не голодні.");
+			new amount = gTavernCosts[listitem];
+			if(gBusiness[id][bizzProduct] - amount > 0) {
+				gBusiness[id][bizzProduct] -= amount;
+				bizz_pay(id,price);
+			} else return 1;
+			GiveMoney(playerid, -price, "купівля в закусочній");
+			ApplyAnimation(playerid, "FOOD", "EAT_Burger", 2.0, 0, 0, 0, 0, 5000, 1);
+			SetFullness(playerid, amount);
+			show_tavern(playerid, id);
+			if(QuestProgress[playerid][42] == 0 && AcceptQuest[playerid][42] != 0) {
+				QuestProgress[playerid][42] ++;
+				save_quest(playerid, 42);
+				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.", "Закрити", "");
+			}
+			}
+		case D_BOOK: {
+			if(!response) return 1;
+			SetPVarInt(playerid, "select_idphone",listitem);
+			if(CI[playerid][pPhoneNumber][listitem] == 0) return  ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт", W"Введіть номер телефону:", "Далі", "Скасувати");
+			ShowPlayerDialog(playerid, D_BOOK_3, DSL, P"Телефонна книга.", P"1."W" Зателефонувати\n"P"2."W" Написати повідомлення\n"P"3."W" Видалити контакт", "Обрати", "Скасувати");
+			return 1;
+			}
+		case D_BOOK_2: {
+			if(!response) return DeletePVar(playerid, "select_idphone");
+			if(!HasNumbersOnly(inputtext) || strlen(inputtext) < 2 || strlen(inputtext) > 6) {
+				ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт.", W"Введіть номер телефону:\n\n"NO"*"G" Номер повинен складатися з 6 цифр", "Далі", "Скасувати");
+				return 1;
+			}
+			new number = strval(inputtext), count = 0;
+			foreach(new i:Player) {
+				if(!TI[i][tLogin]) continue;
+				if(CI[i][pPhone] == number) {
+					new id = GetPVarInt(playerid, "select_idphone");
+					CI[playerid][pPhoneNumber][id] = number;
+					strmid(pPhoneName[playerid][id], CI[i][cName], 0,strlen(CI[i][cName]), MAX_PLAYER_NAME);
+					SavePlayerNumber(playerid);
+					count++;
+					SendOK(playerid, "Контакт успішно додано.");
+					break;
 				}
-				if(count == 0) return ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт", W"Введіть номер телефону:\n\n"NO"*"G" Гравця з таким номером немає на сервері", "Далі", "Скасувати");
+			}
+			if(count == 0) return ShowPlayerDialog(playerid, D_BOOK_2, DSI, P"Новий контакт", W"Введіть номер телефону:\n\n"NO"*"G" Гравця з таким номером немає на сервері", "Далі", "Скасувати");
 			}
 		case D_BOOK_3: {
-				if(!response) return 1;
-				new id = GetPVarInt(playerid, "select_idphone");
-				switch(listitem) {
+			if(!response) return 1;
+			new id = GetPVarInt(playerid, "select_idphone");
+			switch(listitem) {
 				case 0: {
-						new string[24];
-						format(string, sizeof(string), "%i", CI[playerid][pPhoneNumber][id]);
-						pc_cmd_call(playerid, string);
+					new string[24];
+					format(string, sizeof(string), "%i", CI[playerid][pPhoneNumber][id]);
+					pc_cmd_call(playerid, string);
 					}
 				case 1: ShowPlayerDialog(playerid, D_BOOK_4, DSI, P"Повідомлення", W"Введіть текст повідомлення:\nПримітка: Довжина тексту від 1 до 120 символів.", "Далі", "Закрити");
 				case 2: {
-						CI[playerid][pPhoneNumber][id] = 0;
-						strmid(pPhoneName[playerid][id], "Немає", 0, strlen("Немає"), MAX_PLAYER_NAME);
-						SavePlayerNumber(playerid);
-						SendOK(playerid, "Контакт успішно видалено.");
-						pc_cmd_book(playerid);
+					CI[playerid][pPhoneNumber][id] = 0;
+					strmid(pPhoneName[playerid][id], "Немає", 0, strlen("Немає"), MAX_PLAYER_NAME);
+					SavePlayerNumber(playerid);
+					SendOK(playerid, "Контакт успішно видалено.");
+					pc_cmd_book(playerid);
 					}
-				}
+			}
 			}
 		case D_BOOK_4: {
-				if(!response) return 1;
-				if(NonSym(inputtext, 120, 1)) return ShowPlayerDialog(playerid, D_BOOK_4, DSI, P"Повідомлення", W"Введіть текст повідомлення:\n\n"NO"*"G" Заборонені некоректні символи", "Далі", "Закрити");
-				if(strlen(inputtext) < 1 || strlen(inputtext) > 120) return ShowPlayerDialog(playerid, D_BOOK_4, DSI, P"Повідомлення", W"Введіть текст повідомлення:\n\n"NO"*"G" Довжина тексту від 1 до 120 символів.", "Далі", "Закрити");
-				new id = GetPVarInt(playerid, "select_idphone");
-				new string[146];
-				format(string, sizeof(string), "%i %s", CI[playerid][pPhoneNumber][id],inputtext);
-				pc_cmd_sms(playerid, string);
-				return 1;
+			if(!response) return 1;
+			if(NonSym(inputtext, 120, 1)) return ShowPlayerDialog(playerid, D_BOOK_4, DSI, P"Повідомлення", W"Введіть текст повідомлення:\n\n"NO"*"G" Заборонені некоректні символи", "Далі", "Закрити");
+			if(strlen(inputtext) < 1 || strlen(inputtext) > 120) return ShowPlayerDialog(playerid, D_BOOK_4, DSI, P"Повідомлення", W"Введіть текст повідомлення:\n\n"NO"*"G" Довжина тексту від 1 до 120 символів.", "Далі", "Закрити");
+			new id = GetPVarInt(playerid, "select_idphone");
+			new string[146];
+			format(string, sizeof(string), "%i %s", CI[playerid][pPhoneNumber][id],inputtext);
+			pc_cmd_sms(playerid, string);
+			return 1;
 			}
 		case D_HOUSE: {
-				if(!response) return 1;
-				new houseid = TI[playerid][tSelectHouse];
-				if(!gHouses[houseid][houseOwner]) {
-					if(CI[playerid][pHouse]) return SendError(playerid, "Ви вже маєте будинок.");
-					if(CI[playerid][pRoom]) return SendError(playerid, "Щоб купити будинок, ви повинні спочатку продати квартиру.");
-					new string[128];
-					format(string, sizeof(string), W"Ви справді хочете купити цей будинок за "GREEN"$%i?", gHouses[houseid][housePrice]);
-					ShowPlayerDialog(playerid, D_HOUSE_BUY, DSM, P"Купівля будинку", string, "Так", "Ні");
-				} else {
-					if(CI[playerid][pHouse] != houseid+ 1 && gHouses[houseid][houseClose]) return GameTextForPlayer(playerid, "~r~closed", 2000, 1);
-					SetPlayerPosAC(playerid, hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][0],hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][1],hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][2], houseid+ 1, hinterior_info[gHouses[houseid][houseHint]][h_interior]);
-					SetPlayerFacingAngle(playerid,hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][3]);
-					TI[playerid][tInHouse] = true;
-				}
+			if(!response) return 1;
+			new houseid = TI[playerid][tSelectHouse];
+			if(!gHouses[houseid][houseOwner]) {
+				if(CI[playerid][pHouse]) return SendError(playerid, "Ви вже маєте будинок.");
+				if(CI[playerid][pRoom]) return SendError(playerid, "Щоб купити будинок, ви повинні спочатку продати квартиру.");
+				new string[128];
+				format(string, sizeof(string), W"Ви справді хочете купити цей будинок за "GREEN"$%i?", gHouses[houseid][housePrice]);
+				ShowPlayerDialog(playerid, D_HOUSE_BUY, DSM, P"Купівля будинку", string, "Так", "Ні");
+			} else {
+				if(CI[playerid][pHouse] != houseid+ 1 && gHouses[houseid][houseClose]) return GameTextForPlayer(playerid, "~r~closed", 2000, 1);
+				SetPlayerPosAC(playerid, hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][0],hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][1],hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][2], houseid+ 1, hinterior_info[gHouses[houseid][houseHint]][h_interior]);
+				SetPlayerFacingAngle(playerid,hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][3]);
+				TI[playerid][tInHouse] = true;
+			}
 			}
 		case D_HOUSE_BUY: {
-				if(!response) return 1;
-				new houseid = TI[playerid][tSelectHouse];
-				if(CI[playerid][pRoom]) return SendError(playerid, "Ви вже маєте квартиру, спочатку продайте її.");
-				if(CI[playerid][pTempKey]) return SendError(playerid, "Ви прописані в будинку. Спочатку виселіться. (/house)");
-				if(!gHouses[houseid][houseOwner]) {
-					new price = gHouses[houseid][housePrice];
-					if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей на руках.");
-					new query[256];
-					mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `ownerid` = %i, `owner` = '%s' WHERE `id` = %i", CI[playerid][cID], CI[playerid][cName], gHouses[houseid][houseID]);
-					mysql_tquery(connects, query, "", "");
-					UpdateCharacterData(playerid, "house", gHouses[houseid][houseID]);
-					gHouses[houseid][houseOwnerID] = CI[playerid][cID];
-					format(gHouses[houseid][houseOwner], MAX_PLAYER_NAME, "%s", CI[playerid][cName]);
-					CI[playerid][pHouse] = gHouses[houseid][houseID];
-					gHouses[houseid][houseDay] = gettime() + 60*60*24;
-					mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `day` = %i WHERE id = %i", gHouses[houseid][houseDay], gHouses[houseid][houseID]);
-					mysql_tquery(connects, query, "", "");
-					SendOK(playerid, "Вітаємо, ви придбали будинок. Не забувайте платити за нього, інакше його продадуть державі.");
-					SendOK(playerid, "Щоб керувати будинком, введіть "P"/house"W".");
+			if(!response) return 1;
+			new houseid = TI[playerid][tSelectHouse];
+			if(CI[playerid][pRoom]) return SendError(playerid, "Ви вже маєте квартиру, спочатку продайте її.");
+			if(CI[playerid][pTempKey]) return SendError(playerid, "Ви прописані в будинку. Спочатку виселіться. (/house)");
+			if(!gHouses[houseid][houseOwner]) {
+				new price = gHouses[houseid][housePrice];
+				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У вас недостатньо грошей на руках.");
+				new query[256];
+				mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `ownerid` = %i, `owner` = '%s' WHERE `id` = %i", CI[playerid][cID], CI[playerid][cName], gHouses[houseid][houseID]);
+				mysql_tquery(connects, query, "", "");
+				UpdateCharacterData(playerid, "house", gHouses[houseid][houseID]);
+				gHouses[houseid][houseOwnerID] = CI[playerid][cID];
+				format(gHouses[houseid][houseOwner], MAX_PLAYER_NAME, "%s", CI[playerid][cName]);
+				CI[playerid][pHouse] = gHouses[houseid][houseID];
+				gHouses[houseid][houseDay] = gettime() + 60*60*24;
+				mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `day` = %i WHERE id = %i", gHouses[houseid][houseDay], gHouses[houseid][houseID]);
+				mysql_tquery(connects, query, "", "");
+				SendOK(playerid, "Вітаємо, ви придбали будинок. Не забувайте платити за нього, інакше його продадуть державі.");
+				SendOK(playerid, "Щоб керувати будинком, введіть "P"/house"W".");
 
-					GiveMoney(playerid, -price, "купівля будинку");
-
-					DestroyDynamicPickup(gHousePickup[houseid]);
-					gHousePickup[houseid] = CreateDynamicPickup(1272, 1, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 0, 0);
-					DestroyDynamicMapIcon(gHouseIcon[houseid]);
-					gHouseIcon[houseid] = CreateDynamicMapIcon(gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 32,CWHITE);
-					CI[playerid][pSpawn] = 1;
-					UpdateCharacterData(playerid, "spawn", CI[playerid][pSpawn]);
-					if(QuestProgress[playerid][13] == 0 && AcceptQuest[playerid][13] != 0) {
-						QuestProgress[playerid][13] ++;
-						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви закінчили виконання квесту 'Мій дім'\n\t"NO"Квест можна завершити в Лукаса", "Закрити", "");
-						NextStapQI(playerid, 13);
-					}
-					loading_cars(playerid, 0);
-				}
-			}
-		case D_HOUSE_BUY_2: {
-				if(!response) {
-					if(GetPVarInt(playerid, "houseSeller")) {
-						new id_prodaet = GetPVarInt(playerid, "houseSeller") -1;
-						SendOK(playerid, "Ви відмовилися від купівлі будинку.");
-						SendError(id_prodaet, "Гравець відмовився від купівлі вашого будинку.");
-						DeletePVar(playerid, "houseSeller");
-						DeletePVar(playerid, "housePrices");
-						DeletePVar(id_prodaet, "houseBuyer");
-					}
-				} else {
-					if(GetPVarInt(playerid, "houseSeller")) {
-						new id_prodaet = GetPVarInt(playerid, "houseSeller") -1;
-						new id_pokupaet = GetPVarInt(id_prodaet, "houseBuyer") -1;
-						new house_price = GetPVarInt(playerid, "housePrices");
-						if(id_pokupaet == playerid) {
-							if(CI[playerid][pCash] < house_price) {
-								SendError(playerid, "У вас недостатньо грошей на руках.");
-								SendError(id_prodaet, "У покупця недостатньо грошей на руках.");
-								DeletePVar(playerid, "houseSeller");
-								DeletePVar(playerid, "housePrices");
-								DeletePVar(id_prodaet, "houseBuyer");
-							} else {
-								new houseid = GetPVarInt(playerid, "houseIDs");
-								new query[256];
-								mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `ownerid` = %i, owner = '%s',peopleid1 = '0',peopleid2 = '0',people1='',people2='',family = '0',family_id = '0' WHERE `id` = %i", CI[playerid][cID], CI[playerid][cName],houseid+ 1);
-								mysql_tquery(connects, query, "", "");
-								if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#14)");
-
-								UpdateCharacterData(id_prodaet, "house", 0);
-								UpdateCharacterData(playerid, "house", houseid + 1);
-
-								CI[playerid][pHouse] = houseid+ 1;
-								CI[id_prodaet][pHouse] = 0;
-								new string[156];
-								format(string, 64, "купівля будинку у %s", CI[id_prodaet][cName]);
-								GiveMoney(playerid, -house_price, string);
-								string[0] = EOS;
-								format(string, 64, "купівля будинку %s", CI[playerid][cName]);
-								GiveMoney(id_prodaet,house_price, string);
-								gHouses[houseid][houseOwnerID] = CI[playerid][cID];
-								format(gHouses[houseid][houseOwner], MAX_PLAYER_NAME, "%s", CI[playerid][cName]);
-								strmid(gHouseArendator[houseid][0], "None", 0, strlen("None"), MAX_PLAYER_NAME);
-								strmid(gHouseArendator[houseid][1], "None", 0, strlen("None"), MAX_PLAYER_NAME);
-								gHouses[houseid][houseHabitID][0] = 0;
-								gHouses[houseid][houseHabitID][1] = 0;
-								gHouses[houseid][houseHabitID][2] = 0;
-								if(CI[id_prodaet][pMember] && !start_work[id_prodaet]) {
-									A_SetPlayerSkin(id_prodaet, CI[id_prodaet][pFracSkin]);
-									SendInfo(id_prodaet, "Робочий день розпочато.");
-									TI[playerid][tMasked] = 0;
-									SetPlayerColor(id_prodaet, FI[CI[id_prodaet][pMember]][fColor]);
-									start_work[id_prodaet] = 1;
-									CI[id_prodaet][pJob] = 0;
-									UpdateCharacterData(id_prodaet, "pJob", CI[id_prodaet][pJob]);
-									UpdateCharacterData(id_prodaet, "FracDuty",start_work[id_prodaet]);
-								}
-								if(gHouses[houseid][houseImprove][2] == 1) {
-									loading_cars(playerid, 0);
-									loading_cars(playerid, 1);
-								} else loading_cars(playerid, 0);
-								if(house_car[id_prodaet][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[id_prodaet][0]),house_car[id_prodaet][0] = INVALID_VEHICLE_ID;
-								if(house_car[id_prodaet][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[id_prodaet][1]),house_car[id_prodaet][1] = INVALID_VEHICLE_ID;
-								format(string, sizeof(string), "Ви придбали будинок у гравця "P"%s"W" за "GREEN"$%i"W".", CI[id_prodaet][cName],house_price);
-								SendOK(playerid, string);
-								SendOK(playerid, "Щоб керувати будинком, введіть "P"/house"W".");
-								format(string, sizeof(string), "Ви продали будинок гравцю за "P"%s"W" за "GREEN"$%i"W".", CI[playerid][cName],house_price);
-								SendOK(id_prodaet, string);
-								DeletePVar(playerid, "houseSeller");
-								DeletePVar(playerid, "housePrices");
-								DeletePVar(id_prodaet, "houseBuyer");
-							}
-						} else {
-							SendError(playerid, "Гравець офлайн.");
-							DeletePVar(playerid, "houseSeller");
-							DeletePVar(playerid, "housePrices");
-						}
-					}
-				}
-			}
-		case D_HOUSE_SELL: {
-				if(!response) return 1;
-				if(!CI[playerid][pHouse]) return SendError(playerid, "Ви не маєте будинку.");
-				if(CI[playerid][pCredit]) return SendError(playerid, "Ви маєте непогашений кредит. Продаж транспорт заборонений.");
-				new houseid = CI[playerid][pHouse]-1;
-				if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#1)");
-				new query[512];
-				mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `ownerid` = '0', `owner` = '', improve = '0|0|0|0|0|0', gun = '0|0|0|0|0|0|0|0|0',safecode='0', safemoney='0', drugs='0', medkit='0', products='0',peopleid1 = '0',peopleid2 = '0',people1='',people2='',family = '0',family_id = '0' WHERE `id` = %i",houseid+ 1);
-				mysql_tquery(connects, query);
-				if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#2)");
-				UpdateCharacterData(playerid, "house", 0);
-				CI[playerid][pHouse] = 0;
-				gHouses[houseid][houseOwnerID] = 0;
-				strdel(gHouses[houseid][houseOwner], 0, 24);
-				arendaor_closed(houseid);
-				strmid(gHouseArendator[houseid][0], "None", 0,strlen("None"), MAX_PLAYER_NAME);
-				strmid(gHouseArendator[houseid][1], "None", 0,strlen("None"), MAX_PLAYER_NAME);
-				gHouses[houseid][houseHabitID][0] = 0;
-				gHouses[houseid][houseHabitID][1] = 0;
-				gHouses[houseid][houseHabitID][2] = 0;
-				for(new i;i<9;i++) {
-					if(CI[playerid][pMember] && !start_work[playerid]) {
-						A_SetPlayerSkin(playerid, CI[playerid][pFracSkin]);
-						SendInfo(playerid, "Робочий день розпочато.");
-						TI[playerid][tMasked] = 0;
-						SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
-						start_work[playerid] = 1;
-						CI[playerid][pJob] = 0;
-						UpdateCharacterData(playerid, "pJob", CI[playerid][pJob]);
-						UpdateCharacterData(playerid, "FracDuty",start_work[playerid]);
-					}
-					if(i < 4) gHouses[houseid][houseImprove][i] = 0;
-					gHouses[houseid][houseGun][i] = 0;
-					SaveHouseGun(houseid);
-				}
-				if(gHouses[houseid][houseFamily]) {
-					new fam = gHouses[houseid][houseFamilyID];
-					for(new c = 0; c < 5; c++) {
-						if(CarFamily[fam][c][LoadCar] == INVALID_VEHICLE_ID) continue;
-						A_DestroyVehicle(CarFamily[fam][c][LoadCar]);
-						CarFamily[fam][c][LoadCar] = INVALID_VEHICLE_ID;
-					}
-					new str[350];
-					mysql_format(connects, str, sizeof(str), "UPDATE `family` SET `house` = '0',`poscar1` = '0',`poscar2` = '0',`poscar3` = '0',`poscar4` = '0',`poscar5` = '0' WHERE `id` = %i",fam+ 1);
-					mysql_tquery(connects, str, "", "");
-					gFamily[fam][famHouse] = 0;
-					gHouses[houseid][houseFamily] = 0;
-					gHouses[houseid][houseFamilyID] = 0;
-				}
-				gHouses[houseid][houseSafeCode] = 0;
-				gHouses[houseid][houseSafeMoney] = 0;
-				gHouses[houseid][houseDrugs] = 0;
-				gHouses[houseid][houseHealth] = 0;
-				gHouses[houseid][houseProducts] = 0;
-				gHouses[houseid][houseFamilyID] = 0;
-
-				new procent = floatround(( gHouses[houseid][housePrice] / 100) * Nalog[0]);
-				new sum = (gHouses[houseid][housePrice] - procent);
-
-				GiveMoney(playerid, sum, "продаж будинку");
-				for(new i = 1; i < MAX_FACTIONS; i++) {
-					if(FI[i][fType] == fGOVERNMENT) {
-						FI[i][fBank] += procent;
-						UpdateFaction(i, "Bank", FI[i][fBank]);
-					}
-				}
+				GiveMoney(playerid, -price, "купівля будинку");
 
 				DestroyDynamicPickup(gHousePickup[houseid]);
-				gHousePickup[houseid] = CreateDynamicPickup(1273, 1, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 0, 0);
+				gHousePickup[houseid] = CreateDynamicPickup(1272, 1, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 0, 0);
 				DestroyDynamicMapIcon(gHouseIcon[houseid]);
-				gHouseIcon[houseid] = CreateDynamicMapIcon(gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 31,CWHITE);
-				SendOK(playerid, "Будинок продано державі.");
-				if(house_car[playerid][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][0]), house_car[playerid][0] = INVALID_VEHICLE_ID;
-				if(house_car[playerid][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][1]), house_car[playerid][1] = INVALID_VEHICLE_ID;
-				CI[playerid][pSpawn] = 0;
+				gHouseIcon[houseid] = CreateDynamicMapIcon(gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 32,CWHITE);
+				CI[playerid][pSpawn] = 1;
 				UpdateCharacterData(playerid, "spawn", CI[playerid][pSpawn]);
-				return 1;
+				if(QuestProgress[playerid][13] == 0 && AcceptQuest[playerid][13] != 0) {
+					QuestProgress[playerid][13] ++;
+					ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви закінчили виконання квесту 'Мій дім'\n\t"NO"Квест можна завершити в Лукаса", "Закрити", "");
+					NextStapQI(playerid, 13);
+				}
+				loading_cars(playerid, 0);
+			}
+			}
+		case D_HOUSE_BUY_2: {
+			if(!response) {
+				if(GetPVarInt(playerid, "houseSeller")) {
+					new id_prodaet = GetPVarInt(playerid, "houseSeller") -1;
+					SendOK(playerid, "Ви відмовилися від купівлі будинку.");
+					SendError(id_prodaet, "Гравець відмовився від купівлі вашого будинку.");
+					DeletePVar(playerid, "houseSeller");
+					DeletePVar(playerid, "housePrices");
+					DeletePVar(id_prodaet, "houseBuyer");
+				}
+			} else {
+				if(GetPVarInt(playerid, "houseSeller")) {
+					new id_prodaet = GetPVarInt(playerid, "houseSeller") -1;
+					new id_pokupaet = GetPVarInt(id_prodaet, "houseBuyer") -1;
+					new house_price = GetPVarInt(playerid, "housePrices");
+					if(id_pokupaet == playerid) {
+						if(CI[playerid][pCash] < house_price) {
+							SendError(playerid, "У вас недостатньо грошей на руках.");
+							SendError(id_prodaet, "У покупця недостатньо грошей на руках.");
+							DeletePVar(playerid, "houseSeller");
+							DeletePVar(playerid, "housePrices");
+							DeletePVar(id_prodaet, "houseBuyer");
+						} else {
+							new houseid = GetPVarInt(playerid, "houseIDs");
+							new query[256];
+							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `ownerid` = %i, owner = '%s',peopleid1 = '0',peopleid2 = '0',people1='',people2='',family = '0',family_id = '0' WHERE `id` = %i", CI[playerid][cID], CI[playerid][cName],houseid+ 1);
+							mysql_tquery(connects, query, "", "");
+							if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#14)");
+
+							UpdateCharacterData(id_prodaet, "house", 0);
+							UpdateCharacterData(playerid, "house", houseid + 1);
+
+							CI[playerid][pHouse] = houseid+ 1;
+							CI[id_prodaet][pHouse] = 0;
+							new string[156];
+							format(string, 64, "купівля будинку у %s", CI[id_prodaet][cName]);
+							GiveMoney(playerid, -house_price, string);
+							string[0] = EOS;
+							format(string, 64, "купівля будинку %s", CI[playerid][cName]);
+							GiveMoney(id_prodaet,house_price, string);
+							gHouses[houseid][houseOwnerID] = CI[playerid][cID];
+							format(gHouses[houseid][houseOwner], MAX_PLAYER_NAME, "%s", CI[playerid][cName]);
+							strmid(gHouseArendator[houseid][0], "None", 0, strlen("None"), MAX_PLAYER_NAME);
+							strmid(gHouseArendator[houseid][1], "None", 0, strlen("None"), MAX_PLAYER_NAME);
+							gHouses[houseid][houseHabitID][0] = 0;
+							gHouses[houseid][houseHabitID][1] = 0;
+							gHouses[houseid][houseHabitID][2] = 0;
+							if(CI[id_prodaet][pMember] && !start_work[id_prodaet]) {
+								A_SetPlayerSkin(id_prodaet, CI[id_prodaet][pFracSkin]);
+								SendInfo(id_prodaet, "Робочий день розпочато.");
+								TI[playerid][tMasked] = 0;
+								SetPlayerColor(id_prodaet, FI[CI[id_prodaet][pMember]][fColor]);
+								start_work[id_prodaet] = 1;
+								CI[id_prodaet][pJob] = 0;
+								UpdateCharacterData(id_prodaet, "pJob", CI[id_prodaet][pJob]);
+								UpdateCharacterData(id_prodaet, "FracDuty",start_work[id_prodaet]);
+							}
+							if(gHouses[houseid][houseImprove][2] == 1) {
+								loading_cars(playerid, 0);
+								loading_cars(playerid, 1);
+							} else loading_cars(playerid, 0);
+							if(house_car[id_prodaet][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[id_prodaet][0]),house_car[id_prodaet][0] = INVALID_VEHICLE_ID;
+							if(house_car[id_prodaet][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[id_prodaet][1]),house_car[id_prodaet][1] = INVALID_VEHICLE_ID;
+							format(string, sizeof(string), "Ви придбали будинок у гравця "P"%s"W" за "GREEN"$%i"W".", CI[id_prodaet][cName],house_price);
+							SendOK(playerid, string);
+							SendOK(playerid, "Щоб керувати будинком, введіть "P"/house"W".");
+							format(string, sizeof(string), "Ви продали будинок гравцю за "P"%s"W" за "GREEN"$%i"W".", CI[playerid][cName],house_price);
+							SendOK(id_prodaet, string);
+							DeletePVar(playerid, "houseSeller");
+							DeletePVar(playerid, "housePrices");
+							DeletePVar(id_prodaet, "houseBuyer");
+						}
+					} else {
+						SendError(playerid, "Гравець офлайн.");
+						DeletePVar(playerid, "houseSeller");
+						DeletePVar(playerid, "housePrices");
+					}
+				}
+			}
+			}
+		case D_HOUSE_SELL: {
+			if(!response) return 1;
+			if(!CI[playerid][pHouse]) return SendError(playerid, "Ви не маєте будинку.");
+			if(CI[playerid][pCredit]) return SendError(playerid, "Ви маєте непогашений кредит. Продаж транспорт заборонений.");
+			new houseid = CI[playerid][pHouse]-1;
+			if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#1)");
+			new query[512];
+			mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `ownerid` = '0', `owner` = '', improve = '0|0|0|0|0|0', gun = '0|0|0|0|0|0|0|0|0',safecode='0', safemoney='0', drugs='0', medkit='0', products='0',peopleid1 = '0',peopleid2 = '0',people1='',people2='',family = '0',family_id = '0' WHERE `id` = %i",houseid+ 1);
+			mysql_tquery(connects, query);
+			if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#2)");
+			UpdateCharacterData(playerid, "house", 0);
+			CI[playerid][pHouse] = 0;
+			gHouses[houseid][houseOwnerID] = 0;
+			strdel(gHouses[houseid][houseOwner], 0, 24);
+			arendaor_closed(houseid);
+			strmid(gHouseArendator[houseid][0], "None", 0,strlen("None"), MAX_PLAYER_NAME);
+			strmid(gHouseArendator[houseid][1], "None", 0,strlen("None"), MAX_PLAYER_NAME);
+			gHouses[houseid][houseHabitID][0] = 0;
+			gHouses[houseid][houseHabitID][1] = 0;
+			gHouses[houseid][houseHabitID][2] = 0;
+			for(new i;i<9;i++) {
+				if(CI[playerid][pMember] && !start_work[playerid]) {
+					A_SetPlayerSkin(playerid, CI[playerid][pFracSkin]);
+					SendInfo(playerid, "Робочий день розпочато.");
+					TI[playerid][tMasked] = 0;
+					SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
+					start_work[playerid] = 1;
+					CI[playerid][pJob] = 0;
+					UpdateCharacterData(playerid, "pJob", CI[playerid][pJob]);
+					UpdateCharacterData(playerid, "FracDuty",start_work[playerid]);
+				}
+				if(i < 4) gHouses[houseid][houseImprove][i] = 0;
+				gHouses[houseid][houseGun][i] = 0;
+				SaveHouseGun(houseid);
+			}
+			if(gHouses[houseid][houseFamily]) {
+				new fam = gHouses[houseid][houseFamilyID];
+				for(new c = 0; c < 5; c++) {
+					if(CarFamily[fam][c][LoadCar] == INVALID_VEHICLE_ID) continue;
+					A_DestroyVehicle(CarFamily[fam][c][LoadCar]);
+					CarFamily[fam][c][LoadCar] = INVALID_VEHICLE_ID;
+				}
+				new str[350];
+				mysql_format(connects, str, sizeof(str), "UPDATE `family` SET `house` = '0',`poscar1` = '0',`poscar2` = '0',`poscar3` = '0',`poscar4` = '0',`poscar5` = '0' WHERE `id` = %i",fam+ 1);
+				mysql_tquery(connects, str, "", "");
+				gFamily[fam][famHouse] = 0;
+				gHouses[houseid][houseFamily] = 0;
+				gHouses[houseid][houseFamilyID] = 0;
+			}
+			gHouses[houseid][houseSafeCode] = 0;
+			gHouses[houseid][houseSafeMoney] = 0;
+			gHouses[houseid][houseDrugs] = 0;
+			gHouses[houseid][houseHealth] = 0;
+			gHouses[houseid][houseProducts] = 0;
+			gHouses[houseid][houseFamilyID] = 0;
+
+			new procent = floatround(( gHouses[houseid][housePrice] / 100) * Nalog[0]);
+			new sum = (gHouses[houseid][housePrice] - procent);
+
+			GiveMoney(playerid, sum, "продаж будинку");
+			for(new i = 1; i < MAX_FACTIONS; i++) {
+				if(FI[i][fType] == fGOVERNMENT) {
+					FI[i][fBank] += procent;
+					UpdateFaction(i, "Bank", FI[i][fBank]);
+				}
+			}
+
+			DestroyDynamicPickup(gHousePickup[houseid]);
+			gHousePickup[houseid] = CreateDynamicPickup(1273, 1, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 0, 0);
+			DestroyDynamicMapIcon(gHouseIcon[houseid]);
+			gHouseIcon[houseid] = CreateDynamicMapIcon(gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 31,CWHITE);
+			SendOK(playerid, "Будинок продано державі.");
+			if(house_car[playerid][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][0]), house_car[playerid][0] = INVALID_VEHICLE_ID;
+			if(house_car[playerid][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][1]), house_car[playerid][1] = INVALID_VEHICLE_ID;
+			CI[playerid][pSpawn] = 0;
+			UpdateCharacterData(playerid, "spawn", CI[playerid][pSpawn]);
+			return 1;
 			}
 		case D_HOUSE_MENU: {
-				if(!response) return 1;
-				new houseid = CI[playerid][pHouse] - 1;
-				switch(listitem) {
+			if(!response) return 1;
+			new houseid = CI[playerid][pHouse] - 1;
+			switch(listitem) {
 				case 0:{
-						if(!gHouses[houseid][houseClose]) {
-							gHouses[houseid][houseClose] = 1;
-							GameTextForPlayer(playerid, "~r~closed", 2000, 3);
-						} else {
-							gHouses[houseid][houseClose] = 0;
-							GameTextForPlayer(playerid, "~g~opened", 2000, 3);
-						}
-						new query[256];
-						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `close` = %i WHERE `id` = %i", gHouses[houseid][houseClose],houseid+ 1);
-						mysql_tquery(connects, query);
-						return pc_cmd_house(playerid);
+					if(!gHouses[houseid][houseClose]) {
+						gHouses[houseid][houseClose] = 1;
+						GameTextForPlayer(playerid, "~r~closed", 2000, 3);
+					} else {
+						gHouses[houseid][houseClose] = 0;
+						GameTextForPlayer(playerid, "~g~opened", 2000, 3);
+					}
+					new query[256];
+					mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `close` = %i WHERE `id` = %i", gHouses[houseid][houseClose],houseid+ 1);
+					mysql_tquery(connects, query);
+					return pc_cmd_house(playerid);
 					}
 				case 1: {
-						new classname[20],status[12];
-						switch(gHouses[houseid][houseClass]) {
-						case 0:classname = "Економ";
-						case 1:classname = "Середній";
-						case 2:classname = "Елітний";
-						case 3:classname = "Особняк";
-						default: classname = "Невідомо";
-						}
-						new cnt;
-						for(new i;i<3;i++) {
-							if(gHouses[houseid][houseHabitID][i]) cnt++;
-						}
-						if(gHouses[houseid][houseClose]) strcat(status, "Закритий");
-						else strcat(status, "Відкритий");
-						new improve[128];
-						if(gHouses[houseid][houseImprove][0]) strcat(improve, "1. Автоматичні двері\n");
-						if(gHouses[houseid][houseImprove][1]) strcat(improve, "2. Зниження субсидій\n");
-						if(gHouses[houseid][houseImprove][3]) strcat(improve, "3. Підвал\n");
-						if(gHouses[houseid][houseImprove][0] == 0 && gHouses[houseid][houseImprove][1] == 0 && gHouses[houseid][houseImprove][3] == 0) strcat(improve, "Відсутні");
-						new day;
-						day = (gHouses[houseid][houseDay]-gettime())/86400;
-						static const f_str[] = ""W"Номер будинку: \t\t"P"%i\n\
-												"W"Клас: \t\t\t"P"%s\n\
-												"W"К-сть жителів: \t"P"%i/%i\n\
-												"W"Оренда будинку: \t\t"P"%iд\n\
-												"W"Статус: \t\t"P"%s\n\
-												"W"Держ. ціна: \t\t"P"%i\n\n\
-												"W"Гараж: \t\t"P"%s\n\n\
-												"W"Покращення:\n\
-												"P"%s";
-						new string[512];
-						format(string, sizeof(string), f_str,houseid+ 1, classname,cnt, gHouses[houseid][houseClass],day,status, gHouses[houseid][housePrice],(gHouses[houseid][houseImprove][2] ? ("Є") : ("Немає")),
-						improve);
-						return ShowPlayerDialog(playerid, D_HOUSE_STATS, DSM, P"Керування будинком", string, "Назад", "");
+					new classname[20],status[12];
+					switch(gHouses[houseid][houseClass]) {
+					case 0:classname = "Економ";
+					case 1:classname = "Середній";
+					case 2:classname = "Елітний";
+					case 3:classname = "Особняк";
+					default: classname = "Невідомо";
+					}
+					new cnt;
+					for(new i;i<3;i++) {
+						if(gHouses[houseid][houseHabitID][i]) cnt++;
+					}
+					if(gHouses[houseid][houseClose]) strcat(status, "Закритий");
+					else strcat(status, "Відкритий");
+					new improve[128];
+					if(gHouses[houseid][houseImprove][0]) strcat(improve, "1. Автоматичні двері\n");
+					if(gHouses[houseid][houseImprove][1]) strcat(improve, "2. Зниження субсидій\n");
+					if(gHouses[houseid][houseImprove][3]) strcat(improve, "3. Підвал\n");
+					if(gHouses[houseid][houseImprove][0] == 0 && gHouses[houseid][houseImprove][1] == 0 && gHouses[houseid][houseImprove][3] == 0) strcat(improve, "Відсутні");
+					new day;
+					day = (gHouses[houseid][houseDay]-gettime())/86400;
+					static const f_str[] = ""W"Номер будинку: \t\t"P"%i\n\
+											"W"Клас: \t\t\t"P"%s\n\
+											"W"К-сть жителів: \t"P"%i/%i\n\
+											"W"Оренда будинку: \t\t"P"%iд\n\
+											"W"Статус: \t\t"P"%s\n\
+											"W"Держ. ціна: \t\t"P"%i\n\n\
+											"W"Гараж: \t\t"P"%s\n\n\
+											"W"Покращення:\n\
+											"P"%s";
+					new string[512];
+					format(string, sizeof(string), f_str,houseid+ 1, classname,cnt, gHouses[houseid][houseClass],day,status, gHouses[houseid][housePrice],(gHouses[houseid][houseImprove][2] ? ("Є") : ("Немає")),
+					improve);
+					return ShowPlayerDialog(playerid, D_HOUSE_STATS, DSM, P"Керування будинком", string, "Назад", "");
 					}
 				case 2: {
-						new mes[210];
-						for(new i;i<4;i++) {
-							new c[12];
-							if(gHouses[houseid][houseImprove][i]) c = ""GREEN"";
-							else if(!i || gHouses[houseid][houseImprove][i-1]) c = ""G"";
-							else c = ""G"";
-							if(!i) format(mes, sizeof(mes), P"%i.%s %s", i+ 1, c, gHouseImproveName[i]);
-							else format(mes, sizeof(mes), "%s\n"P"%i.%s %s", mes, i+ 1, c, gHouseImproveName[i]);
-						}
-						return ShowPlayerDialog(playerid, D_HOUSE_IMPROVE, DSL, P"Керування будинком", mes, "Купити", "Скасувати");
+					new mes[210];
+					for(new i;i<4;i++) {
+						new c[12];
+						if(gHouses[houseid][houseImprove][i]) c = ""GREEN"";
+						else if(!i || gHouses[houseid][houseImprove][i-1]) c = ""G"";
+						else c = ""G"";
+						if(!i) format(mes, sizeof(mes), P"%i.%s %s", i+ 1, c, gHouseImproveName[i]);
+						else format(mes, sizeof(mes), "%s\n"P"%i.%s %s", mes, i+ 1, c, gHouseImproveName[i]);
+					}
+					return ShowPlayerDialog(playerid, D_HOUSE_IMPROVE, DSL, P"Керування будинком", mes, "Купити", "Скасувати");
 					}
 				case 3: {
-						if(gHouses[houseid][houseClass] == 0) return SendError(playerid, "Недоступне для класу вашого будинку.");
-						new string[512];
-						string = "#\tОрендар\tСтатус\n";
-						for(new i = 0; i < 2; i++) {
-							if(!strcmp(gHouseArendator[houseid][i], "None")) {
-								format(string, sizeof(string), "%s%i\tВідсутній\tВільно\n", string, i + 1);
-							} else format(string, sizeof(string), "%s%i\t%s\tЗайнято\n", string, i + 1, gHouseArendator[houseid][i]);
-						}
-						ShowPlayerDialog(playerid,dArendator, DSTH, "Керування жителями", string, "Обрати", "Закрити");
+					if(gHouses[houseid][houseClass] == 0) return SendError(playerid, "Недоступне для класу вашого будинку.");
+					new string[512];
+					string = "#\tОрендар\tСтатус\n";
+					for(new i = 0; i < 2; i++) {
+						if(!strcmp(gHouseArendator[houseid][i], "None")) {
+							format(string, sizeof(string), "%s%i\tВідсутній\tВільно\n", string, i + 1);
+						} else format(string, sizeof(string), "%s%i\t%s\tЗайнято\n", string, i + 1, gHouseArendator[houseid][i]);
+					}
+					ShowPlayerDialog(playerid,dArendator, DSTH, "Керування жителями", string, "Обрати", "Закрити");
 					}
 				case 4: {
-						new mes[1024];
-						format(mes, sizeof(mes), P"1."W" Наркотики "P"[%i гр.]\n"P"2."W" Аптечки "P"[%i шт.]\n"P"3."W" Гроші "P"[$%i]\n"P"4."W" Sniper Rifle "P"[%i пт.]\n"P"5."W" Country Rifle "P"[%i пт.]\n"P"6."W" M4 "P"[%i пт.]\n"P"7."W" AK-47 "P"[%i пт.]\n"P"8."W" MP5 "P"[%i пт.]\n"P"9."W" Shotgun "P"[%i пт.]\n"P"10."W" Desert Eagle "P"[%i пт.]\n"P"11."W" SD Pistol "P"[%i пт.]\n"P"12."W" Baseball Bat "P"[%i шт.]", gHouses[houseid][houseDrugs], gHouses[houseid][houseHealth], gHouses[houseid][houseSafeMoney], gHouses[houseid][houseGun][0], gHouses[houseid][houseGun][1], gHouses[houseid][houseGun][2], gHouses[houseid][houseGun][3], gHouses[houseid][houseGun][4], gHouses[houseid][houseGun][5], gHouses[houseid][houseGun][6], gHouses[houseid][houseGun][7], gHouses[houseid][houseGun][8]);
-						ShowPlayerDialog(playerid,dSafeAction, DSL, "Сейф", mes, "Далі", "Скасувати");
+					new mes[1024];
+					format(mes, sizeof(mes), P"1."W" Наркотики "P"[%i гр.]\n"P"2."W" Аптечки "P"[%i шт.]\n"P"3."W" Гроші "P"[$%i]\n"P"4."W" Sniper Rifle "P"[%i пт.]\n"P"5."W" Country Rifle "P"[%i пт.]\n"P"6."W" M4 "P"[%i пт.]\n"P"7."W" AK-47 "P"[%i пт.]\n"P"8."W" MP5 "P"[%i пт.]\n"P"9."W" Shotgun "P"[%i пт.]\n"P"10."W" Desert Eagle "P"[%i пт.]\n"P"11."W" SD Pistol "P"[%i пт.]\n"P"12."W" Baseball Bat "P"[%i шт.]", gHouses[houseid][houseDrugs], gHouses[houseid][houseHealth], gHouses[houseid][houseSafeMoney], gHouses[houseid][houseGun][0], gHouses[houseid][houseGun][1], gHouses[houseid][houseGun][2], gHouses[houseid][houseGun][3], gHouses[houseid][houseGun][4], gHouses[houseid][houseGun][5], gHouses[houseid][houseGun][6], gHouses[houseid][houseGun][7], gHouses[houseid][houseGun][8]);
+					ShowPlayerDialog(playerid,dSafeAction, DSL, "Сейф", mes, "Далі", "Скасувати");
 					}
 				case 5: {
-						new string[128];
-						format(string, sizeof(string), W"1. Транспорт #1 "P"[%s]\n"W"2. Транспорт #2 "P"[%s]", gTransport[CarsInfo[playerid][carModel][0]-400][trName], gTransport[CarsInfo[playerid][carModel][1]-400][trName]);
-						ShowPlayerDialog(playerid, D_HOUSE_CARSELL, DSL, P"Продати домашній транспорт", string, "Обрати", "Закрити");
+					new string[128];
+					format(string, sizeof(string), W"1. Транспорт #1 "P"[%s]\n"W"2. Транспорт #2 "P"[%s]", gTransport[CarsInfo[playerid][carModel][0]-400][trName], gTransport[CarsInfo[playerid][carModel][1]-400][trName]);
+					ShowPlayerDialog(playerid, D_HOUSE_CARSELL, DSL, P"Продати домашній транспорт", string, "Обрати", "Закрити");
 					}
 				case 6: {
-						new string[2000], str[128],id = 1;
-						string = ""P"#. Назва\n";
-						for(new i; i < 42; i++) {
-							if(hinterior_info[i][h_type] != gHouses[houseid][houseClass]) continue;
-							format:str(""P"%i."W" %s\n", id,hinterior_info[i][h_int_name]);
-							strcat(string, str);
-							id++;
-						}
-						ShowPlayerDialog(playerid, D_HOUSE_BUYINT, DSTH, P"Купівля інтер'єру", string, "Оглянути", "Назад");
+					new string[2000], str[128],id = 1;
+					string = ""P"#. Назва\n";
+					for(new i; i < 42; i++) {
+						if(hinterior_info[i][h_type] != gHouses[houseid][houseClass]) continue;
+						format:str(""P"%i."W" %s\n", id,hinterior_info[i][h_int_name]);
+						strcat(string, str);
+						id++;
+					}
+					ShowPlayerDialog(playerid, D_HOUSE_BUYINT, DSTH, P"Купівля інтер'єру", string, "Оглянути", "Назад");
 					}
 				case 7: {
-						new string[156];
-						format(string, sizeof(string), W"Ви хочете продати будинок державі за "ORANGE"$%i?\n\n"G"Для продажу будинку гравцю введіть: /sellhouse [ID гравця] [Ціна]", floatround(gHouses[houseid][housePrice]/100*80));
-						ShowPlayerDialog(playerid, D_HOUSE_SELL, DSM, P"Продаж будинку", string, "Так", "Ні");
+					new string[156];
+					format(string, sizeof(string), W"Ви хочете продати будинок державі за "ORANGE"$%i?\n\n"G"Для продажу будинку гравцю введіть: /sellhouse [ID гравця] [Ціна]", floatround(gHouses[houseid][housePrice]/100*80));
+					ShowPlayerDialog(playerid, D_HOUSE_SELL, DSM, P"Продаж будинку", string, "Так", "Ні");
 					}
-				}
+			}
 			}
 		case D_HOUSE_BUYINT: {
-				if(!response) return 1;
-				new houseid = CI[playerid][pHouse] - 1;
-				for(new i; i < 42; i++) {
-					if(hinterior_info[i][h_type] != gHouses[houseid][houseClass]) continue;
-					if(hinterior_info[i][h_id] == listitem) {
-						SetPlayerPosAC(playerid, hinterior_info[i][h_pos_exit][0],hinterior_info[i][h_pos_exit][1],hinterior_info[i][h_pos_exit][2], houseid+ 1, hinterior_info[i][h_interior]);
-						SetPlayerFacingAngle(playerid,hinterior_info[i][h_pos_exit][3]);
-						SetCameraBehindPlayer(playerid);
-						SendOK(playerid, "Для купівля даного інтер'єру, введіть: "P"/buyint"W" і натисніть на кнопку 'Купити'");
-						SendOK(playerid, "Для скасування купівлі даного інтер'єру, введіть: "P"/buyint"W" і натисніть на кнопку 'Скасувати'");
-						SetPVarInt(playerid, "buy_interior",listitem+ 1);
-						break;
-					}
+			if(!response) return 1;
+			new houseid = CI[playerid][pHouse] - 1;
+			for(new i; i < 42; i++) {
+				if(hinterior_info[i][h_type] != gHouses[houseid][houseClass]) continue;
+				if(hinterior_info[i][h_id] == listitem) {
+					SetPlayerPosAC(playerid, hinterior_info[i][h_pos_exit][0],hinterior_info[i][h_pos_exit][1],hinterior_info[i][h_pos_exit][2], houseid+ 1, hinterior_info[i][h_interior]);
+					SetPlayerFacingAngle(playerid,hinterior_info[i][h_pos_exit][3]);
+					SetCameraBehindPlayer(playerid);
+					SendOK(playerid, "Для купівля даного інтер'єру, введіть: "P"/buyint"W" і натисніть на кнопку 'Купити'");
+					SendOK(playerid, "Для скасування купівлі даного інтер'єру, введіть: "P"/buyint"W" і натисніть на кнопку 'Скасувати'");
+					SetPVarInt(playerid, "buy_interior",listitem+ 1);
+					break;
 				}
 			}
+			}
 		case D_HOUSE_BUYINT_2: {
-				if(!response) {
-					new house = CI[playerid][pHouse] - 1;
+			if(!response) {
+				new house = CI[playerid][pHouse] - 1;
+				new i = gHouses[house][houseHint];
+				SetPlayerPosAC(playerid, hinterior_info[i][h_pos_exit][0],hinterior_info[i][h_pos_exit][1],hinterior_info[i][h_pos_exit][2], house+ 1, hinterior_info[i][h_interior]);
+				SetPlayerFacingAngle(playerid,hinterior_info[i][h_pos_exit][3]);
+				SetCameraBehindPlayer(playerid);
+				DeletePVar(playerid, "buy_interior");
+				return 1;
+			}
+			new house = CI[playerid][pHouse] - 1;
+			for(new x; x < 42; x++) {
+				if(hinterior_info[x][h_type] != gHouses[house][houseClass]) continue;
+				if(hinterior_info[x][h_id] == GetPVarInt(playerid, "buy_interior") -1) {
+					if(CI[playerid][pCash] < 150000) return SendError(playerid, "У вас недостатньо коштів.");
+					GiveMoney(playerid, -150000, "купівля інтер'єру");
+					gHouses[house][houseHint] = x;
+					new query[156];
+					mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `hint` = %i WHERE id = %i", gHouses[house][houseHint],house+ 1);
+					mysql_tquery(connects, query);
 					new i = gHouses[house][houseHint];
 					SetPlayerPosAC(playerid, hinterior_info[i][h_pos_exit][0],hinterior_info[i][h_pos_exit][1],hinterior_info[i][h_pos_exit][2], house+ 1, hinterior_info[i][h_interior]);
 					SetPlayerFacingAngle(playerid,hinterior_info[i][h_pos_exit][3]);
 					SetCameraBehindPlayer(playerid);
+					SendOK(playerid, "Вітаємо з придбанням нового інтер'єру!");
 					DeletePVar(playerid, "buy_interior");
-					return 1;
+					break;
 				}
-				new house = CI[playerid][pHouse] - 1;
-				for(new x; x < 42; x++) {
-					if(hinterior_info[x][h_type] != gHouses[house][houseClass]) continue;
-					if(hinterior_info[x][h_id] == GetPVarInt(playerid, "buy_interior") -1) {
-						if(CI[playerid][pCash] < 150000) return SendError(playerid, "У вас недостатньо коштів.");
-						GiveMoney(playerid, -150000, "купівля інтер'єру");
-						gHouses[house][houseHint] = x;
-						new query[156];
-						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `hint` = %i WHERE id = %i", gHouses[house][houseHint],house+ 1);
-						mysql_tquery(connects, query);
-						new i = gHouses[house][houseHint];
-						SetPlayerPosAC(playerid, hinterior_info[i][h_pos_exit][0],hinterior_info[i][h_pos_exit][1],hinterior_info[i][h_pos_exit][2], house+ 1, hinterior_info[i][h_interior]);
-						SetPlayerFacingAngle(playerid,hinterior_info[i][h_pos_exit][3]);
-						SetCameraBehindPlayer(playerid);
-						SendOK(playerid, "Вітаємо з придбанням нового інтер'єру!");
-						DeletePVar(playerid, "buy_interior");
-						break;
-					}
-				}
-				Streamer_Update(playerid);
+			}
+			Streamer_Update(playerid);
 			}
 		case D_HOUSE_EXIT: {
-				if(!response) return 1;
-				new houseid = TI[playerid][tSelectHouse];
-				switch(listitem) {
+			if(!response) return 1;
+			new houseid = TI[playerid][tSelectHouse];
+			switch(listitem) {
 				case 0: {
-						TI[playerid][tTPpick] = true;
-						SetPlayerPosAC(playerid, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 0, 0);
-						SetPlayerFacingAngle(playerid, gHouses[houseid][houseR]);
-						TI[playerid][tInHouse] = false;
-						TI[playerid][tSelectHouse] = 0;
-						SetCameraBehindPlayer(playerid);
-						switch(houseid) {
+					TI[playerid][tTPpick] = true;
+					SetPlayerPosAC(playerid, gHouses[houseid][houseX], gHouses[houseid][houseY], gHouses[houseid][houseZ], 0, 0);
+					SetPlayerFacingAngle(playerid, gHouses[houseid][houseR]);
+					TI[playerid][tInHouse] = false;
+					TI[playerid][tSelectHouse] = 0;
+					SetCameraBehindPlayer(playerid);
+					switch(houseid) {
 						case 425..434: FreezePlayerForTime(playerid, 2);
-						}
+					}
 					}
 				case 1: {
-						SetPlayerPosAC(playerid, exitgarage[gHouses[houseid][houseClass]][0],exitgarage[gHouses[houseid][houseClass]][1],exitgarage[gHouses[houseid][houseClass]][2], TI[playerid][tVirtualWorld], TI[playerid][tInterior], true);
-						SetPlayerFacingAngle(playerid,exitgarage[gHouses[houseid][houseClass]][3]);
-						FreezePlayerForTime(playerid, 2);
-						SetCameraBehindPlayer(playerid);
+					SetPlayerPosAC(playerid, exitgarage[gHouses[houseid][houseClass]][0],exitgarage[gHouses[houseid][houseClass]][1],exitgarage[gHouses[houseid][houseClass]][2], TI[playerid][tVirtualWorld], TI[playerid][tInterior], true);
+					SetPlayerFacingAngle(playerid,exitgarage[gHouses[houseid][houseClass]][3]);
+					FreezePlayerForTime(playerid, 2);
+					SetCameraBehindPlayer(playerid);
 					}
 				case 2: {
-						SetPlayerPosAC(playerid, 1126.4146, -1029.7551, 1046.0126, TI[playerid][tVirtualWorld], 10, true);
-						SetPlayerFacingAngle(playerid, 89.4268);
-						FreezePlayerForTime(playerid, 2);
-						SetCameraBehindPlayer(playerid);
+					SetPlayerPosAC(playerid, 1126.4146, -1029.7551, 1046.0126, TI[playerid][tVirtualWorld], 10, true);
+					SetPlayerFacingAngle(playerid, 89.4268);
+					FreezePlayerForTime(playerid, 2);
+					SetCameraBehindPlayer(playerid);
 					}
 				case 3: {
-						SetPlayerPosAC(playerid, 2009.4119, 1031.4476, 1069.0499, TI[playerid][tVirtualWorld], 25, true);
-						SetPlayerFacingAngle(playerid, 359.3839);
-						FreezePlayerForTime(playerid, 2);
-						SetCameraBehindPlayer(playerid);
+					SetPlayerPosAC(playerid, 2009.4119, 1031.4476, 1069.0499, TI[playerid][tVirtualWorld], 25, true);
+					SetPlayerFacingAngle(playerid, 359.3839);
+					FreezePlayerForTime(playerid, 2);
+					SetCameraBehindPlayer(playerid);
 					}
-				}
+			}
 			}
 		case D_HOUSE_CARSELL: {
-				if(!response) return 1;
-				if(GetPVarInt(playerid, "carPokupaet")) return SendError(playerid, "У вас активний обмін транспорт з гравцем.");
-				if(CarsInfo[playerid][carModel][listitem] == 481) return SendError(playerid, "Цей транспорт не можна продати.");
-				new modelid = CarsInfo[playerid][carModel][listitem] - 400;
-				SetPVarInt(playerid, "car_sell",listitem);
+			if(!response) return 1;
+			if(GetPVarInt(playerid, "carPokupaet")) return SendError(playerid, "У вас активний обмін транспорт з гравцем.");
+			if(CarsInfo[playerid][carModel][listitem] == 481) return SendError(playerid, "Цей транспорт не можна продати.");
+			new modelid = CarsInfo[playerid][carModel][listitem] - 400;
+			SetPVarInt(playerid, "car_sell",listitem);
 
-				new procent = floatround(( gTransport[modelid][trPrice]/100)* Nalog[4]);
-				new sum = (gTransport[modelid][trPrice]-procent);
+			new procent = floatround(( gTransport[modelid][trPrice]/100)* Nalog[4]);
+			new sum = (gTransport[modelid][trPrice]-procent);
 
-				new string[210];
-				format(string, sizeof(string), W"Ви збираєтеся продати свій автомобіль "P"%s "W"за "GREEN"$%i\n\n"NO"Продати автомобіль?\n\n"G"Для продажу авто гравцю введіть: /sellcar [id гравця] [авто] [ціна]", gTransport[CarsInfo[playerid][carModel][listitem]-400][trName],sum);
-				return ShowPlayerDialog(playerid, D_HOUSE_CARSELL_2, DSM, P"Продаж автомобіля", string, "Так", "Ні");
+			new string[210];
+			format(string, sizeof(string), W"Ви збираєтеся продати свій автомобіль "P"%s "W"за "GREEN"$%i\n\n"NO"Продати автомобіль?\n\n"G"Для продажу авто гравцю введіть: /sellcar [id гравця] [авто] [ціна]", gTransport[CarsInfo[playerid][carModel][listitem]-400][trName],sum);
+			return ShowPlayerDialog(playerid, D_HOUSE_CARSELL_2, DSM, P"Продаж автомобіля", string, "Так", "Ні");
 			}
 		case D_HOUSE_CARSELL_2: {
-				if(!response) return 1;
-				sell_cars(playerid, GetPVarInt(playerid, "car_sell"));
+			if(!response) return 1;
+			sell_cars(playerid, GetPVarInt(playerid, "car_sell"));
 			}
 		case D_HOUSE_STATS: pc_cmd_house(playerid);
 		case D_HOUSE_IMPROVE: {
-				if(!response) return pc_cmd_house(playerid);
-				new houseid = CI[playerid][pHouse] - 1;
-				if(gHouses[houseid][houseImprove][listitem]) {
-					SendError(playerid, "У вас вже встановлено це покращення.");
-					pc_cmd_house(playerid);
-				} else if((!listitem && !gHouses[houseid][houseImprove][listitem]) || (gHouses[houseid][houseImprove][listitem-1] && !gHouses[houseid][houseImprove][listitem])) {
-					new mes[128];
-					switch(gHouses[CI[playerid][pHouse]-1][houseClass]) {
-					case 0: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceN[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceN[listitem]);
-					case 1: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceD[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceD[listitem]);
-					case 2: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceB[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceB[listitem]);
-					case 3: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceA[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceA[listitem]);
-					}
-					ShowPlayerDialog(playerid, D_HOUSE_IMPROVE_2, DSM, P"Купівля покращень", mes, "Купити", "Скасувати");
-					SetPVarInt(playerid, "improveid",listitem);
-				} else {
-					SendError(playerid, "Це покращення вам недоступне. Відкрийте покращення вище.");
-					pc_cmd_house(playerid);
+			if(!response) return pc_cmd_house(playerid);
+			new houseid = CI[playerid][pHouse] - 1;
+			if(gHouses[houseid][houseImprove][listitem]) {
+				SendError(playerid, "У вас вже встановлено це покращення.");
+				pc_cmd_house(playerid);
+			} else if((!listitem && !gHouses[houseid][houseImprove][listitem]) || (gHouses[houseid][houseImprove][listitem-1] && !gHouses[houseid][houseImprove][listitem])) {
+				new mes[128];
+				switch(gHouses[CI[playerid][pHouse]-1][houseClass]) {
+				case 0: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceN[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceN[listitem]);
+				case 1: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceD[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceD[listitem]);
+				case 2: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceB[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceB[listitem]);
+				case 3: format(mes, sizeof(mes), W"Покращення: "P"%s\n"W"Вартість: "GREEN"$%i", gHouseImproveName[listitem], gHouseImprovePriceA[listitem]), SetPVarInt(playerid, "improveid_price", gHouseImprovePriceA[listitem]);
 				}
-			}
-		case D_HOUSE_IMPROVE_2: {
-				new improveid = GetPVarInt(playerid, "improveid");
-				DeletePVar(playerid, "improveid");
-				if(!response) return pc_cmd_house(playerid);
-				new price = GetPVarInt(playerid, "improveid_price");
-				DeletePVar(playerid, "improveid_price");
-				if(GetPlayerMoneyEx(playerid) < price) {
-					pc_cmd_house(playerid);
-					return SendError(playerid, "У вас недостатньо грошей.");
-				}
-				new houseid = CI[playerid][pHouse] - 1;
-				gHouses[houseid][houseImprove][improveid] = 1;
-				new data[32],query[128];
-				for(new i;i<4;i++) {
-					if(!i) format(data, sizeof(data), "%i", gHouses[houseid][houseImprove][i]);
-					else format(data, sizeof(data), "%s|%i", data, gHouses[houseid][houseImprove][i]);
-				}
-				mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `improve` = '%s' WHERE id = %i", data,houseid+ 1);
-				mysql_tquery(connects, query);
-				if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#4)");
-				GiveMoney(playerid, -price, "купівля покращення в будинок");
-				SendOK(playerid, "Вітаємо з придбанням покращення в будинок.");
-				DeletePVar(playerid, "improveid_price");
+				ShowPlayerDialog(playerid, D_HOUSE_IMPROVE_2, DSM, P"Купівля покращень", mes, "Купити", "Скасувати");
+				SetPVarInt(playerid, "improveid",listitem);
+			} else {
+				SendError(playerid, "Це покращення вам недоступне. Відкрийте покращення вище.");
 				pc_cmd_house(playerid);
 			}
+			}
+		case D_HOUSE_IMPROVE_2: {
+			new improveid = GetPVarInt(playerid, "improveid");
+			DeletePVar(playerid, "improveid");
+			if(!response) return pc_cmd_house(playerid);
+			new price = GetPVarInt(playerid, "improveid_price");
+			DeletePVar(playerid, "improveid_price");
+			if(GetPlayerMoneyEx(playerid) < price) {
+				pc_cmd_house(playerid);
+				return SendError(playerid, "У вас недостатньо грошей.");
+			}
+			new houseid = CI[playerid][pHouse] - 1;
+			gHouses[houseid][houseImprove][improveid] = 1;
+			new data[32],query[128];
+			for(new i;i<4;i++) {
+				if(!i) format(data, sizeof(data), "%i", gHouses[houseid][houseImprove][i]);
+				else format(data, sizeof(data), "%s|%i", data, gHouses[houseid][houseImprove][i]);
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `improve` = '%s' WHERE id = %i", data,houseid+ 1);
+			mysql_tquery(connects, query);
+			if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#4)");
+			GiveMoney(playerid, -price, "купівля покращення в будинок");
+			SendOK(playerid, "Вітаємо з придбанням покращення в будинок.");
+			DeletePVar(playerid, "improveid_price");
+			pc_cmd_house(playerid);
+			}
 		case dSafe: {
-				if(!response) return 1;
-				ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
-				SetPVarInt(playerid, "safe_idx",listitem+ 1);
+			if(!response) return 1;
+			ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
+			SetPVarInt(playerid, "safe_idx",listitem+ 1);
 			}
 		case dSafeAction: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "safe_select",listitem+ 1);
-				ShowPlayerDialog(playerid,dSafe, DSL, P"Сейф.", P"1."W" Взяти\n"P"2."W" Покласти", "Далі", "Скасувати");
+			if(!response) return 1;
+			SetPVarInt(playerid, "safe_select",listitem+ 1);
+			ShowPlayerDialog(playerid,dSafe, DSL, P"Сейф.", P"1."W" Взяти\n"P"2."W" Покласти", "Далі", "Скасувати");
 			}
 		case D_SAFE_TRAILER: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "safe_select",listitem+ 1);
-				ShowPlayerDialog(playerid, D_SAFE_TRAILER_1, DSL, P"Сейф.", P"1."W" Взяти\n"P"2."W" Покласти", "Далі", "Скасувати");
+			if(!response) return 1;
+			SetPVarInt(playerid, "safe_select",listitem+ 1);
+			ShowPlayerDialog(playerid, D_SAFE_TRAILER_1, DSL, P"Сейф.", P"1."W" Взяти\n"P"2."W" Покласти", "Далі", "Скасувати");
 			}
 		case D_SAFE_TRAILER_1: {
-				if(!response) return 1;
-				ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
-				SetPVarInt(playerid, "safe_idx",listitem+ 1);
+			if(!response) return 1;
+			ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
+			SetPVarInt(playerid, "safe_idx",listitem+ 1);
 			}
 		case D_SAFE_TRAILER_2: {
-				if(!response) return 1;
-				if(!strlen(inputtext) || strval(inputtext) < 1) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_1, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
-				new i = GetPVarInt(playerid, "safe_select") -1;
-				new c = GetPlayerVirtualWorld(playerid);
-				new money = strval(inputtext);
-				if(GetPVarInt(playerid, "safe_idx") == 1) {
-					switch(i) {
+			if(!response) return 1;
+			if(!strlen(inputtext) || strval(inputtext) < 1) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_1, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
+			new i = GetPVarInt(playerid, "safe_select") -1;
+			new c = GetPlayerVirtualWorld(playerid);
+			new money = strval(inputtext);
+			if(GetPVarInt(playerid, "safe_idx") == 1) {
+				switch(i) {
 					case 0: {
-							if(money < 1 || money > 5) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 5 наркотиків\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carDrugs] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо наркотиків у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків в сейфі.");
-							PlayerTrailer[c][carDrugs] -= money;
-							CI[playerid][pDrugs] += money;
-							UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `drugs` = %i WHERE id = %i", PlayerTrailer[c][carDrugs], PlayerTrailer[c][carID]);
-							mysql_tquery(connects, query);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 5 наркотиків\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carDrugs] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо наркотиків у сейфі\n\n", "Взяти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків в сейфі.");
+						PlayerTrailer[c][carDrugs] -= money;
+						CI[playerid][pDrugs] += money;
+						UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `drugs` = %i WHERE id = %i", PlayerTrailer[c][carDrugs], PlayerTrailer[c][carID]);
+						mysql_tquery(connects, query);
 						}
 					case 1: {
-							if(money < 1 || money > 20) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 20 аптечок\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carHealth] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо аптечок у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні аптечок в сейфі.");
-							if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-							AddInactiveItem(playerid, 1, money);
-							PlayerTrailer[c][carHealth] -= money;
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `medkit` = %i WHERE id = %i", PlayerTrailer[c][carHealth], PlayerTrailer[c][carID]);
-							mysql_tquery(connects, query);
+						if(!(1 <= money <= 20)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 20 аптечок\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carHealth] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо аптечок у сейфі\n\n", "Взяти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні аптечок в сейфі.");
+						if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+						AddInactiveItem(playerid, 1, money);
+						PlayerTrailer[c][carHealth] -= money;
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `medkit` = %i WHERE id = %i", PlayerTrailer[c][carHealth], PlayerTrailer[c][carID]);
+						mysql_tquery(connects, query);
 						}
 					case 2: {
-							if(money < 1 || money > 1000000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(money > PlayerTrailer[c][carMoney]) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" У сейфі недостатньо коштів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#6)");
-							PlayerTrailer[c][carMoney] -= money;
-							GiveMoney(playerid, money, "взяв гроші з сейфу.");
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `safemoney` = %i WHERE id = %i", PlayerTrailer[c][carMoney], PlayerTrailer[c][carID]);
-							mysql_tquery(connects, query);
+						if(!(1 <= money <= 1000000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Взяти", "Скасувати");
+						if(money > PlayerTrailer[c][carMoney]) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" У сейфі недостатньо коштів\n\n", "Взяти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Відбулася помилка. (#6)");
+						PlayerTrailer[c][carMoney] -= money;
+						GiveMoney(playerid, money, "взяв гроші з сейфу.");
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `safemoney` = %i WHERE id = %i", PlayerTrailer[c][carMoney], PlayerTrailer[c][carID]);
+						mysql_tquery(connects, query);
 						}
 					case 3: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][0] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Sniper Rifle у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][0] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 34, money);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][0] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Sniper Rifle у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][0] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 34, money);
 						}
 					case 4: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][1] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Country Rifle у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][1] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 33, money);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][1] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Country Rifle у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][1] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 33, money);
 						}
 					case 5: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][2] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів M4 у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][2] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 31, money);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][2] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів M4 у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][2] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 31, money);
 						}
 					case 6: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][3] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів AK-47 у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][3] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 30, money);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][3] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів AK-47 у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][3] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 30, money);
 						}
 					case 7: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][4] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів MP5 у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][4] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 29, money);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][4] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів MP5 у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][4] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 29, money);
 						}
 					case 8: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][5] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Shotgun у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][5] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 25, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][5] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Shotgun у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][5] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 25, money);
 						}
 					case 9: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][6] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Desert Eagle у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][6] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 24, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][6] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Desert Eagle у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][6] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 24, money);
 						}
 					case 10: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][7] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів SD Pistol у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							PlayerTrailer[c][carGun][7] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 23, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(PlayerTrailer[c][carGun][7] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів SD Pistol у сейфі\n\n", "Взяти", "Скасувати");
+						PlayerTrailer[c][carGun][7] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 23, money);
 						}
 					case 11: {
-							if(PlayerTrailer[c][carGun][8] < 1) return SendError(playerid, "Недостатньо Baseball Bat у сейфі.");
-							PlayerTrailer[c][carGun][8] -= money;
-							save_trailer(c);
-							GivePlayerWeapon(playerid, 5, money);
+						if(PlayerTrailer[c][carGun][8] < 1) return SendError(playerid, "Недостатньо Baseball Bat у сейфі.");
+						PlayerTrailer[c][carGun][8] -= money;
+						save_trailer(c);
+						GivePlayerWeapon(playerid, 5, money);
 						}
-					}
-				} else if(GetPVarInt(playerid, "safe_idx") == 2) {
-					switch(i) {
-					case 0: {
-							if(money < 1 || money > 5) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 наркотіков\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(CI[playerid][pDrugs] < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо наркотіков\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carDrugs]+money > 1000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати в сейфі більше, ніж 1000г наркотиків\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків у сейфі.");
-							PlayerTrailer[c][carDrugs] += money;
-							CI[playerid][pDrugs] -= money;
-							UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `drugs` = %i WHERE id = %i", PlayerTrailer[c][carDrugs], PlayerTrailer[c][carID]);
-							mysql_tquery(connects, query);
-						}
-					case 1: {
-							if(money < 1 || money > 5) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 аптечок\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetInvent(playerid, 1) < money) return SendError(playerid, "У вас недостатньо аптечок.");
-							if(PlayerTrailer[c][carHealth]+money > 500) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 500 аптечок\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні аптечок у сейфі.");
-							PlayerTrailer[c][carHealth] += money;
-							DeleteItem(playerid, 1, money);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `medkit` = %i WHERE id = %i", PlayerTrailer[c][carHealth], PlayerTrailer[c][carID]);
-							mysql_tquery(connects, query);
-						}
-					case 2: {
-							if(money < 1 || money > 1000000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerMoneyEx(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо коштів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carMoney]+money > 10000000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати більше, ніж $10.000.000 у сейфі\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendClientMessage(playerid,COLOR_REDD, "Помилка #6");
-							PlayerTrailer[c][carMoney] += money;
-							GiveMoney(playerid, -money, "поклав(а) гроші в сейф");
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `safemoney` = %i WHERE id = %i", PlayerTrailer[c][carMoney], PlayerTrailer[c][carID]);
-							mysql_tquery(connects, query);
-						}
-					case 3: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 34 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][0]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 34, -money);
-							PlayerTrailer[c][carGun][0] += money;
-							save_trailer(c);
-						}
-					case 4: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 33 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][1]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 33, -money);
-							PlayerTrailer[c][carGun][1] += money;
-							save_trailer(c);
-						}
-					case 5: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 31 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][2]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 31, -money);
-							PlayerTrailer[c][carGun][2] += money;
-							save_trailer(c);
-						}
-					case 6: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 30 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][3]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 30, -money);
-							PlayerTrailer[c][carGun][3] += money;
-							save_trailer(c);
-						}
-					case 7: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 29 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][4]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "м", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 29, -money);
-							PlayerTrailer[c][carGun][4] += money;
-							save_trailer(c);
-						}
-					case 8: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 25 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][5]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 25, -money);
-							PlayerTrailer[c][carGun][5] += money;
-							save_trailer(c);
-						}
-					case 9: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 24 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][6]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 24, -money);
-							PlayerTrailer[c][carGun][6] += money;
-							save_trailer(c);
-						}
-					case 10: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 23 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(PlayerTrailer[c][carGun][7]+money > 5000) {
-								ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 23, -money);
-							PlayerTrailer[c][carGun][7] += money;
-							save_trailer(c);
-						}
-					case 11: {
-							if(GetPlayerWeapon(playerid) != 5 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вас немає Baseball Bat", "Закрити", "");
-							if(PlayerTrailer[c][carGun][8]+money > 1) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"у сейфі не можна зберігати більше, ніж одну биту", "Закрити", "");
-							GivePlayerWeapon(playerid, 5, -1);
-							PlayerTrailer[c][carGun][8] += 1;
-							save_trailer(c);
-						}
-					}
 				}
+			} else if(GetPVarInt(playerid, "safe_idx") == 2) {
+				switch(i) {
+					case 0: {
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 наркотіков\n\n", "Покласти", "Скасувати");
+						if(CI[playerid][pDrugs] < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо наркотіков\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carDrugs] + money > 1000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати в сейфі більше, ніж 1000г наркотиків\n\n", "Покласти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків у сейфі.");
+						PlayerTrailer[c][carDrugs] += money;
+						CI[playerid][pDrugs] -= money;
+						UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `drugs` = %i WHERE id = %i", PlayerTrailer[c][carDrugs], PlayerTrailer[c][carID]);
+						mysql_tquery(connects, query);
+						}
+					case 1: {
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 аптечок\n\n", "Покласти", "Скасувати");
+						if(GetInvent(playerid, 1) < money) return SendError(playerid, "У вас недостатньо аптечок.");
+						if(PlayerTrailer[c][carHealth] + money > 500) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть аптечок, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 500 аптечок\n\n", "Покласти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні аптечок у сейфі.");
+						PlayerTrailer[c][carHealth] += money;
+						DeleteItem(playerid, 1, money);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `medkit` = %i WHERE id = %i", PlayerTrailer[c][carHealth], PlayerTrailer[c][carID]);
+						mysql_tquery(connects, query);
+						}
+					case 2: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Покласти", "Скасувати");
+						if(GetPlayerMoneyEx(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо коштів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carMoney] + money > 10000000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати більше, ніж $10.000.000 у сейфі\n\n", "Покласти", "Скасувати");
+						if(mysql_errno()) return SendClientMessage(playerid,COLOR_REDD, "Помилка #6");
+						PlayerTrailer[c][carMoney] += money;
+						GiveMoney(playerid, -money, "поклав(а) гроші в сейф");
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `"TABLE_DNK"` SET `safemoney` = %i WHERE id = %i", PlayerTrailer[c][carMoney], PlayerTrailer[c][carID]);
+						mysql_tquery(connects, query);
+						}
+					case 3: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 34 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][0] + money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 34, -money);
+						PlayerTrailer[c][carGun][0] += money;
+						save_trailer(c);
+						}
+					case 4: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 33 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][1] + money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 33, -money);
+						PlayerTrailer[c][carGun][1] += money;
+						save_trailer(c);
+						}
+					case 5: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 31 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][2] + money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 31, -money);
+						PlayerTrailer[c][carGun][2] += money;
+						save_trailer(c);
+						}
+					case 6: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 30 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][3] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 30, -money);
+						PlayerTrailer[c][carGun][3] += money;
+						save_trailer(c);
+						}
+					case 7: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 29 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][4] + money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "м", "Скасувати");
+						GivePlayerWeapon(playerid, 29, -money);
+						PlayerTrailer[c][carGun][4] += money;
+						save_trailer(c);
+						}
+					case 8: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 25 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][5]+money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 25, -money);
+						PlayerTrailer[c][carGun][5] += money;
+						save_trailer(c);
+						}
+					case 9: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 24 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][6] + money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 24, -money);
+						PlayerTrailer[c][carGun][6] += money;
+						save_trailer(c);
+						}
+					case 10: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Покласти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 23 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Покласти", "Скасувати");
+						if(PlayerTrailer[c][carGun][7] + money > 5000) return ShowPlayerDialog(playerid, D_SAFE_TRAILER_2, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Покласти", "Скасувати");
+						GivePlayerWeapon(playerid, 23, -money);
+						PlayerTrailer[c][carGun][7] += money;
+						save_trailer(c);
+						}
+					case 11: {
+						if(GetPlayerWeapon(playerid) != 5 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вас немає Baseball Bat", "Закрити", "");
+						if(PlayerTrailer[c][carGun][8]+money > 1) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"у сейфі не можна зберігати більше, ніж одну биту", "Закрити", "");
+						GivePlayerWeapon(playerid, 5, -1);
+						PlayerTrailer[c][carGun][8] += 1;
+						save_trailer(c);
+						}
+				}
+			}
 			}
 		case dSafePutMoney: {
-				if(!response) return 1;
-				if(!strlen(inputtext) || strval(inputtext) < 1) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
-				new i = GetPVarInt(playerid, "safe_select") -1;
-				new houseid = TI[playerid][tSelectHouse];
-				new money = strval(inputtext);
-				if(GetPVarInt(playerid, "safe_idx") == 1) {
-					switch(i) {
+			if(!response) return 1;
+			if(!strlen(inputtext) || strval(inputtext) < 1) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Введіть кількість:\n\n", "Ввести", "Скасувати");
+			new i = GetPVarInt(playerid, "safe_select") -1;
+			new houseid = TI[playerid][tSelectHouse];
+			new money = strval(inputtext);
+			if(GetPVarInt(playerid, "safe_idx") == 1) {
+				switch(i) {
 					case 0: {
-							if(money < 1 || money > 5) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 5 наркотиків\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseDrugs] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" недостатньо наркотиків у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків у сейфі.");
-							if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-							gHouses[houseid][houseDrugs] -= money;
-							CI[playerid][pDrugs] += money;
-							UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `drugs` = %i WHERE id = %i", gHouses[houseid][houseDrugs],houseid+ 1);
-							mysql_tquery(connects, query);
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 5 наркотиків\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseDrugs] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во наркотиків, яку ви хочете взяти з сейфу:\n\n"NO"*"G" недостатньо наркотиків у сейфі\n\n", "Взяти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при збереженні наркотиків у сейфі.");
+						if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+						gHouses[houseid][houseDrugs] -= money;
+						CI[playerid][pDrugs] += money;
+						UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `drugs` = %i WHERE id = %i", gHouses[houseid][houseDrugs],houseid+ 1);
+						mysql_tquery(connects, query);
 						}
 					case 1: {
-							if(money < 1 || money > 20) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 20 аптечек\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseHealth] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете взяти з сейфу:\n\n"NO"*"G" недостатньо аптечек у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении аптечек у сейфі.");
-							if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-							gHouses[houseid][houseHealth] -= money;
-							AddInactiveItem(playerid, 1, money);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `medkit` = %i WHERE id = %i", gHouses[houseid][houseHealth],houseid+ 1);
-							mysql_tquery(connects, query);
-						}
+						if(!(1 <= money <= 20)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 20 аптечек\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseHealth] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете взяти з сейфу:\n\n"NO"*"G" недостатньо аптечек у сейфі\n\n", "Взяти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении аптечек у сейфі.");
+						if(GetInactiveItemAmount(playerid, 0) <= 0) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
+						gHouses[houseid][houseHealth] -= money;
+						AddInactiveItem(playerid, 1, money);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `medkit` = %i WHERE id = %i", gHouses[houseid][houseHealth],houseid+ 1);
+						mysql_tquery(connects, query);
+					}
 					case 2: {
-							if(money < 1 || money > 1000000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(money > gHouses[houseid][houseSafeMoney]) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" у сейфі Недостатньо коштів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							//if(gHouses[houseid][houseSafeMoney]+money > 5000000) return SendError(playerid, "не можна хранить более $5.000.000");
-							if(mysql_errno()) return SendClientMessage(playerid,COLOR_REDD, "Помилка #6");
-							gHouses[houseid][houseSafeMoney] -= money;
-							GiveMoney(playerid, money, "взяв гроші з сейфа");
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `safemoney` = %i WHERE id = %i", gHouses[houseid][houseSafeMoney],houseid+ 1);
-							mysql_tquery(connects, query);
+						if(!(1 <= money <= 1000000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Взяти", "Скасувати");
+						if(money > gHouses[houseid][houseSafeMoney]) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете взяти з сейфу:\n\n"NO"*"G" у сейфі Недостатньо коштів\n\n", "Взяти", "Скасувати");
+						//if(gHouses[houseid][houseSafeMoney]+money > 5000000) return SendError(playerid, "не можна хранить более $5.000.000");
+						if(mysql_errno()) return SendClientMessage(playerid,COLOR_REDD, "Помилка #6");
+						gHouses[houseid][houseSafeMoney] -= money;
+						GiveMoney(playerid, money, "взяв гроші з сейфа");
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `safemoney` = %i WHERE id = %i", gHouses[houseid][houseSafeMoney],houseid+ 1);
+						mysql_tquery(connects, query);
 						}
 					case 3: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][0] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Sniper Rifle у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][0] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 34, money);
-
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][0] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Sniper Rifle у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][0] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 34, money);
 						}
 					case 4: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][1] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Country Rifle у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][1] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 33, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][1] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Country Rifle у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][1] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 33, money);
 						}
 					case 5: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][2] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів M4 у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][2] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 31, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][2] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів M4 у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][2] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 31, money);
 						}
 					case 6: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][3] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів AK-47 у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][3] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 30, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][3] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів AK-47 у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][3] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 30, money);
 						}
 					case 7: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][4] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів MP5 у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][4] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 29, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][4] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів MP5 у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][4] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 29, money);
 						}
 
 					case 8: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][5] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Shotgun у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][5] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 25, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][5] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Shotgun у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][5] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 25, money);
 						}
 
 					case 9: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][6] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Desert Eagle у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][6] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 24, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][6] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів Desert Eagle у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][6] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 24, money);
 						}
 					case 10: {
-							if(money < 1 || money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][7] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів SD Pistol у сейфі\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							gHouses[houseid][houseGun][7] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 23, money);
+						if(!(1 <= money <= 500)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Від 1 до 500 патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][7] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете взяти з сейфу:\n\n"NO"*"G" Недостатньо патронівів SD Pistol у сейфі\n\n", "Взяти", "Скасувати");
+						gHouses[houseid][houseGun][7] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 23, money);
 						}
 
 					case 11: {
-							if(gHouses[houseid][houseGun][8] < 1) return SendError(playerid, "Недостатньо Baseball Bat у сейфі.");
-							gHouses[houseid][houseGun][8] -= money;
-							SaveHouseGun(houseid);
-							GivePlayerWeapon(playerid, 5, money);
+						if(gHouses[houseid][houseGun][8] < 1) return SendError(playerid, "Недостатньо Baseball Bat у сейфі.");
+						gHouses[houseid][houseGun][8] -= money;
+						SaveHouseGun(houseid);
+						GivePlayerWeapon(playerid, 5, money);
 						}
-					}
-				} else if(GetPVarInt(playerid, "safe_idx") == 2) {
-					switch(i) {
-					case 0: {
-							if(money < 1 || money > 5) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 наркотиків\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(CI[playerid][pDrugs] < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" недостатньо наркотиків\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseDrugs]+money > 1000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" не можна хранить у сейфі более 1000г наркотиків\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении наркотиків у сейфі.");
-							gHouses[houseid][houseDrugs] += money;
-							CI[playerid][pDrugs] -= money;
-							UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `drugs` = %i WHERE id = %i", gHouses[houseid][houseDrugs],houseid+ 1);
-							mysql_tquery(connects, query);
-						}
-					case 1: {
-							if(money < 1 || money > 5) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 аптечек\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetInvent(playerid, 1) < money) return SendError(playerid, "У вас недостатньо аптечок.");
-							if(gHouses[houseid][houseHealth]+money > 500) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете покласти в сейф:\n\n"NO"*"G" не можна хранить у сейфі более 500 аптечек\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении аптечек у сейфі.");
-							gHouses[houseid][houseHealth] += money;
-							DeleteItem(playerid, 1, money);
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `medkit` = %i WHERE id = %i", gHouses[houseid][houseHealth],houseid+ 1);
-							mysql_tquery(connects, query);
-						}
-					case 2: {
-							if(money < 1 || money > 1000000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerMoneyEx(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо коштів\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseSafeMoney]+money > 10000000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" не можна хранить у сейфі более $10.000.000\n\n", "Покласти", "Скасувати");
-								return 1;
-							}
-							if(mysql_errno()) return SendError(playerid, "Помилка #6");
-							gHouses[houseid][houseSafeMoney] += money;
-							GiveMoney(playerid, -money, "Положив гроші в сейф");
-							new query[128];
-							mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `safemoney` = %i WHERE id = %i", gHouses[houseid][houseSafeMoney],houseid+ 1);
-							mysql_tquery(connects, query);
-						}
-					case 3: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 34 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][0]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 34, -money);
-							gHouses[houseid][houseGun][0] += money;
-							SaveHouseGun(houseid);
-						}
-					case 4: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 33 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][1]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 33, -money);
-							gHouses[houseid][houseGun][1] += money;
-							SaveHouseGun(houseid);
-						}
-					case 5: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 31 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][2]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 31, -money);
-							gHouses[houseid][houseGun][2] += money;
-							SaveHouseGun(houseid);
-						}
-					case 6: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 30 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][3]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 30, -money);
-							gHouses[houseid][houseGun][3] += money;
-							SaveHouseGun(houseid);
-						}
-					case 7: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 29 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][4]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 29, -money);
-							gHouses[houseid][houseGun][4] += money;
-							SaveHouseGun(houseid);
-						}
-					case 8: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 25 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][5]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 25, -money);
-							gHouses[houseid][houseGun][5] += money;
-							SaveHouseGun(houseid);
-						}
-					case 9: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 24 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][6]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 24, -money);
-							gHouses[houseid][houseGun][6] += money;
-							SaveHouseGun(houseid);
-						}
-					case 10: {
-							if(money < 1 || money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(GetPlayerWeapon(playerid) != 23 || GetPlayerAmmo(playerid) < money) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							if(gHouses[houseid][houseGun][7]+money > 5000) {
-								ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
-								return 1;
-							}
-							GivePlayerWeapon(playerid, 23, -money);
-							gHouses[houseid][houseGun][7] += money;
-							SaveHouseGun(houseid);
-						}
-					case 11: {
-							if(GetPlayerWeapon(playerid) != 5 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вас немає Baseball Bat", "Закрити", "");
-							if(gHouses[houseid][houseGun][7]+money > 1) return  ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У сейфі можна зберігати більше, ніж однієї бити", "Закрити", "");
-							GivePlayerWeapon(playerid, 5, -1);
-							gHouses[houseid][houseGun][8] += 1;
-							SaveHouseGun(houseid);
-						}
-					}
 				}
+			} else if(GetPVarInt(playerid, "safe_idx") == 2) {
+				switch(i) {
+					case 0: {
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 наркотиків\n\n", "Покласти", "Скасувати");
+						if(CI[playerid][pDrugs] < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" недостатньо наркотиків\n\n", "Покласти", "Скасувати");
+						if(gHouses[houseid][houseDrugs]+money > 1000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть наркотиків, яку ви хочете покласти в сейф:\n\n"NO"*"G" не можна хранить у сейфі более 1000г наркотиків\n\n", "Покласти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении наркотиків у сейфі.");
+						gHouses[houseid][houseDrugs] += money;
+						CI[playerid][pDrugs] -= money;
+						UpdateCharacterData(playerid, "pDrugs", CI[playerid][pDrugs]);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `drugs` = %i WHERE id = %i", gHouses[houseid][houseDrugs],houseid+ 1);
+						mysql_tquery(connects, query);
+						}
+					case 1: {
+						if(!(1 <= money <= 5)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5 аптечек\n\n", "Покласти", "Скасувати");
+						if(GetInvent(playerid, 1) < money) return SendError(playerid, "У вас недостатньо аптечок.");
+						if(gHouses[houseid][houseHealth]+money > 500) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Укажите к-во аптечек, яку ви хочете покласти в сейф:\n\n"NO"*"G" не можна хранить у сейфі более 500 аптечек\n\n", "Покласти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка MySQL при сохранении аптечек у сейфі.");
+						gHouses[houseid][houseHealth] += money;
+						DeleteItem(playerid, 1, money);
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `medkit` = %i WHERE id = %i", gHouses[houseid][houseHealth],houseid+ 1);
+						mysql_tquery(connects, query);
+						}
+					case 2: {
+						if(!(1 <= money <= 1000000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Сума повинна бути від $1 до $1.000.000\n\n", "Покласти", "Скасувати");
+						if(GetPlayerMoneyEx(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо коштів\n\n", "Покласти", "Скасувати");
+						if(gHouses[houseid][houseSafeMoney]+money > 10000000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть суму, яку ви хочете покласти в сейф:\n\n"NO"*"G" не можна хранить у сейфі более $10.000.000\n\n", "Покласти", "Скасувати");
+						if(mysql_errno()) return SendError(playerid, "Помилка #6");
+						gHouses[houseid][houseSafeMoney] += money;
+						GiveMoney(playerid, -money, "Положив гроші в сейф");
+						new query[128];
+						mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `safemoney` = %i WHERE id = %i", gHouses[houseid][houseSafeMoney],houseid+ 1);
+						mysql_tquery(connects, query);
+						}
+					case 3: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 34 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][0] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Sniper Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 34, -money);
+						gHouses[houseid][houseGun][0] += money;
+						SaveHouseGun(houseid);
+						}
+					case 4: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 33 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][1] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Country Rifle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 33, -money);
+						gHouses[houseid][houseGun][1] += money;
+						SaveHouseGun(houseid);
+						}
+					case 5: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 31 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][2] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів M4, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 31, -money);
+						gHouses[houseid][houseGun][2] += money;
+						SaveHouseGun(houseid);
+						}
+					case 6: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 30 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][3] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів AK-47, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 30, -money);
+						gHouses[houseid][houseGun][3] += money;
+						SaveHouseGun(houseid);
+						}
+					case 7: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 29 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][4] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів MP5, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 29, -money);
+						gHouses[houseid][houseGun][4] += money;
+						SaveHouseGun(houseid);
+						}
+					case 8: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 25 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][5] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Shotgun, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 25, -money);
+						gHouses[houseid][houseGun][5] += money;
+						SaveHouseGun(houseid);
+						}
+					case 9: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 24 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][6] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів Desert Eagle, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 24, -money);
+						gHouses[houseid][houseGun][6] += money;
+						SaveHouseGun(houseid);
+						}
+					case 10: {
+						if(!(1 <= money <= 5000)) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Від 1 до 5000 патронівів\n\n", "Взяти", "Скасувати");
+						if(GetPlayerWeapon(playerid) != 23 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Недостатньо патронівів\n\n", "Взяти", "Скасувати");
+						if(gHouses[houseid][houseGun][7] + money > 5000) return ShowPlayerDialog(playerid, dSafePutMoney, DSI, P"Сейф.", "\n\n"W"Вкажіть к-сть патронівів SD Pistol, яку ви хочете покласти в сейф:\n\n"NO"*"G" Не можна зберігати у сейфі більше, ніж 5000 патронівів\n\n", "Взяти", "Скасувати");
+						GivePlayerWeapon(playerid, 23, -money);
+						gHouses[houseid][houseGun][7] += money;
+						SaveHouseGun(houseid);
+						}
+					case 11: {
+						if(GetPlayerWeapon(playerid) != 5 || GetPlayerAmmo(playerid) < money) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У вас немає Baseball Bat", "Закрити", "");
+						if(gHouses[houseid][houseGun][7] + money > 1) return  ShowPlayerDialog(playerid, DIALOG_NONE, DSM, " ", W"У сейфі можна зберігати більше, ніж однієї бити", "Закрити", "");
+						GivePlayerWeapon(playerid, 5, -1);
+						gHouses[houseid][houseGun][8] += 1;
+						SaveHouseGun(houseid);
+						}
+				}
+			}
 			}
 		case dArendator: {
-				if(!response) return pc_cmd_house(playerid);
-				new house = CI[playerid][pHouse] -1;
-				if(!strcmp(gHouseArendator[house][listitem], "None")) {
-					ShowPlayerDialog(playerid,dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n", "Ввести", "Закрити");
-				} else ShowPlayerDialog(playerid,dZhitelSettings, DSL, P"Жители.", "Виселити жителя", "Обрати", "Закрити");
-				SetPVarInt(playerid, "arenda_listitem", listitem+ 1);
-				return 1;
+			if(!response) return pc_cmd_house(playerid);
+			new house = CI[playerid][pHouse] -1;
+			if(!strcmp(gHouseArendator[house][listitem], "None")) {
+				ShowPlayerDialog(playerid,dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n", "Ввести", "Закрити");
+			} else ShowPlayerDialog(playerid,dZhitelSettings, DSL, P"Жители.", "Виселити жителя", "Обрати", "Закрити");
+			SetPVarInt(playerid, "arenda_listitem", listitem+ 1);
+			return 1;
 			}
 		case dZhitelSettings: {
-				if(!response) return 1;
-				new house = CI[playerid][pHouse] -1;
-				new id_rent = GetPVarInt(playerid, "arenda_listitem") -1;
-				new string[128];
-				format(string, sizeof(string), "Ви виселили жителя з кімнати "P"#%i"W".", id_rent+ 1);
-				SendOK(playerid, string);
-				new bool:check_online = false;
-				foreach(new i:Player) {
-					if(!TI[i][tLogin]) continue;
-					if(!strcmp(gHouseArendator[house][id_rent], CI[i][cName])) {
-						CI[i][pTempKey] = 0;
-						UpdateCharacterData(i, "tempkey", 0);
-						SendOK(i, "Власник виселив вас з будинку.");
-						check_online = true;
-						if(house_car[i][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[i][0]),house_car[i][0] = INVALID_VEHICLE_ID;
-						if(house_car[i][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[i][1]),house_car[i][1] = INVALID_VEHICLE_ID;
-						break;
-					}
+			if(!response) return 1;
+			new house = CI[playerid][pHouse] -1;
+			new id_rent = GetPVarInt(playerid, "arenda_listitem") -1;
+			new string[128];
+			format(string, sizeof(string), "Ви виселили жителя з кімнати "P"#%i"W".", id_rent+ 1);
+			SendOK(playerid, string);
+			new bool:check_online = false;
+			foreach(new i:Player) {
+				if(!TI[i][tLogin]) continue;
+				if(!strcmp(gHouseArendator[house][id_rent], CI[i][cName])) {
+					CI[i][pTempKey] = 0;
+					UpdateCharacterData(i, "tempkey", 0);
+					SendOK(i, "Власник виселив вас з будинку.");
+					check_online = true;
+					if(house_car[i][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[i][0]),house_car[i][0] = INVALID_VEHICLE_ID;
+					if(house_car[i][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[i][1]),house_car[i][1] = INVALID_VEHICLE_ID;
+					break;
 				}
-				if(!check_online) {
-					new query[128];
-					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `tempkey` = '0' WHERE `Name` = '%s' LIMIT 1", gHouseArendator[house][id_rent]);
-					mysql_tquery(connects, query, "", "");
-				}
-				strmid(gHouseArendator[house][id_rent], "None", 0,strlen("None"), MAX_PLAYER_NAME);
-				SaveHome(house);
-				return 1;
+			}
+			if(!check_online) {
+				new query[128];
+				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `tempkey` = '0' WHERE `Name` = '%s' LIMIT 1", gHouseArendator[house][id_rent]);
+				mysql_tquery(connects, query, "", "");
+			}
+			strmid(gHouseArendator[house][id_rent], "None", 0, strlen("None"), MAX_PLAYER_NAME);
+			SaveHome(house);
+			return 1;
 			}
 		case dArendatorAction: {
-				if(!response) return 1;
-				new house = CI[playerid][pHouse] -1;
-				new id_rent = GetPVarInt(playerid, "arenda_listitem") -1;
-				if(!HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Відбулася помилка при спробі ввести ID. Спробуйте ще раз\n\n", "Ввести", "Закрити");
-				if(!IsPlayerConnected(strval(inputtext)) && !TI[strval(inputtext)][tLogin]) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Цей гравець не авторизованийий на сервері\n\n", "Ввести", "Закрити");
-				if(!ProxDetectorS(5.0, playerid, strval(inputtext))) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Гравець далеко від вас\n\n", "Ввести", "Закрити");
-				if(CI[strval(inputtext)][pTempKey] || CI[strval(inputtext)][pHouse] || CI[strval(inputtext)][pRoom]) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Гравець вже має будинок/квартиру або ж підселений в одному з будинків\n\n", "Ввести", "Закрити");
+			if(!response) return 1;
+			new house = CI[playerid][pHouse] -1;
+			new id_rent = GetPVarInt(playerid, "arenda_listitem") -1;
+			if(!HasNumbersOnly(inputtext)) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Відбулася помилка при спробі ввести ID. Спробуйте ще раз\n\n", "Ввести", "Закрити");
+			if(!IsPlayerConnected(strval(inputtext)) && !TI[strval(inputtext)][tLogin]) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Цей гравець не авторизованийий на сервері\n\n", "Ввести", "Закрити");
+			if(!ProxDetectorS(5.0, playerid, strval(inputtext))) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Гравець далеко від вас\n\n", "Ввести", "Закрити");
+			if(CI[strval(inputtext)][pTempKey] || CI[strval(inputtext)][pHouse] || CI[strval(inputtext)][pRoom]) return ShowPlayerDialog(playerid, dArendatorAction, DSI, P"Жителі.", "\n\n"W"Введіть ID гравця, якогови хочете підселити в будинок:\n\n"NO"*"G" Гравець вже має будинок/квартиру або ж підселений в одному з будинків\n\n", "Ввести", "Закрити");
 
-				CI[strval(inputtext)][pTempKey] = house+ 1;
-				UpdateCharacterData(strval(inputtext), "tempkey", CI[strval(inputtext)][pTempKey]);
-				CI[strval(inputtext)][pSpawn] = 1;
-				UpdateCharacterData(strval(inputtext), "spawn", CI[strval(inputtext)][pSpawn]);
-				SendOK(strval(inputtext), "Вас підселили в будинок. Щоб керувати будинком, введіть "P"/house"W".");
-				SetString(gHouseArendator[house][id_rent], CI[strval(inputtext)][cName]);
-				new string[144];
-				format(string, sizeof(string), "Ви додали нового жителя "P"(%s)"W" в кімнату "P"#%i.", gHouseArendator[house][id_rent],id_rent+ 1);
-				SendOK(playerid, string);
-				new query[128];
-				mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `people1` = '%s',`people2` = '%s' WHERE `id` = %i", gHouseArendator[house][0], gHouseArendator[house][1], house+ 1);
-				mysql_tquery(connects, query, "", "");
-				//SaveHome(house);
-				return 1;
+			CI[strval(inputtext)][pTempKey] = house+ 1;
+			UpdateCharacterData(strval(inputtext), "tempkey", CI[strval(inputtext)][pTempKey]);
+			CI[strval(inputtext)][pSpawn] = 1;
+			UpdateCharacterData(strval(inputtext), "spawn", CI[strval(inputtext)][pSpawn]);
+			SendOK(strval(inputtext), "Вас підселили в будинок. Щоб керувати будинком, введіть "P"/house"W".");
+			SetString(gHouseArendator[house][id_rent], CI[strval(inputtext)][cName]);
+			new string[144];
+			format(string, sizeof(string), "Ви додали нового жителя "P"(%s)"W" в кімнату "P"#%i.", gHouseArendator[house][id_rent],id_rent+ 1);
+			SendOK(playerid, string);
+			new query[128];
+			mysql_format(connects, query, sizeof(query), "UPDATE `houses` SET `people1` = '%s',`people2` = '%s' WHERE `id` = %i", gHouseArendator[house][0], gHouseArendator[house][1], house+ 1);
+			mysql_tquery(connects, query, "", "");
+			//SaveHome(house);
+			return 1;
 			}
 		case dRentMenu: {
-				if(!response) return 1;
-				switch(listitem) {
+			if(!response) return 1;
+			switch(listitem) {
 				case 0: {
-						new tempkey = CI[playerid][pTempKey]-1;
-						for(new i; i < 3; i++) {
-							if(!strcmp(gHouseArendator[tempkey][i], CI[playerid][cName])) {
-								strmid(gHouseArendator[tempkey][i], "None", 0,strlen("None"), MAX_PLAYER_NAME);
-								break;
-							}
+					new tempkey = CI[playerid][pTempKey]-1;
+					for(new i; i < 3; i++) {
+						if(!strcmp(gHouseArendator[tempkey][i], CI[playerid][cName])) {
+							strmid(gHouseArendator[tempkey][i], "None", 0,strlen("None"), MAX_PLAYER_NAME);
+							break;
 						}
-						SendOK(playerid, "Ви виселилися з будинку.");
-						CI[playerid][pTempKey] = 0;
-						UpdateCharacterData(playerid, "tempkey", 0);
-						if(house_car[playerid][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][0]);
-						if(house_car[playerid][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][1]);
-						SaveHome(tempkey);
+					}
+					SendOK(playerid, "Ви виселилися з будинку.");
+					CI[playerid][pTempKey] = 0;
+					UpdateCharacterData(playerid, "tempkey", 0);
+					if(house_car[playerid][0] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][0]);
+					if(house_car[playerid][1] != INVALID_VEHICLE_ID) A_DestroyVehicle(house_car[playerid][1]);
+					SaveHome(tempkey);
 					}
 				case 1: pc_cmd_fixcar(playerid);
-				}
-				return 1;
+			}
+			return 1;
 			}
 		case D_FAMILY_CREATE: {
-				if(!response) return 1;
-				if(CI[playerid][pFamily] > 0) return SendError(playerid, "Ви вже є членом сім'ї.");
-				if(!strlen(inputtext) || strlen(inputtext) < 6 || strlen(inputtext) > 30) {
-					ShowPlayerDialog(playerid, D_FAMILY_CREATE, DSI, P"Створення сім'ї", "\n\n"W"Назва сім'ї повинна бути від 6 до 30 символів.\n\nВартість створення сім'ї - "GREEN"2.000.000$\n\n"W"Введіть нижче назву сім'ї:", "Створити", "Скасувати");
-					return 1;
-				}
-				if(isnull(inputtext)) {
-					ShowPlayerDialog(playerid, D_FAMILY_CREATE, DSI, P"Створення сім'ї", "\n\n"W"Назва сім'ї повинна бути від 6 до 30 символів.\n\nВартість створення сім'ї - "GREEN"2.000.000$\n\n"W"Введіть нижче назву сім'ї:", "Створити", "Скасувати");
-					return 1;
-				}
-				if(CI[playerid][pCash] < 2000000) return SendError(playerid, "У вас недостатньо грошей.");
-				create_family(playerid, inputtext);
-				GiveMoney(playerid, -2000000, "створення сім'ї");
+			if(!response) return 1;
+			if(CI[playerid][pFamily] > 0) return SendError(playerid, "Ви вже є членом сім'ї.");
+			if(!strlen(inputtext) || strlen(inputtext) < 6 || strlen(inputtext) > 30) {
+				ShowPlayerDialog(playerid, D_FAMILY_CREATE, DSI, P"Створення сім'ї", "\n\n"W"Назва сім'ї повинна бути від 6 до 30 символів.\n\nВартість створення сім'ї - "GREEN"2.000.000$\n\n"W"Введіть нижче назву сім'ї:", "Створити", "Скасувати");
+				return 1;
+			}
+			if(isnull(inputtext)) {
+				ShowPlayerDialog(playerid, D_FAMILY_CREATE, DSI, P"Створення сім'ї", "\n\n"W"Назва сім'ї повинна бути від 6 до 30 символів.\n\nВартість створення сім'ї - "GREEN"2.000.000$\n\n"W"Введіть нижче назву сім'ї:", "Створити", "Скасувати");
+				return 1;
+			}
+			if(CI[playerid][pCash] < 2000000) return SendError(playerid, "У вас недостатньо грошей.");
+			create_family(playerid, inputtext);
+			GiveMoney(playerid, -2000000, "створення сім'ї");
 			}
 		case D_FAMILY: {
-				if(!response) return 1;
-				new fam = CI[playerid][pFamily]-1;
-				new nationality_string[28], str_s[500];
-				switch(listitem) {
+			if(!response) return 1;
+			new fam = CI[playerid][pFamily]-1;
+			new nationality_string[28], str_s[500];
+			switch(listitem) {
 				case 0: {
-						switch (gFamily [fam] [famNation]) {
+					switch (gFamily [fam] [famNation]) {
 						case 1:nationality_string = "Американці";
 						case 2:nationality_string = "Японці";
 						case 3:nationality_string = "Італьянці";
@@ -24049,156 +23723,155 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						case 8:nationality_string = "Португальці";
 						case 9:nationality_string = "Французи";
 						default:nationality_string = "Невідомо";
-						}
+					}
 
-						new str[24];
-						if(gFamily[fam][famHouse] && gHouses[gFamily[fam][famHouse]-1][houseFamily] == gFamily[fam][famHouse]) format(str, sizeof(str), "Будинок #%i", gHouses[gFamily[fam][famHouse]-1][houseFamily]);
-						else str = "Відсутній";
+					new str[24];
+					if(gFamily[fam][famHouse] && gHouses[gFamily[fam][famHouse]-1][houseFamily] == gFamily[fam][famHouse]) format(str, sizeof(str), "Будинок #%i", gHouses[gFamily[fam][famHouse]-1][houseFamily]);
+					else str = "Відсутній";
 
-						format(str_s, sizeof(str_s), W"Назва сім'ї:"P" %s\n\
-									"W"Засновник:"P" %s\n\
-									"W"Національність:"P" %s\n\
-									"W"Галочка:"P" %s\n\
-									"W"Дата заснування:"P" %s\n\n\
-									"W"Слоган сім'ї:"P" %s\n\n\
-									"W"Чисельність:"P" %i / 250\n\
-									"W"Рейтинг сім'ї:"P" %i\n\
-									"W"Сімейних талонів:"P" %i\n\
-									"W"Місце проживання:"P" %s", gFamily[fam][famName], gFamily[fam][famOwner],
-						nationality_string,(gFamily[fam][famType] == 0)?("Немає"):("Є"), gFamily[fam][famDate],
-						gFamily[fam][famMessage],fam_members(fam+ 1), gFamily[fam][famPoint], gFamily[fam][famTalon], str);
-						return ShowPlayerDialog(playerid, D_FAMILY_INFO, DSM, P"Інформація",str_s, "Назад", "");
+					format(str_s, sizeof(str_s), W"Назва сім'ї:"P" %s\n\
+								"W"Засновник:"P" %s\n\
+								"W"Національність:"P" %s\n\
+								"W"Галочка:"P" %s\n\
+								"W"Дата заснування:"P" %s\n\n\
+								"W"Слоган сім'ї:"P" %s\n\n\
+								"W"Чисельність:"P" %i / 250\n\
+								"W"Рейтинг сім'ї:"P" %i\n\
+								"W"Сімейних талонів:"P" %i\n\
+								"W"Місце проживання:"P" %s", gFamily[fam][famName], gFamily[fam][famOwner],
+					nationality_string,(gFamily[fam][famType] == 0)?("Немає"):("Є"), gFamily[fam][famDate],
+					gFamily[fam][famMessage],fam_members(fam+ 1), gFamily[fam][famPoint], gFamily[fam][famTalon], str);
+					return ShowPlayerDialog(playerid, D_FAMILY_INFO, DSM, P"Інформація",str_s, "Назад", "");
 					}
 				case 1: {
-						new string[700], str[700];
-						strcat(str, W"Ім'я:\t"W"Рівень:\t"W"Ранг\n");
-						strcat(string, str);
-						foreach(new i:Player) {
-							if(!TI[i][tLogin]) continue;
-							if(CI[playerid][pFamily] == CI[i][pFamily]) {
-								format(str, sizeof(str), P"%i."W" %s\t%i\t%s\n",i, CI[i][cName], CI[i][pLevel], GetFamName(CI[playerid][pFamily]-1, CI[i][pFamRank]));
-								strcat(string, str);
-							}
+					new string[700], str[700];
+					strcat(str, W"Ім'я:\t"W"Рівень:\t"W"Ранг\n");
+					strcat(string, str);
+					foreach(new i:Player) {
+						if(!TI[i][tLogin]) continue;
+						if(CI[playerid][pFamily] == CI[i][pFamily]) {
+							format(str, sizeof(str), P"%i."W" %s\t%i\t%s\n",i, CI[i][cName], CI[i][pLevel], GetFamName(CI[playerid][pFamily]-1, CI[i][pFamRank]));
+							strcat(string, str);
 						}
-						return ShowPlayerDialog(playerid, D_FAMILY_INFO, DSTH, P"Сім'я online", string, "Назад", "");
+					}
+					return ShowPlayerDialog(playerid, D_FAMILY_INFO, DSTH, P"Сім'я online", string, "Назад", "");
 					}
 				case 2: {
-						PageFirst[playerid][0] = 0;
-						PageFirst[playerid][1] = 20;
-						new query[200];
-						mysql_format(connects, query, sizeof(query), "SELECT `family`,`pOnline`,`pFamRank`,`Name` FROM "TABLE_CHARACTERS" WHERE `family` = %i AND `online_status` = '1001' LIMIT %i, %i", CI[playerid][pFamily], PageFirst[playerid][0],PageFirst[playerid][1]);
-						mysql_pquery(connects, query, "family_offline", "i", playerid);
+					PageFirst[playerid][0] = 0;
+					PageFirst[playerid][1] = 20;
+					new query[200];
+					mysql_format(connects, query, sizeof(query), "SELECT `family`,`pOnline`,`pFamRank`,`Name` FROM "TABLE_CHARACTERS" WHERE `family` = %i AND `online_status` = '1001' LIMIT %i, %i", CI[playerid][pFamily], PageFirst[playerid][0],PageFirst[playerid][1]);
+					mysql_pquery(connects, query, "family_offline", "i", playerid);
 					}
 				case 3: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
-						family_setting(playerid);
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
+					family_setting(playerid);
 					}
 				case 4: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
-						ShowPlayerDialog(playerid, D_FAMILY_TRANSFER, DSI, P"Передача прав сім'ї", W"Введіть нижче ID гравця, якомуви хочете передати права власності сім'єю\n\
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
+					ShowPlayerDialog(playerid, D_FAMILY_TRANSFER, DSI, P"Передача прав сім'ї", W"Введіть нижче ID гравця, якомуви хочете передати права власності сім'єю\n\
 						Після передачі правви більше не зможете керувати сім'єю", "Далі", "Закрити");
 					}
 				case 5: {
-						new string[750];
-						format(string, sizeof(string), W"Покращення\t"W"Вартість\t"W"Статус\n\
+					new string[750];
+					format(string, sizeof(string), W"Покращення\t"W"Вартість\t"W"Статус\n\
 						"P"1."W" Галочка\t1000\t%s\n"P"2."W" місце проживання\t1500\t%s\n"P"3."W" 2-й слот под автомобіль\t2500\t%s\n"P"4."W" 3-й слот под автомобіль\t3200\t%s\n"P"5."W" 4-й слот под автомобіль\t4500\t%s\n"P"6."W" 5-й слот под автомобіль\t5000\t%s\n"G"Інформація про отримання талонів",(gFamily[fam][famType] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),
-						(gFamily[fam][famUlushHouse] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"), (gFamily[fam][famUlushCar][1] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),(gFamily[fam][famUlushCar][2] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),(gFamily[fam][famUlushCar][3] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),
-						(gFamily[fam][famUlushCar][4] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"));
-						ShowPlayerDialog(playerid, D_FAMILY_UPGRADE, DSTH, P"Покращення сім'ї", string, "Обрати", "Назад");
+					(gFamily[fam][famUlushHouse] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"), (gFamily[fam][famUlushCar][1] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),(gFamily[fam][famUlushCar][2] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),(gFamily[fam][famUlushCar][3] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"),
+					(gFamily[fam][famUlushCar][4] == 1) ? (""ORANGE"Придбано") : (""NO"Не придбано"));
+					ShowPlayerDialog(playerid, D_FAMILY_UPGRADE, DSTH, P"Покращення сім'ї", string, "Обрати", "Назад");
 					}
 				case 6: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
-						ShowPlayerDialog(playerid, D_FAMILY_RASFORM, DSM, P"Розформування складу", W"\nВи справді хочете розформувати свою сім'ю?\n\n* Відновити учасників сім'ї буде {BC2C2C}неможливо", "Далі", "Назад");
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
+					ShowPlayerDialog(playerid, D_FAMILY_RASFORM, DSM, P"Розформування складу", W"\nВи справді хочете розформувати свою сім'ю?\n\n* Відновити учасників сім'ї буде {BC2C2C}неможливо", "Далі", "Назад");
 					}
 				case 7: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
-						ShowPlayerDialog(playerid, D_FAMILY_BL, DSL, P"Чорний список", P"1."W" Занести в ЧС\n"P"2."W" Викреслити з ЧС\n"P"3."W" Очистити повний список ЧС\n"P"4."W" Список занесених в ЧС", "Обрати", "Закрити");
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
+					ShowPlayerDialog(playerid, D_FAMILY_BL, DSL, P"Чорний список", P"1."W" Занести в ЧС\n"P"2."W" Викреслити з ЧС\n"P"3."W" Очистити повний список ЧС\n"P"4."W" Список занесених в ЧС", "Обрати", "Закрити");
 					}
 				case 8: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
-						ShowPlayerDialog(playerid, D_FAMILY_NATION, DSL, P"Національність сім'ї", P"1."W" Американці\n"P"2."W" Японці\n"P"3."W" Італійці\n"P"4."W" Мексиканці\n"P"5."W" Латиноамериканці\n"P"6."W" Іспанці\n"P"7."W" Колумбійці\n"P"8."W" Португальці\n"P"9."W" Французи", "Обрати", "Назад");
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
+					ShowPlayerDialog(playerid, D_FAMILY_NATION, DSL, P"Національність сім'ї", P"1."W" Американці\n"P"2."W" Японці\n"P"3."W" Італійці\n"P"4."W" Мексиканці\n"P"5."W" Латиноамериканці\n"P"6."W" Іспанці\n"P"7."W" Колумбійці\n"P"8."W" Португальці\n"P"9."W" Французи", "Обрати", "Назад");
 					}
 				case 9: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return SendError(playerid, "Доступно лише власнику сім'ї.");
-						new string[250];
-						format(string, sizeof(string), W"Автомобіль\t"W"Статус\n");
-						for(new i = 0; i < 5; i++) {
-							format(string, sizeof(string), "%s%s\t%s\n", string, gTransport[CarFamily[fam][i][carID]-400][trName],CarFamily[fam][i][LoadCar] != INVALID_VEHICLE_ID ? (""GREEN"На сервері"):("{C34D45}Не загружений"));
-						}
-						ShowPlayerDialog(playerid, D_FAMILY_CAR, DSTH, P"Транспорт сім'ї", string, "Далі", "Скасувати");
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return SendError(playerid, "Доступно лише власнику сім'ї.");
+					new string[250];
+					format(string, sizeof(string), W"Автомобіль\t"W"Статус\n");
+					for(new i = 0; i < 5; i++) {
+						format(string, sizeof(string), "%s%s\t%s\n", string, gTransport[CarFamily[fam][i][carID]-400][trName],CarFamily[fam][i][LoadCar] != INVALID_VEHICLE_ID ? (""GREEN"На сервері"):("{C34D45}Не загружений"));
+					}
+					ShowPlayerDialog(playerid, D_FAMILY_CAR, DSTH, P"Транспорт сім'ї", string, "Далі", "Скасувати");
 					}
 				case 10: {
-						if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
-						if(!gFamily[fam][famUlushHouse]) return SendError(playerid, "У вас не придбано покращення 'Місце проживання'.");
-						if(!CI[playerid][pHouse]) return SendError(playerid, "У вас немає будинку.");
-						ShowPlayerDialog(playerid, D_FAMILY_HOUSE, DSM, P"Будинок сім'ї", "\n\n"W"Ви справді хочете обрати ваш будинок, як спавн своєї сім'ї?\n\n", "Так", "Скасувати");
+					if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return pc_cmd_fmenu(playerid), SendError(playerid, "Доступно лише власнику сім'ї.");
+					if(!gFamily[fam][famUlushHouse]) return SendError(playerid, "У вас не придбано покращення 'Місце проживання'.");
+					if(!CI[playerid][pHouse]) return SendError(playerid, "У вас немає будинку.");
+					ShowPlayerDialog(playerid, D_FAMILY_HOUSE, DSM, P"Будинок сім'ї", "\n\n"W"Ви справді хочете обрати ваш будинок, як спавн своєї сім'ї?\n\n", "Так", "Скасувати");
 					}
 				case 11: {
-						if(!response) return 1;
-						new query[200];
-						mysql_format(connects, query, sizeof(query), "SELECT `talon_fam`,`Name` FROM "TABLE_CHARACTERS" WHERE `family` = %i ORDER BY `talon_fam` DESC LIMIT 30", CI[playerid][pFamily]);
-						mysql_pquery(connects, query, "top_talon", "i", playerid);
+					if(!response) return 1;
+					new query[200];
+					mysql_format(connects, query, sizeof(query), "SELECT `talon_fam`,`Name` FROM "TABLE_CHARACTERS" WHERE `family` = %i ORDER BY `talon_fam` DESC LIMIT 30", CI[playerid][pFamily]);
+					mysql_pquery(connects, query, "top_talon", "i", playerid);
 					}
 				case 12: {
-						if(GetString(gFamily[fam][famOwner], CI[playerid][cName])) return SendError(playerid, "Ви не можете покинути сім'ю, так як є її власником.");
-						new string[128];
-						format(string, sizeof(string), "[FAMILY] "W"%s{%s} покинув сім'ю.", CI[playerid][cName],FamilyColor[gFamily[fam][famColor]]);
-						FamMSG(fam+ 1, string);
-						if(gFamily[CI[playerid][pFamily]-1][famHouse]) {
-							CI[playerid][pSpawn] = 0;
-							UpdateCharacterData(playerid, "spawn", CI[playerid][pSpawn]);
-						}
-						CI[playerid][pFamily] = 0;
-						UpdateCharacterData(playerid, "family", 0);
-						CI[playerid][pFamRank] = 0;
-						UpdateCharacterData(playerid, "pFamRank", 0);
+					if(GetString(gFamily[fam][famOwner], CI[playerid][cName])) return SendError(playerid, "Ви не можете покинути сім'ю, так як є її власником.");
+					new string[128];
+					format(string, sizeof(string), "[FAMILY] "W"%s{%s} покинув сім'ю.", CI[playerid][cName],FamilyColor[gFamily[fam][famColor]]);
+					FamMSG(fam+ 1, string);
+					if(gFamily[CI[playerid][pFamily]-1][famHouse]) {
+						CI[playerid][pSpawn] = 0;
+						UpdateCharacterData(playerid, "spawn", CI[playerid][pSpawn]);
+					}
+					CI[playerid][pFamily] = 0;
+					UpdateCharacterData(playerid, "family", 0);
+					CI[playerid][pFamRank] = 0;
+					UpdateCharacterData(playerid, "pFamRank", 0);
 					}
 				}
 			}
 		case D_FAMILY_SET: {
-				if(!response) return family_dialog(playerid);
-				new fam = CI[playerid][pFamily]-1;
-				if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return SendError(playerid, "Доступно лише власнику сім'ї.");
-				switch(listitem) {
+			if(!response) return family_dialog(playerid);
+			new fam = CI[playerid][pFamily]-1;
+			if(strcmp(gFamily[fam][famOwner], CI[playerid][cName],true)) return SendError(playerid, "Доступно лише власнику сім'ї.");
+			switch(listitem) {
 				case 0..6: {
-						new string[1256];
-						for(new i = 1; i <= 8; i++) {
-							new frac_rank_check = -1;
-							if(listitem == 0) frac_rank_check = gFamily[fam][famInvRang];
-							else if(listitem == 1) frac_rank_check = gFamily[fam][famUninvRang];
-							else if(listitem == 2) frac_rank_check = gFamily[fam][famGiveRang];
-							else if(listitem == 3) frac_rank_check = gFamily[fam][famSklad];
-							else if(listitem == 4) frac_rank_check = gFamily[fam][famSkladMoney];
-							else if(listitem == 5) frac_rank_check = gFamily[fam][famSpawnCar];
-							else if(listitem == 6) frac_rank_check = gFamily[fam][famBuyCar];
-							if(frac_rank_check == -1) return 1;
-							format(string, sizeof(string), "%s%i. %s%s\n", string,i,(i == frac_rank_check)?(""P""):(""W""), GetFamName(fam, i));
-						}
-						SetPVarInt(playerid, "fam_rank", listitem);
-						ShowPlayerDialog(playerid, D_FAMILY_SET_RANK, DSL, P"Оберіть ранг", string, "Обрати", "Закрити");
+					new string[1256];
+					for(new i = 1; i <= 8; i++) {
+						new frac_rank_check = -1;
+						if(listitem == 0) frac_rank_check = gFamily[fam][famInvRang];
+						else if(listitem == 1) frac_rank_check = gFamily[fam][famUninvRang];
+						else if(listitem == 2) frac_rank_check = gFamily[fam][famGiveRang];
+						else if(listitem == 3) frac_rank_check = gFamily[fam][famSklad];
+						else if(listitem == 4) frac_rank_check = gFamily[fam][famSkladMoney];
+						else if(listitem == 5) frac_rank_check = gFamily[fam][famSpawnCar];
+						else if(listitem == 6) frac_rank_check = gFamily[fam][famBuyCar];
+						if(frac_rank_check == -1) return 1;
+						format(string, sizeof(string), "%s%i. %s%s\n", string,i,(i == frac_rank_check)?(""P""):(""W""), GetFamName(fam, i));
+					}
+					SetPVarInt(playerid, "fam_rank", listitem);
+					ShowPlayerDialog(playerid, D_FAMILY_SET_RANK, DSL, P"Оберіть ранг", string, "Обрати", "Закрити");
 					}
 				case 7: {
-						new string[1256];
-						strcat(string, W"");
-						for(new i = 1; i <= 8; i++) {
-							format(string, sizeof(string), "%s%s\n", string, GetFamName(fam, i));
-						}
-						ShowPlayerDialog(playerid, D_FAMILY_ERANK_1, DSL, P"Оберіть ранг", string, "Обрати", "Назад");
-						return 1;
+					new string[1256];
+					strcat(string, W"");
+					for(new i = 1; i <= 8; i++) {
+						format(string, sizeof(string), "%s%s\n", string, GetFamName(fam, i));
+					}
+					ShowPlayerDialog(playerid, D_FAMILY_ERANK_1, DSL, P"Оберіть ранг", string, "Обрати", "Назад");
+					return 1;
 					}
 				case 8: {
-						new string[256];
-						format(string, sizeof(string), "{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---",FamilyColor[0],
-						FamilyColor[1],FamilyColor[2],FamilyColor[3],FamilyColor[4],FamilyColor[5],FamilyColor[6],FamilyColor[7],FamilyColor[8],FamilyColor[9],FamilyColor[10],FamilyColor[11],FamilyColor[12]);
-						ShowPlayerDialog(playerid, D_FAMILY_COLOR, DSL, P"Зміна кольору", string, "Обрати", "Скасувати");
+					new string[256];
+					format(string, sizeof(string), "{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---\n{%s}---",FamilyColor[0],
+					FamilyColor[1],FamilyColor[2],FamilyColor[3],FamilyColor[4],FamilyColor[5],FamilyColor[6],FamilyColor[7],FamilyColor[8],FamilyColor[9],FamilyColor[10],FamilyColor[11],FamilyColor[12]);
+					ShowPlayerDialog(playerid, D_FAMILY_COLOR, DSL, P"Зміна кольору", string, "Обрати", "Скасувати");
 					}
-
 				case 9: {
-						if(gFamily[fam][famTalon] < 200) return SendError(playerid, "Ваша сім'я має недостатньо талонів.");
-						ShowPlayerDialog(playerid, D_FAMILY_NAME, DSI, P"Зміна назви", "\n\n"W"Введіть нову назву сім'ї:\n\nВартість зміни назви сім'ї"GREEN" 200"W" талонов", "Змінити", "Назад");
+					if(gFamily[fam][famTalon] < 200) return SendError(playerid, "Ваша сім'я має недостатньо талонів.");
+					ShowPlayerDialog(playerid, D_FAMILY_NAME, DSI, P"Зміна назви", "\n\n"W"Введіть нову назву сім'ї:\n\nВартість зміни назви сім'ї"GREEN" 200"W" талонов", "Змінити", "Назад");
 					}
 				case 10: ShowPlayerDialog(playerid, D_FAMILY_TEXT, DSI, P"Слоган сім'ї", "\n\n"W"Введіть новий слоган сім'ї, який буде відображатися всім членам сім'ї в статистиці сім'ї\nДля видалення повідомлення введіть: "ORANGE"None\n\n", "Ввести", "Скасувати");
-				}
+			}
 			}
 		case D_FAMILY_TEXT: {
 				if(!response) {
@@ -35272,10 +34945,7 @@ public OnGameModeInit() {
 	Streamer_TickRate(50);
 	
 	new tmpobjid;
-
-	// #include "../scriptfiles/mapping/original.inc"
-	// #include "../scriptfiles/mapping/businesses.inc"
-	// #include "../scriptfiles/mapping/general.inc"
+	#include "../scriptfiles/mapping/create.inc"
 
 	CreatePickup(1239, 23, 1123.7704, -892.0002, 1046.0126, 62);
 
@@ -42546,7 +42216,7 @@ CMD:gps(playerid) {
 	ShowPlayerDialog(playerid, D_GPS, DSL, P"GPS", string, "Обрати", "Скасувати");
 	return 1;
 }
-CMD:menu(playerid) return ShowPlayerDialog(playerid, D_MENU, DSL, P"Меню гравця.", P"1."W" Інформація про персонажа.\n"P"2."W" Команди сервера.\n"P"3."W" Зв'язок з адміністрацією.\n"P"4."W" Налаштування.\n"P"5."W" Промокод.\n"P"6."W" Завдання.\n"P"7."W" Донат-послуги.\n"P"8."W" Змінити персонажа.", "Обрати", "Закрити");
+CMD:menu(playerid) return ShowPlayerDialog(playerid, D_MENU, DSL, P"|"W" Меню гравця.", P"1."W" Інформація про персонажа.\n"P"2."W" Команди сервера.\n"P"3."W" Зв'язок з адміністрацією.\n"P"4."W" Налаштування.\n"P"5."W" Промокод.\n"P"6."W" Завдання.\n"P"7."W" Донат-послуги.\n"P"8."W" Змінити персонажа.", "Обрати", "Закрити");
 alias:menu("mm", "mn")
 CMD:settings(playerid) {
 	return ShowPlayerDialog(playerid, D_SETTINGS, DSL, P"|"W" Налаштування.", P"1."W" Персонаж.\n"P"2."W" Акаунт.\n"P"3."W" Гра.", "Обрати", "Назад");

@@ -1,0 +1,26 @@
+// Police Exterior
+    RemoveBuildingForPlayer(playerid,4063,1578.468,-1676.421,13.070,0.250);
+	RemoveBuildingForPlayer(playerid,4064,1571.601,-1675.750,35.679,0.250);
+	RemoveBuildingForPlayer(playerid,1266,1538.523,-1609.804,19.843,0.250);
+	RemoveBuildingForPlayer(playerid,4229,1597.906,-1699.750,30.210,0.250);
+	RemoveBuildingForPlayer(playerid,4230,1597.906,-1699.750,30.210,0.250);
+	RemoveBuildingForPlayer(playerid,647,1541.445,-1713.304,14.429,0.250);
+	RemoveBuildingForPlayer(playerid,620,1541.453,-1709.640,13.046,0.250);
+	RemoveBuildingForPlayer(playerid,647,1541.296,-1702.601,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,647,1546.601,-1693.390,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,620,1547.570,-1689.984,13.046,0.250);
+	RemoveBuildingForPlayer(playerid,647,1546.867,-1687.101,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,646,1545.523,-1678.843,14.0,0.250);
+	RemoveBuildingForPlayer(playerid,646,1553.867,-1677.726,16.437,0.250);
+	RemoveBuildingForPlayer(playerid,646,1553.867,-1673.460,16.437,0.250);
+	RemoveBuildingForPlayer(playerid,646,1545.562,-1672.218,14.0,0.250);
+	RemoveBuildingForPlayer(playerid,647,1546.601,-1664.625,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,647,1546.867,-1658.343,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,620,1547.570,-1661.031,13.046,0.250);
+	RemoveBuildingForPlayer(playerid,3975,1578.468,-1676.421,13.070,0.250);
+	RemoveBuildingForPlayer(playerid,3976,1571.601,-1675.750,35.679,0.250);
+	RemoveBuildingForPlayer(playerid,4192,1591.695,-1674.851,20.492,0.250);
+	RemoveBuildingForPlayer(playerid,647,1541.476,-1648.453,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,620,1541.453,-1642.031,13.046,0.250);
+	RemoveBuildingForPlayer(playerid,647,1541.742,-1638.914,14.437,0.250);
+	RemoveBuildingForPlayer(playerid,1260,1538.523,-1609.804,19.843,0.250);
