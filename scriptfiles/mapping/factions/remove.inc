@@ -24,3 +24,8 @@
 	RemoveBuildingForPlayer(playerid,620,1541.453,-1642.031,13.046,0.250);
 	RemoveBuildingForPlayer(playerid,647,1541.742,-1638.914,14.437,0.250);
 	RemoveBuildingForPlayer(playerid,1260,1538.523,-1609.804,19.843,0.250);
+// Fire exterior
+    RemoveBuildingForPlayer(playerid,5852,1315.367,-887.468,41.703,0.250);
+	RemoveBuildingForPlayer(playerid,1232,1306.960,-908.593,41.187,0.250);
+	RemoveBuildingForPlayer(playerid,1522,1314.726,-897.265,38.468,0.250);
+	RemoveBuildingForPlayer(playerid,5762,1315.367,-887.468,41.703,0.250);
