@@ -26,6 +26,7 @@
 #include 	<discord-connector>
 // #include	<tgconnector>
 
+
 // CEF
 #define ID_TARGET 0x46111
 forward InterMenuController(player_id, const argument[]);
@@ -86,6 +87,8 @@ new CountMaterialVehicleWH = 0;
 #define 	abs(%0) 								(%0 < 0) ? (-(%0)) : (%0)
 native 		IsValidVehicle(vehicleid);
 #define 	MAX_D_ACTORS              	    		500
+#define 	MAX_BUSINESS_ACTORS						500
+#define 	MAX_BUSINESS_ARTICLES					500
 #define 	HOLDING(%0) 							(( newkeys & (%0)) == (%0))
 #define 	PRESSED(%0) 							(( (newkeys & (%0)) == (%0)) && (( oldkeys & (%0)) != (%0)))
 #define		PRESSING(%0,%1)							(%0 & (%1))
@@ -164,19 +167,19 @@ new bool:Vizod;
 #define		FSPD(%0,%1,%2,%3,%4,%5,%6,%7)	fscm_str[0] = EOS, format(fscm_str, 512, %6, %7) && ShowPlayerDialog(%0, %1, %2, %3, fscm_str, %4, %5)
 #define		KickEx(%0)						SetTimerEx("kick", 250, false, "d",%0)
 FixSVarString(str[], size = sizeof(str))	for (new i = 0; ((str[i] &= 0xFF) != '\0') && (++i != size);) {}
-#define 	MAILER_URL              		"chiliad-rp.com/mailer.php" 
-#define 	MAILER_MAX_MAIL_SIZE			(1024) 
+#define 	MAILER_URL              		"chiliad-rp.com/mailer.php"
+#define 	MAILER_MAX_MAIL_SIZE			(1024)
 new email_number[MAX_PLAYERS];
 new Text:payment_td[2];
 new PlayerText:payment_ptd[MAX_PLAYERS][2];
-new PlayerText:PhoneGUI[MAX_PLAYERS][44];
+new Text: iphone[56];
 new PlayerText:SelectSkin[MAX_PLAYERS][4];
 new bool:PhoneShow[MAX_PLAYERS];
 new PhoneLocked[MAX_PLAYERS] = 0; // 0 - Reseted, 1 - Locked, 2 - Unlocked, 3 - Internet item in list.
 new Text:Loading_TD[28];
 // new TaxiMainFare = 80;
 // Fire data.
-#define MAX_FIRE_AMOUNT 5 
+#define MAX_FIRE_AMOUNT 5
 #define MAX_FIRE_OBJECTS_3 10
 new burning_building[44];
 new FireLevel;
@@ -1870,7 +1873,7 @@ new ItemsInfo[MAX_ITEM][ItemInfo] = {
 	{1636, "Боєголовка", 0.0, 0.0, 0.0, 1.0}, // 471.
     {1210, "Кейс", 0.0, 0.0, 0.0, 1.0}, // 472.
     {1944, "Старовинна монета", 0.0, 0.0, 0.0, 1.0}, // 473.
-    
+
     {400, "Автомобіль: Landstalker (ID: 400)", 0.0, 0.0, 0.0, 1.0}, // 474.
     {401, "Автомобіль: Bravura (ID: 401)", 0.0, 0.0, 0.0, 1.0}, // 475.
     {402, "Автомобіль: Buffalo (ID: 402)", 0.0, 0.0, 0.0, 1.0}, // 476.
@@ -2321,12 +2324,7 @@ enum dialogs {
 	dFinishCall,
 	dBusList,
 	dBusInsurance,
-	dDonateUpdatePersonage,
-	dDonatePremium,
-	dDonatePremiumBuy,
-	dDonateOther,
-	dDonateLicenses,
-	dDonateLicensesBuy,
+
 	dBankDeposite,
 	dBankDepositePut,
 	dBankDepositeGet,
@@ -2355,7 +2353,7 @@ enum dialogs {
 	dLotto,
 	dLotto2,
 	D_ECONOMY_LICENSES,
-	
+
 	OGLOC_MAIN,
 	OGLOC_BUY_1,
 	OGLOC_BUY_2,
@@ -2367,13 +2365,13 @@ enum dialogs {
 	D_GREENZONE_EDIT,
 	D_GREENZONE_EDIT_NAME,
 	D_GREENZONE_EDIT_DIST,
-	
+
 	D_HOUSE_ADD,
 	D_HOUSE_KLASS,
 	D_HOUSE_PRICE,
 	D_HOUSE_INT,
 	D_HOUSE_INT_1,
-	
+
 	D_BAND_STOCK,
 	D_BAND_STOCK_PUT_MONEY,
 	D_BAND_STOCK_INPUT_MONEY,
@@ -2381,7 +2379,7 @@ enum dialogs {
 	D_BAND_STOCK_INPUT_MATS,
 	D_BAND_STOCK_PUT_DRUGS,
 	D_BAND_STOCK_INPUT_DRUGS,
-	
+
 	dProdPut,
 	dBauldBots15,
 	D_JURIST,
@@ -2397,11 +2395,11 @@ enum dialogs {
 	D_NEWS_SELECT_2,
 	D_BOX,
 	D_BOX_2,
-	
+
 	D_ALOGIN,
-	D_GPS_RAZ, 
+	D_GPS_RAZ,
 	D_GPS_WORK_2,
-	
+
     D_BIZZ_BUY,
 	D_BIZZ_BUY_2,
 	D_BIZZ_BUY_FILL,
@@ -2429,7 +2427,7 @@ enum dialogs {
 	dBusinessProd2,
 	D_AMMO,
 	D_AMMO_2,
-	
+
 	D_FIXCAR,
 
 	D_BOOK,
@@ -2440,7 +2438,7 @@ enum dialogs {
 	D_CALL_SERVICES,
 
 	D_STOP_LOAD,
-	
+
 	D_CONTROL_EDIT,
 	D_CHANGE_PASS,
 	D_CHANGE_PASS_SELECT,
@@ -2449,10 +2447,10 @@ enum dialogs {
 	dChangeCode,
 	dCodeChange1,
 	D_MAIL_CONTROL,
-	
+
 	D_BAN_LIST,
 	D_UNBAN,
-	
+
 	D_TRUNK_LIST,
 	D_TRUNK_SELECT,
 	D_TRUNK_INPUT,
@@ -2461,7 +2459,7 @@ enum dialogs {
     D_TP_LIST,
 	D_TP_LIST_2,
     D_TP_HOUSE,
-    
+
 	D_NEWS,
 	D_NEWS_ETHER,
 	D_NEWS_ETHER_PRICE,
@@ -2487,7 +2485,7 @@ enum dialogs {
 
 	D_REPAIRS,
 	D_REPAIRS_INV,
-    
+
     D_FACTIONS_LIST,
 	D_FACTION_ADD_NAME,
 	D_FACTION_ADD_TYPE,
@@ -2564,7 +2562,7 @@ enum dialogs {
 	D_JOB_WOOD_1,
 
 	D_TOW,
-    
+
 	D_ARENDA,
 
 	D_FAMILY,
@@ -2587,8 +2585,8 @@ enum dialogs {
 	D_FAMILY_TYPE,
 	D_FAMILY_NATION,
 	D_FAMILY_RASFORM,
-	
-	
+
+
 	D_BUY_SKIN,
 	D_BUY_SKIN_2,
 	D_BUY_SKIN_3,
@@ -2609,7 +2607,7 @@ enum dialogs {
 	D_BANK_GIVE,
 	D_BANK_TRANSFER,
 	D_BANK_TRANSFER_1,
-	 
+
 	dBusPrice,
 	dBusRent,
 	D_SPAWN,
@@ -2654,27 +2652,27 @@ enum dialogs {
 	D_ATM_INPUT,
 	D_ATM_PUT,
 	D_ATM_PHONE,
-	
+
 	D_TICKET,
 	D_TICKET_1,
 	D_TICKET_2,
 	D_TICKET_3,
-	
+
 	D_SHOWALL,
-	
+
 	D_TIPSTER,
-	
+
 	D_FUEL,
 	D_FUEL_2,
 	D_BUY_FUEL,
-	
+
 	D_EXAM,
-	
+
 	D_CHANGECAR,
-	D_SELL_CAR, 
+	D_SELL_CAR,
 	D_SELL_CAR_2,
 	D_CAR_BUY,
-	
+
 	D_SET_BET,
 
 	D_MAFIA_STOCK,
@@ -2684,18 +2682,18 @@ enum dialogs {
 	D_MAFIA_STOCK_INPUT_NARKO,
 	D_MAFIA_STOCK_PUT_MATS,
 	D_MAFIA_STOCK_INPUT_MATS,
-	
+
 	D_LMENU,
 	D_LMENU_SUPERVISORY_RANK,
 	D_LMENU_EDIT_RANK,
 	D_LMENU_EDIT_RANK_SUB,
 	D_LMENU_BANK,
 	D_LMENU_BANK_INPUT,
-	
+
 	D_CASINO,
-	
+
 	D_COP_ARREST,
-	
+
 	D_DONATE,
 	D_DONATE_CONVERT,
 	D_DONATE_CHANGENAME,
@@ -2705,7 +2703,7 @@ enum dialogs {
 	D_DONATE_LICENSES,
 	D_DONATE_SKILLS,
 	D_DONATE_DEMOTE,
-	
+
 	D_DONATE_CAR,
 	D_COMPLETE_1,
 	D_COMPLETE_2,
@@ -2713,7 +2711,7 @@ enum dialogs {
 	D_COMPLETE_4,
 	D_DONATE_ACS_1,
 	D_DONATE_ACS_2,
-	
+
 	D_BIZZ_TAXI,
 	D_BIZZ_TAXI_ZAM,
 	D_BIZZ_TAXI_CAR,
@@ -2728,10 +2726,10 @@ enum dialogs {
 	D_BIZZ_TAXI_MEM,
 	D_BIZZ_TAXI_MEM_2,
 	D_BIZZ_TAXI_INFO,
-	
+
 	D_TAXI_CALL,
 	D_TAXI_COUNT,
-	
+
 	D_GPS,
 	D_GPS_2,
 	D_GPS_O,
@@ -2743,12 +2741,12 @@ enum dialogs {
 	D_GPS_BIZZ,
 	D_GPS_BIZZ_1,
 	D_GPS_HOTEL,
-	
+
 	D_ADDHOUSE,
 	D_EDIT_HOUSE_CLASS,
-	
+
 	D_FREE,
-	
+
 	D_ECONOMY_MENU,
 	D_ECONOMY_MENU_1,
 	D_ECONOMY,
@@ -2759,35 +2757,35 @@ enum dialogs {
 	D_ECONOMY_PREM_1,
 	D_ECONOMY_PUT,
 	D_ECONOMY_INPUT,
-	
+
 	D_MAKELEADER_WH,
-	
+
 	D_REC_KICK,
 	D_REC_WARN,
 	D_REC_BAN,
-	
+
 	D_MAYOR,
 	D_MAYOR_BLAGO,
 	D_MAYOR_INFO,
-	
+
 	dRentCar,
-	
+
 	D_COP_GUN,
 	D_FBI_GUN,
-	
+
 	dGiveGunTD,
 	dFContract,
 	dRefill,
-	
+
 	D_MARRIED,
 	D_BUYNARKO,
-	
+
 	D_ADMC,
-	
+
 	D_MP,
 	D_MP_1,
 	D_MP_2,
-	
+
 	D_PROMO,
 	D_PROMO_1,
 	D_PROMO_2,
@@ -2795,53 +2793,53 @@ enum dialogs {
 	D_PROMO_4,
 	D_PROMO_5,
 	D_PROMO_6,
-	
+
 	D_USE_PROMO,
-	
+
 	D_DISEASE,
 	D_DISEASE_2,
-	
+
 	D_QUEST,
 	D_QUEST_1,
 	D_QUEST_2,
 	D_QUEST_3,
-	
+
 	DIALOG_BAN,
-	
+
 	D_RIELTOR,
 	D_RIELTOR_HOUSE,
 	D_RIELTOR_HOUSE_2,
-	
+
 	D_RIELTOR_BIZZ,
 	D_RIELTOR_BIZZ_2,
-	
+
 	D_VEH_NUMBER,
 	D_VEH_NUMBER_2,
-	
+
 	D_WORK,
-	
+
 	D_RADIO,
 	D_RADIO_1,
-	
+
 	D_BL,
 	D_BL_1,
 	D_BLINVITE,
 	D_BLCLEAR,
 	D_BLUNINVITE,
-	
+
 	D_QUEST_GANG,
 	D_QUEST_MAFIA,
 	D_QUEST_COP,
-	
+
 	D_ARMY_CARM_SF_2,
 	D_ARMY_CARM_SF_3,
 	D_ARMY_CARM_SF_4,
 	D_ARMY_CARM_SF_5,
 	D_ARMY_CARM_SF_6,
 	D_ARMY_CARM_SF_7,
-	
+
 	D_REFERALS,
-	
+
 	D_BAND_GUN,
 	D_BAND_GUN_1,
 	D_BAND_GUN_2,
@@ -2850,20 +2848,23 @@ enum dialogs {
 	D_BAND_GUN_5,
 	D_BAND_GUN_6,
 	D_BAND_GUN_7,
-	
+
 	dProdGet,
 	dProdList,
 	dProdSell,
 	dProdRent,
-	
+
+	dProdDetails,
+	dProdOrder,
+
 	D_HEAL,
-	
+
 	D_FAMILY_OFFLINE,
-	
+
 	D_SPY,
 	D_SPY_2,
 	D_SPY_3,
-	D_DUEL,	
+	D_DUEL,
 	D_DUEL_1,
 	D_DUEL_2,
 	D_DUEL_3,
@@ -2874,11 +2875,11 @@ enum dialogs {
 	D_GOOGLE,
 	D_GOOGLE_2,
 	D_GOOGLE_3,
-	
+
 	D_LEAVE,
-	
+
 	D_LICENSES_3,
-	
+
 	D_BILL_MAIN,
 	D_BILL_RENT,
 	D_BILL_SETTING,
@@ -2890,93 +2891,93 @@ enum dialogs {
 	D_BILL_FON,
 	D_BILL_ADMIN,
 	D_BILL_AUNRENT,
-	
+
 	D_ADMIN_TIME,
-	
+
 	D_HOUSE_BUYINT,
 	D_HOUSE_BUYINT_2,
-	
+
 	D_BIZZ_4,
-	
+
 	dEatRent,
 	dEContract,
 	dEHotDog,
-	
+
 	D_AUTOSCHOOL_3,
 	D_AUTOSCHOOL_4,
-	
+
 	D_MP_4,
 	D_MP_5,
-	
+
 	D_TUNE_UPDATE,
-	
+
 	D_PLAYER_HISTORY,
 	D_PLAYER_HISTORY_USE,
 	D_AMEMBERS,
-	
+
 	D_LAB,
 	D_LAB_2,
-	
+
 	D_FAKEPASS,
-	
+
 	D_BUYACS,
-	
+
 	D_GAME_DM,
 	D_GAME_DM_2,
-	
+
 	D_GAME_RACE,
 	D_GAME_RACE_2,
-	
+
 	D_BAND_DRUGS,
-	
+
 	D_MAFIA_CARM,
 	D_MAFIA_CARM_2,
 	D_MAFIA_CARM_3,
-	
+
 	D_REPAIR,
 	D_REPAIR_LIST,
-	
+
 	D_ADVERT_LIST_2,
-	
+
 	D_GAME_GOLOD,
 	D_GAME_GOLOD_2,
-	
+
 	D_VACANCY,
 	D_VACANCY_2,
 	D_VACANCY_3,
-	
+
 	D_DIPLOMATION,
 	D_DIPLOMATION_2,
-	
+
 	D_OBJ,
 	D_OBJ_2,
 	D_OBJ_3,
 	D_OBJ_4,
 	D_OBJ_5,
-	
+
 	D_BIZWAR_LIST,
 	D_DJMSG,
 	D_DJMAKE,
 	D_SELL_SIM,
-	
+
 	D_ECONOMY_POSOBIE,
 	D_ECONOMY_POSOBIE_1,
 	D_ECONOMY_PUT_MENU,
-	
+
 	D_SHOWALL_2,
-	
+
 	D_GANG_PAY,
-	
+
 	D_FAMILY_HOUSE,
 	D_FAMILY_TEXT,
-	
+
 	D_BIZZ_MEDKIT,
 	D_BIZZ_MEDKIT_2,
 	D_BIZZ_MEDKIT_3,
 	D_BIZZ_MEDKIT_4,
 	D_BIZZ_MEDKIT_6,
 	D_BIZZ_MASK,
-	D_AUTONEWS, 
+	D_AUTONEWS,
 	D_AUTONEWS_1,
 	D_AUTONEWS_BUY,
 	D_AUTONEWS_SELL,
@@ -3024,12 +3025,12 @@ enum dialogs {
 	D_AUTONEWS_CHANGE_SIM_2,
 	D_AUTONEWS_SERVICES,
 	D_AUTONEWS_SERVICES_2,
-	
+
 	D_AMMOSG,
-	
+
 	D_ROB_CAR,
 	D_STOP_LOAD_ROBHOUSE,
-	
+
 	D_DUEL_MONEY,
 	D_DUEL_HEALTH,
 	D_DUEL_ARMOUR,
@@ -3038,15 +3039,15 @@ enum dialogs {
 
 	D_BIZZ_5,
 	D_BIZZ_6,
-	
+
 	D_THEFT,
 	D_THEFT_1,
 	D_THEFT_LIST,
-	
+
 	D_GANG_POINT,
 	D_GANG_POINT_CAR,
 	D_GANG_POINT_CAR_2,
-	D_GANG_POINT_CAR_3,  
+	D_GANG_POINT_CAR_3,
 	D_GANG_POINT_APTECH,
 	D_GANG_POINT_NARKO,
 	D_GANG_POINT_BP,
@@ -3054,12 +3055,12 @@ enum dialogs {
 	D_JOB_CLEAR,
 	D_JOB_CLEAR_2,
 	D_JOB_CLEAR_3,
-	
+
 	D_JOB_KANAL,
 	D_JOB_KANAL_1,
 	D_JOB_KANAL_2,
 	D_JOB_KANAL_3,
-	
+
 	D_DONATE_SKIN,
 	D_DONATE_BOX,
 	D_DONATE_NUMBER,
@@ -3069,7 +3070,7 @@ enum dialogs {
 	D_REPORT_1,
 	D_NEW_PASS,
 	D_RobMG_1,
-	D_RobMG_2, 
+	D_RobMG_2,
 	D_YAXTA,
 	D_YAXTA_1,
 	D_TRAILER_BUY,
@@ -3205,7 +3206,7 @@ enum dialogs {
 	D_DONATE_CASE_3,
 	D_TOP_PLAYERS,
 	D_TOP_PLAYERS_1,
-	
+
 	D_BIZZ_TK,
 	D_BIZZ_TK_ZAM,
 	D_BIZZ_TK_MEM,
@@ -3213,21 +3214,21 @@ enum dialogs {
 	D_BIZZ_TK_INFO,
 	D_TK_TRUCK,
 	D_TK_TRUCK_1,
-	
+
 	D_FAQ_BAND,
 	D_FAQ_BAND_1,
 	D_FAQ_BAND_2,
 	D_FAQ_BAND_3,
-	
+
 	D_FAQ_MAFIA,
 	D_FAQ_MAFIA_1,
 	D_FAQ_MAFIA_2,
 	D_FAQ_MAFIA_3,
 	D_FAMILY_OFFICE,
 	D_FAMILY_OFFICE_1,
-	
+
 	D_BIZZ_OTM,
-	
+
 	D_MARKETS,
 	D_MARKETS_1,
 	D_MARKETS_2,
@@ -3235,48 +3236,106 @@ enum dialogs {
 	D_MARKETS_4,
 	D_MARKETS_5,
 	D_MARKETS_6,
-	
+
 	D_MAKEGUN,
 	D_MAKEGUN_2,
-	
+
 	D_MARKET_PLAYER,
 	D_MARKET_PLAYER_1,
 	D_MARKET_PLAYER_2,
 	D_MARKET_PLAYER_3,
-	
+
 	D_CRAFT,
 	D_CRAFT_1,
 	D_CRAFT_2,
-	
+
 	D_JAIL,
 	D_JAIL_1,
 	D_JAIL_2,
 	D_JAIL_3,
-	
+
 	D_JOB_PORTN,
 	D_ALCATRZ,
 	D_SPAWN_LAST,
-	
+
 	D_EVENT,
 	D_EVENT_1,
-	
+
 	D_YOUTUBE,
 	D_BANK_OPLATA_DNK,
-	
+
 	D_HELLOW,
 	D_HELLOW_1,
 	D_HELLOW_2,
 	D_HELLOW_3,
 	D_HELLOW_4,
 	D_HELLOW_5,
-	
+
 	D_QUEST_HELLOW,
 
 	dPickupList,
 	dEditPickup,
 	dEditPickupText,
 	dEditPickupPos,
-	
+	dEditPickupComment,
+	dEditPickupStatus,
+	dEditPickupCategoryFirstList,
+	dEditPickupModel,
+	dEditPickupType,
+	dPickupCategory,
+	dPickupFractions,
+	dEditPickupFractions,
+	dCreatePickup,
+
+	dBusinessShop,
+	dBusinessList,
+	dBusiness,
+	dBusinessPrices,
+	dBusinessChangeArticlePrice,
+	dBusinessMapping,
+	dBusinessOrder,
+	dBusinessActors,
+	dBOrderChangePrice,
+	dBCreateOrder,
+	dBManageArticles,
+	dBManageArticlesList,
+	dBEditArticleList,
+
+	dBSaveArticleOrder,
+	dBAddArticleToOrder,
+	dBChangeArticlePrice,
+
+	dBCreateObject,
+	dBEditObject,
+	dBObjectList,
+	dBObjectListDetails,
+
+	dBChangeActorName,
+	dBChangeActorSkin,
+
+	dBusinessStaff,
+
+	dBuyBusiness,
+	dSellBusiness,
+
+	dBChangeDescr,
+	dBChangeName,
+
+	dCreateBusiness,
+	dCreateBusinessType,
+	dCreateBusinessName,
+	dCreateBusinessInt,
+	dCreateBusinessPrice,
+	dCreateBusinessPModel,
+	dCreateBusinessPIcon,
+
+	dDonate,
+	dDonateInfo,
+	dDonatePremium,
+	dDonateOther,
+	dDonateConvert,
+	dDonatePremiumBuy,
+
 	D_SELFISH,
 	D_BILBORDS,
 	D_BIZZ_POISK,
@@ -3297,7 +3356,7 @@ enum dialogs {
 	D_BIZZ_FERMA_MEM,
 	D_BIZZ_FERMA_MEM_2,
 	BIZZ_FERMA_JOB_REDAY,
-	BIZZ_FERMA_JOB_LEAVE, 
+	BIZZ_FERMA_JOB_LEAVE,
 	D_DARKNET_GHETTO,
 	D_ROULETTE_2,
 	D_ROULETTE_3,
@@ -3347,13 +3406,13 @@ enum _:frac_ids {
 	fARMYLS = 6,
 
 	fLSNEWS = 10,
-	
+
 	fBikers = 2,
 	fBikersTwo = 3,
 	fLCN = 12,
 	fTRIADS = 13,
 	fRM = 14,
-	
+
 	fBALLAS = 15,
 	fVAGOS = 16,
 	fGROVE = 17,
@@ -3414,10 +3473,10 @@ CB:Random(min, max) {
 	new a = random(max - min) + min;
 	return a;
 }
-new 
+new
 gCurDay,
-tmphour, 
-tmpminute, 
+tmphour,
+tmpminute,
 tmpsecond,
 ghour;
 #define unix gettime()
@@ -3645,12 +3704,12 @@ new duel_id_gun[5] = {24, 25, 29, 30, 31};
 #define STANDART_GUN_TEXT ""W"%s\n"G"ALT"
 #define MAX_DROP_GUNS 250
 new GPDIO[47]={0, 331, 333, 334, 335, 336, 337, 338, 339, 341, 321, 322, 323, 324, 325, 326, 342, 343, 344, 0, 0, 0, 346, 347, 348, 349, 350, 351, 352, 353, 355, 356, 372, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 368, 371};
-enum drop_gun_data { 
-	dg_gun, 
-	dg_ammo, 
-	dg_object, 
+enum drop_gun_data {
+	dg_gun,
+	dg_ammo,
+	dg_object,
 	Text3D:dg_text,
-	dg_time 
+	dg_time
 }
 new drop_gun[MAX_DROP_GUNS][drop_gun_data];
 new BDserverName[128],BDserverPassword[64];
@@ -3933,7 +3992,7 @@ new TOTALGZ = 0;
 new VladGzone[MAX_FACTIONS] = {0, ...};
 new SFa;
 new bool:ac_1[MAX_PLAYERS char];
-stock GetIDGZ(playerid) { 
+stock GetIDGZ(playerid) {
 	for (new i = 0; i < TOTALGZ; i++)
 	if(PlayerToKvadrat(playerid, GZInfo[i][gCoords][0], GZInfo[i][gCoords][1], GZInfo[i][gCoords][2], GZInfo[i][gCoords][3])) return i;
 	return -1;
@@ -3995,7 +4054,7 @@ Text3D:atm_Label,
 }
 new ATMData[MAX_ATM][_ATMData];
 new EdittingATM[MAX_PLAYERS];
-new PlayerText:Captcha[29], 
+new PlayerText:Captcha[29],
 TextArray[11] = "1234567890";
 new med_mskin[] = {50, 15, 35},
 med_gskin[] = {55, 90, 192};
@@ -4530,73 +4589,73 @@ new gPlayerBusObject[MAX_PLAYERS];
 new Text3D:VWH3DText[2];
 new Float:gBusCPs[7][111][4] = {
 	{ // АВЛС - Завод - Ферма
-		{0.0, 1215.3260, -1838.0054, 13.4500}, 
-		{0.0, 1333.3987, -1856.8008, 13.4401}, 
+		{0.0, 1215.3260, -1838.0054, 13.4500},
+		{0.0, 1333.3987, -1856.8008, 13.4401},
 		{0.0, 1486.4301, -1874.2933, 13.4464},
-		{0.0, 1674.2701, -1869.5959, 13.4426}, 
-		{0.0, 1691.5751, -1828.1887, 13.4480}, 
-		{0.0, 1806.4355, -1834.5319, 13.4301}, 
-		{0.0, 1819.0546, -1873.9229, 13.4647}, 
+		{0.0, 1674.2701, -1869.5959, 13.4426},
+		{0.0, 1691.5751, -1828.1887, 13.4480},
+		{0.0, 1806.4355, -1834.5319, 13.4301},
+		{0.0, 1819.0546, -1873.9229, 13.4647},
 		{1.0, 1779.0552, -1912.0532, 13.4559},
 		{0.0, 1807.7853, -1893.3148, 13.5328},
 		{0.0, 1824.1902, -1856.8170, 13.4641},
-		{0.0, 1802.4987, -1829.7014, 13.4368}, 
-		{0.0, 1705.8314, -1810.0911, 13.4327}, 
-		{0.0, 1687.4429, -1837.9532, 13.4444}, 
-		{0.0, 1632.9083, -1869.7114, 13.4406}, 
-		{0.0, 1509.1417, -1869.6737, 13.4463}, 
-		{0.0, 1330.1178, -1851.2589, 13.4350}, 
-		{0.0, 1143.6808, -1849.7484, 13.4512}, 
-		{0.0, 1077.7494, -1849.8541, 13.4513}, 
-		{0.0, 1047.3328, -1811.1423, 13.6850}, 
-		{0.0, 871.3349, -1768.2697, 13.4469}, 
-		{0.0, 680.4688, -1740.3763, 13.4375}, 
-		{0.0, 590.9149, -1721.2096, 13.6544}, 
-		{0.0, 224.6341, -1641.6553, 13.0888}, 
-		{0.0, 81.6317, -1525.7800, 5.1174}, 
-		{0.0, 55.6527, -1524.0653, 5.0724}, 
-		{0.0, 0.0777, -1517.0793, 2.9349}, 
-		{0.0, -110.9060, -1477.4210, 2.7588}, 
-		{0.0, -143.1291, -1288.0063, 2.7636}, 
-		{0.0, -115.4915, -992.0071, 25.1382}, 
-		{0.0, -102.6597, -952.8937, 22.2629}, 
-		{0.0, 43.2929, -531.3949, 10.1840}, 
-		{1.0, -149.0187, -364.8881, 1.3850}, 
+		{0.0, 1802.4987, -1829.7014, 13.4368},
+		{0.0, 1705.8314, -1810.0911, 13.4327},
+		{0.0, 1687.4429, -1837.9532, 13.4444},
+		{0.0, 1632.9083, -1869.7114, 13.4406},
+		{0.0, 1509.1417, -1869.6737, 13.4463},
+		{0.0, 1330.1178, -1851.2589, 13.4350},
+		{0.0, 1143.6808, -1849.7484, 13.4512},
+		{0.0, 1077.7494, -1849.8541, 13.4513},
+		{0.0, 1047.3328, -1811.1423, 13.6850},
+		{0.0, 871.3349, -1768.2697, 13.4469},
+		{0.0, 680.4688, -1740.3763, 13.4375},
+		{0.0, 590.9149, -1721.2096, 13.6544},
+		{0.0, 224.6341, -1641.6553, 13.0888},
+		{0.0, 81.6317, -1525.7800, 5.1174},
+		{0.0, 55.6527, -1524.0653, 5.0724},
+		{0.0, 0.0777, -1517.0793, 2.9349},
+		{0.0, -110.9060, -1477.4210, 2.7588},
+		{0.0, -143.1291, -1288.0063, 2.7636},
+		{0.0, -115.4915, -992.0071, 25.1382},
+		{0.0, -102.6597, -952.8937, 22.2629},
+		{0.0, 43.2929, -531.3949, 10.1840},
+		{1.0, -149.0187, -364.8881, 1.3850},
 		{0.0, -252.2309, -255.2171, 1.3336},
-		{0.0, -301.7522, -60.6734, 1.1413}, 
-		{1.0, -255.1354, 99.7430, 1.1386}, 
-		{0.0, -206.8736, 219.9438, 11.8093}, 
-		{0.0, -228.6118, 248.8376, 11.3760}, 
-		{0.0, -400.1790, 280.4744, 2.1442}, 
-		{0.0, -724.1260, 224.4792, 2.3478}, 
-		{0.0, -736.3719, 109.7619, 14.9657}, 
-		{0.0, -713.8860, 31.4725, 34.0627}, 
-		{0.0, -843.5101, -47.9633, 42.4838}, 
-		{0.0, -764.3619, -91.7377, 65.6739}, 
-		{0.0, -945.0729, -210.7399, 40.6020}, 
-		{0.0, -902.9855, -248.6557, 37.8010}, 
-		{0.0, -658.6724, -248.1883, 63.3643}, 
-		{0.0, -457.6698, -274.7860, 42.9692}, 
-		{0.0, -261.3885, -277.9011, 1.4725}, 
+		{0.0, -301.7522, -60.6734, 1.1413},
+		{1.0, -255.1354, 99.7430, 1.1386},
+		{0.0, -206.8736, 219.9438, 11.8093},
+		{0.0, -228.6118, 248.8376, 11.3760},
+		{0.0, -400.1790, 280.4744, 2.1442},
+		{0.0, -724.1260, 224.4792, 2.3478},
+		{0.0, -736.3719, 109.7619, 14.9657},
+		{0.0, -713.8860, 31.4725, 34.0627},
+		{0.0, -843.5101, -47.9633, 42.4838},
+		{0.0, -764.3619, -91.7377, 65.6739},
+		{0.0, -945.0729, -210.7399, 40.6020},
+		{0.0, -902.9855, -248.6557, 37.8010},
+		{0.0, -658.6724, -248.1883, 63.3643},
+		{0.0, -457.6698, -274.7860, 42.9692},
+		{0.0, -261.3885, -277.9011, 1.4725},
 		{1.0, -148.5603, -383.2010, 1.0781},
-		{0.0, 37.5775, -531.7266, 10.2088}, 
-		{0.0, 18.4033, -677.1326, 4.3081}, 
+		{0.0, 37.5775, -531.7266, 10.2088},
+		{0.0, 18.4033, -677.1326, 4.3081},
 		{0.0, -58.5228, -851.6674, 13.5633},
 		{0.0, -119.2603, -970.5613, 25.0395},
-		{0.0, -101.5846, -1132.6385, 1.2243}, 
-		{0.0, -150.1404, -1298.2799, 2.7593}, 
-		{0.0, 19.9827, -1533.4543, 4.3205}, 
+		{0.0, -101.5846, -1132.6385, 1.2243},
+		{0.0, -150.1404, -1298.2799, 2.7593},
+		{0.0, 19.9827, -1533.4543, 4.3205},
 		{0.0, 51.3685, -1539.8364, 5.2288},
 		{0.0, 211.6833, -1657.5304, 12.8287},
-		{0.0, 503.6657, -1729.9471, 11.6184}, 
-		{0.0, 801.4047, -1786.0785, 13.3783}, 
-		{0.0, 976.0775, -1802.1381, 14.1444}, 
+		{0.0, 503.6657, -1729.9471, 11.6184},
+		{0.0, 801.4047, -1786.0785, 13.3783},
+		{0.0, 976.0775, -1802.1381, 14.1444},
 		{0.0, 1042.6550, -1842.5039, 13.4881},
 		{0.0, 1090.2108, -1854.4525, 13.4496},
 		{0.0, 1258.3202, -1854.5090, 13.4417},
-		{0.0, 1260.8673, -1827.1956, 13.4533}, 
-		{0.0, 0.0, 0.0, 0.0}, 
-		{0.0, 0.0, 0.0, 0.0}, 
+		{0.0, 1260.8673, -1827.1956, 13.4533},
+		{0.0, 0.0, 0.0, 0.0},
+		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
@@ -4765,71 +4824,71 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 1819.0546, -1873.9229, 13.4647},
 		{1.0, 1779.0552, -1912.0532, 13.4559},
 		{0.0, 1807.7853, -1893.3148, 13.5328},
-		{0.0, 1824.1250, -1824.0508, 13.4871}, 
-		{1.0, 1824.9720, -1679.1637, 13.4440}, 
-		{0.0, 1824.2865, -1628.4456, 13.4397}, 
-		{0.0, 1797.2766, -1609.5615, 13.4053}, 
-		{0.0, 1687.1907, -1590.4596, 13.4438}, 
+		{0.0, 1824.1250, -1824.0508, 13.4871},
+		{1.0, 1824.9720, -1679.1637, 13.4440},
+		{0.0, 1824.2865, -1628.4456, 13.4397},
+		{0.0, 1797.2766, -1609.5615, 13.4053},
+		{0.0, 1687.1907, -1590.4596, 13.4438},
 		{0.0, 1589.0923, -1590.1179, 13.4475},
-		{1.0, 1472.0792, -1589.1285, 13.4472}, 
-		{0.0, 1447.1288, -1589.7773, 13.4360}, 
+		{1.0, 1472.0792, -1589.1285, 13.4472},
+		{0.0, 1447.1288, -1589.7773, 13.4360},
 		{0.0, 1378.3844, -1583.5049, 13.4336},
-		{0.0, 1329.2758, -1571.2543, 13.4223}, 
-		{0.0, 1315.3279, -1535.2875, 13.4487}, 
-		{0.0, 1339.5587, -1490.2737, 13.4462}, 
-		{0.0, 1354.9309, -1426.8478, 13.4520}, 
-		{1.0, 1296.1389, -1392.4429, 13.3277}, 
+		{0.0, 1329.2758, -1571.2543, 13.4223},
+		{0.0, 1315.3279, -1535.2875, 13.4487},
+		{0.0, 1339.5587, -1490.2737, 13.4462},
+		{0.0, 1354.9309, -1426.8478, 13.4520},
+		{1.0, 1296.1389, -1392.4429, 13.3277},
 		{0.0, 1240.5802, -1393.1616, 13.1958},
-		{0.0, 1207.1169, -1375.5135, 13.3412}, 
+		{0.0, 1207.1169, -1375.5135, 13.3412},
 		{1.0, 1209.0981, -1322.3440, 13.4622},
-		{0.0, 1177.7158, -1278.9457, 13.4591}, 
+		{0.0, 1177.7158, -1278.9457, 13.4591},
 		{0.0, 1080.0758, -1278.3639, 13.4714},
-		{0.0, 1056.1688, -1335.1259, 13.4466}, 
-		{0.0, 1056.3002, -1377.5176, 13.5088}, 
-		{0.0, 1027.6252, -1398.4432, 13.2170}, 
-		{0.0, 969.8828, -1398.0747, 13.1279}, 
-		{0.0, 804.0782, -1392.7827, 13.5374}, 
+		{0.0, 1056.1688, -1335.1259, 13.4466},
+		{0.0, 1056.3002, -1377.5176, 13.5088},
+		{0.0, 1027.6252, -1398.4432, 13.2170},
+		{0.0, 969.8828, -1398.0747, 13.1279},
+		{0.0, 804.0782, -1392.7827, 13.5374},
 		{1.0, 741.8776, -1391.9899, 13.5168},
 		{0.0, 684.9726, -1392.6532, 13.4572},
 		{0.0, 654.5139, -1393.0236, 13.4998},
 		{0.0, 640.0137, -1339.0952, 13.4462},
-		{0.0, 635.7014, -1232.3160, 17.8034}, 
-		{0.0, 662.3267, -1198.8881, 17.8619}, 
+		{0.0, 635.7014, -1232.3160, 17.8034},
+		{0.0, 662.3267, -1198.8881, 17.8619},
 		{0.0, 709.7277, -1130.0580, 17.1765},
-		{0.0, 839.3014, -1040.2860, 25.1517}, 
+		{0.0, 839.3014, -1040.2860, 25.1517},
 		{0.0, 931.2985, -981.0266, 38.3490},
 		{0.0, 1073.5692, -962.0134, 42.5478},
-		{0.0, 1140.2147, -957.6910, 42.5991}, 
+		{0.0, 1140.2147, -957.6910, 42.5991},
 		{1.0, 1206.7061, -949.3026, 42.7670},
-		{0.0, 1261.0939, -979.9332, 37.3595}, 
+		{0.0, 1261.0939, -979.9332, 37.3595},
 		{0.0, 1260.5320, -1066.5033, 29.0543},
 		{0.0, 1260.4008, -1122.8914, 24.1267},
 		{1.0, 1303.2032, -1152.1542, 23.7176},
-		{0.0, 1368.4347, -1144.1094, 23.7198}, 
-		{0.0, 1509.0067, -1163.0048, 23.9722}, 
+		{0.0, 1368.4347, -1144.1094, 23.7198},
+		{0.0, 1509.0067, -1163.0048, 23.9722},
 		{1.0, 1655.0857, -1163.9010, 23.8544},
 		{0.0, 1724.9634, -1163.5212, 23.7110},
-		{0.0, 1784.4431, -1174.7693, 23.7208}, 
-		{0.0, 1833.6322, -1183.0609, 23.6776}, 
-		{0.0, 1845.9751, -1215.3093, 19.6258}, 
-		{0.0, 1845.5454, -1279.9420, 13.4508}, 
-		{0.0, 1845.4575, -1430.8671, 13.4539}, 
+		{0.0, 1784.4431, -1174.7693, 23.7208},
+		{0.0, 1833.6322, -1183.0609, 23.6776},
+		{0.0, 1845.9751, -1215.3093, 19.6258},
+		{0.0, 1845.5454, -1279.9420, 13.4508},
+		{0.0, 1845.4575, -1430.8671, 13.4539},
 		{0.0, 1828.9199, -1547.0852, 13.4411},
-		{0.0, 1819.0068, -1630.1299, 13.4459}, 
+		{0.0, 1819.0068, -1630.1299, 13.4459},
 		{1.0, 1818.5881, -1678.8138, 13.4470},
-		{0.0, 1819.2369, -1796.1860, 13.4489}, 
-		{0.0, 1802.2902, -1830.0433, 13.4596}, 
-		{0.0, 1705.3912, -1809.4994, 13.4341}, 
-		{0.0, 1687.6646, -1834.1592, 13.4473}, 
-		{0.0, 1636.5266, -1869.9569, 13.4484}, 
-		{0.0, 1513.1302, -1869.9481, 13.4464}, 
+		{0.0, 1819.2369, -1796.1860, 13.4489},
+		{0.0, 1802.2902, -1830.0433, 13.4596},
+		{0.0, 1705.3912, -1809.4994, 13.4341},
+		{0.0, 1687.6646, -1834.1592, 13.4473},
+		{0.0, 1636.5266, -1869.9569, 13.4484},
+		{0.0, 1513.1302, -1869.9481, 13.4464},
 		{0.0, 1329.5339, -1850.9509, 13.4504},
-		{0.0, 1280.9746, -1850.2411, 13.4591}, 
-		{0.0, 1257.6544, -1828.6670, 13.4414}, 
+		{0.0, 1280.9746, -1850.2411, 13.4591},
+		{0.0, 1257.6544, -1828.6670, 13.4414},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
-		{0.0, 0.0, 0.0, 0.0}, 
-		{0.0, 0.0, 0.0, 0.0}, 
+		{0.0, 0.0, 0.0, 0.0},
+		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
@@ -6745,8 +6804,8 @@ Float:moved_pos_object[MAX_OBJECT_MOVED][6]={
 	{2720.485839, -2496.274658, 14.171773, 0.000007, -0.0, 90.099929},
 	{1206.085449, -1501.230102, 13.168020, 0.0, 0.0, 90.800071},
 	{193.160522, -152.582107, 1019.205688, 0.0, 0.0, 0.0},
-	{202.633590, -152.582107, 1019.205688, -0.000022, 0.0, 0.0}, 
-	{203.591506, -149.240661, 1019.188720, 0.0, 0.0, 270.0}, 
+	{202.633590, -152.582107, 1019.205688, -0.000022, 0.0, 0.0},
+	{203.591506, -149.240661, 1019.188720, 0.0, 0.0, 270.0},
 	{1366.781982, 399.024780, 15.961837, 0.0, 0.0, 66.100036}, //
 	{2720.485595, -2397.470703, 14.171773, 0.0, 0.0, 90.099952},
 	{2836.979736, 1091.134399, 1051.567260, 0.0, 0.0, 180.0},
@@ -6761,15 +6820,19 @@ Float:moved_pos_object[MAX_OBJECT_MOVED][6]={
 	{-486.344726, -562.425537, 25.272714, 0.0, 0.000007, 0.0},
 	{559.421813, -1255.287475, 16.894090, 0.000022, 0.000053, 30.999986},
 	{-47.386756, -190.726776, 1025.983154, 0.0, 0.0, 270.0},
-	{-37.796813, -190.726760, 1025.983154, 0.0, 0.0, -60.0}, 
+	{-37.796813, -190.726760, 1025.983154, 0.0, 0.0, -60.0},
 	{-45.876758, -179.886886, 1025.983154, 0.0, 0.0, 90.0},
 	{-32.306766, -186.196929, 1025.983154, 0.0, 0.0, 0.0},
-	{-32.843727, -175.250106, 1025.985229, 0.0, 0.0, -60.0}, 
-	{-32.863727, -177.470092, 1025.985229, 0.0, 0.0, 180.0} 
+	{-32.843727, -175.250106, 1025.985229, 0.0, 0.0, -60.0},
+	{-32.863727, -177.470092, 1025.985229, 0.0, 0.0, 180.0}
 };
 new pickup_id[MAX_PLAYERS];
 new call_id[MAX_PLAYERS];
+new selected_business_id[MAX_PLAYERS];
+new selected_object[MAX_PLAYERS];
+new tempbobject[MAX_PLAYERS];
 new call_timer[MAX_PLAYERS];
+new ProdLoadTimer[MAX_PLAYERS];
 new addchet[MAX_PLAYERS];
 new FirstBL[MAX_PLAYERS],
 UnbanName[MAX_PLAYERS][24];
@@ -7017,7 +7080,7 @@ enum enter_info {
 // 	/*79*/ {802.7189, 2513.2903, 1502.0144},
 //  /*80*/ {2355.6836, 247.3056, 26.7145}, // Вхід.
 //  /*81*/ {789.2207, 2505.4590, 1502.0000} // Вихід.
- 
+
 
 // };
 /* new gPickupData[PICKUPS_COUNT][3] ={ // int | world | id
@@ -7035,7 +7098,7 @@ enum enter_info {
 	{-1, -1, 1239}, //11
 	{0, 0, 2663}, //12
 	{0, 0, 1314}, //13
-	{-1, -1, 2358}, //14 
+	{-1, -1, 2358}, //14
 	{-1, -1, 1318}, //15
 	{7, 42, 1239}, //16
 	{0, 0, 1314}, //17
@@ -7200,6 +7263,10 @@ CB:Float:GetDistanceBetweenPlayers(p1,p2) {
 	if(!IsPlayerConnected(p1) || !IsPlayerConnected(p2)) return -1.00;
 	GetPlayerPos(p1,x1,y1,z1);
 	GetPlayerPos(p2,x2,y2,z2);
+	return floatsqroot(floatpower(floatabs(floatsub(x2,x1)), 2) +floatpower(floatabs(floatsub(y2,y1)), 2) +floatpower(floatabs(floatsub(z2,z1)), 2));
+}
+CB:Float:GetDistanceBetweenPoints(Float:x1, Float:y1, Float:z1, Float:x2, Float:y2, Float:z2)
+{
 	return floatsqroot(floatpower(floatabs(floatsub(x2,x1)), 2) +floatpower(floatabs(floatsub(y2,y1)), 2) +floatpower(floatabs(floatsub(z2,z1)), 2));
 }
 enum pl_cars {
@@ -7552,7 +7619,7 @@ enum tInfo {
 new TI[MAX_PLAYERS][tInfo];
 stock SPD(playerid, dialogid, style, const caption[], const info[], const button1[], const button2[]) {
 	if(!TI[playerid][tLogin]) {
-		switch (dialogid) { 
+		switch (dialogid) {
 		case D_LOGIN, D_REG, D_REG_EMAIL, D_REG_FRIEND, D_CHAR_ADD_NAME, D_CHAR_ADD_SEX, D_CHAR_ADD_NATION, D_CHAR_ADD_AGE, D_CHAR_ADD_SKIN, 402, 462, 463, D_GOOGLE_2, D_CHANGE_PASS, dCode: { }
 		default: {
 				SendError(playerid, "Вами було відкрито заборонений діалог під час авторизації чи реєстрації.");
@@ -7666,7 +7733,7 @@ new Nalog[11];
 enum PickupInfo
 {
 	pickID,
-	pickText[72],
+	pickText[256],
 	Float:pickX,
 	Float:pickY,
 	Float:pickZ,
@@ -7691,10 +7758,15 @@ enum PickupInfo
 	pickComment[256],
 	pickObject,
 	Text3D:pickupText,
-	pickMainID
+	pickMainID,
+	IsEnterExit,
+	Float:SphereRadius
 }
 new pickinfo[PICKUPS_COUNT][PickupInfo];
 new SpherePickID[PICKUPS_COUNT];
+new bSphere[MAX_BUSINESS_COUNT];
+new bGasSphere[MAX_BUSINESS_COUNT];
+new bintActiveSphere[BINT_COUNT];
 
 enum fgarage{
 	gGID,
@@ -7745,15 +7817,15 @@ enum fFleetInfo {
 	fleetSpawnVW,
 	fleetSpawnI
 }
-new fFleet[MAX_FACTIONS][MAX_FACTION_FLEET][fFleetInfo];	
+new fFleet[MAX_FACTIONS][MAX_FACTION_FLEET][fFleetInfo];
 
 new CarsCount;
 enum E_GosCars{
-	eID, 
-	eOrgs, 
-	eModel, 
+	eID,
+	eOrgs,
+	eModel,
 	ePrice,
-	eColor_1, 
+	eColor_1,
 	eColor_2
 }
 static const eGC[][E_GosCars] ={
@@ -7816,12 +7888,85 @@ enum BINT_DATA {
 	Float:bintY,
 	Float:bintZ,
 	Float:bintR,
-	Float:bintXB,
-	Float:bintYB,
-	Float:bintZB,
-	bintName[32]
+	Float:bintActiveX,
+	Float:bintActiveY,
+	Float:bintActiveZ,
+	Float:bintActorX,
+	Float:bintActorY,
+	Float:bintActorZ,
+	Float:bintActorAngle,
+	bintActivePickupID,
+	bintName[32],
+	businessID,
+
+
+	Float:businessinteriorX,
+	Float:businessinteriorY,
+	Float:businessinteriorZ,
+	Float:businessinteriorAngle,
+	businessinteriorWorld,
+	businessinteriorInt,
+	bInteriorID,
+	bintPickup,
+	bintSphere,
+	bintActivePickup
 }
+new gBints[BINT_COUNT][BINT_DATA];
+
+
 enum BUSINESS_DATA {
+	bID,
+	bName[64],
+	bType,
+	bInteriorID,
+	Float:bX,
+	Float:bY,
+	Float:bZ,
+	bOwnerID,
+	bOwnerName[32],
+	bPrice,
+	bBank,
+	bVisitors,
+	bOrder,
+	bOrderPrice,
+	bStatus,
+	bPickupID,
+	bMapIcon,
+	bIsGasStation,
+	Float:bGasX,
+	Float:bGasY,
+	Float:bGasZ,
+	Text3D:bGasText,
+	bGasPrice,
+	bGasTank,
+	bDescription[256],
+	bWarehouse,
+	bWarehouseMax,
+
+	bPickup,
+	Text3D:bText,
+	bMap,
+
+	bBankDay,
+
+
+	bMainBusinessID,
+	businessName[64],
+	businessOwnerID,
+	businessOwnerName[32],
+	bbusinessID,
+	businessType,
+	businessInteriorID,
+	Float:businessX,
+	Float:businessY,
+	Float:businessZ,
+	businessPrice,
+	businessBank,
+	businessVisitors,
+	businessOrder,
+	businessOrderPrice,
+	businessStatus,
+
 	bizzID,
 	bizzName[64],
 	bizzType,
@@ -7848,11 +7993,58 @@ enum BUSINESS_DATA {
 	bizzUpgrade[3],
 	bizzArrMoney
 }
+enum BUSINESS_ACTORS
+{
+	aID,
+	aBusinessID,
+	aActor,
+	aActorName[56],
+	Float:aX,
+	Float:aY,
+	Float:aZ,
+	Float:aAngle
+}
+enum BUSINESS_ARTICLES
+{
+	aArticleName[56],
+	aArticlePrice,
+	aArticleQTY,
+	aArticleMaxQTY,
+	aArticleOrder
+}
+enum BUSINESS_OBJECTS
+{
+	Float:obX,
+	Float:obY,
+	Float:obZ,
+	Float:obrX,
+	Float:obrY,
+	Float:obrZ,
+	ObjectID,
+	oInt,
+	oWorld,
+	oDBID
+}
+new gBusinessObjCount;
+#define MAX_BUSINESS_OBJECTS 500
+new gBusinessObjects[MAX_BUSINESS_COUNT][MAX_BUSINESS_OBJECTS][BUSINESS_OBJECTS];
+new BusinessObject[MAX_BUSINESS_COUNT][MAX_BUSINESS_OBJECTS];
+new MaxBObjects[MAX_BUSINESS_COUNT];
+new gBusinessArticles[MAX_BUSINESS_COUNT][MAX_BUSINESS_ARTICLES][BUSINESS_ARTICLES];
+new MaxArticles[MAX_BUSINESS_COUNT];
+new TakeOrder[MAX_BUSINESS_COUNT];
+new TotalArticlesQTY[MAX_BUSINESS_COUNT];
+new TotalArticlesMaxQTY[MAX_BUSINESS_COUNT];
+new gBusinessActors[MAX_BUSINESS_ACTORS][BUSINESS_ACTORS];
+new businessActor[MAX_BUSINESS_ACTORS];
+new Text3D:businessActorText[MAX_BUSINESS_ACTORS];
+
+
 // Бізнеси.
 new Bizz_r[MAX_BUSINESS_COUNT][MAX_PLAYERS];
 new BizzID[MAX_PLAYERS][4];
-new gBints[BINT_COUNT][BINT_DATA],
-gBintEnterArea[BINT_COUNT],
+
+new gBintEnterArea[BINT_COUNT],
 gBintBuyArea[BINT_COUNT],
 gBusiness[MAX_BUSINESS_COUNT][BUSINESS_DATA],
 b_area[MAX_BUSINESS_COUNT],
@@ -7860,14 +8052,80 @@ Text3D: gBusinessText[MAX_BUSINESS_COUNT],
 gBusinessIcon[MAX_BUSINESS_COUNT],
 gBusinessTypeName[BUSINESS_TYPE_COUNT][28] = {"Закусочна", "24/7", "Бар", "Клуб", "Магазин одягу", "Амуніція", "АЗС", "Автосалон", "Рибальський бізнес", "Комп'ютерний клуб", "Таксопарк", "Ріелторське агентство", "Спорт-Зал", "Транспортна компанія", "Кальянна", "Рекламне агентство", "Магазин Аксесуарів", "Тюнінг центр", "Яхт-клуб", "Аеропорт", "Трейлери", "Наркопритон", "Казино", "Магазин", "Магазин"},
 gBusinessCount,
+gBintsCount,
 gBarCosts[] = {5, 10, 13, 16, 24, 31},
-gTavernNames[][] = {{"Салат"}, {"Нагетси"}, {"Бургер"}, {"Піца"}}, 
+gTavernNames[][] = {{"Салат"}, {"Нагетси"}, {"Бургер"}, {"Піца"}},
 gTavernCosts[] = {5, 10, 13, 25},
 gShopProduct[SHOP_OBJECTS] = {66, 84, 24, 72, 38, 28, 16, 12, 25, 30, 25, 25},
 gShopPrice[SHOP_OBJECTS] = 	 {660, 840, 240, 720, 380, 280, 90, 120, 250, 300, 250, 2500},
 gShopObject[SHOP_OBJECTS][24] = {"Телефон", "Камера", "Годинник", "Телефонна книга", "SIM-карта", "Маска", "Аптечка", "Квіти", "Ремонтний комплект", "Балончик з фарбою", "Відмички", "Електронна відмичка"},
 gfishCosts[] = {520, 340, 100, 400},
 gPoiskCosts[] = {520, 340};
+
+
+enum BTypes
+{
+	bType_ID,
+	bTypeName[56],
+	bTypeMapIcon
+};
+new BusinessTypes[][BTypes] =
+{
+	{ 1, "Магазин зручностей", 17 },
+	{ 2, "Магазин одягу", 45 },
+	{ 3, "Магазин електроніки", 35 },
+	{ 4, "Магазин зброї", 18 },
+	{ 5, "Магазин транспорту", 55 },
+	{ 6, "Транспортна компанія", 51 },
+	{ 7, "Заправна станція", 47 },
+	{ 8, "Ресторан", 50 },
+	{ 9, "Бар", 50 }
+};
+
+enum BDefaultArticles
+{
+	bArticle_ID,
+	bArticleName[56],
+	bArticlePrice,
+	bArticleQTY,
+	bArticleBTypeID
+};
+new BusinessDefaultArticles[][BDefaultArticles] =
+{
+	// 24/7
+	{ 1, "Сигарети", 50, 30, 1 },
+	{ 2, "Запальничка", 30, 30, 1 },
+	{ 3, "Чипси", 20, 30, 1 },
+	{ 4, "Негазована вода", 15, 30, 1 },
+	{ 5, "Газована вода", 20, 30, 1 },
+	{ 6, "Содова", 30, 30, 1 },
+
+	// Gas Station
+	{ 1, "Каністра 1л", 100, 30, 7 },
+	{ 2, "Каністра 5л", 500, 30, 7 },
+	{ 3, "Каністра 10л", 5000, 30, 7 },
+	{ 4, "Ремонтний комплект", 1500, 30, 7 },
+	{ 5, "Відмички", 2500, 30, 7 },
+	{ 6, "Електронна відмичка", 8000, 30, 7 },
+	{ 7, "Сигарети", 100, 30, 7 },
+	{ 8, "Запальничка", 70, 30, 7 },
+
+	//Магазин електроніки
+	{ 1, "Мобільний телефон", 100, 30, 3 },
+	{ 2, "Сім-карта", 100, 30, 3 },
+	{ 3, "Навушники", 100, 30, 3 },
+	{ 4, "Бумбокс", 100, 30, 3 },
+
+	//Магазин зброї
+	{ 1, "Desert Eagle", 100, 30, 4 },
+	{ 2, "Shotgun", 100, 30, 3 },
+	{ 3, "M4A1", 100, 30, 3 },
+	{ 4, "AK-47", 100, 30, 3 },
+	{ 5, "Rifle", 100, 30, 3 },
+	{ 6, "Бейсбольна бита", 100, 30, 3 }
+
+};
+
 // Лопата, біта, катана, кастет, газовий балон, парашут.
 new stock gSellGun [14] = { 6, 5, 1, 17, 46, 23, 24, 25, 29, 30, 31, 33 };
 new stock gSellGunPrice [14] = { 50, 100, 100, 300, 1000, 16, 27, 32, 14, 27, 27, 1000, 1000, 500};
@@ -8682,9 +8940,9 @@ new Colors_LOW[][12] = { "000000", "FFFFFF", "20B2AA", "DC143C", "6495ED", "f0e6
 	"9F945C", "DCDE3D", "10C9C5", "70524D", "0BE472", "8A2CD7", "6152C2", "CF72A9", "E59338", "EEDC2D", "D8C762", "3FE65C"};
 
 // new CharacterSkin[cSexSkin][cSkinSkin][cDressSkin] = {
-// 	{ 
+// 	{
 
-// 		{ 
+// 		{
 // 			{31, 38, 39, 41, 53, 54, 55, 56, 75, 77, 85, 88, 89, 130, 141, 151, 152, 157, 172, 178, 191, 192, 193, 194, 196, 197, 199, 201, 205, 216, 226, 231, 232, 169, 224, 225, 263}, // Dressed.
 // 			{75, 90, 92, 138, 145, 246, 251, 87, 257} // Undressed.
 // 		}, // 0 - White.
@@ -8726,7 +8984,7 @@ new skin_undress[][] = {
 	{445},{446},{447},{448},{449},{450},{451}
 };
 stock SendDead(ids,whoids, killerid, playerid, reason) {
-	foreach(new m:Player) { 
+	foreach(new m:Player) {
 		if(reason == 0) return 1;
 		if(!TI[m][tLogin]) continue;
 		if(CI[m][pMember] == ids || CI[m][pMember] == whoids) SendDeathMessageToPlayer(m, killerid, playerid, reason);
@@ -8871,7 +9129,7 @@ Float:gun_checkpoints[5][3] = {
 	{968.0408, -450.0279, 1471.5500}, // Місце оружейка 3.
 	{971.0580, -450.0187, 1471.5500}, // Місце оружейка 4.
 	{974.1682, -450.0255, 1471.5500} // Місце оружейка 5.
-}, /* GunWorkWeapon[6] = {348, 353, 355, 356, 346, 349}, */ zavodsklad;
+},  GunWorkWeapon[6] = {348, 353, 355, 356, 346, 349},  zavodsklad;
 #include "../source/mast/mast_func.inc"
 new Text3D:sklad_armysf[3], Text3D:sklad_cops[4];
 new Float:news_edit[8][3] = {
@@ -8965,506 +9223,635 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, SelectSkin[playerid][3], 4);
 	PlayerTextDrawSetProportional(playerid, SelectSkin[playerid][3], 1);
 	PlayerTextDrawSetSelectable(playerid, SelectSkin[playerid][3], 1);
-	// Phone.
-	PhoneGUI[playerid][0] = CreatePlayerTextDraw(playerid, 543.0, 300.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][0], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][0], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][0], 0.500000, 13.300001);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][0], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][0], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][0], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][0], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][0], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][0], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][0], 621.0, 0.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][0], 0);
- 
-	PhoneGUI[playerid][1] = CreatePlayerTextDraw(playerid, 534.0, 238.0, "LD_BEAT:chit");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][1], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][1], 4);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][1], 0.500000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][1], 255);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][1], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][1], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][1], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][1], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][1], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][1], 19.0, 21.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][1], 0);
- 
-	PhoneGUI[playerid][2] = CreatePlayerTextDraw(playerid, 611.0, 238.0, "LD_BEAT:chit");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][2], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][2], 4);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][2], 0.500000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][2], 255);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][2], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][2], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][2], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][2], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][2], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][2], 19.0, 21.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][2], 0);
- 
-	PhoneGUI[playerid][3] = CreatePlayerTextDraw(playerid, 611.0, 404.0, "LD_BEAT:chit");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][3], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][3], 4);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][3], 0.500000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][3], 255);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][3], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][3], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][3], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][3], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][3], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][3], 19.0, 21.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][3], 0);
- 
-	PhoneGUI[playerid][4] = CreatePlayerTextDraw(playerid, 534.0, 404.0, "LD_BEAT:chit");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][4], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][4], 4);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][4], 0.500000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][4], 255);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][4], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][4], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][4], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][4], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][4], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][4], 19.0, 21.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][4], 0);
- 
-	PhoneGUI[playerid][5] = CreatePlayerTextDraw(playerid, 539.0, 248.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][5], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][5], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][5], 0.500000, 18.400001);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][5], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][5], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][5], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][5], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][5], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][5], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][5], 625.0, 0.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][5], 0);
- 
-	PhoneGUI[playerid][6] = CreatePlayerTextDraw(playerid, 545.0, 243.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][6], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][6], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][6], 0.500000, 18.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][6], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][6], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][6], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][6], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][6], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][6], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][6], 619.0, 1.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][6], 0);
- 
-	PhoneGUI[playerid][7] = CreatePlayerTextDraw(playerid, 542.0, 246.0, "ld_grav:sky");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][7], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][7], 4);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][7], 0.500000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][7], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][7], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][7], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][7], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][7], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][7], 255);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][7], 80.0, 112.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][7], 0);
- 
-	PhoneGUI[playerid][8] = CreatePlayerTextDraw(playerid, 552.0, 368.0, "1");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][8], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][8], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][8], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][8], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][8], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][8], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][8], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][8], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][8], 0);
- 
-	PhoneGUI[playerid][9] = CreatePlayerTextDraw(playerid, 554.0, 384.0, "4");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][9], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][9], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][9], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][9], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][9], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][9], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][9], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][9], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][9], 0);
- 
-	PhoneGUI[playerid][10] = CreatePlayerTextDraw(playerid, 554.0, 399.0, "7");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][10], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][10], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][10], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][10], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][10], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][10], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][10], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][10], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][10], 0);
- 
-	PhoneGUI[playerid][11] = CreatePlayerTextDraw(playerid, 552.0, 373.0, ".");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][11], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][11], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][11], 0.379999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][11], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][11], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][11], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][11], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][11], 0);
- 
-	PhoneGUI[playerid][12] = CreatePlayerTextDraw(playerid, 553.0, 390.0, "ghi");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][12], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][12], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][12], 0.200000, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][12], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][12], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][12], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][12], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][12], 0);
- 
-	PhoneGUI[playerid][13] = CreatePlayerTextDraw(playerid, 552.0, 403.0, "pqrs");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][13], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][13], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][13], 0.209999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][13], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][13], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][13], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][13], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][13], 0);
- 
-	PhoneGUI[playerid][14] = CreatePlayerTextDraw(playerid, 580.0, 369.0, "2");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][14], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][14], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][14], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][14], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][14], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][14], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][14], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][14], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][14], 0);
- 
-	PhoneGUI[playerid][15] = CreatePlayerTextDraw(playerid, 580.0, 385.0, "5");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][15], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][15], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][15], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][15], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][15], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][15], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][15], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][15], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][15], 0);
- 
-	PhoneGUI[playerid][16] = CreatePlayerTextDraw(playerid, 580.0, 400.0, "8");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][16], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][16], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][16], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][16], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][16], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][16], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][16], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][16], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][16], 0);
- 
-	PhoneGUI[playerid][17] = CreatePlayerTextDraw(playerid, 580.0, 368.0, "abc");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][17], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][17], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][17], 0.189999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][17], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][17], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][17], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][17], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][17], 0);
- 
-	PhoneGUI[playerid][18] = CreatePlayerTextDraw(playerid, 580.0, 383.0, "jkl");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][18], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][18], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][18], 0.189999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][18], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][18], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][18], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][18], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][18], 0);
- 
-	PhoneGUI[playerid][19] = CreatePlayerTextDraw(playerid, 579.0, 398.0, "tuv");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][19], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][19], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][19], 0.200000, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][19], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][19], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][19], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][19], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][19], 0);
- 
-	PhoneGUI[playerid][20] = CreatePlayerTextDraw(playerid, 605.0, 370.0, "3");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][20], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][20], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][20], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][20], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][20], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][20], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][20], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][20], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][20], 0);
- 
-	PhoneGUI[playerid][21] = CreatePlayerTextDraw(playerid, 605.0, 386.0, "6");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][21], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][21], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][21], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][21], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][21], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][21], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][21], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][21], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][21], 0);
- 
-	PhoneGUI[playerid][22] = CreatePlayerTextDraw(playerid, 605.0, 400.0, "9");
-	PlayerTextDrawAlignment(playerid,PhoneGUI[playerid][22], 3);
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][22], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][22], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][22], 0.379999, 1.200000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][22], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][22], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][22], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][22], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][22], 0);
- 
-	PhoneGUI[playerid][23] = CreatePlayerTextDraw(playerid, 604.0, 375.0, "der");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][23], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][23], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][23], 0.189999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][23], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][23], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][23], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][23], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][23], 0);
- 
-	PhoneGUI[playerid][24] = CreatePlayerTextDraw(playerid, 604.0, 391.0, "mno");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][24], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][24], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][24], 0.189999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][24], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][24], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][24], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][24], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][24], 0);
- 
-	PhoneGUI[playerid][25] = CreatePlayerTextDraw(playerid, 604.0, 404.0, "wxyz");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][25], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][25], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][25], 0.189999, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][25], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][25], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][25], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][25], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][25], 0);
- 
-	PhoneGUI[playerid][26] = CreatePlayerTextDraw(playerid, 624.0, 247.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][26], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][26], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][26], 0.500000, 0.599999);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][26], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][26], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][26], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][26], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][26], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][26], 102);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][26], 540.0, 0.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][26], 0);
- 
-	PhoneGUI[playerid][27] = CreatePlayerTextDraw(playerid, 550.0, 349.0, "Press ~h~~g~Y ~w~to unlock.");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][27], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][27], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][27], 0.200000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][27], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][27], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][27], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][27], 0);
- 
-	PhoneGUI[playerid][28] = CreatePlayerTextDraw(playerid, 624.0, 350.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][28], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][28], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][28], 0.500000, 0.799998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][28], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][28], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][28], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][28], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][28], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][28], 102);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][28], 540.0, 0.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][28], 0);
- 
-	PhoneGUI[playerid][29] = CreatePlayerTextDraw(playerid, 553.0, 268.0, "19:24");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][29], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][29], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][29], 0.500000, 3.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][29], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][29], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][29], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][29], 0);
- 
-	PhoneGUI[playerid][30] = CreatePlayerTextDraw(playerid, 622.0, 249.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][30], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][30], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][30], 0.500000, 0.199998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][30], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][30], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][30], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][30], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][30], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][30], -1);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][30], 617.0, -1.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][30], 0);
- 
-	PhoneGUI[playerid][31] = CreatePlayerTextDraw(playerid, 547.0, 276.0, "Error:404 ~n~Page not found!");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][31], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][31], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][31], 0.189998, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][31], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][31], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][31], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][31], 0);
- 
-	PhoneGUI[playerid][32] = CreatePlayerTextDraw(playerid, 616.0, 250.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][32], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][32], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][32], 0.500000, 0.099998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][32], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][32], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][32], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][32], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][32], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][32], -1);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][32], 616.0, -1.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][32], 0);
- 
-	PhoneGUI[playerid][33] = CreatePlayerTextDraw(playerid, 545.0, 249.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][33], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][33], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][33], 0.500000, 0.199998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][33], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][33], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][33], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][33], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][33], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][33], 102);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][33], 554.0, -1.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][33], 0);
- 
-	PhoneGUI[playerid][34] = CreatePlayerTextDraw(playerid, 545.0, 249.0, "_");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][34], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][34], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][34], 0.500000, 0.199998);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][34], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][34], 0);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][34], 1);
-	PlayerTextDrawSetShadow(playerid,PhoneGUI[playerid][34], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][34], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][34], -1);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][34], 548.0, -1.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][34], 0);
- 
-	PhoneGUI[playerid][35] = CreatePlayerTextDraw(playerid, 544.0, 349.0, "~h~~g~Select");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][35], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][35], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][35], 0.200000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][35], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][35], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][35], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][35], 0);
- 
-	PhoneGUI[playerid][36] = CreatePlayerTextDraw(playerid, 605.0, 349.0, "~h~~r~Back");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][36], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][36], 1);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][36], 0.200000, 1.0);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][36], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][36], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][36], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][36], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][36], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][36], 620.0, 8.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][36], 1);
- 
-	PhoneGUI[playerid][37] = CreatePlayerTextDraw(playerid, 549.0, 261.0, "Call");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][37], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][37], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][37], 0.209999, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][37], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][37], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][37], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][37], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][37], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][37], 571.0, 10.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][37], 1);
- 
-	PhoneGUI[playerid][38] = CreatePlayerTextDraw(playerid, 549.0, 274.0, "SMS");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][38], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][38], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][38], 0.209999, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][38], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][38], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][38], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][38], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][38], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][38], 567.0, 10.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][38], 1);
- 
-	PhoneGUI[playerid][39] = CreatePlayerTextDraw(playerid, 549.0, 291.0, "Add Contacts");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][39], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][39], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][39], 0.209999, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][39], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][39], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][39], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][39], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][39], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][39], 617.0, 10.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][39], 1);
- 
-	PhoneGUI[playerid][40] = CreatePlayerTextDraw(playerid, 549.0, 304.0, "List Contacts");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][40], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][40], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][40], 0.209999, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][40], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][40], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][40], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][40], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][40], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][40], 617.0, 10.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][40], 1);
- 
-	PhoneGUI[playerid][41] = CreatePlayerTextDraw(playerid, 549.0, 319.0, "Camera");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][41], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][41], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][41], 0.209999, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][41], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][41], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][41], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][41], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][41], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][41], 585.0, 10.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][41], 1);
- 
-	PhoneGUI[playerid][42] = CreatePlayerTextDraw(playerid, 549.0, 333.0, "Internet");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][42], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][42], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][42], 0.209999, 1.100000);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][42], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][42], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][42], 1);
-	PlayerTextDrawUseBox(playerid,PhoneGUI[playerid][42], 1);
-	PlayerTextDrawBoxColor(playerid,PhoneGUI[playerid][42], 0);
-	PlayerTextDrawTextSize(playerid,PhoneGUI[playerid][42], 592.0, 10.0);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][42], 1);
- 
-	PhoneGUI[playerid][43] = CreatePlayerTextDraw(playerid, 553.0, 291.0, "Roleplay");
-	PlayerTextDrawBackgroundColor(playerid,PhoneGUI[playerid][43], 255);
-	PlayerTextDrawFont(playerid,PhoneGUI[playerid][43], 2);
-	PlayerTextDrawLetterSize(playerid,PhoneGUI[playerid][43], 0.259999, 1.399999);
-	PlayerTextDrawColor(playerid,PhoneGUI[playerid][43], -1);
-	PlayerTextDrawSetOutline(playerid,PhoneGUI[playerid][43], 1);
-	PlayerTextDrawSetProportional(playerid,PhoneGUI[playerid][43], 1);
-	PlayerTextDrawSetSelectable(playerid,PhoneGUI[playerid][43], 0);
+
+	//New phone
+
+	iphone[0] = TextDrawCreate(50.265, 188.341, "_");
+	TextDrawTextSize(iphone[0], 19.000, 60.000);
+	TextDrawAlignment(iphone[0], 1);
+	TextDrawColor(iphone[0], -2139062017);
+	TextDrawSetShadow(iphone[0], 0);
+	TextDrawSetOutline(iphone[0], 0);
+	TextDrawBackgroundColor(iphone[0], 0);
+	TextDrawFont(iphone[0], 5);
+	TextDrawSetProportional(iphone[0], 0);
+	TextDrawSetPreviewModel(iphone[0], 1581);
+	TextDrawSetPreviewRot(iphone[0], 0.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(iphone[0], 0, 0);
+
+	iphone[1] = TextDrawCreate(105.999, 202.445, "_");
+	TextDrawTextSize(iphone[1], 20.000, 41.000);
+	TextDrawAlignment(iphone[1], 1);
+	TextDrawColor(iphone[1], -2139062017);
+	TextDrawSetShadow(iphone[1], 0);
+	TextDrawSetOutline(iphone[1], 0);
+	TextDrawBackgroundColor(iphone[1], 0);
+	TextDrawFont(iphone[1], 5);
+	TextDrawSetProportional(iphone[1], 0);
+	TextDrawSetPreviewModel(iphone[1], 1581);
+	TextDrawSetPreviewRot(iphone[1], 0.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(iphone[1], 0, 0);
+
+	iphone[2] = TextDrawCreate(46.566, 322.311, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[2], 84.000, 9.000);
+	TextDrawAlignment(iphone[2], 1);
+	TextDrawColor(iphone[2], 177);
+	TextDrawSetShadow(iphone[2], 0);
+	TextDrawSetOutline(iphone[2], 0);
+	TextDrawBackgroundColor(iphone[2], 255);
+	TextDrawFont(iphone[2], 4);
+	TextDrawSetProportional(iphone[2], 0);
+
+	iphone[3] = TextDrawCreate(50.432, 173.007, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[3], 21.000, 26.000);
+	TextDrawAlignment(iphone[3], 1);
+	TextDrawColor(iphone[3], -269290753);
+	TextDrawSetShadow(iphone[3], 0);
+	TextDrawSetOutline(iphone[3], 0);
+	TextDrawBackgroundColor(iphone[3], 255);
+	TextDrawFont(iphone[3], 4);
+	TextDrawSetProportional(iphone[3], 0);
+
+	iphone[4] = TextDrawCreate(104.799, 173.207, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[4], 21.000, 26.000);
+	TextDrawAlignment(iphone[4], 1);
+	TextDrawColor(iphone[4], -269290753);
+	TextDrawSetShadow(iphone[4], 0);
+	TextDrawSetOutline(iphone[4], 0);
+	TextDrawBackgroundColor(iphone[4], 255);
+	TextDrawFont(iphone[4], 4);
+	TextDrawSetProportional(iphone[4], 0);
+
+	iphone[5] = TextDrawCreate(104.233, 308.265, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[5], 21.000, 26.000);
+	TextDrawAlignment(iphone[5], 1);
+	TextDrawColor(iphone[5], -269290753);
+	TextDrawSetShadow(iphone[5], 0);
+	TextDrawSetOutline(iphone[5], 0);
+	TextDrawBackgroundColor(iphone[5], 255);
+	TextDrawFont(iphone[5], 4);
+	TextDrawSetProportional(iphone[5], 0);
+
+	iphone[6] = TextDrawCreate(50.500, 308.180, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[6], 21.000, 26.000);
+	TextDrawAlignment(iphone[6], 1);
+	TextDrawColor(iphone[6], -269290753);
+	TextDrawSetShadow(iphone[6], 0);
+	TextDrawSetOutline(iphone[6], 0);
+	TextDrawBackgroundColor(iphone[6], 255);
+	TextDrawFont(iphone[6], 4);
+	TextDrawSetProportional(iphone[6], 0);
+
+	iphone[7] = TextDrawCreate(61.533, 178.940, "Box");
+	TextDrawLetterSize(iphone[7], 0.000, 16.590);
+	TextDrawTextSize(iphone[7], 114.000, 0.000);
+	TextDrawAlignment(iphone[7], 1);
+	TextDrawColor(iphone[7], -1);
+	TextDrawUseBox(iphone[7], 1);
+	TextDrawBoxColor(iphone[7], -269290753);
+	TextDrawSetShadow(iphone[7], 0);
+	TextDrawSetOutline(iphone[7], 0);
+	TextDrawBackgroundColor(iphone[7], 255);
+	TextDrawFont(iphone[7], 1);
+	TextDrawSetProportional(iphone[7], 1);
+
+	iphone[8] = TextDrawCreate(55.199, 187.751, "Box");
+	TextDrawLetterSize(iphone[8], 0.000, 14.798);
+	TextDrawTextSize(iphone[8], 120.680, 0.000);
+	TextDrawAlignment(iphone[8], 1);
+	TextDrawColor(iphone[8], -1);
+	TextDrawUseBox(iphone[8], 1);
+	TextDrawBoxColor(iphone[8], -269290753);
+	TextDrawSetShadow(iphone[8], 0);
+	TextDrawSetOutline(iphone[8], 0);
+	TextDrawBackgroundColor(iphone[8], 255);
+	TextDrawFont(iphone[8], 1);
+	TextDrawSetProportional(iphone[8], 1);
+
+	iphone[9] = TextDrawCreate(51.131, 174.037, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[9], 21.000, 26.000);
+	TextDrawAlignment(iphone[9], 1);
+	TextDrawColor(iphone[9], 252645375);
+	TextDrawSetShadow(iphone[9], 0);
+	TextDrawSetOutline(iphone[9], 0);
+	TextDrawBackgroundColor(iphone[9], 255);
+	TextDrawFont(iphone[9], 4);
+	TextDrawSetProportional(iphone[9], 0);
+
+	iphone[10] = TextDrawCreate(103.966, 174.222, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[10], 21.000, 26.000);
+	TextDrawAlignment(iphone[10], 1);
+	TextDrawColor(iphone[10], 252645375);
+	TextDrawSetShadow(iphone[10], 0);
+	TextDrawSetOutline(iphone[10], 0);
+	TextDrawBackgroundColor(iphone[10], 255);
+	TextDrawFont(iphone[10], 4);
+	TextDrawSetProportional(iphone[10], 0);
+
+	iphone[11] = TextDrawCreate(103.899, 307.477, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[11], 21.000, 26.000);
+	TextDrawAlignment(iphone[11], 1);
+	TextDrawColor(iphone[11], 252645375);
+	TextDrawSetShadow(iphone[11], 0);
+	TextDrawSetOutline(iphone[11], 0);
+	TextDrawBackgroundColor(iphone[11], 255);
+	TextDrawFont(iphone[11], 4);
+	TextDrawSetProportional(iphone[11], 0);
+
+	iphone[12] = TextDrawCreate(51.265, 307.477, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[12], 21.000, 26.000);
+	TextDrawAlignment(iphone[12], 1);
+	TextDrawColor(iphone[12], 252645375);
+	TextDrawSetShadow(iphone[12], 0);
+	TextDrawSetOutline(iphone[12], 0);
+	TextDrawBackgroundColor(iphone[12], 255);
+	TextDrawFont(iphone[12], 4);
+	TextDrawSetProportional(iphone[12], 0);
+
+	iphone[13] = TextDrawCreate(61.866, 180.085, "Box");
+	TextDrawLetterSize(iphone[13], 0.000, 16.381);
+	TextDrawTextSize(iphone[13], 113.699, 0.000);
+	TextDrawAlignment(iphone[13], 1);
+	TextDrawColor(iphone[13], -1);
+	TextDrawUseBox(iphone[13], 1);
+	TextDrawBoxColor(iphone[13], 252645375);
+	TextDrawSetShadow(iphone[13], 0);
+	TextDrawSetOutline(iphone[13], 0);
+	TextDrawBackgroundColor(iphone[13], 255);
+	TextDrawFont(iphone[13], 1);
+	TextDrawSetProportional(iphone[13], 1);
+
+	iphone[14] = TextDrawCreate(55.866, 188.595, "Box");
+	TextDrawLetterSize(iphone[14], 0.000, 14.435);
+	TextDrawTextSize(iphone[14], 120.099, 0.000);
+	TextDrawAlignment(iphone[14], 1);
+	TextDrawColor(iphone[14], -1);
+	TextDrawUseBox(iphone[14], 1);
+	TextDrawBoxColor(iphone[14], 252645375);
+	TextDrawSetShadow(iphone[14], 0);
+	TextDrawSetOutline(iphone[14], 0);
+	TextDrawBackgroundColor(iphone[14], 255);
+	TextDrawFont(iphone[14], 1);
+	TextDrawSetProportional(iphone[14], 1);
+
+	iphone[15] = TextDrawCreate(52.432, 175.481, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[15], 21.000, 26.000);
+	TextDrawAlignment(iphone[15], 1);
+	TextDrawColor(iphone[15], 1182971135);
+	TextDrawSetShadow(iphone[15], 0);
+	TextDrawSetOutline(iphone[15], 0);
+	TextDrawBackgroundColor(iphone[15], 255);
+	TextDrawFont(iphone[15], 4);
+	TextDrawSetProportional(iphone[15], 0);
+
+	iphone[16] = TextDrawCreate(102.865, 175.595, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[16], 21.000, 26.000);
+	TextDrawAlignment(iphone[16], 1);
+	TextDrawColor(iphone[16], 1182971135);
+	TextDrawSetShadow(iphone[16], 0);
+	TextDrawSetOutline(iphone[16], 0);
+	TextDrawBackgroundColor(iphone[16], 255);
+	TextDrawFont(iphone[16], 4);
+	TextDrawSetProportional(iphone[16], 0);
+
+	iphone[17] = TextDrawCreate(102.833, 305.733, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[17], 21.000, 26.000);
+	TextDrawAlignment(iphone[17], 1);
+	TextDrawColor(iphone[17], 1182971135);
+	TextDrawSetShadow(iphone[17], 0);
+	TextDrawSetOutline(iphone[17], 0);
+	TextDrawBackgroundColor(iphone[17], 255);
+	TextDrawFont(iphone[17], 4);
+	TextDrawSetProportional(iphone[17], 0);
+
+	iphone[18] = TextDrawCreate(52.598, 305.503, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[18], 21.000, 26.000);
+	TextDrawAlignment(iphone[18], 1);
+	TextDrawColor(iphone[18], 1182971135);
+	TextDrawSetShadow(iphone[18], 0);
+	TextDrawSetOutline(iphone[18], 0);
+	TextDrawBackgroundColor(iphone[18], 255);
+	TextDrawFont(iphone[18], 4);
+	TextDrawSetProportional(iphone[18], 0);
+
+	iphone[19] = TextDrawCreate(57.499, 189.095, "Box");
+	TextDrawLetterSize(iphone[19], 0.000, 14.225);
+	TextDrawTextSize(iphone[19], 118.699, 0.000);
+	TextDrawAlignment(iphone[19], 1);
+	TextDrawColor(iphone[19], -1);
+	TextDrawUseBox(iphone[19], 1);
+	TextDrawBoxColor(iphone[19], 1182971135);
+	TextDrawSetShadow(iphone[19], 0);
+	TextDrawSetOutline(iphone[19], 0);
+	TextDrawBackgroundColor(iphone[19], 255);
+	TextDrawFont(iphone[19], 1);
+	TextDrawSetProportional(iphone[19], 1);
+
+	iphone[20] = TextDrawCreate(63.699, 197.076, "Box");
+	TextDrawLetterSize(iphone[20], 0.000, 14.258);
+	TextDrawTextSize(iphone[20], 111.699, 0.000);
+	TextDrawAlignment(iphone[20], 1);
+	TextDrawColor(iphone[20], -1);
+	TextDrawUseBox(iphone[20], 1);
+	TextDrawBoxColor(iphone[20], 1182971135);
+	TextDrawSetShadow(iphone[20], 0);
+	TextDrawSetOutline(iphone[20], 0);
+	TextDrawBackgroundColor(iphone[20], 255);
+	TextDrawFont(iphone[20], 1);
+	TextDrawSetProportional(iphone[20], 1);
+
+	iphone[21] = TextDrawCreate(67.432, 177.539, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[21], 13.000, 16.000);
+	TextDrawAlignment(iphone[21], 1);
+	TextDrawColor(iphone[21], 252645375);
+	TextDrawSetShadow(iphone[21], 0);
+	TextDrawSetOutline(iphone[21], 0);
+	TextDrawBackgroundColor(iphone[21], 255);
+	TextDrawFont(iphone[21], 4);
+	TextDrawSetProportional(iphone[21], 0);
+
+	iphone[22] = TextDrawCreate(95.799, 177.539, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[22], 13.000, 16.000);
+	TextDrawAlignment(iphone[22], 1);
+	TextDrawColor(iphone[22], 252645375);
+	TextDrawSetShadow(iphone[22], 0);
+	TextDrawSetOutline(iphone[22], 0);
+	TextDrawBackgroundColor(iphone[22], 255);
+	TextDrawFont(iphone[22], 4);
+	TextDrawSetProportional(iphone[22], 0);
+
+	iphone[23] = TextDrawCreate(74.532, 184.033, "Box");
+	TextDrawLetterSize(iphone[23], 0.000, 0.569);
+	TextDrawTextSize(iphone[23], 100.699, 0.000);
+	TextDrawAlignment(iphone[23], 1);
+	TextDrawColor(iphone[23], -1);
+	TextDrawUseBox(iphone[23], 1);
+	TextDrawBoxColor(iphone[23], 252645375);
+	TextDrawSetShadow(iphone[23], 0);
+	TextDrawSetOutline(iphone[23], 0);
+	TextDrawBackgroundColor(iphone[23], 255);
+	TextDrawFont(iphone[23], 1);
+	TextDrawSetProportional(iphone[23], 1);
+
+	iphone[24] = TextDrawCreate(82.299, 183.132, "Box");
+	TextDrawLetterSize(iphone[24], 0.000, -0.230);
+	TextDrawTextSize(iphone[24], 95.699, 0.000);
+	TextDrawAlignment(iphone[24], 1);
+	TextDrawColor(iphone[24], -1);
+	TextDrawUseBox(iphone[24], 1);
+	TextDrawBoxColor(iphone[24], -2139062225);
+	TextDrawSetShadow(iphone[24], 0);
+	TextDrawSetOutline(iphone[24], 0);
+	TextDrawBackgroundColor(iphone[24], 255);
+	TextDrawFont(iphone[24], 1);
+	TextDrawSetProportional(iphone[24], 1);
+
+	iphone[25] = TextDrawCreate(98.733, 179.600, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[25], 5.000, 6.000);
+	TextDrawAlignment(iphone[25], 1);
+	TextDrawColor(iphone[25], -2139062211);
+	TextDrawSetShadow(iphone[25], 0);
+	TextDrawSetOutline(iphone[25], 0);
+	TextDrawBackgroundColor(iphone[25], 255);
+	TextDrawFont(iphone[25], 4);
+	TextDrawSetProportional(iphone[25], 0);
+
+	iphone[26] = TextDrawCreate(62.798, 182.988, "22:19");
+	TextDrawLetterSize(iphone[26], 0.087, 0.674);
+	TextDrawTextSize(iphone[26], 10.100, 10.100);
+	TextDrawAlignment(iphone[26], 2);
+	TextDrawColor(iphone[26], -90);
+	TextDrawSetShadow(iphone[26], 0);
+	TextDrawSetOutline(iphone[26], 0);
+	TextDrawBackgroundColor(iphone[26], 255);
+	TextDrawFont(iphone[26], 2);
+	TextDrawSetProportional(iphone[26], 1);
+
+	iphone[27] = TextDrawCreate(59.366, 278.696, "Box");
+	TextDrawLetterSize(iphone[27], 0.000, 4.392);
+	TextDrawTextSize(iphone[27], 114.699, 0.000);
+	TextDrawAlignment(iphone[27], 1);
+	TextDrawColor(iphone[27], -1);
+	TextDrawUseBox(iphone[27], 1);
+	TextDrawBoxColor(iphone[27], 1182971135);
+	TextDrawSetShadow(iphone[27], 0);
+	TextDrawSetOutline(iphone[27], 0);
+	TextDrawBackgroundColor(iphone[27], 255);
+	TextDrawFont(iphone[27], 1);
+	TextDrawSetProportional(iphone[27], 1);
+
+	iphone[28] = TextDrawCreate(57.132, 206.162, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[28], 61.000, 121.000);
+	TextDrawAlignment(iphone[28], 1);
+	TextDrawColor(iphone[28], -203);
+	TextDrawSetShadow(iphone[28], 0);
+	TextDrawSetOutline(iphone[28], 0);
+	TextDrawBackgroundColor(iphone[28], 255);
+	TextDrawFont(iphone[28], 4);
+	TextDrawSetProportional(iphone[28], 0);
+
+	iphone[29] = TextDrawCreate(109.133, 184.233, "I");
+	TextDrawLetterSize(iphone[29], 0.187, 0.521);
+	TextDrawTextSize(iphone[29], 1280.000, 1280.000);
+	TextDrawAlignment(iphone[29], 2);
+	TextDrawColor(iphone[29], -90);
+	TextDrawSetShadow(iphone[29], 0);
+	TextDrawSetOutline(iphone[29], 0);
+	TextDrawBackgroundColor(iphone[29], 255);
+	TextDrawFont(iphone[29], 1);
+	TextDrawSetProportional(iphone[29], 1);
+
+	iphone[30] = TextDrawCreate(110.633, 182.832, "I");
+	TextDrawLetterSize(iphone[30], 0.193, 0.720);
+	TextDrawTextSize(iphone[30], 1280.000, 1280.000);
+	TextDrawAlignment(iphone[30], 2);
+	TextDrawColor(iphone[30], -90);
+	TextDrawSetShadow(iphone[30], 0);
+	TextDrawSetOutline(iphone[30], 0);
+	TextDrawBackgroundColor(iphone[30], 255);
+	TextDrawFont(iphone[30], 1);
+	TextDrawSetProportional(iphone[30], 1);
+
+	iphone[31] = TextDrawCreate(112.032, 181.632, "I");
+	TextDrawLetterSize(iphone[31], 0.184, 0.856);
+	TextDrawTextSize(iphone[31], 1280.000, 1280.000);
+	TextDrawAlignment(iphone[31], 2);
+	TextDrawColor(iphone[31], -90);
+	TextDrawSetShadow(iphone[31], 0);
+	TextDrawSetOutline(iphone[31], 0);
+	TextDrawBackgroundColor(iphone[31], 255);
+	TextDrawFont(iphone[31], 1);
+	TextDrawSetProportional(iphone[31], 1);
+
+	iphone[32] = TextDrawCreate(116.399, 183.876, "O");
+	TextDrawLetterSize(iphone[32], 0.168, 0.462);
+	TextDrawTextSize(iphone[32], 1280.000, 1280.000);
+	TextDrawAlignment(iphone[32], 2);
+	TextDrawColor(iphone[32], -90);
+	TextDrawSetShadow(iphone[32], 0);
+	TextDrawSetOutline(iphone[32], 0);
+	TextDrawBackgroundColor(iphone[32], 255);
+	TextDrawFont(iphone[32], 2);
+	TextDrawSetProportional(iphone[32], 1);
+
+	iphone[33] = TextDrawCreate(87.899, 197.518, "22:19");
+	TextDrawLetterSize(iphone[33], 0.238, 1.973);
+	TextDrawTextSize(iphone[33], 20.100, 30.100);
+	TextDrawAlignment(iphone[33], 2);
+	TextDrawColor(iphone[33], -90);
+	TextDrawSetShadow(iphone[33], 1);
+	TextDrawSetOutline(iphone[33], 0);
+	TextDrawBackgroundColor(iphone[33], 88);
+	TextDrawFont(iphone[33], 2);
+	TextDrawSetProportional(iphone[33], 1);
+
+	iphone[34] = TextDrawCreate(58.999, 315.959, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[34], 13.000, -9.000);
+	TextDrawAlignment(iphone[34], 1);
+	TextDrawColor(iphone[34], 130);
+	TextDrawSetShadow(iphone[34], 0);
+	TextDrawSetOutline(iphone[34], 0);
+	TextDrawBackgroundColor(iphone[34], 255);
+	TextDrawFont(iphone[34], 4);
+	TextDrawSetProportional(iphone[34], 0);
+
+	iphone[35] = TextDrawCreate(57.033, 296.463, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[35], 17.000, 20.000);
+	TextDrawAlignment(iphone[35], 1);
+	TextDrawColor(iphone[35], 6619391);
+	TextDrawSetShadow(iphone[35], 0);
+	TextDrawSetOutline(iphone[35], 0);
+	TextDrawBackgroundColor(iphone[35], 255);
+	TextDrawFont(iphone[35], 4);
+	TextDrawSetProportional(iphone[35], 0);
+	TextDrawSetSelectable(iphone[35], 1);
+
+	iphone[36] = TextDrawCreate(73.698, 315.959, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[36], 13.000, -9.000);
+	TextDrawAlignment(iphone[36], 1);
+	TextDrawColor(iphone[36], 130);
+	TextDrawSetShadow(iphone[36], 0);
+	TextDrawSetOutline(iphone[36], 0);
+	TextDrawBackgroundColor(iphone[36], 255);
+	TextDrawFont(iphone[36], 4);
+	TextDrawSetProportional(iphone[36], 0);
+
+	iphone[37] = TextDrawCreate(71.733, 296.463, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[37], 17.000, 20.000);
+	TextDrawAlignment(iphone[37], 1);
+	TextDrawColor(iphone[37], 1010580735);
+	TextDrawSetShadow(iphone[37], 0);
+	TextDrawSetOutline(iphone[37], 0);
+	TextDrawBackgroundColor(iphone[37], 255);
+	TextDrawFont(iphone[37], 4);
+	TextDrawSetProportional(iphone[37], 0);
+	TextDrawSetSelectable(iphone[37], 1);
+
+	iphone[38] = TextDrawCreate(88.499, 315.959, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[38], 13.000, -9.000);
+	TextDrawAlignment(iphone[38], 1);
+	TextDrawColor(iphone[38], 130);
+	TextDrawSetShadow(iphone[38], 0);
+	TextDrawSetOutline(iphone[38], 0);
+	TextDrawBackgroundColor(iphone[38], 255);
+	TextDrawFont(iphone[38], 4);
+	TextDrawSetProportional(iphone[38], 0);
+
+	iphone[39] = TextDrawCreate(86.532, 296.463, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[39], 17.000, 20.000);
+	TextDrawAlignment(iphone[39], 1);
+	TextDrawColor(iphone[39], -1061109505);
+	TextDrawSetShadow(iphone[39], 0);
+	TextDrawSetOutline(iphone[39], 0);
+	TextDrawBackgroundColor(iphone[39], 255);
+	TextDrawFont(iphone[39], 4);
+	TextDrawSetProportional(iphone[39], 0);
+	TextDrawSetSelectable(iphone[39], 1);
+
+	iphone[40] = TextDrawCreate(62.931, 302.414, "_");
+	TextDrawTextSize(iphone[40], 5.000, 8.000);
+	TextDrawAlignment(iphone[40], 1);
+	TextDrawColor(iphone[40], -1);
+	TextDrawSetShadow(iphone[40], 0);
+	TextDrawSetOutline(iphone[40], 0);
+	TextDrawBackgroundColor(iphone[40], 0);
+	TextDrawFont(iphone[40], 5);
+	TextDrawSetProportional(iphone[40], 0);
+	TextDrawSetPreviewModel(iphone[40], 1316);
+	TextDrawSetPreviewRot(iphone[40], 41.000, 144.000, 53.000, 0.495);
+	TextDrawSetPreviewVehCol(iphone[40], 0, 0);
+
+	iphone[41] = TextDrawCreate(60.965, 301.255, "_");
+	TextDrawTextSize(iphone[41], 5.000, 5.000);
+	TextDrawAlignment(iphone[41], 1);
+	TextDrawColor(iphone[41], -1);
+	TextDrawSetShadow(iphone[41], 0);
+	TextDrawSetOutline(iphone[41], 0);
+	TextDrawBackgroundColor(iphone[41], 0);
+	TextDrawFont(iphone[41], 5);
+	TextDrawSetProportional(iphone[41], 0);
+	TextDrawSetPreviewModel(iphone[41], 19177);
+	TextDrawSetPreviewRot(iphone[41], 41.000, 144.000, 53.000, 0.224);
+	TextDrawSetPreviewVehCol(iphone[41], 0, 0);
+
+	iphone[42] = TextDrawCreate(64.399, 307.062, "_");
+	TextDrawTextSize(iphone[42], 5.000, 5.000);
+	TextDrawAlignment(iphone[42], 1);
+	TextDrawColor(iphone[42], -1);
+	TextDrawSetShadow(iphone[42], 0);
+	TextDrawSetOutline(iphone[42], 0);
+	TextDrawBackgroundColor(iphone[42], 0);
+	TextDrawFont(iphone[42], 5);
+	TextDrawSetProportional(iphone[42], 0);
+	TextDrawSetPreviewModel(iphone[42], 19177);
+	TextDrawSetPreviewRot(iphone[42], 41.000, 144.000, 53.000, 0.224);
+	TextDrawSetPreviewVehCol(iphone[42], 0, 0);
+
+	iphone[43] = TextDrawCreate(77.698, 301.170, "_");
+	TextDrawTextSize(iphone[43], 5.000, 6.000);
+	TextDrawAlignment(iphone[43], 1);
+	TextDrawColor(iphone[43], -1);
+	TextDrawSetShadow(iphone[43], 0);
+	TextDrawSetOutline(iphone[43], 0);
+	TextDrawBackgroundColor(iphone[43], 0);
+	TextDrawFont(iphone[43], 5);
+	TextDrawSetProportional(iphone[43], 0);
+	TextDrawSetPreviewModel(iphone[43], 19182);
+	TextDrawSetPreviewRot(iphone[43], 90.000, 0.000, 53.000, 0.140);
+	TextDrawSetPreviewVehCol(iphone[43], 0, 0);
+
+	iphone[44] = TextDrawCreate(75.733, 302.914, "_");
+	TextDrawTextSize(iphone[44], 9.000, 9.000);
+	TextDrawAlignment(iphone[44], 1);
+	TextDrawColor(iphone[44], -1);
+	TextDrawSetShadow(iphone[44], 0);
+	TextDrawSetOutline(iphone[44], 0);
+	TextDrawBackgroundColor(iphone[44], 0);
+	TextDrawFont(iphone[44], 5);
+	TextDrawSetProportional(iphone[44], 0);
+	TextDrawSetPreviewModel(iphone[44], 19177);
+	TextDrawSetPreviewRot(iphone[44], 0.000, 0.000, 53.000, 0.224);
+	TextDrawSetPreviewVehCol(iphone[44], 0, 0);
+
+	iphone[45] = TextDrawCreate(102.698, 315.959, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[45], 13.000, -9.000);
+	TextDrawAlignment(iphone[45], 1);
+	TextDrawColor(iphone[45], 130);
+	TextDrawSetShadow(iphone[45], 0);
+	TextDrawSetOutline(iphone[45], 0);
+	TextDrawBackgroundColor(iphone[45], 255);
+	TextDrawFont(iphone[45], 4);
+	TextDrawSetProportional(iphone[45], 0);
+
+	iphone[46] = TextDrawCreate(100.632, 296.463, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[46], 17.000, 20.000);
+	TextDrawAlignment(iphone[46], 1);
+	TextDrawColor(iphone[46], -2147483393);
+	TextDrawSetShadow(iphone[46], 0);
+	TextDrawSetOutline(iphone[46], 0);
+	TextDrawBackgroundColor(iphone[46], 255);
+	TextDrawFont(iphone[46], 4);
+	TextDrawSetProportional(iphone[46], 0);
+	TextDrawSetSelectable(iphone[46], 1);
+
+	iphone[47] = TextDrawCreate(91.065, 301.755, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[47], 8.000, 9.000);
+	TextDrawAlignment(iphone[47], 1);
+	TextDrawColor(iphone[47], -1523963137);
+	TextDrawSetShadow(iphone[47], 0);
+	TextDrawSetOutline(iphone[47], 0);
+	TextDrawBackgroundColor(iphone[47], 255);
+	TextDrawFont(iphone[47], 4);
+	TextDrawSetProportional(iphone[47], 0);
+
+	iphone[48] = TextDrawCreate(105.566, 301.654, "_");
+	TextDrawTextSize(iphone[48], 9.000, 9.000);
+	TextDrawAlignment(iphone[48], 1);
+	TextDrawColor(iphone[48], -1);
+	TextDrawSetShadow(iphone[48], 0);
+	TextDrawSetOutline(iphone[48], 0);
+	TextDrawBackgroundColor(iphone[48], 0);
+	TextDrawFont(iphone[48], 5);
+	TextDrawSetProportional(iphone[48], 0);
+	TextDrawSetPreviewModel(iphone[48], 19177);
+	TextDrawSetPreviewRot(iphone[48], 0.000, 270.000, 53.000, 0.224);
+	TextDrawSetPreviewVehCol(iphone[48], 0, 0);
+
+	iphone[49] = TextDrawCreate(61.465, 279.843, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[49], 13.000, 14.000);
+	TextDrawAlignment(iphone[49], 1);
+	TextDrawColor(iphone[49], -1061109505);
+	TextDrawSetShadow(iphone[49], 0);
+	TextDrawSetOutline(iphone[49], 0);
+	TextDrawBackgroundColor(iphone[49], 255);
+	TextDrawFont(iphone[49], 4);
+	TextDrawSetProportional(iphone[49], 0);
+
+	iphone[50] = TextDrawCreate(101.098, 279.944, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[50], 13.000, 14.000);
+	TextDrawAlignment(iphone[50], 1);
+	TextDrawColor(iphone[50], -1061109505);
+	TextDrawSetShadow(iphone[50], 0);
+	TextDrawSetOutline(iphone[50], 0);
+	TextDrawBackgroundColor(iphone[50], 255);
+	TextDrawFont(iphone[50], 4);
+	TextDrawSetProportional(iphone[50], 0);
+
+	iphone[51] = TextDrawCreate(68.233, 283.858, "Box");
+	TextDrawLetterSize(iphone[51], 0.000, 0.669);
+	TextDrawTextSize(iphone[51], 106.699, 0.000);
+	TextDrawAlignment(iphone[51], 1);
+	TextDrawColor(iphone[51], -1);
+	TextDrawUseBox(iphone[51], 1);
+	TextDrawBoxColor(iphone[51], -1061109505);
+	TextDrawSetShadow(iphone[51], 0);
+	TextDrawSetOutline(iphone[51], 0);
+	TextDrawBackgroundColor(iphone[51], 255);
+	TextDrawFont(iphone[51], 1);
+	TextDrawSetProportional(iphone[51], 1);
+
+	iphone[52] = TextDrawCreate(65.932, 282.558, "G");
+	TextDrawLetterSize(iphone[52], 0.193, 0.856);
+	TextDrawTextSize(iphone[52], 1280.000, 1280.000);
+	TextDrawAlignment(iphone[52], 1);
+	TextDrawColor(iphone[52], 65535);
+	TextDrawSetShadow(iphone[52], 0);
+	TextDrawSetOutline(iphone[52], 0);
+	TextDrawBackgroundColor(iphone[52], 255);
+	TextDrawFont(iphone[52], 1);
+	TextDrawSetProportional(iphone[52], 1);
+
+	iphone[53] = TextDrawCreate(104.966, 283.602, "LD_BEAT:chit");
+	TextDrawTextSize(iphone[53], 6.000, 7.000);
+	TextDrawAlignment(iphone[53], 1);
+	TextDrawColor(iphone[53], 992645119);
+	TextDrawSetShadow(iphone[53], 0);
+	TextDrawSetOutline(iphone[53], 0);
+	TextDrawBackgroundColor(iphone[53], 255);
+	TextDrawFont(iphone[53], 4);
+	TextDrawSetProportional(iphone[53], 0);
+
+	iphone[54] = TextDrawCreate(103.299, 281.838, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[54], 13.000, -9.000);
+	TextDrawAlignment(iphone[54], 1);
+	TextDrawColor(iphone[54], 130);
+	TextDrawSetShadow(iphone[54], 0);
+	TextDrawSetOutline(iphone[54], 0);
+	TextDrawBackgroundColor(iphone[54], 255);
+	TextDrawFont(iphone[54], 4);
+	TextDrawSetProportional(iphone[54], 0);
+
+	iphone[55] = TextDrawCreate(89.364, 281.664, "particle:lamp_shad_64");
+	TextDrawTextSize(iphone[55], 13.000, -9.000);
+	TextDrawAlignment(iphone[55], 1);
+	TextDrawColor(iphone[55], 130);
+	TextDrawSetShadow(iphone[55], 0);
+	TextDrawSetOutline(iphone[55], 0);
+	TextDrawBackgroundColor(iphone[55], 255);
+	TextDrawFont(iphone[55], 4);
+	TextDrawSetProportional(iphone[55], 0);
+
+
 	//FireTargetStatus
 	FireTargetStatus[playerid][0] = CreatePlayerTextDraw(playerid, 431.666503, 335.840606, "usebox");
 	PlayerTextDrawLetterSize(playerid, FireTargetStatus[playerid][0], 0.0, 1.619133);
@@ -9547,7 +9934,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawSetShadow(playerid, auto_PTD[playerid][1], 0);
 
 	// інвентар
-   
+
     nInventory_TD[playerid][0] = CreatePlayerTextDraw(playerid, 170.000, 115.000, "LD_SPAC:white");
     PlayerTextDrawTextSize(playerid, nInventory_TD[playerid][0], 315.000, 250.000);
     PlayerTextDrawAlignment(playerid, nInventory_TD[playerid][0], 1);
@@ -10610,7 +10997,7 @@ stock to_default(playerid) {
 		market_cash[playerid][i] = 0;
 	}
 	PI[playerid][pAdmin] 						=
-	addchet[playerid]							= 
+	addchet[playerid]							=
 	CI[playerid][pMember] 						=
 	CI[playerid][pLeader] 						=
 	CI[playerid][pDonate] 						=
@@ -10659,16 +11046,16 @@ stock to_default(playerid) {
 	gOnlinePlayer[playerid][0] 					=
 	gOnlinePlayer[playerid][1] 					=
 	gOnlinePlayerAFK[playerid][0] 				=
-	gOnlinePlayerAFK[playerid][1] 				= 
+	gOnlinePlayerAFK[playerid][1] 				=
 	Casino_Flag[playerid][casino_crup] 			=
-	Casino_Flag[playerid][casino_bet_cash] 		= 
+	Casino_Flag[playerid][casino_bet_cash] 		=
 	gpss[playerid] 								=
 	VinylJob[playerid] 							=
-	RepaintValue[playerid] 						= 
-	TI[playerid][loadingMode] 					= 
-	TI[playerid][loadingModelPlayer] 			= 
-	TI[playerid][tACflood]						= 
-	TI[playerid][tAFK] 							= 
+	RepaintValue[playerid] 						=
+	TI[playerid][loadingMode] 					=
+	TI[playerid][loadingModelPlayer] 			=
+	TI[playerid][tACflood]						=
+	TI[playerid][tAFK] 							=
 	TI[playerid][tDiceMoney]					=
 	TI[playerid][tDiceTime]						=
 	TI[playerid][tVirtualWorld]					=
@@ -10680,8 +11067,8 @@ stock to_default(playerid) {
 	PlayerKorm[playerid]                        =
 	EggCount[playerid]                          =
 	TI[playerid][tBankTime] 					=
-	TI[playerid][tCodeBank] 					= 
-	CI[playerid][pMedCard]						= 
+	TI[playerid][tCodeBank] 					=
+	CI[playerid][pMedCard]						=
 	CI[playerid][pTempKey]						= 0;
 	CI[playerid][pHP]							= 100;
 	idaofcar[playerid]							=
@@ -10694,7 +11081,7 @@ stock to_default(playerid) {
 	TI[playerid][tArendKey]						=
 	TI[playerid][tNewYear][0] 					=
 	IDGZ[playerid] 								=
-	edit_int[playerid] 							= 
+	edit_int[playerid] 							=
 	TI[playerid][tArendaCar] 					=
 	TI[playerid][tJobWood][2]					=
 	PlayerEgg[playerid]                         =
@@ -10716,7 +11103,7 @@ stock to_default(playerid) {
 	GotoInfo[playerid][gtGoID]					=
 	TI[playerid][tTaxiPass] 					=
 	HealOffer[playerid] 						=
-	SERIU[playerid][sID] 						= 
+	SERIU[playerid][sID] 						=
 	TI[playerid][tSpectr]						=
 	TI[playerid][tDiceID]						=
 	TI[playerid][tDiceIDs]						= INVALID_PLAYER_ID;
@@ -10744,16 +11131,16 @@ stock to_default(playerid) {
 	TI[playerid][tTPpick] 						=
 	fishing[playerid] 							=
 	Poisk[playerid] 							=
-	TI[playerid][tSelectSkin] 					= 
+	TI[playerid][tSelectSkin] 					=
 	TI[playerid][tDiceClosed]					=
 	TI[playerid][tTir]							= false;
 	TI[playerid][tGyms] 						=
 	TI[playerid][tTaxiStart] 					=
-	GotoInfo[playerid][gtX]                     = 
-	GotoInfo[playerid][gtY]                     = 
-	GotoInfo[playerid][gtZ]                     = 
-	GotoInfo[playerid][gtTPX]                   = 
-	GotoInfo[playerid][gtTPY]                   = 
+	GotoInfo[playerid][gtX]                     =
+	GotoInfo[playerid][gtY]                     =
+	GotoInfo[playerid][gtZ]                     =
+	GotoInfo[playerid][gtTPX]                   =
+	GotoInfo[playerid][gtTPY]                   =
 	GotoInfo[playerid][gtTPZ]                   =
 	TI[playerid][tArmour]                   	= 0.0;
 	ObjectShip[playerid] 						= 0x7F800000;
@@ -10770,6 +11157,139 @@ stock to_default(playerid) {
 }
 #include "../source/other/hacker.inc"
 stock RemoveBuildings(playerid) {
+
+	// EXT_ALL_SAINTS_SQUARE
+    RemoveBuildingForPlayer(playerid, 5929, 1230.8906, -1337.9844, 12.5391, 0.25);
+    RemoveBuildingForPlayer(playerid, 739, 1231.1406, -1341.8516, 12.7344, 0.25);
+    RemoveBuildingForPlayer(playerid, 739, 1231.1406, -1328.0938, 12.7344, 0.25);
+    RemoveBuildingForPlayer(playerid, 739, 1231.1406, -1356.2109, 12.7344, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1222.6641, -1374.6094, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1222.6641, -1356.5547, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1240.9219, -1374.6094, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1240.9219, -1356.5547, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1222.6641, -1335.0547, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1222.6641, -1317.7422, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 5812, 1230.8906, -1337.9844, 12.5391, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1240.9219, -1335.0547, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1240.9219, -1317.7422, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1222.6641, -1300.9219, 12.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1240.9219, -1300.9219, 12.2969, 0.25);
+// EXT_AUTOSERVICE
+    RemoveBuildingForPlayer(playerid, 4179, 1686.8828, -1459.9609, 16.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 4178, 1686.8828, -1459.9609, 16.2969, 0.25);
+
+// EXT_GLEN_PARK
+    RemoveBuildingForPlayer(playerid, 739, 2011.2266, -1218.9844, 19.1250, 0.25);
+    RemoveBuildingForPlayer(playerid, 739, 1864.7656, -1224.8906, 15.5391, 0.25);
+    RemoveBuildingForPlayer(playerid, 5460, 1995.0156, -1198.3516, 21.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 740, 1869.9688, -1204.5547, 16.5859, 0.25);
+    RemoveBuildingForPlayer(playerid, 740, 2025.1406, -1244.5078, 22.3047, 0.25);
+    RemoveBuildingForPlayer(playerid, 5637, 2043.8984, -1138.3906, 31.0078, 0.25);
+    RemoveBuildingForPlayer(playerid, 5641, 1924.7656, -1139.7656, 27.1406, 0.25);
+    RemoveBuildingForPlayer(playerid, 1525, 1966.9453, -1174.7266, 20.0391, 0.25);
+    RemoveBuildingForPlayer(playerid, 5666, 1914.0313, -1198.3281, 19.5938, 0.25);
+    RemoveBuildingForPlayer(playerid, 714, 1906.4141, -1152.2578, 22.0234, 0.25);
+    RemoveBuildingForPlayer(playerid, 710, 1940.5234, -1169.4609, 33.5547, 0.25);
+    RemoveBuildingForPlayer(playerid, 710, 1910.2969, -1205.0000, 33.5469, 0.25);
+    RemoveBuildingForPlayer(playerid, 710, 1931.8984, -1171.5078, 33.5547, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1905.7969, -1248.5234, 12.4453, 0.25);
+    RemoveBuildingForPlayer(playerid, 673, 1932.2422, -1229.8594, 18.2344, 0.25);
+    RemoveBuildingForPlayer(playerid, 673, 1935.9453, -1225.0938, 18.2344, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 1928.7891, -1222.8906, 18.1563, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1935.6875, -1217.3516, 17.6094, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 1907.6953, -1210.7656, 16.5469, 0.25);
+    RemoveBuildingForPlayer(playerid, 5640, 1914.0313, -1198.3281, 19.5938, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 1906.6875, -1199.1406, 19.2656, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1953.2656, -1234.1797, 17.7422, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 2004.3516, -1240.0938, 20.6953, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2029.7500, -1227.7031, 19.7656, 0.25);
+    RemoveBuildingForPlayer(playerid, 673, 1990.1250, -1226.6875, 19.1953, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2036.6953, -1214.1875, 21.1875, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2009.7422, -1212.5156, 17.9922, 0.25);
+    RemoveBuildingForPlayer(playerid, 5458, 1995.0156, -1198.3516, 21.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2018.4297, -1206.6563, 19.2344, 0.25);
+    RemoveBuildingForPlayer(playerid, 673, 2020.3672, -1210.8125, 20.4141, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 2024.5703, -1211.5781, 20.8281, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2048.6016, -1232.8906, 21.6250, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2050.3906, -1208.3516, 21.8125, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1927.5156, -1191.4922, 18.8125, 0.25);
+    RemoveBuildingForPlayer(playerid, 700, 1989.0469, -1171.1172, 19.4922, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1880.1250, -1152.1328, 20.8047, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1989.7344, -1153.8984, 18.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2043.2578, -1187.0781, 21.9297, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1998.6328, -1177.2188, 17.8594, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 2022.5781, -1176.9766, 20.8438, 0.25);
+    RemoveBuildingForPlayer(playerid, 645, 2017.0313, -1172.1953, 20.4531, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2038.8125, -1168.6250, 21.0234, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 1998.6641, -1168.8828, 19.5781, 0.25);
+    RemoveBuildingForPlayer(playerid, 700, 2040.1328, -1158.0938, 22.3984, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2010.3750, -1153.4297, 21.0625, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2028.6406, -1150.9297, 21.4922, 0.25);
+    RemoveBuildingForPlayer(playerid, 700, 2046.6719, -1160.6719, 22.4766, 0.25);
+
+// EXT_LITTLE_ITALY
+    RemoveBuildingForPlayer(playerid, 4046, 1479.5234, -1852.6406, 24.5156, 0.25);
+    RemoveBuildingForPlayer(playerid, 4217, 1449.2500, -1852.5703, 22.3672, 0.25);
+    RemoveBuildingForPlayer(playerid, 1283, 1411.2188, -1872.9297, 15.6250, 0.25);
+    RemoveBuildingForPlayer(playerid, 4004, 1479.5234, -1852.6406, 24.5156, 0.25);
+    RemoveBuildingForPlayer(playerid, 1283, 1539.9297, -1871.6406, 15.6250, 0.25);
+    RemoveBuildingForPlayer(playerid, 4927, 1583.6875, -1897.8438, 19.3359, 0.25);
+    RemoveBuildingForPlayer(playerid, 5058, 1457.5625, -1895.9297, 22.1328, 0.25);
+    RemoveBuildingForPlayer(playerid, 4894, 1583.6875, -1897.8438, 19.3359, 0.25);
+    RemoveBuildingForPlayer(playerid, 4928, 1478.7188, -1900.7656, 22.3984, 0.25);
+    RemoveBuildingForPlayer(playerid, 4887, 1478.7188, -1900.7656, 22.3984, 0.25);
+// EXT_LIVERPOOL_PARK
+    RemoveBuildingForPlayer(playerid, 17758, 2260.0000, -1707.7344, 17.1719, 0.25);
+    RemoveBuildingForPlayer(playerid, 1498, 2229.6641, -1720.4219, 12.5547, 0.25);
+    RemoveBuildingForPlayer(playerid, 17515, 2260.0000, -1707.7344, 17.1719, 0.25);
+    RemoveBuildingForPlayer(playerid, 620, 2272.7188, -1697.7969, 10.6875, 0.25);
+    RemoveBuildingForPlayer(playerid, 1308, 2251.6406, -1693.7656, 12.7500, 0.25);
+// EXT_MARKET
+    RemoveBuildingForPlayer(playerid, 5967, 1259.4375, -1246.8125, 17.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 1388, 1238.3750, -1258.2813, 57.2031, 0.25);
+    RemoveBuildingForPlayer(playerid, 1391, 1238.3750, -1258.2734, 44.6641, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1380.3516, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1355.9766, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1366.6875, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1343.2578, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1305.1641, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1317.8906, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1331.6563, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1293.5625, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 5857, 1259.4375, -1246.8125, 17.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 1219, 1284.1797, -1239.6406, 12.9141, 0.25);
+    RemoveBuildingForPlayer(playerid, 1227, 1322.1875, -1235.8828, 13.4375, 0.25);
+    RemoveBuildingForPlayer(playerid, 1412, 1327.4297, -1239.9844, 13.9375, 0.25);
+    RemoveBuildingForPlayer(playerid, 1412, 1327.4297, -1234.7422, 13.9375, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1255.0547, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1261.0156, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1267.1328, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1172, -1228.0391, 13.0938, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1094, -1215.3906, 15.3750, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.0469, -1208.2344, 16.8672, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.1641, -1187.2891, 20.6484, 0.25);
+    RemoveBuildingForPlayer(playerid, 716, 1350.0000, -1170.2031, 23.1797, 0.25);
+// EXT_SANTA_MARIA
+    RemoveBuildingForPlayer(playerid, 6410, 415.6875, -1745.5313, 14.1328, 0.25);
+    RemoveBuildingForPlayer(playerid, 6404, 415.6875, -1745.5313, 14.1328, 0.25);
+// FULL_FIRE_HEADQUARTERS
+    RemoveBuildingForPlayer(playerid, 6491, 717.4844, -1357.3047, 20.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 1689, 650.8359, -1377.6641, 21.7578, 0.25);
+    RemoveBuildingForPlayer(playerid, 1689, 650.8359, -1356.5859, 21.7578, 0.25);
+    RemoveBuildingForPlayer(playerid, 1689, 650.8359, -1338.2422, 21.7578, 0.25);
+    RemoveBuildingForPlayer(playerid, 1635, 677.1953, -1328.8750, 25.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 1689, 745.5859, -1381.1094, 25.8750, 0.25);
+    RemoveBuildingForPlayer(playerid, 1689, 751.3359, -1368.0313, 25.8750, 0.25);
+    RemoveBuildingForPlayer(playerid, 6490, 717.4844, -1357.3047, 20.2969, 0.25);
+    RemoveBuildingForPlayer(playerid, 6516, 717.6875, -1357.2813, 18.0469, 0.25);
+    RemoveBuildingForPlayer(playerid, 1635, 696.1953, -1328.8750, 25.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 1635, 702.2344, -1328.8750, 25.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 1635, 721.2109, -1328.8750, 25.1094, 0.25);
+    RemoveBuildingForPlayer(playerid, 1415, 732.8516, -1332.8984, 12.6875, 0.25);
+    RemoveBuildingForPlayer(playerid, 1439, 732.7266, -1341.7734, 12.6328, 0.25);
+
+
+
 	if(FireStatus) {
 		//fire
 		RemoveBuildingForPlayer(playerid, 4114, 1350.410, -1512.010, 23.046, 0.250);
@@ -11250,6 +11770,32 @@ public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags) {
   }
   return 1;
 }
+public OnActorStreamIn(actorid, forplayerid)
+{
+	if(GetPVarInt(forplayerid, "business_entered"))
+	{
+		for(new i = 1; i < gBusinessCount; i++)
+		{
+			if(businessActor[i] == actorid)
+			{
+				new string[256];
+				format(string, sizeof(string), "Продавець сказав: Ласкаво просимо в %s.", gBusiness[GetPVarInt(forplayerid, "businessID")][bName]);
+				SendClientMessage(forplayerid, -1, string);
+				SetPVarInt(forplayerid, "business_actors", 1);
+			}
+		}
+	}
+	return 1;
+}
+public OnActorStreamOut(actorid, forplayerid)
+{
+	if(GetPVarInt(forplayerid, "business_actors"))
+	{
+		SendClientMessage(forplayerid, -1, "Продавець:  Всього доброго! Сподіваємося, що Вам все сподобалося.");
+		DeletePVar(forplayerid, "business_actors");
+	}
+	return 1;
+}
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
 	EnablePlayerCameraTarget(playerid, 1);
@@ -11264,9 +11810,10 @@ public OnPlayerConnect(playerid) {
 	if(playerid == 65535) return KickEx(playerid);
 	GetPlayerName(playerid, fPlayer[playerid][nname], MAX_PLAYER_NAME);
 	GetPlayerIp(playerid, fPlayer[playerid][fip], 32);
-   
+
+	SetPlayerTime(playerid, tmphour, tmpminute);
+
    	SetPVarInt(playerid, "fire_object", 0);
-   	PhoneShow[playerid] = false;
 	PhoneLocked[playerid] = 0;
    	gPlayerBusObject[playerid] = INVALID_OBJECT_ID;
    	call_timer[playerid] = 0;
@@ -11917,7 +12464,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_HELLOW_1: {
 			if(!response) return 1;
 			switch(listitem) {
-			case 0: 
+			case 0:
 			{
 				new cmd;
 				foreach(new i:Player) {
@@ -11927,7 +12474,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new str[250];
 				format(str, sizeof(str), "Приєднатися до гри. {F88539}%d людей\nПравила гри",cmd);
 				ShowPlayerDialog(playerid, D_HELLOW_2, DSL, "{F88539}HAllOWEEN."W" DM Зона", str, "Обрати", "Закрити");
-			} 
+			}
 			case 1: ShowPlayerDialog(playerid, D_HELLOW_3, DSTH, "{F88539}HAllOWEEN."W" Аксесуари", W"Назва аксесуара\t"W"Вартість гарбузів\n— Голова зомбі\t{F88539}50"W" гарбузів\n— Череп\t{F88539}100"W" гарбузів\n— Шапка чаклуна\t{F88539}200"W" гарбузів\n\
 			— Рога\t{F88539}300"W" гарбузів\n", "Обрати", "Закрити");
 			case 2: {
@@ -12033,7 +12580,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return 1;
 			}
 			if(CI[playerid][pEkills] < strval(inputtext)*100) return SendBotMessage(playerid, "У вас недостатньо кіллів для обміну.");
-			
+
 			CI[playerid][pEvent] += strval(inputtext);
 			UpdateCharacterData(playerid, "event", CI[playerid][pEvent]);
 
@@ -12915,7 +13462,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return 1;
 				}
 				case 1: {
-					
+
 					CarsInfo[playerid][carModel][1] = GetPVarInt(playerid, "UseCarGarage");
 					new query[350];
 					format(query, sizeof(query), "UPDATE `cars` SET `model` = %i WHERE `id` = %i",CarsInfo[playerid][carModel][1],CarsInfo[playerid][carID][1]);
@@ -13496,11 +14043,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						string[0] = 0;
 						cache_get_row_count(rows);
 						if(!rows) return SendError(playerid, "У вас немає створеного промокоду.");
-		
+
 						cache_get_value_name_int(0, "used_count", count);
 						cache_get_value_name(0, "code", promo);
 						format(string, sizeof(string), W"Дійсний промокод: "P"%s"W"\n\nВаш промокод ввели "P"%d"W" гравців.", promo, count);
-						ShowPlayerDialog(playerid, D_MYCOLLAB_1, DSM, P"Промо-код.", string, "Назад", "Закрити");				
+						ShowPlayerDialog(playerid, D_MYCOLLAB_1, DSM, P"Промо-код.", string, "Назад", "Закрити");
 						cache_delete(result);
 					}
 				case 1: pc_cmd_referals(playerid);
@@ -13652,31 +14199,17 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case dProdGet: {
 				if(!response) return 1;
 				if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
-				new price = strval(inputtext) / 10;
-				if(strval(inputtext) < 1000 || strval(inputtext) > 2000) {
-					if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 403) {
-						return ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля бензину", "\n\n"W"Введіть кількість літрів для купівлі:\nПримітка: "P"10"W" літр = "GREEN"$1\n\n"NO"*"G" Від 1000 до 2000\n\n", "Купити", "Скасувати");
-					} else return ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля продуктів", "\n\n"W"Введіть кількість продуктів для купівлі:\nПримітка: "P"10"W" продукт = "GREEN"$1\n\n"NO"*"G" Від 1000 до 2000\n\n", "Купити", "Скасувати");
-				}
-				if(GetPVarInt(playerid, "count_prod") + strval(inputtext) > 2000) {
-					if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 403) {
-						return ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля бензину", "\n\n"W"Введіть кількість літрів для купівлі:\nПримітка: "P"10"W" литр = "GREEN"$1\n\n"NO"*"G" У Ваш автомобіль стільки не влізе. Максимум 2000\n\n", "Купити", "Скасувати");
-					} else return ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля продуктів", "\n\n"W"Введіть кількість продуктів для купівлі:\nПримітка: "P"10"W" продукт = "GREEN"$1\n\n"NO"*"G" У Ваш автомобіль стільки не влізе. Максимум 2000\n\n", "Купити", "Скасувати");
-				}
-				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
-				GiveMoney(playerid, -price, "покупка продуктів(розвізник)");
+				new price = GetPVarInt(playerid, "loadprice");
+				new id = prod_id[playerid];
+				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "У Вас недостатньо коштів.");
+				GiveMoney(playerid, -price, "купівля продуктів (розвізник)");
 				new string[128];
-				if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 403) {
-					format(string, sizeof(string), "Ви придбали: "P"%d"W" од. продуктів за "GREEN"$%d"W". Очікуйте завантаження продуктів в автомобіль", strval(inputtext), price);
-					SendOK(playerid, string);
-					SetTimerEx("LoadProd", 250, false, "i", playerid);
-				} else
-				{
-					format(string, sizeof(string), "Ви придбали: "P"%d"W" л. бензину за "GREEN"$%d"W". Цистерна з бензином вже готова для транспортування", strval(inputtext), price);
-					SendOK(playerid, string);
-					SetTimerEx("LoadProd", 250, false, "i", playerid);
-				}
-				SetPVarInt(playerid, "count_prod2", strval(inputtext));
+				format(string, sizeof(string), "Ви придбали: "P"%d"W" од. продуктів за "GREEN"$%d"W". Очікуйте завантаження продуктів в автомобіль", gBusiness[id][bOrder], price);
+				SendOK(playerid, string);
+				new time = floatround(gBusiness[id][bOrder]/10);
+				ProdLoadTimer[playerid] = time;
+				TogglePlayerControllable(playerid, 0);
+				SetTimerEx("LoadProd_New", time*1000, false, "i", playerid);
 				return 1;
 			}
 		case dProdSell: {
@@ -14044,7 +14577,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_CONTAINER_2: {
 				if(!response) return 1;
 
-			
+
 				STRING_GLOBAL[0] = EOS;
 				format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "Використати\nПродати за $%d.", CountInfo[playerid][cont_cash][listitem]);
 				ShowPlayerDialog(playerid, D_CONTAINER_3, DSL, P"Оберіть дію", STRING_GLOBAL, "Обрати", "Закрити");
@@ -14313,7 +14846,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				if(gBusiness[57][bizzProduct]-5 > 0) {
 					gBusiness[57][bizzProduct] -= 5;
-					bizz_pay(57, amount*2);
+					business_finances(57, amount*2);
 				}
 				GiveMoney(playerid, -(amount * buy_curs), "chips buy");
 				CI[playerid][pCasinoChips] += amount;
@@ -14516,7 +15049,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							new Float:x, Float:y, Float:z;
 							GetPlayerPos(playerid, x, y, z);
 							CarFamily[fam][car][LoadCar] = A_CreateVehicle(CarFamily[fam][car][carID], x, y, z, 0, FamilyColorC[gFamily[fam][famColor]], FamilyColorC[gFamily[fam][famColor]], -1, VEHICLE_TYPE_FAMILY);
-						} 
+						}
 
 						format(str, 56, "{%s}%s",FamilyColor[gFamily[fam][famColor]], gFamily[fam][famName]);
 						SetVehicleNumberText(CarFamily[fam][car][LoadCar], str);
@@ -14581,7 +15114,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				GiveMoney(playerid, sum, "продаж сімейного авто");
 
-				
+
 				for(new i = 1; i < MAX_FACTIONS; i++) {
 					if(FI[i][fType] == fGOVERNMENT) {
 						FI[i][fBank] += procent;
@@ -14976,10 +15509,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(gBusiness[businessid][bizzProduct]-gTransport[carid][trProds] > 0) {
 					gBusiness[businessid][bizzProduct] -= gTransport[carid][trProds];
 					switch(businessid) {
-					case 41: bizz_pay(businessid,floatround(price * 0.120)); // економ/середній
-					case 42: bizz_pay(businessid,floatround(price * 0.200)); // мото
-					case 58: bizz_pay(businessid,floatround(price * 0.480)); // спорт
-					default: bizz_pay(businessid,floatround(price * 0.100));
+					case 41: business_finances(businessid,floatround(price * 0.120)); // економ/середній
+					case 42: business_finances(businessid,floatround(price * 0.200)); // мото
+					case 58: business_finances(businessid,floatround(price * 0.480)); // спорт
+					default: business_finances(businessid,floatround(price * 0.100));
 					}
 				}
 
@@ -15033,7 +15566,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(CI[playerid][pCash] < gTransport[carid][trPrice]) return SendError(playerid, "У вас недостатньо грошей.");
 				switch(listitem) {
 				case 1..4: if(!gFamily[fam][famUlushCar][listitem]) return SendError(playerid, "Ви не покращили цей слот. (/fmenu > Покращення)");
-				} 
+				}
 				if(gTransport[carid][trModel] < 400) {
 					new str[200];
 					format(str, sizeof(str), "Виникла помилка. Повідомте адміністраторів #%d & %d.", gTransport[carid][trModel], carid);
@@ -15045,10 +15578,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(gBusiness[businessid][bizzProduct]-gTransport[carid][trProds] > 0) {
 					gBusiness[businessid][bizzProduct] -= gTransport[carid][trProds];
 					switch(businessid) {
-					case 41: bizz_pay(businessid,floatround(price * 0.120)); // економ/середній
-					case 42: bizz_pay(businessid,floatround(price * 0.200)); // мото
-					case 58: bizz_pay(businessid,floatround(price * 0.480)); // спорт
-					default: bizz_pay(businessid,floatround(price * 0.100));
+					case 41: business_finances(businessid,floatround(price * 0.120)); // економ/середній
+					case 42: business_finances(businessid,floatround(price * 0.200)); // мото
+					case 58: business_finances(businessid,floatround(price * 0.480)); // спорт
+					default: business_finances(businessid,floatround(price * 0.100));
 					}
 				}
 				new str[128];
@@ -15089,10 +15622,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						}
 						new Float:X, Float:Y, Float:Z, count = 0;
 						GetPlayerPos(playerid, X, Y, Z);
-						foreach(new i:Player) { 
+						foreach(new i:Player) {
 							if(!TI[i][tLogin] || CI[i][pMember] != CI[playerid][pMember]) continue;
 							if(IsPlayerInRangeOfPoint(i, 8.0, X, Y, Z) && GetPlayerVirtualWorld(i) == GetPlayerVirtualWorld(playerid)) count++;
-						} 
+						}
 						if(count < 3) return SendError(playerid, "З вами має бути не менше 3 осіб для пограбування банку.");
 						SendPDMessage(CDEPARTMENT, "[Увага] невідомі люди в масках готують пограбування на банк.");
 						bank_vzlom[0] = gettime() + 1800;
@@ -15655,7 +16188,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			Партія наркотиків прибуде з іншого штату в містечко "P"Polomino Creek"W"\n\nУ човні "O"2.000 грам"W" наркотиків. Беріть вантажівку, і направляйтесь туди.\nБудьте обережні, щоб вас не спіймала поліція", "Заказать", "Закрити");
 					}
 				case 3: {
-					new string[500], control[64];			
+					new string[500], control[64];
 					strmid(control, FI[gBusiness[56][bizzMafia]][fName], 0, sizeof(control));
 					format(string, sizeof(string), P"Власник: "P"%s"W"\nНаркотиків: "P"%i/10.000г"W"\nВартість за 1г - "GREEN"$%i"W"\nЗагальний прибуток: "GREEN"$%i"W"\nЗароблено за добу: "GREEN"$%i"W, control, gBusiness[56][bizzProduct], gBusiness[56][bizzPrice], gBusiness[56][bizzBank], gBusiness[56][bizzBankDay]);
 					ShowPlayerDialog(playerid, DIALOG_PRITON_7, DSM, P"Інформація.", string, "Назад", "");
@@ -16674,7 +17207,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Будинок на колесах", W"Вітаємо з купівлею будинку на колесах!\n\nЩоб забрати будинок на колесах, візьміть вантажівку (/gps > Будинок на колесах)\nі заберіть його в магазині на паркувальній стоянці.\n\n"P"Основні команди:"W" /mn > Команди сервера > Будинок на колесах)\n\n", "Дякую", "");
 				if(gBusiness[businessid][bizzProduct]-45 > 0) {
 					gBusiness[businessid][bizzProduct] -= 45;
-					bizz_pay(businessid,floatround(TRAILER_SELL * 0.095));
+					business_finances(businessid,floatround(TRAILER_SELL * 0.095));
 				}
 				return 1;
 			}
@@ -16838,7 +17371,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new bizid = TI[playerid][tSelectedBusinessID];
 				if(gBusiness[bizid][bizzProduct]-50 > 0) {
 					gBusiness[bizid][bizzProduct] -= 50;
-					bizz_pay(bizid,yaxta_money[playerid]);
+					business_finances(bizid,yaxta_money[playerid]);
 				}
 
 				new Float:bd_x, Float:bd_y, Float:bd_z;
@@ -17946,7 +18479,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return KickEx(playerid);
 			if(!strcmp(inputtext, "@", true)) return ShowPlayerDialog(playerid, D_REG_EMAIL, DSI, P"Реєстрація. "W"Електронна пошта.", W"Введіть вашу дійсну адресу електронної пошти.\n\n"G"* З її допомогою Ви зможете забезпечити свій акаунт та відновити доступ до нього.\n\n"E"* Введіть дійсну адресу електронної пошти", "Далі", "Назад");
 			SetPVarString(playerid, "email", inputtext);
-		
+
 			}
 		case D_REG_FRIEND: {
 				if(!(strlen(inputtext) >= 6 && strlen(inputtext) <= 25)) return ShowPlayerDialog(playerid, D_REG_FRIEND, DSI, P"Реєстрація. "W"Реферал.", W"Введіть нік гравця, що запросив вас на сервер\n\nПри досягненні 3 рівня він отримає "P"нагороду", "Далі", "Пропуск");
@@ -17960,7 +18493,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				MYSQL_GLOBAL[0] = EOS;
 				mysql_format(connects, MYSQL_GLOBAL, sizeof(MYSQL_GLOBAL), "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s'", inputtext);
 				mysql_tquery(connects, MYSQL_GLOBAL, "friend_detectd", "is", playerid, inputtext);
-				return 1; 
+				return 1;
 			}
 		case D_CHAR_LIST: {
 			if(!response) {
@@ -18103,7 +18636,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				Мінімальна кількість символів - "P"4"W", максимальна - "P"24"W".", "Далі", "Скасувати");
 			new query[128], rows;
 			mysql_format(connects, query, sizeof(query), "SELECT `Name` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", inputtext);
-			mysql_query(connects, query);		
+			mysql_query(connects, query);
 			cache_get_row_count(rows);
 			if(rows) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DSI, P"|"W" Створення персонажа. Ім'я.", W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
 				Приклади можливих імен: "P"Jerry_Baggett"W", "P"Jerry_Cory_Baggett"W", "P"Jerry_Baggett_Jr"W", "P"Jerry_IV_Baggett"W".\nМінімальна кількість символів - "P"4"W", максимальна - "P"24"W".\n\n\
@@ -18241,7 +18774,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							TI[playerid][tPhoneCalled] = i;
 							TI[i][tPhoneCaller] = playerid;
 							TI[i][tPhoneCalled] = i;
-							HideWholePhone(playerid);
 							PhoneLocked[playerid] = 1;
 							new string[128];
 							format(string, sizeof(string), "Вихідний виклик: "GREEN"[т. %d]"W". Щоб скасувати, введіть "NO"/h"W".", CI[i][pPhone]);
@@ -18392,7 +18924,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			case dDiscord: {
 			if(!response) return 1;
 			switch(listitem) {
-				case 0: {          
+				case 0: {
 				if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, P"Discord", P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
 				if(!GetString(PI[playerid][pDiscord], "0")) return SendError(playerid, "Ви вже прив'язали Discord до вашого акаунта.");
 				ShowPlayerDialog(playerid, dDiscordLink, DSI, P"Discord", W"Введіть ваш ID користувача (USER ID) у поле нижче", "Далі", "Назад");
@@ -18411,14 +18943,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(!response) {
 					DeletePVar(playerid, "dscode");
 					return ShowPlayerDialog(playerid, dDiscord, DSL, P"Discord", P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
-				}	    
+				}
 				if(isNotNumeric(inputtext) || strval(inputtext) != GetPVarInt(playerid, "dscode")) return ShowPlayerDialog(playerid, dDiscordLink_2, DSI, P"Discord", W"Введіть код підтвердження, що вам був надісланий приватним повідомленням від Chiliad Bot, у поле нижче\n\nНеправильний код", "Далі", "Скасувати");
 				PI[playerid][pDiscord] = 0;
 				new query[200];
 				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET pDiscord = '0', pDiscordName = '0' WHERE cID = %i LIMIT 1", CI[playerid][cID]);
 				mysql_tquery(connects, query);
 				SendOK(playerid, "Ви відв'язали Discord від вашого акаунта.");
-				SendInfo(playerid, "Наполегливо рекомендуємо прив'язати його назад для забезпечення вищого рівня безпеки акаунта.");   
+				SendInfo(playerid, "Наполегливо рекомендуємо прив'язати його назад для забезпечення вищого рівня безпеки акаунта.");
 			}
 			case dDiscordLink: {
 			if(!response) return ShowPlayerDialog(playerid, dDiscord, DSL, P"Discord", P"1. "W"Прив'язати Discord\n"P"2."W" Відв'язати Discord", "Обрати", "Назад");
@@ -18943,7 +19475,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							strcat(string, P"/contract"W" - купити паливо у АЗС\n");
 							strcat(string, P"/tow"W" - буксувати автомобіль\n");
 							strcat(string, P"/untow"W" - від'єднати автомобіль\n");
-							} 
+							}
 						case 3: {
 							strcat(string, P"/prods"W" - список замовлень продуктів та палива\n");
 							strcat(string, G"Місце оренди розвізників продуктів та палива ви можете знайти в GPS.\n/gps > Роботи\n");
@@ -19172,7 +19704,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						strcat(string, P"/offmembers"W" - склад офлайн\n");
 						ShowPlayerDialog(playerid, D_MENU_MAIN, DSM, P"Команди.", string, "Назад", "");
 					}
-				case 9: { 
+				case 9: {
 						strcat(string, P"/theft"W" - керування викраденням\n");
 						strcat(string, P"/theftskill"W" - навичка автовикрадення\n");
 						ShowPlayerDialog(playerid, D_MENU_MAIN, DSM, P"Команди.", string, "Назад", "");
@@ -19980,7 +20512,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			// format(content, sizeof(content), P"1."W" Інформація про фракцію\n"P"2."W" Назначити лідера\n"P"3."W" Зняти лідера\n"P"4."W" Вступити в організацію");
 			ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			
+
 		case D_FACTION_EDIT: {
 			new query[256], header[128], content[1024], ftype[24], membercid, fid = GetPVarInt(playerid, "factionid");
 			switch(FI[fid][fType]) {
@@ -20097,14 +20629,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							if(CI[n][cID] == membercid) {
 								CI[n][pMember] = 0;
 								CI[n][pRank] = 0;
-								CI[n][pLeader] = 0;	
+								CI[n][pLeader] = 0;
 								CI[n][pFracSkin] = 0;
 								CI[n][pSpawn] = 0;
 								PlayerSpawn(n);
 							}
 						}
 					}
-					
+
 					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pModel` = 0, `pMember` = 0, `pRank` = 0, `pLeader` = 0 WHERE `pMember` = %i LIMIT 1", fid);
 					mysql_query(connects, query);
 
@@ -20117,7 +20649,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_fleet` WHERE `Faction` = %i", fid);
 					mysql_query(connects, query);
 					remove_faction(fid);
-					
+
 					for(new i = 1; i < MAX_FACTIONS; i++) {
 						if(FI[i][fName]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, FI[i][fName]);
 					}
@@ -20268,10 +20800,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_query(connects, query);
 				}
 			}
-			
+
 			FI[fid][lRank] = lrank;
 			UpdateFaction(fid, "lRank", FI[fid][lRank]);
-			
+
 			mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", FI[fid][fLeader]);
 			mysql_query(connects, query);
 			cache_get_value_name_int(0, "cID", leadercid);
@@ -20374,7 +20906,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				format(content, sizeof(content), "Тип\t%s\nНазва\t%s\nКолір\t%x\nРанг лідера\t%i\nРанг керівника\t%i\nЛідер\t%s\nБюджет\t%i\nАптечки\t%i\nМатеріали\t%i\nНаркотики\t%i\nНаркотиків на скупці\t%i\nЦіна продажу\t%i\nСпавн\tРедагувати\nРанги\tРедагувати\nСкіни\tРедагувати\nТранспорт\tРедагувати\n"P"-"W" Вступити у фракцію.\n"P"-"W" Видалити фракцію.", ftype, FI[fid][fName], FI[fid][fColor], FI[fid][lRank], FI[fid][sRank], FI[fid][fLeader], FI[fid][fBank], FI[fid][fMedKits], FI[fid][fMaterials], FI[fid][fDrugs], FI[fid][fDrugsBuy], FI[fid][fDrugsPrice]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 			}
-			
+
 			mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", inputtext);
 			mysql_query(connects, query);
 			cache_get_value_name_int(0, "cID", fleadercid);
@@ -20623,7 +21155,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					GetPlayerPos(playerid, FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ]);
 					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `SpawnX` = %f, `SpawnY` = %f, `SpawnZ` = %f, `SpawnA` = %f, `SpawnVW` = %i, `SpawnI` = %i WHERE `ID` = %i", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI], fid);
 					mysql_query(connects, query);
-					
+
 					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", FI[fid][fSpawnX], FI[fid][fSpawnY], FI[fid][fSpawnZ], FI[fid][fSpawnA], FI[fid][fSpawnVW], FI[fid][fSpawnI]);
 					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", FI[fid][fName]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_SPAWN, DST, header, content, "Обрати", "Назад");
@@ -20774,7 +21306,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 			strmid(fRanks[fid][rid], inputtext, 0, 24);
 			SaveRank(rid, fid);
-			
+
 			for(new i = 1; i <= FI[fid][lRank]; i++) {
 				if(strcmp(fRanks[fid][i], "")) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, fRanks[fid][i]);
 			}
@@ -20842,7 +21374,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_skins`(`Faction`, `Skin`) VALUES (%i, %i)", fid, strval(inputtext));
 			mysql_query(connects, query);
-			
+
 			for(new i = 1; i < MAX_FACTION_SKINS; i++) {
 				if(FI[fid][fSkins][i]) format(content, sizeof(content), "%s"P"%i."W" Скін %i.\n", content, i, FI[fid][fSkins][i]);
 			}
@@ -20899,7 +21431,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_query(connects, "SELECT MIN(t1.ID + 1) AS freeID FROM `faction_fleet` t1 LEFT JOIN `faction_fleet` t2 ON t1.ID + 1 = t2.ID WHERE t2.ID IS NULL"); // Шукає перший вільний ID.
 			cache_get_value_name_int(0, "freeID", freeid);
 			if(!freeid) freeid++;
-			
+
 			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
 				if(!fFleet[fid][i][fleetModel]) {
 					fFleet[fid][i][fleetID] = freeid;
@@ -20920,7 +21452,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_fleet` (`ID`, `Faction`, `Model`) VALUES (%i, %i, %i)", freeid, fid, vid);
 			mysql_query(connects, query);
-			
+
 			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
 				if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
 			}
@@ -20986,7 +21518,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					fFleet[fid][vid][fleetSpawnA] = 0.0;
 					fFleet[fid][vid][fleetSpawnVW] = 0;
 					fFleet[fid][vid][fleetSpawnI] = 0;
-					
+
 					for(new i = 1; i < MAX_FACTION_FLEET; i++) {
 						if(fFleet[fid][i][fleetModel]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, vehicle_name[fFleet[fid][i][fleetModel] - 400]);
 					}
@@ -21109,7 +21641,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					GetPlayerPos(playerid, fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ]);
 					mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleet` SET `SpawnX` = %f, `SpawnY` = %f, `SpawnZ` = %f, `SpawnA` = %f, `SpawnVW` = %i, `SpawnI` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetID]);
 					mysql_query(connects, query);
-					
+
 					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", vehicle_name[fFleet[fid][vid][fleetModel] - 400]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
@@ -21304,13 +21836,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GetPVarString(playerid, "creatingfname", fname, sizeof(fname));
 			mysql_query(connects, "SELECT MIN(t1.ID + 1) AS freeID FROM "TABLE_FACTIONS" t1 LEFT JOIN "TABLE_FACTIONS" t2 ON t1.ID + 1 = t2.ID WHERE t2.ID IS NULL"); // Шукає перший вільний ID.
 			cache_get_value_name_int(0, "freeID", fid);
-			if(!fid) fid++; 
+			if(!fid) fid++;
 
 			insert_faction(fid, listitem + 1, fname, frank, fskin);
 
 			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_FACTIONS" (`ID`, `Type`, `Name`) VALUES (%i, %i, '%s')", fid, listitem + 1, fname);
 			mysql_query(connects, query);
-			
+
 			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_ranks` (`Faction`, `Rank`, `Name`) VALUES (%i, '1', '%s'), (%i, '2', '%s'), (%i, '3', '%s'), (%i, '4', '%s'), (%i, '5', '%s'), (%i, '6', '%s'), (%i, '7', '%s'), (%i, '8', '%s'), (%i, '9', '%s'), (%i, '10', '%s')", fid, frank, fid, frank, fid, frank, fid, frank, fid, frank, fid, frank, fid, frank, fid, frank, fid, frank, fid, frank);
 			mysql_query(connects, query);
 
@@ -22403,7 +22935,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "{F9C7A1}Гараж\n\n"W"Клас:{F9C7A1} %s"W"\nВласник:{F9C7A1} %s"W"\n\nДля взаємодії натисніть{F87427} ALT", GetNameClassG(FG[id][gTypes]), CI[playerid][cName]);
 						Update3DTextLabelText(FGarage[FG[id][gGID]], -1, STRING_GLOBAL);
 						GiveMoney(playerid, -150000, "Купівля закинутого гаража.");
-						bizz_pay(63,floatround(150000 * 0.095));
+						business_finances(63,floatround(150000 * 0.095));
 						break;
 					}
 
@@ -22411,7 +22943,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 1: {
 					if(CI[playerid][pCash] < 250000) return SendError(playerid, "У вас недостатньо коштів на руках.");
 					for(new i = 1; i <= MAX_GARAGE; i++) {
-					
+
 						if(FG[i][gTypes] != 2) continue;
 						if(FG[i][gActive] != 1) continue;
 						SetPVarInt(playerid, "BuyGarage", FG[i][gGID]);
@@ -22425,14 +22957,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "{F9C7A1}Гараж\n\n"W"Клас:{F9C7A1} %s"W"\nВласник:{F9C7A1} %s"W"\n\nДля взаємодії натисніть{F87427} ALT", GetNameClassG(FG[id][gTypes]), CI[playerid][cName]);
 						Update3DTextLabelText(FGarage[id], -1, STRING_GLOBAL);
 						GiveMoney(playerid, -250000, "Покупка закинутого гаража.");
-						bizz_pay(63,floatround(250000 * 0.075));
+						business_finances(63,floatround(250000 * 0.075));
 						break;
 					}
 				}
 				case 2: {
 					if(CI[playerid][pCash] < 500000) return SendError(playerid, "У вас недостатньо коштів на руках.");
 					for(new i = 1; i <= MAX_GARAGE; i++) {
-					
+
 						if(FG[i][gTypes] != 3) continue;
 						if(FG[i][gActive] != 1) continue;
 						SetPVarInt(playerid, "BuyGarage", FG[i][gGID]);
@@ -22446,7 +22978,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "{F9C7A1}Гараж\n\n"W"Клас:{F9C7A1} %s"W"\nВласник:{F9C7A1} %s"W"\n\nДля взаємодії натисніть{F87427} ALT", GetNameClassG(FG[id][gTypes]), CI[playerid][cName]);
 						Update3DTextLabelText(FGarage[FG[id][gGID]], -1, STRING_GLOBAL);
 						GiveMoney(playerid, -500000, "Купівля закинутого гаража.");
-						bizz_pay(63,floatround(500000 * 0.495));
+						business_finances(63,floatround(500000 * 0.495));
 						break;
 					}
 				}
@@ -22541,7 +23073,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					if(!casino) return SendError(playerid, "Вхід в казино тимчасово закрито.");
 				}
 				GiveMoney(playerid, -price, "вхід в бізнес");
-				bizz_pay(businessid,price);
+				business_finances(businessid,price);
 				TI[playerid][tTPpick] = true;
 				SetPlayerPosAC(playerid, gBints[bint][bintX], gBints[bint][bintY], gBints[bint][bintZ], businessid+ 1, gBints[bint][bintInterior]);
 				SetPlayerFacingAngle(playerid, gBints[bint][bintR]);
@@ -22613,7 +23145,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							GiveMoney(playerid, -gSellGunPrice[12] * gBusiness[bizid][bizzPrice], "перепустка в тир");
 							if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] > 0) {
 								gBusiness[bizid][bizzProduct] -= gSellGunProds[slot];
-								bizz_pay(bizid, 1000);
+								business_finances(bizid, 1000);
 							}
 							return 1;
 						}
@@ -22639,8 +23171,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						GetWeaponName(gSellGun[slot], gun_name, 32);
 						if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] > 0) {
 							gBusiness[bizid][bizzProduct] -= gSellGunProds[slot];
-							bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]));
-						} 
+							business_finances(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice]));
+						}
 
 
 						UpdateBusinessText(bizid);
@@ -22675,8 +23207,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SendUse(playerid, string);
 				if(gBusiness[bizid][bizzProduct]-gSellGunProds[slot] * patron > 0) {
 					gBusiness[bizid][bizzProduct] -= gSellGunProds[slot]*patron;
-					bizz_pay(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron));
-				} 
+					business_finances(bizid,(gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron));
+				}
 				GivePlayerWeapon(playerid, gSellGun[slot],patron);
 				GiveMoney(playerid, -gSellGunPrice[slot] * gBusiness[bizid][bizzPrice] * patron, "купівля зброї(аммо)");
 				DeletePVar(playerid, "slot_ammo");
@@ -22689,7 +23221,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				switch(listitem) {
 				case 0: {
 						if(GetPlayerMoneyEx(playerid) < gBusiness[id][bizzPrice]*150) return SendError(playerid, "У вас недостатньо грошей.");
-						bizz_pay(id, gBusiness[id][bizzPrice]*150);
+						business_finances(id, gBusiness[id][bizzPrice]*150);
 						GiveMoney(playerid, -gBusiness[id][bizzPrice]*150, "купівля в спортзалі");
 						if(CI[playerid][cSex] == 1) A_SetPlayerSkin(playerid, 80);
 						else A_SetPlayerSkin(playerid, 192);
@@ -22704,7 +23236,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(GetPlayerMoneyEx(playerid) < 5000) return SendError(playerid, "У вас недостатньо грошей.");
 						if(gBusiness[id][bizzProduct]-130 > 0) {
 							gBusiness[id][bizzProduct] -= 130;
-							bizz_pay(id, 5000);
+							business_finances(id, 5000);
 						}
 						GiveMoney(playerid, -5000, "купівля в спортзалі");
 						SendOK(playerid, "Ви почали тренування. Наносьте удари по грушах для прокачування навичок бою.");
@@ -22716,7 +23248,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(TI[playerid][tGyms] + 250 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
 						if(gBusiness[id][bizzProduct]-20 > 0) {
 							gBusiness[id][bizzProduct] -= 20;
-							bizz_pay(id, 200);
+							business_finances(id, 200);
 						}
 						GiveMoney(playerid, -200, "купівля в спортзалі");
 						TI[playerid][tGyms] += 250;
@@ -22727,7 +23259,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(TI[playerid][tGyms] + 500 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
 						if(gBusiness[id][bizzProduct]-35 > 0) {
 							gBusiness[id][bizzProduct] -= 35;
-							bizz_pay(id, 350);
+							business_finances(id, 350);
 						}
 						GiveMoney(playerid, -350, "купівля в спортзалі");
 						TI[playerid][tGyms] += 500;
@@ -22738,7 +23270,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(TI[playerid][tGyms] + 750 > 1000) return SendError(playerid, "Не можна взяти більше 1 літра шейкера.");
 						if(gBusiness[id][bizzProduct]-50 > 0) {
 							gBusiness[id][bizzProduct] -= 50;
-							bizz_pay(id, 500);
+							business_finances(id, 500);
 						}
 						GiveMoney(playerid, -500, "купівля в спортзалі");
 						TI[playerid][tGyms] += 750;
@@ -22825,8 +23357,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				if(gBusiness[id][bizzProduct]-gShopProduct[listitem] > 0) {
 					gBusiness[id][bizzProduct] -= gShopProduct[listitem];
-					bizz_pay(id,price);
-				} 
+					business_finances(id,price);
+				}
 				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
 					QuestProgress[playerid][43] ++;
 					save_quest(playerid, 43);
@@ -22846,7 +23378,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "покупка в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
-					bizz_pay(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
+					business_finances(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
 				}
 				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
 					QuestProgress[playerid][43] ++;
@@ -22902,7 +23434,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
-					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
+					business_finances(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
 				}
 				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
 					QuestProgress[playerid][43] ++;
@@ -22938,7 +23470,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
-					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
+					business_finances(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
 				}
 				UpdateBusinessText(id);
 				show_24(playerid, id);
@@ -22972,7 +23504,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[6]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[6]*strval(inputtext);
-					bizz_pay(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
+					business_finances(id, gShopPrice[6]*gBusiness[id][bizzPrice]*strval(inputtext));
 				}
 				UpdateBusinessText(id);
 				show_24(playerid, id);
@@ -22993,7 +23525,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext), "купівля в 24/7");
 				if(gBusiness[id][bizzProduct]-(gShopProduct[5]*strval(inputtext)) > 0) {
 					gBusiness[id][bizzProduct]-= gShopProduct[5]*strval(inputtext);
-					bizz_pay(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
+					business_finances(id, gShopPrice[5]*gBusiness[id][bizzPrice]*strval(inputtext));
 				}
 				if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
 					QuestProgress[playerid][43] ++;
@@ -23043,8 +23575,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -gfishCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб.бізнесі");
 				if(gBusiness[id][bizzProduct]-(gfishCosts[listitem] / 10) > 0) {
 					gBusiness[id][bizzProduct] -= gfishCosts[listitem] / 10;
-					bizz_pay(id, gfishCosts[listitem]*gBusiness[id][bizzPrice]);
-				} 
+					business_finances(id, gfishCosts[listitem]*gBusiness[id][bizzPrice]);
+				}
 				show_fish(playerid);
 			}
 		case D_BIZZ_POISK: {
@@ -23084,7 +23616,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -gPoiskCosts[listitem]*gBusiness[id][bizzPrice], "купівля в риб. бізнесі");
 				if(gBusiness[id][bizzProduct]-(gPoiskCosts[listitem] / 10) > 0) {
 					gBusiness[id][bizzProduct] -= gPoiskCosts[listitem] / 10;
-					bizz_pay(id, gPoiskCosts[listitem]*gBusiness[id][bizzPrice]);
+					business_finances(id, gPoiskCosts[listitem]*gBusiness[id][bizzPrice]);
 				}
 				show_poisk(playerid);
 			}
@@ -23097,8 +23629,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -price, "купівля в барі");
 				if(gBusiness[id][bizzProduct] - (gBarCosts[listitem]) > 0) {
 					gBusiness[id][bizzProduct] -= gBarCosts[listitem];
-					bizz_pay(id,price);
-				} 
+					business_finances(id,price);
+				}
 				if(QuestProgress[playerid][41] == 0 && AcceptQuest[playerid][41] != 0) {
 					QuestProgress[playerid][41] ++;
 					save_quest(playerid, 41);
@@ -23117,7 +23649,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new amount = gTavernCosts[listitem];
 				if(gBusiness[id][bizzProduct] - amount > 0) {
 					gBusiness[id][bizzProduct] -= amount;
-					bizz_pay(id,price);
+					business_finances(id,price);
 				} else return 1;
 				GiveMoney(playerid, -price, "купівля в закусочній");
 				ApplyAnimation(playerid, "FOOD", "EAT_Burger", 2.0, 0, 0, 0, 0, 5000, 1);
@@ -24863,7 +25395,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					NextStapQI(playerid, 4);
 				}
 				if(gBusiness[id][bizzProduct] - 10 > 0) {
-					bizz_pay(id,floatround(price * 0.5));
+					business_finances(id,floatround(price * 0.5));
 					gBusiness[id][bizzProduct] -= 10;
 				}
 				SetPVarInt(playerid, "ChangingSkin", 0);
@@ -24948,7 +25480,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(string, sizeof(string), f_str,day);
 					ShowPlayerDialog(playerid, D_BANK_OPLATA_DNK, DSI, P"Оплата будинку на колесах", string, "Оплатити", "Скасувати");
 					return 1;
-				} 
+				}
 				if(day + amount > 10) return SendError(playerid, "Максимальна к-сть оплачених днів 10.");
 				if(GetPlayerMoneyEx(playerid) < amount*oplata) return SendError(playerid, "Недостатньо коштів.");
 				PlayerTrailer[playerVehicleID[playerid]][carDay] += 86400 * amount;
@@ -25437,7 +25969,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				format(string, sizeof(string), "Боєприпаси успішно розвантажено. У вантажівці доступно "P"%d"W" боєприпасів.",VG[vehicleid][vgAmount][0]);
 				SendOK(playerid, string);
 			}
-		case dProdList: {
+		case dProdList:
+		{
 				if(!response) return 1;
 				new veh = GetPlayerVehicleID(playerid);
 				new car = GetVehicleModel(veh);
@@ -25445,43 +25978,84 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 0: {
 						// if(GetVehicleModel(veh) == 403 && !GetVehicleTrailer(veh)) return ErrorMessage(playerid, "У вас немає цистерни з паливом");
 						STRING_GLOBAL[0] = EOS;
-						strcat(STRING_GLOBAL, "#\tНазва бізнесу\tВартість за од. продукту\tНеобхідно продуктів\n");
+						strcat(STRING_GLOBAL, ""G"ID\t"G"Бізнес\t"G"Вартість замовлення\t"G"Статус");
 						new count_est = 0;
-						for (new i; i < gBusinessCount; i++) {
-							if(!gBusiness[i][bizzOwnerID]) continue;
-							if(gBusiness[i][bizzProdOrder] <= 0) continue;
+						new status[56];
+						for(new i = 1; i < gBusinessCount + 1; i++)
+						{
+							if(!gBusiness[i][bOwnerID]) continue;
+							if(gBusiness[i][bOrder] <= 0) continue;
 							if(count_est >= 30) break;
-							switch (car) {
-							case 456: if(gBusiness[i][bizzType] == 7) continue; //24/7
-							case 403: if(gBusiness[i][bizzType] != 7) continue; //АЗС
+							switch (car)
+							{
+								case 456: if(gBusiness[i][businessType] == 7) continue; //24/7
+								case 403: if(gBusiness[i][businessType] != 7) continue; //АЗС
 							}
-							format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "%s%d\t%s\t%d\t%d\n", STRING_GLOBAL, i + 1, gBusiness[i][bizzName], gBusiness[i][bizzProdOrderPrice], gBusiness[i][bizzProdOrder]);
+							new sum = gBusiness[i][bOrderPrice] * gBusiness[i][bOrder];
+							if(!TakeOrder[i]) format(status, sizeof(status), ""YELLOW"Доступне");
+							format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "%s"P"%d\t"W"%s\t"GREEN"$%d "G"(1 од. товару = "GREEN"$%d"G")\t%s\n", STRING_GLOBAL, i, gBusiness[i][bName], sum, gBusiness[i][bOrderPrice], status);
 							count_est++;
 						}
-						if(count_est == 0) return SendError(playerid, "Бізнесмени не залишали заявки на доставку продуктів чи палива.");
-						ShowPlayerDialog(playerid, dProdPut, DSTH, "Бізнес", STRING_GLOBAL, "Обрати", "Скасувати");
+						if(count_est == 0) return SendError(playerid, "Замовлень немає.");
+						ShowPlayerDialog(playerid, dProdOrder, DSTH, ""P"Замовлення", STRING_GLOBAL, "Обрати", "Скасувати");
+						//dProdPut
 					}
-				case 1: {
-						switch (car) {
-						case 456: EnableGPSForPlayer(playerid, 1354.6313, 363.6651, 19.9837);
-						case 403: EnableGPSForPlayer(playerid, -215.4123, -246.7570, 2.0283);
+				case 1:
+				{
+						switch (car)
+						{
+							case 456: EnableGPSForPlayer(playerid, 1354.6313, 363.6651, 19.9837);
+							case 403: EnableGPSForPlayer(playerid, -215.4123, -246.7570, 2.0283);
 						}
 						SendOK(playerid, "Мітка для купівлі була відмічена на радарі.");
 					}
 				}
 			}
-		case dProdPut: {
+			case dProdDetails:
+			{
+				if(!response) return 1;
+				prod_id[playerid] = strval(inputtext);
+				new id = strval(inputtext);
+				new distance = floatround(GetPlayerDistanceFromPoint(playerid, gBusiness[id][businessX], gBusiness[id][businessY], gBusiness[id][businessZ]));
+				new string[1028], status[56];
+				if(!TakeOrder[id]) format(status, sizeof(status), ""YELLOW"Доступне для опрацювання.");
+				format(string, sizeof(string), ""W"Статус замовлення: %s\n\n"W"Бізнес: "P"%s\n"W"Відстань до бізнесу (від поточної позиції): "P"%d "W"м.\n\n\
+					"W"Вартість одиниці товару для замовлення: "GREEN"$%d\n\n"W"Список замовленого товару:\n", status, gBusiness[id][bName], distance, gBusiness[id][bOrderPrice]);
+				for(new i = 1; i < MaxArticles[id] + 1; i++)
+				{
+					if(!gBusinessArticles[id][i][aArticleOrder]) continue;
+
+					format(string, sizeof(string), "%s"W"%s  ("G"%d"W" шт.)\n", string, gBusinessArticles[id][i][aArticleName], gBusinessArticles[id][i][aArticleOrder]);
+				}
+				format(string, sizeof(string), "%s\n"W"Загальна кількість замовленого товару: "P"%d "W"шт.\n"W"Вартість замовлення: "GREEN"$%d", string, gBusiness[id][bOrder], gBusiness[id][bOrderPrice] * gBusiness[id][bOrder]);
+				ShowPlayerDialog(playerid, dProdOrder, DIALOG_STYLE_MSGBOX, ""G"Деталі замовлення", string, "Прийняти", "Назад");
+			}
+			case dProdOrder:
+			{
+				if(!response) return pc_cmd_prods(playerid);
+				new id = prod_id[playerid];
+				if(TakeOrder[id]) return SendError(playerid, "Це замовлення вже взято в роботу.");
+				TakeOrder[id] = 1;
+				SendOK(playerid, "Ви успішно взяли замовлення в роботу.");
+				SendHint(playerid, "Необхідно завантажити товари в автомобіль. Місцерозташування складу встановлено на Вашій карті.");
+				EnableGPSForPlayer(playerid, 164.5339, -44.6986, 1.5781);
+				SetPVarInt(playerid, "takeorder", 1);
+				SetPVarInt(playerid, "need_articles", 1);
+			}
+			case dProdPut:
+			{
 				if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
 				new veh = GetPlayerVehicleID(playerid);
 				new car = GetVehicleModel(veh);
 				if(GetVehicleModel(veh) == 403 && !GetVehicleTrailer(veh)) return SendError(playerid, "У вас немає цистерни з паливом.");
 				if(!response) return 1;
 				prod_id[playerid] = strval(inputtext);
-				new biz = prod_id[playerid] - 1;
-				if(!GetPVarInt(playerid, "count_prod")) return SendError(playerid, "У вашій машині відсутні продукти.");
-				switch (car) {
-				case 456: if(gBusiness[biz][bizzType] == 7) return SendError(playerid, "Неправильно вказаний номер бізнесу.");
-				case 403: if(gBusiness[biz][bizzType] != 7) return SendError(playerid, "Неправильно вказаний номер бізнесу.");
+				new biz = prod_id[playerid];
+				//if(!GetPVarInt(playerid, "count_prod")) return SendError(playerid, "У вашій машині відсутні продукти.");
+				switch(car)
+				{
+					case 456: if(gBusiness[biz][bizzType] == 7) return SendError(playerid, "Неправильно вказаний номер бізнесу.");
+					case 403: if(gBusiness[biz][bizzType] != 7) return SendError(playerid, "Неправильно вказаний номер бізнесу.");
 				}
 				new string[256];
 				format(string, sizeof(string), W"Бізнес: "O"%s\n"W"Вартість за 1 продукт: "GREEN"$%d\n"W"Необхідно продуктів: "O"%d", gBusiness[biz][bizzName], gBusiness[biz][bizzProdOrderPrice], gBusiness[biz][bizzProdOrder]);
@@ -25509,13 +26083,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SetPVarInt(playerid, "prod_vehicle_id", veh);
 				TI[playerid][tArendaCar] = GetPlayerVehicleID(playerid);
 				VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = playerid;
-				if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 403) {
+				/*if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 403) {
 					new string[128];
 					format(string, sizeof(string), "Завантажено: "GREEN"%d/2000\n"W"Бізнес: "GREEN"Відсутній", GetPVarInt(playerid, "count_prod"));
 					gPlayerProdText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 15.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
 					Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerProdText[playerid], E_STREAMER_ATTACH_OFFSET_Y, -0.5);
 					Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerProdText[playerid], E_STREAMER_ATTACH_OFFSET_Z, 2.0);
-				}
+				}*/
 				SendOK(playerid, "Транспорт для розвезення продуктів та бензину орендовано. Керування замовленнями - "W"/prods.");
 				return 1;
 			}
@@ -25854,7 +26428,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			GetPlayerPos(playerid, x, y, z);
 			Zone_GetNameByCoords(x, y, z, place);
 			format(time, sizeof(time), "%02d:%02d", hour, minute);
-			mysql_format(connects, insert, sizeof(insert), "INSERT INTO `calls` (`Faction`, `Name`, `Reason`, `Place`, `Time`, `Description`, `X`, `Y`, `Z`) VALUES (%i, '%s', '%s', '%s', '%s', '%s', '%f', '%f', '%f')", 
+			mysql_format(connects, insert, sizeof(insert), "INSERT INTO `calls` (`Faction`, `Name`, `Reason`, `Place`, `Time`, `Description`, `X`, `Y`, `Z`) VALUES (%i, '%s', '%s', '%s', '%s', '%s', '%f', '%f', '%f')",
 			GetPVarInt(playerid, "service"), CI[playerid][cName], reason, place, time, inputtext, x, y, z);
 			mysql_tquery(connects, insert);
 			new service[40], header[50];
@@ -25921,106 +26495,1018 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				"P"%s"W, id, name, place, floatround(GetPlayerDistanceFromPoint(playerid, x, y, z)), time, reason, details);
 			ShowPlayerDialog(playerid, dManageCall, DSM, header, string, "Далі", "Назад");
 			}
-		case dPickupList: {
+		case dBusinessList:
+		{
 			if(!response) return 1;
-			new header[32];
-			if(listitem == 60) {
+			strmid(selected_business_id, inputtext, 0, 3);
+			SetPVarInt(playerid, "selected_business", strval(selected_business_id[playerid]));
+			new string[56];
+			format(string, sizeof(string), "ID: %d", GetPVarInt(playerid, "selected_business"));
+			SendHint(playerid, string);
+			new header[128];
+			format(header, sizeof(header), ""G"%s (%d)", gBusiness[GetPVarInt(playerid, "selected_business")][bName], gBusiness[GetPVarInt(playerid, "selected_business")][bID]);
+
+			new defaultlist[1028], gasstation[1028], status[56];
+			if(gBusiness[strval(selected_business_id[playerid])][bStatus] == 2) format(status, sizeof(status), "Закрити бізнес");
+			else format(status, sizeof(status), "Відкрити бізнес");
+			format(defaultlist, sizeof(defaultlist), "\
+				"P"1. "W"Інформація про бізнес\n\
+				"P"2. "W"Доходи\n\
+				"P"3. "W"Керування касою бізнесу\n\
+				"P"4. "W"Керування товарами\n\
+				"P"5. "W"Керування об'єктами\n\
+				"P"6. "W"Керування акторами\n\
+				"P"7."W" %s\n\
+				"P"8."W" Персонал\n\
+				"P"9."W" Продати бізнес\n\
+				"P"10."W" Змінити опис при вході\n\
+				"P"11."W" Змінити назву бізнесу", status);
+
+			format(gasstation, sizeof(gasstation), "%s\n"P"12."W" Керування паливом", defaultlist);
+
+			if(gBusiness[GetPVarInt(playerid, "selected_business")][businessType] == 7) return ShowPlayerDialog(playerid, dBusiness, DIALOG_STYLE_LIST, header, gasstation, "Обрати", "Назад");
+			else return ShowPlayerDialog(playerid, dBusiness, DIALOG_STYLE_LIST, header, defaultlist, "Обрати", "Назад");
+		}
+		case dBuyBusiness:
+		{
+			if(!response) return 1;
+			new bid = GetPVarInt(playerid, "buybusinessID");
+			gBusiness[bid][bOwnerID] = CI[playerid][cID];
+			gBusiness[bid][bOwnerName] = CI[playerid][cName];
+			UpdateBusinessData(bid, "OwnerID", gBusiness[bid][bOwnerID]);
+			UpdateBusinessData(bid, "OwnerName", gBusiness[bid][bOwnerName]);
+			new string[256];
+			format(string, sizeof(string), "придбання бізнесу %s (%d)", gBusiness[bid][bName], bid);
+			GiveMoney(playerid, gBusiness[bid][bPrice], string);
+			format(string, sizeof(string), "Ви успішно придбали бізнес "P"%s"W". Не забувайте вчасно платити за оренду приміщення.", gBusiness[bid][bName]);
+			SendOK(playerid, string);
+			SendHint(playerid, "Для керування бізнесом використайте "P"/business"W".");
+		}
+		case dBusiness:
+		{
+			new id = GetPVarInt(playerid, "selected_business");
+			if(!response)
+			{
+				new query[512];
+				mysql_format(connects, query, sizeof(query), "SELECT b.ID, b.Name, bt.Type, b.Status FROM `business_new` b JOIN `business_types` bt on bt.ID = b.Type WHERE b.OwnerID = %d", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "business_list", "i", playerid);
+			}
+			new query[1024];
+			switch(listitem)
+			{
+				case 0:
+				{
+					new string[1028], status_text[20], podatok = 100;
+					format(string, sizeof(string), "\
+						"W"ID бізнеса: "P"%d\n\
+						"W"Назва бізнеса: "P"%s\n\
+						"W"Власник: "P"%s\n\
+						"W"Ціна: "GREEN"$%d\n\
+						"W"Статус: "P"%s\n\
+						"W"Каса: "GREEN"$%d\n\
+						"W"Відвідувачі за сьогодні: "P"%d\n\
+						"W"Податок на оренду приміщення: "GREEN"$%d\n\n\
+						"G"Податок на оренду приміщення регулюється державою.", gBusiness[id][bID], gBusiness[id][bName], gBusiness[id][bOwnerName],
+							gBusiness[id][bPrice], status_text, gBusiness[id][bBank], gBusiness[id][bVisitors], podatok);
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""W"Інформація про бізнес", string, "Закрити", "");
+				}
+				case 1:
+				{
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `business_stats` WHERE `businessID` = %i", id);
+					mysql_tquery(connects, query, "business_stats", "ii", playerid, id);
+				}
+				case 2: ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""W"Керування касою бізнеса", ""W"Керування касою бізнеса відбувається у відділенні банку.", "Закрити", "");
+				case 3:
+				{
+					ShowPlayerDialog(playerid, dBManageArticlesList, DIALOG_STYLE_LIST, ""G"Керування товарами", ""P"1. "W"Інформація про активне замовлення\n"P"2. "W"Змінити вартість однієї одиниці продукції\n"P"3. "W"Редагування цін\n"P"4. "W"Створити замовлення", "Обрати", "Назад");
+					// mysql_format(connects, query, sizeof(query), "SELECT ba.Article_ID, bda.Article, ba.Price, ba.QTY FROM business_articles ba JOIN business_default_articles bda ON bda.Article_ID = ba.Article_ID WHERE ba.businessID = %d AND bda.bType = %d ORDER by ba.Article_ID", id, gBusiness[id][businessType]);
+					// mysql_tquery(connects, query, "business_prices_list", "i", playerid);
+				}
+				case 4: ShowPlayerDialog(playerid, dBObjectList, DIALOG_STYLE_LIST, "Керування об'єктами", ""P"1. "W"Інформація про об'єкти\n"P"2. "W"Список встановлених об'єктів\n"P"3. "W"Створити об'єкт", "Обрати", "Назад");
+				case 5: ShowPlayerDialog(playerid, dBusinessActors, DIALOG_STYLE_LIST, "Керування акторами", ""P"1. "W"Змінити скін актора\n"P"2. "W"Змінити ім'я актора", "Обрати", "Назад");
+				case 6:
+				{
+					new text[256];
+					if(gBusiness[id][bStatus] == 2)
+					{
+						format(text, sizeof(text), ""G"Бізнес зачинено");
+						Update3DTextLabelText(gBusiness[id][bText], -1, text);
+						gBusiness[id][bStatus] = 9;
+						UpdateBusinessData(id, "Status", gBusiness[id][bStatus]);
+						SendOK(playerid, "Бізнес успішно закрито.");
+					}
+					else
+					{
+						format(text, sizeof(text), ""P"%s\n\n"W"Вартість: "GREEN"$%d\n"W"Власник: "P"%s", gBusiness[id][bName], gBusiness[id][bPrice], gBusiness[id][bOwnerName]);
+						Update3DTextLabelText(gBusiness[id][bText], -1, text);
+						gBusiness[id][bStatus] = 2;
+						UpdateBusinessData(id, "Status", gBusiness[id][bStatus]);
+						SendOK(playerid, "Бізнес успішно відкрито.");
+					}
+				}
+				case 7: ShowPlayerDialog(playerid, dBusinessStaff, DIALOG_STYLE_LIST, ""G"Персонал", ""P"1. "W"Інформація про персонал\n"P"2. "W"Найняти нового працівника\n"P"3. "W"Список працівників", "Далі", "Назад");
+				case 8:
+				{
+					new string[256];
+					format(string, sizeof(string), "За продаж бізнесу державі Ви отримаєте 50%% від ціни бізнесу, а саме $%d.\n\n\t\tВи дійсно бажаєте продати бізнес державі?", floatround(gBusiness[id][bPrice]*0.5));
+					ShowPlayerDialog(playerid, dSellBusiness, DIALOG_STYLE_MSGBOX, ""G"Продати бізнес", string, "Далі", "Назад");
+				}
+				case 9:
+				{
+					new string[512];
+					format(string, sizeof(string), "Поточний опис при вході в бізнес:\n%s\n\nВведіть нижче новий опис бізнесу.\n\n"G"* Мінімальна кількість символів - 10, максимальна - 256.", gBusiness[id][bDescription]);
+					ShowPlayerDialog(playerid, dBChangeDescr, DIALOG_STYLE_INPUT, ""G"Змінити опис бізнесу", string, "Далі", "Назад");
+				}
+				case 10:
+				{
+					new string[512];
+					format(string, sizeof(string), "Поточна назва бізнесу: %s\n\nВведіть нову назву бізнесу.\n\n"G"* Мінімальна кількість символів - 5, максимальна - 64.", gBusiness[id][bName]);
+					ShowPlayerDialog(playerid, dBChangeName, DIALOG_STYLE_INPUT, ""G"Змінити опис бізнесу", string, "Далі", "Назад");
+				}
+				case 11:
+				{
+					SendOK(playerid, "керування паливом.");
+				}
+			}
+		}
+		case dSellBusiness:
+		{
+			if(!response) return 1;
+			new bid = GetPVarInt(playerid, "selected_business");
+			gBusiness[bid][bOwnerID] = 0;
+			gBusiness[bid][bOwnerName] = 0;
+			UpdateBusinessData(bid, "OwnerID", gBusiness[bid][bOwnerID]);
+			UpdateBusinessData(bid, "OwnerName", gBusiness[bid][bOwnerName]);
+			GiveMoney(playerid, floatround(gBusiness[bid][bPrice]*0.5), "продаж бізнесу державі");
+			SendOK(playerid, "Ви успішно продали бізнес державі.");
+			UpdateBusinessText_New(bid);
+		}
+		case dBChangeDescr:
+		{
+			if(!response) return 1;
+			new string[512];
+			new bid = GetPVarInt(playerid, "selected_business");
+			if(strlen(inputtext) < 10 || strlen(inputtext) > 256)
+			{
+				format(string, sizeof(string), "Поточний опис при вході в бізнес:\n%s\n\nВведіть нижче новий опис бізнесу.\n\n"E"* Мінімальна кількість символів - 10, максимальна - 256.", gBusiness[bid][bDescription]);
+				return ShowPlayerDialog(playerid, dBChangeDescr, DIALOG_STYLE_INPUT, ""G"Змінити опис бізнесу", string, "Далі", "Назад");
+			}
+			new description[256];
+			strmid(description, inputtext, 0, strlen(inputtext));
+			gBusiness[bid][bDescription] = description;
+			new query[1028];
+			mysql_format(connects, query, sizeof(query), "UPDATE `business_new` SET `Description` = '%s' WHERE `businessID` = %d", gBusiness[bid][bDescription], bid);
+			mysql_query(connects, query);
+			SendOK(playerid, "Опис при вході в бізнес успішно змінено.");
+		}
+		case dBChangeName:
+		{
+			if(!response) return 1;
+			new string[512];
+			new bid = GetPVarInt(playerid, "selected_business");
+			if(strlen(inputtext) < 5 || strlen(inputtext) > 64)
+			{
+				format(string, sizeof(string), "Поточна назва бізнесу: %s\n\nВведіть нову назву бізнесу.\n\n"E"* Мінімальна кількість символів - 5, максимальна - 64.", gBusiness[bid][bName]);
+				return ShowPlayerDialog(playerid, dBChangeName, DIALOG_STYLE_INPUT, ""G"Змінити опис бізнесу", string, "Далі", "Назад");
+			}
+			new name[64];
+			strmid(name, inputtext, 0, strlen(inputtext));
+			gBusiness[bid][bName] = name;
+
+			new query[1028];
+			mysql_format(connects, query, sizeof(query), "UPDATE `business_new` SET `Name` = '%s' WHERE `businessID` = %d", gBusiness[bid][bName], bid);
+			mysql_query(connects, query);
+
+			SendOK(playerid, "Назву бізнесу успішно змінено.");
+			UpdateBusinessText_New(bid);
+		}
+		case dCreateBusiness:
+		{
+			if(!response)
+			{
+				DeletePVar(playerid, "bCreation");
+				DeletePVar(playerid, "bType");
+				DeletePVar(playerid, "bName");
+				DeletePVar(playerid, "bInteriorID");
+				DeletePVar(playerid, "bCoordX");
+				DeletePVar(playerid, "bCoordY");
+				DeletePVar(playerid, "bCoordZ");
+				DeletePVar(playerid, "bPrice");
+				DeletePVar(playerid, "bPickupID");
+				DeletePVar(playerid, "bMapIcon");
+				DeletePVar(playerid, "bIsGasStation");
+				DeletePVar(playerid, "bGasX");
+				DeletePVar(playerid, "bGasY");
+				DeletePVar(playerid, "bGasZ");
+				return SendInfo(playerid, "Ви покинули створення бізнесу. Всі попередньо встановлені атрибути видалено.");
+			}
+			new string[256];
+			switch(listitem)
+			{
+				case 0:
+				{
+					for(new i; i < sizeof(BusinessTypes); i++)
+					{
+						format(string, sizeof(string), "%s"W"%s\n", string, BusinessTypes[i][bTypeName]);
+					}
+					ShowPlayerDialog(playerid, dCreateBusinessType, DIALOG_STYLE_LIST, ""G"Тип бізнесa", string, "Обрати", "Назад");
+				}
+				case 1: ShowPlayerDialog(playerid, dCreateBusinessName, DIALOG_STYLE_INPUT, ""G"Назва бізнеса", "Введіть нижче назву бізнеса.\n\n"G"* Мінімальна довжина - 5 символів, максимальна - 56 символів.", "Далі", "Назад");
+				case 2: ShowPlayerDialog(playerid, dCreateBusinessInt, DIALOG_STYLE_INPUT, ""G"Інтер'єр", "Введіть нижче ID інтер'єра.", "Далі", "Назад");
+				case 3:
+				{
+					SendHint(playerid, "Використайте "P"/createbusiness "W"на місці, де бажаєте встановити пікап.");
+					return SetPVarInt(playerid, "bcreatecoords", 1);
+				}
+				case 4: ShowPlayerDialog(playerid, dCreateBusinessPrice, DIALOG_STYLE_INPUT, ""G"Ціна бізнеса", "Введіть нижче ціну бізнеса.", "Далі", "Назад");
+				case 5..6: BusinessCreation(playerid);
+				case 7:
+				{
+					if(GetPVarInt(playerid, "bType") == 7)
+					{
+						SendHint(playerid, "Використайте "P"/createbusiness "W"на місці, де бажаєте встановити пікап.");
+						return SetPVarInt(playerid, "bcreatefillcoords", 1);
+					}
+					else CreateBusiness(playerid);
+				}
+				case 8:
+				{
+					if(GetPVarInt(playerid, "bType") == 7) return CreateBusiness(playerid);
+				}
+			}
+		}
+		case dCreateBusinessPIcon:
+		{
+			if(!response) return BusinessCreation(playerid);
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dCreateBusinessPIcon, DIALOG_STYLE_INPUT, ""G"Іконка карти", "Введіть нижче ID іконки карти.", "Далі", "Назад");
+			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dCreateBusinessPIcon, DIALOG_STYLE_INPUT, ""G"Іконка карти", "Введіть нижче ID іконки карти.", "Далі", "Назад");
+			SetPVarInt(playerid, "bMapIcon", strval(inputtext));
+			BusinessCreation(playerid);
+		}
+		case dCreateBusinessPModel:
+		{
+			if(!response) return BusinessCreation(playerid);
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dCreateBusinessPModel, DIALOG_STYLE_INPUT, ""G"Модель пікапа", "Введіть нижче ID моделі пікапа.", "Далі", "Назад");
+			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dCreateBusinessPModel, DIALOG_STYLE_INPUT, ""G"Модель пікапа", "Введіть нижче ID моделі пікапа.", "Далі", "Назад");
+			SetPVarInt(playerid, "bPickupID", strval(inputtext));
+			BusinessCreation(playerid);
+		}
+		case dCreateBusinessPrice:
+		{
+			if(!response) return BusinessCreation(playerid);
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dCreateBusinessPrice, DIALOG_STYLE_INPUT, ""G"Ціна бізнеса", "Введіть нижче ціну бізнеса.", "Далі", "Назад");
+			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dCreateBusinessPrice, DIALOG_STYLE_INPUT, ""G"Ціна бізнеса", "Введіть нижче ціну бізнеса.", "Далі", "Назад");
+			SetPVarInt(playerid, "bPrice", strval(inputtext));
+			BusinessCreation(playerid);
+		}
+		case dCreateBusinessInt:
+		{
+			if(!response) return BusinessCreation(playerid);
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dCreateBusinessInt, DIALOG_STYLE_INPUT, ""G"Інтер'єр", "Введіть нижче ID інтер'єра.", "Далі", "Назад");
+			SetPVarInt(playerid, "bInteriorID", strval(inputtext));
+			BusinessCreation(playerid);
+		}
+		case dCreateBusinessName:
+		{
+			if(!response) return BusinessCreation(playerid);
+			if(strlen(inputtext) < 5 || strlen(inputtext) > 56) return ShowPlayerDialog(playerid, dCreateBusinessName, DIALOG_STYLE_LIST, ""G"Назва бізнеса", "Введіть нижче назву бізнеса.\n\n"E"* Мінімальна довжина - 5 символів, максимальна - 56 символів.", "Далі", "Назад");
+			SetPVarString(playerid, "bName", inputtext);
+			BusinessCreation(playerid);
+		}
+		case dCreateBusinessType:
+		{
+			if(!response) return BusinessCreation(playerid);
+			SetPVarInt(playerid, "bType", listitem+1);
+			new string[56];
+			format(string, sizeof(string), "Ви обрали тип бізнеса: %s", BusinessTypes[listitem][bTypeName]);
+			SendOK(playerid, string);
+			BusinessCreation(playerid);
+		}
+		case dBusinessStaff:
+		{
+			if(!response) return 1;
+
+		}
+		case dBusinessActors:
+		{
+			if(!response) return 1;
+			switch(listitem)
+			{
+				case 0: ShowPlayerDialog(playerid, dBChangeActorSkin, DIALOG_STYLE_INPUT, ""G"Змінити скін актора", ""W"Введіть ниже ID скіна, який Ви хочете присвоїти актору.", "Далі", "Назад");
+				case 1: ShowPlayerDialog(playerid, dBChangeActorName, DIALOG_STYLE_INPUT, ""G"Змінити ім'я актора", ""W"Введіть ім'я, яке Ви хочете присвоїти актору.", "Далі", "Назад");
+			}
+		}
+		case dBChangeActorName:
+		{
+			if(!response) return 1;
+			new tempid = GetPVarInt(playerid, "selected_business");
+			if(strlen(inputtext) <= 0 || strlen(inputtext) > 56) return ShowPlayerDialog(playerid, dBChangeActorName, DIALOG_STYLE_INPUT, ""G"Змінити ім'я актора", ""W"Введіть ім'я, яке Ви хочете присвоїти актору.\n\n"E"* Максимальна довжина - 56 символів.", "Далі", "Назад");
+
+			DestroyDynamic3DTextLabel(businessActorText[tempid]);
+
+			new text[128];
+			format(text, sizeof(text), "%s\n\n"P"ALT", inputtext);
+			businessActorText[tempid] = CreateDynamic3DTextLabel(text, 0xFFFFFFFF, gBusinessActors[tempid][aX], gBusinessActors[tempid][aY], gBusinessActors[tempid][aZ] + 0.3, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
+
+			new query[256];
+			mysql_format(connects, query, sizeof(query), "UPDATE `business_actors` SET `ActorName` = '%s' WHERE `businessID` = %i", inputtext, tempid);
+			mysql_query(connects, query);
+
+			SendOK(playerid, "Ім'я актора успішно змінено.");
+		}
+		case dBChangeActorSkin:
+		{
+			if(!response) return 1;
+			new tempid = GetPVarInt(playerid, "selected_business");
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBChangeActorSkin, DIALOG_STYLE_INPUT, ""G"Змінити скін актора", ""W"Введіть ниже ID скіна, який Ви хочете присвоїти актору.\n\n"E"* Діапазон скінів від 1 до 311.", "Далі", "Назад");
+			new skin = strval(inputtext);
+			if(skin < 1 || skin > 311) return ShowPlayerDialog(playerid, dBChangeActorSkin, DIALOG_STYLE_INPUT, ""G"Змінити скін актора", ""W"Введіть ниже ID скіна, який Ви хочете присвоїти актору.\n\n"E"* Діапазон скінів від 1 до 311.", "Далі", "Назад");
+
+			DestroyActor(businessActor[tempid]);
+
+			businessActor[tempid] = CreateActor(skin, gBusinessActors[tempid][aX], gBusinessActors[tempid][aY], gBusinessActors[tempid][aZ], gBusinessActors[tempid][aAngle]);
+			SetActorVirtualWorld(businessActor[tempid], gBusinessActors[tempid][aBusinessID]);
+
+			SendOK(playerid, "Скін актора успішно змінено.");
+		}
+		case dBObjectList:
+		{
+			if(!response) return 1;
+			switch(listitem)
+			{
+				case 1: ShowPlayerDialog(playerid, dBObjectListDetails, DIALOG_STYLE_LIST, ""G"Список об'єктів", ""P"1. "W"Всередині (в інтер'єрі)\n"P"2. "W"Ззовні (біля бізнесу)", "Обрати", "Назад");
+				case 2: ShowPlayerDialog(playerid, dBCreateObject, DIALOG_STYLE_INPUT, ""G"Створення об'єкта", ""W"Введіть нижче ID об'єкта, який Ви хочете створити.", "Далі", "Назад");
+			}
+		}
+		case dBObjectListDetails:
+		{
+			if(!response) return 1;
+			new string[1028], id = GetPVarInt(playerid, "selected_business");
+			switch(listitem)
+			{
+				case 0:
+				{
+					if(MaxBObjects[id])
+					{
+						strcat(string, ""G"ID\t"G"Об'єкт\n");
+						for(new i = 1; i <= MaxBObjects[id]; i++)
+						{
+							if(!gBusinessObjects[id][i][oDBID]) continue;
+							if(!gBusinessObjects[id][i][oInt]) continue;
+							format(string, sizeof(string), "%s"P"%d\t"W"%d\n", string, gBusinessObjects[id][i][oDBID], gBusinessObjects[id][i][ObjectID]);
+							ShowPlayerDialog(playerid, dBusinessMapping, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список об'єктів", string, "Обрати", "Назад");
+						}
+						printf("MaxBObjects: %i", MaxBObjects[id]);
+					}
+					else
+					{
+						format(string, sizeof(string), ""W"Об'єкти бізнесу ззовні відсутні.\n\nВи можете їх створити за допомогою\n"P"/business - Керування об'єктами - Створити об'єкт");
+						ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""G"Список об'єктів", string, "Обрати", "Назад");
+					}
+				}
+				case 1:
+				{
+					if(MaxBObjects[id])
+					{
+						strcat(string, ""G"ID\t"G"Об'єкт\n");
+						for(new i = 1; i <= MaxBObjects[id]; i++)
+						{
+							if(!gBusinessObjects[id][i][oDBID]) continue;
+							if(gBusinessObjects[id][i][oInt]) continue;
+							format(string, sizeof(string), "%s"P"%d\t"W"%d\n", string, gBusinessObjects[id][i][oDBID], gBusinessObjects[id][i][ObjectID]);
+							ShowPlayerDialog(playerid, dBusinessMapping, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список об'єктів", string, "Обрати", "Назад");
+						}
+						printf("MaxBObjects: %i", MaxBObjects[id]);
+					}
+					else
+					{
+						format(string, sizeof(string), ""W"Об'єкти бізнесу в інтер'єрі відсутні.\n\nВи можете їх створити за допомогою\n"P"/business - Керування об'єктами - Створити об'єкт");
+						ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""G"Список об'єктів", string, "Обрати", "Назад");
+					}
+				}
+			}
+		}
+		case dBusinessMapping:
+		{
+			if(!response) return 1;
+			strmid(selected_object, inputtext, 0, 3);
+			new obj = strval(selected_object[playerid]);
+			new id = GetPVarInt(playerid, "selected_business");
+			SetPVarInt(playerid, "selected_object", obj);
+			new header[56];
+			format(header, sizeof(header), ""G"Об'єкт "P"%d "G"("P"%d"G")", gBusinessObjects[id][obj][ObjectID], gBusinessObjects[id][obj][oDBID]);
+			ShowPlayerDialog(playerid, dBEditObject, DIALOG_STYLE_LIST, header, ""P"- "W"Редагувати розташування об'єкта\n"P"- "W"Видалити об'єкт", "Обрати", "Назад");
+		}
+		case dBEditObject:
+		{
+			if(!response) return 1;
+			new id = GetPVarInt(playerid, "selected_business");
+			new obj = GetPVarInt(playerid, "selected_object");
+			switch(listitem)
+			{
+				case 0:
+				{
+					new Float:oX, Float:oY, Float:oZ;
+					GetDynamicObjectPos(BusinessObject[id][obj], oX, oY, oZ);
+					if(IsPlayerInRangeOfPoint(playerid, 5.0, oX, oY, oZ))
+					{
+						SetPVarInt(playerid, "editboject", 1);
+						EditDynamicObject(playerid, BusinessObject[id][obj]);
+					}
+					else
+					{
+						SendError(playerid, "Ви знаходитеся далеко від об'єкта.");
+						EnableGPSForPlayer(playerid, oX, oY, oZ);
+						SendHint(playerid, "Місцерозташування об'єкта позначено на карті.");
+					}
+				}
+				case 1: DestroyBusinessObject(playerid, id, obj);
+			}
+		}
+		case dBCreateObject:
+		{
+			if(!response) return 1;
+			new model = strval(inputtext);
+			//new id = GetPVarInt(playerid, "selected_business");
+			new Float:X, Float:Y, Float:Z;
+			GetPlayerPos(playerid, X, Y, Z);
+			tempbobject[playerid] = CreateDynamicObject(model, X + 0.0, Y + 3.0, Z + 1.0, 0.0, 0.0, 0.0, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), -1, 300.0);
+			EditDynamicObject(playerid, tempbobject[playerid]);
+			SetPVarInt(playerid, "createboject", 1);
+			SetPVarInt(playerid, "bojectmodel", strval(inputtext));
+		}
+		case dBManageArticlesList:
+		{
+			if(!response) return 1;
+			new string[1028], status[32], id = GetPVarInt(playerid, "selected_business");
+			switch(listitem)
+			{
+				case 0:
+				{
+					if(gBusiness[id][bOrder] >= 1)
+					{
+						strcat(string, ""P"Список замовлених товарів:\n\n");
+						for(new i = 1; i < MaxArticles[id] + 1; i++)
+						{
+							if(!gBusinessArticles[id][i][aArticleOrder]) continue;
+							format(string, sizeof(string), "%s"W"%s ("G"%d шт."W")\n", string, gBusinessArticles[id][i][aArticleName], gBusinessArticles[id][i][aArticleOrder]);
+						}
+						switch(TakeOrder[id])
+						{
+							case 0: format(status, sizeof(status), ""YELLOW"Пошук водія.");
+							case 1: format(status, sizeof(status), ""ORANGE"Опрацьовується.");
+							case 2: format(status, sizeof(status), ""GREEN"На шляху до бізнесу.");
+							case 3: format(status, sizeof(status), ""P"Виконано");
+						}
+						format(string, sizeof(string), "%s\n"W"Загальна кількість замовлених одиниць: "P"%d шт.\n"W"Вартість замовлення: "GREEN"$%d\n\n"W"Статус замовлення: %s", string, gBusiness[id][bOrder], gBusiness[id][bOrder]*gBusiness[id][bOrderPrice], status);
+					}
+					else format(string, sizeof(string), ""W"Замовлення відсутнє.\n\n"W"Для створення замовлення перейдіть у відповідний розділ\n"P"/business - Керування товарами - Створити замовлення");
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "Інформація про замовлення", string, "Закрити", "");
+				}
+				case 1:
+				{
+					format(string, sizeof(string), ""W"Поточна вартість однієї одиниці замовлення: "GREEN"$%d\n\n"W"Введіть у полі нижче нову вартість.\n\n"G"* Вартість не повинна бути меншою, ніж "GREEN"1$"G", та більшою, ніж "GREEN"10$"G".", gBusiness[GetPVarInt(playerid, "selected_business")][bOrderPrice]);
+					ShowPlayerDialog(playerid, dBOrderChangePrice, DIALOG_STYLE_INPUT, ""G"Зміна вартості одиниці замовлення", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					strcat(string, ""G"Назва\t"G"Ціна\n");
+					for(new i = 1; i < MaxArticles[id] + 1; i++)
+					{
+						format(string, sizeof(string), "%s"W"%s\t"GREEN"$%d\n", string, gBusinessArticles[id][i][aArticleName], gBusinessArticles[id][i][aArticlePrice]);
+					}
+					ShowPlayerDialog(playerid, dBChangeArticlePrice, DIALOG_STYLE_TABLIST_HEADERS, ""G"Редагування цін", string, "Обрати", "Назад");
+				}
+				case 3:
+				{
+					if(gBusiness[id][bOrder] >= 1) return SendError(playerid, "У Вас вже є активне замовлення.");
+					ShowPlayerDialog(playerid, dBCreateOrder, DIALOG_STYLE_LIST, ""G"Створення замовлення", ""P"1. "W"Інформація про створення замовлення\n"P"2. "W"Список товарів\n"P"3. "W"Підтвердити замовлення", "Обрати", "Назад");
+				}
+			}
+		}
+		case dBCreateOrder:
+		{
+			if(!response) return 1;
+			new string[512];
+			//new articleid = GetPVarInt(playerid, "edit_article");
+			new id = GetPVarInt(playerid, "selected_business");
+			switch(listitem)
+			{
+				case 1:
+				{
+					new qty[25];
+					strcat(string, ""G"Назва\t"G"Залишок\t"G"Замовлено\n");
+					for(new i = 1; i < MaxArticles[id] + 1; i++)
+					{
+						if(!gBusinessArticles[id][i][aArticleQTY]) format(qty, sizeof(qty), ""E"%d", gBusinessArticles[id][i][aArticleQTY]);
+						else format(qty, sizeof(qty), ""G"%d", gBusinessArticles[id][i][aArticleQTY]);
+						format(string, sizeof(string), "%s"W"%s\t%s "G"/ %d шт.\t"GREEN"%d шт\n", string, gBusinessArticles[id][i][aArticleName], qty, gBusinessArticles[id][i][aArticleMaxQTY], gBusinessArticles[id][i][aArticleOrder]);
+					}
+					ShowPlayerDialog(playerid, dBAddArticleToOrder, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список товарів", string, "Обрати", "Назад");
+				}
+				case 2:
+				{
+					if(gBusiness[id][bOrder] >=1) return SendError(playerid, "У Вас вже є активне замовлення.");
+					new order;
+					for(new i = 1; i < MaxArticles[id] + 1; i++)
+					{
+						if(!gBusinessArticles[id][i][aArticleOrder]) continue;
+						order = order + gBusinessArticles[id][i][aArticleOrder];
+					}
+					gBusiness[id][bOrder] = order;
+					UpdateBusinessData(id, "Order", order);
+					SendOK(playerid, "Ви успішно створили замовлення.");
+					format(string, sizeof(string), "Загальна кількість замовлених одиниць: "P"%d шт.", order);
+					SendHint(playerid, string);
+					foreach(new ii:Player)
+					{
+						if(CI[ii][pJob] == 3 && GetVehicleModel(GetPlayerVehicleID(ii)) == 456)
+						{
+							format(string, sizeof(string), "Диспетчер: Надійшло нове замовлення у бізнес "P"%s", gBusiness[id][bName]);
+							SendInfo(playerid, string);
+							SendHint(playerid, "Використайте "P"/prods"W", щоб ознайомитися із замовленням.");
+						}
+					}
+				}
+			}
+		}
+		case dBAddArticleToOrder:
+		{
+			if(!response) return 1;
+			new header[128], string[512];
+			new articleid = listitem+1;
+			SetPVarInt(playerid, "article_order", articleid);
+			new id = GetPVarInt(playerid, "selected_business");
+			if(gBusiness[id][bOrder] >= 1) return SendError(playerid, "У Вас вже є активне замовлення.");
+			if(gBusinessArticles[id][articleid][aArticleQTY] == gBusinessArticles[id][articleid][aArticleMaxQTY])
+			{
+				SendError(playerid, "На складі вже максимальна кількість цього товару.");
+				new qty[25];
+				strcat(string, ""G"Назва\t"G"Залишок\t"G"Замовлено\n");
+				for(new i = 1; i < MaxArticles[id] + 1; i++)
+				{
+					if(!gBusinessArticles[id][i][aArticleQTY]) format(qty, sizeof(qty), ""E"%d", gBusinessArticles[id][i][aArticleQTY]);
+					else format(qty, sizeof(qty), ""G"%d", gBusinessArticles[id][i][aArticleQTY]);
+					format(string, sizeof(string), "%s"W"%s\t%s "G"/ %d шт.\t"GREEN"%d шт\n", string, gBusinessArticles[id][i][aArticleName], qty, gBusinessArticles[id][i][aArticleMaxQTY], gBusinessArticles[id][i][aArticleOrder]);
+				}
+				return ShowPlayerDialog(playerid, dBAddArticleToOrder, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список товарів", string, "Обрати", "Назад");
+			}
+			format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+			format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][aArticleQTY], gBusinessArticles[id][articleid][aArticleMaxQTY], gBusinessArticles[id][articleid][aArticleMaxQTY] - gBusinessArticles[id][articleid][aArticleQTY]);
+			ShowPlayerDialog(playerid, dBSaveArticleOrder, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
+		}
+		case dBSaveArticleOrder:
+		{
+			if(!response) return 1;
+			new header[128], string[512], text[526];
+			new articleid = GetPVarInt(playerid, "article_order");
+			new id = GetPVarInt(playerid, "selected_business");
+			if(isNotNumeric(inputtext))
+			{
+				format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+				format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][aArticleQTY], gBusinessArticles[id][articleid][aArticleMaxQTY], gBusinessArticles[id][articleid][aArticleMaxQTY] - gBusinessArticles[id][articleid][aArticleQTY]);
+				return ShowPlayerDialog(playerid, dBSaveArticleOrder, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
+			}
+			if(strval(inputtext) > gBusinessArticles[id][articleid][aArticleMaxQTY] - gBusinessArticles[id][articleid][aArticleQTY])
+			{
+				format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+				format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.\n\n"E"* Введена кількість замовлення перевищує доступну.", gBusinessArticles[id][articleid][aArticleQTY], gBusinessArticles[id][articleid][aArticleMaxQTY], gBusinessArticles[id][articleid][aArticleMaxQTY] - gBusinessArticles[id][articleid][aArticleQTY]);
+				return ShowPlayerDialog(playerid, dBSaveArticleOrder, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
+			}
+			gBusinessArticles[id][articleid][aArticleOrder] = strval(inputtext);
+			UpdateArticlesData(id, articleid, "Order", strval(inputtext));
+
+			format(text, sizeof(text), "Товар "P"'%s'"W" у кількості "P"%d "W"шт. успішно додано до замовлення.", gBusinessArticles[id][articleid][aArticleName], strval(inputtext));
+			SendOK(playerid, text);
+
+			new qty[25];
+			strcat(string, ""G"Назва\t"G"Залишок\t"G"Замовлено\n");
+			for(new i = 1; i < MaxArticles[id] + 1; i++)
+			{
+				if(!gBusinessArticles[id][i][aArticleQTY]) format(qty, sizeof(qty), ""E"%d", gBusinessArticles[id][i][aArticleQTY]);
+				else format(qty, sizeof(qty), ""G"%d", gBusinessArticles[id][i][aArticleQTY]);
+				format(string, sizeof(string), "%s"W"%s\t%s "G"/ %d шт.\t"GREEN"%d шт\n", string, gBusinessArticles[id][i][aArticleName], qty, gBusinessArticles[id][i][aArticleMaxQTY], gBusinessArticles[id][i][aArticleOrder]);
+			}
+			ShowPlayerDialog(playerid, dBAddArticleToOrder, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список товарів", string, "Обрати", "Назад");
+		}
+		case dBChangeArticlePrice:
+		{
+			if(!response) return 1;
+			new header[128], string[512];
+			new articleid = listitem+1;
+			SetPVarInt(playerid, "article_price", articleid);
+			new id = GetPVarInt(playerid, "selected_business");
+			format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+			format(string, sizeof(string), ""W"Поточна ціна товару: "GREEN"$%d\n\n"W"Введіть у полі нижче нову ціну товару.\n\n"G"Ціна не повинна бути нижчою, ніж "GREEN"$5"G", та вищою, ніж "GREEN"$20000", gBusinessArticles[id][articleid][aArticlePrice]);
+			ShowPlayerDialog(playerid, dBusinessChangeArticlePrice, DIALOG_STYLE_INPUT, header, string, "Змінити", "Назад");
+		}
+		case dBManageArticles:
+		{
+			if(!response) return 1;
+			new id = listitem + 1;
+			SetPVarInt(playerid, "edit_article", id);
+			new header[128];
+			format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[GetPVarInt(playerid, "selected_business")][id][aArticleName]);
+			ShowPlayerDialog(playerid, dBEditArticleList, DIALOG_STYLE_LIST, header, ""P"- "W"Замовити товар\n"P"- "W"Змінити ціну", "Обрати", "Назад");
+		}
+		case dBEditArticleList:
+		{
+			if(!response) return 1;
+			new header[128], string[512];
+			new articleid = GetPVarInt(playerid, "edit_article");
+			new id = GetPVarInt(playerid, "selected_business");
+			switch(listitem)
+			{
+				case 0:
+				{
+					if(gBusinessArticles[id][articleid][aArticleQTY] == gBusinessArticles[id][articleid][aArticleMaxQTY])
+					{
+						SendError(playerid, "На складі вже максимальна кількість цього товару.");
+						format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[GetPVarInt(playerid, "selected_business")][id][aArticleName]);
+						return ShowPlayerDialog(playerid, dBEditArticleList, DIALOG_STYLE_LIST, header, ""P"- "W"Замовити товар\n"P"- "W"Змінити ціну", "Обрати", "Назад");
+					}
+					format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+					format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][aArticleQTY], gBusinessArticles[id][articleid][aArticleMaxQTY], gBusinessArticles[id][articleid][aArticleMaxQTY] - gBusinessArticles[id][articleid][aArticleQTY]);
+					ShowPlayerDialog(playerid, dBCreateOrder, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
+				}
+				case 1:
+				{
+					format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+					format(string, sizeof(string), ""W"Поточна ціна товару: "GREEN"$%d\n\n"W"Введіть у полі нижче нову ціну товару.\n\n"G"Ціна не повинна бути нижчою, ніж "GREEN"$5"G", та вищою, ніж "GREEN"$20000", gBusinessArticles[id][articleid][aArticlePrice]);
+					ShowPlayerDialog(playerid, dBusinessChangeArticlePrice, DIALOG_STYLE_INPUT, header, string, "Змінити", "Назад");
+				}
+			}
+		}
+		case dBOrderChangePrice:
+		{
+			if(!response) return 1;
+			new string[1028];
+			if(isNotNumeric(inputtext))
+			{
+				format(string, sizeof(string), ""W"Поточна вартість однієї одиниці замовлення: "GREEN"$%d\n\n"W"Введіть у полі нижче нову вартість.\n\n"G"* Вартість не повинна бути меншою, ніж "GREEN"1$"G", та більшою, ніж "GREEN"10$"G".", gBusiness[GetPVarInt(playerid, "selected_business")][bOrderPrice]);
+				return ShowPlayerDialog(playerid, dBOrderChangePrice, DIALOG_STYLE_INPUT, ""G"Зміна вартості одиниці замовлення", string, "Далі", "Назад");
+			}
+			if(strval(inputtext) < 1 || strval(inputtext) > 10)
+			{
+				format(string, sizeof(string), ""W"Поточна вартість однієї одиниці замовлення: "GREEN"$%d\n\n"W"Введіть у полі нижче нову вартість.\n\n"G"* Вартість не повинна бути меншою, ніж "GREEN"1$"G", та більшою, ніж "GREEN"10$"G".", gBusiness[GetPVarInt(playerid, "selected_business")][bOrderPrice]);
+				return ShowPlayerDialog(playerid, dBOrderChangePrice, DIALOG_STYLE_INPUT, ""G"Зміна вартості одиниці замовлення", string, "Далі", "Назад");
+			}
+			gBusiness[GetPVarInt(playerid, "selected_business")][bOrderPrice] = strval(inputtext);
+			UpdateBusinessData(GetPVarInt(playerid, "selected_business"), "OrderPrice", strval(inputtext));
+			SendOK(playerid, "Вартість одиниці товару для замовлення успішно змінено.");
+			format(string, sizeof(string), "Нова вартість становить "GREEN"$%d"W" за шт.", strval(inputtext));
+			SendHint(playerid, string);
+		}
+
+		/*case dBusinessPrices:
+		{
+			if(!response) return 1;
+			business_prices[playerid] = -1;
+			strmid(business_prices, inputtext, 0, 3);
+			new id = strval(business_prices[playerid]), query[512];
+			mysql_format(connects, query, sizeof(query), "SELECT ba.Article_ID, bda.Article, ba.Price FROM business_articles ba JOIN business_default_articles bda ON bda.Article_ID = ba.Article_ID WHERE ba.businessID = %i and bda.Article_ID = %i and bda.bType = %i", GetPVarInt(playerid, "selected_business"), id, gBusiness[GetPVarInt(playerid, "selected_business")][businessType]);
+			new Cache: resultCache = mysql_query(connects, query, true);
+	        if(!cache_num_rows()) return SendError(playerid, "Не знайдено такого товару.");
+	        new product_id, article[56], price;
+	        cache_get_value_name_int(0, "Article_ID", product_id);
+	        cache_get_value_name(0, "Article", article, 56);
+	        cache_get_value_name_int(0, "Price", price);
+	        cache_delete(resultCache);
+
+	        SetPVarInt(playerid, "product_id", product_id);
+	        SetPVarString(playerid, "product_article", article);
+	        SetPVarInt(playerid, "product_price", price);
+
+			new header[128], string[512];
+			format(header, sizeof(header), ""W"%s"P"(%d)", article, product_id);
+			format(string, sizeof(string), ""W"Поточна ціна товару: "GREEN"$%d\n\n"W"Введіть у полі нижче нову ціну товару.\n\n"G"Ціна не повинна бути нижчою, ніж "GREEN"$5"G", та вищою, ніж "GREEN"$20000", price);
+			ShowPlayerDialog(playerid, dBusinessChangeArticlePrice, DIALOG_STYLE_INPUT, header, string, "Змінити", "Назад");
+		}*/
+		case dBusinessChangeArticlePrice:
+		{
+			if(!response) return 1;
+			new id = GetPVarInt(playerid, "selected_business");
+			new articleid = GetPVarInt(playerid, "article_price");
+			if(isNotNumeric(inputtext))
+			{
+				new header[128], string[512];
+				format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+				format(string, sizeof(string), ""W"Поточна ціна товару: "GREEN"$%d\n\n"W"Введіть у полі нижче нову ціну товару.\n\n"G"Ціна не повинна бути нижчою, ніж "GREEN"$5"G", та вищою, ніж "GREEN"$20000", gBusinessArticles[id][articleid][aArticlePrice]);
+				return ShowPlayerDialog(playerid, dBusinessChangeArticlePrice, DIALOG_STYLE_INPUT, header, string, "Змінити", "Назад");
+			}
+			if(strval(inputtext) < 5 || strval(inputtext) > 20000)
+			{
+				new header[128], string[512];
+				format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][aArticleName]);
+				format(string, sizeof(string), ""W"Поточна ціна товару: "GREEN"$%d\n\n"W"Введіть у полі нижче нову ціну товару.\n\n"G"Ціна не повинна бути нижчою, ніж "GREEN"$5"G", та вищою, ніж "GREEN"$20000", gBusinessArticles[id][articleid][aArticlePrice]);
+				return ShowPlayerDialog(playerid, dBusinessChangeArticlePrice, DIALOG_STYLE_INPUT, header, string, "Змінити", "Назад");
+			}
+			new price = strval(inputtext);
+			new update[512], string[128];
+			gBusinessArticles[id][articleid][aArticlePrice] = price;
+			mysql_format(connects, update, sizeof(update), "UPDATE `business_articles` SET `Price` = %i WHERE Article_ID = %i and businessID = %i", price, articleid, id);
+			mysql_tquery(connects, update);
+			format(string, sizeof(string), "Ціну товару "P"%s "W"успішно змінено.", gBusinessArticles[id][articleid][aArticleName]);
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нова ціна товару: "GREEN"$%d", price);
+			SendHint(playerid, string);
+		}
+		case dBusinessShop:
+		{
+
+			/*
+				{ 1, "Магазин зручностей", 17 },
+				{ 2, "Магазин одягу", 45 },
+				{ 3, "Магазин електроніки", 35 },
+				{ 4, "Магазин зброї", 18 },
+				{ 5, "Магазин транспорту", 55 },
+				{ 6, "Транспортна компанія", 51 },
+				{ 7, "Заправна станція", 47 },
+				{ 8, "Ресторан", 50 },
+				{ 9, "Бар", 50 }
+			*/
+
+			if(!response) return 1;
+			new bid = GetPVarInt(playerid, "businessID");
+			new article = listitem+1;
+			new string[1028];
+			switch(gBusiness[bid][businessType])
+			{
+				case 1:
+				{
+					if(!gBusinessArticles[bid][article][aArticleQTY]) return SendError(playerid, "Цей товар закінчився.");
+					gBusinessArticles[bid][article][aArticleQTY]--;
+					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][aArticleName]);
+					GiveMoney(playerid, -gBusinessArticles[bid][article][aArticlePrice], string);
+
+
+					/*
+
+					ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ
+
+					*/
+
+					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][aArticleName]);
+					SendOK(playerid, string);
+					business_finances(bid, gBusinessArticles[bid][article][aArticlePrice]);
+				}
+				case 3:
+				{
+					if(!gBusinessArticles[bid][article][aArticleQTY]) return SendError(playerid, "Цей товар закінчився.");
+					gBusinessArticles[bid][article][aArticleQTY]--;
+					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][aArticleName]);
+					GiveMoney(playerid, -gBusinessArticles[bid][article][aArticlePrice], string);
+
+					if(listitem == 0)
+					{
+						CI[playerid][pPhone] = 1;
+						//UpdatePlayerData(playerid, "Phone", CI[playerid][pPhone]);
+					}
+
+					/*
+
+					ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ
+
+					*/
+
+					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][aArticleName]);
+					SendOK(playerid, string);
+					business_finances(bid, gBusinessArticles[bid][article][aArticlePrice]);
+				}
+				case 4:
+				{
+					if(!gBusinessArticles[bid][article][aArticleQTY]) return SendError(playerid, "Цей товар закінчився.");
+					gBusinessArticles[bid][article][aArticleQTY]--;
+					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][aArticleName]);
+					GiveMoney(playerid, -gBusinessArticles[bid][article][aArticlePrice], string);
+
+					if(article == 1) CI[playerid][pPhone] = 1;
+					if(article == 1 && CI[playerid][pPhone]) return SendError(playerid, "Ви вже маєте мобільний телефон.");
+
+					/*
+
+					ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ
+
+					*/
+
+					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][aArticleName]);
+					SendOK(playerid, string);
+					business_finances(bid, gBusinessArticles[bid][article][aArticlePrice]);
+				}
+			}
+		}
+		case dPickupCategory:
+		{
+			if(!response) return 1;
+			new pcategory[32], string[256];
+			strmid(pcategory, inputtext, 0, strlen(inputtext));
+			if(listitem == 0) return ShowPlayerDialog(playerid, dCreatePickup, DIALOG_STYLE_INPUT, ""W"Пікап. "P"Модель", "Введіть модель пікапа у полі нижче.", "Далі", "Назад");
+			if(!strcmp(pcategory, "Фракції")) return mysql_tquery(connects, "SELECT DISTINCT `ID`, `Name` FROM `factions`", "pickup_fractions", "i", playerid);
+				//mysql_tquery(connects, "SELECT DISTINCT `Fraction` FROM `pickups` WHERE `Category` = 'Фракції' AND `Fraction` IS NOT NULL", "pickup_fractions", "i", playerid);
+			else
+			{
+				mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE `Category` = '%s' LIMIT 60", pcategory);
+				return mysql_tquery(connects, string, "pickup_list", "i", playerid);
+			}
+		}
+		case dCreatePickup:
+		{
+			if(!response) return pc_cmd_pickups(playerid);
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dCreatePickup, DIALOG_STYLE_INPUT, ""W"Пікап. "P"Модель", "Введіть модель пікапа у полі нижче.", "Далі", "Назад");
+			SetPVarInt(playerid, "creation_pickup_model", strval(inputtext));
+			ShowPlayerDialog(playerid, dCreatePickup, DIALOG_STYLE_INPUT, ""W"Пікап. "P"Модель", "Введіть модель пікапа у полі нижче.", "Далі", "Назад");
+		}
+		case dEditPickupFractions:
+		{
+			if(!response) return 1;
+			new pfraction[56];
+			strmid(pfraction, inputtext, 0, strlen(inputtext));
+			new string[512], query[512];
+
+			mysql_format(connects, query, sizeof(query), "SELECT `ID` FROM `factions` WHERE `Name` = '%s' LIMIT 1", pfraction);
+	        new Cache: resultCache = mysql_query(connects, query, true);
+	        if(!cache_num_rows()) return SendError(playerid, "Не знайдено такої фракції.");
+	        new id;
+	        cache_get_value_name_int(0, "ID", id);
+	        cache_delete(resultCache);
+
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Fraction` = '%d' WHERE `ID` = '%d'", id, GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, string);
+
+			format(string, sizeof(string), "Фракцію пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нова фракція пікапа: "P"%s", pfraction);
+			SendInfo(playerid, string);
+		}
+		case dPickupFractions:
+		{
+			if(!response) return 1;
+			new pfraction[56];
+			strmid(pfraction, inputtext, 0, strlen(inputtext));
+			new string[512];
+			mysql_format(connects, string, sizeof(string), "SELECT p.* from pickups p JOIN factions f on f.ID = p.Fraction WHERE f.Name LIKE '%s%s%s' LIMIT 60", "%", pfraction, "%");
+			mysql_tquery(connects, string, "pickup_list", "i", playerid);
+		}
+		case dPickupList:
+		{
+			if(!response) return 1;
+			/*
+			if(listitem == 60)
+			{
 				DeletePVar(playerid, "firstpage");
 				return mysql_tquery(connects, "SELECT * FROM `pickups` LIMIT 60, 60", "pickup_list", "i", playerid);
 			}
+			*/
 			strmid(pickup_id, inputtext, 0, 3);
 			SetPVarInt(playerid, "pickupid", strval(pickup_id));
 
-			format(header, sizeof(header), "PickupID: %d", GetPVarInt(playerid, "pickupid"));
-			SendOK(playerid, header);
-
-			/*
-
-			new stringer[128], status_text[32], string[3500];
-			mysql_format(connects, stringer, sizeof(stringer), "SELECT * FROM `pickups` WHERE ID = %i LIMIT 1", GetPVarInt(playerid, "pickupid"));
-			new Cache: resultCache = mysql_query(connects, stringer, true);
-			if(!cache_num_rows()) return SendError(playerid, "Відбулася помилка #001 в #1231.");
-
-			new pickkID, pickkText[72], Float:pickkX, Float:pickkY, Float:pickkZ, Float:tppX, Float:tppY, Float:tppZ, Float:tppAngle, tppWorld, tppInt, pickkWorld, pickkInt, pickkType, pickkCategory[32],
-			pickkStatus, pickkComment[256], pickkModel;
-
-			cache_get_value_name_int(0, "ID", pickkID);
-			cache_get_value_name(0, "Text", pickkText, 72);
-			cache_get_value_float(0, "X", pickkX);
-			cache_get_value_float(0, "Y", pickkY);
-			cache_get_value_float(0, "Z", pickkZ);
-			cache_get_value_float(0, "tpX", tppX);
-			cache_get_value_float(0, "tpY", tppY);
-			cache_get_value_float(0, "tpZ", tppZ);
-			cache_get_value_float(0, "tpAngle", tppAngle);
-			cache_get_value_name_int(0, "tpWorld", tppWorld);
-			cache_get_value_name_int(0, "tpInt", tppInt);
-			cache_get_value_name_int(0, "World", pickkWorld);
-			cache_get_value_name_int(0, "Interior", pickkInt);
-			cache_get_value_name_int(0, "Model", pickkModel);
-			cache_get_value_name_int(0, "Type", pickkType);
-			cache_get_value_name(0, "Category", pickkCategory, 32);
-			cache_get_value_name_int(0, "Status", pickkStatus);
-			cache_get_value_name(0, "Comment", pickkComment, 256);
-
-			cache_delete(resultCache);
-
-			switch(pickkStatus) {
-				case 2: format(status_text, sizeof(status_text), ""GREEN"Активний");
-				case 9: format(status_text, sizeof(status_text), ""E"Неактивний");
-			}
-
-			format(string, sizeof(string), "Pickup %d", pickkID);
-			SendOK(playerid, string);
-			*/
-			
-			/*
-			format(string, sizeof(string), "Pickup %d", GetPVarInt(playerid, "pickupid"));
-			SendOK(playerid, string);
-
-			format(header, sizeof(header), ""P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
-
-			format(string, sizeof(string), "\
-				Атрибут\t"P"Значення\n"W"ID:\t"P"%d\n\
-				"W"Текст пікапа:\t"P"%s\n\
-				"W"Координати пікапа (X, Y, Z):\t"P"%.2f, %.2f, %.2f\n\
-				"W"Світ та інтер'єр пікапа:\t"P"%d | %d\n\
-				"W"Телепорт пікапа (X, Y, Z, Angle):\t"P"%.2f, %.2f, %.2f, %.2f\n\
-				"W"Телепорт світ та інтер'єр:\t"P"%d | %d\n\
-				"W"Модель:\t"P"%d\n\
-				"W"Тип:\t"P"%d\n\
-				"W"Категорія:\t"P"%s\n\
-				"W"Статус:\t"P"%s\n\n\
-				"P"Коментар:\t"P"%s", string, pickkID, pickkText, pickkX, pickkY, pickkZ, pickkWorld, pickkInt, tppX, tppY, tppZ, tppAngle, tppWorld, tppInt,
-				pickkModel, pickkType, pickkCategory, status_text, pickkComment);
-
-			ShowPlayerDialog(playerid, dEditPickup, DSTH, header, string, "Змінити", "Назад");*/
-			}
-		case dEditPickup: {
-			if(!response) {
-				DeletePVar(playerid, "pickupid");
-				return mysql_tquery(connects, "SELECT * FROM `pickups` LIMIT 60", "pickup_list", "i", playerid);
-			}
+			new string[256];
+			mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, string, "choosen_pickup", "i", playerid);
+		}
+		case dEditPickup:
+		{
+			if(!response) return 1;
 			new header[32];
-			format(header, sizeof(header), P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
-			if(listitem == 0) ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.", "Далі", "Назад");
+			format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
+			switch(listitem)
+			{
+				case 1: ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.", "Далі", "Назад");
+				case 2:
+				{
+					SetPVarInt(playerid, "editpickuppos", 1);
+					SendHint(playerid, "Встаньте на нову позицію, куди хочете перенести пікап та введіть "P"/savepos.");
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, header, ""W"Встаньте на нову позицію, куди хочете перенести пікап та введіть "P"/savepos.", "Закрити", "");
+				}
+				case 3:
+				{
+					SetPVarInt(playerid, "editpickuppos", 2);
+					SendHint(playerid, "Встаньте на нову позицію, куди хочете перенести телепорт пікапа та введіть "P"/savepos.");
+					SendHint(playerid, "Зверніть увагу, у яку сторону дивиться Ваш персонаж. З таким FacingAngle буде відбуватися телепорт через пікап.");
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, header, ""W"Встаньте на нову позицію, куди хочете перенести телепорт пікапа та введіть "P"/savepos.\n\n"W"Зверніть увагу, у яку сторону дивиться Ваш персонаж. З таким FacingAngle буде відбуватися телепорт через пікап.", "Закрити", "");
+				}
+				case 4: ShowPlayerDialog(playerid, dEditPickupModel, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий ID моделі пікапа.", "Далі", "Назад");
+				case 5: ShowPlayerDialog(playerid, dEditPickupType, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий ID типу пікапа.", "Далі", "Назад");
+				case 6: mysql_tquery(connects, "SELECT DISTINCT `Category` FROM `pickups", "change_pickup_category", "i", playerid);
+				case 7: ShowPlayerDialog(playerid, dEditPickupStatus, DIALOG_STYLE_LIST, header, ""GREEN"Активний\n"E"Неактивний", "Далі", "Назад");
+				case 8: mysql_tquery(connects, "SELECT DISTINCT `Name` FROM `factions", "change_pickup_fractions", "i", playerid);
+				case 9: ShowPlayerDialog(playerid, dEditPickupComment, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий коментар для пікапа.", "Далі", "Назад");
+				case 10:
+				{
+					SetPlayerPosAC(playerid, GetPVarFloat(playerid, "pickX"), GetPVarFloat(playerid, "pickY"), GetPVarFloat(playerid, "pickZ"), GetPVarInt(playerid, "pickWorld"), GetPVarInt(playerid, "pickInt"));
+					SetCameraBehindPlayer(playerid);
+					FreezePlayerForTime(playerid, 1);
+					new string[56];
+					format(string, sizeof(string), "Ви успішно телепортувалися на пікап ID "P"%d", GetPVarInt(playerid, "pickupid"));
+					SendOK(playerid, string);
+				}
 			}
-		case dEditPickupText: {
-			new header[32], query[256], string[256];
-			format(header, sizeof(header), P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
-			if(!response) return ShowPlayerDialog(playerid, dEditPickup, DIALOG_STYLE_LIST, header, ""P"1."W" Інформація про пікап.\n"P"2."W" Змінити текст пікапа.\n"P"3."W" Змінити позицію пікапа.\n"P"4."W" Змінити модель пікапа.\n"P"5."W" Змінити тип пікапа.\n"P"6."W" Змінити категорію пікапа.\n"P"7."W" Змінити статус пікапа.\n"P"8."W" Змінити коментар до пікапа", "Обрати", "Назад");
-			if(strlen(inputtext) > 72) return ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.\n\n"E"Максимальна довжина тексту - 72 символи.", "Далі", "Назад");
-			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Text` = '%s' WHERE `ID` = %i", inputtext, GetPVarInt(playerid, "pickupid"));
+		}
+		case dEditPickupComment:
+		{
+			if(!response) return 1;
+			new query[512], string[128];
+			new header[32];
+			format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
+			if(strlen(inputtext) > 256) return ShowPlayerDialog(playerid, dEditPickupComment, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий коментар для пікапа.", "Далі", "Назад");
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Comment` = '%s' WHERE `ID` = '%d'", inputtext, GetPVarInt(playerid, "pickupid"));
 			mysql_tquery(connects, query);
-			format(string, sizeof(string), "Текст пікапа "P"ID %d"W" успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			format(string, sizeof(string), "Коментар пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
 			SendOK(playerid, string);
-			format(string, sizeof(string), "Новий текст пікапа: "P"%s"W".", inputtext);
+			format(string, sizeof(string), "Новий коментар пікапа: "P"%s", inputtext);
 			SendInfo(playerid, string);
+		}
+		case dEditPickupStatus:
+		{
+			if(!response) return 1;
+			new status, status_text[32], query[256], string[128];
+			switch(listitem)
+			{
+				case 0: status = 2, format(status_text, sizeof(status_text), ""GREEN"Активний");
+				case 1: status = 9, format(status_text, sizeof(status_text), ""E"Неактивний");
 			}
-		case dEditPickupPos: {
-			SetPVarInt(playerid, "editpickuppos", 1);
-			SendHint(playerid, "Встаньте на нову позицію, куди хочете перенести пікап та введіть "P"/savepos"W".");
-			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Status` = '%d' WHERE `ID` = '%d'", status, GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, query);
+			format(string, sizeof(string), "Статус пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Новий статус пікапа: "P"%s", status_text);
+			SendInfo(playerid, string);
+
+		}
+		case dEditPickupCategoryFirstList:
+		{
+			if(!response) return 1;
+			new category[32], query[512], string[128];
+			strmid(category, inputtext, 0, strlen(inputtext));
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Category` = '%s' WHERE `ID` = '%d'", category, GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, query);
+			format(string, sizeof(string), "Категорія пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нова категорія пікапа: "P"%s", category);
+			SendInfo(playerid, string);
+		}
+		case dEditPickupModel:
+		{
+			if(!response) return 1;
+			new query[256], string[128];
+			new header[32];
+			format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dEditPickupModel, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий ID моделі пікапа.", "Далі", "Назад");
+			new model = strval(inputtext);
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Model` = '%d' WHERE `ID` = '%d'", model, GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, query);
+
+			DestroyDynamicPickup(pickinfo[GetPVarInt(playerid, "pickupid")][pickObject]);
+
+			pickinfo[GetPVarInt(playerid, "pickupid")][pickObject] = CreateDynamicPickup(model, GetPVarInt(playerid, "pickType"), GetPVarFloat(playerid, "pickX"), GetPVarFloat(playerid, "pickY"), GetPVarFloat(playerid, "pickZ"), GetPVarInt(playerid, "pickWorld"), GetPVarInt(playerid, "pickInt"));
+
+			format(string, sizeof(string), "Модель пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нова модель пікапа: "P"%d", model);
+			SendInfo(playerid, string);
+		}
+		case dEditPickupType:
+		{
+			if(!response) return 1;
+			new query[256], string[128];
+			new header[32];
+			format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dEditPickupModel, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий ID типу пікапа.", "Далі", "Назад");
+			new type = strval(inputtext);
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Model` = '%d' WHERE `ID` = '%d'", type, GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, query);
+
+			DestroyDynamicPickup(pickinfo[GetPVarInt(playerid, "pickupid")][pickObject]);
+
+			pickinfo[GetPVarInt(playerid, "pickupid")][pickObject] = CreateDynamicPickup(GetPVarInt(playerid, "pickModel"), type, GetPVarFloat(playerid, "pickX"), GetPVarFloat(playerid, "pickY"), GetPVarFloat(playerid, "pickZ"), GetPVarInt(playerid, "pickWorld"), GetPVarInt(playerid, "pickInt"));
+
+			format(string, sizeof(string), "Модель пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нова модель пікапа: "P"%d", type);
+			SendInfo(playerid, string);
+		}
+		case dEditPickupText:
+		{
+			new header[32], query[256], string[256];
+			format(header, sizeof(header), ""P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
+			if(!response) return ShowPlayerDialog(playerid, dEditPickup, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про пікап\n"P"2. "W"Змінити текст пікапа\n"P"3. "W"Змінити позицію пікапа\n"P"4. "W"Змінити модель пікапа\n"P"5. "W"Змінити тип пікапа\n"P"6. "W"Змінити категорію пікапа\n"P"7. "W"Змінити статус пікапа\n"P"8. "W"Змінити коментар до пікапа", "Обрати", "Назад");
+			if(strlen(inputtext) > 72) return ShowPlayerDialog(playerid, dEditPickupText, DIALOG_STYLE_INPUT, header, ""W"Введіть у полі нижче новий текст для пікапа.\n\n"E"Максимальна довжина тексту - 72 символи.", "Далі", "Назад");
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `Text` = '%s' WHERE `ID` = '%d'", inputtext, GetPVarInt(playerid, "pickupid"));
+			mysql_tquery(connects, query);
+
+			DestroyDynamic3DTextLabel(pickinfo[GetPVarInt(playerid, "pickupid")][pickupText]);
+
+			new text[256];
+			GetPVarString(playerid, "pickText", text, sizeof(text));
+			FixSVarString(text);
+
+			pickinfo[GetPVarInt(playerid, "pickupid")][pickupText] = CreateDynamic3DTextLabel(inputtext, 0xFF7F50FF, GetPVarFloat(playerid, "pickX"), GetPVarFloat(playerid, "pickY"), GetPVarFloat(playerid, "pickZ")+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, GetPVarInt(playerid, "pickWorld"), GetPVarInt(playerid, "pickInt"));
+
+			format(string, sizeof(string), "Текст пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Новий текст пікапа: "P"%s", inputtext);
+			SendInfo(playerid, string);
+		}
 		case dManageCall: {
 			if(!response) {
 				new query[128];
@@ -26886,29 +28372,30 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new vehicleid = GetPlayerVehicleID(playerid);
 				new modelid = GetVehicleModel(vehicleid) - 400;
 				new tank = strval(inputtext);
-				if(tank < 1 || tank > 100 || VehicleInfo[vehicleid][vFuel]+tank > gTransport[modelid][trTank]) {
-					static const f_str[] = "\n"W"Укажіть на скільки літрів заправити ваше т/з:\n\nДоступно літрів в баку: {FF9968}%.0f"W"\nМісткість баку: {FF9968}%d"W"\nМожна заправити на: {FF9968}%.0fл"W"\nВартість 1л: "GREEN"$%d\n";
+				if(tank < 1 || tank > 100 || VehicleInfo[vehicleid][vFuel]+tank > gTransport[modelid][trTank])
+				{
+					static const f_str[] = "\n"W"Вкажіть, на скільки літрів ви хочете заправити ваш транспорт:\n\nДоступно літрів в баці: "P"%.0f"W"\nМісткість бака: "P"%d"W"\nМожна заправити на: "P"%.0fл"W"\nВартість 1л: "GREEN"$%d\n";
 					new string[sizeof(f_str) + 1 + 30];
-					format(string, sizeof(string), f_str, VehicleInfo[vehicleid][vFuel], gTransport[modelid][trTank], gTransport[modelid][trTank]-VehicleInfo[vehicleid][vFuel], gBusiness[fuel][bizzPrice]);
+					format(string, sizeof(string), f_str, VehicleInfo[vehicleid][vFuel], gTransport[modelid][trTank], gTransport[modelid][trTank]-VehicleInfo[vehicleid][vFuel], gBusiness[fuel][bGasPrice]);
 					ShowPlayerDialog(playerid, D_FUEL, DSI, P"Заправка", string, "Заправить", "Скасувати");
 					return 1;
 				}
 				SetPVarInt(playerid, "tank_fill",tank);
 				new string[128];
-				format(string, sizeof(string), " \n  \n"W"Ви дійсно хочете заправиться на "CA"%d"W" літрів?\nВартість: "GREEN"$%d\n\n",
-				tank,tank*gBusiness[fuel][bizzPrice]);
+				format(string, sizeof(string), " \n  \n"W"Ви справді хочете заправиться на "CA"%d"W" літрів?\nВартість: "GREEN"$%d\n\n",
+				tank,tank*gBusiness[fuel][bGasPrice]);
 				ShowPlayerDialog(playerid, D_FUEL_2, DSM, P"Заправка", string, "Так", "Ні");
 				return 1;
 			}
 		case D_FUEL_2: {
 				if(!response) return DeletePVar(playerid, "tank_fill");
 				new fuel = GetPVarInt(playerid, "azs_id");
-				new price = GetPVarInt(playerid, "tank_fill")*gBusiness[fuel][bizzPrice];
+				new price = GetPVarInt(playerid, "tank_fill")*gBusiness[fuel][bGasPrice];
 				if(CI[playerid][pCash] < price) return SendError(playerid, "У вас недостатньо грошей.");
 				GiveMoney(playerid, -price, "заправка авто АЗС");
-				if(gBusiness[fuel][bizzProduct] - GetPVarInt(playerid, "tank_fill") > 0) {
-					gBusiness[fuel][bizzProduct] -= GetPVarInt(playerid, "tank_fill");
-					bizz_pay(fuel,price);
+				if(gBusiness[fuel][bGasPrice] - GetPVarInt(playerid, "tank_fill") > 0) {
+					gBusiness[fuel][bGasPrice] -= GetPVarInt(playerid, "tank_fill");
+					business_finances(fuel,price);
 				}
 				if(QuestProgress[playerid][44] == 0 && AcceptQuest[playerid][44] != 0) {
 					QuestProgress[playerid][44] ++;
@@ -26920,22 +28407,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SetPVarInt(playerid, "tank_vfuel", floatround(VehicleInfo[GetPlayerVehicleID(playerid)][vFuel]));
 				SetTimerEx("FuelCar", 500, 0, "i", playerid);
 				TogglePlayerControllable(playerid,false);
-			}
-		case D_BUY_FUEL: {
-				if(!response) return 1;
-				new fuel = GetNearestTrunckFuel(playerid);
-				if(fuel==-1) return 1;
-				new price = 10*gBusiness[fuel][bizzPrice];
-				if(CI[playerid][pCash] < price) return SendError(playerid, "У вас недостатньо грошей.");
-				if(gBusiness[fuel][bizzProduct] - 10 > 0) {
-					gBusiness[fuel][bizzProduct] -= 10;
-					bizz_pay(fuel,price);
-				}
-				if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
-				GiveMoney(playerid, -price, "купівля каністри");
-				UpdateBusinessText(fuel);
-				AddItem(playerid, 454, 1);
-				SendOK(playerid, "Ви придбали каністру з бензином. Для заправки т/з, введіть "P"/fillcar"W".");
 			}
 		case D_SELL_CAR: {
 				new id_pokupaet = GetPVarInt(playerid, "car_pokupaet") -1;
@@ -27416,6 +28887,134 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SetPlayerWantedLevel(playerid, CI[playerid][pSearch]);
 				PlayerSpawn(playerid);
 			}
+		case dDonate:
+		{
+			if(!response) return 1;
+			switch(listitem)
+			{
+				case 0: ShowPlayerDialog(playerid, dDonateInfo, DIALOG_STYLE_LIST, ""G"Інформація", ""P"1. "W"Загальна інформація\n"P"2. "W"Баланс та поповнення рахунку\n"P"3. "W"Мій преміум-акаунт", "Обрати", "Назад");
+				case 1:
+				{
+					new header[128], string[256], sale;
+					if(sale) format(header, sizeof(header), ""G"Ігрова валюта (x2)"), format(string, sizeof(string), ""W"Введіть у полі нижче кількість CCoins, яку Ви хочете обміняти на віртуальну ігрову валюту ("GREEN"$"W").\n\n"G"Поточний курс: 1 CCoin = "GREEN"$2.400");
+					else format(header, sizeof(header), ""G"Ігрова валюта (x1)"), format(string, sizeof(string), ""W"Введіть у полі нижче кількість CCoins, яку Ви хочете обміняти на віртуальну ігрову валюту ("GREEN"$"W").\n\n"G"Поточний курс: 1 CCoin = "GREEN"$1.200");
+					ShowPlayerDialog(playerid, dDonateConvert, DIALOG_STYLE_INPUT, header, string, "Обміняти", "Назад");
+				}
+				case 2: ShowPlayerDialog(playerid, dDonatePremium, DIALOG_STYLE_LIST, ""G"Преміум-акаунти", ""P"- "W"Початковий\n"P"- "W"Комфортний\n"P"- "W"Оптимальний\n"G"* Продовжити термін дії преміум-акаунта", "Обрати", "Назад");
+				case 3: ShowPlayerDialog(playerid, dDonateOther, DIALOG_STYLE_LIST, ""G"Додаткові можливості", ""P"1. "W"Змінити нікнейм персонажа\n"P"2. "W"Змінити стать персонажа\n"P"3. "W"Анулювати варн\n"P"4. "W"Комплект ліцензій\n"P"5. "W"Елітний номер телефону\n"P"6. "W"Підвищити навички бойових мистецтв\n"P"7. "W"Підвищити навички володіння зброєю", "Обрати", "Назад");
+			}
+		}
+		case dDonateInfo:
+		{
+			if(!response) return pc_cmd_donate(playerid);
+			switch(listitem)
+			{
+				case 0:
+				{
+					new string[2056];
+					format(string, sizeof(string), "\
+						"W"На сервері існує можливість перевести реальні гроші в Сhiliad Coin (CCoin) - особлива ігрова валюта,\n\
+						за допомогою якої Ви можете придбати преміум-акаунт, а також інші додаткові послуги, що дозволяють\n\
+						зробити Вашу гру більш комфортною.\n\n\
+						Для того, щоб поповнити рахунок Вашого персонажу, Вам необхідно перейти на сайт "P"chiliad-rp.com\n\
+						"W"та ввести бажану суму за курсом "P"1 гривня = 1 CCoin"W".\n\n\
+						"E"* Примітка:\n\
+						"W"Перед придбанням преміум-акаунта з можливістю мати 2 транспортних засоби, 2 будинки чи 2 бізнеси,\n\
+						враховуйте те, що по завершенню терміну дії преміума другий (додатковий) т/з / будинок / бізнес\n\
+						буде автоматично продано і Вам повернеться його ринкова вартість.\n\
+						Щоб уникнути цього, продовжіть термін дії Вашого преміум-акаунта, не виходячи з серверу\n\
+						"P"/donate - Преміум-акаунти - Продовжити термін дії преміум-акаунта"W".\n\n\
+						Дізнатися, коли завершується термін дії преміум-акаунта можна за шляхом\n\
+						"P"/donate - Інформація - Мій преміум-акаунт"W".");
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"Загальна інформація", string, "Назад", "");
+				}
+				case 1:
+				{
+					new string[2056];
+					format(string, sizeof(string), "\
+						"W"На Вашому рахунку - "P"%d "W"CCoin.\n\n\
+						Для того, щоб поповнити рахунок Вашого персонажу, Вам необхідно перейти на сайт "P"chiliad-rp.com\n\
+						"W"та ввести бажану суму за курсом "P"1 гривня = 1 CCoin"W".\n\n\
+						"E"* Примітка:\n\
+						"W"Для поповнення рахунку необов'язково виходити з сервера, достатньо лише згорнути гру.\n\
+						Після успішно проведеної операції (поповнення) розгорніть гру та повторно скористуйтеся командою "P"/donate"W".\n\n\
+						Якщо у Вас виникли проблеми з поповненням CCoin - зверніться на форум у розділ "P"Донат"W".\n\n\
+						"E"Не забудьте обов'язково зробити скріншот платежу!", CI[playerid][pDonate]);
+					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"Баланс та поповнення рахунку", string, "Назад", "");
+				}
+				case 2:
+				{
+					if(!CI[playerid][pPremium]) return SendError(playerid, "У Вас немає преміум-акаунта.");
+
+				}
+			}
+		}
+		case dDonatePremium:
+		{
+			if(!response) return pc_cmd_donate(playerid);
+			switch(listitem)
+			{
+				case 0:
+				{
+					new string[2056];
+					format(string, sizeof(string), "\
+						"G"Збільшення заощаджень на банківському рахунку (депозит) на "P"0.1 %%\n\
+						"G"Збільшення заробітньої плати на "P"7 %%\n\
+						"G"Збільшення виплати по безробіттю на "P"20 %%\n\
+						"G"Додаткова вага: "P"2 кг.\n\
+						"G"Збільшення вартості продажу майна державі на "P"10 %%\n\
+						"G"Зниження цін на тюнінг транспорту на "P""P"15 %%\n\
+						"G"Зниження цін на ремонт транспорту на "P"10 %%\n\
+						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"10 %%\n\n\
+						"W"Вартість придбання терміном на "P"30 "W"днів становить "P"180 "W"CCoin.\n\
+						На Вашому рахунку - "P"%d "W"CCoin", CI[playerid][pDonate]);
+					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Преміум-акаунт "GREEN"Початковий", string, "Купити", "Назад");
+					SetPVarInt(playerid, "premium", 1);
+				}
+				case 1:
+				{
+					new string[2056];
+					format(string, sizeof(string), "\
+						"G"Збільшення заощаджень на банківському рахунку (депозит) на "P"0.3 %%\n\
+						"G"Збільшення заробітньої плати на "P"12 %%\n\
+						"G"Збільшення виплати по безробіттю на "P"40 %%\n\
+						"G"Додаткова вага: "P"4 кг.\n\
+						"G"Збільшення вартості продажу майна державі на "P"20 %%\n\
+						"G"Можливість оплати будинку на "P"+5 днів\n\
+						"G"Можливіть мати "P"2 транспортних засоби\n\
+						"G"Можливість мати "P"2 будинки\n\
+						"G"Зниження цін на тюнінг транспорту на "P""P"20 %%\n\
+						"G"Зниження цін на ремонт транспорту на "P"15 %%\n\
+						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"15 %%\n\n\
+						"W"Вартість придбання терміном на "P"30 "W"днів становить "P"400 "W"CCoin.\n\
+						На Вашому рахунку - "P"%d "W"CCoin", CI[playerid][pDonate]);
+					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Преміум-акаунт {DC143C}Комфортний", string, "Купити", "Назад");
+					SetPVarInt(playerid, "premium", 2);
+				}
+				case 2:
+				{
+					new string[2056];
+					format(string, sizeof(string), "\
+						"G"Збільшення заощаджень на банківському рахунку (депозит) на "P"0.7 %%\n\
+						"G"Збільшення заробітньої плати на "P"20 %%\n\
+						"G"Збільшення виплати по безробіттю на "P"80 %%\n\
+						"G"Додаткова вага: "P"6 кг.\n\
+						"G"Збільшення вартості продажу майна державі на "P"30 %%\n\
+						"G"Можливість оплати будинку на "P"+10 днів\n\
+						"G"Можливість оплати бізнесу на "P"+10 днів\n\
+						"G"Можливіть мати "P"3 транспортних засоби\n\
+						"G"Можливість мати "P"2 будинки\n\
+						"G"Можливість мати "P"2 бізнеси\n\
+						"G"Зниження цін на тюнінг транспорту на "P""P"30 %%\n\
+						"G"Зниження цін на ремонт транспорту на "P"20 %%\n\
+						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"20 %%\n\n\
+						"W"Вартість придбання терміном на "P"30 "W"днів становить "P"600 "W"CCoin.\n\
+						На Вашому рахунку - "P"%d "W"CCoin", CI[playerid][pDonate]);
+					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Преміум-акаунт {FFD700}Оптимальний", string, "Купити", "Назад");
+					SetPVarInt(playerid, "premium", 3);
+				}
+			}
+		}
 		case D_DONATE: {
 				if(!response) return 1;
 				switch(listitem) {
@@ -28004,7 +29603,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 				}
 			}
-		case D_GPS_RAZN: { 
+		case D_GPS_RAZN: {
 				if(!response) return pc_cmd_gps(playerid);
 				new string[120], str[28];
 				switch(listitem) {
@@ -28051,7 +29650,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 2: EnableGPSForPlayer(playerid, 1636.6709, -1106.8654, 23.9063), str = "оренди транспорту механіків м. ЛС #1";
 				case 3: EnableGPSForPlayer(playerid, -82.6767, -1155.2017, 1.7500), str = "оренди транспорту механіків м. ЛС #2";
 				case 4: EnableGPSForPlayer(playerid, 693.0519, -1576.1600, 14.2411), str = "оренда транспорту для прибирання вулиць";
-				case 5: EnableGPSForPlayer(playerid, 1344.0884, 352.1465, 19.554), str = "оренди розвізників продуктів";
+				case 5: EnableGPSForPlayer(playerid, -73.3648, -1129.5521, 1.0781), str = "оренди розвізників продуктів";
 				case 6: EnableGPSForPlayer(playerid, -10.1753, -314.8848, 5.4229), str = "оренди палива продуктів";
 				case 7: EnableGPSForPlayer(playerid, 1103.6682, -1742.0496, 13.4692), str = "таксопарку";
 				}
@@ -28661,7 +30260,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(ArendInfo[arid][aPlayerID] == INVALID_PLAYER_ID || !IsPlayerConnected(ArendInfo[arid][aPlayerID])) {
 							if(CI[playerid][pCash] < ArendInfo[arid][aCost]) return SendError(playerid, "У вас недостатньо коштів.");
 							GiveMoney(playerid, -ArendInfo[arid][aCost], "оренда т/з");
-							//bizz_pay(ArendInfo[arid][aBizz],floatround(ArendInfo[arid][aCost]));
+							//business_finances(ArendInfo[arid][aBizz],floatround(ArendInfo[arid][aCost]));
 							TI[playerid][tArendKey] = arid;
 							ArendInfo[arid][aPlayerID] = playerid;
 							ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Транспортний засіб орендовано.", W"Список доступних команд:\n\n"P"/lock 3"W" - закрити чи відкрити орендований транспорт\n"P"/unrent"W" - відмовитися від оренди\n\n"NO"При віддаленні від т/з на 2км контракт автоматично розривається", "Закрити", "");
@@ -28748,7 +30347,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -price, "розвізник їжі контракт");
 				if(gBusiness[GetPVarInt(playerid, "e_biz")][bizzProduct] - litres > 0) {
 					gBusiness[GetPVarInt(playerid, "e_biz")][bizzProduct] -= litres;
-					bizz_pay(GetPVarInt(playerid, "e_biz"),price);
+					business_finances(GetPVarInt(playerid, "e_biz"),price);
 				}
 				new string[128];
 				format(string, sizeof(string), G"Хот-догов: "P"%d ед.", GetPVarInt(playerid, "eatcolvo") + litres);
@@ -28772,7 +30371,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GiveMoney(playerid, -price, "механік контракт");
 				if(gBusiness[GetPVarInt(playerid, "f_biz")][bizzProduct] - litres > 0) {
 					gBusiness[GetPVarInt(playerid, "f_biz")][bizzProduct] -= litres;
-					bizz_pay(GetPVarInt(playerid, "f_biz"),price);
+					business_finances(GetPVarInt(playerid, "f_biz"),price);
 				}
 				new string[128];
 				format(string, sizeof(string), G"паливо: "P"%d л.", GetPVarInt(playerid, "toplivo") + litres);
@@ -29355,7 +30954,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 				}
 				return 1;
-			} 
+			}
 		case D_QUEST_COP: {
 				if(!response) return 1;
 				new id = QuestShow[playerid][listitem], string[512], str[54];
@@ -29636,7 +31235,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							if(bizzid == 20) {
 								format(string, sizeof(string), "%s{AFAFAF}Далі\n", string);
 								break;
-							} 
+							}
 						}
 						if(!bizzid) return SendError(playerid, "Вільних бізнесів немає.");
 						ShowPlayerDialog(playerid, D_RIELTOR_BIZZ, DSTH, P"Оберіть бізнес", string, "Обрати", "Закрити");
@@ -29695,7 +31294,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(bizz < 0) return 1;
 				new price = gBusiness[bizz][bizzPrice]*150;
 				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
-				bizz_pay(bizz,price);
+				business_finances(bizz,price);
 				GiveMoney(playerid, -price, "огляд ріелторка");
 				new houseid = GetPVarInt(playerid, "hrieltor") -1, Float:pos[3];
 				GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
@@ -29739,7 +31338,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(bizz < 0) return 1;
 				new price = gBusiness[bizz][bizzPrice]*150;
 				if(GetPlayerMoneyEx(playerid) < price) return SendError(playerid, "Недостатньо коштів.");
-				bizz_pay(bizz,price);
+				business_finances(bizz,price);
 				GiveMoney(playerid, -price, "осмотр ріелторка");
 				new bizzid = GetPVarInt(playerid, "bizzrielor") -1, Float:pos[3];
 				GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
@@ -29810,7 +31409,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 3: PlayAudioStreamForPlayer(playerid, "http://cast.radiogroup.com.ua:8000/nrj"), SendOK(playerid, "Онлайн радіо 'NRJ Ukraine' ввімкнено.");
 				case 4: ShowPlayerDialog(playerid, D_RADIO_1, DSI, P"Своя музика", W"Введіть нижче посилання на діючий потік радіо/музики:", "Прийняти", "Назад");
 				case 5: StopAudioStreamForPlayer(playerid), SendOK(playerid, "Радіо вимкнено.");
-				} 
+				}
 			}
 		case D_RADIO_1: {
 				if(!response) return pc_cmd_play(playerid);
@@ -30116,7 +31715,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							// new string[128];
 							format(string, sizeof(string), P"1."W" Як отримати ліцензію?\n"P"2."W" Реєстрація на складання іспитів.\n"P"3."W" Придбання ліцензій.");
 							return ShowPlayerDialog(playerid, D_LICENSES_LIST, DSL, P"Послуги автошколи.", string, "Обрати", "Скасувати");
-						} 
+						}
 						new info[768];
 						format(info, sizeof(info), W"Вітаємо вас, "P"%s, "W"у автошколі!\n\n\
 													"W"Ми займаємося оформленням трьох ліцензій для керування транспортом: водійські права, ліцензії на польоти та на водний транспорт.\n\
@@ -30132,7 +31731,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							// new string[128];
 							format(string, sizeof(string), P"1. "W"Як отримати ліцензію?\n"P"2. "W"Реєстрація на складання іспитів\n"P"3. "W"Придбання ліцензій");
 							return ShowPlayerDialog(playerid, D_LICENSES_LIST, DSL, P"Послуги автошколи.", string, "Обрати", "Скасувати");
-						} 
+						}
 						ShowPlayerDialog(playerid, D_LICENSES_EXAMS, DSL, P"Список екзаменів.", P"1. "W"Водіння\n"P"2. "W"Польоти\n"P"3. "W"Керування водним транспортом", "Обрати", "Назад");
 					}
 					case 2: {
@@ -30140,7 +31739,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 							//new string[128];
 							format(string, sizeof(string), P"1. "W"Як отримати ліцензію?\n"P"2. "W"Реєстрація на складання іспитів\n"P"3. "W"Придбання ліцензій");
 							return ShowPlayerDialog(playerid, D_LICENSES_LIST, DSL, P"Послуги Автошколи", string, "Обрати", "Скасувати");
-						} 
+						}
 						ShowPlayerDialog(playerid, D_LICENSES, DSL, P"Придбання ліцензій", P"1."W" Ліцензія на водіння\n"P"2."W" Ліцензія на польоти\n"P"3. "W" Ліцензія на водний транспорт", "Купити", "Скасувати");
 					}
 				}
@@ -30208,7 +31807,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						new string[256];
 						format(string, sizeof(string), P"1. "W"Як отримати ліцензію?\n"P"2. "W"Реєстрація на складання іспитів\n"P"3. "W"Придбання ліцензій");
 						return ShowPlayerDialog(playerid, D_LICENSES_LIST, DSL, P"Послуги Автошколи", string, "Обрати", "Скасувати");
-					} 
+					}
 					new string[128];
 					switch(listitem) {
 						case 0: {
@@ -30502,7 +32101,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				GetPlayerPos(playerid, pos[0], pos[1], pos[2]);
 				SetPVarFloat(playerid, "bild_x", pos[0]);
 				SetPVarFloat(playerid, "bild_y", pos[1]);
-				SetPVarFloat(playerid, "bild_z", pos[2]);   
+				SetPVarFloat(playerid, "bild_z", pos[2]);
 
 				if(!BildInfo[listitem][bOwned]) {
 					new z, string[256];
@@ -30523,7 +32122,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new query[256], p_var = GetPVarInt(playerid, "SelectBildID");
 				if(CI[playerid][pCash] < price) return SendError(playerid, "У вас недостатньо коштів."), BildExit(playerid);
 				GiveMoney(playerid, -price, "оренда білборда");
-				//bizz_pay(id,price);
+				//business_finances(id,price);
 				format(BildInfo[p_var][bOwner], MAX_PLAYER_NAME, CI[playerid][cName]);
 				SendOK(playerid, "Ви орендували білборд на 5 днів.");
 				BildInfo[p_var][bOwned] = 1;
@@ -30658,7 +32257,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				if(gBusiness[59][bizzProduct]-10 > 0) {
 					gBusiness[59][bizzProduct] -= 10;
-					bizz_pay(59,floatround(value * 0.085)); // спорт
+					business_finances(59,floatround(value * 0.085)); // спорт
 				}
 
 				ACC_AddVehicleComponent(GetPlayerVehicleID(playerid), model);
@@ -32110,7 +33709,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				if(GetPVarInt(playerid, "egg_start") == 1) return ShowPlayerDialog(playerid, D_FARM_END_1, DSM, P"Завершення роботи.", "\n\n\t"P"Оберіть спосіб оплати\n\n"G"При виборі оплати на банківський рахунок,\nзарабітна плата прийде під час PayDay\n\n", "Готівка", "Банк");
 				ShowPlayerDialog(playerid, D_FARM, DSL, P"Ферма.", P"1."W" Робота в яблуневому саду\n"P"2."W" Збирач яєць", "Далі", "Закрити");
 			}
-		case 25: 
+		case 25:
 		{
 			new string[128];
 			format(string, sizeof(string), W"Вітаємо вас, "P"%s, "W"у Автошколі!\n\nБажаєте ознайомитися з Дорожнім кодексом?", CI[playerid][cName]);
@@ -32492,7 +34091,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			);
 			ShowPlayerDialog(playerid, D_HOUSE, DSM, P"Будинок", mes2, "Увійти", "Скасувати");
 		}
-	} 
+	}
 	/*if(areaid >= aArea[0] && areaid <= aArea[gAparmentCount - 1] && pstate == PLAYER_STATE_ONFOOT) {
 		if(TI[playerid][tTPpick]) {
 			TI[playerid][tTPpick] = false;
@@ -32509,6 +34108,14 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			ShowPlayerDialog(playerid, D_APART_ENTER, DSM, P"Інформація", mes2, "Увійти", "Закрити");
 		}
 	}*/
+
+
+	if(areaid >= bSphere[1] && areaid < bSphere[gBusinessCount + 1] && pstate == PLAYER_STATE_ONFOOT)
+	{
+		new string[32];
+		format(string, sizeof(string), "~y~Press ALT to enter");
+		GameTextForPlayer(playerid, string, 1000, 4);
+	}
 	if(areaid >= b_area[0] && areaid <= b_area[gBusinessCount - 1] && pstate == PLAYER_STATE_ONFOOT) {
 		if(TI[playerid][tTPpick]) return TI[playerid][tTPpick] = false;
 		new businessid = areaid - b_area[0];
@@ -32580,7 +34187,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		switch(id) {
 		case 51, 50, 55, 49: FreezePlayerForTime(playerid, 2);
 		}
-	} 
+	}
 	if(areaid >= gBintBuyArea[0] && areaid <= gBintBuyArea[BINT_COUNT-1]) {
 		new id = TI[playerid][tSelectedBusinessID];
 		if(id < 0) return 1;
@@ -32781,12 +34388,14 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			UpdateCharacterData(playerid, "pJailTime", CI[playerid][pJailTime]);
 		}
 	}
-	if(areaid == gAreas[arLoadProds][0]) {
+	/*if(areaid == gAreas[arLoadProds][0])
+	{
 		if(CI[playerid][pJob] != 3) return 1;
-		if(GetVehicleModel(GetPlayerVehicleID(playerid)) == 456) {
+		if(GetVehicleModel(GetPlayerVehicleID(playerid)) == 456)
+		{
 			ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля продуктів", "\n\n"W"Введіть кількість продуктів для купівлі:\nПримітка: "ORANGE"10"W" продукт = "GREEN"$1\n\n", "Купити", "Скасувати");
 		}
-	}
+	}*/
 	if(areaid == gAreas[arLoadProds][1]) {
 		if(GetVehicleModel(GetPlayerVehicleID(playerid)) == 403) {
 			ShowPlayerDialog(playerid, dProdGet, DSI, P"Купівля бензину", "\n\n"W"Введіть кількість літрів для купівлі:\nПримітка: "ORANGE"10"W" літр = "GREEN"$1\n\n", "Купити", "Скасувати");
@@ -32817,7 +34426,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		format(string, sizeof(string), "Collected:_%dkg", TI[playerid][tJobSad][3]);
 		PlayerTextDrawSetString(playerid, work_td[playerid][3], string);
 		*/
-	} 
+	}
 	if(WD::[0][woodZone] <= areaid <= WD::[MAX_WOODS - 1][woodZone] && pstate == PLAYER_STATE_ONFOOT) {
 		new j = areaid - WD::[0][woodZone];
 		if(TI[playerid][tJobWood][1]) return 1;
@@ -33130,9 +34739,6 @@ public OnPlayerDisconnect(playerid, reason) {
 		save_skill(playerid);
 		skill_gun[playerid] = 0;
 	}
-	for(new i; i < 44; i++) {
-		PlayerTextDrawDestroy(playerid, PhoneGUI[playerid][i]);
-	}
 	PhoneShow[playerid] = false;
 	PhoneLocked[playerid] = 0;
 	if(GetPlayerVehicles(playerid)) {
@@ -33151,7 +34757,7 @@ public OnPlayerDisconnect(playerid, reason) {
 			if(Cheat1 > 9) Cheat1 = 0;
 		}
 	}
-    
+
 	new str[350];
 	mysql_format(connects, str, sizeof(str), "UPDATE "TABLE_CHARACTERS" SET `pPlayTime_one` = %i,`pPlayTime_two` = %i,`dm_k` = %i,`dm_d` = %i WHERE cID = %i", CI[playerid][pPlayTime][0], CI[playerid][pPlayTime][1],
 	TI[playerid][tDM_k], TI[playerid][tDM_d], CI[playerid][cID]);
@@ -33977,7 +35583,7 @@ public OnPlayerSpawn(playerid) {
 		RemovePlayerAttachedObject(playerid, 7);
 	}
 	if(TI[playerid][tDuel] != -1) return end_duel(playerid, 0);
-	
+
 	if(CI[playerid][cStage] != 0) {
 		SetPlayerInterior(playerid, CI[playerid][cDeathI]);
 		SetPlayerVirtualWorld(playerid, CI[playerid][cDeathVW]);
@@ -34692,7 +36298,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
 			SetVehicleParamsEx(carid, 1,lights,alarm,doors,bonnet,boot,objective);
 		}
-		if(!IsABikeSped(carid)) { 
+		if(!IsABikeSped(carid)) {
 			if(thef_car[playerid] != carid && CI[playerid][cStage] == 0) SendHint(playerid, "Щоб завести чи заглушити двигун, натисніть "P"LCTRL"W" або введіть "P"/engine"W".");
 
 			GetVehicleParamsEx(carid,engine,lights,alarm,doors,bonnet,boot,objective);
@@ -34731,7 +36337,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			SendInfo(playerid, string);
 			if(CI[playerid][pMember] == fARMYLS) SendHint(playerid, "Використайте: /carm");
 			if(IsAGang(playerid)) SendHint(playerid, "Для завантаження боєприпасів введіть: "P"/load"W".");
-		} 
+		}
 		if(GetVehicleModel(carid) == 548) {
 			static const f_str[] = "Завантажено боєприпасів: "P"%d"W".";
 			new string[sizeof(f_str) +7];
@@ -35243,9 +36849,9 @@ CB:check_account(playerid) {
 	if(!rows) return account_registration(playerid);
 
 	cache_get_value_name(0, "cOwner", PI[playerid][pName], MAX_PLAYER_NAME);
-	
+
 	for(new i; i < MAX_PLAYERS; i++) {
-		if(TI[i][tLogin] && !strcmp(PI[i][pName], PI[playerid][pName])) return SendError(playerid, "Ваш акаунт вже знаходиться у грі."); 
+		if(TI[i][tLogin] && !strcmp(PI[i][pName], PI[playerid][pName])) return SendError(playerid, "Ваш акаунт вже знаходиться у грі.");
 	}
 
 	mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_ACCOUNTS" WHERE `pName` = '%s' LIMIT 1", PI[playerid][pName]);
@@ -35319,14 +36925,14 @@ public OnGameModeExit() {
 public OnPlayerRequestDownload(playerid, type, crc) {
     if(!IsPlayerConnected(playerid))
         return 0;
-        
+
     new filename[64], filefound, final_url[256];
-    
+
     if(type == DOWNLOAD_REQUEST_TEXTURE_FILE)
         filefound = FindTextureFileNameFromCRC(crc, filename, sizeof(filename));
     else if(type == DOWNLOAD_REQUEST_MODEL_FILE)
         filefound = FindModelFileNameFromCRC(crc, filename, sizeof(filename));
-        
+
     if(filefound) {
         format(final_url, sizeof(final_url), "%s/%s", SERVER_DOWNLOAD, filename);
         RedirectDownload(playerid, final_url);
@@ -35352,6 +36958,9 @@ public OnGameModeInit() {
 	mysql_tquery(connects, !"SET character_set_results = 'cp1251'", "", "");
 	mysql_tquery(connects, !"SET SESSION collation_connection = 'utf8_general_ci'", "", "");
 
+
+	//if(QRCodeInit("92.119.113.102", "qrcode", "cN0eD8gX1r", "qrcode")) printf("{QRCODE} = Ошибка подключения");
+
 	AddPlayerClass(36, 0.0, 0.0, 5.0, 0.0, 0, 0, 0, 0, 0, 0);
 	new hor, m, s;
 	gettime(hor, m, s);
@@ -35363,12 +36972,27 @@ public OnGameModeInit() {
 	load_fracfreez();
 	load_house();
 	load_family();
-	load_bint();
-	load_business();
+	//load_bint();
+	//load_business();
+
+	Streamer_TickRate(50);
+	new tmpobjid;
+	#include "modules/mapping.inc"
+	#include "modules/new_map.inc"
+	#include "modules/business_interiors.inc"
+
+	load_business_interior();
+	load_business_new();
+	load_business_articles();
+
+	load_business_objects();
+
+
+
 	load_apartment();
 	load_greenzone();
 	load_gangzone();
-	load_factions();
+	//load_factions();
 	load_anticheat();
 	load_others();
 	load_market();
@@ -35529,9 +37153,6 @@ public OnGameModeInit() {
 	Create3dText();
 	CreateTexdraw();
 
-	Streamer_TickRate(50);
-	new tmpobjid;
-	#include "modules/mapping.inc"
 
 	CreatePickup(1239, 23, 1123.7704, -892.0002, 1046.0126, 62);
 
@@ -35571,7 +37192,7 @@ public OnGameModeInit() {
 
 	}
 
-	for(new i = 0; i < MAX_MARKET; i++) { 
+	for(new i = 0; i < MAX_MARKET; i++) {
 		CreateDynamicPickup(1239, 23, Market[i][m_x], Market[i][m_y], Market[i][m_z]);
 		new string[120];
 		format(string, sizeof(string), P"Прилавок "P"#%d"W"\nОрендар: "P"немає"W"\nНатисніть "P"ALT"W" щоб орендувати", i + 1);
@@ -35583,7 +37204,7 @@ public OnGameModeInit() {
 		Egg[g][gText] = CreateDynamic3DTextLabel(""P"Курник\n\n"W"Доглядає:"P" None\n"W"Курячий корм:"P" [0/10]\n"W"Знесено яєць:"P" [0/20]\n\n"W"Почати догляд"P" [ALT]", -1,Egg[g][gX],Egg[g][gY],Egg[g][gZ]+ 1, 4.0);
 		strmid(Egg[g][gName], "None", 0, strlen("None"), 5);
 	}
-	for(new u = 0; u < MAX_SEWER; u++) { 
+	for(new u = 0; u < MAX_SEWER; u++) {
 		Sewer[u][seText] = CreateDynamic3DTextLabel(""P"Каналізаційний люк\n"W"Для входу натисніть "P"ALT", -1,Sewer[u][seX],Sewer[u][seY],Sewer[u][seZ]-0.5, 2.0);
 		Sewer[u][seAmmout] = 15;
 	}
@@ -35655,6 +37276,8 @@ public OnGameModeInit() {
 	SetTimer("TimerRobb", 1000, true);
 	hacker_OnGameModeInit();
 	SetTimer("CreateSphree", 5000, false);
+
+	load_business_actors();
 	return 1;
 }
 stock CreateVehicless() {
@@ -35670,11 +37293,13 @@ stock CreateVehicless() {
 	CreateJobVehicle(3, 403, -2.3778, -346.5000, 5.9873, 90.0000, -1, -1, RES_CAR_TIME); // Розвізники АЗС.
 	CreateJobVehicle(3, 403, -2.3778, -342.0000, 5.9873, 90.0000, -1, -1, RES_CAR_TIME); // Розвізники АЗС.
 
-	CreateJobVehicle(3, 456, 1345.7838, 347.6173, 20.0130, 66.2717, 1, 1, RES_CAR_TIME); // Розвізники.
-	CreateJobVehicle(3, 456, 1343.2013, 341.7430, 20.0193, 66.2767, 1, 1, RES_CAR_TIME); // Розвізники.
-	CreateJobVehicle(3, 456, 1341.3303, 337.4873, 20.0250, 66.2718, 1, 1, RES_CAR_TIME); // Розвізники.
-	CreateJobVehicle(3, 456, 1338.7329, 331.5789, 20.0272, 66.2704, 1, 1, RES_CAR_TIME); // Розвізники.
-	CreateJobVehicle(3, 456, 1336.3118, 326.0703, 20.0286, 66.2697, 1, 1, RES_CAR_TIME); // Розвізники.
+	CreateJobVehicle(3, 456, -61.2716,-1132.0786,1.2326,159.4675, 1, 1, RES_CAR_TIME); // Розвізники
+	CreateJobVehicle(3, 456, -56.9136,-1133.6300,1.2326,159.4795, 1, 1, RES_CAR_TIME); // Розвізники
+	CreateJobVehicle(3, 456, -52.2658,-1135.4043,1.2326,158.5716, 1, 1, RES_CAR_TIME); // Розвізники
+	CreateJobVehicle(3, 456, -47.2285,-1137.4303,1.2326,159.3407, 1, 1, RES_CAR_TIME); // Розвізники
+	CreateJobVehicle(3, 456, -43.0742,-1154.6986,1.2326,61.0582, 1, 1, RES_CAR_TIME); // Розвізники
+	CreateJobVehicle(3, 456, -40.4905,-1149.6208,1.2325,61.0871, 1, 1, RES_CAR_TIME); // Розвізники
+
 	// Інкасатор.
 	CreateJobVehicle(8, 428, 580.5, -1271.1, 16.9, 90.0, 1, 189, RES_CAR_TIME);
 	CreateJobVehicle(8, 428, 580.5, -1277.1, 16.9, 90.0, 1, 189, RES_CAR_TIME);
@@ -35959,7 +37584,7 @@ public CreateSphree() {
 	CreateDynamicCP(853.3725, -1290.7078, 13.8437, 5.0, 0, 0, -1, 10.0); //[розвізники продуктів] ПРОЧЕЕ
 	CreateDynamicCP(-215.4123, -246.7570, 2.0283, 5.0, 0, 0, -1, 10.0); //[розвізники продуктів] АЗС
 
-	gAreas[arLoadProds][0] = CreateDynamicSphere(1354.6313, 363.6651, 19.9837, 2.0); //[Розвізник продуктів] 24/7
+	gAreas[arLoadProds][0] = CreateDynamicSphere(164.5339, -44.6986, 1.5781, 5.0); //[Розвізник продуктів] 24/7
 	gAreas[arLoadProds][1] = CreateDynamicSphere(-215.4123, -246.7570, 2.0283, 2.0); //[Розвізник продуктів] АЗС
 	gAreas[arSad] = CreateDynamicSphere(-112.1444, 4.2448, 3.1257, 2.0); // [Сад] Склад.
 	gAreas[arNews] = CreateDynamicSphere(2823.2854, 1067.2120, 1052.5973, 10.0); // [News] студия
@@ -36007,7 +37632,7 @@ stock CreatePickups() {
 	CreateDynamic3DTextLabel(""W"Для виходу використайте"G" 'ALT'", -1, -677.4073, 1727.0359, 1376.6718, 4.0);
 	CreateDynamic3DTextLabel("Для входу натисніть ALT", 0xFFFFFFFF, 2716.3943, -2395.9451, 13.6328, 1.5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // багатоквартирка
 	CreateDynamic3DTextLabel("Для виходу натисніть ALT", 0xFFFFFFFF, 2716.4363, -2395.2075, 13.6390, 1.5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // багатоквартирка
-	
+
 	/*
 	for(new i = 0; i < sizeof(gTeleportsToD); i++) {
 		new string[72];
@@ -36016,7 +37641,7 @@ stock CreatePickups() {
 		TeleportPickup[i] = CreateDynamicSphere(gTeleportsToD[i][tpEnterPos_X], gTeleportsToD[i][tpEnterPos_Y], gTeleportsToD[i][tpEnterPos_Z], 1.0, gTeleportsToD[i][tpEnterWorld], gTeleportsToD[i][tpEnterInt]);
 		CreateDynamicPickup(1318, 1, gTeleportsToD[i][tpEnterPos_X], gTeleportsToD[i][tpEnterPos_Y], gTeleportsToD[i][tpEnterPos_Z], gTeleportsToD[i][tpEnterWorld], gTeleportsToD[i][tpEnterInt]);
 	}
-	for(new pick = 0; pick < PICKUPS_COUNT; pick++) { 
+	for(new pick = 0; pick < PICKUPS_COUNT; pick++) {
 		CreateDynamicPickup(gPickupData[pick][2], 23, gPickup[pick][0], gPickup[pick][1], gPickup[pick][2], gPickupData[pick][1], gPickupData[pick][0]);
 		gPickID[pick] = CreateDynamicSphere(gPickup[pick][0], gPickup[pick][1], gPickup[pick][2], 1.0, gPickupData[pick][1], gPickupData[pick][0]);
 		if(!GetString(gPickupDataName[pick][picName], "None")) CreateDynamic3DTextLabel(gPickupDataName[pick][picName], 0xFFFFFFFF, gPickup[pick][0], gPickup[pick][1], gPickup[pick][2]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, gPickupData[pick][1], gPickupData[pick][0]);
@@ -36048,7 +37673,7 @@ stock CreatePickups() {
 	CreateDynamicMapIcon(2495.4343, -1691.0961, 14.7656, 62, 0); // Grove
 	CreateDynamicMapIcon(2179.1990, -1802.4385, 13.3681, 61, 0); // Rifa
 	CreateDynamicMapIcon(1673.6831, -2122.4465, 14.1460, 58, 0); // Aztec
-	CreateDynamicMapIcon(1261.1034, -871.6332, 42.9528, 44, 0); // LCN 
+	CreateDynamicMapIcon(1261.1034, -871.6332, 42.9528, 44, 0); // LCN
 	CreateDynamicMapIcon(1389.3481, 389.6248, 19.6550, 43, 0); // RM
 	CreateDynamicMapIcon(704.2004, -1262.1731, 13.6429, 43, 0); // Triads
 	CreateDynamicMapIcon(737.9393, -1440.9332, 20.9123, 36, 0); // АШ
@@ -38970,17 +40595,17 @@ CMD:b(playerid, params[]) {
 	new line[MAX_CHARS_PER_LINE + 5], _:index;
 	while(index < i_len) {
 		strmid(
-			line, 
-			mes, 
-			(index * MAX_CHARS_PER_LINE), 
-			(index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE 
+			line,
+			mes,
+			(index * MAX_CHARS_PER_LINE),
+			(index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE
 		);
 		if(i_len > 1) {
 			if(!index)
 				format(line, sizeof line, "%s ...", line);
 			else if(index > 0 && (index + 1) < i_len)
 				format(line, sizeof line, "... %s ...", line);
-			else 
+			else
 				format(line, sizeof line, "... %s", line);
 		}
 		ProxDetector(15.0, playerid, line, 0xcecf9cFF);
@@ -39172,7 +40797,7 @@ CMD:frang(playerid, params[]) {
 	}
 	return 1;
 }
-CMD:fmembers(playerid) { 
+CMD:fmembers(playerid) {
 	if(!CI[playerid][pFamily]) return SendError(playerid, "Ви не є членом сім'ї.");
 	new string[700], str[700];
 	strcat(str, W"Ім'я:\t"W"Рівень:\t"W"Ранг:\n");
@@ -39546,39 +41171,28 @@ CB:fish_player(playerid) {
 	return 1;
 }
 stock GetNearestTrunckFuel(playerid) {
-	for(new i = 0;i<gBusinessCount;i++) {
-		if(gBusiness[i][bizzType] != 7) continue;
-		if(IsPlayerInRangeOfPoint(playerid, 10.0, gBusiness[i][bizzX], gBusiness[i][bizzY], gBusiness[i][bizzZ])) return i;
+	for(new i = 1; i < gBusinessCount + 1; i++) {
+		if(gBusiness[i][businessType] != 7) continue;
+		if(IsPlayerInRangeOfPoint(playerid, 10.0, gBusiness[i][bGasX], gBusiness[i][bGasY], gBusiness[i][bGasZ])) return i;
 	}
 	return -1;
 }
 CMD:fill(playerid) {
-	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Ви не за кермом.");
+	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Ви не за кермом транспортного засобу.");
 	new i = GetNearestTrunckFuel(playerid);
 	if(i == -1) return 1;
 	new vehicleid = GetPlayerVehicleID(playerid);
 	new modelid = GetVehicleModel(vehicleid) - 400;
-	if(!gTransport[modelid][trFuelable]) return SendError(playerid, "Ваше т/з не має бензобаку.");
+	if(!gTransport[modelid][trFuelable]) return SendError(playerid, "Ваш транспортний засіб не підлягає заправці (відсутній бензобак).");
 	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
-	if(GetEngineStat(vehicleid)) return SendError(playerid, "Перш ніж заправитись, заглушіть двигун.");
-	if(GetPVarInt(playerid, "tank_vfuel")) return SendError(playerid, "Ви вже заправляете автомобіль.");
+	if(GetEngineStat(vehicleid)) return SendError(playerid, "Заглушіть двигун, перж ніж заправляти транспортний засіб.");
+	if(GetPVarInt(playerid, "tank_vfuel")) return SendError(playerid, "Автомобіль вже заправляється.");
 	if(gBusiness[i][bizzProduct] <= 0) return SendError(playerid, "На заправці немає палива.");
 	static const f_str[] = "\n"W"Вкажіть, на скільки літрів ви хочете заправити ваш транспорт:\n\nДоступно літрів в баці: "P"%.0f"W"\nМісткість бака: "P"%d"W"\nМожна заправити на: "P"%.0fл"W"\nВартість 1л: "GREEN"$%d\n";
 	new string[sizeof(f_str) + 1 + 30];
-	format(string, sizeof(string), f_str, VehicleInfo[vehicleid][vFuel], gTransport[modelid][trTank], gTransport[modelid][trTank]-VehicleInfo[vehicleid][vFuel], gBusiness[i][bizzPrice]);
-	ShowPlayerDialog(playerid, D_FUEL, DSI, P"Заправка.", string, "Заправить", "Скасувати");
+	format(string, sizeof(string), f_str, VehicleInfo[vehicleid][vFuel], gTransport[modelid][trTank], gTransport[modelid][trTank]-VehicleInfo[vehicleid][vFuel], gBusiness[i][bGasPrice]);
+	ShowPlayerDialog(playerid, D_FUEL, DSI, G"Заправити транспортний засіб.", string, "Заправити", "Скасувати");
 	SetPVarInt(playerid, "azs_id",i);
-	return 1;
-}
-CMD:buyfuel(playerid) {
-	if(GetInvent(playerid, 454) + 1 >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце");
-	new i = GetNearestTrunckFuel(playerid);
-	if(i == -1) return SendError(playerid, "Ви повинні бути на АЗС.");
-	static const f_str[] = ""W"Ви збираєтеся купити канистру вартістю: "GREEN"$%d"W"\nЗ її допомогою ви можете заправити свій т/з на "P"10 літрів"W"\n\n\
-						Ви дійсно хочете купити каністру?";
-	new string[sizeof(f_str) + 1 + (-2 + 5)];
-	format(string, sizeof(string), f_str, gBusiness[i][bizzPrice]*10);
-	ShowPlayerDialog(playerid, D_BUY_FUEL, DSM, P"Купівля каністри.", string, "Так", "Ні");
 	return 1;
 }
 CMD:fillcar(playerid) {
@@ -39770,76 +41384,39 @@ CMD:ml(playerid) {
 	SetCameraBehindPlayer(playerid);
 	return 1;
 }
-CMD:business(playerid) {
-	if(!CI[playerid][pBusiness]) return SendError(playerid, "У вас немає бізнесу.");
-	new bizz = CI[playerid][pBusiness]-1;
-	new status[24];
-	if(gBusiness[bizz][bizzStatus]) status = "Закрити";
-	else status = "Відкрити";
-	switch(gBusiness[bizz][bizzType]) {
-	case 1, 2, 6, 7, 9, 17, 25: {
-			static const f_str[] = ""P"1."W" Керування касою\n"P"2."W" Замовити продукти\n"P"3."W" Інформація про бізнес\n"P"4."W" %s бізнес\n"P"5."W" Покращення\n"P"6."W" Встановити ціну за товар\n"P"7."W" Статистика доходів\n"P"8."W" Продати бізнес";
-			new string[sizeof(f_str) + 1 + (-2 + 24)];
-			format(string, sizeof(string), f_str,status);
-			ShowPlayerDialog(playerid, D_BIZZ, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
-		}
-	case 8: {
-			ShowPlayerDialog(playerid, D_BIZZ_5, DSL, P"Керування бізнесом", P"1."W" Керування касою\n"P"2."W" Замовити продукти\n"P"3."W" Інформація про бізнес\n"P"4."W" Покращення\n"P"5."W" Встановити ціну за товар\n"P"6."W" Статистика доходів\n"P"7."W" Продати бізнес", "Обрати", "Скасувати");
-		}
-	case 5, 18, 27, 15: {
-			static const f_str[] = ""P"1."W" Керування касою\n"P"2."W" Замовити продукти\n"P"3."W" Інформація про бізнес\n"P"4."W" %s бізнес\n"P"5."W" Покращення\n"P"6."W" Статистика доходів\n"P"7."W" Продати бізнес";
-			new string[sizeof(f_str) + 1 + (-2 + 24)];
-			format(string, sizeof(string), f_str,status);
-			ShowPlayerDialog(playerid, D_BIZZ_4, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
-		}
-	case 3, 4, 13, 19: {
-			static const f_str[] = ""P"1."W" Керування касою\n"P"2."W" Замовити продукти\n"P"3."W" Інформація про бізнес\n"P"4."W" %s бізнес\n"P"5."W" Покращення\n"P"6."W" Встановити ціну за товар\n"P"7."W" Встановити ціну за вхід\n"P"8."W" Статистика доходів\n"P"9."W" Продати бізнес";
-			new string[sizeof(f_str) + 1 + (-2 + 24)];
-			format(string, sizeof(string), f_str,status);
-			ShowPlayerDialog(playerid, D_BIZZ_2, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
-		}
-	case 10, 12, 16, 23: {
-			static const f_str[] = ""P"1."W" Керування касою\n"P"2."W" Замовити продукти\n"P"3."W" Інформація про бізнес\n"P"4."W" %s бізнес\n"P"5."W" Встановити ціну за вхід\n"P"6."W" Статистика доходів\n"P"7."W" Покращення\n"P"8."W" Продати бізнес";
-			new string[sizeof(f_str) + 1 + (-2 + 24)];
-			format(string, sizeof(string), f_str,status);
-			ShowPlayerDialog(playerid, D_BIZZ_3, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
-		}
-	case 21: {
-			static const f_str[] = ""P"1."W" Керування касою\n"P"2."W" Замовити продукти\n"P"3."W" Інформація про бізнес\n"P"4."W" %s бізнес\n"P"5."W" Статистика доходів\n"P"6."W" Продати бізнес";
-			new string[sizeof(f_str) + 1 + (-2 + 24)];
-			format(string, sizeof(string), f_str,status);
-			ShowPlayerDialog(playerid, D_BIZZ_6, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
-		}
-	case 30:{
-		static const f_str[] = ""P"1."W" Керування касою\n\
-		"P"2."W" Статистика доходов\n\
-		"P"3."W" Продати бізнес";
-		new string[sizeof(f_str) + 1 + (-2 + 24)];
-		format(string, sizeof(string), f_str,status);
-		ShowPlayerDialog(playerid, D_BIZZ_10, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
+cmd:createbusiness(playerid)
+{
+	if(PI[playerid][pAdmin] < 7) return 1;
+	if(GetPVarInt(playerid, "bcreatecoords"))
+	{
+		new Float:x, Float:y, Float:z;
+		GetPlayerPos(playerid, x, y, z);
+		SetPVarFloat(playerid, "bCoordX", x);
+		SetPVarFloat(playerid, "bCoordY", y);
+		SetPVarFloat(playerid, "bCoordZ", z);
+		DeletePVar(playerid, "bcreatecoords");
+		SendOK(playerid, "Координати збережено.");
+		return BusinessCreation(playerid);
 	}
-		case 31:{
-		static const f_str[] = ""P"1."W" Керування касою\n\
-		"P"2."W" Статистика доходів\n\
-		"P"3."W" Змінити процент займа\n\
-		"P"4."W" Продати бізнес";
-		new string[sizeof(f_str) + 1 + (-2 + 24)];
-		format(string, sizeof(string), f_str,status);
-		ShowPlayerDialog(playerid, D_BIZZ_11, DSL, P"Керування бізнесом", string, "Обрати", "Скасувати");
+	else if(GetPVarInt(playerid, "bcreatefillcoords"))
+	{
+		new Float:x, Float:y, Float:z;
+		GetPlayerPos(playerid, x, y, z);
+		SetPVarFloat(playerid, "bGasCoordX", x);
+		SetPVarFloat(playerid, "bGasCoordY", y);
+		SetPVarFloat(playerid, "bGasCoordZ", z);
+		DeletePVar(playerid, "bcreatefillcoords");
+		SendOK(playerid, "Координати збережено.");
+		return BusinessCreation(playerid);
 	}
-
-	}
+	else BusinessCreation(playerid);
 	return 1;
 }
-CMD:buyfueling(playerid) {
-	new i = GetNearestTrunckFuel(playerid);
-	if(i == -1) return SendError(playerid, "Ви повинні бути на АЗС.");
-	SetPVarInt(playerid, "bfillingid",i);
-	new string[128];
-	if(!gBusiness[i][bizzOwnerID]) {
-		format(string, sizeof(string), W"Ця АЗС продається за "ORANGE"$%d", gBusiness[i][bizzSellPrice]);
-		ShowPlayerDialog(playerid, D_BIZZ_BUY_FILL, DSM, P"Бізнес", string, "Купити", "Скасувати");
-	} else SendError(playerid, "Ця АЗС вже куплена кимось.");
+CMD:business(playerid)
+{
+	new query[512];
+	mysql_format(connects, query, sizeof(query), "SELECT b.ID, b.Name, bt.Type, b.Status FROM `business_new` b JOIN `business_types` bt on bt.ID = b.Type WHERE b.OwnerID = %d", CI[playerid][cID]);
+	mysql_tquery(connects, query, "business_list", "i", playerid);
 	return 1;
 }
 CMD:p(playerid) {
@@ -40161,7 +41738,7 @@ CMD:loadweste(playerid) {
 	RemovePlayerFromVehicleAC(playerid);
 	return 1;
 }
-CMD:sewerage(playerid) { 
+CMD:sewerage(playerid) {
 	if(CI[playerid][pJob] != 6) return SendError(playerid, "Ви не працюєте чистильником каналізацій.");
 	if(!GetPVarInt(playerid, "start_job_mower")) return SendError(playerid, "Ви не орендували робочий автомобіль.");
 	new string[800], str[400];
@@ -41341,13 +42918,13 @@ CMD:scan(playerid,params[]) {
 CMD:hbject(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	new giveplayerid, slot = -1, objectid = -1, bone = -1, Float:oX, Float:oY, Float:oZ, Float:rX, Float:rY, Float:rZ, Float:sX, Float:sY, Float:sZ;
-	if(sscanf(params, "udddfffffffff", giveplayerid, slot, objectid, bone, oX, oY, oZ, rX, rY, rZ, sX, sY, sZ)) 
+	if(sscanf(params, "udddfffffffff", giveplayerid, slot, objectid, bone, oX, oY, oZ, rX, rY, rZ, sX, sY, sZ))
 	return SendError(playerid, "Використайте: /hbject [playerid] [slot (0-9)] [objectid] [1-18]  [x][y][z]  [rx][ry][rz] [sx][sy][sz]");
 
 	if(giveplayerid == INVALID_PLAYER_ID) return SendError(playerid, not_id);
 	if(!IsPlayerAttachedObjectSlotUsed(giveplayerid, slot)) return SetPlayerAttachedObject(giveplayerid, slot, objectid, bone, oX, oY, oZ, rX, rY, rZ, sX, sY, sZ);
 	else {
-		RemovePlayerAttachedObject(giveplayerid, slot), 
+		RemovePlayerAttachedObject(giveplayerid, slot),
 		SendOK(playerid, "Слот видалено.");
 	}
 	return 1;
@@ -41500,7 +43077,7 @@ CMD:medcard(playerid,params[]) {
 	}
 	return 1;
 }
-CMD:calls(playerid) {	
+CMD:calls(playerid) {
 	new query[128];
 	mysql_format(connects, query, sizeof(query), "SELECT * FORM `calls` WHERE `Faction` = %i", FI[CI[playerid][pMember]][fType]);
 	mysql_tquery(connects, query, "service_calls", "i", playerid);
@@ -41532,7 +43109,7 @@ CMD:cure(playerid, params[]) {
 	if(GetPlayerDistanceToPlayer(playerid, targetid) > 2.0) return SendError(playerid, "Ви далеко від гравця.");
 	if(CI[targetid][cStage] == 2) return SendError(playerid, "Цей персонаж вже помер.");
 	if(CI[targetid][cStage] != 1) return SendError(playerid, "Гравець не в стадії.");
-	
+
 	ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.1, 0, 1, 1, 1, 0, 0);
 	SetTimerEx("CureDeathPlayer", 2500, 0, "ii", playerid, targetid);
 	new string[128];
@@ -41779,6 +43356,36 @@ cmd:azswar(playerid) {
 	SendOK(playerid, "Мітку на АЗС, що грабується, успішно встановлено.");
 	return 1;
 }
+cmd:drone(playerid)
+{
+	if(PI[playerid][pAdmin] < 4 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
+	for(new i = GetVehiclePoolSize() + 1; --i != 0;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
+
+	new Float:X, Float:Y, Float:Z, Float:A;
+	GetPlayerPos(playerid, X, Y, Z);
+	GetPlayerFacingAngle(playerid, A);
+	new vehicleid = A_CreateVehicle(501, X, Y, Z, A, 0, 0, -1, VEHICLE_TYPE_ADMIN);
+	//SetVehicleParamsEx(vehicleid, false, false, false, false, false, false, false);
+	//SetVehicleNumberPlate(vehicleid, "ADMIN");
+	LinkVehicleToInterior(vehicleid, 0);
+
+	new drone = CreateDynamicObject(2512, 0.0, 0.0, -1000.0, 0.0000, 0.0000, 0.0000);
+	AttachDynamicObjectToVehicle(drone, vehicleid, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000);
+
+	//SetVehicleVirtualWorld(vehicleid, GetPlayerVirtualWorld(playerid));
+	VehicleInfo[vehicleid][veX] = X;
+	VehicleInfo[vehicleid][veY] = Y;
+	VehicleInfo[vehicleid][veZ] = Z;
+	VehicleInfo[vehicleid][vFuel] = gTransport[GetVehicleModel(vehicleid) -400][trTank];
+	VehicleInfo[vehicleid][vAkum] = 100;
+	PutPlayerInVehicle(playerid, vehicleid, 0);
+
+	new string[90];
+	format(string, sizeof(string), "[A] %s[%d] створив транспорт. (ID: %i)", PI[playerid][pName], playerid, vehicleid);
+	AdmMSG(0xAFAFAFAA, string);
+	SendHint(playerid, "Щоб видалити транспорт, введіть "P"/delveh"W" або "P"/alldelveh"W".");
+	return 1;
+}
 cmd:fireduty(playerid) {
 	if(!IsAMedic(playerid)) return 1;
 	new string[512];
@@ -41790,40 +43397,85 @@ alias:phone("ph")
 CMD:phone(playerid, params[]) {
 	if(!CI[playerid][pPhone]) return SendError(playerid, "У вас немає мобільного телефона.");
 	if(GetPVarInt(playerid, "takephone")) return SendError(playerid, "У вас немає телефона.");
-	if(PhoneShow[playerid] == false) {
-		ShowPlayerPhone(playerid);
-		PhoneShow[playerid] = true;
-		PhoneLocked[playerid] = 1;
-		SendClientMessage(playerid, -1, "DEBUG: Phone is showed up!");
-		// SelectTextDraw(playerid, 0xFFD900FF);
-		// TogglePlayerControllable(playerid, 0);
-	} else {
-		HideWholePhone(playerid);
-		PhoneShow[playerid] = false;
-		PhoneLocked[playerid] = 0;
-		SendClientMessage(playerid, -1, "DEBUG: Phone is hidden!");
-		// TogglePlayerControllable(playerid, 1);
-		CancelSelectTextDraw(playerid);
-	}
+	ShowPhoneForPlayer(playerid);
+	SetPVarInt(playerid, "phone_active", 1);
 	return 1;
 }
-cmd:pickups(playerid) {
+cmd:pickups(playerid)
+{
 	if(PI[playerid][pAdmin] < 7) return 1;
-	SetPVarInt(playerid, "firstpage", 1);
-	mysql_tquery(connects, "SELECT * FROM `pickups` LIMIT 60", "pickup_list", "i", playerid);
+	mysql_tquery(connects, "SELECT DISTINCT `Category` FROM `pickups`", "pickupcategory", "i", playerid);
 	return 1;
 }
-cmd:savepos(playerid) {
-	new header[32], query[256], string[256], Float:x, Float:y, Float:z;
-	GetPlayerPos(playerid, x, y, z);
-	mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `X` = '%.2f', `Y` = '%.2f', `Z` = '%.2f' WHERE `ID` = %i", x, y, z, GetPVarInt(playerid, "pickupid"));
-	mysql_tquery(connects, query);
-	format(string, sizeof(string), "Координати пікапа "P"ID %d "W"успішно змінено.", GetPVarInt(playerid, "pickupid"));
-	SendOK(playerid, string);
-	format(string, sizeof(string), "Нові координати пікапа: "P"%.2f, %.2f, %.2f", x, y, z);
-	SendInfo(playerid, string);
-	format(header, sizeof(header), ""P"Pickup ID: "W"%d", GetPVarInt(playerid, "pickupid"));
-	ShowPlayerDialog(playerid, dEditPickup, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про пікап\n"P"2. "W"Змінити текст пікапа\n"P"3. "W"Змінити позицію пікапа\n"P"4. "W"Змінити модель пікапа\n"P"5. "W"Змінити тип пікапа\n"P"6. "W"Змінити категорію пікапа\n"P"7. "W"Змінити статус пікапа\n"P"8. "W"Змінити коментар до пікапа", "Обрати", "Назад");
+cmd:savepos(playerid)
+{
+	if(!GetPVarInt(playerid, "editpickuppos") && PI[playerid][pAdmin] < 7) return 1;
+	new pickup = GetPVarInt(playerid, "pickupid");
+	switch(GetPVarInt(playerid, "editpickuppos"))
+	{
+		case 1:
+		{
+			new query[256], string[256], Float:x, Float:y, Float:z, world, int;
+			GetPlayerPos(playerid, x, y, z);
+			world = GetPlayerVirtualWorld(playerid);
+			int = GetPlayerInterior(playerid);
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `X` = '%.2f', `Y` = '%.2f', `Z` = '%.2f', `World` = '%d', `Interior` = '%d' WHERE `ID` = '%d'", x, y, z, world, int, pickup);
+			mysql_tquery(connects, query);
+			format(string, sizeof(string), "Координати пікапа "P"ID %d "W"успішно змінено.", pickup);
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нові координати пікапа: "P"%.2f, %.2f, %.2f", x, y, z);
+			SendInfo(playerid, string);
+			format(string, sizeof(string), "Нові світ та інтер'єр пікапа: "P"%d, %d", world, int);
+			SendInfo(playerid, string);
+
+
+			DestroyDynamicPickup(pickinfo[pickup][pickObject]);
+
+			pickinfo[pickup][pickObject] = CreateDynamicPickup(GetPVarInt(playerid, "pickModel"), GetPVarInt(playerid, "pickType"), x, y, z, world, int);
+
+			DestroyDynamicArea(SpherePickID[pickup]);
+
+			SpherePickID[pickup] = CreateDynamicSphere(x, y, z, 1.0, world, int);
+
+			DestroyDynamic3DTextLabel(pickinfo[pickup][pickupText]);
+
+			new text[256];
+			GetPVarString(playerid, "pickText", text, sizeof(text));
+			FixSVarString(text);
+
+			pickinfo[pickup][pickupText] = CreateDynamic3DTextLabel(text, 0xFF7F50FF, x, y, z+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, world, int);
+
+
+			mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", pickup);
+			mysql_tquery(connects, string, "choosen_pickup", "i", playerid);
+		}
+		case 2:
+		{
+			new header[32], query[256], string[256], Float:x, Float:y, Float:z, Float:angle, world, int;
+			GetPlayerPos(playerid, x, y, z);
+			world = GetPlayerVirtualWorld(playerid);
+			int = GetPlayerInterior(playerid);
+			GetPlayerFacingAngle(playerid, angle);
+			mysql_format(connects, query, sizeof(query), "UPDATE `pickups` SET `tpX` = '%.2f', `tpY` = '%.2f', `tpZ` = '%.2f', `tpAngle` = '%.2f', `tpWorld` = '%d', `tpInt` = '%d' WHERE `ID` = '%d'", x, y, z, angle, world, int, pickup);
+			mysql_tquery(connects, query);
+			format(string, sizeof(string), "Координати телепорту пікапа "P"ID %d "W"успішно змінено.", pickup);
+			SendOK(playerid, string);
+			format(string, sizeof(string), "Нові координати телепорту пікапа: "P"%.2f, %.2f, %.2f", x, y, z);
+			SendInfo(playerid, string);
+			format(header, sizeof(header), ""P"Pickup ID: "W"%d", pickup);
+
+			pickinfo[pickup][picktpX] = x;
+			pickinfo[pickup][picktpY] = y;
+			pickinfo[pickup][picktpZ] = z;
+			pickinfo[pickup][picktpAngle] = angle;
+			pickinfo[pickup][picktpWorld] = world;
+			pickinfo[pickup][picktpInt] = int;
+
+			mysql_format(connects, string, sizeof(string), "SELECT * FROM `pickups` WHERE ID = '%d' LIMIT 1", pickup);
+			mysql_tquery(connects, string, "choosen_pickup", "i", playerid);
+		}
+	}
+	DeletePVar(playerid, "editpickuppos");
 	return 1;
 }
 cmd:testemail(playerid) {
@@ -41984,7 +43636,7 @@ CMD:invite(playerid, params[]) {
 	if(IsBLName(CI[params[0]][cID], CI[playerid][pMember])) return SendError(playerid, "Гравець в ЧС вашої організації.");
 	if(!IsPlayerStream(7.0, playerid, params[0])) return SendError(playerid, "Ви далеко від гравця.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
-	
+
 	format(string, sizeof(string), P"%s"W" запропонував вам вступити в організацію "P"%s"W".", CI[playerid][cName], FI[CI[playerid][pMember]][fName]);
 	SendOK(params[0], string);
 	SendHint(params[0], "Натисніть "YES"Y"W" щоб погодитися, або "NO"N"W" для відмови.");
@@ -42086,7 +43738,7 @@ CMD:trspcar(playerid) {
 	BizzMSG(CI[playerid][bizz_work],COLOR_YELLOW, string);
 	return 1;
 }
-stock invitetrS(playerid) {   
+stock invitetrS(playerid) {
     if(CI[playerid][bizz_work] == 61) return SendError(playerid, "Ви вже працюєте в транспортной компанії.");
 	if(CI[playerid][pLevel] < 2) return SendError(playerid, "У вас недостатній рівень для цієї роботи. Необхідно мати 2 рівень.");
 	if(GetPVarInt(playerid, "tk_id")) return SendError(playerid, "У вас вже є активна пропозиція.");
@@ -42566,7 +44218,7 @@ CMD:theft(playerid) {
 	return 1;
 }
 CMD:inv(playerid) {
-	if(GetPVarInt(playerid, "inv") || GetPVarInt(playerid, "get_class") || GhettoInfo[playerid][GhettoGUI] || BJ_PlayerInfo[playerid][pBlackJackTableID] > 0 || JobTempProcess[playerid] || TI[playerid][tProcess][0] != -1 || PhoneShow[playerid]) return SendError(playerid, "Помилка");
+	if(GetPVarInt(playerid, "inv") || GetPVarInt(playerid, "get_class") || GhettoInfo[playerid][GhettoGUI] || BJ_PlayerInfo[playerid][pBlackJackTableID] > 0 || JobTempProcess[playerid] || TI[playerid][tProcess][0] != -1) return SendError(playerid, "Помилка");
 	if(GetPVarInt(playerid, "ppkz")) for(new t = 0; t < 34; t++) TextDrawHideForPlayer(playerid, Capture[t]);
 	PlayerTextDrawSetPreviewModel(playerid, nInventory_TD[playerid][2], GetPlayerSkin(playerid));
 	DeletePVar(playerid, "block_inv");
@@ -42663,11 +44315,38 @@ CMD:unrent(playerid) {
 	SetVehicleToRespawn(ArendInfo[rc][aID]);
 	return 1;
 }
-CMD:prods(playerid) {
-	if(GetPVarInt(playerid, "prod_vehicle_id") == GetPlayerVehicleID(playerid) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
-		ShowPlayerDialog(playerid, dProdList, DSL, P"Продукти.", P"1."W" Список бізнесів\n"P"2."W" Купити продукти", "Обрати", "Скасувати");
-		return 1;
-	} else SendError(playerid, "Ви не в машині для розвезення продуктів та палива.");
+CMD:prods(playerid)
+{
+	if(GetPVarInt(playerid, "prod_vehicle_id") == GetPlayerVehicleID(playerid) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
+		new veh = GetPlayerVehicleID(playerid);
+		new car = GetVehicleModel(veh);
+
+		STRING_GLOBAL[0] = EOS;
+		strcat(STRING_GLOBAL, ""G"ID\t"G"Бізнес\t"G"Вартість замовлення\t"G"Статус\n");
+		new count_est = 0;
+		new status[56];
+		for(new i = 1; i < gBusinessCount + 1; i++)
+		{
+			if(!gBusiness[i][bOwnerID]) continue;
+			if(!gBusiness[i][bOrder]) continue;
+			if(TakeOrder[i]) continue;
+			if(count_est >= 30) break;
+			switch (car)
+			{
+				case 456: if(gBusiness[i][businessType] == 7) continue; //24/7
+				case 403: if(gBusiness[i][businessType] != 7) continue; //АЗС
+			}
+			new sum = gBusiness[i][bOrderPrice] * gBusiness[i][bOrder];
+			if(!TakeOrder[i]) format(status, sizeof(status), ""YELLOW"Доступне");
+			format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "%s"P"%d\t"W"%s\t"GREEN"$%d "G"(1 од. товару = "GREEN"$%d"G")\t%s\n", STRING_GLOBAL, i, gBusiness[i][bName], sum, gBusiness[i][bOrderPrice], status);
+			count_est++;
+		}
+		if(count_est == 0) return SendError(playerid, "Замовлень немає.");
+		ShowPlayerDialog(playerid, dProdDetails, DSTH, ""P"Замовлення", STRING_GLOBAL, "Обрати", "Скасувати");
+		//dProdPut
+	}
+	else SendError(playerid, "Ви не в машині для розвезення продуктів та палива.");
 	return 1;
 }
 CMD:namestore(playerid, params[]) {
@@ -42710,7 +44389,7 @@ CB:family_offline(playerid) {
 			cache_get_value_name(i, "pOnline", online_s, 36);
 			format(string, sizeof(string), "%s"ORANGE"%i."W" %s\t%s\t%s\n", string, i+PageFirst[playerid][0]+ 1,player, GetFamName(CI[playerid][pFamily]-1, rang), online_s);
 			count++;
-		} 
+		}
 		ShowPlayerDialog(playerid, D_FAMILY_OFFLINE, DSTH, P"Офлайн члени сім'ї", string, "Далі", "Закрити");
 	}
 	if(count == 0) SendError(playerid, "Список членів сім'ї офлайн закончился.");
@@ -42748,7 +44427,7 @@ Cache:result, date_[30];
 			cache_get_value_name(i, "bl_reason", reason, 50);
 			cache_get_value_name(i, "bl_date", date_, 30);
 			format(string, sizeof(string), "%s"ORANGE"%i."W" %s\t%s\t%s\n", string, i+PageFirst[playerid][0]+ 1, name, reason, date_);
-		} 
+		}
 		ShowPlayerDialog(playerid, D_BL_1, DSTH, P"Чорний список організації", string, "Далі", "Закрити");
 	}
 	if(count == 0) SendError(playerid, "Список ЧС закінчився.");
@@ -42860,10 +44539,9 @@ CB:_namestore_callback(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSTH, P"Іторія зміни нікнейму", string, "Закрити", "");
 	return 1;
 }
-CMD:donate(playerid) {
-	new head[100];
-	format(head, sizeof(head), P"Донат. Ваш баланс: %d UAH", CI[playerid][pDonate]);
-	ShowPlayerDialog(playerid, D_DONATE, DSTH, head, W"Опис\t"W"Вартість\nВнутрішньоігрова валюта\t(1 UAH = $2.000)\nЗміна ігрового нікнейму\t20 UAH\nПреміум-акаунт (на 2 тижня)\t200 UAH\nПреміум-акаунт (на 4 тижня)\t350 UAH\nПреміум-акаунт (на 3 тижня)\t700 UAH\nАнулювати варн\t50 UAH\nЕлітний номер телефона\t250 UAH\nПідвищити навички бойових мистецтв\t200 UAH\nПідвищити навички володіння зброєю\t300 UAH\nІгрові комплекти\nУнікальний скін\t250 UAH\nКомплект лицензій\t70 UAH\nУнікальні аксесуари\nКейси\tВід 30 UAH\nРулетка\t150 UAH\nОновити баланс", "Обрати", "Закрити");
+CMD:donate(playerid)
+{
+	ShowPlayerDialog(playerid, dDonate, DIALOG_STYLE_LIST, ""G"Внутрішньоігровий магазин", ""P"1. "W"Інформація\n"P"2. "W"Ігрова валюта\n"P"3. "W"Преміум-акаунти\n"P"4. "W"Додаткові можливості", "Обрати", "Закрити");
 	return 1;
 }
 CMD:label(playerid) {
@@ -43196,7 +44874,7 @@ stock ProxDetectorS(Float:radi, playerid, targetid) {
 public OnPlayerText(playerid, text[]) {
 	if(!TI[playerid][tLogin] || !TI[playerid][tStarted]) return 0;
 	new string[150];
-	if(CI[playerid][pMute] > 0) { 
+	if(CI[playerid][pMute] > 0) {
 		SendError(playerid, "У вас бан чату.");
 		SetPlayerChatBubble(playerid, "намагається щось сказати", COLOR_REDD, 30.0, 10000);
 		return 0;
@@ -43256,10 +44934,10 @@ public OnPlayerText(playerid, text[]) {
 
 	while(index < i_len) {
 		strmid(
-			line, 
-			string, 
-			(index * MAX_CHARS_PER_LINE), 
-			(index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE 
+			line,
+			string,
+			(index * MAX_CHARS_PER_LINE),
+			(index * MAX_CHARS_PER_LINE) + MAX_CHARS_PER_LINE
 		);
 		if(i_len > 1) {
 			if(!index) format(line, sizeof line, "%s ...", line);
@@ -43459,7 +45137,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 	}
 	if(PRESSED(KEY_CROUCH) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
-		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1985.0879, -2068.7493, 13.5469) && IsAMedic(playerid))  
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1985.0879, -2068.7493, 13.5469) && IsAMedic(playerid))
 		{
 			if(LSFD_Gate_Status[0]) {
 				MoveDynamicObject(LSFD_Gate[0], 1985.191650, -2070.135498, 13.766879, 1.5, 0.0, 0.0, 270.0);
@@ -43496,6 +45174,62 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			LSFD_Gate_Status[3] = 1;
 			MoveDynamicObject(LSFD_Gate[3], 1985.1916, -2099.9060, 18.7668, 1.5, 0.0, 0.0, 90.0);
 		}
+
+		new fuel = GetNearestTrunckFuel(playerid);
+		if(fuel != -1) pc_cmd_fill(playerid);
+		for(new i = 1; i < gBusinessCount + 1; i++)
+		{
+			if(IsPlayerInRangeOfPoint(playerid, 15.0, gBusiness[i][businessX], gBusiness[i][businessY], gBusiness[i][businessZ]) && GetPVarInt(playerid, "loaddone") && CI[playerid][pJob] == 3 && GetVehicleModel(GetPlayerVehicleID(playerid)) == 456)
+			{
+				new string[256], price = gBusiness[i][bOrder]*gBusiness[i][bOrderPrice];
+				format(string, sizeof(string), "Товар успішно доставлено в бізнес. Ви заробили $%d.", price);
+				SendOK(playerid, string);
+				GiveMoney(playerid, price, "доставка товарів в бізнес");
+
+				gBusiness[i][bOrder] = 0;
+				UpdateBusinessData(i, "Order", gBusiness[i][bOrder]);
+
+				for(new id = 1; id < MaxArticles[i]; id++)
+				{
+					if(!gBusinessArticles[i][id][aArticleOrder]) continue;
+					gBusinessArticles[i][id][aArticleOrder] = 0;
+					mysql_format(connects, string, sizeof(string), "UPDATE business_articles SET QTY = QTY+%d WHERE businessID = %d and Article_ID = %d", gBusinessArticles[i][id][aArticleOrder], i, id);
+					mysql_tquery(connects, string, "", "");
+				}
+				UpdateTotalArticleQTY(i);
+				TakeOrder[i] = 3;
+				DestroyDynamic3DTextLabel(gPlayerProdText[playerid]);
+				SendHint(playerid, "Використайте "P"/prods"W", щоб взяти наступне замовлення.");
+				DeletePVar(playerid, "loaddone");
+			}
+		}
+		for(new areaid = 0; areaid < PICKUPS_COUNT; areaid++)
+		{
+			if(IsPlayerInDynamicArea(playerid, SpherePickID[areaid]) && !pickinfo[areaid][IsEnterExit] && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+			{
+				switch(areaid)
+				{
+					case 176:
+					{
+						if(!GetPVarInt(playerid, "takeorder") && !GetPVarInt(playerid, "need_articles")) return SendError(playerid, "Необхідно взяти замовлення, перш ніж завантажувати товари в автомобіль.");
+						if(CI[playerid][pJob] == 3 && GetVehicleModel(GetPlayerVehicleID(playerid)) == 456 && !GetPVarInt(playerid, "loaddone"))
+						{
+							new string[1024];
+							new id = prod_id[playerid];
+							new price = 3;
+							new percent = 3;
+							new formula = floatround((gBusiness[id][bOrder]*price)*percent/100);
+							format(string, sizeof(string), "\
+								"W"Вартість одиниці товару на складі: "GREEN"$%d"W".\n\n\
+								Необхідно завантажити "P"%d "W"од. товару.\n\
+								Вартість купівлі товару на складі (+ "P"3%%"W" за завантаження): "GREEN"$%d", price, gBusiness[id][bOrder], gBusiness[id][bOrder]*price+formula);
+							ShowPlayerDialog(playerid, dProdGet, DIALOG_STYLE_MSGBOX, ""G"Завантаження товарів", string, "Завантажити", "Скасувати");
+							SetPVarInt(playerid, "loadprice", gBusiness[id][bOrder]*price+formula);
+						}
+					}
+				}
+			}
+		}
 	}
 	if(HOLDING(KEY_FIRE) && PlayerToKvadrat(playerid, 1327, -1534.5, 1377, -1487.5) && IsAMedic(playerid)) {
 		if(GetPlayerWeapon(playerid) == 42 || (GetPlayerVehicleID(playerid) == 407 && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)) {
@@ -43506,15 +45240,15 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			// SendInfo(playerid, "Ви затиснули ЛКМ");
 			// PlayerTextDrawShow(playerid, FireTargetStatus[playerid][0]);
 			/* new objectid = GetPlayerCameraTargetDynObject(playerid); // Для DynamicObject - GetPlayerCameraTargetDynObject(playerid);
-			if(objectid == INVALID_OBJECT_ID) { 
-				if(player_target_object[playerid] != INVALID_OBJECT_ID) // И таргет был задействован ранее 
-				player_target_object[playerid] = INVALID_OBJECT_ID; // Выдаем 0xFFFF/INVALID_OBJECT_ID 
-			} 
-			if(objectid == fire_object_3) { 
+			if(objectid == INVALID_OBJECT_ID) {
+				if(player_target_object[playerid] != INVALID_OBJECT_ID) // И таргет был задействован ранее
+				player_target_object[playerid] = INVALID_OBJECT_ID; // Выдаем 0xFFFF/INVALID_OBJECT_ID
+			}
+			if(objectid == fire_object_3) {
 				new str[64];
 				format(str, sizeof str, "Ви прицілилися на об'єкт' %d", objectid);
 				SendClientMessage(playerid, -1, str);
-				player_target_object[playerid] = objectid; // Выдаем ID объекта в переменную персонажу 
+				player_target_object[playerid] = objectid; // Выдаем ID объекта в переменную персонажу
 				SetPVarInt(playerid, "fire_object", 1);
 				SetTimerEx("PlayerTimerTargetObject", 3000, false, "i", playerid);
 			} */
@@ -43603,7 +45337,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SendClientMessage(playerid, COLOR_WHITE, "Инструменти були продані за "GREEN"$15.000.");
 			GiveMoney(playerid, 15000, "розгрузка лісопилка");
 
-			bizz_pay(CI[playerid][bizz_work]-1, 4500);
+			business_finances(CI[playerid][bizz_work]-1, 4500);
 
 			CI[playerid][bizz_lcash] += 15000;
 			CI[playerid][bizz_cash] += 15000;
@@ -43624,7 +45358,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SendClientMessage(playerid, COLOR_WHITE, "Удобрення були продані за "GREEN"$11.000.");
 			GiveMoney(playerid, 11000, "розвантаження ферма");
 
-			bizz_pay(CI[playerid][bizz_work]-1, 4500);
+			business_finances(CI[playerid][bizz_work]-1, 4500);
 			CI[playerid][bizz_lcash] += 11000;
 			CI[playerid][bizz_cash] += 11000;
 
@@ -43643,7 +45377,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SendClientMessage(playerid, COLOR_WHITE, "Будматеріали були продані за "GREEN"$12.000.");
 			GiveMoney(playerid, 12000, "розвантаження будівництво");
 
-			bizz_pay(CI[playerid][bizz_work]-1, 3700);
+			business_finances(CI[playerid][bizz_work]-1, 3700);
 			CI[playerid][bizz_lcash] += 12000;
 			CI[playerid][bizz_cash] += 12000;
 			Delete3DTextLabel(Gruz[playerid]);
@@ -43660,7 +45394,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(TI[playerid][tTrucker][1] != 2) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
 			SendClientMessage(playerid, COLOR_WHITE, "Материали були продані за "GREEN"$11.500.");
 			GiveMoney(playerid, 11500, "розвантаження материалів");
-			bizz_pay(CI[playerid][bizz_work]-1, 3400);
+			business_finances(CI[playerid][bizz_work]-1, 3400);
 			CI[playerid][bizz_lcash] += 11500;
 			CI[playerid][bizz_cash] += 11500;
 			Delete3DTextLabel(Gruz[playerid]);
@@ -43677,7 +45411,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(TI[playerid][tTrucker][1] != 3) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
 			SendClientMessage(playerid, COLOR_WHITE, "Продукти були продані за "GREEN"$12.500.");
 			GiveMoney(playerid, 12500, "розвантаження montgomery");
-			bizz_pay(CI[playerid][bizz_work]-1, 3800);
+			business_finances(CI[playerid][bizz_work]-1, 3800);
 			CI[playerid][bizz_lcash] += 12500;
 			CI[playerid][bizz_cash] += 12500;
 			Delete3DTextLabel(Gruz[playerid]);
@@ -43694,7 +45428,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(TI[playerid][tTrucker][1] != 3) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
 			SendClientMessage(playerid, COLOR_WHITE, "Продукти були продані за "GREEN"$12.200.");
 			GiveMoney(playerid, 12200, "розвантаження palomino");
-			bizz_pay(CI[playerid][bizz_work]-1, 3200);
+			business_finances(CI[playerid][bizz_work]-1, 3200);
 			CI[playerid][bizz_lcash] += 12200;
 			CI[playerid][bizz_cash] += 12200;
 			Delete3DTextLabel(Gruz[playerid]);
@@ -43928,15 +45662,122 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	if(newkeys == KEY_WALK) {
-		for(new areaid = 0; areaid < PICKUPS_COUNT; areaid++) // вхід/вихід
+	if(newkeys == KEY_WALK)
+	{
+		for(new bint = 1; bint < BINT_COUNT; bint++)
 		{
-			if(IsPlayerInDynamicArea(playerid, SpherePickID[areaid]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+			if(IsPlayerInDynamicArea(playerid, bintActiveSphere[bint]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && GetPVarInt(playerid, "business_entered"))
 			{
-			 	SetPlayerFacingAngle(playerid, pickinfo[areaid][picktpAngle]);
-			 	SetPlayerPosAC(playerid, pickinfo[areaid][picktpX], pickinfo[areaid][picktpY], pickinfo[areaid][picktpZ], pickinfo[areaid][picktpWorld], pickinfo[areaid][picktpInt]);
+
+				/*
+					{ 1, "Магазин зручностей", 17 },
+					{ 2, "Магазин одягу", 45 },
+					{ 3, "Магазин електроніки", 35 },
+					{ 4, "Магазин зброї", 18 },
+					{ 5, "Магазин транспорту", 55 },
+					{ 6, "Транспортна компанія", 51 },
+					{ 7, "Заправна станція", 47 },
+					{ 8, "Ресторан", 50 }
+				*/
+
+				new bid = GetPVarInt(playerid, "businessID");
+				new string[1028], product[72];
+				switch(gBusiness[bid][businessType])
+				{
+					case 1:
+					{
+						strcat(string, ""G"Назва\t"G"Доступно\t"G"Ціна\n");
+						for(new i = 1; i < MaxArticles[bid] + 1; i++)
+						{
+							if(gBusinessArticles[bid][i][aArticleQTY] <= 0) format(product, sizeof(product), ""E"%d шт.");
+							else format(product, sizeof(product), ""G"%d шт.", gBusinessArticles[bid][i][aArticleQTY]);
+							format(string, sizeof(string), "%s"W"%s\t%s\t"GREEN"$%d\n", string, gBusinessArticles[bid][i][aArticleName], product, gBusinessArticles[bid][i][aArticlePrice]);
+						}
+						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_TABLIST_HEADERS, "Список товарів", string, "Обрати", "Закрити");
+					}
+					case 3:
+					{
+						strcat(string, ""G"Назва\t"G"Доступно\t"G"Ціна\n");
+						for(new i = 1; i < MaxArticles[bid] + 1; i++)
+						{
+							if(gBusinessArticles[bid][i][aArticleQTY] <= 0) format(product, sizeof(product), ""E"%d шт.");
+							else format(product, sizeof(product), ""G"%d шт.", gBusinessArticles[bid][i][aArticleQTY]);
+							format(string, sizeof(string), "%s"W"%s\t%s\t"GREEN"$%d\n", string, gBusinessArticles[bid][i][aArticleName], product, gBusinessArticles[bid][i][aArticlePrice]);
+						}
+						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_TABLIST_HEADERS, "Список товарів", string, "Обрати", "Закрити");
+					}
+					case 4:
+					{
+						if(!lic[playerid][3]) return SendError(playerid, "У вас немає ліцензії на зброю.");
+
+						strcat(string, ""G"Назва\t"G"Доступно\t"G"Ціна\n");
+						for(new i = 1; i < MaxArticles[bid] + 1; i++)
+						{
+							if(gBusinessArticles[bid][i][aArticleQTY] <= 0) format(product, sizeof(product), ""E"%d шт.");
+							else format(product, sizeof(product), ""G"%d шт.", gBusinessArticles[bid][i][aArticleQTY]);
+							format(string, sizeof(string), "%s"W"%s\t%s\t"GREEN"$%d\n", string, gBusinessArticles[bid][i][aArticleName], product, gBusinessArticles[bid][i][aArticlePrice]);
+						}
+						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_TABLIST_HEADERS, "Список товарів", string, "Обрати", "Закрити");
+
+						/*
+						new gun_name[32 + 1];
+						string = ""W"зброю\t"W"Вартість\n";
+						for(new i = 0; i < 12; i++) {
+							GetWeaponName(gSellGun[i], gun_name, 32);
+							format(string, 1500, "%s\t%s\t$%i\n", string, gun_name, gSellGunPrice[i] * gBusiness[bid][bPrice]);
+						}
+						new str[90];
+						format(str, sizeof(str), "Броня\t$%i\nПерепустка в тир\t$%i", gSellGunPrice[11] * gBusiness[bid][bPrice], gSellGunPrice[12] * gBusiness[bid][bPrice]);
+						strcat(string, str);
+						ShowPlayerDialog(playerid, D_AMMO, DSTH, "Аммонації", string, "Далі", "Скасувати");*/
+					}
+					case 7:
+					{
+						strcat(string, ""G"Назва\t"G"Доступно\t"G"Ціна\n");
+						for(new i = 1; i < MaxArticles[bid] + 1; i++)
+						{
+							if(gBusinessArticles[bid][i][aArticleQTY] <= 0) format(product, sizeof(product), ""E"%d шт.");
+							else format(product, sizeof(product), ""G"%d шт.", gBusinessArticles[bid][i][aArticleQTY]);
+							format(string, sizeof(string), "%s"W"%s\t%s\t"GREEN"$%d\n", string, gBusinessArticles[bid][i][aArticleName], product, gBusinessArticles[bid][i][aArticlePrice]);
+						}
+						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_TABLIST_HEADERS, "Список товарів", string, "Обрати", "Закрити");
+					}
+					case 8:
+					{
+						strcat(string, ""G"Назва\t"G"Доступно\t"G"Ціна\n");
+						for(new i = 1; i < MaxArticles[bid] + 1; i++)
+						{
+							if(gBusinessArticles[bid][i][aArticleQTY] <= 0) format(product, sizeof(product), ""E"%d шт.");
+							else format(product, sizeof(product), ""G"%d шт.", gBusinessArticles[bid][i][aArticleQTY]);
+							format(string, sizeof(string), "%s"W"%s\t%s\t"GREEN"$%d\n", string, gBusinessArticles[bid][i][aArticleName], product, gBusinessArticles[bid][i][aArticlePrice]);
+						}
+						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_TABLIST_HEADERS, "Список товарів", string, "Обрати", "Закрити");
+					}
+				}
+
+
+
+				/*
+				new string[256];
+				switch(gBusiness[busID][businessType])
+				{
+					case 3:
+					{
+						for(new article = 0; article < bArticlesCount; article ++)
+						{
+							if(bArticles[article][bType] != 3) continue;
+							format(string, sizeof(string), "%s"P"%d. "W"%s\n", string, bArticles[article][bArticle_ID], bArticles[article][bArticle]);
+						}
+						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_LIST, "24/7", string, "Обрати", "Скасувати");
+					}
+				}
+				*/
+
+			}
+			if(IsPlayerInDynamicArea(playerid, gBints[bint][bintSphere]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+			{
+			 	SetPlayerPosAC(playerid, GetPVarFloat(playerid, "previousposX"), GetPVarFloat(playerid, "previousposY"), GetPVarFloat(playerid, "previousposZ"), 0, 0);
 			 	SetCameraBehindPlayer(playerid);
-				SendOK(playerid, "you are in dynamic area.");
 				new freezeSeconds = 0;
 				switch (GetPlayerPing(playerid)) {
 					case 0 .. 49: freezeSeconds = 2;
@@ -43945,6 +45786,591 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					default: freezeSeconds = 5;
 				}
 				FreezePlayerForTime(playerid, freezeSeconds);
+				DeletePVar(playerid, "businessID");
+				DeletePVar(playerid, "business_entered");
+			}
+		}
+		for(new businessareaid = 1; businessareaid < gBusinessCount+1; businessareaid++)
+		{
+			if(IsPlayerInDynamicArea(playerid, bSphere[businessareaid]) && gBusiness[businessareaid][bStatus] == 2 && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+			{
+				new Float:previousposX, Float:previousposY, Float:previousposZ;
+				GetPlayerPos(playerid, previousposX, previousposY, previousposZ);
+				SetPVarFloat(playerid, "previousposX", previousposX);
+				SetPVarFloat(playerid, "previousposY", previousposY);
+				SetPVarFloat(playerid, "previousposZ", previousposZ);
+				SetPlayerFacingAngle(playerid, gBints[gBusiness[businessareaid][businessInteriorID]][businessinteriorAngle]);
+			 	SetPlayerPosAC(playerid, gBints[gBusiness[businessareaid][businessInteriorID]][businessinteriorX], gBints[gBusiness[businessareaid][businessInteriorID]][businessinteriorY], gBints[gBusiness[businessareaid][businessInteriorID]][businessinteriorZ], gBints[gBusiness[businessareaid][businessInteriorID]][businessinteriorWorld], gBints[gBusiness[businessareaid][businessInteriorID]][businessinteriorInt]);
+			 	SetCameraBehindPlayer(playerid);
+				new freezeSeconds = 0;
+				switch (GetPlayerPing(playerid)) {
+					case 0 .. 49: freezeSeconds = 2;
+					case 50 .. 199: freezeSeconds = 3;
+					case 200 .. 499: freezeSeconds = 4;
+					default: freezeSeconds = 5;
+				}
+				FreezePlayerForTime(playerid, freezeSeconds);
+				SetPVarInt(playerid, "businessID", businessareaid);
+				SetPVarInt(playerid, "business_entered", 1);
+				new string[512];
+				if(strcmp(gBusiness[businessareaid][bDescription], "-"))
+				{
+					format(string, sizeof(string), "%s (( %s ))", gBusiness[businessareaid][bDescription], gBusiness[businessareaid][bName]);
+					SendClientMessage(playerid, COLOR_PURPLE, string);
+				}
+			}
+		}
+		for(new areaid = 0; areaid < PICKUPS_COUNT; areaid++) // вхід/вихід
+		{
+			if(IsPlayerInDynamicArea(playerid, SpherePickID[areaid]) && pickinfo[areaid][IsEnterExit] && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+			{
+			 	SetPlayerFacingAngle(playerid, pickinfo[areaid][picktpAngle]);
+			 	SetPlayerPosAC(playerid, pickinfo[areaid][picktpX], pickinfo[areaid][picktpY], pickinfo[areaid][picktpZ], pickinfo[areaid][picktpWorld], pickinfo[areaid][picktpInt]);
+			 	SetCameraBehindPlayer(playerid);
+				new freezeSeconds = 0;
+				switch (GetPlayerPing(playerid)) {
+					case 0 .. 49: freezeSeconds = 2;
+					case 50 .. 199: freezeSeconds = 3;
+					case 200 .. 499: freezeSeconds = 4;
+					default: freezeSeconds = 5;
+				}
+				FreezePlayerForTime(playerid, freezeSeconds);
+			}
+			else if(IsPlayerInDynamicArea(playerid, SpherePickID[areaid]) && !pickinfo[areaid][IsEnterExit] && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+			{
+				new pick[56];
+				format(pick, sizeof(pick), "pick id: %i", areaid);
+				SendInfo(playerid, pick);
+				format(pick, sizeof(pick), "SpherePickID[areaid]: %i", SpherePickID[areaid]);
+				SendInfo(playerid, pick);
+				switch(areaid)
+				{
+					case 94: ShowPlayerDialog(playerid, D_JOB, DSTH, P"Працевлаштування.", W"Робота\n"P"1."W" Водій автобуса\n"P"2."W" Механік\n"P"3."W" Розвізник продуктів та палива\n"P"4."W" Розвізник їжі\n"P"5."W" Мийщик доріг\n"P"6."W" Чистильник каналізацій\n"P"7."W" Таксист\n"P"8."W" Інкасатор\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
+					case 97:
+					{
+						if(CI[playerid][pJob] != 6) return SendError(playerid, "Ви не працюєте чистильником каналзацій.");
+						if(GetPVarInt(playerid, "kanal_skin") == 0) ShowPlayerDialog(playerid, D_JOB_KANAL_2, DSM, P"Роздягальня", W"Ви хочете перевдягнутися у робочий одяг?", "Так", "Ні");
+						else ShowPlayerDialog(playerid, D_JOB_KANAL_2, DSM, P"Роздягальня.", W"Ви хочете перевдягнутися у повсякденний одяг?", "Так", "Ні");
+					}
+					case 98:
+					{
+						if(TI[playerid][tBuild] > 0 || CI[playerid][pJob] == 3) return ShowPlayerDialog(playerid, D_JOB_CONST, DSM, P"Робота.", W"Ви дійсно хочете завершити роботу на будівництві?", "Так", "Ні");
+						ShowPlayerDialog(playerid, D_JOB_CONST, DSTH, P"Список доступних робіт.", W"Назва роботи\t"W"Досвід роботи\nПрибиральник\tНе потребується\nГрузчик\t100 досвіду\nЗварщик\t300 досвіду", "Далі", "Закрити");
+					}
+					case 112:
+					{
+						if(!TI[playerid][tJobGun][0]) {
+							static const f_str[] = "\n\n"W"Ви дійсно хочете розпочати роботу "P"складальника зброї?"W"\nВартість складання 1 ящика - "GREEN"$%d\n"W"Приблизний час роботи - "P"25 сек\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 6)];
+							format(string, sizeof(string), f_str, SALARY_ARMS);
+							ShowPlayerDialog(playerid, D_JOB_GUNS, DSM, P"Складальник зброї.", string, "Так", "Ні");
+						}
+						else {
+							static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 7)];
+							format(string, sizeof(string), f_str, TI[playerid][tJobSalary]);
+							ShowPlayerDialog(playerid, D_JOB_GUNS, DSM, P"Завершення роботи.", string, "Так", "Ні");
+						}
+					}
+					case 113:
+					{
+						if(!TI[playerid][tJobGun][0]) return 1;
+						if(TI[playerid][tJobGun][1] != 1 || TI[playerid][tJobGun][2]) return 1;
+						SendOK(playerid, "Ви взяли заготовку. Пройдіть до вільної стійки для збірки зброї.");
+						new objectmodel = GunWorkWeapon[Random(0, 6)];
+						if(!IsPlayerAttachedObjectSlotUsed(playerid, 8)) SetPlayerAttachedObject(playerid, 8,objectmodel, 6);
+						SetPVarInt(playerid, "pgunmodel",objectmodel);
+						TI[playerid][tJobGun][1] = 2;
+					}
+					case 135:
+					{
+						if(!TI[playerid][tJobWood][0]) {
+							static const f_str[] = "\n\n"W"Ви дійсно хочете розпочати роботу "P"лісоруба?"W"\nВартість 1 зрубаного дерева - "GREEN"$%d\n"W"Приблизний час роботи - "P"30 сек\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 6)];
+							format(string, sizeof(string), f_str, SALARY_WOOD);
+							ShowPlayerDialog(playerid, D_JOB_WOOD, DSM, P"Лісопильня.", string, "Так", "Ні");
+						}
+						else {
+							static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 7)];
+							format(string, sizeof(string), f_str, TI[playerid][tJobSalary]);
+							ShowPlayerDialog(playerid, D_JOB_WOOD, DSM, P"Завершення роботи.", string, "Так", "Ні");
+						}
+					}
+					case 175:
+					{
+						if(CI[playerid][pJob] != 8) return SendError(playerid, "Ви не влаштовувались на роботу інкасатора.");
+						if(!GetPVarInt(playerid, "inc_start")) ShowPlayerDialog(playerid, D_JOB_INC, DSM, P"Робота інкасатора.", W"Ви дійсно хочете розпочати роботу?", "Так", "Ні");
+						else ShowPlayerDialog(playerid, D_JOB_INC, DSM, P"Робота інкасатора.", W"Ви хочете завершити робочий день?", "Так", "Ні");
+					}
+					case 176:
+					{
+						if(!GetPVarInt(playerid, "takeorder") && !GetPVarInt(playerid, "need_articles")) return SendError(playerid, "Необхідно взяти замовлення, перш ніж завантажувати товари в автомобіль.");
+						if(CI[playerid][pJob] != 3 && GetVehicleModel(GetPlayerVehicleID(playerid)) != 456)
+						{
+							new string[1024];
+							new id = prod_id[playerid];
+							new price = 3;
+							new percent = 3;
+							new formula = floatround((gBusiness[id][bOrder]*price)*percent/100);
+							format(string, sizeof(string), "\
+								"W"Вартість одиниці товару на складі: "GREEN"$%d"W".\n\n\
+								Необхідно завантажити "P"%d "W"од. товару.\n\
+								Вартість купівлі товару на складі (+ "W"3%%"W" за завантаження): "GREEN"$%d", price, gBusiness[id][bOrder], gBusiness[id][bOrder]*price+formula);
+							ShowPlayerDialog(playerid, dProdGet, DIALOG_STYLE_MSGBOX, ""G"Завантаження товарів", string, "Завантажити", "Скасувати");
+							SetPVarInt(playerid, "loadprice", gBusiness[id][bOrder]*price+formula);
+						}
+					}
+				}
+			 	/*switch(SpherePickID[areaid])
+			 	{
+
+
+				case 3: {
+						ShowPlayerDialog(playerid, D_TRAILER_BUY, DSM, P"Будинок на колесах.", W"\n\nВартість: "GREEN"1.000.000$"W"\n\nУ домі на колесах можна користуватися шкафом, його можна паркувати у зручному місці,\nа также використовувати його, як основное місце проживання\n\nВи дійсно хочете купити"GREEN" будинок на колесах?\n\n", "Купити", "Закрити");
+					}
+				case 4: {
+						if(CI[playerid][pJob] != 6) return SendError(playerid, "Ви не працюєте чистильником каналзацій.");
+						if(GetPVarInt(playerid, "kanal_skin") == 0) ShowPlayerDialog(playerid, D_JOB_KANAL_2, DSM, P"Роздягальня", W"Ви хочете перевдягнутися у робочий одяг?", "Так", "Ні");
+						else ShowPlayerDialog(playerid, D_JOB_KANAL_2, DSM, P"Роздягальня.", W"Ви хочете перевдягнутися у повсякденний одяг?", "Так", "Ні");
+					}
+				case 5: {
+						if(TI[playerid][tBuild] > 0 || CI[playerid][pJob] == 3) return ShowPlayerDialog(playerid, D_JOB_CONST, DSM, P"Робота.", W"Ви дійсно хочете завершити роботу на будівництві?", "Так", "Ні");
+						ShowPlayerDialog(playerid, D_JOB_CONST, DSTH, P"Список доступних робіт.", W"Назва роботи\t"W"Досвід роботи\nПрибиральник\tНе потребується\nГрузчик\t100 досвіду\nЗварщик\t300 досвіду", "Далі", "Закрити");
+					}
+				case 6: {
+						if(!IsValidVehicle(TI[playerid][tBoatEnter])) {
+							SetCameraBehindPlayer(playerid);
+							TI[playerid][tBoatEnter] = INVALID_VEHICLE_ID;
+							SetPlayerPosAC(playerid, GetPVarFloat(playerid, "ex_cord_x"), GetPVarFloat(playerid, "ex_cord_y"), GetPVarFloat(playerid, "ex_cord_z"), 0, 0);
+							SetPlayerInterior(playerid, 0);
+							SetPlayerVirtualWorld(playerid, 0);
+							FreezePlayerForTime(playerid, 3);
+							DeletePVar(playerid, "ex_cord_x"),DeletePVar(playerid, "ex_cord_y"),DeletePVar(playerid, "ex_cord_z");
+							SendError(playerid, "Власник човна вийшов з серверу, ви повернені на місце заходу в яхту.");
+							return 1;
+						}
+						new Float:bd_x, Float:bd_y, Float:bd_z, Float:vehicle_angle;
+						GetBoatDoorPos(TI[playerid][tBoatEnter], bd_x, bd_y, bd_z);
+						GetVehicleZAngle(TI[playerid][tBoatEnter], vehicle_angle);
+						SetPlayerPosAC(playerid, bd_x, bd_y, bd_z, 0, 0);
+						SetPlayerFacingAngle(playerid, vehicle_angle + 180);
+						SetPlayerInterior(playerid, 0);
+						SetPlayerVirtualWorld(playerid, 0);
+						FreezePlayerForTime(playerid, 3);
+						SetCameraBehindPlayer(playerid);
+						TI[playerid][tBoatEnter] = INVALID_VEHICLE_ID;
+					}
+				case 7, 13, 17, 43, 51: {
+						if(!IsAGang(playerid)) return SendError(playerid, "Ви не є членом банди.");
+						ShowPlayerDialog(playerid, D_FAQ_BAND, DSL, P"FAQ.", P"1."W" Рейтинг загарбників банди\n"P"2."W" Квести\n"P"3."W" Чим зайнятись в банді?", "Обрати", "Закрити");
+					}
+				case 8: {
+						ShowPlayerDialog(playerid, D_HOSPITAL, DSL, P"Реєстратура.", P"1."W" Що це за місце?\n"P"2."W" Трансґендерний перехід\n"P"3."W" Отримання медичної карти\n"P"4."W" Лікування наркозалежності", "Обрати", "Закрити");
+					}
+				case 9: {
+						new string[105];
+						format(string, sizeof(string), W"Ви хочете %s роботу круп'є?", (GetPVarInt(playerid, "krup")) ? ("завершити") : ("розпочати"));
+						ShowPlayerDialog(playerid, D_CASINO, DSM, P"Казино.", string, "Так", "Ні");
+					}
+				case 10: ShowPlayerDialog(playerid, DIALOG_INFO, DSL, P"Інформація.", P"1."W" Про проєкт\n"P"2."W" Захист акаунта\n"P"3."W" Основи гри", "Обрати", "Закрити");
+				case 11: {
+						if(!IsAMedia(playerid) || !start_work[playerid]) return SendError(playerid, "Ви не працівник новинного видання.");
+						ShowPlayerDialog(playerid, D_CNN_PHOTO, DSM, P"Новинне видання.", W"Ви хочете взяти фотоаппарат на 30 знімків?", "Так", "Ні");
+					}
+				case 12: {
+						if(CI[playerid][pLevel] != 1) return SendError(playerid, "Тільки для новачків. (1 рівень)");
+						if(GetPVarInt(playerid, "anti_eat") > unix) return SendError(playerid, "Можна перекусити один раз на хвилину.");
+						if(CI[playerid][pSatiety] >= 100) return SendError(playerid, "Ви не голодні.");
+						SetHealth(playerid, 100);
+						GiveFullness(playerid, 30);
+						ApplyAnimation(playerid, "FOOD", "EAT_Burger", 2.0, 0, 0, 0, 0, 5000, 1);
+						SetPVarInt(playerid, "anti_eat", unix+60);
+					}
+				case 14: GameTextForPlayer(playerid, "~n~~n~~n~~n~~n~~n~~n~~n~~n~~n~~w~TAKE:~g~ Y~w~ / PUT:~r~ N", 3000, 3);
+				case 15: {
+						new room = TI[playerid][tSelectedRoom];
+						SetPlayerPosAC(playerid,Apartment[room][aX], Apartment[room][aY], Apartment[room][aZ], Apartment[room][apID], 4);
+						TI[playerid][tTPpick] = true;
+						FreezePlayerForTime(playerid, 3);
+					}
+				case 16: {
+						if(!GetPVarInt(playerid, "gun_weap")) ShowPlayerDialog(playerid, D_AMMOSG, DSM, P"Тир", W"Ви дійсно хочете розпочати тренування?", "Так", "Ні");
+						else ShowPlayerDialog(playerid, D_AMMOSG, DSM, P"Тир.", W"Ви дійсно хочете завершити тренування?", "Так", "Ні");
+					}
+				case 19: {
+						if(!TI[playerid][tJobGun][0]) {
+							static const f_str[] = "\n\n"W"Ви дійсно хочете розпочати роботу "P"складальника зброї?"W"\nВартість складання 1 ящика - "GREEN"$%d\n"W"Приблизний час роботи - "P"25 сек\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 6)];
+							format(string, sizeof(string), f_str, SALARY_ARMS);
+							ShowPlayerDialog(playerid, D_JOB_GUNS, DSM, P"Складальник зброї.", string, "Так", "Ні");
+						}
+						else {
+							static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 7)];
+							format(string, sizeof(string), f_str, TI[playerid][tJobSalary]);
+							ShowPlayerDialog(playerid, D_JOB_GUNS, DSM, P"Завершення роботи.", string, "Так", "Ні");
+						}
+					}
+				case 20: {
+						if(!TI[playerid][tJobGun][0]) return 1;
+						if(TI[playerid][tJobGun][1] != 1 || TI[playerid][tJobGun][2]) return 1;
+						SendOK(playerid, "Ви взяли заготовку. Пройдіть до вільної стійки для збірки зброї.");
+						new objectmodel = GunWorkWeapon[Random(0, 6)];
+						if(!IsPlayerAttachedObjectSlotUsed(playerid, 8)) SetPlayerAttachedObject(playerid, 8,objectmodel, 6);
+						SetPVarInt(playerid, "pgunmodel",objectmodel);
+						TI[playerid][tJobGun][1] = 2;
+					}
+				case 22: {
+						if(!TI[playerid][tJobSad][0]) return 1;
+						if(GetPVarInt(playerid, "bailer_1") == 1) return SendError(playerid, "У вас в руках лійка.");
+						if(GetPVarInt(playerid, "bailer_2") == 1 || GetPVarInt(playerid, "bailer_3") == 1) return SendError(playerid, "Ви вже взяли ящик.");
+						SetPlayerAttachedObject(playerid, 4, 19639, 5, 0.342999, -0.158999, 0.041999, 0.0, 177.799957, -0.300001, 1.0, 0.520000, 0.699000);
+						SetPVarInt(playerid, "bailer_2", 1);
+					}
+				case 23: {
+						if(!TI[playerid][tJobSad][0]) return SendError(playerid, "Необхідно одягнути робочу форму.");
+						if(GetPVarInt(playerid, "bailer") == 1) {
+							if(IsPlayerAttachedObjectSlotUsed(playerid, 7)) RemovePlayerAttachedObject(playerid, 7);
+							DeletePVar(playerid, "bailer");
+							return SendOK(playerid, "Ви поклали лійку назад на місце.");
+						}
+						SetPlayerAttachedObject(playerid, 7, 19621, 6, 0.068000, 0.040999, 0.001000, 0.0, 0.0, 94.299972, 1.0, 1.0, 1.0); //
+						SetPVarInt(playerid, "bailer", 1);
+					}
+				case 24: {
+						if(TI[playerid][tJobSad][0] == 1) {
+							static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d"W"?\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 7)];
+							format(string, sizeof(string), f_str, TI[playerid][tJobSalary]);
+							ShowPlayerDialog(playerid, D_JOB_SAD, DSM, P"Завершення роботи.", string, "Так", "Ні");
+							return 1;
+						}
+						if(GetPVarInt(playerid, "egg_start") == 1) return ShowPlayerDialog(playerid, D_FARM_END_1, DSM, P"Завершення роботи.", "\n\n\t"P"Оберіть спосіб оплати\n\n"G"При виборі оплати на банківський рахунок,\nзарабітна плата прийде під час PayDay\n\n", "Готівка", "Банк");
+						ShowPlayerDialog(playerid, D_FARM, DSL, P"Ферма.", P"1."W" Робота в яблуневому саду\n"P"2."W" Збирач яєць", "Далі", "Закрити");
+					}
+				case 25:
+				{
+					new string[128];
+					format(string, sizeof(string), W"Вітаємо вас, "P"%s, "W"у Автошколі!\n\nБажаєте ознайомитися з Дорожнім кодексом?", CI[playerid][cName]);
+					ShowPlayerDialog(playerid, D_AS_THEORY, DSM, P"Дорожній кодекс.", string, "Так", "Ні");
+				}
+				case 28: ShowGetGun(playerid);
+				case 29: ShowPlayerDialog(playerid, D_COP_DIALOG, DSL, P"Департамент поліції Лос-Сантоса.", P"1."W" Отримати номерні знаки\n"P"2."W" Купити ліцензію на зброю ("O"50.000$"W")\n"P"3."W" Здатися з повинною", "Обрати", "Закрити");
+				case 30: return 1;
+				case 31: return 1;
+				case 32, 33, 39: {
+						if(pick == 32 && CI[playerid][pMember] != fLSPD) return SendError(playerid, "Ви не є працівником Департаменту поліції Лос-Сантоса.");
+						if(pick == 33 && CI[playerid][pMember] != fFBI) return SendError(playerid, "Ви не є працівником Федерального бюро розслідувань.");
+						if(pick == 69 && CI[playerid][pMember] != fRCSO) return SendError(playerid, "Ви не є працівником Офісу шерифа округу Ред.");
+						new string[128];
+						format(string, sizeof(string), P"1."W" %s робочий день\n"P"2."W" Взяти зброю\n"P"3."W" Знарядження", (!start_work[playerid]) ? ("Розпочати") : ("Завершити"));
+						ShowPlayerDialog(playerid, D_LSPD_WEAP, DSL, P"Роздягальня.", string, "Обрати", "Закрити");
+					}
+				case 21, 34..37: {
+						new vw = GetPlayerVirtualWorld(playerid);
+						new string[128];
+						format(string, sizeof(string), "\n"W"Ви дійсно хочете %s робочий день?\n", (!start_work[playerid]) ? ("розпочати") : ("завершити"));
+						ShowPlayerDialog(playerid, D_WORK, DSM, P"Роздягальня.", string, "Так", "Ні");
+					}
+				case 38: {
+						TI[playerid][tSelectedBusinessID] = 51;
+						new id = TI[playerid][tSelectedBusinessID];
+						new string[128];
+						format(string, sizeof(string), W"Найменування\t"W"Вартість\nПиво \t$%d\nГорілка \t$%d\nШампанське \t$%d\nВино \t$%d\nТекіла \t$%d\nКоньяк \t$%d", gBusiness[id][bizzPrice] * 10 * gBarCosts[0], gBusiness[id][bizzPrice] * 10 * gBarCosts[1], gBusiness[id][bizzPrice] * 10 * gBarCosts[2], gBusiness[id][bizzPrice] * 10 * gBarCosts[3], gBusiness[id][bizzPrice] * 10 * gBarCosts[4], gBusiness[id][bizzPrice] * 10 * gBarCosts[5]);
+						ShowPlayerDialog(playerid, D_BIZZ_BAR, DSTH, P"Меню.", string, "Купити", "Скасувати");
+						return 1;
+					}
+				case 2: {
+						if(GetPlayerVirtualWorld(playerid) == 59) {
+							ShowPlayerDialog(playerid, D_VIEW_CARS, DSM, P"Автосалон.", W"Ласкаво просимо в "P"автосалон спорт класу"W"!\n\nВ нашому автосалоні присутній великий асортимент транспорту\n"W"Ви хочете перейти до вибору транспорту?", "Далі", "Закрити");
+							SetPVarInt(playerid, "get_class", 1);
+						}
+						if(GetPlayerVirtualWorld(playerid) == 42) {
+							ShowPlayerDialog(playerid, D_VIEW_CARS_1, DSL, P"Оберіть клас.", P"1."W" Економ клас\n"P"2."W" Середній клас", "Далі", "Скасувати");
+						}
+						if(GetPlayerVirtualWorld(playerid) == 43) {
+							ShowPlayerDialog(playerid, D_VIEW_CARS, DSM, P"Автосалон", W"Ласкаво просимо в "P"мото- та велосалон"W"!\n"W"В нашому мото- та велосалоні присутній великий асортимент транспорту\n"W"Ви хочете перейти до вибору транспорту?", "Далі", "Закрити");
+							SetPVarInt(playerid, "get_class", 4);
+						}
+					}
+				case 40: {
+						new string[250], nam_r[30], nam_t[30];
+						if(RingInfo[0][rgPlayer][0] == -1) format(nam_r, sizeof(nam_r), "None");
+						else format(nam_r, sizeof(nam_r), "%s", CI[RingInfo[0][rgPlayer][0]][cName]);
+						if(RingInfo[0][rgPlayer][1] == -1) format(nam_t, sizeof(nam_t), "None");
+						else format(nam_t, sizeof(nam_t), "%s", CI[RingInfo[0][rgPlayer][1]][cName]);
+						format(string, sizeof(string), W"На рингу зараз"NO" %s"W" проти"NO" %s"W"\n\nВсього боїв: "NO"%d"W"\nКількість переможних боїв: "NO"%d"W"\nКількість програних боїв: "NO"%d",nam_r,nam_t, CI[playerid][pFight_on]+CI[playerid][pFight_off], CI[playerid][pFight_on], CI[playerid][pFight_off]);
+						ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Інформація.", string, "Сховати", "");
+						return 1;
+					}
+				case 41: {
+						if(!IsAGovernment(playerid)) return 1;
+						new string[128];
+						format(string, sizeof(string), P"1."W" %s робочий день\n"P"2."W" Взяти зброю", (!start_work[playerid]) ? ("Почати") : ("Завершити"));
+						ShowPlayerDialog(playerid, D_MAYOR_INFO, DSL, P"Уряд.", string, "Обрати", "Закрити");
+					}
+				case 42: {
+						if(!TI[playerid][tJobWood][0]) {
+							static const f_str[] = "\n\n"W"Ви дійсно хочете розпочати роботу "P"лісоруба?"W"\nВартість 1 зрубаного дерева - "GREEN"$%d\n"W"Приблизний час роботи - "P"30 сек\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 6)];
+							format(string, sizeof(string), f_str, SALARY_WOOD);
+							ShowPlayerDialog(playerid, D_JOB_WOOD, DSM, P"Лісопильня.", string, "Так", "Ні");
+						}
+						else {
+							static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 7)];
+							format(string, sizeof(string), f_str, TI[playerid][tJobSalary]);
+							ShowPlayerDialog(playerid, D_JOB_WOOD, DSM, P"Завершення роботи.", string, "Так", "Ні");
+						}
+					}
+				case 44: {
+						if(CI[playerid][pMember] != fFBI) return SendError(playerid, "Ви не агент Федерального бюро розслідувань.");
+						ShowPlayerDialog(playerid, D_SPY_3, DSL, P"Федеральне бюро розслідувань.", P"1."W" Маскування\n"P"2."W" Взяти зброю\n"P"3."W" Перевдянутися", "Обрати", "Закрити");
+					}
+				case 45..49: {
+						switch(pick) {
+						case 45: if(CI[playerid][pMember] != fBALLAS) return SendError(playerid, "У вас немає доступу до цього складу.");
+						case 46: if(CI[playerid][pMember] != fVAGOS) return SendError(playerid, "У вас немає доступу до цього складу.");
+						case 47: if(CI[playerid][pMember] != fGROVE) return SendError(playerid, "У вас немає доступу до цього складу.");
+						case 48: if(CI[playerid][pMember] != fAZTEC) return SendError(playerid, "У вас немає доступу до цього складу.");
+						case 49: if(CI[playerid][pMember] != fRIFA) return SendError(playerid, "У вас немає доступу до цього складу.");
+						}
+						if(GetPVarInt(playerid, "ograbl_") == 1) {
+							RemovePlayerAttachedObject(playerid, 5);
+							DeletePVar(playerid, "ograbl_");
+							FI[CI[playerid][pMember]][fBank] += 75000;
+							UpdateFaction(CI[playerid][pMember], "Bank", FI[CI[playerid][pMember]][fBank]);
+							static const f_str[] = "[F] %s[%d] поклав в банк банди: "GREEN"$%d";
+							new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+							format(string, sizeof(string), f_str, CI[playerid][cName], playerid, 75000);
+							SendFactionMessage(CI[playerid][pMember], 0x6699ccFF, string);
+							return 1;
+						}
+						new gunamount = GetPVarInt(playerid, "carrygun")*1000;
+						if(gunamount) {
+							DeletePVar(playerid, "carrygun");
+							RemovePlayerAttachedObject(playerid, 1);
+							ApplyAnimation(playerid, "CARRY", "putdwn", 1.0, 0, 1, 1, 0, 0, 1);
+							if(FI[CI[playerid][pMember]][fMaterials] + gunamount > 300000) return SendError(playerid, "На складі недостатньо місця.");
+							FI[CI[playerid][pMember]][fMaterials] += gunamount;
+							UpdateFaction(CI[playerid][pMember], "Materials", FI[CI[playerid][pMember]][fMaterials]);
+							InLoadFrac[CI[playerid][pMember]] = false;
+							return 1;
+						}
+						else if(IsAGang(playerid)) return ShowPlayerDialog(playerid, D_BAND_STOCK, DSL, P"Склад", P"1."W" Покласти гроші в банк банди\n"P"2."W" Зняти гроші з банку банди\n"P"3."W" Покласти матеріали на склад\n"P"4."W" Взяти матеріали зі складу\n"P"5."W" Покласти наркотики на склад\n"P"6."W" Взяти наркотики зі складу\n"P"7."W" Взяти зброю", "Обрати", "Закрити");
+					}
+		        case 78, 79: {
+						if(GetPVarInt(playerid, "ograbl_") == 1) {
+							RemovePlayerAttachedObject(playerid, 5);
+							DeletePVar(playerid, "ograbl_");
+							FI[CI[playerid][pMember]][fBank] += 75000;
+							UpdateFaction(CI[playerid][pMember], "Bank", FI[CI[playerid][pMember]][fBank]);
+							static const f_str[] = "[F] %s[%d] поклав в банк MC: "GREEN"$%d.";
+							new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+							format(string, sizeof(string), f_str, CI[playerid][cName], playerid, 75000);
+							SendFactionMessage(CI[playerid][pMember], 0x6699ccFF, string);
+							return 1;
+						}
+						new gunamount = GetPVarInt(playerid, "carrygun")*1000;
+						if(gunamount) {
+							DeletePVar(playerid, "carrygun");
+							RemovePlayerAttachedObject(playerid, 1);
+							ApplyAnimation(playerid, "CARRY", "putdwn", 1.0, 0, 1, 1, 0, 0, 1);
+							if(FI[CI[playerid][pMember]][fMaterials] + gunamount > 300000) return SendError(playerid, "На складі недостатньо місця.");
+						 	FI[CI[playerid][pMember]][fMaterials] += gunamount;
+							UpdateFaction(CI[playerid][pMember], "Materials",FI[CI[playerid][pMember]][fMaterials]);
+							InLoadFrac[CI[playerid][pMember]] = false;
+							return 1;
+						}
+						else if(IsAMafia(playerid)) {
+							if(!FI[CI[playerid][pMember]][fSklad]) return SendError(playerid, "Лідер вашого клубу закрив доступ до складу");
+							return ShowPlayerDialog(playerid, D_BIKER_STOCK, DSL, P"Склад", P"1."W" Покласти гроші в банк MC\n"P"2."W" Зняти гроші з банку MC\n"P"3."W" Покласти матеріали на склад\n"P"4."W" Взяти матеріали зі складу\n"P"5."W" Покласти наркотики на склад\n"P"6."W" Взяти наркотики зі складу\n"P"7."W" Взяти зброю", "Обрати", "Закрити");
+						}
+					}
+				case 80: {
+						if(IsAMafia(playerid)) {
+							SetPlayerPos(playerid, 789.3809, 2507.1846, 1502.0000);
+							SetPlayerVirtualWorld(playerid, 92);
+							SetPlayerInterior(playerid, 92);
+						}
+					}
+				case 81: {
+						if(IsAMafia(playerid)) {
+							SetPlayerPos(playerid, 2353.5300, 247.3599, 26.4466);
+							SetPlayerVirtualWorld(playerid, 93);
+							SetPlayerInterior(playerid, 93);
+						}
+					}
+				case 26, 50, 27: {
+						switch(pick) {
+						case 26: if(CI[playerid][pMember] != fLCN) return SendError(playerid, "У вас немає доступу до цього складу.");
+						case 51: if(CI[playerid][pMember] != fTRIADS) return SendError(playerid, "У вас немає доступу до цього складу.");
+						case 27: if(CI[playerid][pMember] != fRM) return SendError(playerid, "У вас немає доступу до цього складу.");
+						}
+						if(GetPVarInt(playerid, "ograbl_") == 1) {
+							RemovePlayerAttachedObject(playerid, 5);
+							DeletePVar(playerid, "ograbl_");
+							FI[CI[playerid][pMember]][fBank] += 75000;
+							UpdateFaction(CI[playerid][pMember], "Bank",FI[CI[playerid][pMember]][fBank]);
+							static const f_str[] = "[F] %s[%d] поклав в банк банди "GREEN"$%d.";
+							new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+							format(string, sizeof(string),f_str, CI[playerid][cName], playerid, 75000);
+							SendFactionMessage(CI[playerid][pMember], 0x6699ccFF, string);
+							return 1;
+						}
+						new gunamount = GetPVarInt(playerid, "carrygun")*500;
+						if(gunamount) {
+							DeletePVar(playerid, "carrygun");
+							RemovePlayerAttachedObject(playerid, 1);
+							ApplyAnimation(playerid, "CARRY", "putdwn", 1.0, 0, 1, 1, 0, 0, 1);
+							if(FI[CI[playerid][pMember]][fMaterials] + gunamount > 300000) return SendError(playerid, "На складі недостатньо місця.");
+							else FI[CI[playerid][pMember]][fMaterials] += gunamount;
+							UpdateFaction(CI[playerid][pMember], "Materials",FI[CI[playerid][pMember]][fMaterials]);
+							InLoadFrac[CI[playerid][pMember]] = false;
+							return 1;
+						}
+						if(IsAMafia(playerid)) return ShowPlayerDialog(playerid, D_MAFIA_STOCK, DSL, P"Склад", P"1."W" Покласти гроші в банк мафії\n"P"2."W" Зняти гроші з банку мафії\n"P"3."W" Покласти матеріали на склад\n"P"4."W" Взяти матеріали зі складу\n"P"5."W" Покласти наркотики на склад\n"P"6."W" Взяти наркотики зі складу", "Обрати", "Закрити");
+					}
+				case 52, 53, 54: return dialog_bank(playerid);
+				case 55..58, 73, 76: {
+						new houseid = TI[playerid][tSelectHouse];
+						SetPlayerPosAC(playerid,hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][0],hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][1],hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][2],houseid+ 1,hinterior_info[gHouses[houseid][houseHint]][h_interior]);
+						SetPlayerFacingAngle(playerid,hinterior_info[gHouses[houseid][houseHint]][h_pos_exit][3]);
+						SetCameraBehindPlayer(playerid);
+						SetPlayerInterior(playerid, hinterior_info[gHouses[houseid][houseHint]][h_interior]);
+						SetPlayerVirtualWorld(playerid, houseid+ 1);
+						TI[playerid][tInHouse] = true;
+					}
+				case 59: {
+						new vacancies = 0;
+						new str[1024];
+						new string[6 + 28 + 24];
+						for(new i = 0; i < 14; i++) {
+							if(VacancyInfo[i][VacancyStatus]) {
+								format(string, sizeof(string), P"%d."W" %s\n", vacancies + 1,FI[VacancyInfo[i][VacancyFraction]][fName]);
+								strcat(str, string);
+								vacancies++;
+							}
+						}
+						if(vacancies != 14 && CI[playerid][pMember] && CI[playerid][pRank] >= FI[CI[playerid][pMember]][fInviteRang]) {
+							strcat(str, "Додати вакансію");
+							return ShowPlayerDialog(playerid, D_VACANCY, DSL, P"Вакансії", str, "Далі", "Закрити");
+						}
+						if(vacancies == 0) return SendError(playerid, "Наразі немає доступних вакансій.");
+						return ShowPlayerDialog(playerid, D_VACANCY, DSL, P"Вакансії", str, "Далі", "Закрити");
+					}
+				case 60, 71, 72: ShowPlayerDialog(playerid, D_FAQ_MAFIA, DSL, P"FAQ", P"1."W" Рейтинг загарбників мафії\n"P"2."W" Квести\n"P"3."W" Чим зайнятися в мафії?", "Обрати", "Закрити");
+				case 61: {
+						SetPlayerPosAC(playerid, 1680.2532, 693.7829, 589.5544, GetPlayerVirtualWorld(playerid), 4);
+						SetPlayerFacingAngle(playerid, 179.9865);
+						SetCameraBehindPlayer(playerid);
+						FreezePlayerForTime(playerid, 2);
+					}
+				case 62: {
+						SetPlayerPosAC(playerid, 748.7523, -113.2910, 1180.7050, GetPlayerVirtualWorld(playerid), 4);
+						SetPlayerFacingAngle(playerid, 85.3832);
+						SetCameraBehindPlayer(playerid);
+						FreezePlayerForTime(playerid, 3);
+					}
+				case 63..67: {
+						switch(pick) {
+							case 62: if(CI[playerid][pMember] != fBALLAS) return SendError(playerid, "У вас немає доступу до цієї аптечки.");
+							case 63: if(CI[playerid][pMember] != fVAGOS) return SendError(playerid, "У вас немає доступу до цієї аптечки.");
+							case 64: if(CI[playerid][pMember] != fGROVE) return SendError(playerid, "У вас немає доступу до цієї аптечки.");
+							case 65: if(CI[playerid][pMember] != fAZTEC) return SendError(playerid, "У вас немає доступу до цієї аптечки.");
+							case 66: if(CI[playerid][pMember] != fRIFA) return SendError(playerid, "У вас немає доступу до цієї аптечки.");
+						}
+						if(!FI[CI[playerid][pMember]][fSklad]) return SendError(playerid, "Лідер вашої банди закрив доступ до складу.");
+						if(CI[playerid][pRank] < FI[CI[playerid][pMember]][sRank]) {
+							new str[128];
+							format(str, sizeof(str), "Склад доступний з %i рангу.", FI[CI[playerid][pMember]][sRank]);
+							SendError(playerid, str);
+							return 1;
+						}
+						if(!FI[CI[playerid][pMember]][fMedKits]) return SendError(playerid, "На складі недостатньо аптечок.");
+						if(GetPVarInt(playerid, "gang_heal") > gettime()) return SendError(playerid, "Брати аптечку можна один раз в 15 секунд.");
+						new Float:health;
+						GetPlayerHealth(playerid, health);
+						if(health >= 160) return SendError(playerid, "Ви здорові.");
+						if(health + 60.0 < 160.0) health += 60.0;
+						else health = 160.0;
+						SetHealth(playerid, health);
+						SetPlayerChatBubble(playerid, "+60 HP",COLOR_YELLOW, 20.0, 10000);
+						ApplyAnimation(playerid, "ped", "gum_eat", 4.0, 0, 0, 0, 0, 0, 1);
+						FI[CI[playerid][pMember]][fMedKits] --;
+						UpdateFaction(CI[playerid][pMember], "MedKits", FI[CI[playerid][pMember]][fMedKits]);
+						SetPVarInt(playerid, "gang_heal", gettime() + 15);
+						static const f_str[] = "[F] %s[%d] використав аптечку.";
+						new string[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 4)];
+
+						format(string, sizeof(string),f_str, CI[playerid][cName], playerid);
+						SendFactionMessage(CI[playerid][pMember], 0x6699ccFF, string);
+						return 1;
+					}
+				case 74: {
+						if(!TI[playerid][tClothesWork][0]) {
+							static const f_str[] = "\n\n"W"Ви дійсно хочете розпочати роботу "P"кравця?\n"W"Вартість виготовления однієї партії одягу - "GREEN"$20\n"W"Приблизний час роботи - "P"10 сек"W"\n\nПри виготовленні партії одягу, термін ув'язнення зменшується на "G"10 секунд"W"\n";
+							new string[sizeof(f_str) + 1 + (-2 + 6)];
+							format(string, sizeof(string),f_str);
+							ShowPlayerDialog(playerid, D_JOB_PORTN, DSM, P"Работа кравця", string, "Так", "Ні");
+						}
+						else {
+							static const f_str[] = "\n\n"W"Ви хочете завершити роботу і забрати "GREEN"$%d?\n\n";
+							new string[sizeof(f_str) + 1 + (-2 + 7)];
+							format(string, sizeof(string),f_str, GetPVarInt(playerid, "zp_clothes"));
+							ShowPlayerDialog(playerid, D_JOB_PORTN, DSM, P"Закінчення роботи", string, "Так", "Ні");
+						}
+					}
+				case 75: {
+						if(!CI[playerid][pJailTime]) return 1;
+						if(CI[playerid][pJailTime] <= 250) return SendError(playerid, "Вас звільнять достроково найближчим часом.");
+						ShowPlayerDialog(playerid, D_JAIL_3, DSM, P"Злам дверей", W"Ви дійсно хочете зламати двері ключами?\n\n"G"* Про це дізнаються державні структури", "Далі", "Закрити");
+					}
+				case 77:{
+			 			ShowPlayerDialog(playerid, D_BILBORDS, DSL, P"Рекламне агентство", P"1."W" Орендувати білборд", "Обрати", "Скасувати");
+					}
+				case 68, 69: {
+						if(!TI[playerid][tJobWood][1]) return 1;
+						ClearAnimations(playerid);
+						RemovePlayerAttachedObject(playerid, 9);
+						DisablePlayerCheckpoint(playerid);
+						TI[playerid][tJobWood][1] = 0;
+						SetPlayerSpecialAction(playerid, SPECIAL_ACTION_NONE);
+						SetPlayerAttachedObject(playerid, 8, 341, 6);
+						if(pick == 67) {
+							new obj = CreateDynamicObject(1463, 1062.2775, -304.3090, 74.2226, 0.0, 0.0, 49.499992);
+							SetGVarInt("WoodConv", 1,obj);
+							MoveDynamicObject(obj, 1056.8375, -304.3090, 74.2226, 1, 0.0, 0.0, 49.499992);
+						}
+						else if(pick == 69) {
+							new obj = CreateDynamicObject(1463, 1062.5474, -296.1025, 74.2431, 0.0, 0.0, 49.499992);
+							SetGVarInt("WoodConv", 1,obj);
+							MoveDynamicObject(obj, 1056.8074, -296.1025, 74.2431, 1, 0.0, 0.0, 49.499992);
+						}
+						TI[playerid][tJobWood][3] = 1;
+						TI[playerid][tJobSalary] += SALARY_WOOD;
+						TI[playerid][tJobWoodSawed] ++;
+						CI[playerid][pDress] += 1;
+						UpdateCharacterData(playerid, "dress", CI[playerid][pDress]);
+
+						if(CI[playerid][pFamily]) {
+							gFamily[CI[playerid][pFamily]-1][famTalon] += 1;
+							UpdateFamily(CI[playerid][pFamily], "talon", gFamily[CI[playerid][pFamily]-1][famTalon]);
+							CI[playerid][pFamTalon] += 1, UpdateCharacterData(playerid, "talon_fam", CI[playerid][pFamTalon]);
+						}
+						if(QuestProgress[playerid][49] < 10 && AcceptQuest[playerid][49] != 0) QuestProgress[playerid][49] ++,save_quest(playerid, 49);
+						if(QuestProgress[playerid][49] == 10 && AcceptQuest[playerid][49] != 0) {
+							ShowPlayerDialog(playerid, DIALOG_NONE, DSM, "Виконання квесту.", W"Ви завершили виконання щоденного квесту\n\t"NO"Квест можна завершити в "P"/quest.", "Закрити", "");
+						}
+						new string[24];
+						format(string, sizeof(string), "Money:_$%d", TI[playerid][tJobSalary]);
+						PlayerTextDrawSetString(playerid, work_td[playerid][2], string);
+						format(string, sizeof(string), "Sawed:_%d", TI[playerid][tJobWoodSawed]);
+						PlayerTextDrawSetString(playerid, work_td[playerid][3], string);
+					}
+				}*/
+				return 1;
 			}
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1763.6942, -1887.8494, 13.5547)) {
@@ -44630,7 +47056,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.1, 1, 0, 0, 1, 1, 1);
 			return 1;
 		}
-		for(new i = 0; i < MAX_CONTAINER; i++) { 
+		for(new i = 0; i < MAX_CONTAINER; i++) {
 			if(IsPlayerInRangeOfPoint(playerid, 1.0, gContainer[i][cX], gContainer[i][cY], gContainer[i][cZ])) {
 				if(conteiner[i] == 0) {
     				switch(gContainer[i][cClass]) {
@@ -44931,7 +47357,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 			RandomYareNforJOBS(playerid);
 		}
-	    
+
 	}
 	if(newkeys & KEY_JUMP) {
 
@@ -44983,6 +47409,19 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				RandomYareNforJOBS(playerid);
 			}
 		}
+		else
+		{
+			for(new businessareaid = 1; businessareaid < gBusinessCount+1; businessareaid++)
+			{
+				if(IsPlayerInDynamicArea(playerid, bSphere[businessareaid]) && !gBusiness[businessareaid][bOwnerID] && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+				{
+					new string[512];
+					SetPVarInt(playerid, "buybusinessID", businessareaid);
+					format(string, sizeof(string), ""W"Бізнес: "P"%s\n"W"Вартість: "GREEN"$%d\n\n"W"Ви дійсно бажаєте придбати цей бізнес?", gBusiness[businessareaid][bName], gBusiness[businessareaid][bPrice]);
+					ShowPlayerDialog(playerid, dBuyBusiness, DIALOG_STYLE_MSGBOX, ""G"Придбати бізнес", string, "Далі", "Скасувати");
+				}
+			}
+		}
 		return 1;
 	}
 	if(PRESSED(KEY_YES)) {
@@ -45007,11 +47446,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				SetPlayerAttachedObject(playerid, 1, 2358, 6, 0.0, 0.10, -0.2, -110.0, 0.0, 78.0);
 				return 1;
 			}
-		} else if(PhoneShow[playerid] == true && PhoneLocked[playerid] == 1) {
-			ShowPlayerPhoneMenu(playerid);
-			SelectTextDraw(playerid, 0xFFD900FF);
-			PhoneLocked[playerid] = 2;
-			SendClientMessage(playerid, -1, "DEBUG: Phone is unlocked!");
 		} else if(TI[playerid][tProcess][0] != -1) {
 			if(GetPVarInt(playerid, "Klavisha") == 65536) MyButtonSystem(playerid);
 			else {
@@ -45750,7 +48184,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 		if(GetPVarInt(playerid, "activ_trade")) return ShowPlayerDialog(playerid, D_INVENT_GIVE_1, DSM, P"Інвентар.", W"Ви хочете скасувати поточну передачу предмета?", "Далі", "Скасувати");
 		format(str, sizeof(str), W"Предмет:"P" %s"W"\nКількість: "P"%d"W"\n\nВведіть нижче ID гравця, кількість, вартість за предмет", ItemsInfo[CI[playerid][pInventory][slot]][ItemName], CI[playerid][pInventoryAmount][ClickInv[playerid]]);
 		ShowPlayerDialog(playerid, D_INVENT_GIVE, DSI, P"Передача предмета.", str, "Далі", "Скасувати");
-	} else if(playertextid == nInventory_TD[playerid][3]) { 
+	} else if(playertextid == nInventory_TD[playerid][3]) {
 		new model = ClickInv[playerid];
 		if(model == -1) return SendError(playerid, "Ви не обрали предмет в інвентарі.");
 		// if(ItemsInfo[CI[playerid][pInventory][model]][Access]) return SendError(playerid, "Перемістіть аксесуар в комірку з персонажем.");
@@ -45974,82 +48408,6 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			return 1;
 		}
 	}
-	if(playertextid == PhoneGUI[playerid][36]) // Back botton.
-    {
-    	if(PhoneLocked[playerid] == 2) {
-    		HidePlayerPhoneMenu(playerid);
-    		PhoneLocked[playerid] = 1;
-    		CancelSelectTextDraw(playerid);
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on BACK!");
-    	}
-    	else if(PhoneLocked[playerid] == 3) {
-    		ShowPlayerPhoneMenu(playerid);
-    		PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
-    		PhoneLocked[playerid] = 2;
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is unlocked also you clicked on BACK to the main menu.");
-    	}
-    }
-    if(playertextid == PhoneGUI[playerid][37]) // Call.
-    {
-        if(PhoneLocked[playerid] == 2) {
-    		// HidePlayerPhoneMenu(playerid);
-    		// PhoneLocked[playerid] = 1;
-    		// CancelSelectTextDraw(playerid);
-    		ShowPlayerDialog(playerid, dPhoneCall, DSI, W"Телефон | "P"Вихідний виклик.", W"Введіть номер телефону, за яким ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.", "Виклик", "Скасувати");
-    		// SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on CALL!");
-    	}
-    }
-    if(playertextid == PhoneGUI[playerid][38]) // SMS
-    {
-        if(PhoneLocked[playerid] == 2) {
-    		// HidePlayerPhoneMenu(playerid);
-    		// PhoneLocked[playerid] = 1;
-    		// CancelSelectTextDraw(playerid);
-    		ShowPlayerDialog(playerid, dPhoneSMSNumber, DSI, W"Телефон | "P"Вихідне повідомлення.", W"Введіть номер телефону, за яким ви збираєтеся відправити вихідне повідомлення", "Виклик", "Скасувати");
-    		// SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on SMS!");
-    	}
-    }
-    if(playertextid == PhoneGUI[playerid][39]) // Add Contacts
-    {
-       if(PhoneLocked[playerid] == 2) {
-    		HidePlayerPhoneMenu(playerid);
-    		PhoneLocked[playerid] = 1;
-    		CancelSelectTextDraw(playerid);
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on ADD CONTACTS!");
-    	} 
-    }
-    if(playertextid == PhoneGUI[playerid][40]) // List Contacts
-    {
-       	if(PhoneLocked[playerid] == 2) {
-    		HidePlayerPhoneMenu(playerid);
-    		PhoneLocked[playerid] = 1;
-    		CancelSelectTextDraw(playerid);
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on LIST OF CONTACTS!");
-    	} 
-    }
-    if(playertextid == PhoneGUI[playerid][41]) // Camera
-    {
-       	if(PhoneLocked[playerid] == 2) {
-    		HidePlayerPhoneMenu(playerid);
-    		PhoneLocked[playerid] = 1;
-    		CancelSelectTextDraw(playerid);
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on CAMERA!");
-    	} 
-    }
-    if(playertextid == PhoneGUI[playerid][42]) // Internet
-    {
-    	if(PhoneLocked[playerid] == 2) {
-    		HidePlayerPhoneMenu(playerid);
-    		PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
-			PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
-			PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
-			PlayerTextDrawShow(playerid, PhoneGUI[playerid][31]);
-			PlayerTextDrawShow(playerid, PhoneGUI[playerid][35]);
-			PlayerTextDrawShow(playerid, PhoneGUI[playerid][36]);
-    		PhoneLocked[playerid] = 3;
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is locked also you clicked on INTERNET!");
-    	}  
-    }
 	return 1;
 }
 public OnPlayerClickTextDraw(playerid, Text:clickedid) {
@@ -46057,7 +48415,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		if(roulette_OnPlayerClickTextDraw(playerid, clickedid)) return 1;
 	#endif
 	// switch (clickedid) {
-	
+
 	// }
 
 	if(BJ_PlayerInfo[playerid][pBlackJackTableID]) {
@@ -46185,16 +48543,24 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			cancel_skin(playerid);
 		}
 	}
+	if(GetPVarInt(playerid, "phone_active"))
+	{
+		if(clickedid == iphone[35]) ShowPlayerDialog(playerid, dPhoneCall, DSI, P"Телефон. "W"Вихідний виклик.", W"Введіть номер телефону, за яким ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.", "Виклик", "Скасувати");
+		else if(clickedid == iphone[37]) pc_cmd_book(playerid);
+
+		else if(clickedid == iphone[39]) SendInfo(playerid, "тут буде історія переписок.");
+
+		else if(clickedid == iphone[46]) SendInfo(playerid, "тут будуть налаштування телефону.");
+	}
 	if(_:clickedid == INVALID_TEXT_DRAW) {
 		if(GetPVarInt(playerid, "inv")) HideInvent(playerid);
 		if(GetPVarInt(playerid, "get_class")) HideAuto(playerid);
-		if(PhoneShow[playerid] == true) {
-			HideWholePhone(playerid);
-    		PhoneLocked[playerid] = 0;
-    		PhoneShow[playerid] = false;
+		if(GetPVarInt(playerid, "phone_active"))
+		{
+			HidePhoneForPlayer(playerid);
     		TogglePlayerControllable(playerid, 1);
     		CancelSelectTextDraw(playerid);
-    		SendClientMessage(playerid, -1, "DEBUG: Phone is reseted also hidden becouse of ESC!");
+    		DeletePVar(playerid, "phone_active");
     	}
 		if(GetPVarInt(playerid, "buy_accses")) {
 			RemovePlayerAttachedObject(playerid, GetPVarInt(playerid, "slot_acs"));
@@ -46253,7 +48619,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		}
 		if(clickedid == autoshop_TD[45]) cars_select(playerid, 1);
 		if(clickedid == autoshop_TD[44]) cars_select(playerid, 0);
-		if(clickedid == autoshop_TD[46]) { 
+		if(clickedid == autoshop_TD[46]) {
 			if(CI[playerid][pFamily]) return ShowPlayerDialog(playerid, D_BUY_CAR, DSM, P"Купівля транспорта.", W"Оберіть комірку, яку буде займати придбаний транспорт.", "Прийняти", "Скасувати");
 			new string[250];
 			format(string, sizeof(string), W"1. Транспорт #1 "P"[%s]\n"W"2. Транспорт #2 "P"[%s]", gTransport[CarsInfo[playerid][carModel][0]-400][trName], gTransport[CarsInfo[playerid][carModel][1]-400][trName]);
@@ -46272,7 +48638,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			}
 			if(gBusiness[TI[playerid][tSelectedBusinessID]][bizzProduct] - 80 > 0) {
 				gBusiness[TI[playerid][tSelectedBusinessID]][bizzProduct] -= 80;
-				bizz_pay(TI[playerid][tSelectedBusinessID], GetPVarInt(playerid, "price_acs"));
+				business_finances(TI[playerid][tSelectedBusinessID], GetPVarInt(playerid, "price_acs"));
 			}
 			if(GetInvSet(playerid) >= 50) return SendError(playerid, "Ваш інвентар повний, звільніть місце.");
 			RemovePlayerAttachedObject(playerid, GetPVarInt(playerid, "slot_acs"));
@@ -46456,7 +48822,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 		if(gBusiness[59][bizzProduct]-15 > 0) {
 			gBusiness[59][bizzProduct] -= 10;
-			bizz_pay(59,floatround(RepaintValue[playerid] * 0.5));
+			business_finances(59,floatround(RepaintValue[playerid] * 0.5));
 		}
 
 		ChangeVehicleColor(GetPlayerVehicleID(playerid),PrimaryColor[playerid],SecondaryColor[playerid]);
@@ -46785,7 +49151,7 @@ stock SelectCharacterSkin(playerid) {
 	case 2: SetPVarInt(playerid, "join_ped_item",Random(8, 14));
 	}
 	CancelSelectTextDraw(playerid);
-	
+
 	return A_SetPlayerSkin(playerid, CI[playerid][cSkin]); */
 }
 CB:SpcarsAvto(playerid) {
@@ -47009,7 +49375,8 @@ stock load_apartment() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT * FROM `apartment`");
 	gAparmentCount = cache_num_rows();
-	for(new i; i<gAparmentCount;i++) {
+	if(!gAparmentCount) print("[Error] Apartments weren't found in DB.");
+	else for(new i; i<gAparmentCount;i++) {
 		cache_get_value_name_int(i, "id", Apartment[i][aID]);
 		cache_get_value_name_int(i, "pID", Apartment[i][apID]);
 		cache_get_value_name(i, "owner", Apartment[i][aOwner], 24);
@@ -47027,6 +49394,187 @@ stock load_apartment() {
 	cache_delete(result);
 	return 1;
 }
+stock CheckArticleQTY(IDbusiness, IDarticle, Typebusiness)
+{
+	new string[512];
+	mysql_format(connects, string, sizeof(string), "SELECT ba.QTY FROM business_articles ba JOIN business_default_articles bda on bda.Article_ID = ba.Article_ID WHERE ba.businessID = %d AND ba.Article_ID = %d AND bda.bType = %d LIMIT 1", IDbusiness, IDarticle, Typebusiness);
+	new Cache: resultCache = mysql_query(connects, string, true);
+	if(!cache_num_rows()) return printf("Відбулася помилка при перевірці залишку товару в бізнесі.");
+	new qty;
+	cache_get_value_name_int(0, "QTY", qty);
+	cache_delete(resultCache);
+	if(qty == 0) return 0;
+	else return 1;
+}
+stock UpdateArticleQTY(playerid, IDbusiness, IDarticle, Typebusiness)
+{
+
+	new string[512];
+	mysql_format(connects, string, sizeof(string), "SELECT ba.QTY FROM business_articles ba JOIN business_default_articles bda on bda.Article_ID = ba.Article_ID WHERE ba.businessID = %d AND ba.Article_ID = %d AND bda.bType = %d LIMIT 1", IDbusiness, IDarticle, Typebusiness);
+	new Cache: resultCache = mysql_query(connects, string, true);
+	if(!cache_num_rows()) return printf("Відбулася помилка при перевірці залишку товару в бізнесі.");
+	new qty;
+	cache_get_value_name_int(0, "QTY", qty);
+	cache_delete(resultCache);
+
+	new newqty = qty--;
+	if(qty != 0)
+	{
+		mysql_format(connects, string, sizeof(string), "UPDATE business_articles SET QTY = %d WHERE businessID = %d and Article_ID = %d", newqty, IDbusiness, IDarticle);
+		mysql_tquery(connects, string, "", "");
+	}
+	return 1;
+}
+stock UpdateTotalArticleQTY(IDbusiness)
+{
+	new string[512];
+	mysql_format(connects, string, sizeof(string), "SELECT SUM(QTY) as SumQTY, SUM(MaxQTY) as SumTotalQTY FROM business_articles WHERE businessID = %d", IDbusiness);
+	new Cache: resultCache = mysql_query(connects, string, true);
+	new rows = cache_num_rows();
+	new qty, totalqty;
+	if(!rows) return printf("Відбулася помилка при перевірці залишку товару в бізнесі.");
+	cache_get_value_name_int(0, "SumQTY", qty);
+	cache_get_value_name_int(0, "SumTotalQTY", totalqty);
+	cache_delete(resultCache);
+	printf("BusinessID: %d, SumQTY: %d, SumTotalQTY: %d", IDbusiness, qty, totalqty);
+	mysql_format(connects, string, sizeof(string), "UPDATE business_new SET Warehouse = %d, WarehouseMax = %d WHERE businessID = %d", qty, totalqty, IDbusiness);
+	mysql_tquery(connects, string, "", "");
+	printf("TotalQTY for businessID %d is updated.", IDbusiness);
+	return 1;
+}
+/*stock ParseArticleForProdText(IDbusiness, order)
+{
+	new string[512];
+	mysql_format(connects, string, sizeof(string), "SELECT bda.Article, ba.QTY, ba.MaxQTY FROM business_articles ba JOIN business_default_articles bda on ba.Article_ID = bda.Article_ID WHERE ba.businessID = %d AND bda.bType = %d", IDbusiness, gBusiness[IDBusiness][businessType]);
+	new Cache: resultCache = mysql_query(connects, string, true);
+	new rows = cache_num_rows();
+	new article[56], qty, maxqty, ord;
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_name(i, "Article", article, 56);
+		cache_get_value_name_int(i, "QTY", qty);
+		cache_get_value_name_int(i, "MaxQTY", maxqty);
+
+		if(qty != maxqty) continue;
+
+
+	}
+	return 1;
+}*/
+CB: business_articles_order(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Виникла помилка при завантаженні списку товарів для перевірку залишку.");
+	new name[64], articleid, QTY, MaxQTY, qtycolor[20], order;
+	new string[2500];
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index_int(i, 0, articleid);
+		cache_get_value_index(i, 1, name, 64);
+		cache_get_value_index_int(i, 2, QTY);
+		cache_get_value_index_int(i, 3, MaxQTY);
+		cache_get_value_index_int(i, 4, order);
+
+		if(QTY < 1 && order >= 1) format(qtycolor, sizeof(qtycolor), ""E"%d ("GREEN"+%d"E") шт.");
+		else if (QTY < 1) format(qtycolor, sizeof(qtycolor), ""E"%d шт.");
+		else if(QTY == MaxQTY) format(qtycolor, sizeof(qtycolor), ""GREEN"%d шт.");
+		else format(qtycolor, sizeof(qtycolor), ""G"%d шт.");
+
+		format(string, sizeof(string), "%s"P"%d\t"W"%s\t%s\t"W"%d\n", string, articleid, qtycolor, MaxQTY);
+	}
+	ShowPlayerDialog(playerid, dBCreateOrder, DIALOG_STYLE_LIST, ""G"Замовлення товарів", string, "Обрати", "Назад");
+	return 1;
+}
+CB: business_articles_stock(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Виникла помилка при завантаженні списку товарів для перевірку залишку.");
+	new name[64], QTY, MaxQTY;
+	new string[2500];
+	format(string, sizeof(string), ""W"Поточний список залишків у кожному товару:\n\nНазва\tЗалишок\n\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 0, name, 64);
+		cache_get_value_index_int(i, 1, QTY);
+		cache_get_value_index_int(i, 2, MaxQTY);
+
+		format(string, sizeof(string), "%s"W"%s\t"G"%d / %d\n", string, name, QTY, MaxQTY);
+
+	}
+	format(string, sizeof(string), "%s\n"W"Загальна кількість товару на залишку: "P"%d од.\n"W"Максимальна ємність складу: "P"%d од.\n\n"W"Замовлено товару: "P"%d од.\n\n"G"Покращення для збільшення ємності складу відсутнє.", string, gBusiness[GetPVarInt(playerid, "selected_business")][bWarehouse], gBusiness[GetPVarInt(playerid, "selected_business")][bWarehouseMax], gBusiness[GetPVarInt(playerid, "selected_business")][bOrder]);
+	ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""G"Інформація про залишок", string, "Закрити", "");
+	return 1;
+}
+CB: business_prices_list(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "У Вас немає бізнесів.");
+	new id, name[64], price;
+	new string[2500];
+	strcat(string, ""G"ID\t\t"G"Назва\t\t"G"Ціна\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index_int(i, 0, id);
+		cache_get_value_index(i, 1, name, 64);
+		cache_get_value_index_int(i, 2, price);
+
+		format(string, sizeof(string), "%s"P"%d\t"W"%s\t\t"GREEN"$%d\n", string, id, name, price);
+	}
+	ShowPlayerDialog(playerid, dBusinessPrices, DSTH, ""P"Список товарів", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: business_articles_list(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Виникла помилка при завантаженні товарів бізнесу.");
+	new id, name[64], price, qty, qtycolor[20];
+	new string[2500];
+	strcat(string, ""G"ID\t\t"G"Назва\t\t"G"Доступно\t\t"G"Ціна\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index_int(i, 0, id);
+		cache_get_value_index(i, 1, name, 64);
+		cache_get_value_index_int(i, 2, price);
+		cache_get_value_index_int(i, 3, qty);
+
+ 		if(qty < 1) format(qtycolor, sizeof(qtycolor), ""E"%d шт.", qty);
+ 		else format(qtycolor, sizeof(qtycolor), ""G"%d шт.", qty);
+		format(string, sizeof(string), "%s"P"%d\t"W"%s\t\t%s\t\t"GREEN"$%d\n", string, id, name, qtycolor, price);
+	}
+	ShowPlayerDialog(playerid, dBusinessShop, DSTH, ""P"Список товарів", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: business_list(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "У Вас немає бізнесів.");
+	new id, name[64], type[64], status, status_text[32];
+	new string[2500];
+	strcat(string, G"ID\t\t"G"Назва\t\t"G"Тип\t\t"G"Статус\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index_int(i, 0, id);
+		cache_get_value_index(i, 1, name, 64);
+		cache_get_value_index(i, 2, type, 64);
+		cache_get_value_index_int(i, 3, status);
+
+		switch(status)
+		{
+			case 2: format(status_text, sizeof(status_text), ""GREEN"Відкритий");
+			case 9: format(status_text, sizeof(status_text), ""GREEN"Закритий");
+		}
+
+		format(string, sizeof(string), "%s"P"%d\t"W"%s\t\t%s\t\t%s\n", string, id, name, type, status_text);
+	}
+	ShowPlayerDialog(playerid, dBusinessList, DSTH, P"Бізнеси", string, "Обрати", "Закрити");
+	return 1;
+}
+
 stock load_business() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT * FROM `business`");
@@ -47548,7 +50096,432 @@ stock load_factions() {
 	}
 	return 1;
 }
+stock load_business_interior()
+{
+	new Cache:result;
+	result = mysql_query(connects, "SELECT * FROM `business_interior` WHERE Status = 2");
+	gBintsCount = cache_num_rows();
+	if(gBintsCount >= BINT_COUNT) print("[Error] There are more business interiors in DB than allowed.");
+	else if(!gBintsCount) print("[Error] Business interiors weren't found in DB.");
+	else for(new i = 1; i < gBintsCount+1; i++)
+	{
+		cache_get_value_name_int(i-1, "ID", gBints[i][bintID]);
+		cache_get_value_float(i-1, "X", gBints[i][bintX]);
+		cache_get_value_float(i-1, "Y", gBints[i][bintY]);
+		cache_get_value_float(i-1, "Z", gBints[i][bintZ]);
+		cache_get_value_float(i-1, "Angle", gBints[i][bintR]);
+		cache_get_value_float(i-1, "activeX", gBints[i][bintActiveX]);
+		cache_get_value_float(i-1, "activeY", gBints[i][bintActiveY]);
+		cache_get_value_float(i-1, "activeZ", gBints[i][bintActiveZ]);
+		cache_get_value_name_int(i-1, "ActivePickupID", gBints[i][bintActivePickupID]);
+		cache_get_value_name(i-1, "Name", gBints[i][bintName], 32);
+		cache_get_value_name_int(i-1, "businessID", gBints[i][businessID]);
 
+		gBints[gBints[i][bintID]][bintPickup] = CreateDynamicPickup(1318, 23, gBints[i][bintX], gBints[i][bintY], gBints[i][bintZ], gBints[i][bintID], gBints[i][bintID]);
+		//gBints[gBints[i][bintID]][bintActivePickup] = CreateDynamicPickup(gBints[i][bintActivePickupID], 23, gBints[i][bintActiveX], gBints[i][bintActiveY], gBints[i][bintActiveZ], gBints[i][bintID], gBints[i][bintID]);
+		bintActiveSphere[gBints[i][bintID]] = CreateDynamicSphere(gBints[i][bintActiveX], gBints[i][bintActiveY], gBints[i][bintActiveZ], 2.0, gBints[i][bintID], gBints[i][bintID]);
+		gBints[gBints[i][bintID]][bintSphere] = CreateDynamicSphere(gBints[i][bintX], gBints[i][bintY], gBints[i][bintZ], 2.0, gBints[i][bintID], gBints[i][bintID]);
+
+		gBints[gBints[i][bintID]][bInteriorID] = gBints[i][bintID];
+
+		gBints[gBints[i][bintID]][businessinteriorX] = gBints[i][bintX];
+		gBints[gBints[i][bintID]][businessinteriorY] = gBints[i][bintY];
+		gBints[gBints[i][bintID]][businessinteriorZ] = gBints[i][bintZ];
+		gBints[gBints[i][bintID]][businessinteriorAngle] = gBints[i][bintR];
+		gBints[gBints[i][bintID]][businessinteriorWorld] = gBints[i][bintID];
+		gBints[gBints[i][bintID]][businessinteriorInt] = gBints[i][bintID];
+
+		printf("[Interior %d loading]", gBints[i][bintID]);
+		printf("X, Y, Z, Angle: %.2f, %.2f, %.2f, %.2f", gBints[i][bintX], gBints[i][bintY], gBints[i][bintZ], gBints[i][bintR]);
+		printf("ActiveX, ActiveY, ActiveZ %.2f, %.2f, %.2f", gBints[i][bintActiveX], gBints[i][bintActiveY], gBints[i][bintActiveZ]);
+	}
+	printf("[Success] Business interiors successfully loaded. (%i pcs.)", gBintsCount);
+	cache_delete(result);
+}
+stock load_business_new()
+{
+	new Cache:result;
+	result = mysql_query(connects, "SELECT * FROM `business_new` ORDER by ID");
+	gBusinessCount = cache_num_rows();
+	if(gBusinessCount >= MAX_BUSINESS_COUNT) print("[Error] There are more businesses in DB than allowed.");
+	else if(!gBusinessCount) print("[Error] Businesses weren't found in DB.");
+	else for(new i = 1; i < gBusinessCount+1; i++)
+	{
+		cache_get_value_name_int(i-1, "ID", gBusiness[i][bID]);
+		cache_get_value_name_int(i-1, "businessID", gBusiness[i][bbusinessID]);
+		cache_get_value_name(i-1, "Name", gBusiness[i][bName], 64);
+		cache_get_value_name_int(i-1, "Type", gBusiness[i][bType]);
+		cache_get_value_name_int(i-1, "InteriorID", gBusiness[i][bInteriorID]);
+		cache_get_value_float(i-1, "X", gBusiness[i][bX]);
+		cache_get_value_float(i-1, "Y", gBusiness[i][bY]);
+		cache_get_value_float(i-1, "Z", gBusiness[i][bZ]);
+		cache_get_value_name_int(i-1, "OwnerID", gBusiness[i][bOwnerID]);
+		cache_get_value_name(i-1, "OwnerName", gBusiness[i][bOwnerName], 32);
+		cache_get_value_name_int(i-1, "Price", gBusiness[i][bPrice]);
+		cache_get_value_name_int(i-1, "Bank", gBusiness[i][bBank]);
+		cache_get_value_name_int(i-1, "Visitors", gBusiness[i][bVisitors]);
+		cache_get_value_name_int(i-1, "Order", gBusiness[i][bOrder]);
+		cache_get_value_name_int(i-1, "OrderPrice", gBusiness[i][bOrderPrice]);
+		cache_get_value_name_int(i-1, "Status", gBusiness[i][bStatus]);
+		cache_get_value_name_int(i-1, "PickupID", gBusiness[i][bPickupID]);
+		cache_get_value_name_int(i-1, "MapIcon", gBusiness[i][bMapIcon]);
+
+		cache_get_value_name_int(i-1, "IsGasStation", gBusiness[i][bIsGasStation]);
+		cache_get_value_float(i-1, "GasX", gBusiness[i][bGasX]);
+		cache_get_value_float(i-1, "GasY", gBusiness[i][bGasY]);
+		cache_get_value_float(i-1, "GasZ", gBusiness[i][bGasZ]);
+		cache_get_value_name_int(i-1, "GasPrice", gBusiness[i][bGasPrice]);
+		cache_get_value_name_int(i-1, "GasTank", gBusiness[i][bGasTank]);
+		cache_get_value_name(i-1, "Description", gBusiness[i][bDescription], 256);
+		cache_get_value_name_int(i-1, "Warehouse", gBusiness[i][bWarehouse]);
+		cache_get_value_name_int(i-1, "WarehouseMax", gBusiness[i][bWarehouseMax]);
+		cache_get_value_name_int(i-1, "BankDay", gBusiness[i][bBankDay]);
+
+		//gBusiness[gBusiness[i][bbusinessID]][bMainBusinessID] = gBusiness[i][bbusinessID]+1;
+
+
+		gBusiness[gBusiness[i][bID]][bPickup] = CreateDynamicPickup(gBusiness[i][bPickupID], 23, gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ], 0, 0);
+		bSphere[gBusiness[i][bID]] = CreateDynamicSphere(gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ], 2.0, 0, 0);
+
+		new text[256];
+		if(gBusiness[gBusiness[i][bID]][bStatus] == 9) format(text, sizeof(text), ""G"Бізнес закрито");
+		else if(!gBusiness[gBusiness[i][bID]][bOwnerID]) format(text, sizeof(text), ""P"%s\n\n"W"Вартість: "GREEN"$%d\n"W"Власник: "P"відсутній\n\n"W"Увійти ("P"ALT"W")\n\nПридбати ("GREEN"N"W")", gBusiness[i][bName], gBusiness[i][bPrice]);
+		else format(text, sizeof(text), ""P"%s\n\n"W"Вартість: "GREEN"$%d\n"W"Власник: "P"%s\n\n"W"Увійти ("P"ALT"W")", gBusiness[i][bName], gBusiness[i][bPrice], gBusiness[i][bOwnerName]);
+		gBusiness[gBusiness[i][bID]][bText] = CreateDynamic3DTextLabel(text, 0xFFFFFFFF, gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ] + 1.0, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
+
+		gBusiness[gBusiness[i][bID]][bMap] = CreateDynamicMapIcon(gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ], gBusiness[i][bMapIcon], 0, 0, 0, -1, 100.0);
+
+		if(gBusiness[i][bIsGasStation] == 1)
+		{
+			bGasSphere[gBusiness[i][bID]] = CreateDynamicSphere(gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ], 2.0, 0, 0);
+			new string[512];
+			format(string, sizeof(string), ""P"%s\n\n"W"Вартість 1 л. палива: "GREEN"$%d\n"W"Доступно палива: "P"%d л.\n\n"YELLOW"Посигнальте, щоб заправитися,\nабо використайте /fill", gBusiness[i][bName], gBusiness[i][bGasPrice], gBusiness[i][bGasTank]);
+			gBusiness[gBusiness[i][bID]][bGasText] = CreateDynamic3DTextLabel(string, 0xFFFFFFFF, gBusiness[i][bGasX], gBusiness[i][bGasY], gBusiness[i][bGasZ] + 1.5, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
+		}
+
+		gBusiness[gBusiness[i][bID]][businessName] = gBusiness[i][bName];
+		gBusiness[gBusiness[i][bID]][businessType] = gBusiness[i][bType];
+		gBusiness[gBusiness[i][bID]][businessInteriorID] = gBusiness[i][bInteriorID];
+		gBusiness[gBusiness[i][bID]][businessX] = gBusiness[i][bX];
+		gBusiness[gBusiness[i][bID]][businessY] = gBusiness[i][bY];
+		gBusiness[gBusiness[i][bID]][businessZ] = gBusiness[i][bZ];
+		gBusiness[gBusiness[i][bID]][businessPrice] = gBusiness[i][bPrice];
+		gBusiness[gBusiness[i][bID]][businessBank] = gBusiness[i][bBank];
+		gBusiness[gBusiness[i][bID]][businessVisitors] = gBusiness[i][bVisitors];
+		gBusiness[gBusiness[i][bID]][businessOrder] = gBusiness[i][bOrder];
+		gBusiness[gBusiness[i][bID]][businessOrderPrice] = gBusiness[i][bOrderPrice];
+		gBusiness[gBusiness[i][bID]][businessStatus] = gBusiness[i][bStatus];
+		gBusiness[gBusiness[i][bID]][businessOwnerID] = gBusiness[i][bOwnerID];
+		gBusiness[gBusiness[i][bID]][businessOwnerName] = gBusiness[i][bOwnerName];
+
+
+		printf("i: %d", i);
+		printf("gBusiness[i][bID]: %d", gBusiness[i][bID]);
+		printf("Business Name: %s", gBusiness[i][bName]);
+		printf("Business Owner Name 2: %s", gBusiness[i][bOwnerName]);
+
+
+	}
+	printf("[Success] Businesses successfully loaded. (%i pcs.)", gBusinessCount);
+
+	for(new i = 1; i < gBusinessCount + 1; i++)
+	{
+		UpdateTotalArticleQTY(i);
+		//UpdateBusinessText_New(i);
+	}
+	cache_delete(result);
+	return 1;
+}
+stock load_business_actors()
+{
+
+	new Cache:result;
+	result = mysql_query(connects, "SELECT * FROM `business_actors` ORDER by ID");
+	new rows = cache_num_rows();
+    if(!rows) return printf("[Error] Actors weren't found in DB.");
+    else if(rows > MAX_BUSINESS_ACTORS) return printf("[Error] There are more actors in DB than allowed.");
+	for_1(f, rows)
+	{
+		new tempid;
+		cache_get_value_name_int(f, "ID", tempid);
+		cache_get_value_name_int(f, "businessID", gBusinessActors[tempid][aBusinessID]);
+		cache_get_value_name_int(f, "Actor", gBusinessActors[tempid][aActor]);
+		cache_get_value_name(f, "ActorName", gBusinessActors[tempid][aActorName], 56);
+
+		cache_get_value_float(f, "X", gBusinessActors[tempid][aX]);
+		cache_get_value_float(f, "Y", gBusinessActors[tempid][aY]);
+		cache_get_value_float(f, "Z", gBusinessActors[tempid][aZ]);
+		cache_get_value_float(f, "Angle", gBusinessActors[tempid][aAngle]);
+
+		businessActor[tempid] = CreateActor(gBusinessActors[tempid][aActor], gBusinessActors[tempid][aX], gBusinessActors[tempid][aY], gBusinessActors[tempid][aZ], gBusinessActors[tempid][aAngle]);
+		SetActorVirtualWorld(businessActor[tempid], gBusinessActors[tempid][aBusinessID]);
+
+		new text[128];
+		format(text, sizeof(text), "%s\n\n"P"ALT", gBusinessActors[tempid][aActorName]);
+		businessActorText[tempid] = CreateDynamic3DTextLabel(text, 0xFFFFFFFF, gBusinessActors[tempid][aX], gBusinessActors[tempid][aY], gBusinessActors[tempid][aZ] + 0.3, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
+
+		new Float:x, Float:y, Float:z;
+		GetActorPos(businessActor[tempid], x, y, z);
+		printf("Actor Pos: %.2f, %.2f, %.2f", x, y, z);
+		printf("tempid: %i", tempid);
+		printf("f: %i", f);
+		printf("Actor: %d", gBusinessActors[tempid][aActor]);
+	}
+	cache_delete(result);
+	printf("[Business Actors] Loaded: %i", rows);
+	return 1;
+}
+stock load_business_articles()
+{
+	new Cache:result;
+	result = mysql_query(connects, "SELECT Article_ID, businessID, Article, Price, QTY, MaxQTY, `Order` FROM `business_articles` ORDER by ID");
+	new rows = cache_num_rows();
+    if(!rows) return printf("[Error] Articles weren't found in DB.");
+    else if(rows > MAX_BUSINESS_ARTICLES) return printf("[Error] There are more acticles in DB than allowed.");
+	for_1(f, rows)
+	{
+		new businessid, articleid;
+		cache_get_value_name_int(f, "businessID", businessid);
+		cache_get_value_name_int(f, "Article_ID", articleid);
+
+		cache_get_value_name(f, "Article", gBusinessArticles[businessid][articleid][aArticleName], 56);
+		cache_get_value_name_int(f, "Price", gBusinessArticles[businessid][articleid][aArticlePrice]);
+		cache_get_value_name_int(f, "QTY", gBusinessArticles[businessid][articleid][aArticleQTY]);
+		cache_get_value_name_int(f, "MaxQTY", gBusinessArticles[businessid][articleid][aArticleMaxQTY]);
+		cache_get_value_name_int(f, "Order", gBusinessArticles[businessid][articleid][aArticleOrder]);
+
+	}
+	cache_delete(result);
+
+	result = mysql_query(connects, "SELECT businessID, MAX(Article_ID) as MaxArticle, SUM(QTY) as SumQTY, SUM(MaxQTY) as SumMaxQTY FROM business_articles GROUP BY businessID");
+	rows = cache_num_rows();
+	if(!rows) return printf("[Error] Articles weren't found in DB.");
+	for_1(f, rows)
+	{
+		new businessid;
+		cache_get_value_name_int(f, "businessID", businessid);
+		cache_get_value_name_int(f, "MaxArticle", MaxArticles[businessid]);
+		cache_get_value_name_int(f, "SumQTY", TotalArticlesQTY[businessid]);
+		cache_get_value_name_int(f, "SumMaxQTY", TotalArticlesMaxQTY[businessid]);
+		printf("BusinessID: %d. MaxArticles: %d", businessid, MaxArticles[businessid]);
+	}
+	cache_delete(result);
+	return 1;
+}
+stock load_business_objects()
+{
+	new Cache:result;
+	result = mysql_query(connects, "SELECT * FROM `business_objects` ORDER by ID");
+	gBusinessObjCount = cache_num_rows();
+	if(gBusinessObjCount >= MAX_BUSINESS_OBJECTS) print("[Error] There are more business objects in DB than allowed.");
+	else if(!gBusinessObjCount) print("[Error] Business objects weren't found in DB.");
+	for_1(f, gBusinessObjCount)
+	{
+		new bobusinessID, oID;
+		cache_get_value_name_int(f, "oID", oID);
+		cache_get_value_name_int(f, "businessID", bobusinessID);
+
+		cache_get_value_name_float(f, "oX", gBusinessObjects[bobusinessID][oID][obX]);
+		cache_get_value_name_float(f, "oY", gBusinessObjects[bobusinessID][oID][obY]);
+		cache_get_value_name_float(f, "oZ", gBusinessObjects[bobusinessID][oID][obZ]);
+		cache_get_value_name_float(f, "obX", gBusinessObjects[bobusinessID][oID][obrX]);
+		cache_get_value_name_float(f, "obY", gBusinessObjects[bobusinessID][oID][obrY]);
+		cache_get_value_name_float(f, "obZ", gBusinessObjects[bobusinessID][oID][obrZ]);
+		cache_get_value_name_int(f, "ObjectID", gBusinessObjects[bobusinessID][oID][ObjectID]);
+		cache_get_value_name_int(f, "Interior", gBusinessObjects[bobusinessID][oID][oInt]);
+		cache_get_value_name_int(f, "World", gBusinessObjects[bobusinessID][oID][oWorld]);
+
+		gBusinessObjects[bobusinessID][oID][oDBID] = oID;
+
+
+		BusinessObject[bobusinessID][oID] = CreateDynamicObject(gBusinessObjects[bobusinessID][oID][ObjectID], gBusinessObjects[bobusinessID][oID][obX], gBusinessObjects[bobusinessID][oID][obY], gBusinessObjects[bobusinessID][oID][obZ], gBusinessObjects[bobusinessID][oID][obrX], gBusinessObjects[bobusinessID][oID][obrY], gBusinessObjects[bobusinessID][oID][obrZ], gBusinessObjects[bobusinessID][oID][oWorld], gBusinessObjects[bobusinessID][oID][oInt]);
+
+		printf("objectID: %i, businessID: %i", oID, bobusinessID);
+
+	}
+	cache_delete(result);
+	printf("[Success] Business objects successfully loaded (%i pcs)", gBusinessObjCount);
+
+
+	new rows;
+	result = mysql_query(connects, "SELECT `businessID`, IFNULL(MAX(`oID`), 0) as oID FROM `business_objects` GROUP BY `businessID`");
+	rows = cache_num_rows();
+	if(!rows) return printf("[Error] Objects weren't found in DB.");
+	for_1(f, rows)
+	{
+		new businessid;
+		cache_get_value_name_int(f, "businessID", businessid);
+		cache_get_value_name_int(f, "oID", MaxBObjects[businessid]);
+		printf("BusinessID: %d. MaxoID: %d", businessid, MaxBObjects[businessid]);
+	}
+	cache_delete(result);
+	return 1;
+}
+stock AddBusinessObject(businessid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, playerid)
+{
+	new query[350];
+	/*mysql_format(connects, query, sizeof(query), "SELECT ifnull(MAX(oID), 0) as oID FROM `business_objects` WHERE `businessID` = %i", businessid);
+	new Cache: resultCache = mysql_query(connects, query, true);
+	if(!cache_num_rows()) return SendError(playerid, "Відбулася помилка при перевірці MAX(oID).");
+
+	new maxid;
+	cache_get_value_name_int(0, "oID", maxid);
+	cache_delete(resultCache);
+	*/
+
+	MaxBObjects[businessid]++;
+
+	new objectid = MaxBObjects[businessid];
+
+    mysql_format(connects, query, sizeof(query), "INSERT INTO `business_objects` (`oID`, `businessID`, `oX`, `oY`, `oZ`, `orX`, `orY`, `orZ`, `ObjectID`, `Interior`, `World`) VALUES (%i, %i, '%f', '%f', '%f','%f', '%f', '%f', %i, %i, %i)",
+        MaxBObjects[businessid], businessid, x, y, z, rx, ry, rz , GetPVarInt(playerid, "bojectmodel"), GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid));
+    mysql_tquery(connects, query);
+
+
+	gBusinessObjects[businessid][objectid][oDBID] = objectid;
+	gBusinessObjects[businessid][objectid][obX] = x;
+	gBusinessObjects[businessid][objectid][obY] = y;
+	gBusinessObjects[businessid][objectid][obZ] = z;
+	gBusinessObjects[businessid][objectid][obrX] = rx;
+	gBusinessObjects[businessid][objectid][obrY] = ry;
+	gBusinessObjects[businessid][objectid][obrZ] = rz;
+	gBusinessObjects[businessid][objectid][ObjectID] = GetPVarInt(playerid, "bojectmodel");
+	gBusinessObjects[businessid][objectid][oInt] = GetPlayerInterior(playerid);
+	gBusinessObjects[businessid][objectid][oWorld] = GetPlayerVirtualWorld(playerid);
+
+	DestroyDynamicObject(tempbobject[playerid]);
+
+	BusinessObject[businessid][objectid] = CreateDynamicObject(gBusinessObjects[businessid][objectid][ObjectID], gBusinessObjects[businessid][objectid][obX], gBusinessObjects[businessid][objectid][obY], gBusinessObjects[businessid][objectid][obZ], gBusinessObjects[businessid][objectid][obrX], gBusinessObjects[businessid][objectid][obrY], gBusinessObjects[businessid][objectid][obrZ], gBusinessObjects[businessid][objectid][oWorld], gBusinessObjects[businessid][objectid][oInt]);
+
+	printf("MaxBObjects: %i", MaxBObjects[businessid]);
+
+    new string[128];
+    format(string, sizeof(string), "Об'єкт ("P"%i"W") успішно створено.", MaxBObjects[businessid]);
+    SendOK(playerid, string);
+    return 1;
+}
+stock UpdateBusinessObject(playerid, businessid, objectid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz)
+{
+	new query[512], string[512];
+	mysql_format(connects, query, sizeof(query), "UPDATE `business_objects` SET `oX` = '%f', `oY` = '%f', `oZ` = '%f', `orX` = '%f', `orY` = '%f', `orZ` = '%f' WHERE `oID` = %i AND `businessID` = %i",
+				x, y, z, rx, ry, rz, objectid, businessid);
+	mysql_tquery(connects, query);
+
+	new Cache:result;
+	format(string, sizeof(string), "SELECT * FROM `business_objects` WHERE `businessID` = %i and `oID` = %i LIMIT 1", businessid, objectid);
+	result = mysql_query(connects, string);
+
+	cache_get_value_name_float(0, "oX", gBusinessObjects[businessid][objectid][obX]);
+	cache_get_value_name_float(0, "oY", gBusinessObjects[businessid][objectid][obY]);
+	cache_get_value_name_float(0, "oZ", gBusinessObjects[businessid][objectid][obZ]);
+	cache_get_value_name_float(0, "obX", gBusinessObjects[businessid][objectid][obrX]);
+	cache_get_value_name_float(0, "obY", gBusinessObjects[businessid][objectid][obrY]);
+	cache_get_value_name_float(0, "obZ", gBusinessObjects[businessid][objectid][obrZ]);
+	cache_get_value_name_int(0, "ObjectID", gBusinessObjects[businessid][objectid][ObjectID]);
+	cache_get_value_name_int(0, "Interior", gBusinessObjects[businessid][objectid][oInt]);
+	cache_get_value_name_int(0, "World", gBusinessObjects[businessid][objectid][oWorld]);
+
+	cache_delete(result);
+
+	DestroyDynamicObject(BusinessObject[businessid][objectid]);
+
+	BusinessObject[businessid][objectid] = CreateDynamicObject(gBusinessObjects[businessid][objectid][ObjectID], gBusinessObjects[businessid][objectid][obX], gBusinessObjects[businessid][objectid][obY], gBusinessObjects[businessid][objectid][obZ], gBusinessObjects[businessid][objectid][obrX], gBusinessObjects[businessid][objectid][obrY], gBusinessObjects[businessid][objectid][obrZ], gBusinessObjects[businessid][objectid][oWorld], gBusinessObjects[businessid][objectid][oInt]);
+
+	SendOK(playerid, "Розташування об'єкта успішно змінено.");
+	return 1;
+}
+stock DestroyBusinessObject(playerid, businessid, objectid)
+{
+	new query[512];
+	mysql_format(connects, query, sizeof(query), "DELETE FROM `business_objects` WHERE `oID` = %i AND `businessID` = %i", objectid, businessid);
+	mysql_tquery(connects, query);
+
+	gBusinessObjects[businessid][objectid][obX] = 0;
+	gBusinessObjects[businessid][objectid][obY] = 0;
+	gBusinessObjects[businessid][objectid][obZ] = 0;
+	gBusinessObjects[businessid][objectid][obrX] = 0;
+	gBusinessObjects[businessid][objectid][obrY] = 0;
+	gBusinessObjects[businessid][objectid][obrZ] = 0;
+	gBusinessObjects[businessid][objectid][ObjectID] = 0;
+	gBusinessObjects[businessid][objectid][oInt] = 0;
+	gBusinessObjects[businessid][objectid][oWorld] = 0;
+
+	gBusinessObjects[businessid][objectid][oDBID] = 0;
+
+	mysql_format(connects, query, sizeof(query), "SELECT IFNULL(MAX(`oID`), 0) as oID FROM `business_objects` WHERE `businessID` = %i", businessid);
+	new Cache:result = mysql_query(connects, query);
+	cache_get_value_name_int(0, "oID", MaxBObjects[businessid]);
+	cache_delete(result);
+
+	DestroyDynamicObject(BusinessObject[businessid][objectid]);
+
+	SendOK(playerid, "Об'єкт успішно видалено.");
+
+	printf("MaxBObjects: %i", MaxBObjects[businessid]);
+
+	return 1;
+}
+stock UpdateBusinessText_New(i)
+{
+	new text[256];
+	if(gBusiness[i][bStatus] == 9) format(text, sizeof(text), ""G"Бізнес закрито");
+	else if(!gBusiness[i][bOwnerID]) format(text, sizeof(text), ""P"%s\n\n"W"Вартість: "GREEN"$%d\n"W"Власник: "P"відсутній\n\n"W"Увійти ("P"ALT"W")\n\nПридбати ("GREEN"N"W")", gBusiness[i][bName], gBusiness[i][bPrice]);
+	else format(text, sizeof(text), ""P"%s\n\n"W"Вартість: "GREEN"$%d\n"W"Власник: "P"%s\n\n"W"Увійти ("P"ALT"W")", gBusiness[i][bName], gBusiness[i][bPrice], gBusiness[i][bOwnerName]);
+	UpdateDynamic3DTextLabelText(gBusiness[i][bText], -1, text);
+	return 1;
+}
+stock business_finances(bid ,price)
+{
+	business_statistics(bid, price);
+	gBusiness[bid][bBank] += price;
+	UpdateBusinessData(bid, "Bank", gBusiness[bid][bBank]);
+	gBusiness[bid][bBankDay] += price;
+	UpdateBusinessData(bid, "bankday", gBusiness[bid][bBankDay]);
+}
+stock business_statistics(bid, cash) {
+	new rows, query[120];
+	cache_get_row_count(rows);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `business_stats` WHERE `businessID` = %i AND Date = CURDATE()", bid);
+	mysql_tquery(connects, query, "business_update", "ii", bid, cash);
+	return 1;
+}
+CB:business_update(bid, price) {
+	new rows, query[120];
+	cache_get_row_count(rows);
+	if(!rows) {
+		mysql_format(connects, query, sizeof(query), "INSERT INTO `business_stats` (`Data`,`businessID`, `Money`) VALUES (NOW(),%i,%i)", bid, price);
+		mysql_tquery(connects, query, "", "");
+	} else {
+		mysql_format(connects, query, sizeof(query), "UPDATE `business_stats` SET `Money` = `Money`+%i WHERE businessID = %i AND Date = CURDATE()", price, bid);
+		mysql_tquery(connects, query, "", "");
+	}
+	return 1;
+}
+CB:business_stats(playerid, buid) {
+	new rows, sym = 0, string[800], str[800];
+	new dates[16], money;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Доходи у бізнесі відсутні.");
+	format(str, sizeof(str), ""ORANGE"Статистика доходів за останні 7 днів:\n\n", Nalog[3]);
+	if(rows) {
+		if(rows >= 8) {
+			new query[128];
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `business_stats` WHERE `businessID` = %i;", buid);
+			mysql_query(connects, query);
+			SendError(playerid, "Доходи за останні 7 днів оновлені. Відкрийте список доходів.");
+			return 1;
+		}
+		for (new i = 0; i < rows; i ++) {
+			cache_get_value_name_int(i, "Money", money);
+			cache_get_value_name(i, "Date", dates, 16);
+			format(str, sizeof(str), "%s"P"%d. "W"%s\t\t"GREEN"$%d\n", str, i + 1,dates, money);
+			sym += money;
+		}
+		format(string, sizeof(string), "%s"W"Всього\t\t"GREEN"$%d", str, sym);
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Доходи", string, "Закрити", "");
+	}
+	return 1;
+}
 stock load_pickups() {
 	new string[1024];
 	new Cache:result, rows;
@@ -47557,7 +50530,7 @@ stock load_pickups() {
 	rows = cache_num_rows();
 	for(new i; i <= rows; i ++) {
 		cache_get_value_name_int(i, "ID", pickinfo[i][pickID]);
-		cache_get_value_name(i, "Text", pickinfo[i][pickText], 72);
+		cache_get_value_name(i, "Text", pickinfo[i][pickText], 256);
 		cache_get_value_float(i, "X", pickinfo[i][pickX]);
 		cache_get_value_float(i, "Y", pickinfo[i][pickY]);
 		cache_get_value_float(i, "Z", pickinfo[i][pickZ]);
@@ -47574,25 +50547,33 @@ stock load_pickups() {
 		cache_get_value_name(i, "Category", pickinfo[i][pickCategory], 32);
 		cache_get_value_name_int(i, "Status", pickinfo[i][pickStatus]);
 		cache_get_value_name(i, "Comment", pickinfo[i][pickComment], 256);
+		cache_get_value_name_int(i, "IsEnterExit", pickinfo[i][IsEnterExit]);
+		cache_get_value_name_float(i, "SphereRadius", pickinfo[i][SphereRadius]);
 
 		pickinfo[pickinfo[i][pickID]][pickObject] = CreateDynamicPickup(pickinfo[i][pickModel], pickinfo[i][pickType], pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], pickinfo[i][pickWorld], pickinfo[i][pickInt]);
-		SpherePickID[pickinfo[i][pickID]] = CreateDynamicSphere(pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], 1.0, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
-		pickinfo[pickinfo[i][pickID]][pickupText] = CreateDynamic3DTextLabel(pickinfo[i][pickText], 0xFFFFFFFF, pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
+		SpherePickID[pickinfo[i][pickID]] = CreateDynamicSphere(pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ], pickinfo[i][SphereRadius], pickinfo[i][pickWorld], pickinfo[i][pickInt]);
+
+		new text3d[256];
+		format(text3d, sizeof(text3d), "%s", pickinfo[i][pickText]);
+
+		pickinfo[pickinfo[i][pickID]][pickupText] = CreateDynamic3DTextLabel(text3d, 0xFFFFFFFF, pickinfo[i][pickX], pickinfo[i][pickY], pickinfo[i][pickZ]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, pickinfo[i][pickWorld], pickinfo[i][pickInt]);
+
+		pickinfo[pickinfo[i][pickID]][IsEnterExit] = pickinfo[i][IsEnterExit];
 
 		/* pickinfo[pickinfo[i][pickID]][tpX] = pickinfo[i][tpX];
 		pickinfo[pickinfo[i][pickID]][tpY] = pickinfo[i][tpY];
-		pickinfo[pickinfo[i][pickID]][tpZ] = pickinfo[i][tpZ];	
+		pickinfo[pickinfo[i][pickID]][tpZ] = pickinfo[i][tpZ];
 		pickinfo[pickinfo[i][pickID]][tpAngle] = pickinfo[i][tpAngle];
 		pickinfo[pickinfo[i][pickID]][tpWorld] = pickinfo[i][tpWorld];
 		pickinfo[pickinfo[i][pickID]][tpInt] = pickinfo[i][tpInt]; */
-		
+
 		pickinfo[pickinfo[i][pickID]][picktpX] = pickinfo[i][tpX];
 		pickinfo[pickinfo[i][pickID]][picktpY] = pickinfo[i][tpY];
 		pickinfo[pickinfo[i][pickID]][picktpZ] = pickinfo[i][tpZ];
 		pickinfo[pickinfo[i][pickID]][picktpAngle] = pickinfo[i][tpAngle];
 		pickinfo[pickinfo[i][pickID]][picktpWorld] = pickinfo[i][tpWorld];
 		pickinfo[pickinfo[i][pickID]][picktpInt] = pickinfo[i][tpInt];
-		
+
 	}
 	cache_delete(result);
 	printf("[Success] Pickups successfully loaded. (%i pcs.)",rows);
@@ -48002,7 +50983,7 @@ CB:characters_panel(playerid) {
 	mysql_query(connects, query);
 	cache_get_row_count(rows);
 	if(rows) {
-		for(new i; i < rows; i++) {	
+		for(new i; i < rows; i++) {
 			cache_get_value_name_int(i, "cStage", cstage);
 			cache_get_value_name(i, "Name", name);
 			if(cstage == 2) status = R"Мертвий";
@@ -48182,7 +51163,52 @@ public OnPlayerSelectObject(playerid, type, objectid, modelid, Float:fX, Float:f
 public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz) {
 	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	new stringer[255];
-	if(response == EDIT_RESPONSE_FINAL) {
+	if(response == EDIT_RESPONSE_FINAL)
+	{
+		if(GetPVarInt(playerid, "createboject"))
+		{
+			new bid = GetPVarInt(playerid, "selected_business");
+			new distance;
+			if(!GetPlayerInterior(playerid))
+			{
+				distance = floatround(GetDistanceBetweenPoints(x, y, z, gBusiness[bid][businessX], gBusiness[bid][businessY], gBusiness[bid][businessZ]));
+			}
+			else
+			{
+				distance = floatround(GetDistanceBetweenPoints(x, y, z, gBints[bid][businessinteriorX], gBints[bid][businessinteriorY], gBints[bid][businessinteriorZ]));
+			}
+			if(distance > 15)
+			{
+				new obid = GetPVarInt(playerid, "selected_object");
+				SetTimerEx("SetObjectOldPos", 300, false, "dffffff", BusinessObject[bid][obid], gBusinessObjects[bid][obid][obX], gBusinessObjects[bid][obid][obY], gBusinessObjects[bid][obid][obZ], gBusinessObjects[bid][obid][obrX], gBusinessObjects[bid][obid][obrY], gBusinessObjects[bid][obid][obrZ]);
+			  	return SendError(playerid, "Відстань між об'єктом та бізнесом перевищує 15 метрів.");
+			}
+			DeletePVar(playerid, "createboject");
+			AddBusinessObject(GetPVarInt(playerid, "selected_business"), x, y, z, rx, ry, rz, playerid);
+		}
+		if(GetPVarInt(playerid, "editboject"))
+		{
+			DeletePVar(playerid, "editboject");
+			new obj = GetPVarInt(playerid, "selected_object");
+			new bid = GetPVarInt(playerid, "selected_business");
+			new distance;
+			if(!GetPlayerInterior(playerid))
+			{
+				distance = floatround(GetDistanceBetweenPoints(x, y, z, gBusiness[bid][businessX], gBusiness[bid][businessY], gBusiness[bid][businessZ]));
+			}
+			else
+			{
+				distance = floatround(GetDistanceBetweenPoints(x, y, z, gBints[bid][businessinteriorX], gBints[bid][businessinteriorY], gBints[bid][businessinteriorZ]));
+			}
+			if(distance > 15)
+			{
+				new obid = GetPVarInt(playerid, "selected_object");
+				SetTimerEx("SetObjectOldPos", 300, false, "dffffff", BusinessObject[bid][obid], gBusinessObjects[bid][obid][obX], gBusinessObjects[bid][obid][obY], gBusinessObjects[bid][obid][obZ], gBusinessObjects[bid][obid][obrX], gBusinessObjects[bid][obid][obrY], gBusinessObjects[bid][obid][obrZ]);
+			  	return SendError(playerid, "Відстань між об'єктом та бізнесом перевищує 15 метрів.");
+			}
+
+			UpdateBusinessObject(playerid, bid, obj, x, y, z, rx, ry, rz);
+		}
 	    if(GPVI(playerid, "BauldMappingCreating")) {
             DPV(playerid, "BauldMappingCreating");
             AddObject(objectid, x, y, z,rx,ry,rz, playerid);
@@ -48220,14 +51246,31 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 	} else if(response == EDIT_RESPONSE_UPDATE) {
 		SetObjectPos(objectid, x, y, z);
 		SetObjectRot(objectid, rx, ry, rz);
-	} 
-	if(response == EDIT_RESPONSE_CANCEL) {
+	}
+	if(response == EDIT_RESPONSE_CANCEL)
+	{
 		new atmID = EdittingATM[playerid];
-		if(EdittingATM[playerid] != 0) {
+		if(EdittingATM[playerid] != 0)
+		{
 			SetTimerEx("SetObjectOldPos", 300, false, "dffffff", ATMData[atmID][atm_Object], ATMData[objectid][ATM_Pos][0], ATMData[objectid][ATM_Pos][1], ATMData[objectid][ATM_Pos][2], ATMData[objectid][ATM_Pos][3], ATMData[objectid][ATM_Pos][4], ATMData[objectid][ATM_Pos][5]);
 			EdittingATM[playerid] = 0;
 		}
-	} else if(response) SetDynamicObjectPos(objectid,x, y, z), SetDynamicObjectRot(objectid,rx,ry,rz);
+		if(GetPVarInt(playerid, "createboject"))
+		{
+			DestroyDynamicObject(tempbobject[playerid]);
+			DeletePVar(playerid, "createobject");
+		}
+		if(GetPVarInt(playerid, "editboject"))
+		{
+			new obid = GetPVarInt(playerid, "selected_object");
+			new bid = GetPVarInt(playerid, "selected_business");
+			SetTimerEx("SetObjectOldPos", 300, false, "dffffff", BusinessObject[bid][obid], gBusinessObjects[bid][obid][obX], gBusinessObjects[bid][obid][obY], gBusinessObjects[bid][obid][obZ], gBusinessObjects[bid][obid][obrX], gBusinessObjects[bid][obid][obrY], gBusinessObjects[bid][obid][obrZ]);
+			DeletePVar(playerid, "editboject");
+			SendInfo(playerid, "Ви скасували редагування об'єкта.");
+			SendHint(playerid, "Об'єкт повернувся на попереднє місцерозташування.");
+		}
+	}
+	else if(response) SetDynamicObjectPos(objectid,x, y, z), SetDynamicObjectRot(objectid,rx,ry,rz);
 	return 1;
 }
 CB:SetObjectOldPos(objectid, Float:oldX, Float:oldY, Float:oldZ, Float:oldRotX, Float:oldRotY, Float:oldRotZ) {
@@ -48261,7 +51304,7 @@ stock AddObject(objectid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:r
         x,y,z,rx,ry,rz,objectid, CI[playerid][cName], GPVI(playerid, "CreatingObjectModel"));
     mysql_tquery(connects, stringer);
     DPV(playerid, "CreatingObjectModel");
-    SendClientMessage(playerid,COLOR_GREEN, "Об'єкт успішно створено.");
+    SendOK(playerid, "Об'єкт успішно створено.");
     return 1;
 }
 public OnTrailerUpdate(playerid, vehicleid) {
@@ -48335,7 +51378,7 @@ stock ShowStats(playerid, targetid) {
 	}
 
 	/* format(string, sizeof(string), "%s\n\n"W"Транспорт:", string);
-	for(new i; i <2; i++) 
+	for(new i; i <2; i++)
 		if(CarsInfo[targetid][carModel][i] == 481) return format(car, sizeof(car), "Відсутній\n");
 		format(car, sizeof(car), "%s\n", gTransport[CarsInfo[targetid][carModel][i]-400][trName]);
 	}
@@ -48366,7 +51409,7 @@ stock ShowStats(playerid, targetid) {
 		Попередження: "G"%s"W".\n\
 		Дата реєстрації: "G"%s"W".",
 		string, PI[targetid][pName], PI[targetid][pID], prtext, CI[targetid][pLevel], CI[targetid][pExp], CI[targetid][pLevel] * 6, wtext, PI[targetid][pRegDate]);
-	
+
 	format(header, sizeof(header), W" Статистика гравця "P"#%i"W".", targetid);
 	return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, header, string, "Закрити", "");
 }
@@ -49396,6 +52439,7 @@ CB:start_character(playerid) {
     if(CI[playerid][pYoutube]) SendInfo(playerid, "Ви авторизувались як ютубер серверу. (/yhelp)");
 
 	serv_stats[0]++;
+	gettime(tmphour, tmpminute, tmpsecond);
 	SetPlayerTime(playerid, tmphour, tmpminute);
 	return 1;
 }
@@ -49476,7 +52520,13 @@ stock UpdateBizzUpgrade(id) {
 }
 stock UpdateBusinessData(id, const field[], data) {
 	new query[140];
-	mysql_format(connects, query, sizeof(query), "UPDATE `business` SET `%s` = %i WHERE `id` = %i", field, data, id);
+	mysql_format(connects, query, sizeof(query), "UPDATE `business_new` SET `%s` = %i WHERE `businessID` = %i", field, data, id);
+	mysql_tquery(connects, query, "", "");
+	return mysql_errno();
+}
+stock UpdateArticlesData(id, articleid, const field[], data) {
+	new query[140];
+	mysql_format(connects, query, sizeof(query), "UPDATE `business_articles` SET `%s` = %i WHERE `businessID` = %i AND `Article_ID` = %i", field, data, id, articleid);
 	mysql_tquery(connects, query, "", "");
 	return mysql_errno();
 }
@@ -49673,7 +52723,7 @@ CB:sim_shop(playerid, number, id, price) {
 	GiveMoney(playerid, -price, "купівля в 24/7");
 	if(gBusiness[id][bizzProduct] - gShopProduct[4] > 0) {
 		gBusiness[id][bizzProduct] -= gShopProduct[4];
-		bizz_pay(id,price);
+		business_finances(id,price);
 	}
 	if(QuestProgress[playerid][43] == 0 && AcceptQuest[playerid][43] != 0) {
 		QuestProgress[playerid][43] ++;
@@ -51278,7 +54328,7 @@ CB:fam_members(fam) {
 	return rows;
 }
 stock SendVip(color, const mes[]) {
-	foreach(new i:Player) { 
+	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
 		if(CI[i][pPremium]) SendClientMessage(i, color, mes);
 	}
@@ -51749,12 +54799,12 @@ CB:DiceOff(id, targetid) {
 	ClearAnims(id);
 	if(TI[id][tKubik] == 1) {
 		TI[id][tKubik] = 0;
-		if(IsPlayerAttachedObjectSlotUsed(id, 1)) RemovePlayerAttachedObject(id, 1); // 
+		if(IsPlayerAttachedObjectSlotUsed(id, 1)) RemovePlayerAttachedObject(id, 1); //
 	}
 	ClearAnims(targetid);
 	if(TI[targetid][tKubik] == 1) {
 		TI[targetid][tKubik] = 0;
-		if(IsPlayerAttachedObjectSlotUsed(targetid, 1)) RemovePlayerAttachedObject(targetid, 1); // 
+		if(IsPlayerAttachedObjectSlotUsed(targetid, 1)) RemovePlayerAttachedObject(targetid, 1); //
 	}
 }
 stock IsTextInvalid(const text[]) {
@@ -51939,68 +54989,12 @@ stock ChangeName(playerid) {
 	DeletePVar(playerid, "WantNickChange");
 	return 1;
 }
-bizz_finka(bizz, cash) {
-	new rows, query[120];
-	cache_get_row_count(rows);
-	mysql_format(connects, query, sizeof(query), "SELECT * FROM `business_stats` WHERE `bizz` = %i AND date = CURDATE()",bizz);
-	mysql_tquery(connects, query, "biz_update", "ii", bizz, cash);
-}
-CB:biz_update(bizid, price) {
-	new rows, query[120];
-	cache_get_row_count(rows);
-	if(!rows) {
-		mysql_format(connects, query, sizeof(query), "INSERT INTO `business_stats` (`date`,`bizz`, `money`) VALUES (NOW(),%i,%i)", bizid, price);
-		mysql_tquery(connects, query, "", "");
-	} else {
-		mysql_format(connects, query, sizeof(query), "UPDATE `business_stats` SET `money` = `money`+%i WHERE bizz = %i AND date = CURDATE()", price, bizid);
-		mysql_tquery(connects, query, "", "");
-	}
-	return 1;
-}
-CB:bizz_stats(playerid,bizz) {
-	new rows, sym = 0, string[800], str[800];
-	new dates[16], money;
-	cache_get_row_count(rows);
-	if(!rows) return SendError(playerid, "Доходи у бізнесі відсутні.");
-	format(str, sizeof(str), ""ORANGE"Статистика доходів за останні 7 днів:\n\n", Nalog[3]);
-	if(rows) {
-		if(rows >= 8) {
-			new query[128];
-			mysql_format(connects, query, sizeof(query), "DELETE FROM `business_stats` WHERE `bizz` = %i;", bizz);
-			mysql_query(connects, query);
-			SendError(playerid, "Доходи за останні 7 днів оновлені. Відкрийте список доходів.");
-			return 1;
-		}
-		for (new i = 0; i < rows; i ++) {
-			cache_get_value_name_int(i, "money", money);
-			cache_get_value_name(i, "date", dates, 16);
-			format(str, sizeof(str), "%s"P"%d. "W"%s\t\t"GREEN"$%d\n", str, i + 1,dates, money);
-			sym += money;
-		}
-		format(string, sizeof(string), "%s"W"Всього\t\t\t"GREEN"$%d", str, sym);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Доходи", string, "Закрити", "");
-	}
-	return 1;
-}
 stock EnableGPSForPlayer(playerid, Float:x, Float:y, Float:z) {
 	gpss[playerid] = 1;
 	SetPlayerRaceCheckpoint(playerid, 2, Float:x, Float:y, Float:z, Float:x, Float:y, Float:z, 3.0);
 	return 1;
 }
-stock bizz_pay(bizz,price) {
-	new percent_mafia = 0;
-	if(gBusiness[bizz][bizzMafia]) {
-		percent_mafia = floatround(( price)/100) * Nalog[4];
-		AddMafiaBank(bizz,floatround(percent_mafia));
-	}
-	bizz_finka(bizz, price);
-	new income = percent_mafia;
-	gBusiness[bizz][bizzBank] += (price-income);
-	UpdateBusinessData(bizz+ 1, "bank", gBusiness[bizz][bizzBank]);
-	gBusiness[bizz][bizzBankDay] += (price-income);
-	UpdateBusinessData(bizz+ 1, "bankday", gBusiness[bizz][bizzBankDay]);
-	UpdateBusinessData(bizz+ 1, "product", gBusiness[bizz][bizzProduct]);
-}
+
 stock AddMafiaBank(bizid, sum) {
 	for(new i = 1; i < MAX_FACTIONS; i++) {
 		if(FI[i][fType] == fMAFIA) gBankMafia[i][bizid] += sum, FI[i][fBank] += sum, UpdateFaction(i, "Bank", FI[i][fBank]);
@@ -52657,7 +55651,68 @@ CB:service_calls(playerid) {
 	ShowPlayerDialog(playerid, dGetServiceCall, DSTH, P"Список викликів.", string, "Обрати", "Закрити");
 	return 1;
 }
-CB:pickup_list(playerid) {
+CB: pickupcategory(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Категорій пікапів не знайдено.");
+	new string[1000], category[32];
+	strcat(string, ""P"Категорія\n- "W"Створити пікап\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 0, category, 32);
+		format(string, sizeof(string), "%s"W"%s\n", string, category);
+	}
+	ShowPlayerDialog(playerid, dPickupCategory, DIALOG_STYLE_TABLIST_HEADERS, ""P"Список категорій пікапів", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: change_pickup_category(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Категорій пікапів не знайдено.");
+	new string[1000], category[32];
+	strcat(string, ""P"Категорія\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 0, category, 32);
+		format(string, sizeof(string), "%s"W"%s\n", string, category);
+	}
+	ShowPlayerDialog(playerid, dEditPickupCategoryFirstList, DIALOG_STYLE_TABLIST_HEADERS, ""P"Список категорій пікапів", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: change_pickup_fractions(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Фракцій не знайдено.");
+	new string[1000], fraction[32];
+	strcat(string, ""P"Фракція\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 1, fraction, 32);
+		format(string, sizeof(string), "%s"W"%s\n", string, fraction);
+	}
+	ShowPlayerDialog(playerid, dEditPickupFractions, DIALOG_STYLE_TABLIST_HEADERS, ""P"Оберіть фракцію", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: pickup_fractions(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Фракцій не знайдено.");
+	new string[1000], fraction[32];
+	strcat(string, ""P"Фракція\n");
+	for(new i; i < rows; i++)
+	{
+		cache_get_value_index(i, 1, fraction, 32);
+		format(string, sizeof(string), "%s"W"%s\n", string, fraction);
+	}
+	ShowPlayerDialog(playerid, dPickupFractions, DIALOG_STYLE_TABLIST_HEADERS, ""P"Список фракцій", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: pickup_list(playerid)
+{
 	new rows;
 	cache_get_row_count(rows);
 	if(!rows) return SendError(playerid, "Пікапів не знайдено.");
@@ -52669,7 +55724,8 @@ CB:pickup_list(playerid) {
 		cache_get_value_index(i, 1, text, 72);
 		cache_get_value_index(i, 15, category, 32);
 		cache_get_value_index_int(i, 16, status);
-		switch(status) {
+		switch(status)
+		{
 			case 2: format(status_text, sizeof(status_text), ""GREEN"Активний");
 			case 9: format(status_text, sizeof(status_text), ""E"Неактивний");
 		}
@@ -52677,6 +55733,80 @@ CB:pickup_list(playerid) {
 	}
 	if(GetPVarInt(playerid, "firstpage")) format(string, sizeof(string), "%s\n"P">>> "W"Наступна сторінка", string);
 	ShowPlayerDialog(playerid, dPickupList, DSTH, P"Список пікапів.", string, "Обрати", "Закрити");
+	return 1;
+}
+CB: choosen_pickup(playerid)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return SendError(playerid, "Не знайдено пікап з таким ID.");
+
+   	new pickkID, pickkText[72], Float:pickkX, Float:pickkY, Float:pickkZ, Float:tppX, Float:tppY, Float:tppZ, Float:tppAngle, tppWorld, tppInt, pickkWorld, pickkInt, pickkType, pickkCategory[32],
+   	pickkStatus, pickkComment[256], pickkModel, status_text[32], string[1024], header[56], pickkFraction[32];
+
+    cache_get_value_index_int(0, 0, pickkID);
+	cache_get_value_index(0,  1, pickkText, 72);
+	cache_get_value_index_float(0, 2, pickkX);
+	cache_get_value_index_float(0, 3, pickkY);
+	cache_get_value_index_float(0, 4, pickkZ);
+	cache_get_value_index_float(0, 7, tppX);
+	cache_get_value_index_float(0, 8, tppY);
+	cache_get_value_index_float(0, 9, tppZ);
+	cache_get_value_index_float(0, 10, tppAngle);
+	cache_get_value_index_int(0, 11, tppWorld);
+	cache_get_value_index_int(0, 12, tppInt);
+	cache_get_value_index_int(0, 5, pickkWorld);
+	cache_get_value_index_int(0, 6, pickkInt);
+	cache_get_value_index_int(0, 13, pickkModel);
+	cache_get_value_index_int(0, 14, pickkType);
+	cache_get_value_index(0, 15, pickkCategory, 32);
+	cache_get_value_index_int(0, 16, pickkStatus);
+	cache_get_value_index(0, 17, pickkComment, 256);
+	cache_get_value_index(0, 18, pickkFraction, 32);
+
+	SetPVarString(playerid, "pickText", pickkText);
+	SetPVarFloat(playerid, "pickX", pickkX);
+	SetPVarFloat(playerid, "pickY", pickkY);
+	SetPVarFloat(playerid, "pickZ", pickkZ);
+	SetPVarFloat(playerid, "tpX", tppX);
+	SetPVarFloat(playerid, "tpY", tppY);
+	SetPVarFloat(playerid, "tpZ", tppZ);
+	SetPVarFloat(playerid, "tpAngle", tppAngle);
+	SetPVarInt(playerid, "tpWorld", tppWorld);
+	SetPVarInt(playerid, "tpInt", tppInt);
+	SetPVarInt(playerid, "pickWorld", pickkWorld);
+	SetPVarInt(playerid, "pickInt", pickkInt);
+	SetPVarInt(playerid, "pickModel", pickkModel);
+	SetPVarInt(playerid, "pickType", pickkType);
+	SetPVarString(playerid, "pickFraction", pickkFraction);
+
+	//cache_delete(resultCache);
+
+	switch(pickkStatus)
+	{
+		case 2: format(status_text, sizeof(status_text), ""GREEN"Активний");
+		case 9: format(status_text, sizeof(status_text), ""E"Неактивний");
+	}
+
+
+    format(header, sizeof(header), ""W"Pickup ID: "P"%d", GetPVarInt(playerid, "pickupid"));
+
+    format(string, sizeof(string), "\
+    	"P"Атрибут\t"P"Значення\n\
+    	"W"ID:\t"P"%d\n\
+    	"W"Текст пікапа:\t"P"%s\n\
+    	"W"Координати пікапа (X, Y, Z, World, Int):\t"P"%.2f, %.2f, %.2f, %d, %d\n\
+    	"W"Телепорт пікапа (X, Y, Z, Angle, World, Int):\t"P"%.2f, %.2f, %.2f, %.2f, %d, %d\n\
+    	"W"Модель:\t"P"%d\n\
+		"W"Тип:\t"P"%d\n\
+		"W"Категорія:\t"P"%s\n\
+		"W"Статус:\t"P"%s\n\n\
+		"W"Фракція:\t"P"%s\n\n\
+		"W"Коментар:\t"P"%s\n\
+		"W"- Телепортуватися на пікап", pickkID, pickkText, pickkX, pickkY, pickkZ, pickkWorld, pickkInt, tppX, tppY, tppZ, tppAngle, tppWorld, tppInt,
+		pickkModel, pickkType, pickkCategory, status_text, pickkFraction, pickkComment);
+
+    ShowPlayerDialog(playerid, dEditPickup, DSTH, header, string, "Змінити", "Назад");
 	return 1;
 }
 CB:promo_show(playerid) {
@@ -53433,7 +56563,7 @@ CMD:goto(playerid,params[]) {
 	if(!IsPlayerConnected(giveplayerid)) return SendError(playerid, not_id);
 	if(playerid == giveplayerid) return SendError(playerid, "Ви вказали свій ID.");
 	if(!TI[giveplayerid][tLogin]) return SendError(playerid, "Гравець не авторизований на сервері.");
-	new Float:X, Float:Y, Float:Z, 
+	new Float:X, Float:Y, Float:Z,
 	Float:A;
 	switch(GetPlayerState(giveplayerid)) {
 	case PLAYER_STATE_DRIVER, PLAYER_STATE_PASSENGER: {
@@ -53544,7 +56674,7 @@ CMD:skin(playerid, params[]) {
 	UpdateCharacterData(playerid, "cSkin", CI[playerid][cSkin]);
 	return 1;
 }
-CMD:inf(playerid, params[]) { 
+CMD:inf(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 5 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	new string[150];
 	format(string, sizeof(string), "Инт %d Мир %d", GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid));
@@ -54007,7 +57137,7 @@ CMD:gethere(playerid,params[]) {
 	if(playerid == giveplayerid) return SendError(playerid, not_id);
 	if(CI[giveplayerid][pJailTime] > 0) return SendError(playerid, "Гравець у в'язниці.");
 	if(!TI[giveplayerid][tLogin]) return SendError(playerid, "Гравець не авторизований на сервері.");
-	new Float:X, Float:Y, Float:Z, 
+	new Float:X, Float:Y, Float:Z,
 	Float:A,
 	vehicleid = GetPlayerVehicleID(giveplayerid),
 	interior = GetPlayerInterior(playerid),
@@ -54094,8 +57224,8 @@ CMD:slap(playerid,params[]) {
 	new giveplayerid;
 	if(sscanf(params, "u", giveplayerid)) return SendError(playerid, "Використайте: /slap [playerid]");
 	if(!IsPlayerConnected(giveplayerid)) return SendError(playerid, not_id);
-	new Float:slx, 
-	Float:sly, 
+	new Float:slx,
+	Float:sly,
 	Float:slz;
 	GetPlayerPos(giveplayerid, slx, sly, slz);
 	SetPlayerPosAC(giveplayerid, slx, sly, slz+5, TI[giveplayerid][tVirtualWorld], TI[giveplayerid][tInterior]);
@@ -54352,7 +57482,7 @@ CMD:veh(playerid, params[]) {
 		color2 = 400 + random(211);
 	}
 	for(new i = GetVehiclePoolSize() + 1; --i != 0;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
-	
+
 	new Float:X, Float:Y, Float:Z, Float:A;
 	GetPlayerPos(playerid, X, Y, Z);
 	GetPlayerFacingAngle(playerid, A);
@@ -55012,7 +58142,15 @@ CMD:sa(playerid,params[]) {
 	SendOK(playerid, string);
 	return 1;
 }
-
+CMD:getplayer(playerid, params[])
+{
+	new giveplayerid;
+	if(sscanf(params, "i", giveplayerid)) return SendError(playerid, "Використайте: /getplayer [playerid]");
+	new string[56];
+	format(string, sizeof(string), "World: %d, Interior: %d", GetPlayerVirtualWorld(giveplayerid), GetPlayerInterior(giveplayerid));
+	SendInfo(playerid, string);
+	return 1;
+}
 CMD:payday(playerid, params[]) {
 	if(PI[playerid][pAdmin] < 7 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	PayDay();
@@ -55428,7 +58566,7 @@ CMD:pame(playerid, params[]) {
 	mysql_tquery(connects, query, "", "");
 	AddPame(playerid);
     return 1;
-} 
+}
 CMD:dellpame(playerid, params[]) {
     if(pame_text[playerid] == Text3D:-1) return SendError(playerid, "Ви не створювали опис персонажу. Використайте: /pame [description]"); // Чи є опис у гравця.
 	new query[155];
@@ -55439,7 +58577,7 @@ CMD:dellpame(playerid, params[]) {
     Delete3DTextLabel(pame_text[playerid]);
     pame_text[playerid] = Text3D:-1;
     return 1;
-} 
+}
 CMD:aedit(playerid) {
 	if(PI[playerid][pAdmin] < 7 || GetPVarInt(playerid, "adminaccess") != 1) return 1;
 	ShowPlayerDialog(playerid, 5736, DSL, P"Керування оновленнями.", P"1."W" Керування акторами.\n"P"2."W" Керування сервером.", "Обрати", "Скасувати");
@@ -56115,7 +59253,7 @@ CMD:capture(playerid) {
 			if(f_diplomacy[CI[playerid][pMember] - 15][GZInfo[i][gFrakVlad] - 15] == dip_status_alliance) return SendError(playerid, "У вас з цією бандою союз.");
 			if(f_diplomacy[CI[playerid][pMember] - 15][GZInfo[i][gFrakVlad] - 15] == dip_status_neutral) return SendError(playerid, "У вас з цією бандою нейтралітет.");
 			if(!IsPlayerInBandOnline(GZInfo[i][gFrakVlad])) return SendError(playerid, "Члени банди, на яку ви збираєтесь напасти, офлайн.");
-	
+
 			GZInfo[i][gNapad] = CI[playerid][pMember];
 
 			capture_kd[GZInfo[i][gFrakVlad]] = 1;
@@ -57255,7 +60393,7 @@ stock CheatKickEx(playerid,code) {
 		KickEx(playerid);
 	}
 	return 1;
-} 
+}
 CB:OnCheatDetected(playerid, const ip_address[], type, code) {
 	if(playerid != INVALID_PLAYER_ID && AntiCheat[code][acValue] == 1) {
 		switch(code) {
@@ -62823,14 +65961,14 @@ stock Convertss(number) {
 }
 stock GetCoordDoorVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	new Float:angle, Float:distance;
-	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);  
+	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);
 	distance = distance/2 + 0.1;
 	GetVehiclePos(vehicleid, x, y, z);
 	GetVehicleZAngle(vehicleid, angle);
 	x -= (distance * floatsin(-angle+89, degrees));
 	y -= (distance * floatcos(-angle+89, degrees));
 	return 1;
-}  
+}
 stock GetCoordBonnetVehicle(vehicleid, &Float:x, &Float:y, &Float:z) {
 	new Float:angle, Float:distance;
 	GetVehicleModelInfo(GetVehicleModel(vehicleid), 1, x, distance, z);
@@ -63817,7 +66955,7 @@ stock key_activate(playerid) {
 		RingInfo[0][rgPrice] = GetPVarInt(playerid, "fight_price");
 		RingInfo[0][rgLoad][0] = 1;
 		new bussid = TI[playerid][tSelectedBusinessID];
-		bizz_pay(bussid, GetPVarInt(playerid, "fight_price")/100*30);
+		business_finances(bussid, GetPVarInt(playerid, "fight_price")/100*30);
 		GiveMoney(playerid, -GetPVarInt(playerid, "fight_price"), "запис на бій");
 		GiveMoney(i, -GetPVarInt(playerid, "fight_price"), "запис на бій");
 		new string[156];
@@ -64728,7 +67866,7 @@ CB:player_timer(playerid) {
 		gOnlinePlayer[playerid][0]++;
 		NoRoof(playerid);
 		if(CI[playerid][pFamily]) {
-			if(fam_lable[playerid] == Text3D:-1) { 
+			if(fam_lable[playerid] == Text3D:-1) {
 				new string[50];
 				if(gFamily[CI[playerid][pFamily]-1][famType]) format(string, sizeof(string), "[$] {%s}%s",FamilyColor[gFamily[CI[playerid][pFamily]-1][famColor]], gFamily[CI[playerid][pFamily]-1][famName]);
 				else format(string, sizeof(string), "{%s}%s",FamilyColor[gFamily[CI[playerid][pFamily]-1][famColor]], gFamily[CI[playerid][pFamily]-1][famName]);
@@ -65012,6 +68150,13 @@ CB:player_timer(playerid) {
 		PlayerTextDrawSetString(playerid, FireTotalProgress[playerid][2], total);
 	}
 	if(call_timer[playerid] > 0) call_timer[playerid]--;
+	if(ProdLoadTimer[playerid] > 0)
+	{
+		new string[32];
+		format(string, sizeof(string), "~y~%s", Convert(ProdLoadTimer[playerid]));
+		GameTextForPlayer(playerid, string, 1000, 4);
+		ProdLoadTimer[playerid]--;
+	}
 	return 1;
 }
 CB:@AntiCheat(playerid) {
@@ -65311,7 +68456,7 @@ CB:second_timer() {
 						conteiner[i] = 1;
 					}
 				}
-                
+
 			}
 
 		}
@@ -67595,7 +70740,7 @@ stock AddItem(playerid, itemid, amount) {
 		new string[450];
 		mysql_format(connects, string, sizeof(string), "INSERT INTO `invent_log` (`Name`, `item`, `amount`) VALUES ('%s', '%s', %i)", CI[playerid][cName], ItemsInfo[itemid][ItemName], amount);
 		mysql_tquery(connects, string, "", "");
-		
+
 		format(string, sizeof(string), W"Вам був доданий предмет '%s' у кількості %d шт.", ItemsInfo[itemid][ItemName], CI[playerid][pInventoryAmount][i]);
 		SendInfo(playerid, string);
 		break;
@@ -68176,12 +71321,12 @@ stock ParkPlayerVehicle(playerid) {
 		if(VehicleInfo[x][vType] == VEHICLE_TYPE_PLAYER && (0 <= player_vehicle_id < MAX_VEHICLES_PLAYER) && GetPlayerVirtualWorld(playerid) == PlayerTrailer[player_vehicle_id][carWorld]) {
 			isReturn = true;
 			break;
-		} 
+		}
 	}
 	if(isReturn) {
 		SendError(playerid, "У цьому місці не можна припаркувати транспорт. (Місце зайняте)");
 		return;
-	} 
+	}
 	PlayerTrailer[player_vehicleid][carPos][0] = vehiclePos[0];
 	PlayerTrailer[player_vehicleid][carPos][1] = vehiclePos[1];
 	PlayerTrailer[player_vehicleid][carPos][2] = vehiclePos[2];
@@ -68492,6 +71637,25 @@ stock CheckPlayerRing(playerid) {
 	RingInfo[r][rgPrice] = 0;
 	RingInfo[r][rgLoad][0] = 0;
 	RingInfo[r][rgLoad][1] = 0;
+}
+CB: LoadProd_New(playerid)
+{
+	new string[512], id = prod_id[playerid];
+	format(string, sizeof(string), ""W"Доставка в бізнес "P"%s\n"W"Завантажено: "G"%d од. товару\n\n", gBusiness[id][bName], gBusiness[id][bOrder]);
+	for(new i = 1; i < MaxArticles[id] + 1; i++)
+	{
+		if(!gBusinessArticles[id][i][aArticleOrder]) continue;
+		format(string, sizeof(string), "%s"W"%s "G"(%d шт.)\n", string, gBusinessArticles[id][i][aArticleName], gBusinessArticles[id][i][aArticleOrder]);
+	}
+	gPlayerProdText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 15.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
+	Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerProdText[playerid], E_STREAMER_ATTACH_OFFSET_Y, -0.5);
+	Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerProdText[playerid], E_STREAMER_ATTACH_OFFSET_Z, 2.0);
+	TakeOrder[id] = 2;
+	TogglePlayerControllable(playerid, 1);
+	EnableGPSForPlayer(playerid, gBusiness[id][businessX], gBusiness[id][businessY], gBusiness[id][businessZ]);
+	SendOK(playerid, "Товари успішно завантажено. Місцерозташування бізнесу позначено на Вашій карті.");
+	SetPVarInt(playerid, "loaddone", 1);
+	return 1;
 }
 CB:LoadProd(playerid) {
 	if(!GetVehicleTrailer(GetPlayerVehicleID(playerid)) && GetVehicleModel(GetPlayerVehicleID(playerid)) == 403) {
@@ -68863,7 +72027,7 @@ stock dialog_mk(playerid, bizz, listitem) {
 		case 0:{
 			if(CI[playerid][bizz_status] != 3) return SendError(playerid, "Доступ є тільки у керівника мікрозайму.");
 			new bizid = CI[playerid][pBusiness]-1;
-			new status[20], atext[64];	
+			new status[20], atext[64];
 			strmid(atext, FI[gBusiness[bizid][bizzMafia]][fName], 0, sizeof(atext));
 			if(gBusiness[bizid][bizzStatus]) strcat(status, GREEN"Працює");
 			else strcat(status, ""NO"Не працює");
@@ -69804,7 +72968,7 @@ public JobBiker(playerid) {
     	SendInfo(playerid, "Їдьте якомога швидше до грузчика. Можливо, у вас зараз будуть неприємності.");
     	SetPVarInt(playerid, "Counting", gettime() + 60*30);
 	}
-    
+
 	return 1;
 }
 stock RobLeave(playerid) {
@@ -69854,7 +73018,7 @@ stock Dialog_Robbit_WareHouse(playerid, response, listitem) {
 					case fBikers: SetPlayerCheckpoint(playerid, 317.5285, -29.1859, 1.5781, 5.0);
 					case fBikersTwo: SetPlayerCheckpoint(playerid, 2383.4004, 241.5266, 26.5141, 5.0);
 				}
-			    
+
 			    for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++)
 			    {
 			        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
@@ -69873,14 +73037,14 @@ stock Dialog_Robbit_WareHouse(playerid, response, listitem) {
 			if(AlkoGol > ALKO_MAX) return SendError(playerid, "Машина заповнена.");
 		    for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++) {
 		        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-		        
+
 		    }
 		    AlkoGol++;
 			new str[150];
    			format(str, sizeof(str), "Сумок з алкоголем в багажнику %i/%i.", AlkoGol, ALKO_MAX);
    			SendInfo(playerid, str);
    			DeletePVar(playerid, "Buk");
-   
+
 		}
 	}
 	return 1;
@@ -69902,7 +73066,7 @@ stock CodeSkladOne(playerid) {
 stock OperationMoney(playerid, bizz, money) {
 	CI[playerid][bizz_lcash] += money;
 	CI[playerid][bizz_cash] += money;
-	bizz_pay(bizz, money);
+	business_finances(bizz, money);
 	UpdateCharacterData(playerid, "bizz_lcash", CI[playerid][bizz_lcash]);
 	UpdateCharacterData(playerid, "bizz_cash", CI[playerid][bizz_cash]);
 	gBusiness[bizz][bizzBank] += 15;
@@ -69956,7 +73120,7 @@ CMD:vk(playerid, params[]) {
 	SendError(playerid, "Відправлено");
 	return 1;
 }
-stock SendVKMessage(playerid, const message[], const vk_id[]) { 
+stock SendVKMessage(playerid, const message[], const vk_id[]) {
 	new	inc_string[256];
 	format(inc_string, sizeof inc_string, "artemabw.beget.tech/vk_sender.php?message=%s&to=%s", vk_id, message);
     for(new i, str = strlen(inc_string); i < str; i++) {
@@ -70586,8 +73750,8 @@ stock CreateFire(place) {
 			printf("[Success] Fire objects successfully loaded. (%i pcs.)", FireObjectsCount3);
 			cache_delete(result);
 			/* for(new it = 0; it <= sizeof(FireTargets_FireID_1); it++) {
-				fire_target_object_3[it] = CreateDynamicObject(FireTargets_FireID_1[it][fireModel], FireTargets_FireID_1[it][firePosX], 
-					FireTargets_FireID_1[it][firePosY], FireTargets_FireID_1[it][firePosZ], FireTargets_FireID_1[it][firePosrX], 
+				fire_target_object_3[it] = CreateDynamicObject(FireTargets_FireID_1[it][fireModel], FireTargets_FireID_1[it][firePosX],
+					FireTargets_FireID_1[it][firePosY], FireTargets_FireID_1[it][firePosZ], FireTargets_FireID_1[it][firePosrX],
 					FireTargets_FireID_1[it][firePosrY], FireTargets_FireID_1[it][firePosrZ], -1, -1, -1, 300.000, 300.000);
 				fire_target_label_3[it] = CreateDynamic3DTextLabel("Fire", 0xFFFFFFFF, FireTargets_FireID_1[it][firePosX], FireTargets_FireID_1[it][firePosY], FireTargets_FireID_1[it][firePosZ], 5.0);
 				print("Fire targets were created.");
@@ -70627,21 +73791,21 @@ stock DestroyFire(place) {
 	}
 }
 forward PlayerTimerTargetObject(playerid);
-public PlayerTimerTargetObject(playerid) { 
+public PlayerTimerTargetObject(playerid) {
 	/* SendOK(playerid, "timer is started");
 	if(GetPVarInt(playerid, "fire_object") == 0) return 1;
 	new str[64]; */
 	new target[12], label[64], objectid = GetPlayerCameraTargetDynObject(playerid);
-	/* if(objectid == INVALID_OBJECT_ID) { 
+	/* if(objectid == INVALID_OBJECT_ID) {
 		SendInfo(playerid, "INVALID_OBJECT_ID");
-		if(player_target_object[playerid] != INVALID_OBJECT_ID) 
+		if(player_target_object[playerid] != INVALID_OBJECT_ID)
 		player_target_object[playerid] = INVALID_OBJECT_ID;
 	} */
 	// GetObjectPos(objectid, X, Y, Z);
 	for(new i = 0; i < MAX_FIRE_OBJECTS_3; i++) {
 		new Float:X, Float:Y, Float:Z;
 		GetObjectPos(i, X, Y, Z);
-		if(objectid == fire_target_object_3[i] && IsPlayerInRangeOfPoint(playerid, 5.0, X, Y, Z)) {  
+		if(objectid == fire_target_object_3[i] && IsPlayerInRangeOfPoint(playerid, 5.0, X, Y, Z)) {
 			if(GetPVarInt(playerid, "fire_object") == 0) {
 				SetPVarInt(playerid, "fire_object", 1);
 				for(new td; td < 3; td++) PlayerTextDrawShow(playerid, FireTargetStatus[playerid][td]);
@@ -70751,47 +73915,47 @@ stock SendMail(const szReceiver[ ], const szSenderMail[], const szSenderName[], 
     new szBuffer[ MAILER_MAX_MAIL_SIZE ] = "t=",
     iPos = strlen(szBuffer),
     iLength = strlen(szReceiver);
-     
+
     memcpy(szBuffer, szReceiver, iPos * 4, (iLength + 1) * 4);
-     
+
     StringURLEncode(szBuffer[iPos], 1024 - iPos);
-     
+
     strcat(szBuffer, "&f=");
-     
+
     iPos    = strlen(szBuffer);
     iLength = strlen(szSenderName);
-     
+
     memcpy(szBuffer, szSenderName, iPos * 4, (iLength + 1) * 4);
-     
+
     StringURLEncode(szBuffer[iPos], 1024 - iPos);
-     
+
     strcat(szBuffer, "&n=");
-     
+
     iPos    = strlen(szBuffer);
     iLength = strlen(szSenderMail);
-     
+
     memcpy(szBuffer, szSenderMail, iPos * 4, (iLength + 1) * 4);
-     
+
     StringURLEncode(szBuffer[iPos], 1024 - iPos);
-     
+
     strcat(szBuffer, "&s=");
-     
+
     iPos    = strlen(szBuffer);
     iLength = strlen(szSubject);
-     
+
     memcpy(szBuffer, szSubject, iPos * 4, (iLength + 1) * 4);
-     
+
     StringURLEncode(szBuffer[iPos], 1024 - iPos);
-     
+
     strcat(szBuffer, "&m=");
-     
+
     iPos    = strlen(szBuffer);
     iLength = strlen(szMessage);
-     
+
     memcpy(szBuffer, szMessage, iPos * 4, (iLength + 1) * 4);
-     
+
     StringURLEncode(szBuffer[iPos], 1024 - iPos);
-     
+
     HTTP(0xD00D, HTTP_POST, MAILER_URL, szBuffer, "OnMailScriptResponse");
 }
 stock StringURLEncode(szString[ ], iSize = sizeof(szString)) {
@@ -70821,7 +73985,7 @@ stock StringURLEncode(szString[ ], iSize = sizeof(szString)) {
         i += 2;
         if(l > iSize - 1) l = iSize - 1;
     }
-} 
+}
 forward OnSendEmail(playerid, email[]);
 public OnSendEmail(playerid, email[]) {
     static const fmt_str[] = "Вітаємо, шановний %s!\n\nВаш код підтвердження на операцію: %d\n\nChiliad RP";
@@ -70885,224 +74049,230 @@ public hide_payment_timer(playerid) {
 	}
 	return 1;
 }
-stock ShowPlayerPhone(playerid) {
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][0]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][1]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][2]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][3]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][4]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][5]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][6]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][7]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][8]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][9]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][10]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][11]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][12]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][13]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][14]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][15]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][16]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][17]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][18]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][19]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][20]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][21]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][22]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][23]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][24]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][25]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][26]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][27]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][28]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][29]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][30]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][32]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][33]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][34]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][43]);
+stock ShowPhoneForPlayer(playerid)
+{
+	for(new i; i < 56; i++) TextDrawShowForPlayer(playerid, iphone[i]);
+	SelectTextDraw(playerid, 0x00FF00FF);
 	return 1;
 }
-stock HidePlayerPhone(playerid) {
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][0]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][1]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][2]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][3]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][4]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][5]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][6]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][7]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][8]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][9]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][10]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][11]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][12]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][13]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][14]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][15]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][16]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][17]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][18]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][19]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][20]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][21]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][22]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][23]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][24]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][25]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][26]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][28]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][30]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][32]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][33]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][34]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
+stock HidePhoneForPlayer(playerid)
+{
+	for(new i; i < 56; i++) TextDrawHideForPlayer(playerid, iphone[i]);
+	CancelSelectTextDraw(playerid);
 	return 1;
 }
-stock ShowPlayerPhoneMenu(playerid) {
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
- 
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][0]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][1]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][2]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][3]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][4]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][5]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][6]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][7]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][8]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][9]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][10]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][11]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][12]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][13]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][14]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][15]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][16]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][17]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][18]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][19]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][20]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][21]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][22]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][23]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][24]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][25]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][26]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][28]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][30]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][32]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][33]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][34]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][35]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][36]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][37]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][38]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][39]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][40]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][41]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][42]);
+stock BusinessCreation(playerid)
+{
+	/*PVars
+
+	bType,
+	bName,
+	bInteriorID,
+	bCoordX,
+	bCoordY,
+	bCoordZ,
+	bPrice,
+	bPickupID,
+	bMapIcon,
+	bIsGasStation,
+	bGasX,
+	bGasY,
+	bGasZ
+
+	*/
+
+
+	new cbType = GetPVarInt(playerid, "bType");
+	new cbName[56];
+	GetPVarString(playerid, "bName", cbName, 56);
+	FixSVarString(cbName);
+	new cbInteriorID = GetPVarInt(playerid, "bInteriorID");
+	new Float:cbCoordX = GetPVarFloat(playerid, "bCoordX");
+	new Float:cbCoordY = GetPVarFloat(playerid, "bCoordY");
+	new Float:cbCoordZ = GetPVarFloat(playerid, "bCoordZ");
+	new cbPrice = GetPVarInt(playerid, "bPrice");
+	new cbPickupID = GetPVarInt(playerid, "bPickupID");
+	new cbMapIcon = GetPVarInt(playerid, "bMapIcon");
+	new Float:cbGasX = GetPVarFloat(playerid, "bGasX");
+	new Float:cbGasY = GetPVarFloat(playerid, "bGasY");
+	new Float:cbGasZ = GetPVarFloat(playerid, "bGasZ");
+
+
+	new cbTypeText[32];
+	if(!cbType) strcat(cbTypeText, ""G"Не вибрано");
+	else format(cbTypeText, sizeof(cbTypeText), ""YELLOW"%s", BusinessTypes[cbType-1][bTypeName]);
+
+	new string[1028];
+
+	strcat(string, "Опція\tЗначення\n");
+
+	if(cbType != 7) format(string, sizeof(string), "\
+			%sТип\t%s\n\
+			Назва\t%s\n\
+			ID інтер'єру\t%d\n\
+			Координати\t%.2f, %.2f, %.2f\n\
+			Ціна\t%d\n\
+			Модель пікапа\t19132\n\
+			Іконка карти\t%d\n\
+			Створити бізнес", string, cbTypeText, (!cbName)?("Відсутня"):(cbName), (!cbInteriorID)?(-1):(cbInteriorID), (!cbCoordX)?(0.0):(cbCoordX),
+			(!cbCoordY)?(0.0):(cbCoordY), (!cbCoordZ)?(0.0):(cbCoordZ), (!cbPrice)?(0):(cbPrice), (!cbMapIcon)?(0):(cbMapIcon));
+
+
+	else format(string, sizeof(string), "\
+			%sТип\t%s\n\
+			Назва\t%s\n\
+			ID інтер'єру\t%d\n\
+			Координати\t%.2f, %.2f, %.2f\n\
+			Ціна\t%d\n\
+			Модель пікапа\t19132\n\
+			Іконка карти\t%d\n\
+			Координати заправки\t%.2f, %.2f, %.2f\n\
+			Створити бізнес", string, cbTypeText, (!cbName)?("Відсутня"):(cbName), (!cbInteriorID)?(-1):(cbInteriorID), (!cbCoordX)?(0.0):(cbCoordX),
+			(!cbCoordY)?(0.0):(cbCoordY), (!cbCoordZ)?(0.0):(cbCoordZ), (!cbPrice)?(0):(cbPrice), (!cbMapIcon)?(0):(cbMapIcon),
+			(!cbGasX)?(0.0):(cbGasX), (!cbGasY)?(0.0):(cbGasY), (!cbGasZ)?(0.0):(cbGasZ));
+
+
+
+	ShowPlayerDialog(playerid, dCreateBusiness, DIALOG_STYLE_TABLIST_HEADERS, ""G"Створення бізнесу", string, "Обрати", "Закрити");
+
+
 	return 1;
 }
-stock HidePlayerPhoneMenu(playerid) {
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][35]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][36]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][37]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][38]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][39]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][40]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][41]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][42]);
- 
- 
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][0]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][1]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][2]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][3]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][4]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][5]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][6]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][7]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][8]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][9]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][10]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][11]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][12]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][13]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][14]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][15]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][16]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][17]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][18]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][19]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][20]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][21]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][22]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][23]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][24]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][25]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][26]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][27]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][28]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][29]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][30]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][32]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][33]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][34]);
-	PlayerTextDrawShow(playerid, PhoneGUI[playerid][43]);
-	return 1;
-}
-stock HideWholePhone(playerid) {
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][35]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][36]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][37]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][38]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][39]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][40]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][41]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][42]);
- 
- 
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][0]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][1]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][2]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][3]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][4]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][5]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][6]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][7]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][8]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][9]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][10]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][11]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][12]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][13]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][14]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][15]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][16]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][17]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][18]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][19]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][20]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][21]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][22]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][23]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][24]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][25]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][26]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][27]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][28]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][29]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][30]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][32]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][33]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][34]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][43]);
-	PlayerTextDrawHide(playerid, PhoneGUI[playerid][31]);
+stock CreateBusiness(playerid)
+{
+
+	new id = gBusinessCount+1;
+
+	new cbType = GetPVarInt(playerid, "bType");
+	new cbName[56];
+	GetPVarString(playerid, "bName", cbName, 56);
+	FixSVarString(cbName);
+	new cbInteriorID = GetPVarInt(playerid, "bInteriorID");
+	new Float:cbCoordX = GetPVarFloat(playerid, "bCoordX");
+	new Float:cbCoordY = GetPVarFloat(playerid, "bCoordY");
+	new Float:cbCoordZ = GetPVarFloat(playerid, "bCoordZ");
+	new cbPrice = GetPVarInt(playerid, "bPrice");
+
+	switch(cbType)
+	{
+		case 1: SetPVarInt(playerid, "bMapIcon", 17);
+		case 2: SetPVarInt(playerid, "bMapIcon", 45);
+		case 3: SetPVarInt(playerid, "bMapIcon", 35);
+		case 4: SetPVarInt(playerid, "bMapIcon", 18);
+		case 5: SetPVarInt(playerid, "bMapIcon", 55);
+		case 6: SetPVarInt(playerid, "bMapIcon", 51);
+		case 7: SetPVarInt(playerid, "bMapIcon", 47);
+		case 8: SetPVarInt(playerid, "bMapIcon", 50);
+	}
+
+	new cbMapIcon = GetPVarInt(playerid, "bMapIcon");
+
+	new Float:cbGasX = GetPVarFloat(playerid, "bGasCoordX");
+	new Float:cbGasY = GetPVarFloat(playerid, "bGasCoordY");
+	new Float:cbGasZ = GetPVarFloat(playerid, "bGasCoordZ");
+
+	new query[1028];
+	if(GetPVarInt(playerid, "bType") != 7) mysql_format(connects, query, sizeof(query), "INSERT INTO `business_new` (`businessID`, `Name`, `Type`, `InteriorID`, `X`, `Y`, `Z`, `Price`, `PickupID`, `MapIcon`) VALUES (%d, '%s', %d, %d, %.2f, %.2f, %.2f, %d, 19132, %d)", id, cbName, cbType, cbInteriorID, cbCoordX, cbCoordY, cbCoordZ, cbPrice, cbMapIcon);
+	else mysql_format(connects, query, sizeof(query), "INSERT INTO `business_new` (`businessID`, `Name`, `Type`, `InteriorID`, `X`, `Y`, `Z`, `Price`, `PickupID`, `MapIcon`, `IsGasStation`, `GasX`, `GasY`, `GasZ`) VALUES (%d, '%s', %d, %d, %.2f, %.2f, %.2f, %d, 19132, %d, 1, %.2f, %.2f, %.2f)", id, cbName, cbType, cbInteriorID, cbCoordX, cbCoordY, cbCoordZ, cbPrice, cbMapIcon, cbGasX, cbGasY, cbGasZ);
+	mysql_query(connects, query);
+	new insert = cache_num_rows();
+	new string[256];
+
+	if(!insert) format(string, sizeof(string), "Бізнес "P"%d "W"успішно додано в БД.", id);
+	else format(string, sizeof(string), "Виникла проблема при інсерті в БД.");
+	SendOK(playerid, string);
+
+	mysql_format(connects, query, sizeof(query), "INSERT INTO `business_articles` (`businessID`, `Article_ID`, `Article`, `Price, `QTY`, `MaxQTY`, `Order`) SELECT %d, `Article_ID`, `Article`, `Price`, `QTY`, 50, 0 FROM `business_default_articles` WHERE `bType` = %d", id, cbType);
+	mysql_query(connects, query);
+	new articles = cache_num_rows();
+
+	if(!articles) format(string, sizeof(string), "Товари бізнесу успішно додано в БД.");
+	else format(string, sizeof(string), "Виникла проблема при інсерті в БД.");
+	SendOK(playerid, string);
+
+
+	new Cache:result;
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `business_new` WHERE `businessID` = %d LIMIT 1", id);
+	result = mysql_query(connects, query);
+	gBusinessCount++;
+	if(gBusinessCount >= MAX_BUSINESS_COUNT) print("[Error] There are more businesses in DB than allowed.");
+	else if(!gBusinessCount) print("[Error] Businesses weren't found in DB.");
+
+	cache_get_value_name_int(0, "ID", gBusiness[id][bID]);
+	cache_get_value_name_int(0, "businessID", gBusiness[id][bbusinessID]);
+	cache_get_value_name(0, "Name", gBusiness[id][bName], 64);
+	cache_get_value_name_int(0, "Type", gBusiness[id][bType]);
+	cache_get_value_name_int(0, "InteriorID", gBusiness[id][bInteriorID]);
+	cache_get_value_float(0, "X", gBusiness[id][bX]);
+	cache_get_value_float(0, "Y", gBusiness[id][bY]);
+	cache_get_value_float(0, "Z", gBusiness[id][bZ]);
+	cache_get_value_name_int(0, "OwnerID", gBusiness[id][bOwnerID]);
+	cache_get_value_name(0, "OwnerName", gBusiness[id][bOwnerName], 32);
+	cache_get_value_name_int(0, "Price", gBusiness[id][bPrice]);
+	cache_get_value_name_int(0, "Bank", gBusiness[id][bBank]);
+	cache_get_value_name_int(0, "Visitors", gBusiness[id][bVisitors]);
+	cache_get_value_name_int(0, "Order", gBusiness[id][bOrder]);
+	cache_get_value_name_int(0, "OrderPrice", gBusiness[id][bOrderPrice]);
+	cache_get_value_name_int(0, "Status", gBusiness[id][bStatus]);
+	cache_get_value_name_int(0, "PickupID", gBusiness[id][bPickupID]);
+	cache_get_value_name_int(0, "MapIcon", gBusiness[id][bMapIcon]);
+
+	cache_get_value_name_int(0, "IsGasStation", gBusiness[id][bIsGasStation]);
+	cache_get_value_float(0, "GasX", gBusiness[id][bGasX]);
+	cache_get_value_float(0, "GasY", gBusiness[id][bGasY]);
+	cache_get_value_float(0, "GasZ", gBusiness[id][bGasZ]);
+	cache_get_value_name_int(0, "GasPrice", gBusiness[id][bGasPrice]);
+	cache_get_value_name_int(0, "GasTank", gBusiness[id][bGasTank]);
+	cache_get_value_name(0, "Description", gBusiness[id][bDescription], 256);
+	cache_get_value_name_int(0, "Warehouse", gBusiness[id][bWarehouse]);
+	cache_get_value_name_int(0, "WarehouseMax", gBusiness[id][bWarehouseMax]);
+
+	//gBusiness[gBusiness[id][bbusinessID]][bMainBusinessID] = gBusiness[id][bbusinessID]+1;
+
+
+	gBusiness[gBusiness[id][bID]][bPickup] = CreateDynamicPickup(gBusiness[id][bPickupID], 23, gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], 0, 0);
+	bSphere[gBusiness[id][bID]] = CreateDynamicSphere(gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], 2.0, 0, 0);
+
+	new text[512];
+	format(text, sizeof(text), ""P"%s\n\n"W"Вартість: "GREEN"$%d\n"W"Власник: "P"відсутній", gBusiness[id][bName], gBusiness[id][bPrice]);
+	gBusiness[gBusiness[id][bID]][bText] = CreateDynamic3DTextLabel(text, 0xFFFFFFFF, gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ] + 1.0, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
+
+	gBusiness[gBusiness[id][bID]][bMap] = CreateDynamicMapIcon(gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], gBusiness[id][bMapIcon], 0, 0, 0, -1, 30.0);
+
+	if(gBusiness[id][bIsGasStation] == 1)
+	{
+		bGasSphere[gBusiness[id][bID]] = CreateDynamicSphere(gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], 2.0, 0, 0);
+		format(string, sizeof(string), ""P"%s\n\n"W"Вартість 1 л. палива: "GREEN"$%d\n"W"Доступно палива: "P"%d л.\n\n"YELLOW"Посигнальте, щоб заправитися,\nабо використайте /fill", gBusiness[id][bName], gBusiness[id][bGasPrice], gBusiness[id][bGasTank]);
+		gBusiness[gBusiness[id][bID]][bGasText] = CreateDynamic3DTextLabel(string, 0xFFFFFFFF, gBusiness[id][bGasX], gBusiness[id][bGasY], gBusiness[id][bGasZ] + 1.5, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
+	}
+
+	gBusiness[gBusiness[id][bID]][businessName] = gBusiness[id][bName];
+	gBusiness[gBusiness[id][bID]][businessType] = gBusiness[id][bType];
+	gBusiness[gBusiness[id][bID]][businessInteriorID] = gBusiness[id][bInteriorID];
+	gBusiness[gBusiness[id][bID]][businessX] = gBusiness[id][bX];
+	gBusiness[gBusiness[id][bID]][businessY] = gBusiness[id][bY];
+	gBusiness[gBusiness[id][bID]][businessZ] = gBusiness[id][bZ];
+	gBusiness[gBusiness[id][bID]][businessPrice] = gBusiness[id][bPrice];
+	gBusiness[gBusiness[id][bID]][businessBank] = gBusiness[id][bBank];
+	gBusiness[gBusiness[id][bID]][businessVisitors] = gBusiness[id][bVisitors];
+	gBusiness[gBusiness[id][bID]][businessOrder] = gBusiness[id][bOrder];
+	gBusiness[gBusiness[id][bID]][businessOrderPrice] = gBusiness[id][bOrderPrice];
+	gBusiness[gBusiness[id][bID]][businessStatus] = gBusiness[id][bStatus];
+	gBusiness[gBusiness[id][bID]][businessOwnerID] = gBusiness[id][bOwnerID];
+	gBusiness[gBusiness[id][bID]][businessOwnerName] = gBusiness[id][bOwnerName];
+
+
+	printf("i: %d", id);
+	printf("gBusiness[id][bID]: %d", gBusiness[id][bID]);
+	printf("Business Name: %s", gBusiness[id][bName]);
+	printf("Business Owner Name 2: %s", gBusiness[id][bOwnerName]);
+
+
+
+	printf("[Success] Businesses successfully loaded. (%i pcs.)", gBusinessCount);
+
+	UpdateTotalArticleQTY(id);
+	cache_delete(result);
+
 	return 1;
 }
