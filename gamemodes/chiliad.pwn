@@ -46906,7 +46906,6 @@ stock load_business_new() {
 
 		//gBusiness[gBusiness[i][bbusinessID]][bMainBusinessID] = gBusiness[i][bbusinessID]+1;
 
-
 		gBusiness[gBusiness[i][bID]][bPickup] = CreateDynamicPickup(gBusiness[i][bPickupID], 23, gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ], 0, 0);
 		bSphere[gBusiness[i][bID]] = CreateDynamicSphere(gBusiness[i][bX], gBusiness[i][bY], gBusiness[i][bZ], 2.0, 0, 0);
 
