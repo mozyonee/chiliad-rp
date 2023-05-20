@@ -942,8 +942,8 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 			UpdateCharacterData(playerid, "donatemonegy", CI[playerid][pDonate]);
 		}
 		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id, "usePrize");
-		case PRIZE_TYPE_SKIN: AddItem(playerid, 140 + db_model_id, 1);
-		case PRIZE_TYPE_ACCESORY: AddItem(playerid, db_model_id, 1);
+		case PRIZE_TYPE_SKIN: AddInactiveItem(playerid, 140 + db_model_id, 1);
+		case PRIZE_TYPE_ACCESORY: AddInactiveItem(playerid, db_model_id, 1);
 		default: return true;
 		/*case : {
 			// Выдача вип стандарт навсегда
