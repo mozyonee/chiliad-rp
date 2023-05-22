@@ -64444,3 +64444,4 @@
 [17.05.2023 22:20:59] [ERROR] Can't write to Discord websocket gateway: The I/O operation has been aborted because of either a thread exit or an application request (995)
 [17.05.2023 22:21:00] [ERROR] Discord terminated websocket connection; reason: Authentication failed. (4004)
 [17.05.2023 22:21:00] [ERROR] Can't write to Discord websocket gateway: The I/O operation has been aborted because of either a thread exit or an application request (995)
+[20.05.2023 11:35:51] [ERROR] Can't write to Discord websocket gateway: The I/O operation has been aborted because of either a thread exit or an application request (995)
