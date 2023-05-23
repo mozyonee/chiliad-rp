@@ -902,7 +902,6 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 			UpdateCharacterData(playerid, "pLevel", CI[playerid][pLevel]);
 			CI[playerid][pExp] = 0;
 
-			DollahScoreUpdate(playerid);
 			SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
 		}
 		case PRIZE_TYPE_EXP: {
@@ -912,7 +911,6 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 				CI[playerid][pLevel] += 1;
 				UpdateCharacterData(playerid, "pLevel", CI[playerid][pLevel]);
 				CI[playerid][pExp] = 0;
-				DollahScoreUpdate(playerid);
 				SendClientMessage(playerid, CGOLD, "Вітаємо! Ваш рівень підвищено.");
 			}
 		}

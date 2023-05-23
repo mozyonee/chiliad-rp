@@ -222,7 +222,7 @@
 	SetDynamicObjectMaterial(tmpobjid,0,1730,"cj_furniture","CJ_WOOD5",0x00000000);
 	tmpobjid=CreateDynamicObject(19482,1316.306,-901.123,45.034,0.0,0.0,-90.099,-1,-1,-1,200.0,200.0);
 	SetDynamicObjectMaterial(tmpobjid,0,10101,"2notherbuildsfe","Bow_Abpave_Gen",0x00000000);
-	SetDynamicObjectMaterialText(tmpobjid,0,"FIRST IN,LAST OUT",130,"Calibri",55,1,0xFF8B0000,0x00000000,1);
+	SetDynamicObjectMaterialText(tmpobjid,0,"FIRST IN, LAST OUT",130,"Calibri",55,1,0xFF8B0000,0x00000000,1);
 	tmpobjid=CreateDynamicObject(19482,1320.325,-868.368,42.534,0.0,0.0,0.0,-1,-1,-1,200.0,200.0);
 	SetDynamicObjectMaterial(tmpobjid,0,10101,"2notherbuildsfe","Bow_Abpave_Gen",0x00000000);
 	SetDynamicObjectMaterialText(tmpobjid,0,"DIVISION 505",130,"Calibri",55,1,0xFFC0C0C0,0x00000000,1);
