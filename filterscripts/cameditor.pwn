@@ -13,10 +13,12 @@
 */
 #define FILTERSCRIPT
 
+#define MAX_PLAYERS 300
+
 #include <a_samp>
 
-#define MOVE_SPEED              10.0
-#define ACCEL_RATE              0.02
+#define MOVE_SPEED              100.0
+#define ACCEL_RATE              0.03
 
 #define CAMERA_MODE_NONE    	0
 #define CAMERA_MODE_FLY     	1
@@ -121,7 +123,7 @@ public OnPlayerConnect(playerid)
 
 public OnPlayerSpawn(playerid)
 {
-
+	if(IsCreating[playerid] == false) SendClientMessage(playerid, -1, "Введите /cameditor для входа в режим редактора камеры.");
 }
 
 public OnPlayerCommandText(playerid, cmdtext[])
@@ -159,9 +161,9 @@ public OnPlayerCommandText(playerid, cmdtext[])
 			IsCamMoving[playerid] 				= false;
 			coordInfo[playerid][MoveSpeed] 		= 1000;
 			coordInfo[playerid][RotSpeed] 		= 1000;
-			SendClientMessage(playerid, -1, "You exited the camera movement editor.");
+			SendClientMessage(playerid, -1, "Вы успешно покинули режим редактора камеры.");
 	    }
-	    else SendClientMessage(playerid, -1, "You are currently not using the camera movement editor.");
+	    else SendClientMessage(playerid, -1, "В данный момент вы не находитесь в режиме редактора камеры.");
 	    return 1;
 	}
 	return 0;
@@ -189,8 +191,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 				coordInfo[playerid][StartLookZ] 	= object_z;
 		        if(IsReSettingStart[playerid] == true)
 		        {
-					SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} Start position {8EFF8E}re-set.");
-					ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Next step?","Preview\nChange Start\nChange End\nChange Speed\nSave","Ok","Cancel");
+					SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} Начальная позиция: {8EFF8E}изменение.");
+					ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Следующий шаг?","Предпросмотр\nИзменить начальное положение\nИзменить конечное положение\nИзменить скорость\nСохранить","ОК","Отмена");
 					IsReSettingStart[playerid] 		= false;
 					IsReSettingEnd[playerid] 		= false;
 					SettingFirstLoc[playerid] 		= false;
@@ -198,8 +200,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 				}
 				else
 				{
-				    SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} Start position {8EFF8E}set.");
-				    SendClientMessage(playerid, -1, "Now use {F58282}~k~~PED_FIREWEAPON~ {FFFFFF}to save the camera's position as the {F58282}end {FFFFFF}position.");
+				    SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} Начальная позиция: {8EFF8E}установлена.");
+				    SendClientMessage(playerid, -1, "Теперь используйте {F58282}ЛКМ (левая кнопка мыши) {FFFFFF}для установки {F58282}конечной{FFFFFF} позиции положения камеры.");
 				    SettingLastLoc[playerid] = true;
 				    SettingFirstLoc[playerid] = false;
 				}
@@ -208,8 +210,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 			{
 			    const Float:fScale = 5.0;
 		        new string[512];
-			    format(string, sizeof(string), "Please enter the desired {F58282}movement{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n\n\nNote: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-			    ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Movement Speed", string,"Ok","Cancel");
+			    format(string, sizeof(string), "Пожалуйста, введите желаемое значение {F58282}передвижения{a9c4e4} камеры в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n\n\nПримечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+			    ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Скорость передвижения", string,"ОК","Отмена");
 				GetPlayerCameraPos(playerid, fPX, fPY, fPZ);
 				GetPlayerCameraFrontVector(playerid, fVX, fVY, fVZ);
 				object_x = fPX + floatmul(fVX, fScale);
@@ -223,8 +225,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 				coordInfo[playerid][EndLookZ] 		= object_z;
 				if(IsReSettingEnd[playerid] == true)
 				{
-				    SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} End position {8EFF8E}re-set.");
-				    ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Next step?","Preview\nChange Start\nChange End\nChange Speed\nSave","Ok","Cancel");
+				    SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} Конечная позиция: {8EFF8E}изменение.");
+				    ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Следующий шаг?","Предпросмотр\nИзменить начальное положение\nИзменить конечное положение\nИзменить скорость\nСохранить","ОК","Отмена");
 		            IsReSettingStart[playerid] 		= false;
 					IsReSettingEnd[playerid] 		= false;
 					SettingFirstLoc[playerid] 		= false;
@@ -232,7 +234,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 				}
 				else
 				{
-				    SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} End position {8EFF8E}set.");
+				    SendClientMessage(playerid, -1, "{8EFF8E}>{FFFFFF} Конечная позиция {8EFF8E}установлена.");
 				    SettingLastLoc[playerid] = false;
 				}
 			}
@@ -281,11 +283,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	        {
 		        switch(listitem)
 		        {
-					case 0: //Preview
+					case 0: // Предпросмотр.
 					{
 					    PreviewMovement(playerid);
 					}
-					case 1: //Change start
+					case 1: // Изменение начального положения.
 					{
 					    DestroyPlayerObject(playerid, noclipdata[playerid][flyobject]);
 						IsReSettingEnd[playerid] 	= false;
@@ -297,9 +299,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						AttachCameraToPlayerObject(playerid, noclipdata[playerid][flyobject]);
 						SetPVarInt(playerid, "FlyMode", 1);
 						noclipdata[playerid][cameramode] = CAMERA_MODE_FLY;
-						SendClientMessage(playerid, -1, "Use {F58282}~k~~PED_FIREWEAPON~ {FFFFFF}to set a new {F58282}start {FFFFFF}position.");
+						SendClientMessage(playerid, -1, "Используйте {F58282}ЛКМ (левая кнопка мыши) {FFFFFF}для изменения координат {F58282}начального {FFFFFF}положения.");
 					}
-					case 2: //Change end
+					case 2: // Изменение конечного положения.
 					{
 					    DestroyPlayerObject(playerid, noclipdata[playerid][flyobject]);
 						IsReSettingStart[playerid] 	= false;
@@ -313,24 +315,24 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						AttachCameraToPlayerObject(playerid, noclipdata[playerid][flyobject]);
 						SetPVarInt(playerid, "FlyMode", 1);
 						noclipdata[playerid][cameramode] = CAMERA_MODE_FLY;
-						SendClientMessage(playerid, -1, "Use {F58282}~k~~PED_FIREWEAPON~ {FFFFFF}to set a new {F58282}end {FFFFFF}position.");
+						SendClientMessage(playerid, -1, "Используйте {F58282}ЛКМ (левая кнопка мыши) {FFFFFF}для изменения координат {F58282}конечного {FFFFFF}положения.");
 					}
-					case 3: //Change speed
+					case 3: // Изменение скорости.
 					{
 					    new string[512];
-					    format(string, sizeof(string), "Please enter the desired {F58282}movement{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n\n\nNote: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-					    ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Movement Speed", string,"Ok","Cancel");
+					    format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}передвижения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n\n\nПримечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+					    ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Скорость передвижения", string,"ОК","Отмена");
 					}
-					case 4: //Export
+					case 4: // Экспорт сценария в файл.
 					{
-					    ShowPlayerDialog(playerid, DIALOG_EXPORTNAME, DIALOG_STYLE_INPUT, "Save movement","Enter a name for the movement","Ok","Cancel");
+					    ShowPlayerDialog(playerid, DIALOG_EXPORTNAME, DIALOG_STYLE_INPUT, "Сохранить сценарий","Введите название файла нового сценария:","ОК","Отмена");
 					}
 		        }
 			}
 			else
 			{
 				CancelFlyMode(playerid);
-    			SendClientMessage(playerid, -1, "You exited the camera movement editor.");
+    			SendClientMessage(playerid, -1, "Вы покинули режим редактора камеры.");
    				IsCreating[playerid] = false;
 			}
 	    }
@@ -344,28 +346,28 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            {
 		                coordInfo[playerid][MoveSpeed] = strval(inputtext);
 		                new string[512];
-		    			format(string, sizeof(string), "Please enter the desired {F58282}rotation{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n\n\n{F58282}Note: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-	                    ShowPlayerDialog(playerid, DIALOG_ROT_SPEED, DIALOG_STYLE_INPUT, "Rotation Speed", string,"Ok","Cancel");
+		    			format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}вращения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n\n\n{F58282}Примечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+	                    ShowPlayerDialog(playerid, DIALOG_ROT_SPEED, DIALOG_STYLE_INPUT, "Скорость вращения", string,"ОК","Отмена");
 	                    IsReSettingStart[playerid] = false;
 						IsReSettingEnd[playerid]   = false;
 					}
 		            else
 		            {
 		                new string[512];
-	    				format(string, sizeof(string), "Please enter the desired {F58282}movement{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n{FF0000}NUMBERS ONLY\n\n{F58282}Note: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-		                ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Movement Speed", string,"Ok","Cancel");
+	    				format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}передвижения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n{FF0000}ТОЛЬКО ЦИФРЫ!\n\n{F58282}Примечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+		                ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Скорость передвижения", string,"ОК","Отмена");
 		            }
 				}
 				else
 				{
 				    new string[512];
-    				format(string, sizeof(string), "Please enter the desired {F58282}movement{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n{FF0000}You need to enter a value\n\n{F58282}Note: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-        			ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Movement Speed", string,"Ok","Cancel");
+    				format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}передвижения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n{FF0000}Вы должны ввести значение\n\n{F58282}Примечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+        			ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Скорость передвижения", string,"ОК","Отмена");
 				}
 	        }
 	        else
 	        {
-                ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Next step?","Preview\nChange Start\nChange End\nChange Speed\nSave","Ok","Cancel");
+                ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Следующий шаг?","Предпросмотр\nИзменить начальное положение\nИзменить конечное положение\nИзменить скорость\nСохранить","ОК","Отмена");
 	        }
 	    }
 	    case DIALOG_ROT_SPEED:
@@ -377,29 +379,29 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		            if(IsNumeric(inputtext))
 		            {
 		                coordInfo[playerid][RotSpeed] = strval(inputtext);
-		                ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Next step?","Preview\nChange Start\nChange End\nChange Speed\nSave","Ok","Cancel");
+		                ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Следующий шаг?","Предпросмотр\nИзменить начальное положение\nИзменить конечное положение\nИзменить скорость\nСохранить","ОК","Отмена");
 	                    IsReSettingStart[playerid] = false;
 						IsReSettingEnd[playerid]   = false;
 					}
 		            else
 		            {
 		                new string[512];
-	    				format(string, sizeof(string), "Please enter the desired {F58282}rotation{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n{FF0000}NUMBERS ONLY!\n\n{F58282}Note: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-		                ShowPlayerDialog(playerid, DIALOG_ROT_SPEED, DIALOG_STYLE_INPUT, "Rotation Speed", string,"Ok","Cancel");
+	    				format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}вращения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n{FF0000}ТОЛЬКО ЦИФРЫ!\n\n{F58282}Примечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+		                ShowPlayerDialog(playerid, DIALOG_ROT_SPEED, DIALOG_STYLE_INPUT, "Скорость вращения", string,"ОК","Отмена");
 		            }
 				}
 				else
 				{
 				    new string[512];
-    				format(string, sizeof(string), "Please enter the desired {F58282}rotation{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n{FF0000}You need to enter a value\n\n{F58282}Note: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-        			ShowPlayerDialog(playerid, DIALOG_ROT_SPEED, DIALOG_STYLE_INPUT, "Rotation Speed", string,"Ok","Cancel");
+    				format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}вращения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n{FF0000}Вы должны ввести значение\n\n{F58282}Примечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+        			ShowPlayerDialog(playerid, DIALOG_ROT_SPEED, DIALOG_STYLE_INPUT, "Скорость вращения", string,"ОК","Отмена");
 				}
 	        }
 	        else
 	        {
 	            new string[512];
-    			format(string, sizeof(string), "Please enter the desired {F58282}movement{a9c4e4} time in milliseconds\n\nCurrent movement speed: \t{F58282}%i milliseconds\n{a9c4e4}Current rotation speed: \t{F58282}%i milliseconds\n\n\n{F58282}Note: {a9c4e4}1 second = 1000 milliseconds", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
-                ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Movement Speed",string,"Ok","Cancel");
+    			format(string, sizeof(string), "Пожалуйста, введите желаемую скорость {F58282}передвижения{a9c4e4} в миллисекундах\n\nТекущая скорость передвижения: \t{F58282}%i миллисекунд\n{a9c4e4}Текущая скорость вращения: \t{F58282}%i миллисекунд\n\n\n{F58282}Примечание: {a9c4e4}1 секунда = 1000 миллисекунд", coordInfo[playerid][MoveSpeed], coordInfo[playerid][RotSpeed]);
+                ShowPlayerDialog(playerid, DIALOG_MOVE_SPEED, DIALOG_STYLE_INPUT, "Скорость передвижения",string,"ОК","Отмена");
 	        }
 	    }
 	    case DIALOG_EXPORTNAME:
@@ -412,12 +414,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				}
 				else
 				{
-				    ShowPlayerDialog(playerid, DIALOG_EXPORTNAME, DIALOG_STYLE_INPUT, "Save movement","Enter a name for the movement\n{FF0000}You need to enter a text","Ok","Cancel");
+				    ShowPlayerDialog(playerid, DIALOG_EXPORTNAME, DIALOG_STYLE_INPUT, "Save movement","Enter a name for the movement\n{FF0000}You need to enter a text","ОК","Отмена");
 				}
 			}
 	        else
 	        {
-	            ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Next step?","Preview\nChange Start\nChange End\nChange Speed\nSave","Ok","Cancel");
+	            ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Следующий шаг?","Предпросмотр\nИзменить начальное положение\nИзменить конечное положение\nИзменить скорость\nСохранить","ОК","Отмена");
 	        }
 	    }
 	    case DIALOG_CLOSE_NEW:
@@ -444,7 +446,7 @@ public ShowPlayerMenu(playerid)
 {
 	KillTimer(MenuTimer);
 	IsCamMoving[playerid] = false;
-	ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Next step?","Preview\nChange Start\nChange End\nChange Speed\nSave","Ok","Cancel");
+	ShowPlayerDialog(playerid, DIALOG_MENU, DIALOG_STYLE_LIST,"Следующий шаг?","Предпросмотр\nИзменить начальное положение\nИзменить конечное положение\nИзменить скорость\nСохранить","ОК","Отмена");
 	return 1;
 }
 
@@ -467,11 +469,11 @@ forward ExportMovement(playerid, inputtext[]);
 public ExportMovement(playerid, inputtext[])
 {
     new tagstring[64];
-	new movestring[512]; 
+	new movestring[512];
 	new rotstring[512];
 	new filename[50];
 	format(filename, 128, "CamEdit_%s.txt", inputtext);
-	format(tagstring, sizeof(tagstring), "|----------%s----------|\r\n", inputtext);
+	format(tagstring, sizeof(tagstring), "[%s]\r\n", inputtext);
 	format(movestring, sizeof(movestring),"InterpolateCameraPos(playerid, %f, %f, %f, %f, %f, %f, %i);\r\n",coordInfo[playerid][StartX], coordInfo[playerid][StartY], coordInfo[playerid][StartZ], coordInfo[playerid][EndX], coordInfo[playerid][EndY], coordInfo[playerid][EndZ],coordInfo[playerid][MoveSpeed]);
 	format(rotstring,sizeof(rotstring),"InterpolateCameraLookAt(playerid, %f, %f, %f, %f, %f, %f, %i);",coordInfo[playerid][StartLookX],coordInfo[playerid][StartLookY],coordInfo[playerid][StartLookZ],coordInfo[playerid][EndLookX],coordInfo[playerid][EndLookY],coordInfo[playerid][EndLookZ],coordInfo[playerid][RotSpeed]);
 	new File:File = fopen(filename, io_write);
@@ -480,8 +482,8 @@ public ExportMovement(playerid, inputtext[])
 	fwrite(File, rotstring);
 	fclose(File);
 	new myOutpString[256];
-	format(myOutpString, sizeof(myOutpString), "Camera movements saved under {F58282}%s {a9c4e4}to the scriptfiles folder!\n\nWhat do you want to do next?", filename);
-	ShowPlayerDialog(playerid, DIALOG_CLOSE_NEW, DIALOG_STYLE_MSGBOX,"What next?",myOutpString,"Create new","Exit");
+	format(myOutpString, sizeof(myOutpString), "Ваш сценарий был сохранён как {F58282}%s {a9c4e4}в папку scriptfiles!\n\nВы желаете продолжить?", filename);
+	ShowPlayerDialog(playerid, DIALOG_CLOSE_NEW, DIALOG_STYLE_MSGBOX,"Что выбираете?",myOutpString,"Новый сценарий","Выход");
 }
 
 stock GetMoveDirectionFromKeys(ud, lr)
@@ -611,10 +613,10 @@ stock FlyMode(playerid)
 
 	SetPVarInt(playerid, "FlyMode", 1);
 	noclipdata[playerid][cameramode] = CAMERA_MODE_FLY;
-	SendClientMessage(playerid, -1, "You entered the camera movement editor.");
-	SendClientMessage(playerid, -1, "You can use /closecameditor to close it.");
-	SendClientMessage(playerid, -1, "With {F58282}~k~~GO_FORWARD~, ~k~~GO_BACK~, ~k~~GO_LEFT~ and ~k~~GO_RIGHT~{FFFFFF} you can move the camera.");
-	SendClientMessage(playerid, -1, "Use {F58282}~k~~PED_FIREWEAPON~ {FFFFFF}to save the camera's position as the {F58282}start {FFFFFF}position.");
+	SendClientMessage(playerid, -1, "Вы успешно вошли в режим редактирования камеры.");
+	SendClientMessage(playerid, -1, "Используйте /closecameditor для выхода из режима.");
+	SendClientMessage(playerid, -1, "При помощи {F58282}W, A, S, D{FFFFFF} вы можете свободно перемещаться в пространстве.");
+	SendClientMessage(playerid, -1, "Используйте {F58282}ЛКМ (левая кнопка мыши) {FFFFFF}для сохранения {F58282}начальной {FFFFFF}позиции камеры.");
 	return 1;
 }
 
