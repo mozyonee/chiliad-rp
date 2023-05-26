@@ -50,6 +50,7 @@ new TimerRobWeapon = 0;
 new bool:TimerRobWeaponBool = false, bool:TimerEndWeaponBool = false;
 new KillerWarGang = 0, KillerWarCop = 0, TimerEndWeapon = 0;
 new GZ_ZONE1;
+
 // Склади під системи для байкерів.
 #define SkladOne 2258.5747, 79.4172, 26.4844
 #define SkladTwo	-2088.7078, -2262.2795, 30.6960
@@ -666,40 +667,40 @@ static const school_test_active_dialog[][ENUM_AUTO_SCHOOL_TEST] = {
 	{ "- Рухаючись дорогою з двома полосами за вантажним автомобілем\n\
 		у вас з'явилася можливість здійснити обгін. Ваші дії?",
 		"Я маю якісь дії?", "Поїду по убіччі", "Не буду здійнювати обгін", "Перелаштуюся на зустрічну полосу і завершу маневр",
-  		4 },
+		4 },
 	{ "- У тунелі зі штучним освітленням повинні бути ввімкнені:",
 		"Фари ближнього світла чи габарити", "Фари ближнього світла", "Прожектор", "Фари ближнього та дальнього світла",
-  		4 },
+		4 },
 	{ "- Коли варто вмикати показчики повороту?",
 		"Безпосередньо перед поворотом чи розворотом", "Завчасно до початку маневру", "На розсуд водія", "Я на BMW, у нас так не прийнято",
-  		2 },
+		2 },
 	{ "- Чим необхідно керуватися, коли, нанесені на дорозі, білі\n\
 		та оранжеві лінії розмітки суперечать один одному?",
 		"Оранжевим лініям", "Білим лініям", "Я не дивлюся на розмітку", "У правилах такого немає",
-  		1 },
+		1 },
 	{ "- Чи дозволяється встановлювати на автомобілі \n\
 		шиповані шини разом із нешипованими?",
 		"Лише на різні вісі", "Забороняється", "Можна, якщо ніхто не бачить", "У правилах такого немає",
-  		2 },
+		2 },
 	{ "- Чи виключає антиблокувальна гальмівна система можливість\n\
 		виникнення заносу чи зносу при проходжені повороту?",
 		"Повністю виключає виникнення заносу", "Повністю виключає виникнення зносу", "Не виключає", "Виключає обидва варіанти",
-  		3 },
+		3 },
 	{ "- Як необхідно позначати автомобіль-буксир\n\
 		при відсутності або несправності аваріайної сигналізації?",
 		"Встановити на задній частині автомобіля знак аварійної зупинки", "Увімкнути габаритні вогні", "Увімкнути протитуманні ліхтарі", "Ніяк",
-  		1 },
+		1 },
 	{ "- Чи зобов'язані ви перемкнути дальнє світло на ближнє, \n\
 		якщо водій зустрічного транспортного засобу періодично\n\
 		вкаже на цю необхідність, перемкнувши світло фар?",
 		"Зобов'язаний", "Не зобов'язаний, це його проблеми", "Якщо вістань менша, ніж 150м", "Зобов'язаний у будь-яких випадках",
-  		1 },
+		1 },
 	{ "- Водій транспортного засобу, що обганяється:",
 		"Повинен знизити швидкість", "Повинен не підвищувати швидкість", "На свій розсуд", "Нічого не повинен",
-  		2 },
+		2 },
 	{ "- Максимальна швидкість руху в місті?",
 		"90 км/год", "40 км/год", "50 км/год", "60 км/год",
-  		4 }
+		4 }
 };
 // -----------------------------------------------------------------------------
 enum GHETTO_e {
@@ -1277,11 +1278,11 @@ new Donate[26][d_donate] = {
 enum PTEMP
 {
 	var_unit_6,
-    var_unit_5,
+	var_unit_5,
 	var_unit_4[24],
-    var_unit_3,
-    var_unit_2,
-    var_unit_1
+	var_unit_3,
+	var_unit_2,
+	var_unit_1
 }
 new pTemp[MAX_PLAYERS][PTEMP];
 new ClickInv[MAX_PLAYERS], ClickStore[MAX_PLAYERS];
@@ -1306,7 +1307,7 @@ enum iInfo {
 	AccsBone
 };
 new II[][iInfo] = {
-    {1649, 0, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0},
+	{1649, 0, "", 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0},
 
 	{0, 0, "Одяг Carl CJ Johnson (ID: 0)", 3.0, 0.0, 0.0, 0.0, 1.0, 0, 0},
 	{1, 0, "Одяг The Truth (ID: 1)", 3.0, 0.0, 0.0, 0.0, 1.0, 0, 0},
@@ -2516,20 +2517,20 @@ enum dialogs {
 	D_GPS_RAZ,
 	D_GPS_WORK_2,
 
-    D_BIZZ_BUY,
+	D_BIZZ_BUY,
 	D_BIZZ_BUY_2,
 	D_BIZZ_BUY_FILL,
-    D_BIZZ_UPDATE,
+	D_BIZZ_UPDATE,
 	D_BIZZ_UPGRADE,
-    D_BIZZ,
+	D_BIZZ,
 	D_BIZZ_2,
 	D_BIZZ_3,
 	D_BIZZ_10,
-    D_BIZZ_STATS,
-    D_BIZZ_24,
-    D_BIZZ_SIM,
-    D_BIZZ_TAVERN,
-    D_BIZZ_BAR,
+	D_BIZZ_STATS,
+	D_BIZZ_24,
+	D_BIZZ_SIM,
+	D_BIZZ_TAVERN,
+	D_BIZZ_BAR,
 	D_BIZZ_FISH,
 	D_BIZZ_COMP,
 	D_BIZZ_BANK,
@@ -2571,24 +2572,24 @@ enum dialogs {
 	D_TRUNK_INPUT,
 	D_TRUNK_PUT,
 
-    D_TP_LIST,
+	D_TP_LIST,
 	D_TP_LIST_2,
-    D_TP_HOUSE,
+	D_TP_HOUSE,
 
 	D_NEWS,
 	D_NEWS_ETHER,
 	D_NEWS_ETHER_PRICE,
-    D_ADVERT_LIST,
-    D_ADVERT_LIST_EDIT,
-    D_ADVERT_START,
+	D_ADVERT_LIST,
+	D_ADVERT_LIST_EDIT,
+	D_ADVERT_START,
 
 	D_ADMIN_HISTORY,
 	D_ADMIN_HISTORY_USE,
 	D_ADMIN_PANEL,
 
-    D_OBC_LIST,
-    D_OBC_WANTED,
-    D_OBC_PATRUL,
+	D_OBC_LIST,
+	D_OBC_WANTED,
+	D_OBC_PATRUL,
 	D_OBC_SERVICES,
 	D_OBC_SERVICES_INV,
 	D_OBC_BD,
@@ -2605,10 +2606,10 @@ enum dialogs {
 	D_OBJECT_ADD,
 	D_OBJECT_CONTROL,
 
-    D_FACTIONS_LIST,
+	D_FACTIONS_LIST,
 	D_FACTION_ADD_NAME,
 	D_FACTION_ADD_TYPE,
-    D_FACTION_EDIT,
+	D_FACTION_EDIT,
 	D_FACTION_EDIT_TYPE,
 	D_FACTION_EDIT_NAME,
 	D_FACTION_EDIT_COLOR,
@@ -2647,9 +2648,9 @@ enum dialogs {
 	D_FACTION_EDIT_FLEET_SPAWN_A,
 	D_FACTION_EDIT_FLEET_SPAWN_VW,
 	D_FACTION_EDIT_FLEET_SPAWN_I,
-    D_MAKELEADER_ADD,
-    D_MAKELEADER_CLEAR,
-    D_MAKELEADER,
+	D_MAKELEADER_ADD,
+	D_MAKELEADER_CLEAR,
+	D_MAKELEADER,
 
 	D_BLACK_MARKET,
 	D_BLACK_MARKET_DRUGS,
@@ -2667,8 +2668,8 @@ enum dialogs {
 	D_MARKET_NARKO_SELL,
 	D_MARKET_MATS_SELL,
 
-    D_JOB,
-    D_JOB_GUNS,
+	D_JOB,
+	D_JOB_GUNS,
 	D_JOB_GUNS_1,
 	D_JOB_SAD,
 	D_JOB_SAD_1,
@@ -2719,7 +2720,7 @@ enum dialogs {
 	D_UNIVERSITY,
 	D_UNIVERSITY_1,
 
-    D_BANK_INPUT,
+	D_BANK_INPUT,
 	D_BANK_GL,
 	D_BANK_OPLATA_HOUSE,
 	D_BANK_OPLATA_BIZZ,
@@ -3527,7 +3528,7 @@ enum _:frac_ids {
 };
 
 enum _:fTypes {
-    fGOVERNMENT = 1,
+	fGOVERNMENT = 1,
 	fENFORCEMENT = 2,
 	fMEDIC = 3,
 	fGANG = 4,
@@ -7205,8 +7206,8 @@ enum enter_info {
 	{0, 0, 19804}, // 75
 	{25, -1, 1318}, // 76
 	{2, 1, 1239}, // 77
-    {102, 102, 11745}, //78
-    {92, 92, 11745}, //79
+	{102, 102, 11745}, //78
+	{92, 92, 11745}, //79
 	{0, 0, 19130}, //80
 	{92, 92, 19130}//81
 };
@@ -7411,13 +7412,13 @@ enum cInfo {
 	cDeathArea,
 	cDeathTimer,
 	cDeathTimerSec,
-    cDeathI,
-    cDeathVW,
-    Float:cDeathX,
-    Float:cDeathY,
-    Float:cDeathZ,
-    Float:cDeathA,
-    Text3D:cDeathLabel,
+	cDeathI,
+	cDeathVW,
+	Float:cDeathX,
+	Float:cDeathY,
+	Float:cDeathZ,
+	Float:cDeathA,
+	Text3D:cDeathLabel,
 	Float:pHP,
 
 	pHouse,
@@ -7524,7 +7525,7 @@ enum cInfo {
 	pStone,
 	pDress,
 
-    Float:pSpawnPos[4],
+	Float:pSpawnPos[4],
 	pSpawnWorld,
 	pSpawnInterior,
 	pSpawnTPPick,
@@ -7903,7 +7904,7 @@ enum Vacancy {
 	VacancyFraction,
 };
 new VacancyInfo[14][Vacancy];
- 	/* {17, 57, 141, 147, 150, 163, 164, 165, 166, 186, 187, 208, 227, 228, 294, 295}, // 0 - Government
+	/* {17, 57, 141, 147, 150, 163, 164, 165, 166, 186, 187, 208, 227, 228, 294, 295}, // 0 - Government
 	{71, 265, 266, 267, 280, 281, 282, 283, 284, 285, 286, 288, 300, 301, 302, 306, 307, 309, 310, 311}, // 1 - Police
 	{70, 71, 148, 219, 268, 274, 275, 276, 277, 278, 279, 308}, // 2 - Medics
 	{86, 102, 103, 104, 105, 106, 107, 108, 109, 110, 114, 115, 116, 149, 173, 174, 175, 269, 270, 271}, // 3 - Gangs
@@ -7964,259 +7965,50 @@ enum BINT_DATA {
 	bintName[32]
 }
 
-//new gBints[BINT_COUNT][BINT_DATA];
-new gBints[][BINT_DATA] =
-{
+// new gBints[BINT_COUNT][BINT_DATA];
+new gBints[][BINT_DATA] = {
 	{ 1, 1381.2, -28.7427, 1000.92, 0.00, 1, 1379.22, -24.7287, 1000.95, 0.00, 0.00, 0.00, 0.00, 1239, "24/7" },
 	{ 2, 1538.9421, 1556.3579, 10.9250, 357.9282, 2, 1538.9413, 1547.3257, 10.9250, 0.00, 0.00, 0.00, 0.00, 1239, "Binco" }
 };
 
-new bintActiveSphere[sizeof(gBints)+1];
-new bintSphere[sizeof(gBints)+1];
+new bintActiveSphere[sizeof(gBints) + 1];
+new bintSphere[sizeof(gBints) + 1];
 
-enum SKIN_DATA
-{
-	SkinID,
-	Nation
-}
-
-/*
-	Білі - 1
-	Чорношкірі - 2
-	Латиноси - 3
-	Азіати - 4
-*/
-
-new MalePlayerSkinBlack[][SKIN_DATA] =
-{
-	{ 4, 2 },
-	{ 5, 2 },
-	{ 6, 2 },
-	{ 7, 2 },
-	{ 8, 2 },
-	{ 14, 2 },
-	{ 15, 2 },
-	{ 17, 2 },
-	{ 18, 2 },
-	{ 19, 2 },
-	{ 20, 2 },
-	{ 21, 2 },
-	{ 22, 2 },
-	{ 24, 2 },
-	{ 25, 2 },
-	{ 28, 2 },
-	{ 35, 2 },
-	{ 36, 2 },
-	{ 66, 2 },
-	{ 67, 2 },
-	{ 83, 2 },
-	{ 84, 2 },
-	{ 142, 2 },
-	{ 143, 2 },
-	{ 144, 2 },
-	{ 176, 2 },
-	{ 180, 2 },
-	{ 182, 2 },
-	{ 183, 2 },
-	{ 220, 2 },
-	{ 221, 2 },
-	{ 222, 2 },
-	{ 249, 2 },
-	{ 262, 2 },
-	{ 293, 2 },
-	{ 296, 2 },
-	{ 297, 2 }
-};
-
-new MalePlayerSkinLatinos[][SKIN_DATA] =
-{
-	{ 30, 3 },
-	{ 43, 3 },
-	{ 44, 3 },
-	{ 46, 3 },
-	{ 47, 3 },
-	{ 48, 3 },
-	{ 58, 3 },
-	{ 82, 3 },
-	{ 98, 3 },
-	{ 128, 3 },
-	{ 184, 3 },
-	{ 185, 3 },
-	{ 223, 3 },
-	{ 241, 3 },
-	{ 242, 3 },
-	{ 258, 3 },
-	{ 272, 3 },
-	{ 273, 3 },
-	{ 292, 3 }
-};
-
-new MalePlayerSkinAsia[][SKIN_DATA] =
-{
-	{ 49, 4 },
-	{ 57, 4 },
-	{ 59, 4 },
-	{ 170, 4 },
-	{ 186, 4 },
-	{ 187, 4 },
-	{ 208, 4 },
-	{ 210, 4 },
-	{ 227, 4 },
-	{ 228, 4 },
-	{ 229, 4 },
-	{ 294, 4 }
-};
-
-new MalePlayerSkinWhite[][SKIN_DATA] =
-{
-	{ 1, 1 },
-	{ 2, 1 },
-	{ 3, 1 },
-	{ 23, 1 },
-	{ 26, 1 },
-	{ 29, 1 },
-	{ 32, 1 },
-	{ 33, 1 },
-	{ 34, 1 },
-	{ 37, 1 },
-	{ 45, 1 },
-	{ 60, 1 },
-	{ 68, 1 },
-	{ 72, 1 },
-	{ 73, 1 },
-	{ 94, 1 },
-	{ 95, 1 },
-	{ 96, 1 },
-	{ 97, 1 },
-	{ 100, 1 },
-	{ 101, 1 },
-	{ 132, 1 },
-	{ 133, 1 },
-	{ 146, 1 },
-	{ 147, 1 },
-	{ 154, 1 },
-	{ 156, 1 },
-	{ 158, 1 },
-	{ 159, 1 },
-	{ 160, 1 },
-	{ 161, 1 },
-	{ 162, 1 },
-	{ 171, 1 },
-	{ 177, 1 },
-	{ 179, 1 },
-	{ 181, 1 },
-	{ 188, 1 },
-	{ 189, 1 },
-	{ 202, 1 },
-	{ 206, 1 },
-	{ 217, 1 },
-	{ 234, 1 },
-	{ 235, 1 },
-	{ 236, 1 },
-	{ 240, 1 },
-	{ 247, 1 },
-	{ 248, 1 },
-	{ 250, 1 },
-	{ 254, 1 },
-	{ 259, 1 },
-	{ 261, 1 },
-	{ 289, 1 },
-	{ 290, 1 },
-	{ 291, 1 },
-	{ 299, 1 },
-	{ 303, 1 },
-	{ 304, 1 },
-	{ 305, 1 }
-};
-new FemalePlayerSkin[][SKIN_DATA] =
-{
-	{ 9, 2 },
-	{ 10, 2 },
-	{ 11, 2 },
-	{ 12, 2 },
-	{ 13, 2 },
-	{ 31, 1 },
-	{ 38, 1 },
-	{ 39, 4 },
-	{ 40, 1 },
-	{ 41, 3 },
-	{ 53, 4 },
-	{ 54, 4 },
-	{ 55, 3 },
-	{ 56, 4 },
-	{ 63, 3 },
-	{ 64, 3 },
-	{ 65, 2 },
-	{ 69, 3 },
-	{ 75, 1 },
-	{ 76, 2 },
-	//{ 77, 0 },
-	{ 85, 1 },
-	//{ 87, 0 },
-	{ 88, 1 },
-	{ 89, 1 },
-	{ 90, 1 },
-	{ 91, 3 },
-	//{ 92, 0 },
-	{ 93, 1 },
-	{ 129, 1 },
-	{ 130, 1 },
-	{ 131, 3 },
-	{ 138, 1 },
-	{ 139, 2 },
-	{ 140, 3 },
-	{ 141, 3 },
-	//{ 145, 0 },
-	{ 148, 2 },
-	{ 150, 1 },
-	{ 151, 1 },
-	{ 152, 1 },
-	{ 157, 1 },
-	{ 169, 4 },
-	{ 172, 1 },
-	//{ 178, 0 },
-	{ 190, 2 },
-	//{ 191, 0 },
-	{ 192, 1 },
-	{ 193, 4 },
-	{ 194, 1 },
-	{ 195, 2 },
-	{ 196, 1 },
-	{ 197, 1 },
-	{ 198, 1 },
-	{ 199, 1 },
-	{ 201, 1 },
-	//{ 205, 0 },
-	{ 207, 3 },
-	{ 211, 1 },
-	{ 214, 3 },
-	{ 215, 2 },
-	{ 216, 3 },
-	{ 218, 2 },
-	{ 219, 2 },
-	{ 224, 4 },
-	{ 225, 4 },
-	{ 226, 3 },
-	{ 231, 1 },
-	{ 232, 1 },
-	{ 233, 3 },
-	{ 237, 1 },
-	{ 238, 2 },
-	{ 243, 3 },
-	{ 244, 2 },
-	{ 245, 2 },
-	//{ 246, 0 },
-	{ 251, 1 },
-	{ 256, 2 },
-	{ 257, 1 },
-	{ 263, 4 },
-	{ 298, 3 }
-	/*{ 306, 0 },
-	{ 307, 0 },
-	{ 308, 0 },
-	{ 309, 0 }*/
-};
-
+/* new Skins[][][][] = {
+	{ // Female
+		{ // Latino
+			{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, // Clothed
+			{15} // Naked
+		}, { // White
+			{16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43}, // Clothed
+			{44, 45, 46, 47, 48, 49, 50} // Naked
+		}, { // Asian
+			{51, 52, 53, 54, 55, 56, 57, 58, 59, 60}, // Clothed
+			{61, 62} // Naked
+		}, { // Black
+			{63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81}, // Clothed
+			{82, 83, 84} // Naked
+		}
+	}, { // Male
+		{ // Latino
+			{85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
+				111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131}, // Clothed
+			{132, 133, 134} // Naked
+		}, { // White
+			{135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163,
+				164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193,
+				194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220}, // Clothed
+			{221, 222, 223} // Naked
+		}, { // Asian
+			{224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246}, // Clothed
+			{247} // Naked
+		}, { // Black
+			{248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279,
+				280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309}, // Clothed
+			{310, 311} // Naked
+		}
+	}
+}; */
 
 enum BUSINESS_DATA {
 	bID,
@@ -8354,7 +8146,7 @@ Text3D: gBusinessText[MAX_BUSINESS_COUNT],
 gBusinessIcon[MAX_BUSINESS_COUNT],
 gBusinessTypeName[BUSINESS_TYPE_COUNT][28] = {"Закусочна", "24/7", "Бар", "Клуб", "Магазин одягу", "Амуніція", "АЗС", "Автосалон", "Рибальський бізнес", "Комп'ютерний клуб", "Таксопарк", "Ріелторське агентство", "Спорт-Зал", "Транспортна компанія", "Кальянна", "Рекламне агентство", "Магазин Аксесуарів", "Тюнінг центр", "Яхт-клуб", "Аеропорт", "Трейлери", "Наркопритон", "Казино", "Магазин", "Магазин"},
 gBusinessCount,
-gBintsCount,
+// gBintsCount,
 gBarCosts[] = {5, 10, 13, 16, 24, 31},
 gTavernNames[][] = {{"Салат"}, {"Нагетси"}, {"Бургер"}, {"Піца"}},
 gTavernCosts[] = {5, 10, 13, 25},
@@ -8962,14 +8754,14 @@ stock IsState(playerid) {
 	return 0;
 }
 stock IsCrime(playerid) {
-    if(!IsPlayerConnected(playerid)) return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 	switch(FI[CI[playerid][pMember]][fType]) {
 		case fGANG, fMAFIA: return 1;
 	}
 	return 0;
 }
 stock IsCivil(playerid) {
-    if(!IsPlayerConnected(playerid)) return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 	switch(FI[CI[playerid][pMember]][fType]) {
 		case fMEDIA, fCIVIL: return 1;
 	}
@@ -11279,11 +11071,8 @@ public OnPlayerCommandReceived(playerid, cmd[], params[], flags) {
 	return TI[playerid][tLogin];
 }
 public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags) {
-  if(result == -1)
-  {
-        return SendError(playerid, "Ви ввели неіснуючу команду. (/mn - Команди сервера)");
-  }
-  return 1;
+	if(result == -1) return SendError(playerid, "Ви ввели неіснуючу команду. (/mn - Команди сервера)");
+	return 1;
 }
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
@@ -11300,11 +11089,11 @@ public OnPlayerConnect(playerid) {
 	GetPlayerName(playerid, fPlayer[playerid][nname], MAX_PLAYER_NAME);
 	GetPlayerIp(playerid, fPlayer[playerid][fip], 32);
 
-   	SetPVarInt(playerid, "fire_object", 0);
-   	PhoneShow[playerid] = false;
+	SetPVarInt(playerid, "fire_object", 0);
+	PhoneShow[playerid] = false;
 	PhoneLocked[playerid] = 0;
-   	gPlayerBusObject[playerid] = INVALID_OBJECT_ID;
-   	call_timer[playerid] = 0;
+	gPlayerBusObject[playerid] = INVALID_OBJECT_ID;
+	call_timer[playerid] = 0;
 	CI[playerid][cID] = 0;
 	ahMenu[playerid][0] = ahMenu[playerid][1] = ahMenu[playerid][2] = ahMenu[playerid][3] = 0;
 	CI[playerid][pPalatka] = 0;
@@ -11400,7 +11189,7 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger) {
 		FreezePlayerForTime(playerid, 2);
 	}
 	if(vehicleid == VehicleWareHouse[0] && CountMaterialVehicleWH > 0) {
-        GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
+		GetVehicleParamsEx(vehicleid,engine,lights,alarm,doors,bonnet,boot,objective);
 		if(engine == 1 && TimerEndWeaponBool == false) {
 			SendError(playerid, "Ви маєте 10 хвилин, щоб розвантажити вантажівку на вашому складі.");
 			TimerEndWeapon = 60*10;
@@ -11467,54 +11256,54 @@ CB:PlayerSpawn(playerid) {
 	return 1;
 }
 stock AllMapping(playerid) {
-    pTemp[playerid][var_unit_1] = 0;
-    pTemp[playerid][var_unit_2] = 0;
-    pTemp[playerid][var_unit_3] = 0;
-    format(pTemp[playerid][var_unit_4], 24, "");
-    pTemp[playerid][var_unit_5] = 0;
-    unit_mapping(playerid);
-    return 1;
+	pTemp[playerid][var_unit_1] = 0;
+	pTemp[playerid][var_unit_2] = 0;
+	pTemp[playerid][var_unit_3] = 0;
+	format(pTemp[playerid][var_unit_4], 24, "");
+	pTemp[playerid][var_unit_5] = 0;
+	unit_mapping(playerid);
+	return 1;
 }
 forward unit_mapping_2(playerid);
 public unit_mapping_2(playerid) {
 	new stringer[500];
-    new rows = cache_num_rows();
-    if(rows) {
-        new tmp = 0;
-        new name[32],bdobj, string[80];
-        stringer = "{FFFFFF}ObjectID\t{FFFFFF}Встановлено адміністратором\n";
-        for(new i = pTemp[playerid][var_unit_1]*15; i < rows; i++) {
-            cache_get_value_name(i, "name", name, MAX_PLAYER_NAME);
-            cache_get_value_name_int(i, "id", bdobj);
-            tmp++;
-            format(string, sizeof(string), "{FFFFFF}%i\t%s\n",bdobj,name);
-            strcat(stringer, string);
-        } if(tmp > 0) {
-            strcat(stringer, "Наступна сторінка\n");
-            if(pTemp[playerid][var_unit_1] > 0) strcat(stringer, "Попередня сторінка\n");
-            format(string, sizeof(string), "{FF6F00}Динамічний мапінг, сторінка: %i", pTemp[playerid][var_unit_1]+ 1);
-            ShowPlayerDialog(playerid, 1230, DSTH, "{C70000}Bauld Mapping", stringer, "Обрати", "Закрити");
-        } else{
-            if(pTemp[playerid][var_unit_1] > 0) {
-                pTemp[playerid][var_unit_1]--;
-                unit_mapping(playerid);
-            }
-            SendError(playerid, "На наступній сторінці нічого не знайдено");
-        }
-    } else {
-        if(pTemp[playerid][var_unit_1] > 0) {
-            pTemp[playerid][var_unit_1]--;
-            unit_mapping(playerid);
-        }
-        SendError(playerid, "Список мапінгу чистий.");
-    }
-    return 1;
+	new rows = cache_num_rows();
+	if(rows) {
+		new tmp = 0;
+		new name[32],bdobj, string[80];
+		stringer = "{FFFFFF}ObjectID\t{FFFFFF}Встановлено адміністратором\n";
+		for(new i = pTemp[playerid][var_unit_1]*15; i < rows; i++) {
+			cache_get_value_name(i, "name", name, MAX_PLAYER_NAME);
+			cache_get_value_name_int(i, "id", bdobj);
+			tmp++;
+			format(string, sizeof(string), "{FFFFFF}%i\t%s\n",bdobj,name);
+			strcat(stringer, string);
+		} if(tmp > 0) {
+			strcat(stringer, "Наступна сторінка\n");
+			if(pTemp[playerid][var_unit_1] > 0) strcat(stringer, "Попередня сторінка\n");
+			format(string, sizeof(string), "{FF6F00}Динамічний мапінг, сторінка: %i", pTemp[playerid][var_unit_1]+ 1);
+			ShowPlayerDialog(playerid, 1230, DSTH, "{C70000}Bauld Mapping", stringer, "Обрати", "Закрити");
+		} else{
+			if(pTemp[playerid][var_unit_1] > 0) {
+				pTemp[playerid][var_unit_1]--;
+				unit_mapping(playerid);
+			}
+			SendError(playerid, "На наступній сторінці нічого не знайдено");
+		}
+	} else {
+		if(pTemp[playerid][var_unit_1] > 0) {
+			pTemp[playerid][var_unit_1]--;
+			unit_mapping(playerid);
+		}
+		SendError(playerid, "Список мапінгу чистий.");
+	}
+	return 1;
 }
 stock unit_mapping(playerid) {
 	new stringer[128];
-    mysql_format(connects, stringer, 128, "SELECT * FROM `bmap` LIMIT %i", pTemp[playerid][var_unit_1]*15+ 15);
-    mysql_pquery(connects, stringer, "unit_mapping_2", "i", playerid);
-    return 1;
+	mysql_format(connects, stringer, 128, "SELECT * FROM `bmap` LIMIT %i", pTemp[playerid][var_unit_1]*15+ 15);
+	mysql_pquery(connects, stringer, "unit_mapping_2", "i", playerid);
+	return 1;
 }
 public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 	PlayerPlaySound(playerid, 1052, 0.0, 0.0, 0.0);
@@ -17396,6 +17185,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			if(!strcmp(inputtext, "- Створити персонажа.")) return ShowPlayerDialog(playerid, D_CHAR_ADD_NAME, DSI, P"|"W" Створення персонажа. Ім'я.", W"Ім'я вашого персонажа - невід'ємна складова гри.\nЗазвичай, воно складається лише з імені та прізвища, однак ви можете додати середнє ім'я або іншу приставку.\n\n\
 				Приклади можливих імен: "P"Jerry_Baggett"W", "P"Jerry_Cory_Baggett"W", "P"Jerry_Baggett_Jr"W", "P"Jerry_IV_Baggett"W".\n\
+				Мінімальна кількість символів - "P"5"W", максимальна - "P"24"W".", "Далі", "Закрити");
+			
 			new cname[MAX_PLAYER_NAME], query[128];
 
 			strcat(cname, inputtext);
@@ -20062,7 +19853,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_EDIT, DST, header, content, "Обрати", "Назад");
 			}
 		case D_FACTION_EDIT_FLEET_ADD: {
-			new query[256], header[128], content[1024], vid, freeid, fid = GetPVarInt(playerid, "factionid");
+			new query[256], header[128], content[1024], Float:ppos[4], vid, freeid, fid = GetPVarInt(playerid, "factionid");
 
 			if(!response) {
 				for(new i = 1; i < MAX_FACTION_FLEET; i++) {
@@ -20082,25 +19873,20 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			cache_get_value_name_int(0, "freeID", freeid);
 			if(!freeid) freeid++;
 
-			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
-				if(!fFleet[fid][i][fleetModel]) {
-					fFleet[fid][i][fleetID] = freeid;
-					fFleet[fid][i][fleetRank] = 0;
-					fFleet[fid][i][fleetModel] = vid;
-					fFleet[fid][i][fleetColor1] = 0;
-					fFleet[fid][i][fleetColor1] = 0;
-					fFleet[fid][i][fleetSpawnX] = 0.0;
-					fFleet[fid][i][fleetSpawnY] = 0.0;
-					fFleet[fid][i][fleetSpawnZ] = 0.0;
-					fFleet[fid][i][fleetSpawnA] = 0.0;
-					fFleet[fid][i][fleetSpawnVW] = 0;
-					fFleet[fid][i][fleetSpawnI] = 0;
-					CreateOrgsVehicle(fFleet[fid][i][fleetID], fid, fFleet[fid][i][fleetRank], fFleet[fid][i][fleetModel], fFleet[fid][i][fleetSpawnX], fFleet[fid][i][fleetSpawnY], fFleet[fid][i][fleetSpawnZ], fFleet[fid][i][fleetSpawnA], fFleet[fid][i][fleetColor1], fFleet[fid][i][fleetColor2], 1, fFleet[fid][i][fleetSpawnVW], fFleet[fid][i][fleetSpawnI]);
-					break;
-				}
-			}
+			GetPlayerPos(playerid, ppos[0], ppos[1], ppos[2]);
+			GetPlayerFacingAngle(playerid, ppos[3]);
 
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `factions_fleet` (`ID`, `Faction`, `Model`) VALUES (%i, %i, %i)", freeid, fid, vid);
+			fFleet[fid][freeid][fleetID] = freeid;
+			fFleet[fid][freeid][fleetModel] = vid;
+			fFleet[fid][freeid][fleetSpawnX] = ppos[0];
+			fFleet[fid][freeid][fleetSpawnY] = ppos[1];
+			fFleet[fid][freeid][fleetSpawnZ] = ppos[2];
+			fFleet[fid][freeid][fleetSpawnA] = ppos[3];
+			fFleet[fid][freeid][fleetSpawnVW] = GetPlayerVirtualWorld(playerid);
+			fFleet[fid][freeid][fleetSpawnI] = GetPlayerInterior(playerid);
+			CreateOrgsVehicle(fFleet[fid][freeid][fleetID], fid, 0, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], 0, 0, 1, fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
+
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `factions_fleet` (`ID`, `Faction`, `Model`, `SpawnX`, `SpawnY`, `SpawnZ`, `SpawnA`, `SpawnVW`, `SpawnI`) VALUES (%i, %i, %i)", freeid, fid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
 			mysql_query(connects, query);
 
 			for(new i = 1; i < MAX_FACTION_FLEET; i++) {
@@ -24704,16 +24490,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new id = strval(business_prices[playerid]), query[512];
 			mysql_format(connects, query, sizeof(query), "SELECT ba.Article_ID, bda.Article, ba.Price FROM business_articles ba JOIN business_default_articles bda ON bda.Article_ID = ba.Article_ID WHERE ba.businessID = %i and bda.Article_ID = %i and bda.bType = %i", GetPVarInt(playerid, "selected_business"), id, gBusiness[GetPVarInt(playerid, "selected_business")][businessType]);
 			new Cache: resultCache = mysql_query(connects, query, true);
-	        if(!cache_num_rows()) return SendError(playerid, "Не знайдено такого товару.");
-	        new product_id, article[56], price;
-	        cache_get_value_name_int(0, "Article_ID", product_id);
-	        cache_get_value_name(0, "Article", article, 56);
-	        cache_get_value_name_int(0, "Price", price);
-	        cache_delete(resultCache);
+			if(!cache_num_rows()) return SendError(playerid, "Не знайдено такого товару.");
+			new product_id, article[56], price;
+			cache_get_value_name_int(0, "Article_ID", product_id);
+			cache_get_value_name(0, "Article", article, 56);
+			cache_get_value_name_int(0, "Price", price);
+			cache_delete(resultCache);
 
-	        SetPVarInt(playerid, "product_id", product_id);
-	        SetPVarString(playerid, "product_article", article);
-	        SetPVarInt(playerid, "product_price", price);
+			SetPVarInt(playerid, "product_id", product_id);
+			SetPVarString(playerid, "product_article", article);
+			SetPVarInt(playerid, "product_price", price);
 
 			new header[128], string[512];
 			format(header, sizeof(header), ""W"%s"P"(%d)", article, product_id);
@@ -24823,7 +24609,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					business_finances(bid, gBusinessArticles[bid][article][aArticlePrice]);
 				}
 				case 4:
-			 	{
+				{
 					if(!gBusinessArticles[bid][article][aArticleQTY]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][aArticleQTY]--;
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][aArticleName]);
@@ -31577,7 +31363,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				}
 				else if(IsAGang(playerid)) return ShowPlayerDialog(playerid, D_BAND_STOCK, DSL, P"Склад", P"1."W" Покласти гроші в банк банди\n"P"2."W" Зняти гроші з банку банди\n"P"3."W" Покласти матеріали на склад\n"P"4."W" Взяти матеріали зі складу\n"P"5."W" Покласти наркотики на склад\n"P"6."W" Взяти наркотики зі складу\n"P"7."W" Взяти зброю", "Обрати", "Закрити");
 			}
-        case 78, 79: {
+		case 78, 79: {
 				if(GetPVarInt(playerid, "ograbl_") == 1) {
 					RemovePlayerAttachedObject(playerid, 5);
 					DeletePVar(playerid, "ograbl_");
@@ -31595,7 +31381,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 					RemovePlayerAttachedObject(playerid, 1);
 					ApplyAnimation(playerid, "CARRY", "putdwn", 1.0, 0, 1, 1, 0, 0, 1);
 					if(FI[CI[playerid][pMember]][fMaterials] + gunamount > 300000) return SendError(playerid, "На складі недостатньо місця.");
-				 	FI[CI[playerid][pMember]][fMaterials] += gunamount;
+					FI[CI[playerid][pMember]][fMaterials] += gunamount;
 					UpdateFaction(CI[playerid][pMember], "Materials",FI[CI[playerid][pMember]][fMaterials]);
 					InLoadFrac[CI[playerid][pMember]] = false;
 					return 1;
@@ -31745,7 +31531,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				ShowPlayerDialog(playerid, D_JAIL_3, DSM, P"Злам дверей", W"Ви дійсно хочете зламати двері ключами?\n\n"G"* Про це дізнаються державні структури", "Далі", "Закрити");
 			}
 		case 77:{
-	 			ShowPlayerDialog(playerid, D_BILBORDS, DSL, P"Рекламне агентство", P"1."W" Орендувати білборд", "Обрати", "Закрити");
+				ShowPlayerDialog(playerid, D_BILBORDS, DSL, P"Рекламне агентство", P"1."W" Орендувати білборд", "Обрати", "Закрити");
 			}
 		case 68, 69: {
 				if(!TI[playerid][tJobWood][1]) return 1;
@@ -32295,8 +32081,8 @@ public OnPlayerDisconnect(playerid, reason) {
 		Welding[playerid] = 0;
 	}
 	if(GetPVarInt(playerid, "BuyGarage")) {
-	    FG[GetPVarInt(playerid, "BuyGarage")][gOwnerID] = -1;
-        DeletePVar(playerid, "BuyGarage");
+		FG[GetPVarInt(playerid, "BuyGarage")][gOwnerID] = -1;
+		DeletePVar(playerid, "BuyGarage");
 	}
 	if(CI[playerid][pPalatka] > 0) EndTrade(playerid);
 	if(GetPVarInt(playerid, "ppkz") == 1) {
@@ -32662,10 +32448,10 @@ public OnPlayerPrepareDeath(playerid, const animlib[32], const animname[32], &an
 		case 1: CI[playerid][cStage]++, SendHint(playerid, "Ваш персонаж помер."), Update3DTextLabelText(CI[playerid][cDeathLabel], 0xFF6347AA, "(( THIS CHARACTER IS DEAD ))"); // ДАНИЙ ПЕРСОНАЖ МЕРТВИЙ
 	}*/
 
-    CI[playerid][cDeathI] = GetPlayerInterior(playerid);
-    CI[playerid][cDeathVW] = GetPlayerVirtualWorld(playerid);
-    GetPlayerPos(playerid, CI[playerid][cDeathX], CI[playerid][cDeathY], CI[playerid][cDeathZ]);
-    GetPlayerFacingAngle(playerid, CI[playerid][cDeathA]);
+	CI[playerid][cDeathI] = GetPlayerInterior(playerid);
+	CI[playerid][cDeathVW] = GetPlayerVirtualWorld(playerid);
+	GetPlayerPos(playerid, CI[playerid][cDeathX], CI[playerid][cDeathY], CI[playerid][cDeathZ]);
+	GetPlayerFacingAngle(playerid, CI[playerid][cDeathA]);
 	CI[playerid][cDeathVeh] = GetPlayerVehicleID(playerid);
 	CI[playerid][cDeathVehSeat] = GetPlayerVehicleSeat(playerid);
 
@@ -32681,12 +32467,12 @@ public OnPlayerDeathFinished(playerid, bool:cancelable) {
 	if(CI[playerid][cStage] == 1) CI[playerid][cDeathTimer] = SetTimerEx("DeathStageTimer", 1000, true, "i", playerid);
 	if(CI[playerid][cDeathVeh] != 0 && CI[playerid][cDeathVehSeat] != -1) {
 		PutPlayerInVehicle(playerid, CI[playerid][cDeathVeh], CI[playerid][cDeathVehSeat]);
-        Attach3DTextLabelToPlayer(CI[playerid][cDeathLabel], playerid, 0, 0, -0.25);
-        ApplyAnimation(playerid, "ped", "CAR_dead_RHS", 4.1, 0, 1, 1, 1, -1, 0);
-    } else {
-        Attach3DTextLabelToPlayer(CI[playerid][cDeathLabel], playerid, floatsin(CI[playerid][cDeathA], degrees) / 2, -floatcos(CI[playerid][cDeathA], degrees) / 2, 0);
-        ApplyAnimation(playerid, "WUZI", "CS_Dead_Guy", 4.1, 0, 1, 1, 1, -1, 0);
-    }
+		Attach3DTextLabelToPlayer(CI[playerid][cDeathLabel], playerid, 0, 0, -0.25);
+		ApplyAnimation(playerid, "ped", "CAR_dead_RHS", 4.1, 0, 1, 1, 1, -1, 0);
+	} else {
+		Attach3DTextLabelToPlayer(CI[playerid][cDeathLabel], playerid, floatsin(CI[playerid][cDeathA], degrees) / 2, -floatcos(CI[playerid][cDeathA], degrees) / 2, 0);
+		ApplyAnimation(playerid, "WUZI", "CS_Dead_Guy", 4.1, 0, 1, 1, 1, -1, 0);
+	}
 	return 0;
 }
 
@@ -33058,7 +32844,7 @@ public OnPlayerSpawn(playerid) {
 		SetPlayerFacingAngle(playerid, CI[playerid][cDeathA]);
 		SetPlayerPos(playerid, CI[playerid][cDeathX], CI[playerid][cDeathY], CI[playerid][cDeathZ]);
 		Attach3DTextLabelToPlayer(CI[playerid][cDeathLabel], playerid, floatsin(CI[playerid][cDeathA], degrees) / 2, -floatcos(CI[playerid][cDeathA], degrees) / 2, 0);
-        ApplyAnimation(playerid, "WUZI", "CS_Dead_Guy", 4.1, 0, 1, 1, 1, -1, 0);
+		ApplyAnimation(playerid, "WUZI", "CS_Dead_Guy", 4.1, 0, 1, 1, 1, -1, 0);
 		SetCameraBehindPlayer(playerid);
 		if(CI[playerid][cStage] == 2) KillTimer(CI[playerid][cDeathTimer]);
 	} else {
@@ -33182,7 +32968,7 @@ SettingSpawn(playerid) {
 		TI[playerid][tVirtualWorld] = floatround(CI[playerid][cExitPos][4]);
 		TI[playerid][tInterior] = floatround(CI[playerid][cExitPos][5]);
 		SetCameraBehindPlayer(playerid);
-	    TogglePlayerControllable(playerid, 0);
+		TogglePlayerControllable(playerid, 0);
 		SetTimerEx("SPlayer", 2222, false, "i", playerid);
 		CI[playerid][cStarted] = 1;
 	} else if(CI[playerid][pSpawn] == 4 && GetPlayerVehicles(playerid)) {
@@ -33300,7 +33086,7 @@ SettingSpawn(playerid) {
 		TI[playerid][tVirtualWorld] = 0;
 		TI[playerid][tInterior] = 0;
 		SetCameraBehindPlayer(playerid);
-	    TogglePlayerControllable(playerid, 0);
+		TogglePlayerControllable(playerid, 0);
 		SetTimerEx("SPlayer", 2222, false, "i", playerid);
 	}
 	/*else if(TI[playerid][tLastSpawn]) {
@@ -33454,17 +33240,17 @@ public OnPlayerEnterCheckpoint(playerid) {
 		IsPlayerInRangeOfPoint(playerid, 3.0, -155.8853, 154.2453, 4.8498)|| IsPlayerInRangeOfPoint(playerid, 3.0, -147.4659, 115.0785, 3.0355)||
 		IsPlayerInRangeOfPoint(playerid, 3.0, -127.4424, 125.9156, 2.7983)|| IsPlayerInRangeOfPoint(playerid, 3.0, -174.1951, 133.7972, 3.8350)||
 		IsPlayerInRangeOfPoint(playerid, 3.0, -201.7736, 149.9974, 4.6736)|| IsPlayerInRangeOfPoint(playerid, 3.0, -114.1892, 121.7764, 2.7774)) {
-	    new id = GetPlayerID(select_member[playerid]);
-	    if(CI[id][bizz_work] != 63) return SendError(playerid, "Ви не працюєте на фермі.");
-	    if(CI[id][bizz_status] == 4 || CI[id][bizz_status] == 2) {
-		    static const f_str[] = "Ви отримали $%i.";
-		    new str[64], randcash;
-		    randcash = random(120) +50;
-		 	format(str, sizeof(str), f_str, randcash);
+		new id = GetPlayerID(select_member[playerid]);
+		if(CI[id][bizz_work] != 63) return SendError(playerid, "Ви не працюєте на фермі.");
+		if(CI[id][bizz_status] == 4 || CI[id][bizz_status] == 2) {
+			static const f_str[] = "Ви отримали $%i.";
+			new str[64], randcash;
+			randcash = random(120) +50;
+			format(str, sizeof(str), f_str, randcash);
 			GiveMoney(playerid, randcash, "Заработок комбайнером");
 			DisablePlayerCheckpoint(playerid);
-		    new rand = random(sizeof(PosKomb));
-		    SetPlayerCheckpoint(playerid, PosKomb[rand][0], PosKomb[rand][1], PosKomb[rand][2], 3.0);
+			new rand = random(sizeof(PosKomb));
+			SetPlayerCheckpoint(playerid, PosKomb[rand][0], PosKomb[rand][1], PosKomb[rand][2], 3.0);
 			OperationMoney(playerid, 62, randcash);
 		} else {
 			SendError(playerid, "Ви не можете використовувати цей транспорт.");
@@ -33473,12 +33259,12 @@ public OnPlayerEnterCheckpoint(playerid) {
 	}
 	if(IsPlayerInRangeOfPoint(playerid, 5.0, 314.4372, -24.9238, 1.6412) || IsPlayerInRangeOfPoint(playerid, 5.0, 2384.4812, 247.2314, 26.6396)) DisablePlayerCheckpoint(playerid);
 	if(GetPVarInt(playerid, "Ready") == 1) {
-	    if(GetPVarInt(playerid, "OkeyMan") == 1) return 1;
-	    else {
-	        switch(GetPVarInt(playerid, "NumberSklad")) {
-	        	case 1: if(IsPlayerInRangeOfPoint(playerid, 5.0, SkladOne)) return CodeSkladOne(playerid);
-	        	case 2: if(IsPlayerInRangeOfPoint(playerid, 5.0, SkladTwo)) return CodeSkladOne(playerid);
-	        	case 3: if(IsPlayerInRangeOfPoint(playerid, 5.0, SkladThree)) return CodeSkladOne(playerid);
+		if(GetPVarInt(playerid, "OkeyMan") == 1) return 1;
+		else {
+			switch(GetPVarInt(playerid, "NumberSklad")) {
+				case 1: if(IsPlayerInRangeOfPoint(playerid, 5.0, SkladOne)) return CodeSkladOne(playerid);
+				case 2: if(IsPlayerInRangeOfPoint(playerid, 5.0, SkladTwo)) return CodeSkladOne(playerid);
+				case 3: if(IsPlayerInRangeOfPoint(playerid, 5.0, SkladThree)) return CodeSkladOne(playerid);
 			}
 		}
 	}
@@ -33811,29 +33597,29 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 
 		if(VehicleInfo[carid][vTeam] != 0) {
 			if(CI[playerid][pMember] == VehicleInfo[carid][vTeam] && IsAMafia(playerid) && GetPVarInt(playerid, "Toms") == 1 && GetVehicleModel(carid) == 482) {
-	            SetPVarInt(playerid, "VehicleMode", 1);
-	            SendClientMessage(playerid, COLOR_WHITE, "[Думки]: Ну що ж, поїхали.");
-	            DeletePVar(playerid, "Toms");
-	            SetPVarInt (playerid, "Ready", 1);
-	            switch(GetPVarInt(playerid, "NumberSklad")) {
+				SetPVarInt(playerid, "VehicleMode", 1);
+				SendClientMessage(playerid, COLOR_WHITE, "[Думки]: Ну що ж, поїхали.");
+				DeletePVar(playerid, "Toms");
+				SetPVarInt (playerid, "Ready", 1);
+				switch(GetPVarInt(playerid, "NumberSklad")) {
 					case 1: SetPlayerCheckpoint(playerid, SkladOne, 5.0);
 					case 2: SetPlayerCheckpoint(playerid, SkladTwo, 5.0);
 					case 3: SetPlayerCheckpoint(playerid, SkladThree, 5.0);
 				}
-	            SetPVarInt(playerid, "VehicleID", GetPlayerVehicleID(playerid));
-	            WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240, 1839.1799, 1211.6302, 4.0);
-             	switch(GetPVarInt(playerid, "NumberSklad")) {
-				    case 1: {
-                        WareHouse = CreatePickup(11745, 23, 2360.8240, 1839.1799, 1211.6302, 1);
+				SetPVarInt(playerid, "VehicleID", GetPlayerVehicleID(playerid));
+				WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240, 1839.1799, 1211.6302, 4.0);
+				switch(GetPVarInt(playerid, "NumberSklad")) {
+					case 1: {
+						WareHouse = CreatePickup(11745, 23, 2360.8240, 1839.1799, 1211.6302, 1);
 						//WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240, 1839.1799, 1211.6302, 4.0, 1, 0);
 					}
-				    case 2: {
-                        WareHouse = CreatePickup(11745, 23, 2360.8240, 1839.1799, 1211.6302, 2);
+					case 2: {
+						WareHouse = CreatePickup(11745, 23, 2360.8240, 1839.1799, 1211.6302, 2);
 						//WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240, 1839.1799, 1211.6302, 4.0);
 					}
-				    case 3: {
-                        WareHouse = CreatePickup(11745, 23, 2360.8240, 1839.1799, 1211.6302, 3);
-                        //WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240, 1839.1799, 1211.6302, 4.0, 3, 0);
+					case 3: {
+						WareHouse = CreatePickup(11745, 23, 2360.8240, 1839.1799, 1211.6302, 3);
+						//WareHouses = CreateDynamic3DTextLabel("{FFFFFF}Склад\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 2360.8240, 1839.1799, 1211.6302, 4.0, 3, 0);
 					}
 				}
 			}
@@ -34551,30 +34337,30 @@ public OnGameModeExit() {
 }
 /* new SERVER_DOWNLOAD[] = "http://chiliad-rp.com/models/";
 public OnPlayerRequestDownload(playerid, type, crc) {
-    if(!IsPlayerConnected(playerid))
-        return 0;
+	if(!IsPlayerConnected(playerid))
+		return 0;
 
-    new filename[64], filefound, final_url[256];
+	new filename[64], filefound, final_url[256];
 
-    if(type == DOWNLOAD_REQUEST_TEXTURE_FILE)
-        filefound = FindTextureFileNameFromCRC(crc, filename, sizeof(filename));
-    else if(type == DOWNLOAD_REQUEST_MODEL_FILE)
-        filefound = FindModelFileNameFromCRC(crc, filename, sizeof(filename));
+	if(type == DOWNLOAD_REQUEST_TEXTURE_FILE)
+		filefound = FindTextureFileNameFromCRC(crc, filename, sizeof(filename));
+	else if(type == DOWNLOAD_REQUEST_MODEL_FILE)
+		filefound = FindModelFileNameFromCRC(crc, filename, sizeof(filename));
 
-    if(filefound) {
-        format(final_url, sizeof(final_url), "%s/%s", SERVER_DOWNLOAD, filename);
-        RedirectDownload(playerid, final_url);
-    }
-    return 1;
+	if(filefound) {
+		format(final_url, sizeof(final_url), "%s/%s", SERVER_DOWNLOAD, filename);
+		RedirectDownload(playerid, final_url);
+	}
+	return 1;
 } */
 
 public OnGameModeInit() {
-    // SetDisableSyncBugs(true);
+	// SetDisableSyncBugs(true);
 	gCurDay = GetDayNumber();
 	SetGameModeText("CRP 0.X");
 	new MySQLOpt: option_id = mysql_init_options();
 	mysql_set_option(option_id, AUTO_RECONNECT, true);
-    connects = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, DB_NAME, option_id);
+	connects = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS, DB_NAME, option_id);
 	mysql_log(ERROR | WARNING);
 	SendRconCommand("hostname Chiliad Role Play. Los Santos.");
 	// --------------------------------------------------------------------------------------
@@ -34589,8 +34375,8 @@ public OnGameModeInit() {
 	AddPlayerClass(36, 0.0, 0.0, 5.0, 0.0, 0, 0, 0, 0, 0, 0);
 	new hor, m, s;
 	gettime(hor, m, s);
-    // SetTimer("min_timer", 60000, 1);
-    SetTimer("hour_timer", 3600000, 1);
+	// SetTimer("min_timer", 60000, 1);
+	SetTimer("hour_timer", 3600000, 1);
 	load_vehicles();
 	CreateVehicless(); // cache_get_value_index_int: invalid row ('0-211') or field ('9') index
 	CreatePickups();
@@ -36273,7 +36059,7 @@ stock CreateTexdraw() {
 	TextDrawSetPreviewModel(hack_magaz_TD[23], 19273);
 	TextDrawSetPreviewRot(hack_magaz_TD[23], 0.0000, 0.0000, 0.0000, 1.0000);
 	// Global speed
-    Speed_TD[0] = TextDrawCreate(483.7666, 394.7626, "LD_SPAC:white"); // пусто
+	Speed_TD[0] = TextDrawCreate(483.7666, 394.7626, "LD_SPAC:white"); // пусто
 	TextDrawTextSize(Speed_TD[0], 49.0000, 12.0000);
 	TextDrawAlignment(Speed_TD[0], 1);
 	TextDrawColor(Speed_TD[0], 235802367);
@@ -37516,7 +37302,7 @@ stock SendDeptMessage(color, const string[]) {
 	return 1;
 }
 stock SendPDMessage(color, const string[]) {
-    foreach(new i:Player) {
+	foreach(new i:Player) {
 		if(!TI[i][tStarted]) continue;
 		if(!start_work[i]) continue;
 		if(!CI[i][pSettings][1]) continue;
@@ -38280,45 +38066,45 @@ CMD:famspcar(playerid) {
 }
 forward LoadSettings();
 public LoadSettings() {
-    new time = GetTickCount();
-    new rows = cache_num_rows();
+	new time = GetTickCount();
+	new rows = cache_num_rows();
 	new string[128];
-    if(!rows) return print("[Error] Settings weren't found in DB.");
-    cache_get_value_name(0, "ServerName", BDserverName);
-    format(string, sizeof(string), "hostname %s", BDserverName);
-    SendRconCommand(string);
-    cache_get_value_name(0, "ServerPassword", BDserverPassword);
+	if(!rows) return print("[Error] Settings weren't found in DB.");
+	cache_get_value_name(0, "ServerName", BDserverName);
+	format(string, sizeof(string), "hostname %s", BDserverName);
+	SendRconCommand(string);
+	cache_get_value_name(0, "ServerPassword", BDserverPassword);
 	cache_get_value_name_int(0, "DonateX", DonateX);
 	cache_get_value_name_int(0, "PayDayX", PayDayX);
-    if(strlen(BDserverPassword) != 0) {
-        format(string, sizeof(string), "password %s", BDserverPassword);
-        SendRconCommand(string);
-    }
-    printf("[Success] Settings loaded. (%i ms.)", GetTickCount() - time);
+	if(strlen(BDserverPassword) != 0) {
+		format(string, sizeof(string), "password %s", BDserverPassword);
+		SendRconCommand(string);
+	}
+	printf("[Success] Settings loaded. (%i ms.)", GetTickCount() - time);
 	return 1;
 }
 forward LoadMapping();
 public LoadMapping() {
 	new stringer[144];
-    new time = GetTickCount();
-    new rows = cache_num_rows();
-    if(!rows) return print("[Error] Maps weren't found in DB.");
-    new obje, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz,objectid,bdid;
-    for(new i = 0; i < rows; i++) {
-        cache_get_value_name_int(i, "id", bdid);
-        cache_get_value_name_float(i, "x", x);
-        cache_get_value_name_float(i, "y", y);
-        cache_get_value_name_float(i, "z", z);
-        cache_get_value_name_float(i, "rx", rx);
-        cache_get_value_name_float(i, "ry", ry);
-        cache_get_value_name_float(i, "rz", rz);
-        cache_get_value_name_int(i, "objectid", objectid);
-        obje = CreateDynamicObject(objectid, x, y, z, rx, ry, rz, -1, -1, -1, 300.0);
-        mysql_format(connects, stringer, 144, "UPDATE `bmap` SET `ingameid` = %i WHERE `id` = %i LIMIT 1", obje,bdid);
-        mysql_tquery(connects, stringer);
-    }
-    printf("[Success] Maps loaded. (%i ms.)", GetTickCount() - time);
-    return 1;
+	new time = GetTickCount();
+	new rows = cache_num_rows();
+	if(!rows) return print("[Error] Maps weren't found in DB.");
+	new obje, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz,objectid,bdid;
+	for(new i = 0; i < rows; i++) {
+		cache_get_value_name_int(i, "id", bdid);
+		cache_get_value_name_float(i, "x", x);
+		cache_get_value_name_float(i, "y", y);
+		cache_get_value_name_float(i, "z", z);
+		cache_get_value_name_float(i, "rx", rx);
+		cache_get_value_name_float(i, "ry", ry);
+		cache_get_value_name_float(i, "rz", rz);
+		cache_get_value_name_int(i, "objectid", objectid);
+		obje = CreateDynamicObject(objectid, x, y, z, rx, ry, rz, -1, -1, -1, 300.0);
+		mysql_format(connects, stringer, 144, "UPDATE `bmap` SET `ingameid` = %i WHERE `id` = %i LIMIT 1", obje,bdid);
+		mysql_tquery(connects, stringer);
+	}
+	printf("[Success] Maps loaded. (%i ms.)", GetTickCount() - time);
+	return 1;
 }
 CMD:fampark(playerid) {
 	if(!CI[playerid][pFamily]) return SendError(playerid, "Ви не є членом сім'ї.");
@@ -38829,8 +38615,7 @@ CMD:ml(playerid) {
 cmd:createbusiness(playerid)
 {
 	if(PI[playerid][pAdmin] < 7) return 1;
-	if(GetPVarInt(playerid, "bcreatecoords"))
-	{
+	if(GetPVarInt(playerid, "bcreatecoords")) {
 		new Float:x, Float:y, Float:z;
 		GetPlayerPos(playerid, x, y, z);
 		SetPVarFloat(playerid, "bCoordX", x);
@@ -38840,8 +38625,7 @@ cmd:createbusiness(playerid)
 		SendOK(playerid, "Координати збережено.");
 		return BusinessCreation(playerid);
 	}
-	else if(GetPVarInt(playerid, "bcreatefillcoords"))
-	{
+	else if(GetPVarInt(playerid, "bcreatefillcoords")) {
 		new Float:x, Float:y, Float:z;
 		GetPlayerPos(playerid, x, y, z);
 		SetPVarFloat(playerid, "bGasCoordX", x);
@@ -38859,8 +38643,7 @@ CMD:business(playerid)
 	new status_text[32];
 	new string[2500], business;
 	strcat(string, G"ID\t\t"G"Назва\t\t"G"Тип\t\t"G"Статус\n");
-	for(new i = 1; i < gBusinessCount + 1; i++)
-	{
+	for(new i = 1; i < gBusinessCount + 1; i++) {
 		if(gBusiness[i][bOwnerID] != CI[playerid][cID]) continue;
 		switch(gBusiness[i][bStatus])
 		{
@@ -39105,14 +38888,14 @@ CMD:frmask(playerid) {
 	if(!IsAnEnforcement(playerid) || !start_work[playerid]) return SendError(playerid, "Доступно тільки правоохоронним органам.");
 	if(IsPlayerAttachedObjectSlotUsed(playerid, 2)) RemovePlayerAttachedObject(playerid, 2);
 	if(GPVI(playerid, "FRMask_Use")) {
-	    SendClientMessage(playerid, 0x0099FFAA, "Ви зняли маску.");
-	    SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
-	    DPV(playerid, "FRMask_Use");
+		SendClientMessage(playerid, 0x0099FFAA, "Ви зняли маску.");
+		SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
+		DPV(playerid, "FRMask_Use");
 	} else {
-	    SendClientMessage(playerid, 0x0099FFAA, "Ваше місцерозташування на карті приховано.");
-	    if(!IsPlayerInAnyVehicle(playerid)) ApplyAnimation(playerid, "SHOP", "ROB_Shifty", 4.0, 0, 0, 0, 0, 0);
-	    SetPlayerColor(playerid, 0x7a766700);
-	    SPVI(playerid, "FRMask_Use", 1);
+		SendClientMessage(playerid, 0x0099FFAA, "Ваше місцерозташування на карті приховано.");
+		if(!IsPlayerInAnyVehicle(playerid)) ApplyAnimation(playerid, "SHOP", "ROB_Shifty", 4.0, 0, 0, 0, 0, 0);
+		SetPlayerColor(playerid, 0x7a766700);
+		SPVI(playerid, "FRMask_Use", 1);
 		SetPlayerAttachedObject(playerid, 2, 19801, 2, 0.074000, 0.0, 0.008000, -5.899976, 84.600082, -174.099639, 1.282001, 1.419013, 1.189006);
 		SetPlayerChatBubble(playerid, "одягнув маску.", COLOR_ORANGE, 30.0, 10000);
 	}
@@ -40003,7 +39786,7 @@ CMD:alc(playerid) {
 	return 1;
 }
 CMD:accept(playerid) {
-    if(!IsAnEnforcement(playerid) || !start_work[playerid]) return SendError(playerid, "Доступно тільки правоохоронним органам.");
+	if(!IsAnEnforcement(playerid) || !start_work[playerid]) return SendError(playerid, "Доступно тільки правоохоронним органам.");
 	SendOK(playerid, "Місце розташування зборойового складу відправлене вам на GPS.");
 	return SetPlayerCheckpoint(playerid, 74.1751, -214.7039, 1.4446, 5.0);
 }
@@ -41008,7 +40791,7 @@ CMD:trspcar(playerid) {
 	return 1;
 }
 stock invitetrS(playerid) {
-    if(CI[playerid][bizz_work] == 61) return SendError(playerid, "Ви вже працюєте в транспортной компанії.");
+	if(CI[playerid][bizz_work] == 61) return SendError(playerid, "Ви вже працюєте в транспортной компанії.");
 	if(CI[playerid][pLevel] < 2) return SendError(playerid, "У вас недостатній рівень для цієї роботи. Необхідно мати 2 рівень.");
 	if(GetPVarInt(playerid, "tk_id")) return SendError(playerid, "У вас вже є активна пропозиція.");
 	ShowPlayerDialog(playerid, D_ACCEPTS_TS, DSM, "Працевлаштування.", "Ви дійсно хочете влаштуватися у транспортну компанію?", "Так", "Ні");
@@ -41172,8 +40955,8 @@ CMD:changecar(playerid,params[]) {
 	return 1;
 }
 set_string(param_1[], param_2[]) {
-    strmid(param_1, param_2, 0, strlen(param_2), 255);
-    return 1;
+	strmid(param_1, param_2, 0, strlen(param_2), 255);
+	return 1;
 }
 CMD:sellcar(playerid, params[]) {
 	if(GetPVarInt(playerid, "car_pokupaet")) return SendError(playerid, "У вас активний обмін транспорт з гравцем.");
@@ -41254,9 +41037,9 @@ stock HideMenuSave(playerid) {
 }
 CMD:hidemenu(playerid) return HideMenu(playerid);
 stock HideMenu(playerid) {
-    if(!PI[playerid][pAdmin]) return 1;
-    FSPD(playerid, 1285, DST, ""cServer"Hide Menu", "Обрати", "Закрити", ""cServer"[1]{FFFFFF} Сховати себе з /admins\t%s\n"cServer"[2]{FFFFFF} Сховати свій рівень з /admins\t%s\n"cServer"[3]{FFFFFF} Показати фейк рівень в /admins\t%s\n"cServer"[4]{FFFFFF} Підмінити свій нік\t%s",(ahMenu[playerid][0] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][1] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][2] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][3] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"));
-    return 1;
+	if(!PI[playerid][pAdmin]) return 1;
+	FSPD(playerid, 1285, DST, ""cServer"Hide Menu", "Обрати", "Закрити", ""cServer"[1]{FFFFFF} Сховати себе з /admins\t%s\n"cServer"[2]{FFFFFF} Сховати свій рівень з /admins\t%s\n"cServer"[3]{FFFFFF} Показати фейк рівень в /admins\t%s\n"cServer"[4]{FFFFFF} Підмінити свій нік\t%s",(ahMenu[playerid][0] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][1] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][2] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][3] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"));
+	return 1;
 }
 CMD:rank(playerid, params[]) {
 	if(!CI[playerid][pMember]) return SendError(playerid, "Ви не перебуваєте в організації.");
@@ -41891,11 +41674,11 @@ CMD:load(playerid) {
 	return 1;
 }
 CMD:unloadmat(playerid) {
-    if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
+	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
 	if(GetPlayerVehicleID(playerid) != VehicleWareHouse[0]) return 1;
 	if(!IsCrime(playerid)) return 1;
 	if(CountMaterialVehicleWH > 0) {
-	    // new CountMaterial = CountMaterialVehicleWH * 500;
+		// new CountMaterial = CountMaterialVehicleWH * 500;
 		new Float:fX, Float:fY, Float:fZ;
 		switch(CI[playerid][pMember]) {
 			case fBALLAS: fX = 2656.3931, fY = -2023.8264, fZ = 13.5583;
@@ -41918,7 +41701,7 @@ CMD:unloadmat(playerid) {
 		SendOK(playerid, "Ви розвантажили машину з матеріалами.");
 		new string[144];
 		// format(string, sizeof(string), "Матеріали розвантажені. Матеріалів на складі: "P"%i"W".", FI[CI[playerid][pMember]][fMaterials]);
-  		SendOK(playerid, string);
+		SendOK(playerid, string);
 		CountMaterialVehicleWH = 0;
 		SetVehicleToRespawn(VehicleWareHouse[0]);
 		Accepts = false;
@@ -42138,16 +41921,16 @@ new bool:ActorHandsup[MAX_ACTORS], HandsDownTimer;
 public OnPlayerUpdate(playerid) {
 	TI[playerid][tAFK] = 0;
 
-    if(GetPlayerTargetActor(playerid) != INVALID_ACTOR_ID) {
+	if(GetPlayerTargetActor(playerid) != INVALID_ACTOR_ID) {
 		new actorid = GetPlayerTargetActor(playerid);
-        if(22 <= GetPlayerWeapon(playerid) <= 42) {
+		if(22 <= GetPlayerWeapon(playerid) <= 42) {
 			if(ActorHandsup[actorid]) KillTimer(HandsDownTimer);
 			else {
 				ApplyActorAnimation(actorid, "SHOP", "SHP_HandsUp_Scr",4.1,0,0,0,1,0);
 				ActorHandsup[actorid] = true;
 			}
 			HandsDownTimer = SetTimerEx("HandsDown", 3 * 1000, false, "u", actorid);
-        }
+		}
 	}
 	return 1;
 }
@@ -42169,6 +41952,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
+	
 	if(newkeys & KEY_FIRE) {
 		new animname[32];
 		GetAnimationName(GetPlayerAnimationIndex(playerid),animname, 32,animname, 32);
@@ -42325,7 +42109,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		for(new td; td < 3; td++) PlayerTextDrawHide(playerid, FireTargetStatus[playerid][td]);
 		KillTimer(get_fire_object_timer[playerid]);
 	}
-	if(PRESSED(KEY_WALK) && GetPlayerTargetPlayer(playerid) != INVALID_PLAYER_ID) {
+	if(PRESSED(KEY_CTRL_BACK)) {
+		if(GetPlayerTargetPlayer(playerid) == INVALID_PLAYER_ID) {
+			new valst[25];
+			valstr(valst, GetPlayerTargetPlayer(playerid));
+			return SendHint(playerid, valst);
+		}
 		new targetid = GetPlayerTargetPlayer(playerid), header[64], string[256] = P"1."W" Цивільна взаємодія.\n"P"2."W" Фракційна взаємодія.\n";
 		if(playerid == targetid) return SendError(playerid, "Ви не можете взаємодіяти з собою.");
 		SetPVarInt(playerid, "InteractedPlayer", targetid);
@@ -42833,8 +42622,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
 			}
 			if(IsPlayerInDynamicArea(playerid, bintSphere[bint]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
-			 	SetPlayerPosAC(playerid, GetPVarFloat(playerid, "previousposX"), GetPVarFloat(playerid, "previousposY"), GetPVarFloat(playerid, "previousposZ"), 0, 0);
-			 	SetCameraBehindPlayer(playerid);
+				SetPlayerPosAC(playerid, GetPVarFloat(playerid, "previousposX"), GetPVarFloat(playerid, "previousposY"), GetPVarFloat(playerid, "previousposZ"), 0, 0);
+				SetCameraBehindPlayer(playerid);
 				new freezeSeconds = 0;
 				switch (GetPlayerPing(playerid)) {
 					case 0 .. 49: freezeSeconds = 2;
@@ -42858,8 +42647,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				SetPVarFloat(playerid, "previousposY", previousposY);
 				SetPVarFloat(playerid, "previousposZ", previousposZ);
 				SetPlayerFacingAngle(playerid, gBints[bint][bintR]);
-			 	SetPlayerPosAC(playerid, gBints[bint][bintX], gBints[bint][bintY], gBints[bint][bintZ], businessareaid, gBints[bint][bintInt]);
-			 	SetCameraBehindPlayer(playerid);
+				SetPlayerPosAC(playerid, gBints[bint][bintX], gBints[bint][bintY], gBints[bint][bintZ], businessareaid, gBints[bint][bintInt]);
+				SetCameraBehindPlayer(playerid);
 				new freezeSeconds = 0;
 				switch (GetPlayerPing(playerid)) {
 					case 0 .. 49: freezeSeconds = 2;
@@ -43031,7 +42820,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 	}
 	/* if(newkeys == KEY_FIRE && IsPlayerInAnyVehicle(playerid)) {
-	 	return pc_cmd_radiocar(playerid);
+		return pc_cmd_radiocar(playerid);
 	} */
 	if(newkeys & KEY_WALK && !IsPlayerInAnyVehicle(playerid)) {
 
@@ -43039,7 +42828,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		if(barrierid != -1) CheckBarrier(playerid,barrierid);
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1120.8074, -893.6594, 1046.0126)) return show_poisk(playerid);
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 86.8335, -235.0523, 1.6274) && IsCrime(playerid)&& Accepts == false) {
-            TI[playerid][tProcess][0] = 0;
+			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			JobTempProcess[playerid] = 27;
 			RandomYareNforJOBS(playerid);
@@ -43051,23 +42840,23 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 1.5, 1400.5125, -20.4098, 1010.3695)&& GetPlayerVirtualWorld(playerid) == 61) return invitetrS(playerid);
 		if(IsPlayerInRangeOfPoint(playerid, 3.5, 132.2542, -287.4891, 1.7124) && GetPVarInt(playerid, "PlusWareHouse")) {
-		    if(CountMaterialVehicleWH > 30) return SendError(playerid, "Машина переповнена.");
-		    CountMaterialVehicleWH += 1;
-		    ApplyAnimation(playerid, "PED", "IDLE_tired", 4.1, 0, 1, 1, 0, 1);
-		    new strp[150];
+			if(CountMaterialVehicleWH > 30) return SendError(playerid, "Машина переповнена.");
+			CountMaterialVehicleWH += 1;
+			ApplyAnimation(playerid, "PED", "IDLE_tired", 4.1, 0, 1, 1, 0, 1);
+			new strp[150];
 			format(strp, sizeof(strp), "Ящиків з матеріалами в машині %i/15.", CountMaterialVehicleWH);
 			SendError(playerid, strp);
 			DeletePVar(playerid, "PlusWareHouse");
-		 	for(new i=0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++)
-	        {
-	            if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-	        }
+			for(new i=0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++)
+			{
+				if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+			}
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 1.5, 164.8852, 1852.3386, 643.0618)) {
 			if(Accepts == false) return SendError(playerid, "Відімкніть сигналізацію. "W"(Вимкнути сигналзацію можна в диспетчерській)");
 			if(TimerRobWeapon > 0) return SendError(playerid, "Спочатку відстійте перестрілку.");
-		    if(GetPVarInt(playerid, "PlusWareHouse")) return SendError(playerid, "Ви вже взяли ящик з матеріалами.");
-            TI[playerid][tProcess][0] = 0;
+			if(GetPVarInt(playerid, "PlusWareHouse")) return SendError(playerid, "Ви вже взяли ящик з матеріалами.");
+			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			JobTempProcess[playerid] = 26;
 			RandomYareNforJOBS(playerid);
@@ -43137,12 +42926,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 1.5, 86.1299, -221.3760, 1.5861)) {
-		    if(!GetPVarInt(playerid, "KeyWareHouseWeapon")) return SendError(playerid, "У вас немає ключів від ворот.");
-		    if(!IsCrime(playerid) || IsAnEnforcement(playerid)) return 1;
+			if(!GetPVarInt(playerid, "KeyWareHouseWeapon")) return SendError(playerid, "У вас немає ключів від ворот.");
+			if(!IsCrime(playerid) || IsAnEnforcement(playerid)) return 1;
 			if(GetPVarInt(playerid, "AntiFloods") > gettime()) return SendError(playerid, "Не флудіть.");
 			SetPVarInt(playerid, "AntiFloods", gettime() + 3);
-		    /**/
-      		TI[playerid][tProcess][0] = 0;
+			/**/
+			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			JobTempProcess[playerid] = 25;
 			RandomYareNforJOBS(playerid);
@@ -43153,7 +42942,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1543.4821, -1627.3247, 13.4028)) {
-            if(!IsAnEnforcement(playerid)) return 1;
+			if(!IsAnEnforcement(playerid)) return 1;
 			if(GetPVarInt(playerid, "AntiFloods") > gettime()) return SendError(playerid, "Не флудіть.");
 			SetPVarInt(playerid, "AntiFloods", gettime() + 15);
 			SendInfo(playerid, "Через 15 секунд ворота закриються.");
@@ -43167,7 +42956,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 2219.8818, 2058.8755, 96.8735) && IsAMafia(playerid)) {
 			if(GetPVarInt(playerid, "Toms") == 1) return SendClientMessage(playerid, COLOR_WHITE, "Бармен: Чого стоїмо то? Вперед!");
-            ShowPlayerDialog(playerid,BARMEN_READY, DSM, "P""Бармен", W"Вам необхідно пограбувати алкогольний склад. Готові? ", "Готов", "Закрити");
+			ShowPlayerDialog(playerid,BARMEN_READY, DSM, "P""Бармен", W"Вам необхідно пограбувати алкогольний склад. Готові? ", "Готов", "Закрити");
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 317.5285, -29.1859, 1.5781) &&  GetPVarInt(playerid, "EndReady") == 1 || IsPlayerInRangeOfPoint(playerid, 5.0, 2383.4004, 241.5266, 26.5141) &&  GetPVarInt(playerid, "EndReady") == 1) {
 			new rand = random(25000) + 10000;
@@ -43178,10 +42967,10 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
 		}
 		if(GetPVarInt(playerid, "Texting") == 1) {
-		    new Float:xx, Float:xy, Float:xz;
+			new Float:xx, Float:xy, Float:xz;
 			GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, xy, xz);
 			if(IsPlayerInRangeOfPoint(playerid, 5.0, xx, xy, xz)) return ShowPlayerDialog(playerid, D_ROBBOT_WARGEHOUSE, DSL, P"Багажник.", P"1."W" Поїхати\n"P"2."W"Закинути сумку", "Обрати", "Закрити");
-		    /**/
+			/**/
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 2360.8240, 1839.1799, 1211.6302) && GetPVarInt(playerid, "Ready") == 1) RobBiker(playerid);
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 816.1916, -1843.3940, 8.3624)) return ShowPlayerDialog(playerid, D_SELFISH, DSL, P"Рибак.", P"1."W" Показати перепустку\n"P"2."W" Продати улов", "Обрати", "Закрити");
@@ -43757,11 +43546,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 			ShowATMMenu(playerid);
 		}
-  		new i = GetPVarInt(playerid, "BuyGarage");
+		new i = GetPVarInt(playerid, "BuyGarage");
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, FG[i][posX],FG[i][posY],FG[i][posZ])) {
-		    if(!GetPVarInt(playerid, "BuyGarage")) return SendError(playerid, "У вас немає гаража.");
-		    if(FG[i][gOwnerID] != CI[playerid][cID]) return SendError(playerid, "Це не ваш гараж.");
-		    JobTempProcess[playerid] = 28;
+			if(!GetPVarInt(playerid, "BuyGarage")) return SendError(playerid, "У вас немає гаража.");
+			if(FG[i][gOwnerID] != CI[playerid][cID]) return SendError(playerid, "Це не ваш гараж.");
+			JobTempProcess[playerid] = 28;
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
@@ -43799,7 +43588,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	}*/
 	if(PRESSED(KEY_NO)) {
 		if(active_accept(playerid)) return key_activate(playerid);
- 		else if(GetPVarInt(playerid, "tk_id")) {
+		else if(GetPVarInt(playerid, "tk_id")) {
 			DeletePVar(playerid, "tk_id");
 			return SendOK(playerid, "Ви відмовились від пропозиції.");
 		} else if(IsPlayerInRangeOfPoint(playerid, 1.5, 2752.4421, -2471.4094, 13.6484)) {
@@ -44745,7 +44534,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 	return 1;
 }
 public OnPlayerClickTextDraw(playerid, Text:clickedid) {
-    #if defined _roulette_included
+	#if defined _roulette_included
 		if(roulette_OnPlayerClickTextDraw(playerid, clickedid)) return 1;
 	#endif
 	// switch (clickedid) {
@@ -44877,25 +44666,20 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			cancel_skin(playerid);
 		}
 	}
-	if(GetPVarInt(playerid, "buyskin"))
-	{
-		if(clickedid == buyskin[16]) ChooseSkin(playerid, 1);
-		else if(clickedid == buyskin[17]) ChooseSkin(playerid, 0);
-		else if(clickedid == buyskin[23])
-		{
+	if(GetPVarInt(playerid, "buyskin")) {
+		if(clickedid == buyskin[16]) ChooseSkin(playerid/*, 1*/);
+		else if(clickedid == buyskin[17]) ChooseSkin(playerid/*, 0*/);
+		else if(clickedid == buyskin[23]) {
 			new string[128];
 			SetPVarInt(playerid, "skintobuy", GetPVarInt(playerid, "chosen_skin"));
 			format(string, sizeof(string), "Ви справді хочете придбати цей одяг за дохуя грошей?");
 			ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_MSGBOX, ""G"Купівля одягу", string, "Купити", "Скасувати");
 		}
 	}
-	if(GetPVarInt(playerid, "phone_active"))
-	{
+	if(GetPVarInt(playerid, "phone_active")) {
 		if(clickedid == iphone[35]) ShowPlayerDialog(playerid, dPhoneCall, DSI, P"Телефон. "W"Вихідний виклик.", W"Введіть номер телефону, за яким ви збираєтеся зателефонувати\n\n"G"* Довідка: Служба порятунку - 911; Таксопарк - 222; ЗМІ - 554.", "Виклик", "Скасувати");
 		else if(clickedid == iphone[37]) pc_cmd_book(playerid);
-
 		else if(clickedid == iphone[39]) SendInfo(playerid, "тут буде історія переписок.");
-
 		else if(clickedid == iphone[46]) SendInfo(playerid, "тут будуть налаштування телефону.");
 	}
 	if(_:clickedid == INVALID_TEXT_DRAW) {
@@ -45853,8 +45637,8 @@ CB:business_articles_list(playerid) {
 		cache_get_value_index_int(i, 2, price);
 		cache_get_value_index_int(i, 3, qty);
 
- 		if(qty < 1) format(qtycolor, sizeof(qtycolor), ""E"%d шт.", qty);
- 		else format(qtycolor, sizeof(qtycolor), ""G"%d шт.", qty);
+		if(qty < 1) format(qtycolor, sizeof(qtycolor), ""E"%d шт.", qty);
+		else format(qtycolor, sizeof(qtycolor), ""G"%d шт.", qty);
 		format(string, sizeof(string), "%s"P"%d\t"W"%s\t\t%s\t\t"GREEN"$%d\n", string, id, name, qtycolor, price);
 	}
 	ShowPlayerDialog(playerid, dBusinessShop, DSTH, ""P"Список товарів", string, "Обрати", "Закрити");
@@ -46476,8 +46260,7 @@ stock load_factions() {
 
 stock load_business_interiors()
 {
-	for(new i = 0; i < sizeof(gBints); i++)
-	{
+	for(new i = 0; i < sizeof(gBints); i++) {
 		new id = gBints[i][bintID];
 
 		CreateDynamicPickup(1318, 23, gBints[i][bintX], gBints[i][bintY], gBints[i][bintZ], -1, gBints[i][bintInt]);
@@ -46633,8 +46416,8 @@ stock load_business_actors() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT * FROM `business_actors` ORDER by ID");
 	new rows = cache_num_rows();
-    if(!rows) return printf("[Error] Actors weren't found in DB.");
-    else if(rows > MAX_BUSINESS_ACTORS) return printf("[Error] There are more actors in DB than allowed.");
+	if(!rows) return printf("[Error] Actors weren't found in DB.");
+	else if(rows > MAX_BUSINESS_ACTORS) return printf("[Error] There are more actors in DB than allowed.");
 	for_1(f, rows) {
 		new tempid;
 		cache_get_value_name_int(f, "ID", tempid);
@@ -46673,8 +46456,8 @@ stock load_business_articles() {
 	new Cache:result;
 	result = mysql_query(connects, "SELECT Article_ID, businessID, Article, Price, QTY, MaxQTY, `Order` FROM `business_articles` ORDER by ID");
 	new rows = cache_num_rows();
-    if(!rows) return printf("[Error] Articles weren't found in DB.");
-    else if(rows > MAX_BUSINESS_ARTICLES) return printf("[Error] There are more acticles in DB than allowed.");
+	if(!rows) return printf("[Error] Articles weren't found in DB.");
+	else if(rows > MAX_BUSINESS_ARTICLES) return printf("[Error] There are more acticles in DB than allowed.");
 	for_1(f, rows) {
 		new businessid, articleid;
 		cache_get_value_name_int(f, "businessID", businessid);
@@ -46762,9 +46545,9 @@ stock AddBusinessObject(businessid, Float:x, Float:y, Float:z, Float:rx, Float:r
 
 	new objectid = MaxBObjects[businessid];
 
-    mysql_format(connects, query, sizeof(query), "INSERT INTO `business_objects` (`oID`, `businessID`, `oX`, `oY`, `oZ`, `orX`, `orY`, `orZ`, `ObjectID`, `Interior`, `World`) VALUES (%i, %i, '%f', '%f', '%f','%f', '%f', '%f', %i, %i, %i)",
-        MaxBObjects[businessid], businessid, x, y, z, rx, ry, rz , GetPVarInt(playerid, "bojectmodel"), GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid));
-    mysql_tquery(connects, query);
+	mysql_format(connects, query, sizeof(query), "INSERT INTO `business_objects` (`oID`, `businessID`, `oX`, `oY`, `oZ`, `orX`, `orY`, `orZ`, `ObjectID`, `Interior`, `World`) VALUES (%i, %i, '%f', '%f', '%f','%f', '%f', '%f', %i, %i, %i)",
+		MaxBObjects[businessid], businessid, x, y, z, rx, ry, rz , GetPVarInt(playerid, "bojectmodel"), GetPlayerInterior(playerid), GetPlayerVirtualWorld(playerid));
+	mysql_tquery(connects, query);
 
 
 	gBusinessObjects[businessid][objectid][oDBID] = objectid;
@@ -46784,10 +46567,10 @@ stock AddBusinessObject(businessid, Float:x, Float:y, Float:z, Float:rx, Float:r
 
 	printf("MaxBObjects: %i", MaxBObjects[businessid]);
 
-    new string[128];
-    format(string, sizeof(string), "Об'єкт ("P"%i"W") успішно створено.", MaxBObjects[businessid]);
-    SendOK(playerid, string);
-    return 1;
+	new string[128];
+	format(string, sizeof(string), "Об'єкт ("P"%i"W") успішно створено.", MaxBObjects[businessid]);
+	SendOK(playerid, string);
+	return 1;
 }
 stock UpdateBusinessObject(playerid, businessid, objectid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz) {
 	new query[512], string[512];
@@ -46990,7 +46773,7 @@ stock load_garage() {
 stock GetOwnerIDGarage(ID) {
 	new name[50];
 	switch(ID) {
-  		case -1: name = "None";
+		case -1: name = "None";
 		default: format(name, sizeof(name), "%s", CI[id][cName]);
 	}
 	return name;
@@ -47525,20 +47308,20 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 
 	new stringer[255];
 	if(response == EDIT_RESPONSE_FINAL) {
-	    if(GPVI(playerid, "BauldMappingCreating")) {
-            DPV(playerid, "BauldMappingCreating");
-            AddObject(objectid, x, y, z,rx,ry,rz, playerid);
-            return 1;
-        }
-        if(GPVI(playerid, "EditOwnMap")) {
-            DPV(playerid, "EditOwnMap");
-            new idd = GPVI(playerid, "BDid");
-            DPV(playerid, "BDid");
-            mysql_format(connects, stringer, 255, "UPDATE `bmap` SET `x` = '%f',`y` = '%f',`z` = '%f',`rx` = '%f',`ry` = '%f',`rz` = '%f' WHERE `id` = %i LIMIT 1", x,y,z,rx,ry,rz,idd);
-            mysql_tquery(connects, stringer);
-            SendOK(playerid, "Успішно збережено.");
-            return 1;
-        }
+		if(GPVI(playerid, "BauldMappingCreating")) {
+			DPV(playerid, "BauldMappingCreating");
+			AddObject(objectid, x, y, z,rx,ry,rz, playerid);
+			return 1;
+		}
+		if(GPVI(playerid, "EditOwnMap")) {
+			DPV(playerid, "EditOwnMap");
+			new idd = GPVI(playerid, "BDid");
+			DPV(playerid, "BDid");
+			mysql_format(connects, stringer, 255, "UPDATE `bmap` SET `x` = '%f',`y` = '%f',`z` = '%f',`rx` = '%f',`ry` = '%f',`rz` = '%f' WHERE `id` = %i LIMIT 1", x,y,z,rx,ry,rz,idd);
+			mysql_tquery(connects, stringer);
+			SendOK(playerid, "Успішно збережено.");
+			return 1;
+		}
 		if(EdittingATM[playerid] != 0) {
 			new atmID = EdittingATM[playerid];
 			ATMData[atmID][ATM_Pos][0]   = x;
@@ -47579,29 +47362,29 @@ CB:SetObjectOldPos(objectid, Float:oldX, Float:oldY, Float:oldZ, Float:oldRotX, 
 }
 public OnPlayerSelectDynamicObject(playerid, objectid, modelid, Float:x, Float:y, Float:z) {
 	new stringer[128];
-    mysql_format(connects, stringer, 128, "SELECT * FROM `bmap` WHERE `ingameid` = %i", objectid);
-    new Cache: query = mysql_query(connects, stringer, true);
-    new rows = cache_num_rows();
-    if(!rows) EditDynamicObject(playerid,objectid);
-    else {
-        new bdobj = -1;
-        cache_get_value_name_int(0, "id", bdobj);
-        if(bdobj == -1) return SendClientMessage(playerid,COLOR_RED, "Відбулася помилка. (ONPSDO)");
-        format(pTemp[playerid][var_unit_4], 16, "%i",bdobj);
-        format(stringer, 128, P"Об'єкт #%i", bdobj);
-        ShowPlayerDialog(playerid, 1231, DSL, stringer, P"1."W" Переглянути інформацію\n"P"2."W" Телепорт до об'єкту\n"P"3."W" Редагувати об'єкт\n"P"4."W" Видалити об'єкт", "Обрати", "Назад");
-    }
+	mysql_format(connects, stringer, 128, "SELECT * FROM `bmap` WHERE `ingameid` = %i", objectid);
+	new Cache: query = mysql_query(connects, stringer, true);
+	new rows = cache_num_rows();
+	if(!rows) EditDynamicObject(playerid,objectid);
+	else {
+		new bdobj = -1;
+		cache_get_value_name_int(0, "id", bdobj);
+		if(bdobj == -1) return SendClientMessage(playerid,COLOR_RED, "Відбулася помилка. (ONPSDO)");
+		format(pTemp[playerid][var_unit_4], 16, "%i",bdobj);
+		format(stringer, 128, P"Об'єкт #%i", bdobj);
+		ShowPlayerDialog(playerid, 1231, DSL, stringer, P"1."W" Переглянути інформацію\n"P"2."W" Телепорт до об'єкту\n"P"3."W" Редагувати об'єкт\n"P"4."W" Видалити об'єкт", "Обрати", "Назад");
+	}
 	cache_delete(query);
-    return 1;
+	return 1;
 }
 stock AddObject(objectid, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, playerid) {
 	new stringer[350];
-    mysql_format(connects, stringer, 350, "INSERT INTO `bmap` (`x`, `y`, `z`, `rx`, `ry`, `rz`, `ingameid`, `date`, `name`, `objectid`) VALUES ('%f', '%f', '%f','%f', '%f', '%f', %i, NOW(), '%s', %i)",
-        x,y,z,rx,ry,rz,objectid, CI[playerid][cName], GPVI(playerid, "CreatingObjectModel"));
-    mysql_tquery(connects, stringer);
-    DPV(playerid, "CreatingObjectModel");
-    SendClientMessage(playerid,COLOR_GREEN, "Об'єкт успішно створено.");
-    return 1;
+	mysql_format(connects, stringer, 350, "INSERT INTO `bmap` (`x`, `y`, `z`, `rx`, `ry`, `rz`, `ingameid`, `date`, `name`, `objectid`) VALUES ('%f', '%f', '%f','%f', '%f', '%f', %i, NOW(), '%s', %i)",
+		x,y,z,rx,ry,rz,objectid, CI[playerid][cName], GPVI(playerid, "CreatingObjectModel"));
+	mysql_tquery(connects, stringer);
+	DPV(playerid, "CreatingObjectModel");
+	SendClientMessage(playerid,COLOR_GREEN, "Об'єкт успішно створено.");
+	return 1;
 }
 public OnTrailerUpdate(playerid, vehicleid) {
 	return 1;
@@ -48146,24 +47929,17 @@ stock GetFamName(fam, rank) {
 stock GetRankName(faction, rank) {
 	return fRanks[faction][rank];
 }
-stock ChooseSkin(playerid, id)
-{
-	new string[56];
-	if(GetPVarInt(playerid, "buyskin"))
-	{
-		/*switch(CI[playerid][cNation])
-		{
-			case 1:
-			{
-				if(id == 0)
-				{
+stock ChooseSkin(playerid/*, id*/) {
+	// new string[56];
+	if(GetPVarInt(playerid, "buyskin")) {
+		/* switch(CI[playerid][cEthnos]) {
+			case 1: {
+				if(id == 0) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") + 1);
 					if(GetPVarInt(playerid, "chosen_skin") == sizeof(MalePlayerSkin[][1])) SetPVarInt(playerid, "chosen_skin", 0);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(MalePlayerSkin[][1]));
 					SendHint(playerid, string)
-				}
-				else if(id == 1)
-				{
+				} else if(id == 1) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") - 1);
 					if(GetPVarInt(playerid, "chosen_skin") == -1) SetPVarInt(playerid, "chosen_skin", sizeof(PlayerSkin)-1);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
@@ -48171,17 +47947,13 @@ stock ChooseSkin(playerid, id)
 				}
 				A_SetPlayerSkin(playerid, PlayerSkin[GetPVarInt(playerid, "chosen_skin")][SkinID]);
 			}
-			case 2:
-			{
-				if(id == 0)
-				{
+			case 2: {
+				if(id == 0) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") + 1);
 					if(GetPVarInt(playerid, "chosen_skin") == sizeof(PlayerSkin)) SetPVarInt(playerid, "chosen_skin", 0);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
 					SendHint(playerid, string);
-				}
-				else if(id == 1)
-				{
+				} else if(id == 1) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") - 1);
 					if(GetPVarInt(playerid, "chosen_skin") == -1) SetPVarInt(playerid, "chosen_skin", sizeof(PlayerSkin)-1);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
@@ -48189,17 +47961,13 @@ stock ChooseSkin(playerid, id)
 				}
 				A_SetPlayerSkin(playerid, PlayerSkin[GetPVarInt(playerid, "chosen_skin")][SkinID]);
 			}
-			case 3:
-			{
-				if(id == 0)
-				{
+			case 3: {
+				if(id == 0) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") + 1);
 					if(GetPVarInt(playerid, "chosen_skin") == sizeof(PlayerSkin)) SetPVarInt(playerid, "chosen_skin", 0);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
 					SendHint(playerid, string);
-				}
-				else if(id == 1)
-				{
+				} else if(id == 1) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") - 1);
 					if(GetPVarInt(playerid, "chosen_skin") == -1) SetPVarInt(playerid, "chosen_skin", sizeof(PlayerSkin)-1);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
@@ -48207,17 +47975,13 @@ stock ChooseSkin(playerid, id)
 				}
 				A_SetPlayerSkin(playerid, PlayerSkin[GetPVarInt(playerid, "chosen_skin")][SkinID]);
 			}
-			case 4:
-			{
-				if(id == 0)
-				{
+			case 4: {
+				if(id == 0) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") + 1);
 					if(GetPVarInt(playerid, "chosen_skin") == sizeof(PlayerSkin)) SetPVarInt(playerid, "chosen_skin", 0);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
 					SendHint(playerid, string);
-				}
-				else if(id == 1)
-				{
+				} else if(id == 1) {
 					SetPVarInt(playerid, "chosen_skin", GetPVarInt(playerid, "chosen_skin") - 1);
 					if(GetPVarInt(playerid, "chosen_skin") == -1) SetPVarInt(playerid, "chosen_skin", sizeof(PlayerSkin)-1);
 					format(string, sizeof(string), "PVar: %d. Sizeof: %d", GetPVarInt(playerid, "chosen_skin"), sizeof(PlayerSkin));
@@ -48227,7 +47991,7 @@ stock ChooseSkin(playerid, id)
 			}
 		}
 		format(string, sizeof(string), "%d", PlayerSkin[GetPVarInt(playerid, "chosen_skin")][SkinID]);
-		TextDrawSetString(buyskin[22], string);*/
+		TextDrawSetString(buyskin[22], string); */
 	}
 	return 1;
 }
@@ -48465,7 +48229,7 @@ CB:load_character(playerid) {
 	cache_get_value_name(0, "pAccusedof", CI[playerid][pAccusedof], 43);
 	cache_get_value_name(0, "pVictim", CI[playerid][pVictim], MAX_PLAYER_NAME);
 	cache_get_value_name(0, "pPrefix_s", CI[playerid][pPrefix_s]);
-    cache_get_value_name_int(0, "pPrefix_i", CI[playerid][pPrefix_i]);
+	cache_get_value_name_int(0, "pPrefix_i", CI[playerid][pPrefix_i]);
 	cache_get_value_name_int(0, "spawn", CI[playerid][pSpawn]);
 	cache_get_value_name(0, "pQuestHacker", Hackers, 50);
 	sscanf(Hackers, "p<,>a<i>[4]", CI[playerid][QuestHacker]);
@@ -50389,7 +50153,7 @@ stock ghetto_war() {
 					PlayerTextDrawSetString(m, CaptPlayer[m][1], string);
 					PlayerTextDrawShow(m, CaptPlayer[m][1]);
 					SetPVarInt(m, "ppkz", true);
-                    CreatePlayerCapture(m);
+					CreatePlayerCapture(m);
 					for(new z; z < 34; z++) TextDrawShowForPlayer(m, Capture[z]);
 					for(new z; z < 5; z++)  PlayerTextDrawShow(m, CaptPlayer[m][z]);
 				} else {
@@ -51999,9 +51763,9 @@ CB:choosen_pickup(playerid) {
 	cache_get_row_count(rows);
 	if(!rows) return SendError(playerid, "Пікапа з таким номером не знайдено.");
 
-   	new pickkID, pickkText[72], Float:pickkpos[3], pickkWorld, pickkInt, Float:tpppos[4], tppWorld, tppInt, pickkType, pickkModel, string[1024], header[56];
+	new pickkID, pickkText[72], Float:pickkpos[3], pickkWorld, pickkInt, Float:tpppos[4], tppWorld, tppInt, pickkType, pickkModel, string[1024], header[56];
 
-    cache_get_value_name_int(0, "ID", pickkID);
+	cache_get_value_name_int(0, "ID", pickkID);
 	cache_get_value_name_int(0, "Type", pickkType);
 	cache_get_value_name_int(0, "Model", pickkModel);
 	cache_get_value_name(0, "Text", pickkText, 72);
@@ -52021,10 +51785,10 @@ CB:choosen_pickup(playerid) {
 
 	SetPVarInt(playerid, "pickupid", pickkID);
 
-    format(header, sizeof(header), P"|"W" Керування пікапом #%i.", pickkID);
-    format(string, sizeof(string), W"Тип\t%i\nМодель\t%i\nНазва\t%s\nПозиція\tРедагувати\nТелепорт\tРедагувати\n"P"-"W" Телепортуватися до пікапа.", pickkType, pickkModel, pickkText);
+	format(header, sizeof(header), P"|"W" Керування пікапом #%i.", pickkID);
+	format(string, sizeof(string), W"Тип\t%i\nМодель\t%i\nНазва\t%s\nПозиція\tРедагувати\nТелепорт\tРедагувати\n"P"-"W" Телепортуватися до пікапа.", pickkType, pickkModel, pickkText);
 	if(!pickkType) strcat(string, "\n"P"-"W" Видалити пікап.");
-    ShowPlayerDialog(playerid, D_PICKUP_EDIT, DST, header, string, "Обрати", "Назад");
+	ShowPlayerDialog(playerid, D_PICKUP_EDIT, DST, header, string, "Обрати", "Назад");
 	return 1;
 }
 CB:promo_show(playerid) {
@@ -52492,12 +52256,12 @@ CMD:offunjail(playerid, params[]) {
 }
 CMD:offjail(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 1)) return 1;
-	new name[MAX_PLAYER_NAME],time,reason[31], giveplayerid;
-	if(sscanf(params, "s[20]is[30]",name,time, reason)) return SendError(playerid, "Використайте: /offjail [playername] [minutes] [reason]");
+	new name[MAX_PLAYER_NAME], time, reason[31], giveplayerid;
+	if(sscanf(params, "s[20]is[30]", name, time, reason)) return SendError(playerid, "Використайте: /offjail [playername] [minutes] [reason]");
 	if(strlen(reason) > 30) return SendError(playerid, "Причина повинна бути менше 30 символів.");
 	sscanf(name, "u", giveplayerid);
 	if(giveplayerid != INVALID_PLAYER_ID) return SendError(playerid, "Цей гравець онлайн.");
-	if(time > 300 || time < 5) return SendError(playerid, "Від 5 до 300 хвилин.");
+	if(!(5 <= time <= 300)) return SendError(playerid, "Від 5 до 300 хвилин.");
 	new query[128];
 	mysql_format(connects, query, sizeof(query), "SELECT * FROM "TABLE_CHARACTERS" WHERE BINARY `Name` = '%s' LIMIT 1", name);
 	new Cache:result = mysql_query(connects, query);
@@ -52632,8 +52396,8 @@ CMD:tp(playerid, params[]) {
 }
 
 CMD:yhelp(playerid) {
-    if(CI[playerid][pYouTube] == 0) return 1;
-    ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Команди ютубера.", "{FCCB37}/hp"W" - встановити собі здоров'я\n\
+	if(CI[playerid][pYouTube] == 0) return 1;
+	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Команди ютубера.", "{FCCB37}/hp"W" - встановити собі здоров'я\n\
 	{FCCB37}/aveh"W" - створити транспорт\n\
 	{FCCB37}/gomp"W" - створити ігровий захід\n\
 	{FCCB37}/yskin"W" - видати собі тимчасовий скін\n\n\
@@ -52641,7 +52405,7 @@ CMD:yhelp(playerid) {
 	return 1;
 }
 CMD:serv(playerid) {
-    if(!IsAuthAdmin(playerid, 7)) return 1;
+	if(!IsAuthAdmin(playerid, 7)) return 1;
 	new str[450];
 	format(str, sizeof(str), "Відвідало сервер\t\t%i людей\nЗареєстровано\t\t%i людей",serv_stats[0],serv_stats[1]);
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSL, P"Статистика за сьогодні.", str, "Закрити", "");
@@ -54444,8 +54208,8 @@ CMD:getip(playerid, params[]) {
 }
 CMD:newobj(playerid) {
 	if(!IsAuthAdmin(playerid, 6)) return 1;
-    ShowPlayerDialog(playerid, 1288, DSL, "{C70000}Bauld Mapping", P"1."W" Створити об'єкт\n"P"2."W" Редагувати об'єкт\n"P"3."W" Обрати об'єкт", "Обрати", "Закрити");
-    return 1;
+	ShowPlayerDialog(playerid, 1288, DSL, "{C70000}Bauld Mapping", P"1."W" Створити об'єкт\n"P"2."W" Редагувати об'єкт\n"P"3."W" Обрати об'єкт", "Обрати", "Закрити");
+	return 1;
 }
 CMD:createactor(playerid) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
@@ -54453,11 +54217,11 @@ CMD:createactor(playerid) {
 	return 1;
 }
 stock ShowServerPanel(playerid) {
-    ShowPlayerDialog(playerid, 8502, DSL, "Керування сервером", P"1."W" Змінити назву сервера\n"P"2."W" Скинути назва сервера до дефолтної\n"P"3."W" Встановити пароль\n"P"4."W" Зняти пароль\n"P"5."W" Донат 3x\n"P"6."W" PayDay 3x", "Обрати", "Закрити");
-    return 1;
+	ShowPlayerDialog(playerid, 8502, DSL, "Керування сервером", P"1."W" Змінити назву сервера\n"P"2."W" Скинути назва сервера до дефолтної\n"P"3."W" Встановити пароль\n"P"4."W" Зняти пароль\n"P"5."W" Донат 3x\n"P"6."W" PayDay 3x", "Обрати", "Закрити");
+	return 1;
 }
 stock ShowActorsPanel(playerid) {
-    ShowPlayerDialog(playerid, 1776,DST, ""rServer"Створення акторів", P"1."W" Інструкція по створенню акторів\t"oServer"\n"P"2."W" Створити актора\t"oServer"", "Обрати", "Закрити");
+	ShowPlayerDialog(playerid, 1776,DST, ""rServer"Створення акторів", P"1."W" Інструкція по створенню акторів\t"oServer"\n"P"2."W" Створити актора\t"oServer"", "Обрати", "Закрити");
 	return 1;
 }
 function LoadLastActor() return mysql_tquery(connects, "SELECT * FROM actors ORDER BY id DESC LIMIT 1", "LoadActors");
@@ -54470,12 +54234,12 @@ stock upLoadActors(type) {
 	return 1;
 }
 function LoadActors() {
-    // new time = GetTickCount();
-    new rows = cache_num_rows();
-    if(!rows) return printf("[Error] Actors weren't found in DB.");
-    else if(rows > MAX_D_ACTORS) return printf("[Error] There are more actors in DB than allowed.");
-    for_1(f, rows) {
-	    new _temp_id_;
+	// new time = GetTickCount();
+	new rows = cache_num_rows();
+	if(!rows) return printf("[Error] Actors weren't found in DB.");
+	else if(rows > MAX_D_ACTORS) return printf("[Error] There are more actors in DB than allowed.");
+	for_1(f, rows) {
+		new _temp_id_;
 		cache_get_value_name_int(f, "id", _temp_id_);
 		cache_get_value_name_float(f, "x", actorspos[_temp_id_][0]);
 		cache_get_value_name_float(f, "y", actorspos[_temp_id_][1]);
@@ -54491,13 +54255,13 @@ function LoadActors() {
 		SetActorVirtualWorld(actors[_temp_id_][0],actors[_temp_id_][1]);
 		ActorAnimation(actors[_temp_id_][0],anim_actors[_temp_id_]);
 	}
-    printf("[Success] Actors loaded. (%i pcs.)", rows);
+	printf("[Success] Actors loaded. (%i pcs.)", rows);
 	return 1;
 }
 CMD:actoranim(playerid) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
 	for(new j = 0; j < MAX_D_ACTORS; j++) {
-	    if(IsPlayerInRangeOfPoint(playerid, 2.0, actorspos[j][0],actorspos[j][1],actorspos[j][2])) choosen_actor[playerid] = j;
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, actorspos[j][0],actorspos[j][1],actorspos[j][2])) choosen_actor[playerid] = j;
 	}
 	if(choosen_actor[playerid] == 0) return SendError(playerid, "В радіусі 2х метрів від вас немає акторів");
 	ShowPlayerDialog(playerid, dActorAnim, DSL, P"Список анімацій", "1. Стійка ділера\n2. Передав щось\n3. З'їв щось\n4. Справити потребу\n5. Медитація\n\
@@ -54511,9 +54275,9 @@ CMD:actoranim(playerid) {
 }
 CMD:del(playerid) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
-    choosen_actor[playerid] = 0;
+	choosen_actor[playerid] = 0;
 	for(new j = 0; j < MAX_D_ACTORS; j++) {
-	    if(IsPlayerInRangeOfPoint(playerid, 2.0, actorspos[j][0],actorspos[j][1],actorspos[j][2])) choosen_actor[playerid] = j;
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, actorspos[j][0],actorspos[j][1],actorspos[j][2])) choosen_actor[playerid] = j;
 	}
 	if(choosen_actor[playerid] == 0) return SendError(playerid, "В радіусі 2 метрів від вас немає акторів.");
 	new i = choosen_actor[playerid];
@@ -54522,8 +54286,8 @@ CMD:del(playerid) {
 	return 1;
 }
 stock ActorAnimation(actorID,anim) {
-    switch(anim) {
-	    case 0: ApplyActorAnimation(actorID, "DEALER", "Dealer_idle", 4.1, 1, 0, 0, 0, 0);
+	switch(anim) {
+		case 0: ApplyActorAnimation(actorID, "DEALER", "Dealer_idle", 4.1, 1, 0, 0, 0, 0);
 		case 1: ApplyActorAnimation(actorID, "DEALER", "Dealer_Deal", 4.1, 0, 0, 0, 0, 0);
 		case 2: ApplyActorAnimation(actorID, "FOOD", "Eat_Burger", 4.1, 0, 0, 0, 0, 0);
 		case 3: ApplyActorAnimation(actorID, "PAULNMAC", "Piss_in", 4.1, 0, 0, 0, 0, 0);
@@ -54594,26 +54358,26 @@ stock AddPame(playerid) {
 }
 CMD:pame(playerid, params[]) {
 	if(sscanf(params, "s[64]",params[0])) return SendClientMessage(playerid, COLOR_WHITE, "Введіть: /pame [description]");
-    if(pame_text[playerid] != Text3D:-1) return SendError(playerid, "У вас вже встановлений опис. Для видалення використайте: /dellpame");
+	if(pame_text[playerid] != Text3D:-1) return SendError(playerid, "У вас вже встановлений опис. Для видалення використайте: /dellpame");
 	new string[128], query[155];
 	format(string, sizeof(string), "Ви створили опис персонажа: %s.", params[0]);
-    SendOK(playerid, string);
+	SendOK(playerid, string);
 	format(player_pame[playerid], 64, "%s", params[0]);
 	mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `cPame` = '%s' WHERE `cID` = %i LIMIT 1",player_pame[playerid], CI[playerid][cID]);
 	mysql_tquery(connects, query, "", "");
 	AddPame(playerid);
-    return 1;
+	return 1;
 }
 CMD:dellpame(playerid, params[]) {
-    if(pame_text[playerid] == Text3D:-1) return SendError(playerid, "Ви не створювали опис персонажу. Використайте: /pame [description]"); // Чи є опис у гравця.
+	if(pame_text[playerid] == Text3D:-1) return SendError(playerid, "Ви не створювали опис персонажу. Використайте: /pame [description]"); // Чи є опис у гравця.
 	new query[155];
 	format(player_pame[playerid], 64, "");
 	mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `cPame` = '' WHERE `cID` = %i LIMIT 1",player_pame[playerid], CI[playerid][cID]);
 	mysql_tquery(connects, query, "", "");
-    SendOK(playerid, "Ви видалили опис свого персонажу.");
-    Delete3DTextLabel(pame_text[playerid]);
-    pame_text[playerid] = Text3D:-1;
-    return 1;
+	SendOK(playerid, "Ви видалили опис свого персонажу.");
+	Delete3DTextLabel(pame_text[playerid]);
+	pame_text[playerid] = Text3D:-1;
+	return 1;
 }
 CMD:aedit(playerid) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
@@ -54622,49 +54386,49 @@ CMD:aedit(playerid) {
 }
 CMD:prefix(playerid,params[]) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
-    if(sscanf(params, "i", params[0])) {
-        SendClientMessage(playerid, COLOR_WHITE, "Введіть: /prefix [playerid]");
-        return 1;
-    }
-    if(!IsPlayerConnected(params[0])) return SendError(playerid, "Неправильний ID.");
+	if(sscanf(params, "i", params[0])) {
+		SendClientMessage(playerid, COLOR_WHITE, "Введіть: /prefix [playerid]");
+		return 1;
+	}
+	if(!IsPlayerConnected(params[0])) return SendError(playerid, "Неправильний ID.");
 	if(!PI[params[0]][pAdmin]) return 1;
-    if(CI[params[0]][pPrefix_i]) return SendError(playerid, "У гравця вже є префікс. Щоб видалити його, введіть "P"/delprefix"W".");
-    SetPVarInt(playerid, "EditingPlayerPrefix",params[0]);
-    ShowPlayerDialog(playerid, 2095, DSI, P"Створення префікса для гравця.", W"Введіть префікс, якийви хочете видати гравцю.\nВрахуйте, щови можете використовувати HEX колір в {}", "Зберегти", "Закрити");
-    return 1;
+	if(CI[params[0]][pPrefix_i]) return SendError(playerid, "У гравця вже є префікс. Щоб видалити його, введіть "P"/delprefix"W".");
+	SetPVarInt(playerid, "EditingPlayerPrefix",params[0]);
+	ShowPlayerDialog(playerid, 2095, DSI, P"Створення префікса для гравця.", W"Введіть префікс, якийви хочете видати гравцю.\nВрахуйте, щови можете використовувати HEX колір в {}", "Зберегти", "Закрити");
+	return 1;
 }
 stock UpdatePrefixAuto(playerid) {
-    if(PI[playerid][pAdmin]) return 1;
-    if(!CI[playerid][pPrefix_i]) return 1;
-    CI[playerid][pPrefix_i] = 0;
-    SavePrefix(playerid);
-    return 1;
+	if(PI[playerid][pAdmin]) return 1;
+	if(!CI[playerid][pPrefix_i]) return 1;
+	CI[playerid][pPrefix_i] = 0;
+	SavePrefix(playerid);
+	return 1;
 }
 stock SavePrefix(i) {
 	new string[128];
-    mysql_format(connects, string, 128, "UPDATE "TABLE_CHARACTERS" SET `pPrefix_s` = '%s', `pPrefix_i` = %i WHERE `ID` = %i LIMIT 1", CI[i][pPrefix_s], CI[i][pPrefix_i], CI[i][cID]);
-    mysql_tquery(connects, string);
-    return 1;
+	mysql_format(connects, string, 128, "UPDATE "TABLE_CHARACTERS" SET `pPrefix_s` = '%s', `pPrefix_i` = %i WHERE `ID` = %i LIMIT 1", CI[i][pPrefix_s], CI[i][pPrefix_i], CI[i][cID]);
+	mysql_tquery(connects, string);
+	return 1;
 }
 stock SetPrefix(playerid,byid,prefixtext[]) {
-    if(!IsPlayerConnected(byid)) return 1;
-    if(!IsPlayerConnected(playerid)) return 1;
-    set_string(CI[playerid][pPrefix_s],prefixtext);
-    CI[playerid][pPrefix_i] = 1;
-    FSAM("%s[%i] видав префікс %s[%i] %s.", PI[byid][pName], byid, CI[playerid][cName], playerid, prefixtext);
-    SavePrefix(playerid);
-    return 1;
+	if(!IsPlayerConnected(byid)) return 1;
+	if(!IsPlayerConnected(playerid)) return 1;
+	set_string(CI[playerid][pPrefix_s],prefixtext);
+	CI[playerid][pPrefix_i] = 1;
+	FSAM("%s[%i] видав префікс %s[%i] %s.", PI[byid][pName], byid, CI[playerid][cName], playerid, prefixtext);
+	SavePrefix(playerid);
+	return 1;
 }
 CMD:delprefix(playerid,params[]) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
-    if(sscanf(params, "u", params[0])) SendError(playerid, "Використайте: /delprefix [playerid]");
-    if(!IsPlayerConnected(params[0])) return SendError(playerid, not_id);
+	if(sscanf(params, "u", params[0])) SendError(playerid, "Використайте: /delprefix [playerid]");
+	if(!IsPlayerConnected(params[0])) return SendError(playerid, not_id);
 	if(!PI[params[0]][pAdmin]) return 1;
-    if(!CI[params[0]][pPrefix_i]) return SendError(playerid, "У гравця немає префікса. Щоб створити префікс, введіть "P"/prefix"W".");
-    CI[params[0]][pPrefix_i] = 0;
-    SavePrefix(params[0]);
-    FSAM("%s[%i] забрав префікс у %s[%i].", PI[playerid][pName], playerid, CI[params[0]][cName], params[0]);
-    return 1;
+	if(!CI[params[0]][pPrefix_i]) return SendError(playerid, "У гравця немає префікса. Щоб створити префікс, введіть "P"/prefix"W".");
+	CI[params[0]][pPrefix_i] = 0;
+	SavePrefix(params[0]);
+	FSAM("%s[%i] забрав префікс у %s[%i].", PI[playerid][pName], playerid, CI[params[0]][cName], params[0]);
+	return 1;
 }
 CMD:makeadmin(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 6)) return 1;
@@ -55588,41 +55352,41 @@ stock NextStapQI(playerid, id) {
 			}
 		}
 	case 57: {
-	 	    if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
-		          EnableGPSForPlayer(playerid, 1055.3672, -303.7405, 73.9922);
-                  SendOK(playerid, "Відправляйтеся до друга, щоб зустрітися.");
+			if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
+				  EnableGPSForPlayer(playerid, 1055.3672, -303.7405, 73.9922);
+				  SendOK(playerid, "Відправляйтеся до друга, щоб зустрітися.");
 			} else if(QuestProgress[playerid][id] == 100) {
-		     	  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
-                  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
-	        }
+				  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
+				  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
+			}
 		}
 	case 58: {
-	        if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
-                  SendOK(playerid, "Відправляйтеся до дому Фредді.");
-                  SendOK(playerid, "Підказка: поруч з будинком знаходиться Vinewood Burger.");
+			if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
+				  SendOK(playerid, "Відправляйтеся до дому Фредді.");
+				  SendOK(playerid, "Підказка: поруч з будинком знаходиться Vinewood Burger.");
 			} else if(QuestProgress[playerid][id] == 100) {
-		     	  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
-                  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
-	        }
-	    }
- 	case 59: {
-	        if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
-                  EnableGPSForPlayer(playerid, 2413.9656, 19.6305, 26.9844);
-                  SendOK(playerid, "Відправляйтеся до відьми, щоб зустрітися.");
+				  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
+				  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
+			}
+		}
+	case 59: {
+			if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
+				  EnableGPSForPlayer(playerid, 2413.9656, 19.6305, 26.9844);
+				  SendOK(playerid, "Відправляйтеся до відьми, щоб зустрітися.");
 			} else if(QuestProgress[playerid][id] == 100) {
-		     	  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
-                  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
-	        }
-	    }
-  	case 60: {
-	        if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
-                  EnableGPSForPlayer(playerid, 885.3270, -1077.4008, 24.2946);
-                  SendOK(playerid, "Відправляйтеся до могилки, щоб її полити.");
+				  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
+				  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
+			}
+		}
+	case 60: {
+			if(QuestProgress[playerid][id] >= 0 && QuestProgress[playerid][id] != 1) {
+				  EnableGPSForPlayer(playerid, 885.3270, -1077.4008, 24.2946);
+				  SendOK(playerid, "Відправляйтеся до могилки, щоб її полити.");
 			} else if(QuestProgress[playerid][id] == 100) {
-		     	  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
-                  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
-	        }
-	    }
+				  EnableGPSForPlayer(playerid, 1509.8165, -1662.8397, 13.3226);
+				  SendOK(playerid, "Відправляйтеся до мерії, щоб завершити завдання.");
+			}
+		}
 	}
 	save_quest(playerid, id);
 	return 1;
@@ -55922,11 +55686,11 @@ stock MyButtonSystem(playerid) {
 			}
 		case 25:{
 				System32Weapon(1);
-			    DeletePVar(playerid, "KeyWareHouseWeapon");
-			    JobTempProcess[playerid] = 0;
+				DeletePVar(playerid, "KeyWareHouseWeapon");
+				JobTempProcess[playerid] = 0;
 			}
 		case 26:{
-		       	ApplyAnimation(playerid, "CARRY", "crry_prtial", 4.1, 0, 1, 1, 1, 1);
+				ApplyAnimation(playerid, "CARRY", "crry_prtial", 4.1, 0, 1, 1, 1, 1);
 				SetPVarInt(playerid, "PlusWareHouse", 1);
 				SetPlayerAttachedObject(playerid, 1, 2358, 6, 0.0, 0.10, -0.2, -110.0, 0.0, 78.0);
 				JobTempProcess[playerid] = 0;
@@ -55995,12 +55759,12 @@ stock MyButtonSystem(playerid) {
 }
 stock System32Weapon(type) {
 	foreach(Player,i) {
-	    if(!IsCrime(i)) return 1;
-     	if(!IsPlayerInRangeOfPoint(i, 150.0, 118.5647, -273.9576, 1.6274)) return 1;
+		if(!IsCrime(i)) return 1;
+		if(!IsPlayerInRangeOfPoint(i, 150.0, 118.5647, -273.9576, 1.6274)) return 1;
 		switch(type) {
 			case 1: return  SendClientMessage(i, COLOR_WHITE, "Так-с, ворота відкрили, тепер треба вімкнути сигналізацію в диспетчерній.");
 			case 2:{
-                SendClientMessage(i, COLOR_GREY, "Невдала спроба вимкнення сигналізації!");
+				SendClientMessage(i, COLOR_GREY, "Невдала спроба вимкнення сигналізації!");
 				SendClientMessage(i, COLOR_GREY, "Усім держструктурам було відправлено повідомлення про проникнення на склад!");
 				SendClientMessage(i, COLOR_GREY, "Дідько! Ворота зачинилися. Ну що ж, будемо воюватися з держ.структурами.");
 				SendDeptMessage(COLOR_MINJUST, "[Сигналізація] Порушники проникли на завод з виготов.зброї! Зупиніть їх! (/accept)");
@@ -56012,8 +55776,8 @@ stock System32Weapon(type) {
 				return 1;
 			}
 			case 3:{
-                SendOK(i, "Сигналізація успішно вимкнено.");
-                Accepts = true;
+				SendOK(i, "Сигналізація успішно вимкнено.");
+				Accepts = true;
 				return 1;
 			}
 		}
@@ -56021,8 +55785,8 @@ stock System32Weapon(type) {
 	return 1;
 }
 stock CreateCaptures() {
-    foreach(Player,i) {
-	    if(!IsCrime(i) && !IsAnEnforcement(i)) return 1;
+	foreach(Player,i) {
+		if(!IsCrime(i) && !IsAnEnforcement(i)) return 1;
 		CreatePlayerCapture(i);
 		PlayerTextDrawColor(i, CaptPlayer[i][0], 204);
 		PlayerTextDrawColor(i, CaptPlayer[i][1], 884736);
@@ -56039,16 +55803,16 @@ stock CreateCaptures() {
 }
 forward TimerRobb();
 public TimerRobb() {
-    foreach(Player, i) {
+	foreach(Player, i) {
 		if(TimerEndWeapon > 0) {
 			if(IsCrime(i)) {
-		        TimerRobWeapon--;
-		        if(TimerEndWeapon == 60*5) SendInfo(i, "У вас залишилося 5 хвилин для того, щоб розвантажити вантажівку.");
-		        else if(TimerEndWeapon < 1) {
-	                SetVehicleToRespawn(VehicleWareHouse[0]);
-	                TimerEndWeapon = 0;
-	                SendError(i, "Ви не встигнули розвантажити транспорт. Транспорт було повернуто на склад зброї.");
-	                CountMaterialVehicleWH = 0;
+				TimerRobWeapon--;
+				if(TimerEndWeapon == 60*5) SendInfo(i, "У вас залишилося 5 хвилин для того, щоб розвантажити вантажівку.");
+				else if(TimerEndWeapon < 1) {
+					SetVehicleToRespawn(VehicleWareHouse[0]);
+					TimerEndWeapon = 0;
+					SendError(i, "Ви не встигнули розвантажити транспорт. Транспорт було повернуто на склад зброї.");
+					CountMaterialVehicleWH = 0;
 					Accepts = false;
 					TimerRobWeaponBool = false;
 					KillerWarCop = 0;
@@ -56060,14 +55824,14 @@ public TimerRobb() {
 			GangZoneShowForAll(GZ_ZONE1, 0xFFFFFF96);
 			GangZoneFlashForAll(GZ_ZONE1,COLOR_RED);
 			PlayerTextDrawSetString(i, CaptPlayer[i][2], Convert(TimerRobWeapon));
-	        TimerRobWeapon--;
-	        if(TimerRobWeapon < 1) {
-	            for(new z = 0;z < 34;z++) TextDrawHideForPlayer(i, Capture[z]);
+			TimerRobWeapon--;
+			if(TimerRobWeapon < 1) {
+				for(new z = 0;z < 34;z++) TextDrawHideForPlayer(i, Capture[z]);
 				for(new z = 0;z < 6;z++)  PlayerTextDrawHide(i, CaptPlayer[i][z]);
-	            TimerRobWeapon = 0;
-	            TimerRobWeaponBool = false;
-	            GangZoneHideForAll(GZ_ZONE1);
-	    		PlayerTextDrawSetString(i, CaptPlayer[i][5], "CAPTURE");
+				TimerRobWeapon = 0;
+				TimerRobWeaponBool = false;
+				GangZoneHideForAll(GZ_ZONE1);
+				PlayerTextDrawSetString(i, CaptPlayer[i][5], "CAPTURE");
 				KillerWarCop = 0;
 				KillerWarGang = 0;
 			}
@@ -56831,16 +56595,16 @@ stock AtachPlayerAcces(playerid, setobject,skinid) {
 		}
 		case 19320: {
 			switch(skinid)
-	    	{
+			{
 			   case 1..311:SetPlayerAttachedObject(playerid, 2, 19320, 2, 0.1570, -0.0040, 0.0000, 0.0000, 89.8000, 0.0000, 0.6560, 0.6340, 0.7240);
 			   default: SendError(playerid, !"Аксесуар 'Гарбуз', не буде відображатися на цьому скіні.");
-		    }
-	    }
+			}
+		}
 		case 2226:
-	    {
-	 	  switch(skinid)
+		{
+		  switch(skinid)
 		  {
-	        case 1: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.202000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 1
+			case 1: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.202000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 1
 			case 2: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.209000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 2
 			case 3: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 3
 			case 4: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 4
@@ -67076,27 +66840,27 @@ stock SaveSpawnData(playerid) {
 }
 CMD:ylist(playerid) {
 	if(!IsAuthAdmin(playerid, 6)) return 1;
-    new name[44], rows, count, string[750];
+	new name[44], rows, count, string[750];
 	new Cache:result = mysql_query(connects, "SELECT `Name`,`youtube` FROM "TABLE_CHARACTERS" WHERE `youtube` = 1 LIMIT 50");
-    cache_get_row_count(rows);
-    if(rows) {
-       static const f_str[] = "%i. %s\n";
-       new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
-       for(new i; i < rows; i ++)
-       {
-	       cache_get_value_name(i, "Name", name, 44);
-           count++;
-	       format(str, sizeof(str), f_str, count, name);
-           strcat(string, str);
-       }
-       ShowPlayerDialog(playerid, DIALOG_NONE, DSL, P"Список ютуберів", string, "Закрити", "");
-    }
-    cache_delete(result);
-    if(count == 0) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список ютуберів", W"Список ютуберів відсутній", "Закрити", "");
- 	return 1;
+	cache_get_row_count(rows);
+	if(rows) {
+	   static const f_str[] = "%i. %s\n";
+	   new str[sizeof(f_str) + 1 + (-2 + MAX_PLAYER_NAME) + (-2 + 7)];
+	   for(new i; i < rows; i ++)
+	   {
+		   cache_get_value_name(i, "Name", name, 44);
+		   count++;
+		   format(str, sizeof(str), f_str, count, name);
+		   strcat(string, str);
+	   }
+	   ShowPlayerDialog(playerid, DIALOG_NONE, DSL, P"Список ютуберів", string, "Закрити", "");
+	}
+	cache_delete(result);
+	if(count == 0) return ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Список ютуберів", W"Список ютуберів відсутній", "Закрити", "");
+	return 1;
 }
 CB:make_youtube(playerid, name[], level) {
-   	new rows;
+	new rows;
 	cache_get_row_count(rows);
 	if(!rows) return SendError(playerid, "Гравець не знайдений в базі данних.");
 
@@ -67119,26 +66883,26 @@ CB:make_youtube(playerid, name[], level) {
 	return 1;
 }
 CMD:fso(playerid, params[]) {
-    GameTextForPlayer(playerid, "!@#$%^&*()_+*-+йфяцычувскамиепрьтитюэхъ[]____=\"\"", 1, gettime());
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 1000, 0);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 2000, 1);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 3000, 2);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 4000, 3);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 5000, 4);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 6000, 5);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 7000, 6);
-    return 1;
+	GameTextForPlayer(playerid, "!@#$%^&*()_+*-+йфяцычувскамиепрьтитюэхъ[]____=\"\"", 1, gettime());
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 1000, 0);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 2000, 1);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 3000, 2);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 4000, 3);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 5000, 4);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 6000, 5);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 7000, 6);
+	return 1;
 }
 CMD:fstd(playerid, params[]) {
-    GameTextForPlayer(playerid, "!@#$%^&*()_+*-+йфяцычувскамиепрьтитюэхъ[]____=\"\"", 1, gettime());
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 1000, 0);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 2000, 1);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 3000, 2);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 4000, 3);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 5000, 4);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 6000, 5);
-    GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 7000, 6);
-    return 1;
+	GameTextForPlayer(playerid, "!@#$%^&*()_+*-+йфяцычувскамиепрьтитюэхъ[]____=\"\"", 1, gettime());
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 1000, 0);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 2000, 1);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 3000, 2);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 4000, 3);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 5000, 4);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 6000, 5);
+	GameTextForPlayer(playerid, "•¤¶§!$$%&'()*+, -./01~!@#$^&*()_-+={[}]:;'<,>.?/", 7000, 6);
+	return 1;
 }
 CMD:getworld(playerid) {
 	new str[150];
@@ -67149,14 +66913,14 @@ CMD:getworld(playerid) {
 stock RobBiker(playerid) {
 	if(GetPVarInt(playerid, "Buk") == 1) return SendError(playerid, "У вас переповнена сумка.");
 	if(!IsAMafia(playerid)) return SendError(playerid, "У вас немає доступу.");
-    SendOK(playerid, "Ви почали красти алкоголь зі складу.");
+	SendOK(playerid, "Ви почали красти алкоголь зі складу.");
 	if(Vizod == false) {
- 		new string[128];
-	    format(string, sizeof(string), "Увага! Грабують алкогольний слкад! Зупиніть злочинців!");
+		new string[128];
+		format(string, sizeof(string), "Увага! Грабують алкогольний слкад! Зупиніть злочинців!");
 		SendPDMessage(COLOR_MINJUST, string);
 		SendPDMessage(COLOR_MINJUST, "Просимо допомоги правоохоронних органів.");
-        Vizod = true;
-        switch(GetPVarInt(playerid, "NumberSklad")) {
+		Vizod = true;
+		switch(GetPVarInt(playerid, "NumberSklad")) {
 			case 1: MarkerGos(playerid, SkladOne);
 			case 2: MarkerGos(playerid, SkladTwo);
 			case 3: MarkerGos(playerid, SkladThree);
@@ -67174,44 +66938,44 @@ stock RobBiker(playerid) {
 forward JobBiker(playerid);
 public JobBiker(playerid) {
 	ClearAnimations(playerid);
-    TogglePlayerControllable(playerid, 1);
-    SetPVarInt(playerid, "Texting", 1);
-    if(GetPVarInt(playerid, "Counting") > gettime()) return 1;
-    else
-    {
-        SendInfo(playerid, "Ваша сумка повна.");
-    	SendInfo(playerid, "Підійдіть до фургону і закиньте сумку в багажник, коли сідатимете в автомобіль.");
-    	SendInfo(playerid, "Їдьте якомога швидше до грузчика. Можливо, у вас зараз будуть неприємності.");
-    	SetPVarInt(playerid, "Counting", gettime() + 60*30);
+	TogglePlayerControllable(playerid, 1);
+	SetPVarInt(playerid, "Texting", 1);
+	if(GetPVarInt(playerid, "Counting") > gettime()) return 1;
+	else
+	{
+		SendInfo(playerid, "Ваша сумка повна.");
+		SendInfo(playerid, "Підійдіть до фургону і закиньте сумку в багажник, коли сідатимете в автомобіль.");
+		SendInfo(playerid, "Їдьте якомога швидше до грузчика. Можливо, у вас зараз будуть неприємності.");
+		SetPVarInt(playerid, "Counting", gettime() + 60*30);
 	}
 
 	return 1;
 }
 stock RobLeave(playerid) {
-    if(GetPVarInt(playerid, "Buk")) DeletePVar(playerid, "Buk");
+	if(GetPVarInt(playerid, "Buk")) DeletePVar(playerid, "Buk");
 	if(GetPVarInt(playerid, "Ready")) DeletePVar(playerid, "Ready");
 	if(GetPVarInt(playerid, "Toms")) DeletePVar(playerid, "Toms");
 	if(GetPVarInt(playerid, "OkeyMan")) DeletePVar(playerid, "OkeyMan");
-    if(GetPVarInt(playerid, "StopEngine")) DeletePVar(playerid, "StopEngine");
+	if(GetPVarInt(playerid, "StopEngine")) DeletePVar(playerid, "StopEngine");
 	if(GetPVarInt(playerid, "EndReady")) DeletePVar(playerid, "EndReady");
 	DisablePlayerCheckpoint(playerid);
-    AlkoGol = 0;
-    DestroyDynamic3DTextLabel(WHCar);
-    DestroyDynamic3DTextLabel(WHCar);
+	AlkoGol = 0;
+	DestroyDynamic3DTextLabel(WHCar);
+	DestroyDynamic3DTextLabel(WHCar);
 	for(new i=0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++) {
-        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-    }
-    Vizod = false;
-    WHvar = false;
+		if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+	}
+	Vizod = false;
+	WHvar = false;
 
 }
 stock Enter_WareHouse(playerid) {
 	if(GetPVarInt(playerid, "GetPVar") > gettime()) {
-        SetPlayerPos(playerid, 2361.6567, 1848.2925, 1211.6302);
+		SetPlayerPos(playerid, 2361.6567, 1848.2925, 1211.6302);
 		SetPlayerFacingAngle(playerid, 2010);
 		SetPlayerVirtualWorld(playerid, 0);
 	} else {
-        SetPVarInt(playerid, "GetPVar", gettime() + 360*10);
+		SetPVarInt(playerid, "GetPVar", gettime() + 360*10);
 		SendError(playerid, "Спрацювала сигналізація! Скоро поліція прибуде на місце.");
 	}
 	return 1;
@@ -67227,39 +66991,39 @@ stock Dialog_Robbit_WareHouse(playerid, response, listitem) {
 		case 0:{
 			if(AlkoGol < 5) return SendError(playerid, "Вам потрібно зібрати щонайменш 5 сумок з акоголем.");
 			DeletePVar(playerid, "StopEngine");
-            new Float:xx, Float:yy, Float:zz;
-		    GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, yy, zz);
+			new Float:xx, Float:yy, Float:zz;
+			GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, yy, zz);
 			if(IsPlayerInRangeOfPoint(playerid, 5.0, xx, yy, zz)) {
-			    switch(CI[playerid][pMember]) {
+				switch(CI[playerid][pMember]) {
 					case fBikers: SetPlayerCheckpoint(playerid, 317.5285, -29.1859, 1.5781, 5.0);
 					case fBikersTwo: SetPlayerCheckpoint(playerid, 2383.4004, 241.5266, 26.5141, 5.0);
 				}
 
-			    for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++)
-			    {
-			        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
-			    }
-			    DestroyDynamic3DTextLabel(WHCar);
-			    SendClientMessage(playerid, COLOR_WHITE, "Думки: Їдьмо, їдьмо!");
-                DeletePVar(playerid, "Ready");
-                DeletePVar(playerid, "Texting");
-                DestroyPickup(WareHouse);
+				for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++)
+				{
+					if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+				}
+				DestroyDynamic3DTextLabel(WHCar);
+				SendClientMessage(playerid, COLOR_WHITE, "Думки: Їдьмо, їдьмо!");
+				DeletePVar(playerid, "Ready");
+				DeletePVar(playerid, "Texting");
+				DestroyPickup(WareHouse);
 				DestroyDynamic3DTextLabel(WareHouses);
 				SetPVarInt(playerid, "EndReady", 1);
 			}
 		}
 		case 1:{
-		    if(GetPVarInt(playerid, "Buk") != 1) return SendError(playerid, "У вас немає сумки з алкоголем.");
+			if(GetPVarInt(playerid, "Buk") != 1) return SendError(playerid, "У вас немає сумки з алкоголем.");
 			if(AlkoGol > ALKO_MAX) return SendError(playerid, "Машина заповнена.");
-		    for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++) {
-		        if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
+			for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++) {
+				if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
 
-		    }
-		    AlkoGol++;
+			}
+			AlkoGol++;
 			new str[150];
-   			format(str, sizeof(str), "Сумок з алкоголем в багажнику %i/%i.", AlkoGol, ALKO_MAX);
-   			SendInfo(playerid, str);
-   			DeletePVar(playerid, "Buk");
+			format(str, sizeof(str), "Сумок з алкоголем в багажнику %i/%i.", AlkoGol, ALKO_MAX);
+			SendInfo(playerid, str);
+			DeletePVar(playerid, "Buk");
 
 		}
 	}
@@ -67267,9 +67031,9 @@ stock Dialog_Robbit_WareHouse(playerid, response, listitem) {
 }
 stock CodeSkladOne(playerid) {
 	if(!IsPlayerInAnyVehicle(playerid)) {
-	    SetPVarInt(playerid, "StopEngine", 1);
-	    SetPVarInt(playerid, "OkeyMan", 1);
-	    DisablePlayerCheckpoint(playerid);
+		SetPVarInt(playerid, "StopEngine", 1);
+		SetPVarInt(playerid, "OkeyMan", 1);
+		DisablePlayerCheckpoint(playerid);
 		SendInfo(playerid, "Зайдіть в приміщення.");
 		new Float:xx, Float:xy, Float:xz;
 		GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, xy, xz);
@@ -67302,9 +67066,9 @@ stock System32Garage(playerid) {
 	else format(STRING_GLOBAL, sizeof(STRING_GLOBAL), W"Вітаємо, ви виграли — {F9C7A1} %s"W"\n\nПредмет доданий до списку всіх призів.", GarageInfo[rand][cont_name]);
 	SendInfo(playerid, STRING_GLOBAL);
 	AddInactiveItem(playerid, GarageInfo[rand][cont_model], 1);
-    FG[i][gOwnerID] = -1;
-    FG[i][gActive] = 0;
-    STRING_GLOBAL[0] = EOS;
+	FG[i][gOwnerID] = -1;
+	FG[i][gActive] = 0;
+	STRING_GLOBAL[0] = EOS;
 	format(STRING_GLOBAL, sizeof(STRING_GLOBAL), "{F9C7A1}Гараж\n\n"W"Клас:{F9C7A1} %s"W"\nВласник:{F9C7A1}None"W"\n\nДля взаємодії натисніть{F87427} ALT", GetNameClassG(FG[i][gTypes]));
 	Update3DTextLabelText(FGarage[FG[i][gGID]], -1, STRING_GLOBAL);
 	DeletePVar(playerid, "BuyGarage");
@@ -67323,17 +67087,17 @@ CMD:vk(playerid, params[]) {
 stock SendVKMessage(playerid, const message[], const vk_id[]) {
 	new	inc_string[256];
 	format(inc_string, sizeof inc_string, "artemabw.beget.tech/vk_sender.php?message=%s&to=%s", vk_id, message);
-    for(new i, str = strlen(inc_string); i < str; i++) {
-        if(inc_string[i] == ' ') inc_string[i] = '+';
-    }
-    HTTP(playerid, HTTP_GET, inc_string, "", "");
-    return 1;
+	for(new i, str = strlen(inc_string); i < str; i++) {
+		if(inc_string[i] == ' ') inc_string[i] = '+';
+	}
+	HTTP(playerid, HTTP_GET, inc_string, "", "");
+	return 1;
 } */
 CMD:radiocar(playerid) {
 	if(!IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Ви повинні знаходитись в машині.");
 	GetVehicleParamsEx(GetPlayerVehicleID(playerid),engine,lights,alarm,doors,bonnet,boot,objective);
 	if(!engine) return SendError(playerid, "Двигун не заведений.");
-    ShowPlayerDialog(playerid, D_RADIO_101, DSL, "Увімкнути радіо.", P"1."W" Kiss FM.\n"P"2."W" Радіо Байрактар.\n"P"3."W" Львівська хвиля.\n"P"4."W" NRJ Ukraine.\n"P"-"W" Вимкнути.", "Обрати", "Закрити");
+	ShowPlayerDialog(playerid, D_RADIO_101, DSL, "Увімкнути радіо.", P"1."W" Kiss FM.\n"P"2."W" Радіо Байрактар.\n"P"3."W" Львівська хвиля.\n"P"4."W" NRJ Ukraine.\n"P"-"W" Вимкнути.", "Обрати", "Закрити");
 	return 1;
 }
 stock dialog_goscar(playerid, listitem, id) {
@@ -67543,28 +67307,28 @@ CB:CureDeathPlayer(playerid, targetid) {
 }
 forward GetPrivateChannel(playerid);
 public GetPrivateChannel(playerid) {
-    new DCC_Channel:playerDM;
-    playerDM = DCC_GetCreatedPrivateChannel();
-    new code;
-    code = RandomEx(100000, 999999);
-    SetPVarInt(playerid, "dscode", code);
-    new string[256];
-    format(string, sizeof(string), "Ваш верифікаційний код: %i", code);
-    DCC_SendChannelMessage(playerDM, string);
-    DCC_DeleteChannel(playerDM);
-    return 1;
+	new DCC_Channel:playerDM;
+	playerDM = DCC_GetCreatedPrivateChannel();
+	new code;
+	code = RandomEx(100000, 999999);
+	SetPVarInt(playerid, "dscode", code);
+	new string[256];
+	format(string, sizeof(string), "Ваш верифікаційний код: %i", code);
+	DCC_SendChannelMessage(playerDM, string);
+	DCC_DeleteChannel(playerDM);
+	return 1;
 }
 forward SendDiscordMessage(playerid, DCC_User:user);
 public SendDiscordMessage(playerid, DCC_User:user) {
-    if(playerid == INVALID_PLAYER_ID) return 0;
-    DCC_CreatePrivateChannel(DCC_User:user, "GetPrivateChannel", "i", playerid);
-    return 1;
+	if(playerid == INVALID_PLAYER_ID) return 0;
+	DCC_CreatePrivateChannel(DCC_User:user, "GetPrivateChannel", "i", playerid);
+	return 1;
 }
 stock GiveDiscordRoleForPlayer(playerid) {
 	if(PI[playerid][pDiscord] == 0) return SendError(playerid, "Роль на сервері Discord не видано, оскільки у вас відсутня прив'язка.");
 	new DCC_Role:Role, DCC_Guild:Server, DCC_User:user;
- 	Server = DCC_FindGuildById("1030899908166823948");
- 	user = DCC_FindUserById(PI[playerid][pDiscord]);
+	Server = DCC_FindGuildById("1030899908166823948");
+	user = DCC_FindUserById(PI[playerid][pDiscord]);
 	switch(CI[playerid][pMember]) {
 		case 1: // LSPD.
 		{
@@ -67922,7 +67686,7 @@ public PlayerTimerTargetObject(playerid) {
 	return 1;
 }
 stock strcpy(dest[], const source[], maxlength = sizeof dest) {
-    return strcat(( dest[0] = EOS, dest), source, maxlength);
+	return strcat(( dest[0] = EOS, dest), source, maxlength);
 }
 stock Zone_GetNameByCoords(Float:x, Float:y, Float:z, name[], size = sizeof(name)) {
 	if(!x || !y) return 0;
@@ -67988,93 +67752,93 @@ public carlock(playerid) {
 }
 forward OnMailScriptResponse(iIndex, iResponseCode, const szData[]);
 public OnMailScriptResponse(iIndex, iResponseCode, const szData[]) {
-    if(szData[0]) printf("Mailer script says: %s.", szData);
+	if(szData[0]) printf("Mailer script says: %s.", szData);
 }
 stock SendMail(const szReceiver[ ], const szSenderMail[], const szSenderName[], const szSubject[], const szMessage[]) {
-    new szBuffer[ MAILER_MAX_MAIL_SIZE ] = "t=",
-    iPos = strlen(szBuffer),
-    iLength = strlen(szReceiver);
+	new szBuffer[ MAILER_MAX_MAIL_SIZE ] = "t=",
+	iPos = strlen(szBuffer),
+	iLength = strlen(szReceiver);
 
-    memcpy(szBuffer, szReceiver, iPos * 4, (iLength + 1) * 4);
+	memcpy(szBuffer, szReceiver, iPos * 4, (iLength + 1) * 4);
 
-    StringURLEncode(szBuffer[iPos], 1024 - iPos);
+	StringURLEncode(szBuffer[iPos], 1024 - iPos);
 
-    strcat(szBuffer, "&f=");
+	strcat(szBuffer, "&f=");
 
-    iPos    = strlen(szBuffer);
-    iLength = strlen(szSenderName);
+	iPos    = strlen(szBuffer);
+	iLength = strlen(szSenderName);
 
-    memcpy(szBuffer, szSenderName, iPos * 4, (iLength + 1) * 4);
+	memcpy(szBuffer, szSenderName, iPos * 4, (iLength + 1) * 4);
 
-    StringURLEncode(szBuffer[iPos], 1024 - iPos);
+	StringURLEncode(szBuffer[iPos], 1024 - iPos);
 
-    strcat(szBuffer, "&n=");
+	strcat(szBuffer, "&n=");
 
-    iPos    = strlen(szBuffer);
-    iLength = strlen(szSenderMail);
+	iPos    = strlen(szBuffer);
+	iLength = strlen(szSenderMail);
 
-    memcpy(szBuffer, szSenderMail, iPos * 4, (iLength + 1) * 4);
+	memcpy(szBuffer, szSenderMail, iPos * 4, (iLength + 1) * 4);
 
-    StringURLEncode(szBuffer[iPos], 1024 - iPos);
+	StringURLEncode(szBuffer[iPos], 1024 - iPos);
 
-    strcat(szBuffer, "&s=");
+	strcat(szBuffer, "&s=");
 
-    iPos    = strlen(szBuffer);
-    iLength = strlen(szSubject);
+	iPos    = strlen(szBuffer);
+	iLength = strlen(szSubject);
 
-    memcpy(szBuffer, szSubject, iPos * 4, (iLength + 1) * 4);
+	memcpy(szBuffer, szSubject, iPos * 4, (iLength + 1) * 4);
 
-    StringURLEncode(szBuffer[iPos], 1024 - iPos);
+	StringURLEncode(szBuffer[iPos], 1024 - iPos);
 
-    strcat(szBuffer, "&m=");
+	strcat(szBuffer, "&m=");
 
-    iPos    = strlen(szBuffer);
-    iLength = strlen(szMessage);
+	iPos    = strlen(szBuffer);
+	iLength = strlen(szMessage);
 
-    memcpy(szBuffer, szMessage, iPos * 4, (iLength + 1) * 4);
+	memcpy(szBuffer, szMessage, iPos * 4, (iLength + 1) * 4);
 
-    StringURLEncode(szBuffer[iPos], 1024 - iPos);
+	StringURLEncode(szBuffer[iPos], 1024 - iPos);
 
-    HTTP(0xD00D, HTTP_POST, MAILER_URL, szBuffer, "OnMailScriptResponse");
+	HTTP(0xD00D, HTTP_POST, MAILER_URL, szBuffer, "OnMailScriptResponse");
 }
 stock StringURLEncode(szString[ ], iSize = sizeof(szString)) {
-    for (new i = 0, l = strlen(szString); i < l; i++) {
-        switch (szString[i]) {
-            case '!', '(', ')', '\'', '*',
-                 '0' .. '9',
-                 'A' .. 'Z',
-                 'a' .. 'z': {
-                continue;
-            }
-            case ' ': {
-                szString[i] = '+';
-                continue;
-            }
-        }
-        new s_szHex[ 8 ];
-        if(i + 3 >= iSize) {
-            szString[i] = EOS;
-            break;
-        }
-        if(l + 3 >= iSize) szString[iSize - 3] = EOS;
-        format(s_szHex, sizeof(s_szHex), "%02h", szString[i]);
-        szString[i] = '%';
-        strins(szString, s_szHex, i + 1, iSize);
-        l += 2;
-        i += 2;
-        if(l > iSize - 1) l = iSize - 1;
-    }
+	for (new i = 0, l = strlen(szString); i < l; i++) {
+		switch (szString[i]) {
+			case '!', '(', ')', '\'', '*',
+				 '0' .. '9',
+				 'A' .. 'Z',
+				 'a' .. 'z': {
+				continue;
+			}
+			case ' ': {
+				szString[i] = '+';
+				continue;
+			}
+		}
+		new s_szHex[ 8 ];
+		if(i + 3 >= iSize) {
+			szString[i] = EOS;
+			break;
+		}
+		if(l + 3 >= iSize) szString[iSize - 3] = EOS;
+		format(s_szHex, sizeof(s_szHex), "%02h", szString[i]);
+		szString[i] = '%';
+		strins(szString, s_szHex, i + 1, iSize);
+		l += 2;
+		i += 2;
+		if(l > iSize - 1) l = iSize - 1;
+	}
 }
 forward OnSendEmail(playerid, email[]);
 public OnSendEmail(playerid, email[]) {
-    static const fmt_str[] = "Вітаємо, шановний %s!\n\nВаш код підтвердження на операцію: %i\n\nChiliad RP";
-    new str[sizeof(fmt_str) + (-2+MAX_PLAYER_NAME) + (-2+4) + 1], // подсчитываем кол-во элементов формулой
-    name[MAX_PLAYER_NAME]; // переменная для ника игрока
-    GetPlayerName(playerid, name, sizeof(name)); // получаем ник игрока
-    email_number[playerid] = random(9999); // присваиваем переменной number значение рандома для дальнейших проверок. Обязательно объявите глобально: ко всем new: new number[MAX_PLAYERS];
-    format(str, sizeof(str), fmt_str, name, email_number[playerid]); // форматируем строку
-    SendMail(email, "support@chiliad-rp.com", "Chiliad RP", "Код підтвердження", str); // отправляем на email игроку, где email - емайл самого игрока, support@pawno-rus.ru - ваш емайл, PAWNO-RUS RolePlay - ваш ник, КОд подтверждения - тема письма, str - само сообщение
-    return true;
+	static const fmt_str[] = "Вітаємо, шановний %s!\n\nВаш код підтвердження на операцію: %i\n\nChiliad RP";
+	new str[sizeof(fmt_str) + (-2+MAX_PLAYER_NAME) + (-2+4) + 1], // подсчитываем кол-во элементов формулой
+	name[MAX_PLAYER_NAME]; // переменная для ника игрока
+	GetPlayerName(playerid, name, sizeof(name)); // получаем ник игрока
+	email_number[playerid] = random(9999); // присваиваем переменной number значение рандома для дальнейших проверок. Обязательно объявите глобально: ко всем new: new number[MAX_PLAYERS];
+	format(str, sizeof(str), fmt_str, name, email_number[playerid]); // форматируем строку
+	SendMail(email, "support@chiliad-rp.com", "Chiliad RP", "Код підтвердження", str); // отправляем на email игроку, где email - емайл самого игрока, support@pawno-rus.ru - ваш емайл, PAWNO-RUS RolePlay - ваш ник, КОд подтверждения - тема письма, str - само сообщение
+	return true;
 }
 stock show_payment (playerid) {
 	payment_ptd[playerid][0] = CreatePlayerTextDraw(playerid, 25.416666, 204.000030, "PAYMENT:_0$");
