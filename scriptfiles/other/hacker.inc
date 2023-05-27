@@ -226,23 +226,15 @@ stock DeleteHackerPVar(playerid, idx){
 	
 }
 stock ShowHackerStats(playerid, id){
-	new str[128],string[1250];
-	format(str,128,""W"Имя:\t\t\t\t%s",CI[id][cName]), strcat(string,str);
-	format(str,128,"\n\nУровень:\t\t\t%i",CI[id][pLevel]), strcat(string,str);
+	new string[1250];
+	format(string, sizeof(string),
+	W"Имя:\t%s\nУровень:\t%i\nПол:\t%s\nСупруг:\t%s\nНомер телефона:\t%i\nМобильный счёт:\t%i\nМашина №1:\t%s (%i)\nМашина №2:\t%s (%i)\nПреступлений:\t%i\nАрестов:\t%i\n\
+	Уровень розыска:\t%i",
+	CI[id][cName], CI[id][pLevel], CI[id][cSex] ? "Мужчина" : "Женщина", CI[id][pMarried], CI[id][pPhone], CI[id][pMobile],
+	gTransport[CarsInfo[id][carModel][0]-400][trName], CarsInfo[id][carModel][0], gTransport[CarsInfo[id][carModel][1]-400][trName], CarsInfo[id][carModel][1],
+	CI[id][pCrimes], CI[id][pArrested], CI[id][pSearch]);
 
-	format(str,128,"\n\nПол:\t\t\t\t%s",(CI[id][cSex] == 1) ? ("Мужчина") : ("Женщина")), strcat(string,str);
-	format(str,128,"\nСупруг(а):\t\t\t%s",CI[id][pMarried]), strcat(string,str);
-	if(CI[id][pPhone] == 0) strcat(string,"\n\nНомер телефона:\t\tОтсутствует");
-	else format(str,128,"\n\nНомер телефона:\t\t%i",CI[id][pPhone]), strcat(string,str);
-	format(str,128,"\nМобильный счёт:\t\t%i",CI[id][pMobile]), strcat(string,str);
-	
-	format(str,128,"\n\nМашина №1:\t\t\t%s(%i)",gTransport[CarsInfo[id][carModel][0]-400][trName],CarsInfo[id][carModel][0]), strcat(string,str);
-	format(str,128,"\nМашина №2:\t\t\t%s(%i)",gTransport[CarsInfo[id][carModel][1]-400][trName],CarsInfo[id][carModel][1]), strcat(string,str);
-
-	format(str,128,"\nПреступлений:\t\t\t%i",CI[id][pCrimes]), strcat(string,str);
-	format(str,128,"\nАрестов:\t\t\t%i",CI[id][pArrested]), strcat(string,str);
-	format(str,128,"\nУровень розыска:\t\t%i",CI[id][pSearch]), strcat(string,str);
-	if(CI[id][pMember]) format(str,128,"\nОрганизация:\t\t\t%s",FI[CI[id][pMember]][fName]), strcat(string,str);
+	if(CI[id][pMember]) format(string, 128,"%s\nОрганизация:\t\t\t%s", string, FI[CI[id][pMember]][fName]);
 	else strcat(string,"\nОрганизация:\t\t\tОтсутствует");
 	new house = 0;
 	if(CI[id][pHouse] && !CI[id][pRoom]) {
@@ -253,16 +245,16 @@ stock ShowHackerStats(playerid, id){
 		case 2: classname = "Элитный";
 		case 3: classname = "Особняк";
 		}	
-		format(str,128,"\n\nЖилье:\t\t\tДом №%d (%s)",gHouses[CI[id][pHouse]-1][houseID],classname), strcat(string,str);
+		format(string,128,"%s\n\nЖилье:\t\t\tДом №%d (%s)", string, gHouses[CI[id][pHouse]-1][houseID],classname);
 		house = 1;
 	}
 	if(CI[id][pRoom] && !CI[id][pHouse]) {
-		format(str,128,"\n\nЖилье:\t\t\tКвартира № %d",CI[playerid][pRoom]), strcat(string,str);
+		format(string,128,"%s\n\nЖилье:\t\t\tКвартира № %d",string, CI[playerid][pRoom]);
 		house = 1;
 	}
 	if(!house) strcat(string,"\n\nЖилье:\t\t\t\tНет");
 	
-	if(CI[id][pBusiness]) format(str,128,"\nБизнес:\t\t\t%s (%d)",gBusiness[CI[id][pBusiness]-1][bizzName],CI[id][pBusiness]), strcat(string,str);
+	if(CI[id][pBusiness]) format(string,128,"%s\nБизнес:\t\t\t%s (%d)",string, gBusiness[CI[id][pBusiness]-1][bizzName],CI[id][pBusiness]);
 	else strcat(string,"\nБизнес:\t\t\tОтсутствует");
 	SetPVarInt(playerid, "QuesR", 1); 
 	SendClientMessage(playerid, COLOR_GREY, "[Система]: Поговорите с Хакером.");
@@ -404,8 +396,8 @@ stock NPC_HackD(playerid){
 	if(CI[playerid][pLevel] < 7) return SendClientMessage(playerid, COLOR_GREY, "У вас маловат lvl. Использовать данный квест можно с 7 lvl");
 	if(GetPVarInt(playerid, "HackerQuest1") || GetPVarInt(playerid, "HackerQuest2") || 
 	GetPVarInt(playerid, "HackerQuest3") || GetPVarInt(playerid, "HackerQuest4")) return SendClientMessage(playerid, COLOR_GREY, "[Хакер]: Ты ещё тут?.");
-	new str[300];
-	format(str, sizeof(str), "Название\t\tСтатус\n\
+	new string[300];
+	format(string, sizeof(string), "Название\t\tСтатус\n\
 	1. Узнать информацию о личности   \t [ %s"W" ]\n\
 	2. Взломать камеры безопасности   \t [ %s"W" ]\n\
 	3. Взломать базу данных ФБР       \t [ %s"W" ]\n\
@@ -415,11 +407,11 @@ stock NPC_HackD(playerid){
 	CI[playerid][QuestHacker][1] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
 	CI[playerid][QuestHacker][2] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено",
 	CI[playerid][QuestHacker][3] == 0 ? ""R"Не выполнено" : ""GREEN"Выполнено");
-	return SPD(playerid, D_QUEST_HACKER, DIALOG_STYLE_TABLIST_HEADERS, "Квестовая лииния", str, ">>>", "x");
+	return SPD(playerid, D_QUEST_HACKER, DIALOG_STYLE_TABLIST_HEADERS, "Квестовая лииния", string, ">>>", "x");
 }
 stock ShowTestHacker(playerid){
-	new str[300];
-	format(str, sizeof(str), "Название\t\tСтатус\n\
+	new string[300];
+	format(string, sizeof(string), "Название\t\tСтатус\n\
 	1. Определение личности        \t [ %s"W" ]\n\
 	2. Взлом камеры безопасности   \t [ %s"W" ]\n\
 	3. Взлом базы данных ФБР       \t [ %s"W" ]\n\
@@ -428,7 +420,7 @@ stock ShowTestHacker(playerid){
 	GetPVarInt(playerid, "HackerQuest2") == 1 ? ""GREEN"Доступно" : ""R"Не доступно",
 	GetPVarInt(playerid, "HackerQuest3") == 1 ? ""GREEN"Доступно" : ""R"Не доступно",
 	GetPVarInt(playerid, "HackerQuest4") == 1 ? ""GREEN"Доступно" : ""R"Не доступно");
-	SPD(playerid, D_MENU_HACKER_TEST, DIALOG_STYLE_TABLIST_HEADERS, "Меню Хакера", str, ">>>","x");
+	SPD(playerid, D_MENU_HACKER_TEST, DIALOG_STYLE_TABLIST_HEADERS, "Меню Хакера", string, ">>>","x");
 	return 1;
 }
 stock NextHacker(playerid){
@@ -453,12 +445,12 @@ CMD:sethacker(playerid, params[]){
 	if(!TI[id][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
 	CI[id][pHacker] = level;
 	UpdateCharacterData(id, "pHacker", CI[id][pHacker]);
-	new str[150];
-	format(str, sizeof(str), "Вы успешно выдали игроку %s %d hacker lvl", CI[id][cName], level);
-	SendClientMessage(playerid, COLOR_YELLOW, str);
-	str[0] = EOS;
-	format(str, sizeof(str), "Администратор %s выдал вам %d hacker lvl", CI[playerid][cName], level);
-	SendClientMessage(id, COLOR_RED, str);
+	new string[150];
+	format(string, sizeof(string), "Вы успешно выдали игроку %s %d hacker lvl", CI[id][cName], level);
+	SendClientMessage(playerid, COLOR_YELLOW, string);
+	string[0] = EOS;
+	format(string, sizeof(string), "Администратор %s выдал вам %d hacker lvl", CI[playerid][cName], level);
+	SendClientMessage(id, COLOR_RED, string);
 	if(level == 0)
 	{
 		CI[id][QuestHacker][0] = 0;
@@ -492,8 +484,8 @@ CMD:hacker(playerid, params[]){
 	return 1;
 }
 stock ShowMenuHacker(playerid){
-	new str[500];
-	format(str, sizeof(str), "Название\t\tСтатус\n\
+	new string[500];
+	format(string, sizeof(string), "Название\t\tСтатус\n\
 	1. Взломать телефон            \t [ "GREEN"Доступно"W" ]\n\
 	2. Отслеживание игрока\t [ %s"W" ]\n\
 	3. Перехватить гос. волну      \t [ %s"W" ]\n\
@@ -505,7 +497,7 @@ stock ShowMenuHacker(playerid){
 	CI[playerid][pHacker] < 4 ? ""R"Доступно будет с 4 lvl Hacker" : ""GREEN"Доступно",
 	CI[playerid][pHacker] < 5 ? ""R"Доступно будет с 5 lvl Hacker" : ""GREEN"Доступно",
 	CI[playerid][pHacker] < 6 ? ""R"Доступно будет с 6 lvl Hacker" : ""GREEN"Доступно");
-	SPD(playerid, D_MENU_HACKER, DIALOG_STYLE_TABLIST_HEADERS, "Меню Хакера", str, ">>>","x");
+	SPD(playerid, D_MENU_HACKER, DIALOG_STYLE_TABLIST_HEADERS, "Меню Хакера", string, ">>>","x");
 	return 1;
 }
 stock System32Hacker(playerid, id){
@@ -644,9 +636,9 @@ stock NextlvlHacker(playerid, count){
 		CI[playerid][pHackProg] = 0;
 	}
 	UpdateCharacterData(playerid, "pHackProg", CI[playerid][pHackProg]);
-	new str[150];
-	format(str, sizeof(str), "До следующего уровня хакера осталось %d/20", CI[playerid][pHackProg]);
-	SendClientMessage(playerid, COLOR_YELLOW, str);
+	new string[150];
+	format(string, sizeof(string), "До следующего уровня хакера осталось %d/20", CI[playerid][pHackProg]);
+	SendClientMessage(playerid, COLOR_YELLOW, string);
 	return 1;
 }
 stock DeletePVarHack(playerid){
@@ -720,11 +712,11 @@ stock Information(playerid, targetid, const text[])
 {
 	new title[35];
 	format(title, sizeof(title), "Досье %s", CI[targetid][cName]);
-	new str[800], string[1250];
-	format(str,128,""W"Имя:\t\t\t\t\t\t%s\n",CI[targetid][cName]), strcat(string,str);
-	format(str,128,""W"Профессиональность хакера : \t\t%d/6\n",CI[targetid][pHacker]),strcat(string,str);
-	strcat(string, ""W"Последние действия хакера:\n\n");
-	format(str,800,"%s\n\n", text), strcat(string,str);
+	new string[1250];
+	format(string,sizeof(string),"%s\n"W"Имя:\t\t\t\t\t\t%s\n", string, CI[targetid][cName]);
+	format(string,sizeof(string),"%s\n"W"Профессиональность хакера : \t\t%d/6\n", string, CI[targetid][pHacker]);
+	format(string,sizeof(string), "%s\n"W"Последние действия хакера:\n\n", string);
+	format(string,sizeof(string),"%s\n%s\n\n", string, text);
 	SPD(playerid, dNull, DSM, title, string, ">>>","x");
 	return 1;
 }

@@ -89,24 +89,24 @@ Notes:
 	hash returned.
 -*----------------------------------------------------------------------------*/
 
-stock MD5_Hash(const str[])
+stock MD5_Hash(const string[])
 {
 	new
 		md5Data[E_MD5_CONTEXT],
 		done,
 		digest[34],
-		len = strlen(str);
+		len = strlen(string);
 	MD5_Init(md5Data);
 	len -= 64;
 	while (done < len)
 	{
-		MD5_Update(md5Data, str[done], 64);
+		MD5_Update(md5Data, string[done], 64);
 		done += 64;
 	}
 	len = (len + 64) - done;
 	if (len)
 	{
-		MD5_Update(md5Data, str[done], len);
+		MD5_Update(md5Data, string[done], len);
 	}
 	digest = MD5_Final(md5Data, true);
 	return digest;
