@@ -8,10 +8,7 @@ new HackFlood[MAX_PLAYERS][6];
 
 //public`s
 hacker_OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
-	if(PRESSED(KEY_WALK))
-	{
-		if(IsPlayerInRangeOfPoint(playerid,1.5, NPC_HACKER)) return NPC_HackD(playerid);
-	}
+	if(PRESSED(KEY_WALK) && IsPlayerInRangeOfPoint(playerid,1.5, NPC_HACKER)) return NPC_HackD(playerid);
 	return 1;
 }
 hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
