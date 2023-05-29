@@ -7458,6 +7458,7 @@ enum BUSINESS_ACTORS {
 	Float:aAngle
 }
 enum BUSINESS_ARTICLES {
+	baID,
 	baName[64],
 	baPrice,
 	baAmount,
@@ -22953,8 +22954,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				return ShowPlayerDialog(playerid, dBAddArticleToOrder, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список товарів", string, "Обрати", "Назад");
 			}
-			format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][baName]);
-			format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][baAmount], gBusinessArticles[id][articleid][baMaximum], gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]);
+			format(header, sizeof(header), G"Товар '%s'", gBusinessArticles[id][articleid][baName]);
+			format(string, sizeof(string), W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][baAmount], gBusinessArticles[id][articleid][baMaximum], gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]);
 			ShowPlayerDialog(playerid, dBSaveArticleOrder, DSI, header, string, "Далі", "Назад");
 			}
 		case dBSaveArticleOrder: {
@@ -22963,13 +22964,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new articleid = GetPVarInt(playerid, "article_order");
 			new id = GetPVarInt(playerid, "selected_business");
 			if(isNotNumeric(inputtext)) {
-				format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][baName]);
-				format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][baAmount], gBusinessArticles[id][articleid][baMaximum], gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]);
+				format(header, sizeof(header), G"Товар '%s'", gBusinessArticles[id][articleid][baName]);
+				format(string, sizeof(string), W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.", gBusinessArticles[id][articleid][baAmount], gBusinessArticles[id][articleid][baMaximum], gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]);
 				return ShowPlayerDialog(playerid, dBSaveArticleOrder, DSI, header, string, "Далі", "Назад");
 			}
 			if(strval(inputtext) > gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]) {
-				format(header, sizeof(header), ""G"Товар '%s'", gBusinessArticles[id][articleid][baName]);
-				format(string, sizeof(string), ""W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.\n\n"E"* Введена кількість замовлення перевищує доступну.", gBusinessArticles[id][articleid][baAmount], gBusinessArticles[id][articleid][baMaximum], gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]);
+				format(header, sizeof(header), G"Товар '%s'", gBusinessArticles[id][articleid][baName]);
+				format(string, sizeof(string), W"Поточна кількість товару: "G"%d/%d\n"G"Доступно для замовлення: "G"%d\n\nВведіть у полі нижче кількість одиниць для замовлення.\n\n"E"* Введена кількість замовлення перевищує доступну.", gBusinessArticles[id][articleid][baAmount], gBusinessArticles[id][articleid][baMaximum], gBusinessArticles[id][articleid][baMaximum] - gBusinessArticles[id][articleid][baAmount]);
 				return ShowPlayerDialog(playerid, dBSaveArticleOrder, DSI, header, string, "Далі", "Назад");
 			}
 			gBusinessArticles[id][articleid][baOrder] = strval(inputtext);
@@ -22977,10 +22978,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(text, sizeof(text), "Товар "P"'%s'"W" у кількості "P"%d "W"шт. успішно додано до замовлення.", gBusinessArticles[id][articleid][baName], strval(inputtext));
 			SendOK(playerid, text);
 			new qty[25];
-			strcat(string, ""G"Назва\t"G"Залишок\t"G"Замовлено\n");
+			strcat(string, "Назва\tЗалишок\tЗамовлено\n");
 			for(new i = 1; i < MaxArticles[id] + 1; i++) {
 				if(!gBusinessArticles[id][i][baAmount]) format(qty, sizeof(qty), ""E"%d", gBusinessArticles[id][i][baAmount]);
-				else format(qty, sizeof(qty), ""G"%d", gBusinessArticles[id][i][baAmount]);
+				else format(qty, sizeof(qty), G"%d", gBusinessArticles[id][i][baAmount]);
 				format(string, sizeof(string), "%s"W"%s\t%s "G"/ %d шт.\t"GREEN"%d шт\n", string, gBusinessArticles[id][i][baName], qty, gBusinessArticles[id][i][baMaximum], gBusinessArticles[id][i][baOrder]);
 			}
 			ShowPlayerDialog(playerid, dBAddArticleToOrder, DIALOG_STYLE_TABLIST_HEADERS, ""G"Список товарів", string, "Обрати", "Назад");
@@ -23096,6 +23097,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 0: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
+					UpdateArticlesData(bid, gBusinessArticles[bid][article][baID], "Amount", gBusinessArticles[bid][article][baAmount]);
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					switch(article) {
@@ -23126,6 +23128,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 2: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
+					UpdateArticlesData(bid, gBusinessArticles[bid][article][baID], "Amount", gBusinessArticles[bid][article][baAmount]);
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					if(listitem == 0) {
@@ -23146,6 +23149,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 3: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
+					UpdateArticlesData(bid, gBusinessArticles[bid][article][baID], "Amount", gBusinessArticles[bid][article][baAmount]);
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					switch(article) {
@@ -23162,6 +23166,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 4: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
+					UpdateArticlesData(bid, gBusinessArticles[bid][article][baID], "Amount", gBusinessArticles[bid][article][baAmount]);
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					/* ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ */
@@ -23172,6 +23177,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 5: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
+					UpdateArticlesData(bid, gBusinessArticles[bid][article][baID], "Amount", gBusinessArticles[bid][article][baAmount]);
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					switch(article) {
@@ -23188,6 +23194,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 6: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
+					UpdateArticlesData(bid, gBusinessArticles[bid][article][baID], "Amount", gBusinessArticles[bid][article][baAmount]);
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					/* ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ */
@@ -44441,6 +44448,7 @@ stock load_business_articles() {
 		new bid, uid;
 		cache_get_value_name_int(i, "Business", bid);
 		cache_get_value_name_int(i, "uID", uid);
+		cache_get_value_name_int(i, "ID", gBusinessArticles[bid][uid][baID]);
 		cache_get_value_name(i, "Article", gBusinessArticles[bid][uid][baName], 64);
 		cache_get_value_name_int(i, "Price", gBusinessArticles[bid][uid][baPrice]);
 		cache_get_value_name_int(i, "Amount", gBusinessArticles[bid][uid][baAmount]);
@@ -44578,7 +44586,7 @@ stock UpdateBusinessText_New(i) {
 	UpdateDynamic3DTextLabelText(gBusiness[i][bText], -1, text);
 	return 1;
 }
-stock business_finances(bid ,price) {
+stock business_finances(bid, price) {
 	business_statistics(bid, price);
 	gBusiness[bid][bBank] += price;
 	UpdateBusinessData(bid, "Bank", gBusiness[bid][bBank]);
@@ -49516,7 +49524,7 @@ CB:punish_history(playerid) {
 		cache_get_value_index(i, 2, givename, 40);
 		cache_get_value_index(i, 3, reason, 10);
 		cache_get_value_index(i, 4, datetime, 10);
-		format(string, sizeof(string), "%s%s\t\t%s\t\t%s\n", string, givename, reason, datetime);
+		format(string, sizeof(string), "%s%s\t%s\t%s\n", string, givename, reason, datetime);
 	}
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, W"Список покарань.", string, "Обрати", "Закрити");
 	return 1;
