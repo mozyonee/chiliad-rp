@@ -1836,11 +1836,10 @@ new II[][iInfo] = {
 	{609, 0, "Сертифікат на Boxville (ID: 609)", 0.2, -10.0, 0.0, -20.0, 1.0, 0, 0},
 	{610, 0, "Сертифікат на Farm Trailer (ID: 610)", 0.2, -10.0, 0.0, -20.0, 1.0, 0, 0},
 	{611, 0, "Сертифікат на Utility Trailer (ID: 611)", 0.2, -10.0, 0.0, -20.0, 1.0, 0, 0},
-	{19942, 0, "Рація", 0.4, 0.0, 0.0, 180.0, 1.0, 0, 0},
 	{11738, 0, "Аптечка", 1.38, 0.0, 351.0, 180.0, 1.100103, 0, 0},
 	{1242, 0, "Бронежилет", 1.5, 360.0, 360.0, 8.0, 0.980186, 0, 0},
 	{19163, 0, "Маска", 0.2, 10.0, 0.0, -256.0, 1.0, 0, 0},
-	{19897, 20, "Пачка цигарок", 0.1, 90.0, 0.0, 0.0, 0.7, 0, 0},
+	{19897, 20, "Сигарети", 0.1, 90.0, 0.0, 0.0, 0.7, 0, 0},
 	{19998, 0, "Запальничка", 0.1, 0.0, 0.0, 0.0, 1.0, 0, 0},
 	{19573, 0, "Чипси", 0.4, 0.0, 0.0, 0.0, 1.2, 0, 0},
 	{1484, 0, "Вода", 0.6, 0.0, 30.0, 0.0, 1.2, 0, 0},
@@ -1849,9 +1848,10 @@ new II[][iInfo] = {
 	{19627, 5, "Ремонтний комплект", 3.0, 0.0, 0.0, -45.0, 0.9, 0, 0},
 	{11746, 5, "Відмичка", 0.1, 0.0, 45.0, 0.0, 0.6, 0, 0},
 	{18874, 0, "Телефон", 0.2, 90.0, 180.0, 0.0, 1.0, 0, 0},
-	{19792, 0, "Сім-карта", 0.1, 90.0, 180.0, 0.0, 0.8, 0, 0},
+	{19792, 0, "SIM-картка", 0.1, 90.0, 180.0, 0.0, 0.8, 0, 0},
 	{19421, 0, "Навушники", 0.4, 90.0, 0.0, 0.0, 0.9, 0, 0},
 	{1841, 0, "Колонка", 0.1, 0.0, 0.0, -90.0, 1.1, 0, 0},
+	{19942, 0, "Рація", 0.4, 0.0, 0.0, 180.0, 1.0, 0, 0},
 	{362, 0, "Мініган", 41.0, 0.0, 3.0, 241.0, 0.860271, 1, 5},
 	{19035, 0, "Голубі окуляри", 0.2, -20.0, 0.0, 90.0, 1.0, 1, 1},
 	{19034, 0, "Окуляри з чорною оправою", 0.2, -20.0, 0.0, 90.0, 1.0, 1, 1},
@@ -7392,7 +7392,6 @@ enum BUSINESS_DATA {
 	bStatus,
 	bPickupID,
 	bMapIcon,
-	bIsGasStation,
 	Float:bGasX,
 	Float:bGasY,
 	Float:bGasZ,
@@ -10872,7 +10871,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendRconCommand(string);
 			FSAM("%s[%i] змінив назву сервера на %s.", PI[playerid][pName], playerid, BDserverName);
 			mysql_format(connects, string, 128, "UPDATE `Settings` SET `ServerName` = '%s'", BDserverName);
-			mysql_tquery(connects, string, "", "");
+			mysql_query(connects, string);
 			}
 		case 8504: {
 			if(!response) return 1;
@@ -10894,7 +10893,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendRconCommand(string);
 			FSAM("%s[%i] змінив пароль сервера на %s.", PI[playerid][pName], playerid, BDserverPassword);
 			mysql_format(connects, string, 128, "UPDATE `Settings` SET `ServerPassword` = '%s'", BDserverPassword);
-			mysql_tquery(connects, string, "", "");
+			mysql_query(connects, string);
 			}
 		case 8502: {
 			if(!response) return 1;
@@ -11405,7 +11404,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						CI[playerid][pCloth] -= 25;
 						UpdateCharacterData(playerid, "cloth", CI[playerid][pCloth]);
 						if(0 <= value <= 95) AddInactiveItem(playerid, 73, 1);
-						else SendError(playerid, "Не вдалося скрафтити аксесуар, спробуйте ще раз.");
+						else SendError(playerid, "Не вдалося скрафтити аксесуар , спробуйте ще раз.");
 					}
 				case 2: // Чорні окуляри
 					{
@@ -11685,7 +11684,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					AddInactiveItem(playerid, market_item[playerid][listitem], market_ammout[playerid][listitem]);
 					new string[120];
 					mysql_format(connects, string, sizeof(string), "DELETE FROM `market` WHERE `id` = %i",i);
-					mysql_tquery(connects, string, "", "");
+					mysql_query(connects, string);
 					return 1;
 				}
 				if(CI[playerid][pCash] < market_cash[playerid][listitem]) return SendError(playerid, "У вас недостатньо грошей.");
@@ -22672,7 +22671,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 0: ShowPlayerDialog(playerid, dCreateBusinessName, DSI, P"|"W" Назва.", W"Введіть нижче назву бізнеса.", "Готово", "Назад");
 				case 1: {
 					new string[256];
-					for(new i; i < sizeof(BusinessTypes); i++) format(string, sizeof(string), "%s"P"%i."W" %s\n", string, i + 1, BusinessTypes[i][bTypeName]);
+					for(new i; i < sizeof(BusinessTypes); i++) format(string, sizeof(string), "%s"P"%i."W" %s.\n", string, i + 1, BusinessTypes[i][bTypeName]);
 					ShowPlayerDialog(playerid, dCreateBusinessType, DIALOG_STYLE_LIST, P"|"W" Тип.", string, "Обрати", "Назад");
 				}
 				case 2: ShowPlayerDialog(playerid, dCreateBusinessPrice, DSI, P"|"W" Ціна.", W"Введіть нижче ціну бізнеса.", "Готово", "Назад");
@@ -23091,26 +23090,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case dBusinessShop: {
 			if(!response) return 1;
 			new bid = GetPVarInt(playerid, "businessID");
-			new article = listitem + 1;
+			new article = listitem;
 			new string[1028];
 			switch(gBusiness[bid][businessType]) {
-				case 1: {
+				case 0: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					switch(article) {
-						case 1: AddInactiveItem(playerid, 19897, 1);
-						case 2: AddInactiveItem(playerid, 19998, 1);
-						case 3: AddInactiveItem(playerid, 19573, 1);
-						case 4: AddInactiveItem(playerid, 1484, 1);
-						case 5: AddInactiveItem(playerid, 2601, 1);
+						case 0: AddInactiveItem(playerid, 571, 1);
+						case 1: AddInactiveItem(playerid, 572, 1);
+						case 2: AddInactiveItem(playerid, 573, 1);
+						case 3: AddInactiveItem(playerid, 574, 1);
+						case 4: AddInactiveItem(playerid, 575, 1);
 					}
 					format(string, sizeof(string), "Товар "P"%s"W" успішно придбано та додано у інвентар.", gBusinessArticles[bid][article][baName]);
 					SendOK(playerid, string);
 					business_finances(bid, gBusinessArticles[bid][article][baPrice]);
 				}
-				case 2: {
+				case 1: {
 					for(new i; i < 23; i++) TextDrawHideForPlayer(playerid, buyskin[i]);
 					CancelSelectTextDraw(playerid);
 					SetPlayerPosAC(playerid, GetPVarFloat(playerid, "buy_skin_x"), GetPVarFloat(playerid, "buy_skin_y"), GetPVarFloat(playerid, "buy_skin_z"), GetPVarInt(playerid, "buy_skin_world"), GetPlayerInterior(playerid));
@@ -23124,19 +23123,38 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					DeletePVar(playerid, "chosen_skin");
 					AddInactiveItem(playerid, GetPVarInt(playerid, "skintobuy"), 1);
 				}
-				case 3: {
+				case 2: {
 					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
 					gBusinessArticles[bid][article][baAmount]--;
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
 					if(listitem == 0) {
 						CI[playerid][pPhone] = 1;
-						//UpdatePlayerData(playerid, "Phone", CI[playerid][pPhone]);
+						// UpdatePlayerData(playerid, "Phone", CI[playerid][pPhone]);
 					}
-					/*
-					ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ
-
-					*/
+					switch(article) {
+						case 0: AddInactiveItem(playerid, 579, 1);
+						case 1: AddInactiveItem(playerid, 580, 1);
+						case 2: AddInactiveItem(playerid, 581, 1);
+						case 3: AddInactiveItem(playerid, 582, 1);
+						case 4: AddInactiveItem(playerid, 583, 1);
+					}
+					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][baName]);
+					SendOK(playerid, string);
+					business_finances(bid, gBusinessArticles[bid][article][baPrice]);
+				}
+				case 3: {
+					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
+					gBusinessArticles[bid][article][baAmount]--;
+					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
+					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
+					switch(article) {
+						case 0: AddInactiveItem(playerid, 313, 1);
+						case 1: AddInactiveItem(playerid, 317, 1);
+						case 2: AddInactiveItem(playerid, 331, 1);
+						case 3: AddInactiveItem(playerid, 341, 1);
+						case 4: AddInactiveItem(playerid, 339, 1);
+					}
 					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][baName]);
 					SendOK(playerid, string);
 					business_finances(bid, gBusinessArticles[bid][article][baPrice]);
@@ -23146,12 +23164,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					gBusinessArticles[bid][article][baAmount]--;
 					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
 					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
-					if(article == 1) CI[playerid][pPhone] = 1;
-					if(article == 1 && CI[playerid][pPhone]) return SendError(playerid, "Ви вже маєте мобільний телефон.");
-					/*
-					ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ
-
-					*/
+					/* ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ */
+					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][baName]);
+					SendOK(playerid, string);
+					business_finances(bid, gBusinessArticles[bid][article][baPrice]);
+				}
+				case 5: {
+					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
+					gBusinessArticles[bid][article][baAmount]--;
+					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
+					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
+					switch(article) {
+						case 0: AddInactiveItem(playerid, 576, 1);
+						case 1: AddInactiveItem(playerid, 577, 1);
+						case 2: AddInactiveItem(playerid, 578, 1);
+						case 3: AddInactiveItem(playerid, 571, 1);
+						case 4: AddInactiveItem(playerid, 572, 1);
+					}
+					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][baName]);
+					SendOK(playerid, string);
+					business_finances(bid, gBusinessArticles[bid][article][baPrice]);
+				}
+				case 6: {
+					if(!gBusinessArticles[bid][article][baAmount]) return SendError(playerid, "Цей товар закінчився.");
+					gBusinessArticles[bid][article][baAmount]--;
+					format(string, sizeof(string), "придбання товару %s в бізнесі", gBusinessArticles[bid][article][baName]);
+					GiveMoney(playerid, -gBusinessArticles[bid][article][baPrice], string);
+					/* ТУТ ВЗАЄМОДІЯ З ІНВЕНТАРЕМ */
 					format(string, sizeof(string), "Ви успішно придбали товар "P"%s"W".", gBusinessArticles[bid][article][baName]);
 					SendOK(playerid, string);
 					business_finances(bid, gBusinessArticles[bid][article][baPrice]);
@@ -36345,7 +36384,7 @@ CMD:fmenu(playerid) {
 	return 1;
 }
 CMD:radio(playerid) {
-	if(!GetInactiveItemAmount(playerid, 568)) return SendError(playerid, "У вас немає рації.");
+	if(!GetInactiveItemAmount(playerid, 583)) return SendError(playerid, "У вас немає рації.");
 	new string[128];
 	format(string, sizeof(string), "Канал\t%i\nПідканал\t%i", CI[playerid][cRadioChannel], CI[playerid][cRadioSlot]);
 	ShowPlayerDialog(playerid, D_RADIO_SETTINGS, DST, P"|"W" Рація.", string, "Обрати", "Закрити");
@@ -39186,7 +39225,7 @@ stock HideMenuSave(playerid) {
 CMD:hidemenu(playerid) return HideMenu(playerid);
 stock HideMenu(playerid) {
 	if(!PI[playerid][pAdmin]) return 1;
-	FSPD(playerid, 1285, DST, ""cServer"Hide Menu", "Обрати", "Закрити", ""cServer"[1]{FFFFFF} Сховати себе з /admins\t%s\n"cServer"[2]{FFFFFF} Сховати свій рівень з /admins\t%s\n"cServer"[3]{FFFFFF} Показати фейк рівень в /admins\t%s\n"cServer"[4]{FFFFFF} Підмінити свій нік\t%s",(ahMenu[playerid][0] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][1] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][2] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][3] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"));
+	FSPD(playerid, 1285, DST, cServer"Hide Menu", "Обрати", "Закрити", ""cServer"[1]{FFFFFF} Сховати себе з /admins\t%s\n"cServer"[2]{FFFFFF} Сховати свій рівень з /admins\t%s\n"cServer"[3]{FFFFFF} Показати фейк рівень в /admins\t%s\n"cServer"[4]{FFFFFF} Підмінити свій нік\t%s",(ahMenu[playerid][0] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][1] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][2] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"), (ahMenu[playerid][3] == 0) ? ("{FF0000}| Деактивовано") : ("{00FF00}| Активовано"));
 	return 1;
 }
 CMD:rank(playerid, params[]) {
@@ -39233,7 +39272,7 @@ CMD:f(playerid, params[]) {
 	return 1;
 }
 CMD:r(playerid, params[]) {
-	if(!GetInactiveItemAmount(playerid, 568)) return SendError(playerid, "У вас немає рації.");
+	if(!GetInactiveItemAmount(playerid, 583)) return SendError(playerid, "У вас немає рації.");
 	new result[128];
 	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /r[text]");
 	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
@@ -39243,7 +39282,7 @@ CMD:r(playerid, params[]) {
 	return 1;
 }
 CMD:rr(playerid, params[]) {
-	if(!GetInactiveItemAmount(playerid, 568)) return SendError(playerid, "У вас немає рації.");
+	if(!GetInactiveItemAmount(playerid, 583)) return SendError(playerid, "У вас немає рації.");
 	new result[128];
 	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /rr[text]");
 	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
@@ -39254,7 +39293,7 @@ CMD:rr(playerid, params[]) {
 }
 CMD:d(playerid, params[]) {
 	if(!IsState(playerid)) return 1;
-	if(!GetInactiveItemAmount(playerid, 568)) return SendError(playerid, "У вас немає рації.");
+	if(!GetInactiveItemAmount(playerid, 583)) return SendError(playerid, "У вас немає рації.");
 	new result[128], string[256];
 	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /d[text]");
 	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
@@ -39270,9 +39309,9 @@ CMD:d(playerid, params[]) {
 	}
 	return 1;
 }
-CMD:db(playerid, params[]) {
+CMD:dn(playerid, params[]) {
 	if(!IsState(playerid)) return 1;
-	if(!GetInactiveItemAmount(playerid, 568)) return SendError(playerid, "У вас немає рації.");
+	if(!GetInactiveItemAmount(playerid, 583)) return SendError(playerid, "У вас немає рації.");
 	new result[128], string[256];
 	if(sscanf(params, "s[128]", result)) return SendError(playerid, "Використайте: /db[text]");
 	if(CI[playerid][pFmute] > 0 || CI[playerid][pMute] > 0) return SendError(playerid, "Ви заглушені керівником або адміністратором.");
@@ -39281,12 +39320,13 @@ CMD:db(playerid, params[]) {
 	SendSpyMessage(CI[playerid][pMember], 0xADFFEFFF, string);
 	return 1;
 }
+alias:dn("db")
 CMD:vipchat(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 1)) return 1;
 	if(GetPVarInt(playerid, "adm_vip")) {
 		DeletePVar(playerid, "adm_vip");
 		SendOK(playerid, "Прослушка VIP чату вимкнена.");
-	} else SetPVarInt(playerid, "adm_vip", 1),SendOK(playerid, "Прослушка VIP чату увімкнена.");
+	} else SetPVarInt(playerid, "adm_vip", 1), SendOK(playerid, "Прослушка VIP чату увімкнена.");
 	return 1;
 }
 CMD:v(playerid,params[]) {
@@ -39294,7 +39334,7 @@ CMD:v(playerid,params[]) {
 	if(CI[playerid][pMute] > 0) return SendError(playerid, "У вас бан чату.");
 	if(isnull(params) || strlen(params) > 144) return SendError(playerid, "Використайте: /v[text]");
 	new string[128];
-	format(string, sizeof(string), "[VIP] %s[%i]: %s", CI[playerid][cName], playerid,params);
+	format(string, sizeof(string), "[VIP] %s[%i]: %s", CI[playerid][cName], playerid, params);
 	SendVip(COLOR_BLUE, string);
 	return 1;
 }
@@ -40023,9 +40063,9 @@ public OnPlayerText(playerid, text[]) {
 		return false;
 	}
 	if(IsAuthAdmin(playerid, 1)) return pc_cmd_n(playerid, text);
-	else if(CI[playerid][pMember] == 0 || start_work[playerid] == 0) format(string, sizeof(string), "%s сказав: %s", CI[playerid][cName], text);
 	else if(TI[playerid][tMasked] || TI[playerid][tMaskTime]) format(string, sizeof(string), "Незнайомець сказав:", text);
 	else format(string, sizeof(string), "%s сказав: %s", CI[playerid][cName], text);
+	SendHint(playerid, "teeet");
 	new len = strlen(string), i_len = len / MAX_CHARS_PER_LINE;
 	if(len % MAX_CHARS_PER_LINE) i_len++;
 	new line[MAX_CHARS_PER_LINE + 5], _:index;
@@ -43534,7 +43574,7 @@ stock UpdateArticleQTY(playerid, IDbusiness, IDarticle, Typebusiness) {
 	new newqty = qty--;
 	if(qty != 0) {
 		mysql_format(connects, string, sizeof(string), "UPDATE business_articles SET Amount = %d WHERE Business = %d and ID = %d", newqty, IDbusiness, IDarticle);
-		mysql_tquery(connects, string, "", "");
+		mysql_query(connects, string);
 	}
 	return 1;
 }
@@ -43550,7 +43590,7 @@ stock UpdateTotalArticleQTY(IDbusiness) {
 	cache_delete(resultCache);
 	// printf("BusinessID: %d, SumQTY: %d, SumTotalQTY: %d", IDbusiness, qty, totalqty);
 	mysql_format(connects, string, sizeof(string), "UPDATE business_new SET Warehouse = %d, WarehouseMax = %d WHERE businessID = %d", qty, totalqty, IDbusiness);
-	mysql_tquery(connects, string, "", "");
+	mysql_query(connects, string);
 	// printf("TotalQTY for businessID %d is updated.", IDbusiness);
 	return 1;
 }
@@ -44321,9 +44361,7 @@ stock load_business_new() {
 		cache_get_value_name_int(i, "Order", gBusiness[bid][bOrder]);
 		cache_get_value_name_int(i, "OrderPrice", gBusiness[bid][bOrderPrice]);
 		cache_get_value_name_int(i, "Status", gBusiness[bid][bStatus]);
-		cache_get_value_name_int(i, "PickupID", gBusiness[bid][bPickupID]);
 		cache_get_value_name_int(i, "MapIcon", gBusiness[bid][bMapIcon]);
-		cache_get_value_name_int(i, "IsGasStation", gBusiness[bid][bIsGasStation]);
 		cache_get_value_float(i, "GasX", gBusiness[bid][bGasX]);
 		cache_get_value_float(i, "GasY", gBusiness[bid][bGasY]);
 		cache_get_value_float(i, "GasZ", gBusiness[bid][bGasZ]);
@@ -44334,7 +44372,7 @@ stock load_business_new() {
 		cache_get_value_name_int(i, "WarehouseMax", gBusiness[bid][bWarehouseMax]);
 		cache_get_value_name_int(i, "BankDay", gBusiness[bid][bBankDay]);
 		// gBusiness[gBusiness[bid][bbusinessID]][bMainBusinessID] = gBusiness[bid][bbusinessID]+1;
-		gBusiness[bid][bPickup] = CreateDynamicPickup(gBusiness[bid][bPickupID], 23, gBusiness[bid][bX], gBusiness[bid][bY], gBusiness[bid][bZ], 0, 0);
+		gBusiness[bid][bPickup] = CreateDynamicPickup(19132, 23, gBusiness[bid][bX], gBusiness[bid][bY], gBusiness[bid][bZ], 0, 0);
 		bSphere[bid] = CreateDynamicSphere(gBusiness[bid][bX], gBusiness[bid][bY], gBusiness[bid][bZ], 1.0, 0, 0);
 		new text[256];
 		if(!gBusiness[bid][bStatus]) format(text, sizeof(text), G"Бізнес %i, %i, %i закрито %i", i, bid, gBusiness[bid][bID], gBusiness[gBusiness[bid][bID]][bStatus]);
@@ -44558,7 +44596,7 @@ CB:business_update(bid, price) {
 	new rows, query[120];
 	cache_get_row_count(rows);
 	if(!rows) {
-		mysql_format(connects, query, sizeof(query), "INSERT INTO `business_stats` (`Data`, `businessID`, `Money`) VALUES (NOW(), %i, %i)", bid, price);
+		mysql_format(connects, query, sizeof(query), "INSERT INTO `business_stats` (`Date`, `businessID`, `Money`) VALUES (NOW(), %i, %i)", bid, price);
 		mysql_query(connects, query);
 	} else {
 		mysql_format(connects, query, sizeof(query), "UPDATE `business_stats` SET `Money` = `Money` + %i WHERE businessID = %i AND Date = CURDATE()", price, bid);
@@ -45209,12 +45247,12 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 		}
 		if(EdittingATM[playerid] != 0) {
 			new atmID = EdittingATM[playerid];
-			ATMData[atmID][ATM_Pos][0]   = x;
-			ATMData[atmID][ATM_Pos][1]   = y;
-			ATMData[atmID][ATM_Pos][2]   = z;
-			ATMData[atmID][ATM_Pos][3]   = rx;
-			ATMData[atmID][ATM_Pos][4]   = ry;
-			ATMData[atmID][ATM_Pos][5]   = rz;
+			ATMData[atmID][ATM_Pos][0] = x;
+			ATMData[atmID][ATM_Pos][1] = y;
+			ATMData[atmID][ATM_Pos][2] = z;
+			ATMData[atmID][ATM_Pos][3] = rx;
+			ATMData[atmID][ATM_Pos][4] = ry;
+			ATMData[atmID][ATM_Pos][5] = rz;
 			SaveATM(atmID);
 			new string[128];
 			format(string, sizeof(string), "Ви змінили позицію ATM номер %i.", atmID);
@@ -49472,7 +49510,7 @@ CB:punish_history(playerid) {
 	if(!rows) return SendError(playerid, "Покарань не знайдено.");
 	new name[32], givename[32], reason[150], datetime[40];
 	new string[2500];
-	strcat(string, P"Видав\t\t"P"Причина\t\t"P"Дата\n");
+	strcat(string, "Видав\tПричина\tДата\n");
 	for(new i; i < rows; i++) {
 		cache_get_value_index(i, 1, name, 32);
 		cache_get_value_index(i, 2, givename, 40);
@@ -60228,7 +60266,7 @@ stock key_activate(playerid) {
 				new str[250], string[450];
 				format(str, sizeof(str), "%s передав %s[%s] за $%i", CI[playerid][cName], CI[acter][cName], II[invent][iName], cash);
 				mysql_format(connects, string, sizeof(string), "INSERT INTO `invent_log` (`Name`,`item`,`amount`) VALUES ('%s','%s',%i)", CI[playerid][cName], str,ammout);
-				mysql_tquery(connects, string, "", "");
+				mysql_query(connects, string);
 				SendOK(acter, "Ви передали гравцю предмет з інвентаря");
 				DeletePVar(acter, "activ_trade");
 				DeletePVar(playerid, "give_inv");
@@ -62575,6 +62613,9 @@ stock InvUpdate(playerid, slot) {
 		PlayerTextDrawSetPreviewRot(playerid, InventorySlots_TD[playerid][slot], II[CI[playerid][pInventory][slot]][iX], II[CI[playerid][pInventory][slot]][iY], II[CI[playerid][pInventory][slot]][iZ], II[CI[playerid][pInventory][slot]][iScale]);
 		PlayerTextDrawHide(playerid, InventorySlots_TD[playerid][slot]);
 		PlayerTextDrawShow(playerid, InventorySlots_TD[playerid][slot]);
+		new amount[32];
+		valstr(amount, CI[playerid][pInventoryAmount][slot]);
+		PlayerTextDrawSetString(playerid, InventoryAmount_TD[playerid][slot], amount);
 		PlayerTextDrawHide(playerid, InventoryAmount_TD[playerid][slot]);
 		if(CI[playerid][pInventoryAmount][slot] >= 1) PlayerTextDrawShow(playerid, InventoryAmount_TD[playerid][slot]);
 	}
@@ -62602,7 +62643,7 @@ stock AddActiveItem(playerid, item, amount) {
 		SaveInventory(playerid);
 		new string[450];
 		mysql_format(connects, string, sizeof(string), "INSERT INTO `invent_log` (`Name`, `item`, `amount`) VALUES ('%s', '%s', %i)", CI[playerid][cName], II[item][iName], amount);
-		mysql_tquery(connects, string, "", "");
+		mysql_query(connects, string);
 		break;
 	}
 	return 1;
@@ -62622,15 +62663,15 @@ stock AddInactiveItem(playerid, item, amount) {
 		CI[playerid][pInventoryAmount][i] = amount;
 		InvUpdate(playerid, i);
 		SaveInventory(playerid);
-		new string[450];
-		mysql_format(connects, string, sizeof(string), "INSERT INTO `invent_log` (`Name`, `item`, `amount`) VALUES ('%s', '%s', %i)", CI[playerid][cName], II[item][iName], amount);
-		mysql_tquery(connects, string, "", "");
+		new query[450];
+		mysql_format(connects, query, sizeof(query), "INSERT INTO `invent_log` (`Name`, `item`, `amount`) VALUES ('%s', '%s', %i)", CI[playerid][cName], II[item][iName], amount);
+		mysql_query(connects, query);
 		break;
 	}
 	return 1;
 }
 stock GetInvent(playerid, slot) {
-	new amount = 0;
+	new amount;
 	for(new i; i < MAX_INVENTORY_SLOTS; i++) {
 		if(CI[playerid][pInventory][i] != slot) continue;
 		amount += CI[playerid][pInventoryAmount][i];
@@ -65465,10 +65506,7 @@ stock CreateBusiness(playerid) {
 	cache_get_value_name_int(0, "freeID", id);
 	if(!id) id++;
 	
-	if(cbType == 5) mysql_format(connects, query, sizeof(query), "INSERT INTO `business_new` (`businessID`, `Name`, `Type`, `InteriorID`, `X`, `Y`, `Z`, `Price`, `PickupID`, `MapIcon`) VALUES (%i, '%s', %i, %i, %f, %f, %f, %i, 19132, %i)", id, cbName, cbType, cbInteriorID, cbCoordX, cbCoordY, cbCoordZ, cbPrice, cbMapIcon);
-	else mysql_format(connects, query, sizeof(query), 
-	"INSERT INTO `business_new` (`businessID`, `Name`, `Type`, `InteriorID`, `X`, `Y`, `Z`, `Price`, `PickupID`, `MapIcon`, `IsGasStation`, `GasX`, `GasY`, `GasZ`) VALUES (%i, '%s', %i, %i, %f, %f, %f, %i, 19132, %i, 1, %f, %f, %f)",
-	id, cbName, cbType, cbInteriorID, cbCoordX, cbCoordY, cbCoordZ, cbPrice, cbMapIcon, cbGasX, cbGasY, cbGasZ);
+	mysql_format(connects, query, sizeof(query), "INSERT INTO `business_new` (`businessID`, `Name`, `Type`, `InteriorID`, `X`, `Y`, `Z`, `Price`, `MapIcon`, `GasX`, `GasY`, `GasZ`) VALUES (%i, '%s', %i, %i, %f, %f, %f, %i, %i, %f, %f, %f)", id, cbName, cbType, cbInteriorID, cbCoordX, cbCoordY, cbCoordZ, cbPrice, cbMapIcon, cbGasX, cbGasY, cbGasZ);
 	mysql_query(connects, query);
 	mysql_format(connects, query, sizeof(query), "INSERT INTO `business_articles` (`Business`, `Article`, `Price`, `Amount`, `Maximum`) SELECT %i, `Article`, `Price`, `Amount`, `Maximum` FROM `business_default_articles` WHERE `Type` = %i", id, cbType);
 	mysql_query(connects, query);
@@ -65503,9 +65541,7 @@ stock CreateBusiness(playerid) {
 	cache_get_value_name_int(0, "Order", gBusiness[id][bOrder]);
 	cache_get_value_name_int(0, "OrderPrice", gBusiness[id][bOrderPrice]);
 	cache_get_value_name_int(0, "Status", gBusiness[id][bStatus]);
-	cache_get_value_name_int(0, "PickupID", gBusiness[id][bPickupID]);
 	cache_get_value_name_int(0, "MapIcon", gBusiness[id][bMapIcon]);
-	cache_get_value_name_int(0, "IsGasStation", gBusiness[id][bIsGasStation]);
 	cache_get_value_float(0, "GasX", gBusiness[id][bGasX]);
 	cache_get_value_float(0, "GasY", gBusiness[id][bGasY]);
 	cache_get_value_float(0, "GasZ", gBusiness[id][bGasZ]);
@@ -65516,7 +65552,7 @@ stock CreateBusiness(playerid) {
 	cache_get_value_name_int(0, "WarehouseMax", gBusiness[id][bWarehouseMax]);
 	
 	// gBusiness[gBusiness[id][bbusinessID]][bMainBusinessID] = gBusiness[id][bbusinessID]+1;
-	gBusiness[gBusiness[id][bID]][bPickup] = CreateDynamicPickup(gBusiness[id][bPickupID], 23, gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], 0, 0);
+	gBusiness[gBusiness[id][bID]][bPickup] = CreateDynamicPickup(19132, 23, gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], 0, 0);
 	bSphere[gBusiness[id][bID]] = CreateDynamicSphere(gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ], 1.0, 0, 0);
 	format(text, sizeof(text), P"%s #%i"W"\n\nВартість: "GREEN"$%i"W"\nПридбати - "G"N", gBusiness[id][bName], gBusiness[id][bID], gBusiness[id][bPrice]);
 	gBusiness[gBusiness[id][bID]][bText] = CreateDynamic3DTextLabel(text, 0xFFFFFFFF, gBusiness[id][bX], gBusiness[id][bY], gBusiness[id][bZ] + 1.0, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
