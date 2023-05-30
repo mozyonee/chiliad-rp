@@ -29,3 +29,7 @@
 	RemoveBuildingForPlayer(playerid,1232,1306.960,-908.593,41.187,0.250);
 	RemoveBuildingForPlayer(playerid,1522,1314.726,-897.265,38.468,0.250);
 	RemoveBuildingForPlayer(playerid,5762,1315.367,-887.468,41.703,0.250);
+// Grove exterior
+	RemoveBuildingForPlayer(playerid,17963,2429.789063,-1681.843018,12.640000,0.250000);
+	RemoveBuildingForPlayer(playerid,762,2446.554688,-1681.070313,12.382800,0.250000);
+	RemoveBuildingForPlayer(playerid,17881,2429.789063,-1681.843018,12.640000,0.250000);
