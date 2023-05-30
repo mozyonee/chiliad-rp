@@ -171,23 +171,20 @@ new PlayerText: phonelocked[MAX_PLAYERS][22];
 new PlayerText: phoneunlocked[MAX_PLAYERS][46];
 new PlayerText: phonecall[MAX_PLAYERS][75];
 
-new PlayerText: mobilephonecalled[MAX_PLAYERS][29];
+// new PlayerText: mobilephonecalled[MAX_PLAYERS][29];
 
-enum phone_settings
-{
+enum phone_settings {
 	pStatus,
 	pColor,
 	pRingtone
 }
 new PlayerPhone[MAX_PLAYERS][phone_settings];
 
-enum phone_color
-{
+enum phone_color {
 	Color[30],
 	Number
 }
-new PlayerPhoneColor[8][phone_color] = 
-{
+new PlayerPhoneColor[8][phone_color] = {
 	{"Білий", -1}, //white
 	{"Червоний", -602653441}, //red
 	{"Оранжевий", -12254977}, //orange
@@ -1071,8 +1068,7 @@ new blackjack_language_massive[2][7][] = {
 		/* (04) */"~p~NEW ROUND STARTED!",
 		/* (05) */"~w~YOU",
 		/* (06) */"~w~YOUR TURN!"
-	},
-	{	/* (00) */"PAYHѓ HAЌHEЏC• ЌEPE€", // РАУНД ПОЧНЕТЬСЯ ЧЕРЕЗ
+	}, {	/* (00) */"PAYHѓ HAЌHEЏC• ЌEPE€", // РАУНД ПОЧНЕТЬСЯ ЧЕРЕЗ
 		/* (01) */"PAYHѓ €AKOHЌ…ЏC• ЌEPE€", // РАУНД ЗАКІНЧИТЬСЯ ЧЕРЕЗ
 		/* (02) */"~p~‹HOC…ЏE ‹AЋ… CЏA‹K…!", // ~p~ВНОСІТЬ ВАШІ СТАВКИ!
 		/* (03) */"~w~ЏEKYЉA• CЏA‹KA:",	// ~w~ПОТОЧНА СТАВКА
@@ -1289,6 +1285,18 @@ enum oInfo {
 	oAuthor[MAX_PLAYER_NAME]
 };
 new OI[MAX_OBJECTS][oInfo];
+enum gInfo {
+	gID,
+	gModel,
+	gObject,
+	gWorld,
+	gInterior,
+	Float:gFrom[4],
+	Float:gTo[4],
+	gSpeed,
+	gAuthor[MAX_PLAYER_NAME]
+};
+new GI[MAX_OBJECTS][gInfo];
 enum iInfo {
 	iModel,
 	iStack,
@@ -2090,8 +2098,7 @@ new Float:gClearCPs[3][32][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{
+	}, {
 		{0.0, 697.61798, -1589.34399, 12.981}, // LS 1.
 		{0.0, 825.55103, -1606.80896, 12.181}, // LS 2.
 		{0.0, 901.31403, -1574.59802, 12.381}, // LS 3.
@@ -2124,8 +2131,7 @@ new Float:gClearCPs[3][32][4] = {
 		{0.0, 0.0, 0.0, 0.0}, // LS 30.
 		{0.0, 0.0, 0.0, 0.0}, // LS 31.
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{
+	}, {
 		{0.0, 1392.0623, -1791.7125, 13.0908}, // Ghetto 1.
 		{0.0, 1391.7612, -1735.2448, 13.0968}, // Ghetto 2.
 		{0.0, 1690.5293, -1734.7238, 13.1005}, // Ghetto 3.
@@ -4570,8 +4576,7 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{// АВЛС - Лісопильня
+	}, {// АВЛС - Лісопильня
 		{0.0, 1215.3260, -1838.0054, 13.4500},
 		{0.0, 1333.3987, -1856.8008, 13.4401},
 		{0.0, 1486.4301, -1874.2933, 13.4464},
@@ -4683,8 +4688,7 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{ // АВЛС - Банк - Автошкола
+	}, { // АВЛС - Банк - Автошкола
 		{0.0, 1215.3260, -1838.0054, 13.4500},
 		{0.0, 1333.3987, -1856.8008, 13.4401},
 		{0.0, 1486.4301, -1874.2933, 13.4464},
@@ -4796,8 +4800,7 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{ // внутригородской
+	}, { // внутригородской
 		{0.0, 1214.2271, -1841.6237, 13.4829}, // Автобус ЛС - яблуневий сад 1
 		{0.0, 1337.0187, -1858.6047, 13.4910}, // Автобус ЛС - яблуневий сад 2
 		{0.0, 1489.79102, -1874.83801, 13.383}, // Автобус ЛС - яблуневий сад 3
@@ -4909,8 +4912,7 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{
+	}, {
 		{0.0, 1214.2271, -1841.6237, 13.4829}, // Автобус ЛС - яблуневий сад 1
 		{0.0, 1337.0187, -1858.6047, 13.4910}, // Автобус ЛС - яблуневий сад 2
 		{0.0, 1556.0479, -1874.5721, 13.4841}, // Автобус ЛС - яблуневий сад 3
@@ -5022,8 +5024,7 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{
+	}, {
 		{0.0, 2811.6599, 1264.9022, 10.8839}, // ЖДЛВ - АВЛС
 		{1.0, 2839.3447, 1293.5128, 10.9767}, // ЖДЛВ - АВЛС ОСТ ЖДЛВ
 		{0.0, 2839.3447, 1293.5128, 10.9767}, // ЖДЛВ - АВЛС ОСТ ЖДЛВ
@@ -5135,8 +5136,7 @@ new Float:gBusCPs[7][111][4] = {
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	{
+	}, {
 		{0.0, -1990.0763, 193.2773, 27.7563}, // ЖДСФ - АВЛС
 		{0.0, -2009.9574, 142.6636, 27.6721}, // ЖДСФ - АВЛС
 		{1.0, -1984.6704, 146.6337, 27.8411}, // ЖДСФ - АВЛС ОСТ ЖДСФ
@@ -17334,8 +17334,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case dPhoneSettings:
 		{
 			if(!response) return 1;
-			switch(listitem)
-			{
+			switch(listitem) {
 				case 0:
 				{
 					if(!PlayerPhone[playerid][pStatus])
@@ -17388,13 +17387,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case dPhoneSendMessage:
 		{
 			new query[1028];
-			if(!response)
-			{
+			if(!response) {
 				mysql_format(connects, query, sizeof(query), "select pm.`Sender`, pm.`Recipient`, pm.`Message`, pm.`time`, pm.`read` from `phone_messages` pm join (select `Sender`, max(`time`) as `mtime` from `phone_messages` where `Recipient` = '%s' group by `Sender`) pm1 on pm.`Sender` = pm1.`Sender` and pm.`time` = pm1.`mtime` order by pm.`time` desc", CI[playerid][cName]);
 				return mysql_tquery(connects, query, "phone_messages", "i", playerid);
 			}
-			if(strlen(inputtext) > 0)
-			{
+			if(strlen(inputtext) > 0) {
 				if(strlen(inputtext) > 40) return SendError(playerid, "Повідомлення не може містити більше 30 символів.");
 
 				new recipient[32];
@@ -17406,8 +17403,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				new id;
 				sscanf(recipient, "u", id);
-				if(id != INVALID_PLAYER_ID)
-				{
+				if(id != INVALID_PLAYER_ID) {
 					SendInfo(id, "Ви отримали нове повідомлення.");
 					SetPlayerChatBubble(id, "Отримав повідомлення на телефон", COLOR_PURPLE, 10.0, 5000);
 				}
@@ -38031,8 +38027,7 @@ CMD:sms(playerid, params[]) {
 	if(!isnumber) return SendError(playerid, "Абонент поза зоною досяжності.");
 	return 1;
 }
-CMD:call(playerid,params[]) 
-{
+CMD:call(playerid,params[])  {
 	if(CI[playerid][pPhone] == 0) return SendError(playerid, "У вас немає мобільного телефона.");
 	if(TI[playerid][tPhone] == true) return SendError(playerid, "Ви вже розмовляєте по телефону.");
 	else if(GetPVarInt(playerid, "takephone")) return SendError(playerid, "У вас немає телефона.");
@@ -39423,6 +39418,16 @@ CMD:objects(playerid) {
 	ShowPlayerDialog(playerid, D_OBJECTS_LIST, DSTH, P"|"W" Керування об'єктами.", content, "Обрати", "Закрити");
 	return 1;
 }
+CMD:gates(playerid) {
+	if(!IsAuthAdmin(playerid, 5)) return 1;
+	new content[1024] = "Номер\tМодель\tАвтор\n";
+	for(new i; i < sizeof(OI); i++) {
+		if(OI[i][oID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, OI[i][oID], OI[i][oModel], OI[i][oAuthor]);
+	}
+	strcat(content, P"-"W" Створити ворота.");
+	ShowPlayerDialog(playerid, D_OBJECTS_LIST, DSTH, P"|"W" Керування воротами.", content, "Обрати", "Закрити");
+	return 1;
+}
 stock CheckPlayerDistanceToVehicle(Float:radi, playerid, vehicleid) {
 	if(!IsPlayerConnected(playerid)) return 0;
 	new Float:PX, Float:PY, Float:PZ, Float:X, Float:Y, Float:Z;
@@ -39771,8 +39776,7 @@ CMD:fireduty(playerid) {
 	return 1;
 }
 alias:phone("ph")
-cmd:phone(playerid)
-{
+cmd:phone(playerid) {
 	if(GetPVarInt(playerid, "phone")) return SendError(playerid, "Ви вже використовуєте мобільний телефон.");
 	for(new i; i < 22; i++) /*TextDrawShowForPlayer(playerid, phonelocked[i]);*/ PlayerTextDrawShow(playerid, phonelocked[playerid][i]);
 	SelectTextDraw(playerid, 0xbfbfbfff);
@@ -43571,10 +43575,8 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			}
 		}
 	}
-	if(GetPVarInt(playerid, "phone"))
-	{
-		if(GetPVarInt(playerid, "phone_locked") && playertextid == phonelocked[playerid][20])
-		{
+	if(GetPVarInt(playerid, "phone")) {
+		if(GetPVarInt(playerid, "phone_locked") && playertextid == phonelocked[playerid][20]) {
 
 			for(new i; i < 22; i++) PlayerTextDrawHide(playerid, phonelocked[playerid][i]);
 			for(new i; i < 46; i++) PlayerTextDrawShow(playerid, phoneunlocked[playerid][i]);
@@ -43587,20 +43589,16 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			PlayerTextDrawSetString(playerid, phoneunlocked[playerid][19], string);
 			update_phone_color(playerid, PlayerPhoneColor[PlayerPhone[playerid][pColor]][Number]);
 		}
-		if(GetPVarInt(playerid, "phone_unlocked"))
-		{
-			for(new i; i < 46; i++)
-			{
-				if(playertextid == phoneunlocked[playerid][i])
-				{
+		if(GetPVarInt(playerid, "phone_unlocked")) {
+			for(new i; i < 46; i++) {
+				if(playertextid == phoneunlocked[playerid][i]) {
 					new string[15];
 					format(string, sizeof(string), "%d", i);
 					SendInfo(playerid, string);
 				}
 			}
 			
-			if(playertextid == phoneunlocked[playerid][24])
-			{
+			if(playertextid == phoneunlocked[playerid][24]) {
 				for(new i; i < 46; i++) PlayerTextDrawHide(playerid, phoneunlocked[playerid][i]);
 				for(new i; i < 75; i++) PlayerTextDrawShow(playerid, phonecall[playerid][i]);
 				SetPVarInt(playerid, "phone_call", 1);
@@ -43608,155 +43606,113 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 				gettime(hour, minute, second);
 				format(string, sizeof(string), "%02d:%02d", hour, minute);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][29], string);
-			}
-			else if(playertextid == phoneunlocked[playerid][25])
-			{
+			} else if(playertextid == phoneunlocked[playerid][25]) {
 				new query[1028];
 				mysql_format(connects, query, sizeof(query), "select pm.`Sender`, pm.`Recipient`, pm.`Message`, pm.`time`, pm.`read` from `phone_messages` pm join (select `Sender`, max(`time`) as `mtime` from `phone_messages` where `Recipient` = '%s' group by `Sender`) pm1 on pm.`Sender` = pm1.`Sender` and pm.`time` = pm1.`mtime` order by pm.`time` desc", CI[playerid][cName]);
 				return mysql_tquery(connects, query, "phone_messages", "i", playerid);
-			}
-			else if(playertextid == phoneunlocked[playerid][26]) phonesettings(playerid);
+			} else if(playertextid == phoneunlocked[playerid][26]) phonesettings(playerid);
 			else if(playertextid == phoneunlocked[playerid][29]) gps(playerid);
-			else if(playertextid == phoneunlocked[playerid][37])
-			{
+			else if(playertextid == phoneunlocked[playerid][37]) {
 				SendOK(playerid, "Taxi");
-			}
-			else if(playertextid == phoneunlocked[playerid][32])
-			{
+			} else if(playertextid == phoneunlocked[playerid][32]) {
 				SendOK(playerid, "Contacts");
-			}
-			else if(playertextid == phoneunlocked[playerid][18])
-			{
+			} else if(playertextid == phoneunlocked[playerid][18]) {
 				SendOK(playerid, "Bank");
 			}
 		}
-		if(GetPVarInt(playerid, "phone_call"))
-		{
-			for(new i; i < 75; i++)
-			{
-				if(playertextid == phonecall[playerid][i])
-				{
+		if(GetPVarInt(playerid, "phone_call")) {
+			for(new i; i < 75; i++) {
+				if(playertextid == phonecall[playerid][i]) {
 					new string[15];
 					format(string, sizeof(string), "%d", i);
 					SendInfo(playerid, string);
 				}
 			}
 
-			if(playertextid == phonecall[playerid][31])
-			{
+			if(playertextid == phonecall[playerid][31]) {
 				for(new i; i < 75; i++) PlayerTextDrawHide(playerid, phonecall[playerid][i]);
 				for(new i; i < 46; i++) PlayerTextDrawShow(playerid, phoneunlocked[playerid][i]);
 				DeletePVar(playerid, "phone_call");
-			}
-			else if(playertextid == phonecall[playerid][63])
-			{
+			} else if(playertextid == phonecall[playerid][63]) {
 				SendInfo(playerid, "favorites");
-			}
-			else if(playertextid == phonecall[playerid][53])
-			{
+			} else if(playertextid == phonecall[playerid][53]) {
 				SendInfo(playerid, "recents");
-			}
-			else if(playertextid == phonecall[playerid][65])
-			{
+			} else if(playertextid == phonecall[playerid][65]) {
 				SendInfo(playerid, "contacts");
-			}
-			else if(playertextid == phonecall[playerid][36])
-			{
+			} else if(playertextid == phonecall[playerid][36]) {
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], " ");
 				SetPVarString(playerid, "call_number", "");
-			}
-			else if(playertextid == phonecall[playerid][38])
-			{
+			} else if(playertextid == phonecall[playerid][38]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "1");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][40])
-			{
+			} else if(playertextid == phonecall[playerid][40]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "2");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][39])
-			{
+			} else if(playertextid == phonecall[playerid][39]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "3");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][41])
-			{
+			} else if(playertextid == phonecall[playerid][41]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "4");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][44])
-			{
+			} else if(playertextid == phonecall[playerid][44]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "5");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][45])
-			{
+			} else if(playertextid == phonecall[playerid][45]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "6");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][42])
-			{
+			} else if(playertextid == phonecall[playerid][42]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "7");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][43])
-			{
+			} else if(playertextid == phonecall[playerid][43]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "8");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][46])
-			{
+			} else if(playertextid == phonecall[playerid][46]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "9");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][47])
-			{
+			} else if(playertextid == phonecall[playerid][47]) {
 				new string[10];
 				GetPVarString(playerid, "call_number", string, sizeof(string));
 				if(strlen(string) >= 10) return SendError(playerid, "Максимум 10 цифр.");
 				strcat(string, "0");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, phonecall[playerid][35], string);
-			}
-			else if(playertextid == phonecall[playerid][60])
-			{
+			} else if(playertextid == phonecall[playerid][60]) {
 				new number_string[15];
 				GetPVarString(playerid, "call_number", number_string, 15);
 				new number = strval(number_string);
@@ -43768,11 +43724,9 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 				if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
 
 				if(number == CI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
-				switch(number) 
-				{
+				switch(number) {
 					case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, P"Оберіть сервіс.", P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Механік", "Обрати", "Закрити");
-					case 222: 
-					{
+					case 222: {
 						new driver = 0;
 						foreach(new i:Player) {
 							if(GetPVarInt(i, "taxi_started")) {
@@ -43782,7 +43736,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 							}
 						}
 						if(driver == 0) return SendError(playerid, "Диспетчер: наразі немає таксистів на зміні.");
-						 new ids = 0;
+						new ids = 0;
 						for(new x = GetVehiclePoolSize() + 1; --x != 0;) {
 							if(!IsValidVehicle(x)) continue;
 							if(!IsVehicleOccupied(x)) continue;
@@ -43793,8 +43747,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 						if(ids == 0) return SendError(playerid, "Диспетчер: Наразі немає вільних таксистів."); 
 						return 1;
 					}
-					case 554: 
-					{
+					case 554: {
 						if(CI[playerid][pMobile] <= 9) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
 						if(calls_news[0] == INVALID_PLAYER_ID) return SendError(playerid, "Прийом дзінків відключено.");
 						if(calls_ether[0] != INVALID_PLAYER_ID) return SendError(playerid, "Лінія зайнята.");
@@ -43806,12 +43759,10 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 						calls_ether[0] = playerid;
 						TI[playerid][tPhoneNews] = true;
 					}
-					default: 
-					{
+					default: {
 						if(CI[playerid][pMobile] <= 9) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
 						new bool:isnumber = false;
-						foreach(new i:Player) 
-						{
+						foreach(new i:Player) {
 							if(!TI[i][tLogin]) continue;
 							if(CI[i][pPhone] == number) {
 								if(SERIU[i][sID] != INVALID_PLAYER_ID) return SendError(playerid, "Абонент поза зоною досяжності.");
@@ -43822,13 +43773,13 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 								TI[playerid][tPhoneCalled] = i;
 								TI[i][tPhoneCaller] = playerid;
 								TI[i][tPhoneCalled] = i;
-								new string[128];
-								format(string, sizeof(string), "Вихідний виклик: "GREEN"[т. %i]"W". Щоб скасувати, введіть "NO"/h"W".", CI[i][pPhone]);
-								SendClientMessage(playerid, COLOR_WHITE, string);
-								format(string, sizeof(string), "Вхідний виклик: "GREEN"[т. %i].", CI[playerid][pPhone]);
-								SendClientMessage(i, COLOR_WHITE, string);
-								SendInfo(i, "Введіть "YES"/p "W"щоб прийняти виклик, або "NO"/h "W"для відмови.");
-								PhoneStatus(playerid,true);
+								new str[128];
+								format(str, sizeof(str), "Вихідний виклик: "GREEN"[т. %i]"W". Щоб скасувати, введіть "NO"/h"W".", CI[i][pPhone]);
+								SendClientMessage(playerid, COLOR_WHITE, str);
+								format(str, sizeof(str), "Вхідний виклик: "GREEN"[т. %i].", CI[playerid][pPhone]);
+								SendClientMessage(i, COLOR_WHITE, str);
+								SendInfo(i, "Введіть "YES"/p"W" щоб прийняти виклик, або "NO"/h"W" для відмови.");
+								PhoneStatus(playerid, true);
 								if(CI[playerid][pMobile] > 10) CI[playerid][pMobile] -= 10;
 								UpdateCharacterData(playerid, "pMobile", CI[playerid][pMobile]);
 								isnumber = true;
@@ -44107,23 +44058,17 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			DeletePVar(playerid, "buyskin");
 			DeletePVar(playerid, "chosen_skin");
 		}
-		if(GetPVarInt(playerid, "phone"))
-		{
-			if(GetPVarInt(playerid, "phone_locked"))
-			{
+		if(GetPVarInt(playerid, "phone")) {
+			if(GetPVarInt(playerid, "phone_locked")) {
 				DeletePVar(playerid, "phone_locked");
 				DeletePVar(playerid, "phone");
 				for(new i; i < 22; i++) PlayerTextDrawHide(playerid, phonelocked[playerid][i]);
-			}
-			else if(GetPVarInt(playerid, "phone_call"))
-			{
+			} else if(GetPVarInt(playerid, "phone_call")) {
 				DeletePVar(playerid, "phone_call");
 				for(new i; i < 75; i++) PlayerTextDrawHide(playerid, phonecall[playerid][i]);
 				for(new i; i < 46; i++) PlayerTextDrawShow(playerid, phoneunlocked[playerid][i]);
 				SelectTextDraw(playerid, 0xbfbfbfff);
-			}
-			else if(GetPVarInt(playerid, "phone_unlocked"))
-			{
+			} else if(GetPVarInt(playerid, "phone_unlocked")) {
 				DeletePVar(playerid, "phone_unlocked");
 				DeletePVar(playerid, "phone");
 				for(new i; i < 46; i++) PlayerTextDrawHide(playerid, phoneunlocked[playerid][i]);
@@ -45668,8 +45613,7 @@ stock load_business_interiors() {
 	printf("[Success] Business interiors loaded. (%i pcs.)", gBintsCount);
 	cache_delete(result);
 } */
-stock load_player_phone_settings(playerid)
-{
+stock load_player_phone_settings(playerid) {
 	new Cache:result, query[512], rows;
 	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_settings` WHERE `OwnerID` = %d", CI[playerid][cID]);
 	result = mysql_query(connects, query);
@@ -50869,15 +50813,12 @@ CB:punish_history(playerid) {
 	ShowPlayerDialog(playerid, DIALOG_NONE, DSM, W"Список покарань.", string, "Обрати", "Закрити");
 	return 1;
 }
-CB:ShowPlayerMessage(playerid)
-{
+CB:ShowPlayerMessage(playerid) {
 	new rows = cache_num_rows();
 	new string[3000];
-	if(rows > 0)
-	{
+	if(rows > 0) {
 		new Sender[32], Recipient[32], Time[48], Message[40], read, datetime, ago, isread[60], From[40];
-		for(new i; i < rows; i++)
-		{
+		for(new i; i < rows; i++) {
 			cache_get_value_name(i, "Sender", Sender);
 			cache_get_value_name(i, "Recipient", Recipient);
 			cache_get_value_name(i, "Message", Message);
@@ -50902,16 +50843,13 @@ CB:ShowPlayerMessage(playerid)
 	ShowPlayerDialog(playerid, dPhoneSendMessage, DIALOG_STYLE_INPUT, header, string, "Відправити", "Назад");
 	return 1;
 }
-CB:phone_messages(playerid)
-{
+CB:phone_messages(playerid) {
 	new rows = cache_num_rows();
 	new string[1028];
-	if(rows > 0)
-	{
+	if(rows > 0) {
 		new Sender[32], Recipient[32], Time[48], read, datetime, ago, isread[60];
 		strcat(string, "Відправник\tЧас\tСтатус\n");
-		for(new i; i < rows; i++)
-		{
+		for(new i; i < rows; i++) {
 			cache_get_value_name(i, "Sender", Sender);
 			cache_get_value_name(i, "Recipient", Recipient);
 			cache_get_value_name_int(i, "time", datetime);
@@ -55760,8 +55698,7 @@ stock AtachPlayerAcces(playerid, setobject,skinid) {
 		}
 		case 2226:
 		{
-		switch(skinid)
-		{
+		switch(skinid) {
 			case 1: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.202000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 1
 			case 2: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.209000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 2
 			case 3: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 3
@@ -62973,8 +62910,7 @@ CB:player_timer(playerid) {
 			format(string, sizeof(string), "~y~%s", Convert(BRobTimeForEnter));
 			GameTextForPlayer(playerid, string, 1000, 4);
 		}
-		if(GetPVarInt(playerid, "phone"))
-		{
+		if(GetPVarInt(playerid, "phone")) {
 			new hour, minute, second, string[50];
 			gettime(hour, minute, second);
 			format(string, sizeof(string), "%02d:%02d", hour, minute);
@@ -67052,8 +66988,7 @@ stock isNotNumeric(const string[]) {
 	}
 	return 0;
 }
-stock gps(playerid)
-{
+stock gps(playerid) {
 	if(GetPlayerInterior(playerid) > 0) return SendError(playerid, "Не можна використовувати у приміщенні.");
 	if(GetPVarInt(playerid, "route")) return SendError(playerid, "Спочатку закінчіть роботу водія автобуса.");
 	if(GetPVarInt(playerid, "WaitExam")) return SendError(playerid, "Неможливо під час здачі екзамена.");
@@ -67076,18 +67011,15 @@ stock gps(playerid)
 	ShowPlayerDialog(playerid, D_GPS, DSL, P"GPS.", string, "Обрати", "Закрити");
 	return 1;
 }
-stock update_phone_settings(playerid)
-{ 
+stock update_phone_settings(playerid) { 
 	new query[512];
 	mysql_format(connects, query, sizeof(query), "UPDATE `phone_settings` SET `Status` = %d, `DesktopColor` = %d, `Ringtone` = %d WHERE `OwnerID` = %d", PlayerPhone[playerid][pStatus], PlayerPhone[playerid][pColor], PlayerPhone[playerid][pRingtone], CI[playerid][cID]);
 	mysql_query(connects, query);
 	return 1;
 }
-stock phonesettings(playerid)
-{
+stock phonesettings(playerid) {
 	new string[512], status[50];
-	switch(PlayerPhone[playerid][pStatus])
-	{
+	switch(PlayerPhone[playerid][pStatus]) {
 		case 0: format(status, sizeof(status), "Увімкнути режим польоту.");
 		case 1: format(status, sizeof(status), "Вимкнути режим польоту.");
 	}
@@ -67095,8 +67027,7 @@ stock phonesettings(playerid)
 	ShowPlayerDialog(playerid, dPhoneSettings, DIALOG_STYLE_LIST, ""P"| "W"Налаштування.", string, "Обрати", "Закрити");
 	return 1;
 }
-stock update_phone_color(playerid, color)
-{
+stock update_phone_color(playerid, color) {
 	for(new i = 9; i <= 14; i++) 
 	{
 		PlayerTextDrawHide(playerid, phoneunlocked[playerid][i]);

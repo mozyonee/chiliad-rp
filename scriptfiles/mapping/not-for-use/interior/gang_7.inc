@@ -1,4 +1,4 @@
-	tmpobjid = CreateDynamicObject(19379,2598.320,-208.110,3882,0,90,0,-1,-1,-1,200,200);
+	tmpobjid=CreateDynamicObject(19379,2598.320,-208.110,3882,0,90,0,-1,-1,-1,200,200);
 	SetDynamicObjectMaterial(tmpobjid,0,14771,"int_brothelint3","GB_nastybar12",0);
 	CreateDynamicObject(19379,2608.820,-208.110,3882,0,90,0,-1,-1,-1,200,200);
 	SetDynamicObjectMaterial(tmpobjid,0,14771,"int_brothelint3","GB_nastybar12",0);
