@@ -271,7 +271,7 @@ new ProgressBarTimer[MAX_PLAYERS];
 new PlayerText: ProgressBarTD[MAX_PLAYERS][3];
 
 // new MeatActor;
-new PlayerText: MeatBarTD[MAX_PLAYERS][13];
+new Text: MeatBarTD[12];
 
 new Text: buyskin[24];
 new PlayerText:SelectSkin[MAX_PLAYERS][4];
@@ -11053,156 +11053,143 @@ stock CreateTextDraws(playerid) {
 	TextDrawSetSelectable(buyskin[23], 1);
 
 
-	MeatBarTD[playerid][0] = CreatePlayerTextDraw(playerid, 252.000, 193.000, "_");
-	PlayerTextDrawLetterSize(playerid, MeatBarTD[playerid][0], 0.300, 5.399);
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][0], 167.000, 8.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][0], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][0], -1);
-	PlayerTextDrawUseBox(playerid, MeatBarTD[playerid][0], 1);
-	PlayerTextDrawBoxColor(playerid, MeatBarTD[playerid][0], 150);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][0], 1);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][0], 1);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][0], 150);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][0], 1);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][0], 1);
+	MeatBarTD[0] = TextDrawCreate(252.000, 193.000, "_");
+	TextDrawLetterSize(MeatBarTD[0], 0.300, 5.399);
+	TextDrawTextSize(MeatBarTD[0], 167.000, 8.000);
+	TextDrawAlignment(MeatBarTD[0], 1);
+	TextDrawColor(MeatBarTD[0], -1);
+	TextDrawUseBox(MeatBarTD[0], 1);
+	TextDrawBoxColor(MeatBarTD[0], 150);
+	TextDrawSetShadow(MeatBarTD[0], 1);
+	TextDrawSetOutline(MeatBarTD[0], 1);
+	TextDrawBackgroundColor(MeatBarTD[0], 150);
+	TextDrawFont(MeatBarTD[0], 1);
+	TextDrawSetProportional(MeatBarTD[0], 1);
 
-	MeatBarTD[playerid][1] = CreatePlayerTextDraw(playerid, 211.000, 183.000, "_");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][1], 68.000, 57.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][1], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][1], -1);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][1], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][1], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][1], 0);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][1], 5);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][1], 0);
-	PlayerTextDrawSetPreviewModel(playerid, MeatBarTD[playerid][1], 19621);
-	PlayerTextDrawSetPreviewRot(playerid, MeatBarTD[playerid][1], -7.000, -2.000, 465.000, 1.200);
-	PlayerTextDrawSetPreviewVehCol(playerid, MeatBarTD[playerid][1], 0, 0);
+	MeatBarTD[1] = TextDrawCreate(171.000, 194.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[1], 37.000, 37.000);
+	TextDrawAlignment(MeatBarTD[1], 1);
+	TextDrawColor(MeatBarTD[1], 125);
+	TextDrawSetShadow(MeatBarTD[1], 0);
+	TextDrawSetOutline(MeatBarTD[1], 0);
+	TextDrawBackgroundColor(MeatBarTD[1], 255);
+	TextDrawFont(MeatBarTD[1], 4);
+	TextDrawSetProportional(MeatBarTD[1], 1);
+	TextDrawSetSelectable(MeatBarTD[1], 1);
 
-	MeatBarTD[playerid][2] = CreatePlayerTextDraw(playerid, 171.000, 194.000, "LD_SPAC:white");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][2], 37.000, 37.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][2], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][2], 125);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][2], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][2], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][2], 255);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][2], 4);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][2], 1);
-	PlayerTextDrawSetSelectable(playerid, MeatBarTD[playerid][2], 1);
+	MeatBarTD[2] = TextDrawCreate(211.000, 194.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[2], 37.000, 37.000);
+	TextDrawAlignment(MeatBarTD[2], 1);
+	TextDrawColor(MeatBarTD[2], 150);
+	TextDrawSetShadow(MeatBarTD[2], 0);
+	TextDrawSetOutline(MeatBarTD[2], 0);
+	TextDrawBackgroundColor(MeatBarTD[2], 255);
+	TextDrawFont(MeatBarTD[2], 4);
+	TextDrawSetProportional(MeatBarTD[2], 1);
+	TextDrawSetSelectable(MeatBarTD[2], 1);
 
-	MeatBarTD[playerid][3] = CreatePlayerTextDraw(playerid, 211.000, 194.000, "LD_SPAC:white");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][3], 37.000, 37.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][3], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][3], 100);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][3], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][3], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][3], 255);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][3], 4);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][3], 1);
-	PlayerTextDrawSetSelectable(playerid, MeatBarTD[playerid][3], 1);
+	MeatBarTD[3] = TextDrawCreate(171.000, 233.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[3], 37.000, 0.689);
+	TextDrawAlignment(MeatBarTD[3], 1);
+	TextDrawColor(MeatBarTD[3], -1061109505);
+	TextDrawSetShadow(MeatBarTD[3], 0);
+	TextDrawSetOutline(MeatBarTD[3], 0);
+	TextDrawBackgroundColor(MeatBarTD[3], 255);
+	TextDrawFont(MeatBarTD[3], 4);
+	TextDrawSetProportional(MeatBarTD[3], 1);
 
-	MeatBarTD[playerid][4] = CreatePlayerTextDraw(playerid, 171.000, 233.000, "LD_SPAC:white");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][4], 37.000, 0.689);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][4], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][4], -1061109505);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][4], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][4], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][4], 255);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][4], 4);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][4], 1);
+	MeatBarTD[4] = TextDrawCreate(211.000, 183.000, "_");
+	TextDrawTextSize(MeatBarTD[4], 68.000, 57.000);
+	TextDrawAlignment(MeatBarTD[4], 1);
+	TextDrawColor(MeatBarTD[4], -1);
+	TextDrawSetShadow(MeatBarTD[4], 0);
+	TextDrawSetOutline(MeatBarTD[4], 0);
+	TextDrawBackgroundColor(MeatBarTD[4], 0);
+	TextDrawFont(MeatBarTD[4], 5);
+	TextDrawSetProportional(MeatBarTD[4], 0);
+	TextDrawSetPreviewModel(MeatBarTD[4], 19621);
+	TextDrawSetPreviewRot(MeatBarTD[4], -7.000, -2.000, 465.000, 1.200);
+	TextDrawSetPreviewVehCol(MeatBarTD[4], 0, 0);
 
-	MeatBarTD[playerid][5] = CreatePlayerTextDraw(playerid, 211.000, 183.000, "_");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][5], 68.000, 57.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][5], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][5], -1);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][5], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][5], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][5], 0);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][5], 5);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][5], 0);
-	PlayerTextDrawSetPreviewModel(playerid, MeatBarTD[playerid][5], 19621);
-	PlayerTextDrawSetPreviewRot(playerid, MeatBarTD[playerid][5], -7.000, -2.000, 465.000, 1.200);
-	PlayerTextDrawSetPreviewVehCol(playerid, MeatBarTD[playerid][5], 0, 0);
+	MeatBarTD[5] = TextDrawCreate(173.000, 195.000, "_");
+	TextDrawTextSize(MeatBarTD[5], 43.000, 44.000);
+	TextDrawAlignment(MeatBarTD[5], 1);
+	TextDrawColor(MeatBarTD[5], -1);
+	TextDrawSetShadow(MeatBarTD[5], 0);
+	TextDrawSetOutline(MeatBarTD[5], 0);
+	TextDrawBackgroundColor(MeatBarTD[5], 0);
+	TextDrawFont(MeatBarTD[5], 5);
+	TextDrawSetProportional(MeatBarTD[5], 0);
+	TextDrawSetPreviewModel(MeatBarTD[5], 19583);
+	TextDrawSetPreviewRot(MeatBarTD[5], -47.000, -11.000, 36.000, 0.598);
+	TextDrawSetPreviewVehCol(MeatBarTD[5], 0, 0);
 
-	MeatBarTD[playerid][6] = CreatePlayerTextDraw(playerid, 173.000, 195.000, "_");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][6], 43.000, 44.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][6], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][6], -1);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][6], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][6], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][6], 0);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][6], 5);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][6], 0);
-	PlayerTextDrawSetPreviewModel(playerid, MeatBarTD[playerid][6], 19583);
-	PlayerTextDrawSetPreviewRot(playerid, MeatBarTD[playerid][6], -47.000, -11.000, 36.000, 0.599);
-	PlayerTextDrawSetPreviewVehCol(playerid, MeatBarTD[playerid][6], 0, 0);
+	MeatBarTD[6] = TextDrawCreate(211.000, 233.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[6], 37.000, 0.699);
+	TextDrawAlignment(MeatBarTD[6], 1);
+	TextDrawColor(MeatBarTD[6], 1097458175);
+	TextDrawSetShadow(MeatBarTD[6], 0);
+	TextDrawSetOutline(MeatBarTD[6], 0);
+	TextDrawBackgroundColor(MeatBarTD[6], 255);
+	TextDrawFont(MeatBarTD[6], 4);
+	TextDrawSetProportional(MeatBarTD[6], 1);
 
-	MeatBarTD[playerid][7] = CreatePlayerTextDraw(playerid, 211.000, 233.000, "LD_SPAC:white");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][7], 37.000, 0.699);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][7], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][7], 1097458175);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][7], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][7], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][7], 255);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][7], 4);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][7], 1);
+	MeatBarTD[7] = TextDrawCreate(171.000, 237.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[7], 77.000, 3.700);
+	TextDrawAlignment(MeatBarTD[7], 1);
+	TextDrawColor(MeatBarTD[7], -2147483451);
+	TextDrawSetShadow(MeatBarTD[7], 0);
+	TextDrawSetOutline(MeatBarTD[7], 0);
+	TextDrawBackgroundColor(MeatBarTD[7], 255);
+	TextDrawFont(MeatBarTD[7], 4);
+	TextDrawSetProportional(MeatBarTD[7], 1);
 
-	MeatBarTD[playerid][8] = CreatePlayerTextDraw(playerid, 171.000, 237.000, "LD_SPAC:white");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][8], 77.000, 3.700);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][8], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][8], -2147483451);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][8], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][8], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][8], 255);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][8], 4);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][8], 1);
+	MeatBarTD[8] = TextDrawCreate(212.000, 177.000, "Instruments");
+	TextDrawLetterSize(MeatBarTD[8], 0.187, 0.999);
+	TextDrawAlignment(MeatBarTD[8], 1);
+	TextDrawColor(MeatBarTD[8], -1061109505);
+	TextDrawSetShadow(MeatBarTD[8], 0);
+	TextDrawSetOutline(MeatBarTD[8], 0);
+	TextDrawBackgroundColor(MeatBarTD[8], 150);
+	TextDrawFont(MeatBarTD[8], 1);
+	TextDrawSetProportional(MeatBarTD[8], 1);
 
-	MeatBarTD[playerid][9] = CreatePlayerTextDraw(playerid, 212.000, 177.000, "Instruments");
-	PlayerTextDrawLetterSize(playerid, MeatBarTD[playerid][9], 0.188, 0.999);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][9], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][9], -1061109505);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][9], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][9], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][9], 150);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][9], 1);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][9], 1);
+	MeatBarTD[9] = TextDrawCreate(171.000, 237.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[9], 34.000, 3.700);
+	TextDrawAlignment(MeatBarTD[9], 1);
+	TextDrawColor(MeatBarTD[9], -12254977);
+	TextDrawSetShadow(MeatBarTD[9], 0);
+	TextDrawSetOutline(MeatBarTD[9], 0);
+	TextDrawBackgroundColor(MeatBarTD[9], 255);
+	TextDrawFont(MeatBarTD[9], 4);
+	TextDrawSetProportional(MeatBarTD[9], 1);
 
-	MeatBarTD[playerid][10] = CreatePlayerTextDraw(playerid, 171.000, 237.000, "LD_SPAC:white");
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][10], 34.000, 3.700);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][10], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][10], -12254977);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][10], 0);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][10], 0);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][10], 255);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][10], 4);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][10], 1);
+	MeatBarTD[10] = TextDrawCreate(169.500, 178.000, "_");
+	TextDrawLetterSize(MeatBarTD[10], 0.358, 0.999);
+	TextDrawTextSize(MeatBarTD[10], 249.250, -2.000);
+	TextDrawAlignment(MeatBarTD[10], 1);
+	TextDrawColor(MeatBarTD[10], -1);
+	TextDrawUseBox(MeatBarTD[10], 1);
+	TextDrawBoxColor(MeatBarTD[10], 150);
+	TextDrawSetShadow(MeatBarTD[10], 1);
+	TextDrawSetOutline(MeatBarTD[10], 1);
+	TextDrawBackgroundColor(MeatBarTD[10], 150);
+	TextDrawFont(MeatBarTD[10], 1);
+	TextDrawSetProportional(MeatBarTD[10], 1);
 
-	MeatBarTD[playerid][11] = CreatePlayerTextDraw(playerid, 169.500, 178.000, "_");
-	PlayerTextDrawLetterSize(playerid, MeatBarTD[playerid][11], 0.359, 0.999);
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][11], 249.250, -2.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][11], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][11], -1);
-	PlayerTextDrawUseBox(playerid, MeatBarTD[playerid][11], 1);
-	PlayerTextDrawBoxColor(playerid, MeatBarTD[playerid][11], 150);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][11], 1);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][11], 1);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][11], 150);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][11], 1);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][11], 1);
-
-	MeatBarTD[playerid][12] = CreatePlayerTextDraw(playerid, 211.000, 196.000, "_");
-	PlayerTextDrawLetterSize(playerid, MeatBarTD[playerid][12], 0.200, 3.598);
-	PlayerTextDrawTextSize(playerid, MeatBarTD[playerid][12], 246.000, 7.000);
-	PlayerTextDrawAlignment(playerid, MeatBarTD[playerid][12], 1);
-	PlayerTextDrawColor(playerid, MeatBarTD[playerid][12], -1);
-	PlayerTextDrawUseBox(playerid, MeatBarTD[playerid][12], 1);
-	PlayerTextDrawBoxColor(playerid, MeatBarTD[playerid][12], 25);
-	PlayerTextDrawSetShadow(playerid, MeatBarTD[playerid][12], 1);
-	PlayerTextDrawSetOutline(playerid, MeatBarTD[playerid][12], 1);
-	PlayerTextDrawBackgroundColor(playerid, MeatBarTD[playerid][12], 150);
-	PlayerTextDrawFont(playerid, MeatBarTD[playerid][12], 1);
-	PlayerTextDrawSetProportional(playerid, MeatBarTD[playerid][12], 1);
-	PlayerTextDrawSetSelectable(playerid, MeatBarTD[playerid][12], 1);
+	MeatBarTD[11] = TextDrawCreate(211.000, 196.000, "_");
+	TextDrawLetterSize(MeatBarTD[11], 0.200, 3.598);
+	TextDrawTextSize(MeatBarTD[11], 246.000, 7.000);
+	TextDrawAlignment(MeatBarTD[11], 1);
+	TextDrawColor(MeatBarTD[11], -1);
+	TextDrawUseBox(MeatBarTD[11], 1);
+	TextDrawBoxColor(MeatBarTD[11], 25);
+	TextDrawSetShadow(MeatBarTD[11], 1);
+	TextDrawSetOutline(MeatBarTD[11], 1);
+	TextDrawBackgroundColor(MeatBarTD[11], 150);
+	TextDrawFont(MeatBarTD[11], 1);
+	TextDrawSetProportional(MeatBarTD[11], 1);
+	TextDrawSetSelectable(MeatBarTD[11], 1);
 
 	ProgressBarTD[playerid][0] = CreatePlayerTextDraw(playerid, 167.000, 272.000, "_");
 	PlayerTextDrawLetterSize(playerid, ProgressBarTD[playerid][0], 0.379, 2.599);
@@ -32614,14 +32601,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		SetPVarInt(playerid, "pOff9", gettime() + 20);
 		TI[playerid][tJobGun][1] = 1;
 	}
-	if(areaid >= MeatSphere[0] && areaid < MeatSphere[sizeof(MeatWork)-1] && pstate == PLAYER_STATE_ONFOOT)
-	{
-		for(new i; i < 13; i++)
-		{
-			PlayerTextDrawShow(playerid, MeatBarTD[playerid][i]);
-			SetPVarInt(playerid, "Meat", 1);
-		}
-	}
 	if(areaid >= sad_area[0] && areaid <= sad_area[119-1] && pstate == PLAYER_STATE_ONFOOT) {
 		if(!TI[playerid][tJobSad][0]) return 1;
 		if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) return 1;
@@ -32928,14 +32907,6 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 		if(TI[playerid][tJobGun][0]) EndGun(playerid);
 		if(GetPVarInt(playerid, "fish_place")) Endfish(playerid);
 		if(TI[playerid][tJobWood][0]) EndWood(playerid);
-	}
-	else if(areaid >= MeatSphere[0] && areaid < MeatSphere[sizeof(MeatWork)-1])
-	{
-		for(new i; i < 13; i++)
-		{
-			PlayerTextDrawHide(playerid, MeatBarTD[playerid][i]);
-			DeletePVar(playerid, "Meat");
-		}
 	}
 	return 1;
 }
@@ -42788,6 +42759,28 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				}
 		}
 	}
+	/*if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && newkeys == 16)
+	{
+		for(new i; i < sizeof(MeatWork); i++)
+		{
+			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]))
+			{
+				for(new id; id < 12; i++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				SendOK(playerid, "td");
+				MeatPlayer[i] = playerid;
+				SendOK(playerid, "meatplayer");
+				SetPVarInt(playerid, "Meat", 1);
+				SendOK(playerid, "pvar");
+				SelectTextDraw(playerid, 0xbfbfbfff);
+				SendOK(playerid, "selecttd");
+				SetPVarInt(playerid, "MeatPlayer", i);
+				SendOK(playerid, "pvarmeatplayer");
+				UpdateMeatWorkText(i);
+				SendOK(playerid, "update3dtext");
+				SendInt(playerid, i);
+			}
+		}
+	}*/
 	if(PRESSED(KEY_CTRL_BACK) || PRESSED(KEY_CROUCH) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 		if(TI[playerid][tProcess][0] != -1) {
 			if(GetPVarInt(playerid, "Klavisha") == 2455) MyButtonSystem(playerid);
@@ -45617,6 +45610,14 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				for(new i; i < 32; i++) PlayerTextDrawHide(playerid, PhoneLocked[playerid][i]);
 				for(new i; i < 22; i++) PlayerTextDrawHide(playerid, PhoneDesktop[playerid][i]);
 			}
+		}
+		if(GetPVarInt(playerid, "Meat"))
+		{
+			for(new i; i < 13; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+			DeletePVar(playerid, "Meat");
+			CancelSelectTextDraw(playerid);
+			MeatPlayer[GetPVarInt(playerid, "MeatPlayer")] = 0;
+			UpdateMeatWorkText(GetPVarInt(playerid, "MeatPlayer"));
 		}
 		return 1;
 	}
@@ -68820,11 +68821,19 @@ stock LoadMeatWork()
 	for(new i; i < sizeof(MeatWork); i++)
 	{
 		MeatObject[i] = CreateDynamicObject(2589, MeatWork[i][mX], MeatWork[i][mY], MeatWork[i][mZ], 0.000000, 0.000000, 0.000000, 1, 1, -1, 300.00, 300.00);
-		MeatSphere[i] = CreateDynamicSphere(MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.0753, MeatWork[i][mZ] - 3.588318, 1, 1, -1);
+		MeatSphere[i] = CreateDynamicSphere(MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.1153, MeatWork[i][mZ] - 3.588318, 2, 1, 1);
 		format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][mWeight]);
-		MeatText[i] = CreateDynamic3DTextLabel(string, -1, MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.0753, MeatWork[i][mZ] - 3.588318, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
+		MeatText[i] = CreateDynamic3DTextLabel(string, -1, MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.0953, MeatWork[i][mZ] - 3.588318, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
 	}
 	return 1; 
+}
+stock UpdateMeatWorkText(meat)
+{
+	new string[256];
+	if(MeatPlayer[meat]) format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n{98FB98}Обробляє: %s", MeatWork[meat][mWeight], CI[MeatPlayer[meat]][cName]);
+	else format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[meat][mWeight]);
+	UpdateDynamic3DTextLabelText(MeatText[meat], -1, string);
+	return 1;
 }
 stock GetNicknameFromNumber(number)
 {
