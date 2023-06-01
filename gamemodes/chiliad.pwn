@@ -169,8 +169,8 @@ new Text: iphone[56];
 new PlayerText: phonelocked[MAX_PLAYERS][22];
 new PlayerText: phoneunlocked[MAX_PLAYERS][46];
 new PlayerText: phonecall[MAX_PLAYERS][75];
-new PlayerText: phonecallin[MAX_PLAYERS][30];
-new PlayerText: phonecallout[MAX_PLAYERS][26];
+// new PlayerText: phonecallin[MAX_PLAYERS][30];
+// new PlayerText: phonecallout[MAX_PLAYERS][26];
 
 enum phone_settings {
 	pStatus,
@@ -219,21 +219,20 @@ new GPSWorks[][gps_data] = {
 	{ "Доставка товару", 1344.0884, 352.1465, 19.554 }
 };
 
-new GPSFactions[][gps_data] = {
+/* new GPSFactions[][gps_data] = {
 	{ "Los Santos City Hall", 0.000, 0.000, 0.000 },
 	{ "Los Santos Police Department", 0.000, 0.000, 0.000 },
 	{ "Los Santos Fire Department", 0.000, 0.000, 0.000 },
 	{ "Los Santos Times", 0.000, 0.000, 0.000 },
 	{ "Grove Street Families", 0.000, 0.000, 0.000 },
 	{ "Ballas", 0.000, 0.000, 0.000 }
-};
+}; */
 
 new ProgressBarTimer[MAX_PLAYERS];
 new PlayerText: ProgressBarTD[MAX_PLAYERS][3];
 
-new MeatActor;
+// new MeatActor;
 new PlayerText: MeatBarTD[MAX_PLAYERS][13];
-
 
 new Text: buyskin[24];
 new PlayerText:SelectSkin[MAX_PLAYERS][4];
@@ -931,6 +930,7 @@ new PlayerTrailer[MAX_VEHICLES_PLAYER][PLAYER_VEHICLE_E], playerVehicleID[MAX_PL
 #define		MINISTRE_YUST					10
 #define		MOBILE_AUTH_KEY					"ED40ED0E8089CC44C08EE9580F4C8C44EE8EE990"
 #pragma 	warning disable					214
+#define		BYTES_PER_CELL					(cellbits / 8)
 #define		CB:%0(%1)						forward %0(%1); public %0(%1)
 #define 	format:%0(		    			%0[0] = EOS, format(%0, sizeof(%0),
 #define		GivePVarInt(%0,%1,%2)			SetPVarInt(%0,%1,(GetPVarInt(%0,%1) + %2))
@@ -1325,18 +1325,22 @@ enum oInfo {
 	oAuthor[MAX_PLAYER_NAME]
 };
 new OI[MAX_OBJECTS][oInfo];
+
 enum gInfo {
 	gID,
 	gModel,
 	gObject,
+	gSphere,
+	gStatus,
+	Float:gSpeed,
+	Float:gOpenedPos[6],
+	Float:gClosedPos[6],
 	gWorld,
 	gInterior,
-	Float:gFrom[4],
-	Float:gTo[4],
-	gSpeed,
 	gAuthor[MAX_PLAYER_NAME]
 };
 new GI[MAX_OBJECTS][gInfo];
+
 enum iInfo {
 	iModel,
 	iStack,
@@ -2608,6 +2612,13 @@ enum dialogs {
 	D_OBJECTS_LIST,
 	D_OBJECT_ADD,
 	D_OBJECT_CONTROL,
+	D_GATES_LIST,
+	D_GATE_ADD,
+	D_GATE_CONTROL,
+	D_GATE_EDIT_MODEL,
+	D_GATE_EDIT_SPEED,
+	D_GATE_EDIT_WORLD,
+	D_GATE_EDIT_INTERIOR,
 	D_FACTIONS_LIST,
 	D_FACTION_ADD_NAME,
 	D_FACTION_ADD_TYPE,
@@ -8836,7 +8847,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, FireTotalProgress[playerid][2], 1);
 	PlayerTextDrawSetProportional(playerid, FireTotalProgress[playerid][2], 1);
 	// Autosalon Вибір авто
-	auto_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 465.7333, 380.6916, "_INFERNUS"); // пусто
+	auto_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 465.7333, 380.6916, "_INFERNUS");
 	PlayerTextDrawLetterSize(playerid, auto_PTD[playerid][0], 0.1150, 0.8118);
 	PlayerTextDrawAlignment(playerid, auto_PTD[playerid][0], 1);
 	PlayerTextDrawColor(playerid, auto_PTD[playerid][0], -1);
@@ -8844,7 +8855,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, auto_PTD[playerid][0], 2);
 	PlayerTextDrawSetProportional(playerid, auto_PTD[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, auto_PTD[playerid][0], 0);
-	auto_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 467.4330, 361.1332, "$5.000.000"); // Пусто
+	auto_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 467.4330, 361.1332, "$5.000.000");
 	PlayerTextDrawLetterSize(playerid, auto_PTD[playerid][1], 0.1246, 0.9114);
 	PlayerTextDrawTextSize(playerid, auto_PTD[playerid][1], 10.0000, 40.0000);
 	PlayerTextDrawAlignment(playerid, auto_PTD[playerid][1], 2);
@@ -9879,7 +9890,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, YandNsysTDPlayer[playerid][1], 1);
 	PlayerTextDrawSetProportional(playerid, YandNsysTDPlayer[playerid][1], 1);
 	// спидометр
-	Speed_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 551.3333, 398.2369, "144"); // пусто
+	Speed_PTD[playerid][0] = CreatePlayerTextDraw(playerid, 551.3333, 398.2369, "144");
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][0], 0.3564, 1.7991);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][0], 2);
 	PlayerTextDrawColor(playerid, Speed_PTD[playerid][0], -1);
@@ -9887,7 +9898,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][0], 3);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][0], 0);
-	Speed_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 530.7332, 415.2145, "ИГOPOЛТE:_100%"); // пусто
+	Speed_PTD[playerid][1] = CreatePlayerTextDraw(playerid, 530.7332, 415.2145, "ИГOPOЛТE:_100%");
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][1], 0.1010, 0.7411);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][1], 3);
 	PlayerTextDrawColor(playerid, Speed_PTD[playerid][1], -1);
@@ -9895,7 +9906,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][1], 2);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][1], 0);
-	Speed_PTD[playerid][2] = CreatePlayerTextDraw(playerid, 581.7996, 415.7297, "АEHИЕH:_100З."); // пусто
+	Speed_PTD[playerid][2] = CreatePlayerTextDraw(playerid, 581.7996, 415.7297, "АEHИЕH:_100З.");
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][2], 0.1013, 0.6790);
 	PlayerTextDrawTextSize(playerid, Speed_PTD[playerid][2], -3.0000, 0.0000);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][2], 1);
@@ -9904,7 +9915,7 @@ stock CreateTextDraws(playerid) {
 	PlayerTextDrawFont(playerid, Speed_PTD[playerid][2], 2);
 	PlayerTextDrawSetProportional(playerid, Speed_PTD[playerid][2], 1);
 	PlayerTextDrawSetShadow(playerid, Speed_PTD[playerid][2], 0);
-	Speed_PTD[playerid][3] = CreatePlayerTextDraw(playerid, 508.6665, 398.5368, "HUNTLEY"); // пусто
+	Speed_PTD[playerid][3] = CreatePlayerTextDraw(playerid, 508.6665, 398.5368, "HUNTLEY");
 	PlayerTextDrawLetterSize(playerid, Speed_PTD[playerid][3], 0.1580, 0.7950);
 	PlayerTextDrawAlignment(playerid, Speed_PTD[playerid][3], 2);
 	PlayerTextDrawColor(playerid, Speed_PTD[playerid][3], -1);
@@ -17797,6 +17808,143 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 			}
+		case D_GATES_LIST: {
+			if(!response) return 1;
+			if(!strcmp(inputtext, "- Створити ворота.")) return ShowPlayerDialog(playerid, D_GATE_ADD, DSI, P"|"W" Створення воріт.", W"Введіть модель об'єкта, з якої ви хочете створити ворота.", "Готово", "Назад");
+			gate_edit(playerid, strval(inputtext));
+		}
+		case D_GATE_ADD: {
+			if(response) {
+				new query[512], Float:gpos[6], strpos[150], gmodel, fid;
+				if(sscanf(inputtext, "i", gmodel)) return ShowPlayerDialog(playerid, D_GATE_ADD, DSI, P"|"W" Створення воріт.", W"Введіть модель об'єкта, з якої ви хочете створити ворота.", "Готово", "Назад");
+				mysql_query(connects, "SELECT MIN(t1.ID + 1) AS freeID FROM `gates` t1 LEFT JOIN `gates` t2 ON t1.ID + 1 = t2.ID WHERE t2.ID IS NULL"); // Шукає перший вільний ID.
+				cache_get_value_name_int(0, "freeID", fid);
+				if(!fid) fid++;
+				GetPlayerPos(playerid, gpos[0], gpos[1], gpos[2]);
+				for(new i; i < 6; i++) format(strpos, sizeof(strpos), "%s%.2f, ", strpos, gpos[i]);
+
+				mysql_format(connects, query, sizeof(query), "INSERT INTO `gates` (`ID`, `Model`, `OpenedPos`, `ClosedPos`, `World`, `Interior`, `Author`) VALUES (%i, %i, '%s', '%s', %i, %i, '%s')", fid, gmodel, strpos, strpos, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), PI[playerid][pName]);
+				mysql_query(connects, query);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `gates` WHERE `ID` = %i", fid);
+				mysql_query(connects, query);
+
+				cache_get_value_name_int(0, "ID", GI[fid][gID]);
+				cache_get_value_name_int(0, "Model", GI[fid][gModel]);
+				cache_get_value_name_int(0, "Status", GI[fid][gStatus]);
+				cache_get_value_name_float(0, "Speed", GI[fid][gSpeed]);
+				cache_get_value_name(0, "OpenedPos", strpos, sizeof(strpos)), sscanf(strpos, "p<,>a<f>[6]", GI[fid][gOpenedPos]);
+				cache_get_value_name(0, "ClosedPos", strpos, sizeof(strpos)), sscanf(strpos, "p<,>a<f>[6]", GI[fid][gClosedPos]);
+				cache_get_value_name_int(0, "World", GI[fid][gWorld]);
+				cache_get_value_name_int(0, "Interior", GI[fid][gInterior]);
+				cache_get_value_name(0, "Author", GI[fid][gAuthor]);
+
+				GI[fid][gObject] = CreateDynamicObject(GI[fid][gModel], GI[fid][gClosedPos][0], GI[fid][gClosedPos][1], GI[fid][gClosedPos][2], GI[fid][gClosedPos][3], GI[fid][gClosedPos][4], GI[fid][gClosedPos][5], GI[fid][gInterior], GI[fid][gInterior]);
+			}
+			pc_cmd_gates(playerid);
+		}
+		case D_GATE_CONTROL: {
+			if(!response) return pc_cmd_gates(playerid);
+			new query[256], header[64], gid = GetPVarInt(playerid, "gateid");
+			switch(listitem) {
+				case 0: {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Модель.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_MODEL, DSI, header, W"Введіть нову модель об'єкта для створених воріт.", "Готово", "Назад");
+				}
+				case 1: {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Швидкість.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_SPEED, DSI, header, W"Введіть нову швидкість відкриття для створених воріт.", "Готово", "Назад");
+				}
+				case 2: {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Віртуальний світ.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_WORLD, DSI, header, W"Введіть новий віртуальний світ для створених воріт.", "Готово", "Назад");
+				}
+				case 3: {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Інтер'єр.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_INTERIOR, DSI, header, W"Введіть новий інтер'єр для створених воріт.", "Готово", "Назад");
+				}
+				case 4: {
+					SetPVarInt(playerid, "gedit", 1);
+					EditDynamicObject(playerid, GI[gid][gObject]);
+				}
+				case 5: {
+					SetPVarInt(playerid, "gedit", 2);
+					EditDynamicObject(playerid, GI[gid][gObject]);
+				}
+				case 6: {
+					if(GI[gid][gStatus]) SetPlayerPosAC(playerid, GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gWorld], GI[gid][gInterior]);
+					else SetPlayerPosAC(playerid, GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gWorld], GI[gid][gInterior]);
+					FreezePlayerForTime(playerid, 1);
+				}
+				case 7: {
+					DestroyDynamicObject(GI[gid][gObject]);
+					remove_gate(gid);
+					mysql_format(connects, query, sizeof(query), "DELETE FROM `gates` WHERE `ID` = %i", gid);
+					mysql_query(connects, query);
+					pc_cmd_gates(playerid);
+				}
+			}
+		}
+		case D_GATE_EDIT_MODEL: {
+			new query[256], header[64], mid, gid = GetPVarInt(playerid, "gateid");
+			if(response) {
+				if(sscanf(inputtext, "i", mid)) {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Модель.", gid);
+					return ShowPlayerDialog(playerid, D_GATE_EDIT_MODEL, DSI, header, W"Введіть нову модель об'єкта для створених воріт.", "Готово", "Назад");
+				}
+				DestroyDynamicObject(GI[gid][gObject]);
+				GI[gid][gModel] = mid;
+				if(GI[gid][gStatus]) GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+				else GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+				mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `Model` = %i WHERE `ID` = %i", GI[gid][gModel], gid);
+				mysql_query(connects, query);
+			}
+			gate_edit(playerid, gid);
+		}
+		case D_GATE_EDIT_SPEED: {
+			new query[256], header[64], gspeed, gid = GetPVarInt(playerid, "gateid");
+			if(response) {
+				if(sscanf(inputtext, "f", gspeed)) {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Швидкість.", gid);
+					return ShowPlayerDialog(playerid, D_GATE_EDIT_SPEED, DSI, header, W"Введіть нову швидкість відкриття для створених воріт.", "Готово", "Назад");
+				}
+				GI[gid][gSpeed] = gspeed;
+				mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `Speed` = %f WHERE `ID` = %i", GI[gid][gSpeed], gid);
+				mysql_query(connects, query);
+			}
+			gate_edit(playerid, gid);
+		}
+		case D_GATE_EDIT_WORLD: {
+			new query[256], header[64], wid, gid = GetPVarInt(playerid, "gateid");
+			if(response) {
+				if(sscanf(inputtext, "i", wid)) {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Віртуальний світ.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_WORLD, DSI, header, W"Введіть новий віртуальний світ для створених воріт.", "Готово", "Назад");
+				}
+				DestroyDynamicObject(GI[gid][gObject]);
+				GI[gid][gWorld] = wid;
+				if(GI[gid][gStatus]) GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+				else GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+				mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `World` = %i WHERE `ID` = %i", GI[gid][gWorld], gid);
+				mysql_query(connects, query);
+			}
+			gate_edit(playerid, gid);
+		}
+		case D_GATE_EDIT_INTERIOR: {
+			new query[256], header[64], iid, gid = GetPVarInt(playerid, "gateid");
+			if(response) {
+				if(sscanf(inputtext, "i", iid)) {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Інтер'єр.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_INTERIOR, DSI, header, W"Введіть новий інтер'єр для створених воріт.", "Готово", "Назад");
+				}
+				DestroyDynamicObject(GI[gid][gObject]);
+				GI[gid][gInterior] = iid;
+				if(GI[gid][gStatus]) GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+				else GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+				mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `Interior` = %i WHERE `ID` = %i", GI[gid][gInterior], gid);
+				mysql_query(connects, query);
+			}
+			gate_edit(playerid, gid);
+		}
 		case D_FACTIONS_LIST: {
 			if(!response) return 1;
 			if(!strcmp(inputtext, "- Створити організацію.")) return ShowPlayerDialog(playerid, D_FACTION_ADD_NAME, DSI, P"|"W" Створення організації. Назва.", W"Введіть назву фракції.\nКількість символів повинна бути від "P"6"W" до "P"48"W".", "Далі", "Назад");
@@ -18319,7 +18467,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_FACTION_EDIT_SKINS: {
 			new query[256], header[128], content[1024], sid[4], fid = GetPVarInt(playerid, "factionid");
 			strmid(sid, inputtext, 0, strfind(inputtext, "."));
-			if(!response) faction_edit(playerid, fid);
+			if(!response) return faction_edit(playerid, fid);
 			if(!strcmp(inputtext, "- Додати скін.")) {
 				format(header, sizeof(header), P"|"W" Керування %s. Додавання скіна.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS_INPUT, DSI, header, W"Введіть ID скіна, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Skins_All.html"W".\nДопустимі значення - "P"1-311"W" ("P"74"W" - заборонений).", "Готово", "Скасувати");
@@ -18365,7 +18513,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case D_FACTION_EDIT_FLEET: {
 			new header[128], content[1024], fid = GetPVarInt(playerid, "factionid");
-			if(!response) faction_edit(playerid, fid);
+			if(!response) return faction_edit(playerid, fid);
 			if(!strcmp(inputtext, "- Додати транспорт.")) {
 				format(header, sizeof(header), P"|"W" Керування %s. Додавання транспорта.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_ADD, DSI, header, W"Введіть ID транспорта, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".\nДопустимі значення - "P"400-611"W".", "Готово", "Скасувати");
@@ -32640,6 +32788,7 @@ public OnGameModeInit() {
 	load_greenzone();
 	load_gangzone();
 	load_objects();
+	load_gates();
 	load_factions();
 	load_anticheat();
 	load_others();
@@ -33298,7 +33447,7 @@ stock Create3dText() {
 	return 1;
 }
 stock CreateTexdraw() {
-	Loading_TD[0] = TextDrawCreate(-1.0000, -4.2887, "loadsc5:loadsc5"); // пусто
+	Loading_TD[0] = TextDrawCreate(-1.0000, -4.2887, "loadsc5:loadsc5");
 	TextDrawTextSize(Loading_TD[0], 712.0000, 466.0000);
 	TextDrawAlignment(Loading_TD[0], 1);
 	TextDrawColor(Loading_TD[0], -1);
@@ -33306,7 +33455,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[0], 4);
 	TextDrawSetProportional(Loading_TD[0], 0);
 	TextDrawSetShadow(Loading_TD[0], 0);
-	Loading_TD[1] = TextDrawCreate(-33.3333, -4.5481, "Box"); // пусто
+	Loading_TD[1] = TextDrawCreate(-33.3333, -4.5481, "Box");
 	TextDrawLetterSize(Loading_TD[1], 0.0000, 54.2999);
 	TextDrawTextSize(Loading_TD[1], 831.0000, 0.0000);
 	TextDrawAlignment(Loading_TD[1], 1);
@@ -33317,7 +33466,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[1], 1);
 	TextDrawSetProportional(Loading_TD[1], 0);
 	TextDrawSetShadow(Loading_TD[1], 0);
-	Loading_TD[2] = TextDrawCreate(224.3332, 258.5357, "particle:lamp_shad_64"); // пусто
+	Loading_TD[2] = TextDrawCreate(224.3332, 258.5357, "particle:lamp_shad_64");
 	TextDrawTextSize(Loading_TD[2], 184.0000, -16.0000);
 	TextDrawAlignment(Loading_TD[2], 1);
 	TextDrawColor(Loading_TD[2], -235);
@@ -33325,7 +33474,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[2], 4);
 	TextDrawSetProportional(Loading_TD[2], 0);
 	TextDrawSetShadow(Loading_TD[2], 0);
-	Loading_TD[3] = TextDrawCreate(241.2337, 240.8663, "LD_SPAC:white"); // пусто
+	Loading_TD[3] = TextDrawCreate(241.2337, 240.8663, "LD_SPAC:white");
 	TextDrawTextSize(Loading_TD[3], 154.0000, 10.0000);
 	TextDrawAlignment(Loading_TD[3], 1);
 	TextDrawColor(Loading_TD[3], 505290495);
@@ -33333,7 +33482,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[3], 4);
 	TextDrawSetProportional(Loading_TD[3], 0);
 	TextDrawSetShadow(Loading_TD[3], 0);
-	Loading_TD[4] = TextDrawCreate(242.5670, 242.4109, "LD_SPAC:white"); // пусто
+	Loading_TD[4] = TextDrawCreate(242.5670, 242.4109, "LD_SPAC:white");
 	TextDrawTextSize(Loading_TD[4], 151.2198, 6.7599);
 	TextDrawAlignment(Loading_TD[4], 1);
 	TextDrawColor(Loading_TD[4], 235802367);
@@ -33341,7 +33490,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[4], 4);
 	TextDrawSetProportional(Loading_TD[4], 0);
 	TextDrawSetShadow(Loading_TD[4], 0);
-	Loading_TD[5] = TextDrawCreate(318.3330, 231.7404, "LOADING_TEXTURES.."); // пусто
+	Loading_TD[5] = TextDrawCreate(318.3330, 231.7404, "LOADING_TEXTURES..");
 	TextDrawLetterSize(Loading_TD[5], 0.1753, 0.7329);
 	TextDrawAlignment(Loading_TD[5], 2);
 	TextDrawColor(Loading_TD[5], -1);
@@ -33429,7 +33578,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[14], 4);
 	TextDrawSetProportional(Loading_TD[14], 0);
 	TextDrawSetShadow(Loading_TD[14], 0);
-	Loading_TD[15] = TextDrawCreate(-24.3332, 276.1257, "LD_SPAC:white"); // пусто
+	Loading_TD[15] = TextDrawCreate(-24.3332, 276.1257, "LD_SPAC:white");
 	TextDrawTextSize(Loading_TD[15], 56.0000, 7.0000);
 	TextDrawAlignment(Loading_TD[15], 1);
 	TextDrawColor(Loading_TD[15], 505290495);
@@ -33437,7 +33586,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[15], 4);
 	TextDrawSetProportional(Loading_TD[15], 0);
 	TextDrawSetShadow(Loading_TD[15], 0);
-	Loading_TD[16] = TextDrawCreate(-42.9999, 289.8146, "LD_SPAC:white"); // пусто
+	Loading_TD[16] = TextDrawCreate(-42.9999, 289.8146, "LD_SPAC:white");
 	TextDrawTextSize(Loading_TD[16], 56.0000, 7.0000);
 	TextDrawAlignment(Loading_TD[16], 1);
 	TextDrawColor(Loading_TD[16], 505290495);
@@ -33445,7 +33594,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[16], 4);
 	TextDrawSetProportional(Loading_TD[16], 0);
 	TextDrawSetShadow(Loading_TD[16], 0);
-	Loading_TD[17] = TextDrawCreate(610.3333, 52.1258, "LD_SPAC:white"); // пусто
+	Loading_TD[17] = TextDrawCreate(610.3333, 52.1258, "LD_SPAC:white");
 	TextDrawTextSize(Loading_TD[17], 56.0000, 7.0000);
 	TextDrawAlignment(Loading_TD[17], 1);
 	TextDrawColor(Loading_TD[17], 505290495);
@@ -33453,7 +33602,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[17], 4);
 	TextDrawSetProportional(Loading_TD[17], 0);
 	TextDrawSetShadow(Loading_TD[17], 0);
-	Loading_TD[18] = TextDrawCreate(627.0001, 66.2294, "LD_SPAC:white"); // пусто
+	Loading_TD[18] = TextDrawCreate(627.0001, 66.2294, "LD_SPAC:white");
 	TextDrawTextSize(Loading_TD[18], 56.0000, 7.0000);
 	TextDrawAlignment(Loading_TD[18], 1);
 	TextDrawColor(Loading_TD[18], 505290495);
@@ -33461,7 +33610,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[18], 4);
 	TextDrawSetProportional(Loading_TD[18], 0);
 	TextDrawSetShadow(Loading_TD[18], 0);
-	Loading_TD[19] = TextDrawCreate(622.2998, 64.6996, "LD_Beat:Chit"); // пусто
+	Loading_TD[19] = TextDrawCreate(622.2998, 64.6996, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[19], 8.0000, 10.1197);
 	TextDrawAlignment(Loading_TD[19], 1);
 	TextDrawColor(Loading_TD[19], 505290495);
@@ -33469,7 +33618,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[19], 4);
 	TextDrawSetProportional(Loading_TD[19], 0);
 	TextDrawSetShadow(Loading_TD[19], 0);
-	Loading_TD[20] = TextDrawCreate(605.6331, 50.4962, "LD_Beat:Chit"); // пусто
+	Loading_TD[20] = TextDrawCreate(605.6331, 50.4962, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[20], 8.0000, 10.1197);
 	TextDrawAlignment(Loading_TD[20], 1);
 	TextDrawColor(Loading_TD[20], 505290495);
@@ -33477,7 +33626,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[20], 4);
 	TextDrawSetProportional(Loading_TD[20], 0);
 	TextDrawSetShadow(Loading_TD[20], 0);
-	Loading_TD[21] = TextDrawCreate(27.6331, 274.6109, "LD_Beat:Chit"); // пусто
+	Loading_TD[21] = TextDrawCreate(27.6331, 274.6109, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[21], 8.0000, 10.1197);
 	TextDrawAlignment(Loading_TD[21], 1);
 	TextDrawColor(Loading_TD[21], 505290495);
@@ -33485,7 +33634,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[21], 4);
 	TextDrawSetProportional(Loading_TD[21], 0);
 	TextDrawSetShadow(Loading_TD[21], 0);
-	Loading_TD[22] = TextDrawCreate(8.6330, 288.3999, "LD_Beat:Chit"); // пусто
+	Loading_TD[22] = TextDrawCreate(8.6330, 288.3999, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[22], 8.0000, 10.1197);
 	TextDrawAlignment(Loading_TD[22], 1);
 	TextDrawColor(Loading_TD[22], 505290495);
@@ -33493,7 +33642,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[22], 4);
 	TextDrawSetProportional(Loading_TD[22], 0);
 	TextDrawSetShadow(Loading_TD[22], 0);
-	Loading_TD[23] = TextDrawCreate(34.9664, 275.2257, "LD_Beat:Chit"); // пусто
+	Loading_TD[23] = TextDrawCreate(34.9664, 275.2257, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[23], 7.2898, 8.9799);
 	TextDrawAlignment(Loading_TD[23], 1);
 	TextDrawColor(Loading_TD[23], 505290495);
@@ -33501,7 +33650,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[23], 4);
 	TextDrawSetProportional(Loading_TD[23], 0);
 	TextDrawSetShadow(Loading_TD[23], 0);
-	Loading_TD[24] = TextDrawCreate(15.9665, 288.9147, "LD_Beat:Chit"); // пусто
+	Loading_TD[24] = TextDrawCreate(15.9665, 288.9147, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[24], 7.2898, 8.9799);
 	TextDrawAlignment(Loading_TD[24], 1);
 	TextDrawColor(Loading_TD[24], 505290495);
@@ -33509,7 +33658,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[24], 4);
 	TextDrawSetProportional(Loading_TD[24], 0);
 	TextDrawSetShadow(Loading_TD[24], 0);
-	Loading_TD[25] = TextDrawCreate(598.4666, 51.2406, "LD_Beat:Chit"); // пусто
+	Loading_TD[25] = TextDrawCreate(598.4666, 51.2406, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[25], 7.2898, 8.9799);
 	TextDrawAlignment(Loading_TD[25], 1);
 	TextDrawColor(Loading_TD[25], 505290495);
@@ -33517,7 +33666,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[25], 4);
 	TextDrawSetProportional(Loading_TD[25], 0);
 	TextDrawSetShadow(Loading_TD[25], 0);
-	Loading_TD[26] = TextDrawCreate(615.0335, 65.5588, "LD_Beat:Chit"); // пусто
+	Loading_TD[26] = TextDrawCreate(615.0335, 65.5588, "LD_Beat:Chit");
 	TextDrawTextSize(Loading_TD[26], 7.2898, 8.9799);
 	TextDrawAlignment(Loading_TD[26], 1);
 	TextDrawColor(Loading_TD[26], 505290495);
@@ -33525,7 +33674,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Loading_TD[26], 4);
 	TextDrawSetProportional(Loading_TD[26], 0);
 	TextDrawSetShadow(Loading_TD[26], 0);
-	Loading_TD[27] = TextDrawCreate(224.3332, 228.3338, "particle:lamp_shad_64"); // пусто
+	Loading_TD[27] = TextDrawCreate(224.3332, 228.3338, "particle:lamp_shad_64");
 	TextDrawTextSize(Loading_TD[27], 184.0000, 14.0000);
 	TextDrawAlignment(Loading_TD[27], 1);
 	TextDrawColor(Loading_TD[27], -235);
@@ -33556,7 +33705,7 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(payment_td[1], 0);
 	TextDrawSetShadow(payment_td[1], 0);
 	// autosalon Вибір авто
-	autoshop_TD[0] = TextDrawCreate(542.3333, 356.6000, "LD_SPAC:white"); // пусто
+	autoshop_TD[0] = TextDrawCreate(542.3333, 356.6000, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[0], 66.0000, 66.0000);
 	TextDrawAlignment(autoshop_TD[0], 1);
 	TextDrawColor(autoshop_TD[0], 235802367);
@@ -33636,7 +33785,7 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[8], 0);
 	TextDrawSetShadow(autoshop_TD[8], 0);
 	TextDrawSetSelectable(autoshop_TD[8], true);
-	autoshop_TD[9] = TextDrawCreate(546.5333, 379.3001, "LD_SPAC:white"); // пусто
+	autoshop_TD[9] = TextDrawCreate(546.5333, 379.3001, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[9], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[9], 1);
 	TextDrawColor(autoshop_TD[9], -1);
@@ -33644,7 +33793,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[9], 4);
 	TextDrawSetProportional(autoshop_TD[9], 0);
 	TextDrawSetShadow(autoshop_TD[9], 0);
-	autoshop_TD[10] = TextDrawCreate(546.5333, 398.5013, "LD_SPAC:white"); // пусто
+	autoshop_TD[10] = TextDrawCreate(546.5333, 398.5013, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[10], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[10], 1);
 	TextDrawColor(autoshop_TD[10], 255);
@@ -33652,7 +33801,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[10], 4);
 	TextDrawSetProportional(autoshop_TD[10], 0);
 	TextDrawSetShadow(autoshop_TD[10], 0);
-	autoshop_TD[11] = TextDrawCreate(561.8665, 379.4197, "LD_SPAC:white"); // пусто
+	autoshop_TD[11] = TextDrawCreate(561.8665, 379.4197, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[11], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[11], 1);
 	TextDrawColor(autoshop_TD[11], -2139062017);
@@ -33660,7 +33809,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[11], 4);
 	TextDrawSetProportional(autoshop_TD[11], 0);
 	TextDrawSetShadow(autoshop_TD[11], 0);
-	autoshop_TD[12] = TextDrawCreate(561.8665, 398.5013, "LD_SPAC:white"); // пусто
+	autoshop_TD[12] = TextDrawCreate(561.8665, 398.5013, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[12], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[12], 1);
 	TextDrawColor(autoshop_TD[12], -16776961);
@@ -33668,7 +33817,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[12], 4);
 	TextDrawSetProportional(autoshop_TD[12], 0);
 	TextDrawSetShadow(autoshop_TD[12], 0);
-	autoshop_TD[13] = TextDrawCreate(577.1998, 379.4197, "LD_SPAC:white"); // пусто
+	autoshop_TD[13] = TextDrawCreate(577.1998, 379.4197, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[13], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[13], 1);
 	TextDrawColor(autoshop_TD[13], -5963521);
@@ -33676,7 +33825,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[13], 4);
 	TextDrawSetProportional(autoshop_TD[13], 0);
 	TextDrawSetShadow(autoshop_TD[13], 0);
-	autoshop_TD[14] = TextDrawCreate(577.1998, 398.5010, "LD_SPAC:white"); // пусто
+	autoshop_TD[14] = TextDrawCreate(577.1998, 398.5010, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[14], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[14], 1);
 	TextDrawColor(autoshop_TD[14], -65281);
@@ -33684,7 +33833,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[14], 4);
 	TextDrawSetProportional(autoshop_TD[14], 0);
 	TextDrawSetShadow(autoshop_TD[14], 0);
-	autoshop_TD[15] = TextDrawCreate(592.3333, 379.4197, "LD_SPAC:white"); // пусто
+	autoshop_TD[15] = TextDrawCreate(592.3333, 379.4197, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[15], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[15], 1);
 	TextDrawColor(autoshop_TD[15], 65535);
@@ -33692,7 +33841,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[15], 4);
 	TextDrawSetProportional(autoshop_TD[15], 0);
 	TextDrawSetShadow(autoshop_TD[15], 0);
-	autoshop_TD[16] = TextDrawCreate(592.4334, 398.5010, "LD_SPAC:white"); // пусто
+	autoshop_TD[16] = TextDrawCreate(592.4334, 398.5010, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[16], 10.0396, 12.6099);
 	TextDrawAlignment(autoshop_TD[16], 1);
 	TextDrawColor(autoshop_TD[16], 8388863);
@@ -33700,7 +33849,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[16], 4);
 	TextDrawSetProportional(autoshop_TD[16], 0);
 	TextDrawSetShadow(autoshop_TD[16], 0);
-	autoshop_TD[17] = TextDrawCreate(545.3333, 364.5516, "SELECT_COLOR"); // пусто
+	autoshop_TD[17] = TextDrawCreate(545.3333, 364.5516, "SELECT_COLOR");
 	TextDrawLetterSize(autoshop_TD[17], 0.1164, 0.9297);
 	TextDrawAlignment(autoshop_TD[17], 1);
 	TextDrawColor(autoshop_TD[17], -1);
@@ -33708,7 +33857,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[17], 2);
 	TextDrawSetProportional(autoshop_TD[17], 1);
 	TextDrawSetShadow(autoshop_TD[17], 0);
-	autoshop_TD[18] = TextDrawCreate(536.7999, 354.2109, "LD_Beat:Chit"); // пусто
+	autoshop_TD[18] = TextDrawCreate(536.7999, 354.2109, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[18], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[18], 1);
 	TextDrawColor(autoshop_TD[18], 235802367);
@@ -33716,7 +33865,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[18], 4);
 	TextDrawSetProportional(autoshop_TD[18], 0);
 	TextDrawSetShadow(autoshop_TD[18], 0);
-	autoshop_TD[19] = TextDrawCreate(536.7999, 410.8482, "LD_Beat:Chit"); // пусто
+	autoshop_TD[19] = TextDrawCreate(536.7999, 410.8482, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[19], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[19], 1);
 	TextDrawColor(autoshop_TD[19], 235802367);
@@ -33724,7 +33873,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[19], 4);
 	TextDrawSetProportional(autoshop_TD[19], 0);
 	TextDrawSetShadow(autoshop_TD[19], 0);
-	autoshop_TD[20] = TextDrawCreate(440.2936, 354.2109, "LD_Beat:Chit"); // пусто
+	autoshop_TD[20] = TextDrawCreate(440.2936, 354.2109, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[20], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[20], 1);
 	TextDrawColor(autoshop_TD[20], 235802367);
@@ -33732,7 +33881,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[20], 4);
 	TextDrawSetProportional(autoshop_TD[20], 0);
 	TextDrawSetShadow(autoshop_TD[20], 0);
-	autoshop_TD[21] = TextDrawCreate(440.2937, 410.8482, "LD_Beat:Chit"); // пусто
+	autoshop_TD[21] = TextDrawCreate(440.2937, 410.8482, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[21], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[21], 1);
 	TextDrawColor(autoshop_TD[21], 235802367);
@@ -33740,7 +33889,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[21], 4);
 	TextDrawSetProportional(autoshop_TD[21], 0);
 	TextDrawSetShadow(autoshop_TD[21], 0);
-	autoshop_TD[22] = TextDrawCreate(538.6333, 361.0072, "LD_SPAC:white"); // пусто
+	autoshop_TD[22] = TextDrawCreate(538.6333, 361.0072, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[22], 5.0000, 57.0000);
 	TextDrawAlignment(autoshop_TD[22], 1);
 	TextDrawColor(autoshop_TD[22], 235802367);
@@ -33748,7 +33897,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[22], 4);
 	TextDrawSetProportional(autoshop_TD[22], 0);
 	TextDrawSetShadow(autoshop_TD[22], 0);
-	autoshop_TD[23] = TextDrawCreate(607.6666, 361.0072, "LD_SPAC:white"); // пусто
+	autoshop_TD[23] = TextDrawCreate(607.6666, 361.0072, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[23], 5.0000, 57.0000);
 	TextDrawAlignment(autoshop_TD[23], 1);
 	TextDrawColor(autoshop_TD[23], 235802367);
@@ -33756,7 +33905,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[23], 4);
 	TextDrawSetProportional(autoshop_TD[23], 0);
 	TextDrawSetShadow(autoshop_TD[23], 0);
-	autoshop_TD[24] = TextDrawCreate(603.2666, 354.2109, "LD_Beat:Chit"); // пусто
+	autoshop_TD[24] = TextDrawCreate(603.2666, 354.2109, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[24], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[24], 1);
 	TextDrawColor(autoshop_TD[24], 235802367);
@@ -33764,7 +33913,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[24], 4);
 	TextDrawSetProportional(autoshop_TD[24], 0);
 	TextDrawSetShadow(autoshop_TD[24], 0);
-	autoshop_TD[25] = TextDrawCreate(603.2667, 410.8482, "LD_Beat:Chit"); // пусто
+	autoshop_TD[25] = TextDrawCreate(603.2667, 410.8482, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[25], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[25], 1);
 	TextDrawColor(autoshop_TD[25], 235802367);
@@ -33772,7 +33921,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[25], 4);
 	TextDrawSetProportional(autoshop_TD[25], 0);
 	TextDrawSetShadow(autoshop_TD[25], 0);
-	autoshop_TD[26] = TextDrawCreate(526.2990, 354.2109, "LD_Beat:Chit"); // пусто
+	autoshop_TD[26] = TextDrawCreate(526.2990, 354.2109, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[26], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[26], 1);
 	TextDrawColor(autoshop_TD[26], 235802367);
@@ -33780,7 +33929,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[26], 4);
 	TextDrawSetProportional(autoshop_TD[26], 0);
 	TextDrawSetShadow(autoshop_TD[26], 0);
-	autoshop_TD[27] = TextDrawCreate(526.2990, 410.8482, "LD_Beat:Chit"); // пусто
+	autoshop_TD[27] = TextDrawCreate(526.2990, 410.8482, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[27], 11.0000, 14.0000);
 	TextDrawAlignment(autoshop_TD[27], 1);
 	TextDrawColor(autoshop_TD[27], 235802367);
@@ -33788,7 +33937,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[27], 4);
 	TextDrawSetProportional(autoshop_TD[27], 0);
 	TextDrawSetShadow(autoshop_TD[27], 0);
-	autoshop_TD[28] = TextDrawCreate(446.3666, 356.5592, "LD_SPAC:white"); // пусто
+	autoshop_TD[28] = TextDrawCreate(446.3666, 356.5592, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[28], 85.1996, 66.0000);
 	TextDrawAlignment(autoshop_TD[28], 1);
 	TextDrawColor(autoshop_TD[28], 235802367);
@@ -33796,7 +33945,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[28], 4);
 	TextDrawSetProportional(autoshop_TD[28], 0);
 	TextDrawSetShadow(autoshop_TD[28], 0);
-	autoshop_TD[29] = TextDrawCreate(442.2330, 361.5368, "LD_SPAC:white"); // пусто
+	autoshop_TD[29] = TextDrawCreate(442.2330, 361.5368, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[29], 93.1996, 56.0000);
 	TextDrawAlignment(autoshop_TD[29], 1);
 	TextDrawColor(autoshop_TD[29], 235802367);
@@ -33804,7 +33953,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[29], 4);
 	TextDrawSetProportional(autoshop_TD[29], 0);
 	TextDrawSetShadow(autoshop_TD[29], 0);
-	autoshop_TD[30] = TextDrawCreate(448.0997, 380.7915, "MODEL:"); // пусто
+	autoshop_TD[30] = TextDrawCreate(448.0997, 380.7915, "MODEL:");
 	TextDrawLetterSize(autoshop_TD[30], 0.1439, 0.8033);
 	TextDrawAlignment(autoshop_TD[30], 1);
 	TextDrawColor(autoshop_TD[30], -1061109505);
@@ -33812,7 +33961,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[30], 1);
 	TextDrawSetProportional(autoshop_TD[30], 1);
 	TextDrawSetShadow(autoshop_TD[30], 0);
-	autoshop_TD[31] = TextDrawCreate(489.4689, 358.5592, "LD_Beat:Chit"); // пусто
+	autoshop_TD[31] = TextDrawCreate(489.4689, 358.5592, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[31], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[31], 1);
 	TextDrawColor(autoshop_TD[31], 438316543);
@@ -33820,7 +33969,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[31], 4);
 	TextDrawSetProportional(autoshop_TD[31], 0);
 	TextDrawSetShadow(autoshop_TD[31], 0);
-	autoshop_TD[32] = TextDrawCreate(489.4689, 366.1596, "LD_Beat:Chit"); // пусто
+	autoshop_TD[32] = TextDrawCreate(489.4689, 366.1596, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[32], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[32], 1);
 	TextDrawColor(autoshop_TD[32], 438316543);
@@ -33828,7 +33977,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[32], 4);
 	TextDrawSetProportional(autoshop_TD[32], 0);
 	TextDrawSetShadow(autoshop_TD[32], 0);
-	autoshop_TD[33] = TextDrawCreate(527.7666, 358.5592, "LD_Beat:Chit"); // пусто
+	autoshop_TD[33] = TextDrawCreate(527.7666, 358.5592, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[33], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[33], 1);
 	TextDrawColor(autoshop_TD[33], 438316543);
@@ -33836,7 +33985,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[33], 4);
 	TextDrawSetProportional(autoshop_TD[33], 0);
 	TextDrawSetShadow(autoshop_TD[33], 0);
-	autoshop_TD[34] = TextDrawCreate(527.7666, 366.1596, "LD_Beat:Chit"); // пусто
+	autoshop_TD[34] = TextDrawCreate(527.7666, 366.1596, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[34], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[34], 1);
 	TextDrawColor(autoshop_TD[34], 438316543);
@@ -33844,7 +33993,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[34], 4);
 	TextDrawSetProportional(autoshop_TD[34], 0);
 	TextDrawSetShadow(autoshop_TD[34], 0);
-	autoshop_TD[35] = TextDrawCreate(493.0664, 359.9183, "LD_SPAC:white"); // пусто
+	autoshop_TD[35] = TextDrawCreate(493.0664, 359.9183, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[35], 37.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[35], 1);
 	TextDrawColor(autoshop_TD[35], 438316543);
@@ -33852,7 +34001,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[35], 4);
 	TextDrawSetProportional(autoshop_TD[35], 0);
 	TextDrawSetShadow(autoshop_TD[35], 0);
-	autoshop_TD[36] = TextDrawCreate(490.3999, 362.4071, "LD_SPAC:white"); // пусто
+	autoshop_TD[36] = TextDrawCreate(490.3999, 362.4071, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[36], 42.0000, 7.0000);
 	TextDrawAlignment(autoshop_TD[36], 1);
 	TextDrawColor(autoshop_TD[36], 438316543);
@@ -33860,7 +34009,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[36], 4);
 	TextDrawSetProportional(autoshop_TD[36], 0);
 	TextDrawSetShadow(autoshop_TD[36], 0);
-	autoshop_TD[37] = TextDrawCreate(511.4331, 361.1332, "Exit"); // пусто
+	autoshop_TD[37] = TextDrawCreate(511.4331, 361.1332, "Exit");
 	TextDrawLetterSize(autoshop_TD[37], 0.1368, 0.9610);
 	TextDrawTextSize(autoshop_TD[37], 10.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[37], 2);
@@ -33870,7 +34019,7 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[37], 1);
 	TextDrawSetShadow(autoshop_TD[37], 0);
 	TextDrawSetSelectable(autoshop_TD[37], true);
-	autoshop_TD[38] = TextDrawCreate(446.9999, 375.6813, "LD_SPAC:white"); // пусто
+	autoshop_TD[38] = TextDrawCreate(446.9999, 375.6813, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[38], 85.0000, 0.5098);
 	TextDrawAlignment(autoshop_TD[38], 1);
 	TextDrawColor(autoshop_TD[38], -1);
@@ -33878,7 +34027,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[38], 4);
 	TextDrawSetProportional(autoshop_TD[38], 0);
 	TextDrawSetShadow(autoshop_TD[38], 0);
-	autoshop_TD[39] = TextDrawCreate(443.0997, 396.0262, "LD_Beat:Chit"); // пусто
+	autoshop_TD[39] = TextDrawCreate(443.0997, 396.0262, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[39], 21.0000, 26.0000);
 	TextDrawAlignment(autoshop_TD[39], 1);
 	TextDrawColor(autoshop_TD[39], 0x222222ff);
@@ -33886,7 +34035,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[39], 4);
 	TextDrawSetProportional(autoshop_TD[39], 0);
 	TextDrawSetShadow(autoshop_TD[39], 0);
-	autoshop_TD[40] = TextDrawCreate(513.8333, 396.0262, "LD_Beat:Chit"); // пусто
+	autoshop_TD[40] = TextDrawCreate(513.8333, 396.0262, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[40], 21.0000, 26.0000);
 	TextDrawAlignment(autoshop_TD[40], 1);
 	TextDrawColor(autoshop_TD[40], 0x222222ff);
@@ -33894,7 +34043,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[40], 4);
 	TextDrawSetProportional(autoshop_TD[40], 0);
 	TextDrawSetShadow(autoshop_TD[40], 0);
-	autoshop_TD[41] = TextDrawCreate(462.8999, 396.1260, "LD_Beat:Chit"); // пусто
+	autoshop_TD[41] = TextDrawCreate(462.8999, 396.1260, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[41], 21.0000, 25.8498);
 	TextDrawAlignment(autoshop_TD[41], 1);
 	TextDrawColor(autoshop_TD[41], 0x222222ff);
@@ -33902,7 +34051,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[41], 4);
 	TextDrawSetProportional(autoshop_TD[41], 0);
 	TextDrawSetShadow(autoshop_TD[41], 0);
-	autoshop_TD[42] = TextDrawCreate(493.8330, 396.1260, "LD_Beat:Chit"); // пусто
+	autoshop_TD[42] = TextDrawCreate(493.8330, 396.1260, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[42], 21.0000, 25.8498);
 	TextDrawAlignment(autoshop_TD[42], 1);
 	TextDrawColor(autoshop_TD[42], 0x222222ff);
@@ -33910,7 +34059,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[42], 4);
 	TextDrawSetProportional(autoshop_TD[42], 0);
 	TextDrawSetShadow(autoshop_TD[42], 0);
-	autoshop_TD[43] = TextDrawCreate(474.2998, 400.4743, "LD_Spac:White"); // пусто
+	autoshop_TD[43] = TextDrawCreate(474.2998, 400.4743, "LD_Spac:White");
 	TextDrawTextSize(autoshop_TD[43], 29.1700, 17.1198);
 	TextDrawAlignment(autoshop_TD[43], 1);
 	TextDrawColor(autoshop_TD[43], 0x222222ff);
@@ -33918,7 +34067,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[43], 4);
 	TextDrawSetProportional(autoshop_TD[43], 0);
 	TextDrawSetShadow(autoshop_TD[43], 0);
-	autoshop_TD[44] = TextDrawCreate(453.3330, 403.5443, "<<"); // пусто
+	autoshop_TD[44] = TextDrawCreate(453.3330, 403.5443, "<<");
 	TextDrawLetterSize(autoshop_TD[44], 0.1018, 1.1102);
 	TextDrawTextSize(autoshop_TD[44], 10.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[44], 2);
@@ -33930,7 +34079,7 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[44], 1);
 	TextDrawSetShadow(autoshop_TD[44], 0);
 	TextDrawSetSelectable(autoshop_TD[44], true);
-	autoshop_TD[45] = TextDrawCreate(524.8665, 403.5443, ">>"); // пусто
+	autoshop_TD[45] = TextDrawCreate(524.8665, 403.5443, ">>");
 	TextDrawLetterSize(autoshop_TD[45], 0.1018, 1.1102);
 	TextDrawTextSize(autoshop_TD[45], 10.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[45], 2);
@@ -33942,7 +34091,7 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[45], 1);
 	TextDrawSetShadow(autoshop_TD[45], 0);
 	TextDrawSetSelectable(autoshop_TD[45], true);
-	autoshop_TD[46] = TextDrawCreate(488.8663, 404.2738, "SELECT"); // пусто
+	autoshop_TD[46] = TextDrawCreate(488.8663, 404.2738, "SELECT");
 	TextDrawLetterSize(autoshop_TD[46], 0.1368, 0.9610);
 	TextDrawTextSize(autoshop_TD[46], 10.0000, 40.0000);
 	TextDrawAlignment(autoshop_TD[46], 2);
@@ -33954,7 +34103,7 @@ stock CreateTexdraw() {
 	TextDrawSetProportional(autoshop_TD[46], 1);
 	TextDrawSetShadow(autoshop_TD[46], 0);
 	TextDrawSetSelectable(autoshop_TD[46], true);
-	autoshop_TD[47] = TextDrawCreate(446.9999, 393.6824, "LD_SPAC:white"); // пусто
+	autoshop_TD[47] = TextDrawCreate(446.9999, 393.6824, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[47], 85.0000, 0.5098);
 	TextDrawAlignment(autoshop_TD[47], 1);
 	TextDrawColor(autoshop_TD[47], -1);
@@ -33962,7 +34111,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[47], 4);
 	TextDrawSetProportional(autoshop_TD[47], 0);
 	TextDrawSetShadow(autoshop_TD[47], 0);
-	autoshop_TD[48] = TextDrawCreate(445.4688, 358.5592, "LD_Beat:Chit"); // пусто
+	autoshop_TD[48] = TextDrawCreate(445.4688, 358.5592, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[48], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[48], 1);
 	TextDrawColor(autoshop_TD[48], 438316543);
@@ -33970,7 +34119,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[48], 4);
 	TextDrawSetProportional(autoshop_TD[48], 0);
 	TextDrawSetShadow(autoshop_TD[48], 0);
-	autoshop_TD[49] = TextDrawCreate(445.4688, 366.1596, "LD_Beat:Chit"); // пусто
+	autoshop_TD[49] = TextDrawCreate(445.4688, 366.1596, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[49], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[49], 1);
 	TextDrawColor(autoshop_TD[49], 438316543);
@@ -33978,7 +34127,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[49], 4);
 	TextDrawSetProportional(autoshop_TD[49], 0);
 	TextDrawSetShadow(autoshop_TD[49], 0);
-	autoshop_TD[50] = TextDrawCreate(483.7665, 358.5592, "LD_Beat:Chit"); // пусто
+	autoshop_TD[50] = TextDrawCreate(483.7665, 358.5592, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[50], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[50], 1);
 	TextDrawColor(autoshop_TD[50], 438316543);
@@ -33986,7 +34135,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[50], 4);
 	TextDrawSetProportional(autoshop_TD[50], 0);
 	TextDrawSetShadow(autoshop_TD[50], 0);
-	autoshop_TD[51] = TextDrawCreate(483.7665, 366.1596, "LD_Beat:Chit"); // пусто
+	autoshop_TD[51] = TextDrawCreate(483.7665, 366.1596, "LD_Beat:Chit");
 	TextDrawTextSize(autoshop_TD[51], 5.6199, 7.0000);
 	TextDrawAlignment(autoshop_TD[51], 1);
 	TextDrawColor(autoshop_TD[51], 438316543);
@@ -33994,7 +34143,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[51], 4);
 	TextDrawSetProportional(autoshop_TD[51], 0);
 	TextDrawSetShadow(autoshop_TD[51], 0);
-	autoshop_TD[52] = TextDrawCreate(449.0663, 359.9183, "LD_SPAC:white"); // пусто
+	autoshop_TD[52] = TextDrawCreate(449.0663, 359.9183, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[52], 37.0000, 12.0000);
 	TextDrawAlignment(autoshop_TD[52], 1);
 	TextDrawColor(autoshop_TD[52], 438316543);
@@ -34002,7 +34151,7 @@ stock CreateTexdraw() {
 	TextDrawFont(autoshop_TD[52], 4);
 	TextDrawSetProportional(autoshop_TD[52], 0);
 	TextDrawSetShadow(autoshop_TD[52], 0);
-	autoshop_TD[53] = TextDrawCreate(446.3998, 362.4071, "LD_SPAC:white"); // пусто
+	autoshop_TD[53] = TextDrawCreate(446.3998, 362.4071, "LD_SPAC:white");
 	TextDrawTextSize(autoshop_TD[53], 42.0000, 7.0000);
 	TextDrawAlignment(autoshop_TD[53], 1);
 	TextDrawColor(autoshop_TD[53], 438316543);
@@ -34206,7 +34355,7 @@ stock CreateTexdraw() {
 	TextDrawSetPreviewModel(hack_magaz_TD[23], 19273);
 	TextDrawSetPreviewRot(hack_magaz_TD[23], 0.0000, 0.0000, 0.0000, 1.0000);
 	// Global speed
-	Speed_TD[0] = TextDrawCreate(483.7666, 394.7626, "LD_SPAC:white"); // пусто
+	Speed_TD[0] = TextDrawCreate(483.7666, 394.7626, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[0], 49.0000, 12.0000);
 	TextDrawAlignment(Speed_TD[0], 1);
 	TextDrawColor(Speed_TD[0], 235802367);
@@ -34214,7 +34363,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[0], 4);
 	TextDrawSetProportional(Speed_TD[0], 0);
 	TextDrawSetShadow(Speed_TD[0], 0);
-	Speed_TD[1] = TextDrawCreate(481.9666, 398.9107, "LD_Beat:Chit"); // пусто
+	Speed_TD[1] = TextDrawCreate(481.9666, 398.9107, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[1], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[1], 1);
 	TextDrawColor(Speed_TD[1], 235802367);
@@ -34222,7 +34371,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[1], 4);
 	TextDrawSetProportional(Speed_TD[1], 0);
 	TextDrawSetShadow(Speed_TD[1], 0);
-	Speed_TD[2] = TextDrawCreate(488.1664, 406.4888, "LD_SPAC:white"); // пусто
+	Speed_TD[2] = TextDrawCreate(488.1664, 406.4888, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[2], 44.5097, 4.0699);
 	TextDrawAlignment(Speed_TD[2], 1);
 	TextDrawColor(Speed_TD[2], 235802367);
@@ -34230,7 +34379,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[2], 4);
 	TextDrawSetProportional(Speed_TD[2], 0);
 	TextDrawSetShadow(Speed_TD[2], 0);
-	Speed_TD[3] = TextDrawCreate(491.7665, 413.0144, "LD_SPAC:white"); // пусто
+	Speed_TD[3] = TextDrawCreate(491.7665, 413.0144, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[3], 41.0000, 12.0000);
 	TextDrawAlignment(Speed_TD[3], 1);
 	TextDrawColor(Speed_TD[3], 168430335);
@@ -34238,7 +34387,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[3], 4);
 	TextDrawSetProportional(Speed_TD[3], 0);
 	TextDrawSetShadow(Speed_TD[3], 0);
-	Speed_TD[4] = TextDrawCreate(485.6665, 413.4443, "LD_Beat:Chit"); // пусто
+	Speed_TD[4] = TextDrawCreate(485.6665, 413.4443, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[4], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[4], 1);
 	TextDrawColor(Speed_TD[4], 168430335);
@@ -34246,7 +34395,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[4], 4);
 	TextDrawSetProportional(Speed_TD[4], 0);
 	TextDrawSetShadow(Speed_TD[4], 0);
-	Speed_TD[5] = TextDrawCreate(487.6664, 413.0144, "LD_SPAC:white"); // пусто
+	Speed_TD[5] = TextDrawCreate(487.6664, 413.0144, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[5], 43.0000, 8.0000);
 	TextDrawAlignment(Speed_TD[5], 1);
 	TextDrawColor(Speed_TD[5], 168430335);
@@ -34254,7 +34403,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[5], 4);
 	TextDrawSetProportional(Speed_TD[5], 0);
 	TextDrawSetShadow(Speed_TD[5], 0);
-	Speed_TD[6] = TextDrawCreate(569.3001, 394.5628, "LD_SPAC:white"); // пусто
+	Speed_TD[6] = TextDrawCreate(569.3001, 394.5628, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[6], 49.0000, 16.0000);
 	TextDrawAlignment(Speed_TD[6], 1);
 	TextDrawColor(Speed_TD[6], 235802367);
@@ -34262,7 +34411,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[6], 4);
 	TextDrawSetProportional(Speed_TD[6], 0);
 	TextDrawSetShadow(Speed_TD[6], 0);
-	Speed_TD[7] = TextDrawCreate(569.7664, 412.9147, "LD_SPAC:white"); // пусто
+	Speed_TD[7] = TextDrawCreate(569.7664, 412.9147, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[7], 41.0000, 12.0000);
 	TextDrawAlignment(Speed_TD[7], 1);
 	TextDrawColor(Speed_TD[7], 168430335);
@@ -34270,7 +34419,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[7], 4);
 	TextDrawSetProportional(Speed_TD[7], 0);
 	TextDrawSetShadow(Speed_TD[7], 0);
-	Speed_TD[8] = TextDrawCreate(612.6002, 398.7221, "LD_Beat:Chit"); // пусто
+	Speed_TD[8] = TextDrawCreate(612.6002, 398.7221, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[8], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[8], 1);
 	TextDrawColor(Speed_TD[8], 235802367);
@@ -34278,7 +34427,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[8], 4);
 	TextDrawSetProportional(Speed_TD[8], 0);
 	TextDrawSetShadow(Speed_TD[8], 0);
-	Speed_TD[9] = TextDrawCreate(605.0999, 413.3738, "LD_Beat:Chit"); // пусто
+	Speed_TD[9] = TextDrawCreate(605.0999, 413.3738, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[9], 11.0000, 14.0000);
 	TextDrawAlignment(Speed_TD[9], 1);
 	TextDrawColor(Speed_TD[9], 168430335);
@@ -34286,7 +34435,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[9], 4);
 	TextDrawSetProportional(Speed_TD[9], 0);
 	TextDrawSetShadow(Speed_TD[9], 0);
-	Speed_TD[10] = TextDrawCreate(579.0999, 394.7626, "LD_SPAC:white"); // пусто
+	Speed_TD[10] = TextDrawCreate(579.0999, 394.7626, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[10], 42.6399, 10.7398);
 	TextDrawAlignment(Speed_TD[10], 1);
 	TextDrawColor(Speed_TD[10], 235802367);
@@ -34294,7 +34443,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[10], 4);
 	TextDrawSetProportional(Speed_TD[10], 0);
 	TextDrawSetShadow(Speed_TD[10], 0);
-	Speed_TD[11] = TextDrawCreate(571.7332, 413.0147, "LD_SPAC:white"); // пусто
+	Speed_TD[11] = TextDrawCreate(571.7332, 413.0147, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[11], 42.5699, 7.0000);
 	TextDrawAlignment(Speed_TD[11], 1);
 	TextDrawColor(Speed_TD[11], 168430335);
@@ -34302,7 +34451,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[11], 4);
 	TextDrawSetProportional(Speed_TD[11], 0);
 	TextDrawSetShadow(Speed_TD[11], 0);
-	Speed_TD[12] = TextDrawCreate(534.0332, 388.9554, "LD_SPAC:white"); // пусто
+	Speed_TD[12] = TextDrawCreate(534.0332, 388.9554, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[12], 34.0000, 41.0000);
 	TextDrawAlignment(Speed_TD[12], 1);
 	TextDrawColor(Speed_TD[12], 8388607);
@@ -34310,7 +34459,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[12], 4);
 	TextDrawSetProportional(Speed_TD[12], 0);
 	TextDrawSetShadow(Speed_TD[12], 0);
-	Speed_TD[13] = TextDrawCreate(532.4332, 382.3182, "LD_Beat:Chit"); // пусто
+	Speed_TD[13] = TextDrawCreate(532.4332, 382.3182, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[13], 10.0000, 13.0000);
 	TextDrawAlignment(Speed_TD[13], 1);
 	TextDrawColor(Speed_TD[13], 8388607);
@@ -34318,7 +34467,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[13], 4);
 	TextDrawSetProportional(Speed_TD[13], 0);
 	TextDrawSetShadow(Speed_TD[13], 0);
-	Speed_TD[14] = TextDrawCreate(559.7666, 422.9703, "LD_Beat:Chit"); // пусто
+	Speed_TD[14] = TextDrawCreate(559.7666, 422.9703, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[14], 10.0000, 13.0000);
 	TextDrawAlignment(Speed_TD[14], 1);
 	TextDrawColor(Speed_TD[14], 8388607);
@@ -34326,7 +34475,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[14], 4);
 	TextDrawSetProportional(Speed_TD[14], 0);
 	TextDrawSetShadow(Speed_TD[14], 0);
-	Speed_TD[15] = TextDrawCreate(538.0665, 384.2777, "LD_SPAC:white"); // пусто
+	Speed_TD[15] = TextDrawCreate(538.0665, 384.2777, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[15], 30.0000, 33.0000);
 	TextDrawAlignment(Speed_TD[15], 1);
 	TextDrawColor(Speed_TD[15], 8388607);
@@ -34334,7 +34483,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[15], 4);
 	TextDrawSetProportional(Speed_TD[15], 0);
 	TextDrawSetShadow(Speed_TD[15], 0);
-	Speed_TD[16] = TextDrawCreate(534.0665, 424.9295, "LD_SPAC:white"); // пусто
+	Speed_TD[16] = TextDrawCreate(534.0665, 424.9295, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[16], 31.0000, 8.8297);
 	TextDrawAlignment(Speed_TD[16], 1);
 	TextDrawColor(Speed_TD[16], 8388607);
@@ -34342,7 +34491,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[16], 4);
 	TextDrawSetProportional(Speed_TD[16], 0);
 	TextDrawSetShadow(Speed_TD[16], 0);
-	Speed_TD[17] = TextDrawCreate(532.6333, 407.6072, "particle:lamp_shad_64"); // пусто
+	Speed_TD[17] = TextDrawCreate(532.6333, 407.6072, "particle:lamp_shad_64");
 	TextDrawTextSize(Speed_TD[17], 36.0000, 26.0000);
 	TextDrawAlignment(Speed_TD[17], 1);
 	TextDrawColor(Speed_TD[17], -152);
@@ -34350,7 +34499,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[17], 4);
 	TextDrawSetProportional(Speed_TD[17], 0);
 	TextDrawSetShadow(Speed_TD[17], 0);
-	Speed_TD[18] = TextDrawCreate(535.5335, 407.5072, "particle:lamp_shad_64"); // пусто
+	Speed_TD[18] = TextDrawCreate(535.5335, 407.5072, "particle:lamp_shad_64");
 	TextDrawTextSize(Speed_TD[18], 34.0000, -23.0000);
 	TextDrawAlignment(Speed_TD[18], 1);
 	TextDrawColor(Speed_TD[18], -152);
@@ -34358,7 +34507,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[18], 4);
 	TextDrawSetProportional(Speed_TD[18], 0);
 	TextDrawSetShadow(Speed_TD[18], 0);
-	Speed_TD[19] = TextDrawCreate(569.7661, 398.7106, "particle:lamp_shad_64"); // пусто
+	Speed_TD[19] = TextDrawCreate(569.7661, 398.7106, "particle:lamp_shad_64");
 	TextDrawTextSize(Speed_TD[19], 51.0000, 11.7798);
 	TextDrawAlignment(Speed_TD[19], 1);
 	TextDrawColor(Speed_TD[19], 8388392);
@@ -34366,7 +34515,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[19], 4);
 	TextDrawSetProportional(Speed_TD[19], 0);
 	TextDrawSetShadow(Speed_TD[19], 0);
-	Speed_TD[20] = TextDrawCreate(569.7661, 408.8114, "particle:lamp_shad_64"); // пусто
+	Speed_TD[20] = TextDrawCreate(569.7661, 408.8114, "particle:lamp_shad_64");
 	TextDrawTextSize(Speed_TD[20], 52.0000, -14.0000);
 	TextDrawAlignment(Speed_TD[20], 1);
 	TextDrawColor(Speed_TD[20], 8388392);
@@ -34374,7 +34523,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[20], 4);
 	TextDrawSetProportional(Speed_TD[20], 0);
 	TextDrawSetShadow(Speed_TD[20], 0);
-	Speed_TD[21] = TextDrawCreate(485.0997, 398.7109, "particle:lamp_shad_64"); // пусто
+	Speed_TD[21] = TextDrawCreate(485.0997, 398.7109, "particle:lamp_shad_64");
 	TextDrawTextSize(Speed_TD[21], 51.0000, 11.7798);
 	TextDrawAlignment(Speed_TD[21], 1);
 	TextDrawColor(Speed_TD[21], 8388392);
@@ -34382,7 +34531,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[21], 4);
 	TextDrawSetProportional(Speed_TD[21], 0);
 	TextDrawSetShadow(Speed_TD[21], 0);
-	Speed_TD[22] = TextDrawCreate(485.0997, 408.8114, "particle:lamp_shad_64"); // пусто
+	Speed_TD[22] = TextDrawCreate(485.0997, 408.8114, "particle:lamp_shad_64");
 	TextDrawTextSize(Speed_TD[22], 52.0000, -14.0000);
 	TextDrawAlignment(Speed_TD[22], 1);
 	TextDrawColor(Speed_TD[22], 8388392);
@@ -34390,7 +34539,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[22], 4);
 	TextDrawSetProportional(Speed_TD[22], 0);
 	TextDrawSetShadow(Speed_TD[22], 0);
-	Speed_TD[23] = TextDrawCreate(551.5333, 412.3703, "KM/H"); // пусто
+	Speed_TD[23] = TextDrawCreate(551.5333, 412.3703, "KM/H");
 	TextDrawLetterSize(Speed_TD[23], 0.1642, 0.7702);
 	TextDrawAlignment(Speed_TD[23], 2);
 	TextDrawColor(Speed_TD[23], -1);
@@ -34398,7 +34547,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[23], 1);
 	TextDrawSetProportional(Speed_TD[23], 1);
 	TextDrawSetShadow(Speed_TD[23], 0);
-	Speed_TD[24] = TextDrawCreate(576.0009, 416.3629, "LD_SPAC:white"); // пусто
+	Speed_TD[24] = TextDrawCreate(576.0009, 416.3629, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[24], 3.1698, 6.0000);
 	TextDrawAlignment(Speed_TD[24], 1);
 	TextDrawColor(Speed_TD[24], -1);
@@ -34406,7 +34555,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[24], 4);
 	TextDrawSetProportional(Speed_TD[24], 0);
 	TextDrawSetShadow(Speed_TD[24], 0);
-	Speed_TD[25] = TextDrawCreate(576.4677, 416.7630, "LD_SPAC:white"); // пусто
+	Speed_TD[25] = TextDrawCreate(576.4677, 416.7630, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[25], 2.1698, 2.0000);
 	TextDrawAlignment(Speed_TD[25], 1);
 	TextDrawColor(Speed_TD[25], 168430335);
@@ -34414,7 +34563,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[25], 4);
 	TextDrawSetProportional(Speed_TD[25], 0);
 	TextDrawSetShadow(Speed_TD[25], 0);
-	Speed_TD[26] = TextDrawCreate(579.6994, 416.2889, "C"); // пусто
+	Speed_TD[26] = TextDrawCreate(579.6994, 416.2889, "C");
 	TextDrawLetterSize(Speed_TD[26], -0.0560, 0.5960);
 	TextDrawAlignment(Speed_TD[26], 1);
 	TextDrawColor(Speed_TD[26], -1);
@@ -34422,7 +34571,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[26], 1);
 	TextDrawSetProportional(Speed_TD[26], 1);
 	TextDrawSetShadow(Speed_TD[26], 0);
-	Speed_TD[27] = TextDrawCreate(483.4331, 401.3554, "L"); // пусто
+	Speed_TD[27] = TextDrawCreate(483.4331, 401.3554, "L");
 	TextDrawLetterSize(Speed_TD[27], 0.2284, -0.9800);
 	TextDrawAlignment(Speed_TD[27], 1);
 	TextDrawColor(Speed_TD[27], 8388607);
@@ -34430,7 +34579,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[27], 2);
 	TextDrawSetProportional(Speed_TD[27], 1);
 	TextDrawSetShadow(Speed_TD[27], 0);
-	Speed_TD[28] = TextDrawCreate(622.3999, 401.5851, "L"); // пусто
+	Speed_TD[28] = TextDrawCreate(622.3999, 401.5851, "L");
 	TextDrawLetterSize(Speed_TD[28], -0.2363, -0.9965);
 	TextDrawAlignment(Speed_TD[28], 1);
 	TextDrawColor(Speed_TD[28], 8388607);
@@ -34438,7 +34587,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[28], 2);
 	TextDrawSetProportional(Speed_TD[28], 1);
 	TextDrawSetShadow(Speed_TD[28], 0);
-	Speed_TD[29] = TextDrawCreate(595.3333, 396.9927, "E_____L_____D"); // пусто
+	Speed_TD[29] = TextDrawCreate(595.3333, 396.9927, "E_____L_____D");
 	TextDrawLetterSize(Speed_TD[29], 0.1632, 0.8284);
 	TextDrawAlignment(Speed_TD[29], 2);
 	TextDrawColor(Speed_TD[29], -1);
@@ -34446,7 +34595,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[29], 1);
 	TextDrawSetProportional(Speed_TD[29], 1);
 	TextDrawSetShadow(Speed_TD[29], 0);
-	Speed_TD[30] = TextDrawCreate(529.7664, 388.4555, "LD_Beat:CHIT"); // пусто
+	Speed_TD[30] = TextDrawCreate(529.7664, 388.4555, "LD_Beat:CHIT");
 	TextDrawTextSize(Speed_TD[30], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[30], 1);
 	TextDrawColor(Speed_TD[30], 8388607);
@@ -34454,7 +34603,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[30], 4);
 	TextDrawSetProportional(Speed_TD[30], 0);
 	TextDrawSetShadow(Speed_TD[30], 0);
-	Speed_TD[31] = TextDrawCreate(530.9331, 383.4776, "LD_Beat:CHIT"); // пусто
+	Speed_TD[31] = TextDrawCreate(530.9331, 383.4776, "LD_Beat:CHIT");
 	TextDrawTextSize(Speed_TD[31], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[31], 1);
 	TextDrawColor(Speed_TD[31], 8388607);
@@ -34462,7 +34611,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[31], 4);
 	TextDrawSetProportional(Speed_TD[31], 0);
 	TextDrawSetShadow(Speed_TD[31], 0);
-	Speed_TD[32] = TextDrawCreate(534.2664, 380.1593, "LD_Beat:CHIT"); // пусто
+	Speed_TD[32] = TextDrawCreate(534.2664, 380.1593, "LD_Beat:CHIT");
 	TextDrawTextSize(Speed_TD[32], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[32], 1);
 	TextDrawColor(Speed_TD[32], 8388607);
@@ -34470,7 +34619,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[32], 4);
 	TextDrawSetProportional(Speed_TD[32], 0);
 	TextDrawSetShadow(Speed_TD[32], 0);
-	Speed_TD[33] = TextDrawCreate(568.9332, 426.6184, "LD_Beat:CHIT"); // пусто
+	Speed_TD[33] = TextDrawCreate(568.9332, 426.6184, "LD_Beat:CHIT");
 	TextDrawTextSize(Speed_TD[33], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[33], 1);
 	TextDrawColor(Speed_TD[33], 8388607);
@@ -34478,7 +34627,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[33], 4);
 	TextDrawSetProportional(Speed_TD[33], 0);
 	TextDrawSetShadow(Speed_TD[33], 0);
-	Speed_TD[34] = TextDrawCreate(567.5999, 431.5963, "LD_Beat:CHIT"); // пусто
+	Speed_TD[34] = TextDrawCreate(567.5999, 431.5963, "LD_Beat:CHIT");
 	TextDrawTextSize(Speed_TD[34], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[34], 1);
 	TextDrawColor(Speed_TD[34], 8388607);
@@ -34486,7 +34635,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[34], 4);
 	TextDrawSetProportional(Speed_TD[34], 0);
 	TextDrawSetShadow(Speed_TD[34], 0);
-	Speed_TD[35] = TextDrawCreate(563.5996, 433.6556, "LD_Beat:CHIT"); // пусто
+	Speed_TD[35] = TextDrawCreate(563.5996, 433.6556, "LD_Beat:CHIT");
 	TextDrawTextSize(Speed_TD[35], 3.0000, 4.0000);
 	TextDrawAlignment(Speed_TD[35], 1);
 	TextDrawColor(Speed_TD[35], 8388607);
@@ -34494,7 +34643,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[35], 4);
 	TextDrawSetProportional(Speed_TD[35], 0);
 	TextDrawSetShadow(Speed_TD[35], 0);
-	Speed_TD[36] = TextDrawCreate(490.0000, 414.6740, "LD_Beat:Chit"); // пусто
+	Speed_TD[36] = TextDrawCreate(490.0000, 414.6740, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[36], 4.0000, 6.0000);
 	TextDrawAlignment(Speed_TD[36], 1);
 	TextDrawColor(Speed_TD[36], -1);
@@ -34502,7 +34651,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[36], 4);
 	TextDrawSetProportional(Speed_TD[36], 0);
 	TextDrawSetShadow(Speed_TD[36], 0);
-	Speed_TD[37] = TextDrawCreate(492.1000, 414.6740, "LD_Beat:Chit"); // пусто
+	Speed_TD[37] = TextDrawCreate(492.1000, 414.6740, "LD_Beat:Chit");
 	TextDrawTextSize(Speed_TD[37], 4.0000, 6.0000);
 	TextDrawAlignment(Speed_TD[37], 1);
 	TextDrawColor(Speed_TD[37], -1);
@@ -34510,7 +34659,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[37], 4);
 	TextDrawSetProportional(Speed_TD[37], 0);
 	TextDrawSetShadow(Speed_TD[37], 0);
-	Speed_TD[38] = TextDrawCreate(490.7001, 416.8887, "V"); // пусто
+	Speed_TD[38] = TextDrawCreate(490.7001, 416.8887, "V");
 	TextDrawLetterSize(Speed_TD[38], 0.1879, 0.6251);
 	TextDrawAlignment(Speed_TD[38], 1);
 	TextDrawColor(Speed_TD[38], -1);
@@ -34518,7 +34667,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Speed_TD[38], 2);
 	TextDrawSetProportional(Speed_TD[38], 1);
 	TextDrawSetShadow(Speed_TD[38], 0);
-	Speed_TD[39] = TextDrawCreate(492.6665, 418.8222, "LD_SPAC:white"); // пусто
+	Speed_TD[39] = TextDrawCreate(492.6665, 418.8222, "LD_SPAC:white");
 	TextDrawTextSize(Speed_TD[39], 1.4900, 2.0000);
 	TextDrawAlignment(Speed_TD[39], 1);
 	TextDrawColor(Speed_TD[39], -1);
@@ -34889,7 +35038,7 @@ stock CreateTexdraw() {
 	TextDrawSetPreviewRot(Casino_TD[Casino_TD_Modeled][0], 0.0, 111.0, 124.0, 1.0);
 	TextDrawSetPreviewRot(Casino_TD[Casino_TD_Modeled][1], 247.0, 134.0, 0.0, 1.0);
 	load_tune();
-	Capture[0] = TextDrawCreate(9.6999, 248.5628, "LD_Beat:chit"); // пусто
+	Capture[0] = TextDrawCreate(9.6999, 248.5628, "LD_Beat:chit");
 	TextDrawTextSize(Capture[0], 13.0000, 15.0000);
 	TextDrawAlignment(Capture[0], 1);
 	TextDrawColor(Capture[0], 168430335);
@@ -34897,7 +35046,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[0], 4);
 	TextDrawSetProportional(Capture[0], 0);
 	TextDrawSetShadow(Capture[0], 0);
-	Capture[1] = TextDrawCreate(99.7001, 248.5628, "LD_Beat:chit"); // пусто
+	Capture[1] = TextDrawCreate(99.7001, 248.5628, "LD_Beat:chit");
 	TextDrawTextSize(Capture[1], 13.0000, 15.0000);
 	TextDrawAlignment(Capture[1], 1);
 	TextDrawColor(Capture[1], 168430335);
@@ -34905,7 +35054,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[1], 4);
 	TextDrawSetProportional(Capture[1], 0);
 	TextDrawSetShadow(Capture[1], 0);
-	Capture[2] = TextDrawCreate(11.6665, 225.9333, "LD_SPAC:white"); // пусто
+	Capture[2] = TextDrawCreate(11.6665, 225.9333, "LD_SPAC:white");
 	TextDrawTextSize(Capture[2], 99.0000, 30.0000);
 	TextDrawAlignment(Capture[2], 1);
 	TextDrawColor(Capture[2], 168430335);
@@ -34913,7 +35062,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[2], 4);
 	TextDrawSetProportional(Capture[2], 0);
 	TextDrawSetShadow(Capture[2], 0);
-	Capture[3] = TextDrawCreate(17.0000, 247.0889, "LD_SPAC:white"); // пусто
+	Capture[3] = TextDrawCreate(17.0000, 247.0889, "LD_SPAC:white");
 	TextDrawTextSize(Capture[3], 89.0000, 14.0000);
 	TextDrawAlignment(Capture[3], 1);
 	TextDrawColor(Capture[3], 168430335);
@@ -34969,7 +35118,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[9], 4);
 	TextDrawSetProportional(Capture[9], 0);
 	TextDrawSetShadow(Capture[9], 0);
-	Capture[10] = TextDrawCreate(77.8667, 247.9558, "LD_Beat:chit"); // пусто
+	Capture[10] = TextDrawCreate(77.8667, 247.9558, "LD_Beat:chit");
 	TextDrawTextSize(Capture[10], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[10], 1);
 	TextDrawColor(Capture[10], 235802367);
@@ -34977,7 +35126,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[10], 4);
 	TextDrawSetProportional(Capture[10], 0);
 	TextDrawSetShadow(Capture[10], 0);
-	Capture[11] = TextDrawCreate(79.1333, 246.4444, "LD_SPAC:white"); // пусто
+	Capture[11] = TextDrawCreate(79.1333, 246.4444, "LD_SPAC:white");
 	TextDrawTextSize(Capture[11], 25.3400, 4.7999);
 	TextDrawAlignment(Capture[11], 1);
 	TextDrawColor(Capture[11], 235802367);
@@ -34985,7 +35134,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[11], 4);
 	TextDrawSetProportional(Capture[11], 0);
 	TextDrawSetShadow(Capture[11], 0);
-	Capture[12] = TextDrawCreate(98.5335, 242.7554, "LD_Beat:chit"); // пусто
+	Capture[12] = TextDrawCreate(98.5335, 242.7554, "LD_Beat:chit");
 	TextDrawTextSize(Capture[12], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[12], 1);
 	TextDrawColor(Capture[12], 235802367);
@@ -34993,7 +35142,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[12], 4);
 	TextDrawSetProportional(Capture[12], 0);
 	TextDrawSetShadow(Capture[12], 0);
-	Capture[13] = TextDrawCreate(98.3335, 247.4558, "LD_Beat:chit"); // пусто
+	Capture[13] = TextDrawCreate(98.3335, 247.4558, "LD_Beat:chit");
 	TextDrawTextSize(Capture[13], 7.1999, 8.8100);
 	TextDrawAlignment(Capture[13], 1);
 	TextDrawColor(Capture[13], 235802367);
@@ -35001,7 +35150,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[13], 4);
 	TextDrawSetProportional(Capture[13], 0);
 	TextDrawSetShadow(Capture[13], 0);
-	Capture[14] = TextDrawCreate(82.0000, 243.8851, "LD_SPAC:white"); // пусто
+	Capture[14] = TextDrawCreate(82.0000, 243.8851, "LD_SPAC:white");
 	TextDrawTextSize(Capture[14], 20.0000, 11.0000);
 	TextDrawAlignment(Capture[14], 1);
 	TextDrawColor(Capture[14], 235802367);
@@ -35009,7 +35158,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[14], 4);
 	TextDrawSetProportional(Capture[14], 0);
 	TextDrawSetShadow(Capture[14], 0);
-	Capture[15] = TextDrawCreate(70.7334, 242.7406, "LD_Beat:chit"); // пусто
+	Capture[15] = TextDrawCreate(70.7334, 242.7406, "LD_Beat:chit");
 	TextDrawTextSize(Capture[15], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[15], 1);
 	TextDrawColor(Capture[15], 235802367);
@@ -35017,7 +35166,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[15], 4);
 	TextDrawSetProportional(Capture[15], 0);
 	TextDrawSetShadow(Capture[15], 0);
-	Capture[16] = TextDrawCreate(70.6336, 248.0410, "LD_Beat:chit"); // пусто
+	Capture[16] = TextDrawCreate(70.6336, 248.0410, "LD_Beat:chit");
 	TextDrawTextSize(Capture[16], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[16], 1);
 	TextDrawColor(Capture[16], 235802367);
@@ -35025,7 +35174,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[16], 4);
 	TextDrawSetProportional(Capture[16], 0);
 	TextDrawSetShadow(Capture[16], 0);
-	Capture[17] = TextDrawCreate(44.6333, 246.5295, "LD_SPAC:white"); // пусто
+	Capture[17] = TextDrawCreate(44.6333, 246.5295, "LD_SPAC:white");
 	TextDrawTextSize(Capture[17], 32.0000, 5.0000);
 	TextDrawAlignment(Capture[17], 1);
 	TextDrawColor(Capture[17], 235802367);
@@ -35033,7 +35182,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[17], 4);
 	TextDrawSetProportional(Capture[17], 0);
 	TextDrawSetShadow(Capture[17], 0);
-	Capture[18] = TextDrawCreate(47.5000, 243.9702, "LD_SPAC:white"); // пусто
+	Capture[18] = TextDrawCreate(47.5000, 243.9702, "LD_SPAC:white");
 	TextDrawTextSize(Capture[18], 26.0000, 11.0000);
 	TextDrawAlignment(Capture[18], 1);
 	TextDrawColor(Capture[18], 235802367);
@@ -35041,7 +35190,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[18], 4);
 	TextDrawSetProportional(Capture[18], 0);
 	TextDrawSetShadow(Capture[18], 0);
-	Capture[19] = TextDrawCreate(43.6669, 242.7406, "LD_Beat:chit"); // пусто
+	Capture[19] = TextDrawCreate(43.6669, 242.7406, "LD_Beat:chit");
 	TextDrawTextSize(Capture[19], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[19], 1);
 	TextDrawColor(Capture[19], 235802367);
@@ -35049,7 +35198,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[19], 4);
 	TextDrawSetProportional(Capture[19], 0);
 	TextDrawSetShadow(Capture[19], 0);
-	Capture[20] = TextDrawCreate(43.5668, 248.0410, "LD_Beat:chit"); // пусто
+	Capture[20] = TextDrawCreate(43.5668, 248.0410, "LD_Beat:chit");
 	TextDrawTextSize(Capture[20], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[20], 1);
 	TextDrawColor(Capture[20], 235802367);
@@ -35057,7 +35206,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[20], 4);
 	TextDrawSetProportional(Capture[20], 0);
 	TextDrawSetShadow(Capture[20], 0);
-	Capture[21] = TextDrawCreate(16.0665, 242.6554, "LD_Beat:chit"); // пусто
+	Capture[21] = TextDrawCreate(16.0665, 242.6554, "LD_Beat:chit");
 	TextDrawTextSize(Capture[21], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[21], 1);
 	TextDrawColor(Capture[21], 235802367);
@@ -35065,7 +35214,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[21], 4);
 	TextDrawSetProportional(Capture[21], 0);
 	TextDrawSetShadow(Capture[21], 0);
-	Capture[22] = TextDrawCreate(15.8663, 247.9558, "LD_Beat:chit"); // пусто
+	Capture[22] = TextDrawCreate(15.8663, 247.9558, "LD_Beat:chit");
 	TextDrawTextSize(Capture[22], 7.0000, 8.3800);
 	TextDrawAlignment(Capture[22], 1);
 	TextDrawColor(Capture[22], 235802367);
@@ -35073,7 +35222,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[22], 4);
 	TextDrawSetProportional(Capture[22], 0);
 	TextDrawSetShadow(Capture[22], 0);
-	Capture[23] = TextDrawCreate(17.1330, 246.4444, "LD_SPAC:white"); // пусто
+	Capture[23] = TextDrawCreate(17.1330, 246.4444, "LD_SPAC:white");
 	TextDrawTextSize(Capture[23], 25.3400, 4.7999);
 	TextDrawAlignment(Capture[23], 1);
 	TextDrawColor(Capture[23], 235802367);
@@ -35081,7 +35230,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[23], 4);
 	TextDrawSetProportional(Capture[23], 0);
 	TextDrawSetShadow(Capture[23], 0);
-	Capture[24] = TextDrawCreate(36.5330, 242.7554, "LD_Beat:chit"); // пусто
+	Capture[24] = TextDrawCreate(36.5330, 242.7554, "LD_Beat:chit");
 	TextDrawTextSize(Capture[24], 7.0000, 8.0000);
 	TextDrawAlignment(Capture[24], 1);
 	TextDrawColor(Capture[24], 235802367);
@@ -35089,7 +35238,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[24], 4);
 	TextDrawSetProportional(Capture[24], 0);
 	TextDrawSetShadow(Capture[24], 0);
-	Capture[25] = TextDrawCreate(36.3332, 247.4558, "LD_Beat:chit"); // пусто
+	Capture[25] = TextDrawCreate(36.3332, 247.4558, "LD_Beat:chit");
 	TextDrawTextSize(Capture[25], 7.1999, 8.8100);
 	TextDrawAlignment(Capture[25], 1);
 	TextDrawColor(Capture[25], 235802367);
@@ -35097,7 +35246,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[25], 4);
 	TextDrawSetProportional(Capture[25], 0);
 	TextDrawSetShadow(Capture[25], 0);
-	Capture[26] = TextDrawCreate(19.9996, 243.8851, "LD_SPAC:white"); // пусто
+	Capture[26] = TextDrawCreate(19.9996, 243.8851, "LD_SPAC:white");
 	TextDrawTextSize(Capture[26], 20.0000, 11.0000);
 	TextDrawAlignment(Capture[26], 1);
 	TextDrawColor(Capture[26], 235802367);
@@ -35121,7 +35270,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[28], 4);
 	TextDrawSetProportional(Capture[28], 0);
 	TextDrawSetShadow(Capture[28], 0);
-	Capture[29] = TextDrawCreate(8.6666, 216.8074, "LD_SPAC:white"); // пусто
+	Capture[29] = TextDrawCreate(8.6666, 216.8074, "LD_SPAC:white");
 	TextDrawTextSize(Capture[29], 105.0000, 9.0000);
 	TextDrawAlignment(Capture[29], 1);
 	TextDrawColor(Capture[29], 7929855);
@@ -35129,7 +35278,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[29], 4);
 	TextDrawSetProportional(Capture[29], 0);
 	TextDrawSetShadow(Capture[29], 0);
-	/*Capture[30] = TextDrawCreate(60.3333, 216.9630, "CAPTURE"); // пусто
+	/*Capture[30] = TextDrawCreate(60.3333, 216.9630, "CAPTURE");
 	TextDrawLetterSize(Capture[30], 0.1556, 0.8865);
 	TextDrawAlignment(Capture[30], 2);
 	TextDrawColor(Capture[30], -1);
@@ -35137,7 +35286,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[30], 2);
 	TextDrawSetProportional(Capture[30], 1);
 	TextDrawSetShadow(Capture[30], 0);*/
-	Capture[30] = TextDrawCreate(0.3333, 234.2297, ""); // пусто
+	Capture[30] = TextDrawCreate(0.3333, 234.2297, "");
 	TextDrawTextSize(Capture[30], 20.0000, -11.0000);
 	TextDrawAlignment(Capture[30], 1);
 	TextDrawColor(Capture[30], 676659199);
@@ -35147,7 +35296,7 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(Capture[30], 0);
 	TextDrawSetPreviewModel(Capture[30], 3090);
 	TextDrawSetPreviewRot(Capture[30], 0.0000, 0.0000, 0.0000, 1.0000);
-	Capture[31] = TextDrawCreate(101.9999, 233.8149, ""); // пусто
+	Capture[31] = TextDrawCreate(101.9999, 233.8149, "");
 	TextDrawTextSize(Capture[31], 20.0000, -11.0000);
 	TextDrawAlignment(Capture[31], 1);
 	TextDrawColor(Capture[31], 676659199);
@@ -35157,7 +35306,7 @@ stock CreateTexdraw() {
 	TextDrawSetShadow(Capture[31], 0);
 	TextDrawSetPreviewModel(Capture[31], 3090);
 	TextDrawSetPreviewRot(Capture[31], 0.0000, 0.0000, 180.0000, 1.0000);
-	Capture[32] = TextDrawCreate(22.3332, 217.6370, "particle:lamp_shad_64"); // пусто
+	Capture[32] = TextDrawCreate(22.3332, 217.6370, "particle:lamp_shad_64");
 	TextDrawTextSize(Capture[32], 78.0000, 8.0000);
 	TextDrawAlignment(Capture[32], 1);
 	TextDrawColor(Capture[32], -184);
@@ -35165,7 +35314,7 @@ stock CreateTexdraw() {
 	TextDrawFont(Capture[32], 4);
 	TextDrawSetProportional(Capture[32], 0);
 	TextDrawSetShadow(Capture[32], 0);
-	Capture[33] = TextDrawCreate(63.3335, 233.4260, "vs"); // пусто
+	Capture[33] = TextDrawCreate(63.3335, 233.4260, "vs");
 	TextDrawLetterSize(Capture[33], 0.1159, 0.6417);
 	TextDrawAlignment(Capture[33], 3);
 	TextDrawColor(Capture[33], -1);
@@ -35194,7 +35343,7 @@ stock CreateTexdraw() {
 	TextDrawFont(logo334_TD[1], 1);
 	TextDrawSetProportional(logo334_TD[1], 1);
 	TextDrawSetShadow(logo334_TD[1], 0);*/
-	logo_TD[0] = TextDrawCreate(574.6665, 5.4073, "Chiliad"); // пусто
+	logo_TD[0] = TextDrawCreate(574.6665, 5.4073, "Chiliad");
 	TextDrawLetterSize(logo_TD[0], 0.2576, 1.3013);
 	TextDrawAlignment(logo_TD[0], 2);
 	TextDrawColor(logo_TD[0], 8766719);
@@ -35202,7 +35351,7 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[0], 1);
 	TextDrawSetProportional(logo_TD[0], 1);
 	TextDrawSetShadow(logo_TD[0], 0);
-	logo_TD[1] = TextDrawCreate(574.6665, 15.1079, "ROLE_PLAY"); // пусто
+	logo_TD[1] = TextDrawCreate(574.6665, 15.1079, "ROLE_PLAY");
 	TextDrawLetterSize(logo_TD[1], 0.1250, 0.9321);
 	TextDrawAlignment(logo_TD[1], 2);
 	TextDrawColor(logo_TD[1], -1);
@@ -35210,7 +35359,7 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[1], 2);
 	TextDrawSetProportional(logo_TD[1], 1);
 	TextDrawSetShadow(logo_TD[1], 0);
-	logo_TD[2] = TextDrawCreate(591.3332, 18.1111, "LD_Beat:Chit"); // пусто
+	logo_TD[2] = TextDrawCreate(591.3332, 18.1111, "LD_Beat:Chit");
 	TextDrawTextSize(logo_TD[2], 3.1199, 4.0000);
 	TextDrawAlignment(logo_TD[2], 1);
 	TextDrawColor(logo_TD[2], 8766719);
@@ -35218,7 +35367,7 @@ stock CreateTexdraw() {
 	TextDrawFont(logo_TD[2], 4);
 	TextDrawSetProportional(logo_TD[2], 0);
 	TextDrawSetShadow(logo_TD[2], 0);
-	logo_TD[3] = TextDrawCreate(567.6665, 3.1777, "LD_Beat:Chit"); // пусто
+	logo_TD[3] = TextDrawCreate(567.6665, 3.1777, "LD_Beat:Chit");
 	TextDrawTextSize(logo_TD[3], 2.4400, 3.0000);
 	TextDrawAlignment(logo_TD[3], 1);
 	TextDrawColor(logo_TD[3], 8766719);
@@ -38252,11 +38401,11 @@ CMD:objects(playerid) {
 CMD:gates(playerid) {
 	if(!IsAuthAdmin(playerid, 5)) return 1;
 	new content[1024] = "Номер\tМодель\tАвтор\n";
-	for(new i; i < sizeof(OI); i++) {
-		if(OI[i][oID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, OI[i][oID], OI[i][oModel], OI[i][oAuthor]);
+	for(new i; i < sizeof(GI); i++) {
+		if(GI[i][gID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, GI[i][gID], GI[i][gModel], GI[i][gAuthor]);
 	}
 	strcat(content, P"-"W" Створити ворота.");
-	ShowPlayerDialog(playerid, D_OBJECTS_LIST, DSTH, P"|"W" Керування воротами.", content, "Обрати", "Закрити");
+	ShowPlayerDialog(playerid, D_GATES_LIST, DSTH, P"|"W" Керування воротами.", content, "Обрати", "Закрити");
 	return 1;
 }
 stock CheckPlayerDistanceToVehicle(Float:radi, playerid, vehicleid) {
@@ -39306,6 +39455,16 @@ CB:faction_edit(playerid, fid) {
 	ShowPlayerDialog(playerid, D_FACTION_EDIT, DST, header, content, "Обрати", "Назад");
 	return 1;
 }
+CB:gate_edit(playerid, gid) {
+	new header[64], content[512];
+	SetPVarInt(playerid, "gateid", gid);
+	format(header, sizeof(header), P"|"W" Керування воротами #%i.", gid);
+	format(content, sizeof(content), W"Модель\t%i\nШвидкість\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\nВідкрита позиція\t%.2f, %.2f, %.2f (%.2f, %.2f, %.2f)\nЗакрита позиція\t%.2f, %.2f, %.2f (%.2f, %.2f, %.2f)\n"P"-"W" Телепортуватися до воріт.\n"P"-"W" Видалити ворота.",
+	GI[gid][gModel], GI[gid][gSpeed], GI[gid][gWorld], GI[gid][gInterior], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+	ShowPlayerDialog(playerid, D_GATE_CONTROL, DST, header, content, "Обрати", "Назад");
+	return 1;
+}
+
 CMD:inv(playerid) {
 	if(GetPVarInt(playerid, "inv") || GetPVarInt(playerid, "get_class") || GhettoInfo[playerid][GhettoGUI] || BJ_PlayerInfo[playerid][pBlackJackTableID] > 0 || JobTempProcess[playerid] || TI[playerid][tProcess][0] != -1 || PhoneShow[playerid]) return 1;
 	if(GetPVarInt(playerid, "ppkz")) for(new t; t < 34; t++) TextDrawHideForPlayer(playerid, Capture[t]);
@@ -39712,7 +39871,7 @@ CMD:carm(playerid, params[]) {
 	if(!IsAnEnforcement(playerid)) return 1;
 	new veh = GetPlayerVehicleID(playerid);
 	switch(GetVehicleModel(veh)) {
-	case 433: if(VehicleInfo[veh][vTeam] == fARMYLS) ShowPlayerDialog(playerid, D_ARMY_CARM, DSL, P"Розвезення боєприпасів.", P"1."W" Завантажитися на збройовому заводі\n"P"2."W" Розвантажити на склад Департаменту поліції Лос-Сантоса\n"P"3."W" Розвантажити на склад Федерального бюро розслідувань\n"P"4."W" Розвантажити на склад нац. гвардії\n"P"5."W" Розвантажити на склад Офісу шерифа округу Ред\n"P"6."W" Стан складів\n"P"7."W" Завантажити боєприпаси", "Обрати", "Закрити");
+		case 433: if(VehicleInfo[veh][vTeam] == fARMYLS) ShowPlayerDialog(playerid, D_ARMY_CARM, DSL, P"Розвезення боєприпасів.", P"1."W" Завантажитися на збройовому заводі\n"P"2."W" Розвантажити на склад Департаменту поліції Лос-Сантоса\n"P"3."W" Розвантажити на склад Федерального бюро розслідувань\n"P"4."W" Розвантажити на склад нац. гвардії\n"P"5."W" Розвантажити на склад Офісу шерифа округу Ред\n"P"6."W" Стан складів\n"P"7."W" Завантажити боєприпаси", "Обрати", "Закрити");
 	}
 	return 1;
 }
@@ -39725,7 +39884,7 @@ CMD:load(playerid) {
 				if(VG[vehicleid][vgLoading] || VG[vehicleid][vgUnloading]) return SendError(playerid, "Авто вже встановлене на загрузку або разгрузку.");
 				if((IsAGang(playerid) && GetPlayerSkin(playerid) == 191 && GetVehicleModel(vehicleid) == 433) || (IsAGang(playerid) && GetPlayerSkin(playerid) == 287 && GetVehicleModel(vehicleid) == 433)) {
 					switch(VehicleInfo[vehicleid][vTeam]) {
-					case fARMYLS: SetPlayerCheckpoint(playerid, -1325.2426, 407.5635, 7.0743, 5.0),SetPVarInt(playerid, "MatsArmyCar", 11);
+						case fARMYLS: SetPlayerCheckpoint(playerid, -1325.2426, 407.5635, 7.0743, 5.0),SetPVarInt(playerid, "MatsArmyCar", 11);
 					}
 					return 1;
 				}
@@ -40382,9 +40541,9 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			UpdateCharacterData(playerid, "theftTime", CI[playerid][ptheftTime]);
 			UpdateCharacterData(playerid, "theftExp", CI[playerid][pTheftExp]);
 			switch(CI[playerid][pTheftlvl]) {
-			case 0: cash = 4500;
-			case 1: cash = 5000;
-			case 2: cash = 7000;
+				case 0: cash = 4500;
+				case 1: cash = 5000;
+				case 2: cash = 7000;
 			}
 			if(QuestProgress[playerid][17] < 10 && AcceptQuest[playerid][17] != 0) QuestProgress[playerid][17] ++,save_quest(playerid, 17);
 			if(QuestProgress[playerid][17] == 10 && AcceptQuest[playerid][17] != 0) {
@@ -40401,7 +40560,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(veh != GetPVarInt(playerid, "veh_id_cleaner")) return SendError(playerid, "Ви не в своєму орендованому транспорті.");
 			if(!VG[veh][vgAmount][0]) return SendError(playerid, "У робочій машині немає сміття.");
 			format(string, sizeof(string), "\n"W"У рабочій машині:"P" %i"W" пакетів зі сміттям\nВартість 1 пакета зі сміттям:"GREEN" $250"W"\n\nВи дійсно хочете утилізувати все сміття?",VG[veh][vgAmount][0],VG[veh][vgAmount][0]*250);
-			ShowPlayerDialog(playerid, D_JOB_KANAL_3, DSM, P"Утилізація", string, "Так", "Ні");
+			ShowPlayerDialog(playerid, D_JOB_KANAL_3, DSM, P"Утилізація.", string, "Так", "Ні");
 			return 1;
 		} else if((IsPlayerInRangeOfPoint(playerid, 20.0, 1646.7213, 738.0809, 590.4441)) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			new Veh = GetPlayerVehicleID(playerid);
@@ -40418,7 +40577,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SetCameraBehindPlayer(playerid);
 		} else if(IsPlayerInRangeOfPoint(playerid, 4, 2292.8179, -1786.3413, 13.5469)) {
 			switch(CI[playerid][pRoom]) {
-			case 1..16: {
+				case 1..16: {
 					new Veh = GetPlayerVehicleID(playerid);
 					SetVehiclePos(Veh, 1644.1984, 734.2335, 589.8745);
 					SetVehicleZAngle(Veh, 180.2765);
@@ -40428,12 +40587,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SetPlayerInterior(playerid, 4);
 					FreezePlayerForTime(playerid, 4);
 					return 1;
-				}
-			default: SendError(playerid, "Ви не знімаєте кімнату в цьому домі.");
+					}
+				default: SendError(playerid, "Ви не знімаєте кімнату в цьому домі.");
 			}
 		} else if(IsPlayerInRangeOfPoint(playerid, 4, 855.7083, -1662.6046, 13.5547)) {
 			switch(CI[playerid][pRoom]) {
-			case 17..32: {
+				case 17..32: {
 					new Veh = GetPlayerVehicleID(playerid);
 					SetVehiclePos(Veh, 1644.1984, 734.2335, 589.8745);
 					SetVehicleZAngle(Veh, 180.2765);
@@ -40443,8 +40602,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SetPlayerInterior(playerid, 4);
 					FreezePlayerForTime(playerid, 4);
 					return 1;
-				}
-			default: SendError(playerid, "Ви не знімаєте кімнату в цьому домі.");
+					}
+				default: SendError(playerid, "Ви не знімаєте кімнату в цьому домі.");
 			}
 		} else if((IsPlayerInRangeOfPoint(playerid, 10.0, 882.2743, -1340.8132, 13.6652)) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			new Veh = GetPlayerVehicleID(playerid);
@@ -40452,8 +40611,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(GetVehicleFreeSeat(Veh) == -1) return SendError(playerid, "У вас в транспорт є пасажири.");
 			ShowPlayerDialog(playerid, D_TUNING_VIEW, DSL, P"Обслуговування автомобіля.", P"1."W" Тюнінг салон.\n"P"2."W" Фарбувальні роботи.", "Обрати", "Закрити");
 		} else if(IsPlayerInRangeOfPoint(playerid, 2.5, -2471.7139, 2505.1924, 1014.7252)) {
-			if(!VehicleInfo[GetPlayerVehicleID(playerid)][vFamily] && GetPlayerVehicleID(playerid) != house_car[playerid][0] && GetPlayerVehicleID(playerid) != house_car[playerid][1] &&
-					PlayerTrailer[playerVehicleID[playerid]][carVehicle] != GetPlayerVehicleID(playerid)) return SendError(playerid, "Ви не за кермом свого транспорту.");
+			if(!VehicleInfo[GetPlayerVehicleID(playerid)][vFamily] && GetPlayerVehicleID(playerid) != house_car[playerid][0] && GetPlayerVehicleID(playerid) != house_car[playerid][1] && PlayerTrailer[playerVehicleID[playerid]][carVehicle] != GetPlayerVehicleID(playerid)) return SendError(playerid, "Ви не за кермом свого транспорту.");
 			if(!GetPVarInt(playerid, "TunningSaluna")) {
 				SetPVarInt(playerid, "VehicleTunnSALON", GetPlayerVehicleID(playerid));
 				SetPVarInt(playerid, "TunningSaluna", 1);
@@ -40487,7 +40645,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			} else {
 				CancelSelectTextDraw(playerid);
 				SetPVarInt(playerid, "TunningSaluna", 0);
-				for(new h = 0;h < 20;h++) {
+				for(new h; h < 20; h++) {
 					if(h < 7)PlayerTextDrawHide(playerid,ColorTDPl[playerid][h]);
 					TextDrawHideForPlayer(playerid,ColorTD[h]);
 				}
@@ -40553,28 +40711,35 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				if(GetPlayerVehicleID(playerid) != house_car[playerid][0] && GetPlayerVehicleID(playerid) != house_car[playerid][1]) return SendError(playerid, "Ви не за кермом свого транспорт.");
 				new id = -1,house = CI[playerid][pHouse]-1,car;
 				switch(gHouses[house][houseClass]) {
-				case 0: id = 0;
-				case 1: id = 2;
-				case 2: id = 4;
-				case 3: id = 6;
+					case 0: id = 0;
+					case 1: id = 2;
+					case 2: id = 4;
+					case 3: id = 6;
 				}
 				new hint = gHouses[house][houseHint];
 				new interior = hinterior_info[hint][h_interior];
 				new Veh = GetPlayerVehicleID(playerid);
 				switch(car) {
-				case 0: {
+					case 0: {
 						SetVehiclePos(Veh, cargarage[id][0], cargarage[id][1], cargarage[id][2]);
 						SetVehicleZAngle(Veh, cargarage[id][3]);
 						enter_garage(playerid, Veh, interior, CI[playerid][pHouse]);
 						SetCameraBehindPlayer(playerid);
-					}
-				case 1: {
+						}
+					case 1: {
 						SetVehiclePos(Veh, cargarage[id + 1][0], cargarage[id + 1][1], cargarage[id + 1][2]);
 						SetVehicleZAngle(Veh, cargarage[id + 1][3]);
 						enter_garage(playerid, Veh, interior, CI[playerid][pHouse]);
 						SetCameraBehindPlayer(playerid);
+						}
 					}
-				}
+			}
+		}
+	}
+	if(newkeys & KEY_CTRL_BACK) {
+		for(new gid = 1; gid <= sizeof(GI); gid++) {
+			if(IsPlayerInDynamicArea(playerid, GI[gid][gSphere]) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER){
+				SendHint(playerid, "works");
 			}
 		}
 	}
@@ -40655,7 +40820,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				} */
 			}
 		}
-		for(new businessareaid = 1; businessareaid < gBusinessCount + 1; businessareaid++) {
+		for(new businessareaid = 1; businessareaid <= gBusinessCount; businessareaid++) {
 			if(IsPlayerInDynamicArea(playerid, bSphere[businessareaid]) && gBusiness[businessareaid][bStatus] && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
 				new Float:prevX, Float:prevY, Float:prevZ, Float:prevR, bint = gBusiness[businessareaid][businessInteriorID], freezeSeconds, string[512];
 				GetPlayerPos(playerid, prevX, prevY, prevZ);
@@ -40685,6 +40850,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				}
 			}
 		}
+		SendInfo(playerid, "pickups");
 		for(new puid = 1; puid <= PICKUPS_COUNT; puid++) {
 			if(IsPlayerInDynamicArea(playerid, PUI[puid][puSphere]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
 				switch(PUI[puid][puType]) {
@@ -40702,6 +40868,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 						FreezePlayerForTime(playerid, freezeSeconds);
 					}
 					default: {
+						SendHint(playerid, "default");
 						switch(puid) {
 							case 94: ShowPlayerDialog(playerid, D_JOB, DSTH, P"Працевлаштування.", W"Робота\n"P"1."W" Водій автобуса\n"P"2."W" Механік\n"P"3."W" Розвізник продуктів та палива\n"P"4."W" Розвізник їжі\n"P"5."W" Мийщик доріг\n"P"6."W" Чистильник каналізацій\n"P"7."W" Таксист\n"P"8."W" Інкасатор\n"P"-"W" Звільнитися з роботи", "Обрати", "Закрити");
 							case 97: { // Каналізації.
@@ -40741,8 +40908,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 								else ShowPlayerDialog(playerid, D_JOB_INC, DSM, P"Робота інкасатора.", W"Ви хочете завершити робочий день?", "Так", "Ні");
 							}
 							case 113: {
-								if(!TI[playerid][tJobGun][0]) return 1;
-								if(TI[playerid][tJobGun][1] != 1 || TI[playerid][tJobGun][2]) return 1;
+								if(!TI[playerid][tJobGun][0] || TI[playerid][tJobGun][1] != 1 || TI[playerid][tJobGun][2]) return 1;
 								SendOK(playerid, "Ви взяли заготовку. Пройдіть до вільної стійки для збірки зброї.");
 								new objectmodel = GunWorkWeapon[Random(0, 6)];
 								if(!IsPlayerAttachedObjectSlotUsed(playerid, 8)) SetPlayerAttachedObject(playerid, 8,objectmodel, 6);
@@ -40761,6 +40927,17 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 						}
 					}
 				}
+			} else SendHint(playerid, "error");
+		}
+		SendInfo(playerid, "started");
+		for(new gid = 1; gid <= sizeof(GI); gid++) {
+			if(IsPlayerInDynamicArea(playerid, GI[gid][gSphere]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT){
+				SendHint(playerid, "works");
+			} else {
+				new Float:gpos[3];
+				GetDynamicObjectPos(GI[gid][gSphere], gpos[0], gpos[1], gpos[2]);
+				SetPlayerPos(playerid, gpos[0], gpos[1], gpos[2]);
+				SendError(playerid, "not");
 			}
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 1516.3621, 1458.1116, 10.8708)) {
@@ -40972,7 +41149,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			new Float:xx, Float:xy, Float:xz;
 			GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, xy, xz);
 			if(IsPlayerInRangeOfPoint(playerid, 5.0, xx, xy, xz)) return ShowPlayerDialog(playerid, D_ROBBOT_WARGEHOUSE, DSL, P"Багажник.", P"1."W" Поїхати\n"P"2."W"Закинути сумку", "Обрати", "Закрити");
-			/**/
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 2360.8240, 1839.1799, 1211.6302) && GetPVarInt(playerid, "Ready") == 1) RobBiker(playerid);
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 816.1916, -1843.3940, 8.3624)) return ShowPlayerDialog(playerid, D_SELFISH, DSL, P"Рибак.", P"1."W" Показати перепустку\n"P"2."W" Продати улов", "Обрати", "Закрити");
@@ -40990,7 +41166,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, -2114.6072, -2419.0989, 30.6250)) {
 			if(!TI[playerid][tPobeg]) return SendBotMessage(playerid, "Ми з тобою не знайомі.");
 			if(TI[playerid][tPobeg_Z] != 0) return SendBotMessage(playerid, "Ти вже виконав це завдання.");
-			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Найкращий друг", W"У тебе вийшло покинути територію в'язниці.\n\n\
+			ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Найкращий друг.", W"У тебе вийшло покинути територію в'язниці.\n\n\
 			З першим завданням ти впорався, але тепер будь гранично акуратним,\n\
 			адже в будь-який момент тебе можуть пов'язати копи.\n\nРаджу змінити тобі"ORANGE" зовнішній вигляд, "W" щоб\n\
 			не викликати нияких підозр.\n\nЗараз я видам тобі на телефон "ORANGE" GPS координати, "W" де ти\n\
@@ -41134,13 +41310,13 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				save_quest(playerid, 1);
 			} else SendBotMessage(playerid, "Твоїх речей у мене немає.");
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 0.5, 2716.4363, -2395.2075, 13.6390)) { // Exit.
+		if(IsPlayerInRangeOfPoint(playerid, 0.5, 2716.4363, -2395.2075, 13.6390)) {
 			if(CI[playerid][pMember] != fARMYLS) return 1;
 			SetPlayerPosAC(playerid, 2716.4307, -2397.9106, 13.6328, 0, 0);
 			SetPlayerFacingAngle(playerid, 176.9129);
 			SetCameraBehindPlayer(playerid);
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 0.5, 2716.3943, -2395.9451, 13.6328)) { // Enter.
+		if(IsPlayerInRangeOfPoint(playerid, 0.5, 2716.3943, -2395.9451, 13.6328)) {
 			if(CI[playerid][pMember] != fARMYLS) return 1;
 			SetPlayerPosAC(playerid, 2716.4639, -2393.5291, 13.6390, 0, 0);
 			SetPlayerFacingAngle(playerid, 3.6847);
@@ -44147,6 +44323,18 @@ stock load_gangzone() {
 	printf("[Success] Gangzones loaded. (%i pcs.)", TOTALGZ);
 	return 1;
 }
+stock remove_gate(gid) {
+	GI[gid][gID] = 0;
+	GI[gid][gModel] = 0;
+	GI[gid][gObject] = 0;
+	GI[gid][gStatus] = 0;
+	GI[gid][gSpeed] = 0.0;
+	for(new i; i < 6; i++) GI[gid][gOpenedPos] = 0.0;
+	for(new i; i < 6; i++) GI[gid][gClosedPos] = 0.0;
+	GI[gid][gWorld] = 0;
+	GI[gid][gInterior] = 0;
+	strmid(GI[gid][gAuthor], "", 0, 2);
+}
 stock insert_faction(fid, ftype, fname[], frank[], fskin) {
 	FI[fid][fID] = fid,
 	FI[fid][fType] = ftype,
@@ -44162,15 +44350,9 @@ stock insert_faction(fid, ftype, fname[], frank[], fskin) {
 	FI[fid][sRank] = 7,
 	FI[fid][fRadio] = 0,
 	strmid(FI[fid][fLeader], "Назначити", 0, 16),
-	// FI[fid][fBank] = 0,
-	// FI[fid][fDrugs] = 0,
-	// FI[fid][fMaterials] = 0,
-	// FI[fid][fMedKits] = 0,
 	FI[fid][fDrugsBuy] = 0,
 	FI[fid][fDrugsPrice] = 0;
-	for(new i = 1; i <= FI[fid][lRank]; i++) {
-		strmid(fRanks[fid][i], frank, 0, 24);
-	}
+	for(new i = 1; i <= FI[fid][lRank]; i++) strmid(fRanks[fid][i], frank, 0, 24);
 	FI[fid][fSkins][1] = fskin;
 }
 stock remove_faction(fid) {
@@ -44188,18 +44370,10 @@ stock remove_faction(fid) {
 	FI[fid][sRank] = 0,
 	FI[fid][fRadio] = 0,
 	strmid(FI[fid][fLeader], "", 0, 2),
-	// FI[fid][fBank] = 0,
-	// FI[fid][fDrugs] = 0,
-	// FI[fid][fMaterials] = 0,
-	// FI[fid][fMedKits] = 0,
 	FI[fid][fDrugsBuy] = 0,
 	FI[fid][fDrugsPrice] = 0;
-	for(new i = 1; i < MAX_FACTION_RANKS; i++) {
-		strmid(fRanks[fid][i], "", 0, 2);
-	}
-	for(new i = 1; i < MAX_FACTION_SKINS; i++) {
-		FI[fid][fSkins][i] = 0;
-	}
+	for(new i = 1; i < MAX_FACTION_RANKS; i++) strmid(fRanks[fid][i], "", 0, 2);
+	for(new i = 1; i < MAX_FACTION_SKINS; i++) FI[fid][fSkins][i] = 0;
 	for(new i = 1; i < MAX_FACTION_FLEET; i++) {
 		fFleet[fid][i][fleetID] = 0;
 		fFleet[fid][i][fleetRank] = 0;
@@ -44213,9 +44387,7 @@ stock remove_faction(fid) {
 		fFleet[fid][i][fleetSpawnA] = 0.0;
 		fFleet[fid][i][fleetSpawnVW] = 0;
 		fFleet[fid][i][fleetSpawnI] = 0;
-		for(new n; n < MAX_VEHICLES; n++) {
-			if(VehicleInfo[n][vTeam] == fid) DestroyVehicle(n);
-		}
+		for(new n; n < MAX_VEHICLES; n++) if(VehicleInfo[n][vTeam] == fid) DestroyVehicle(n);
 	}
 }
 CB:create_pickup(i) {
@@ -44271,6 +44443,30 @@ stock load_objects() {
 		cache_get_value_name(i, "Position", opos, sizeof(opos)), sscanf(opos, "p<,>a<f>[6]", OI[oid][oPosition]);
 		cache_get_value_name(i, "Author", OI[oid][oAuthor]);
 		OI[oid][oObject] = CreateDynamicObject(OI[oid][oModel], OI[oid][oPosition][0], OI[oid][oPosition][1], OI[oid][oPosition][2], OI[oid][oPosition][3], OI[oid][oPosition][4], OI[oid][oPosition][5]);
+	}
+}
+stock load_gates() {
+	mysql_query(connects, "SELECT * FROM `gates`");
+	for(new i; i < cache_num_rows(); i++) {
+		new gpos[512], gid;
+		cache_get_value_name_int(i, "ID", gid);
+		GI[gid][gID] = gid;
+		DestroyDynamicObject(GI[gid][gObject]);
+		cache_get_value_name_int(i, "Model", GI[gid][gModel]);
+		cache_get_value_name_int(i, "Status", GI[gid][gStatus]);
+		cache_get_value_name_float(i, "Speed", GI[gid][gSpeed]);
+		cache_get_value_name(i, "OpenedPos", gpos, sizeof(gpos)), sscanf(gpos, "p<,>a<f>[6]", GI[gid][gOpenedPos]);
+		cache_get_value_name(i, "ClosedPos", gpos, sizeof(gpos)), sscanf(gpos, "p<,>a<f>[6]", GI[gid][gClosedPos]);
+		cache_get_value_name_int(i, "World", GI[gid][gWorld]);
+		cache_get_value_name_int(i, "Interior", GI[gid][gInterior]);
+		cache_get_value_name(i, "Author", GI[gid][gAuthor]);
+		if(GI[gid][gStatus]) {
+			GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+			GI[gid][gSphere] = CreateDynamicSphere(GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], 1.0, GI[gid][gInterior], GI[gid][gInterior]);
+		} else {
+			GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
+			GI[gid][gSphere] = CreateDynamicSphere(GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], 1.0, GI[gid][gInterior], GI[gid][gInterior]);
+		}
 	}
 }
 stock load_factions() {
@@ -45337,9 +45533,89 @@ stock AddCheater(playerid) {
 }
 public OnPlayerSelectObject(playerid, type, objectid, modelid, Float:fX, Float:fY, Float:fZ) {
 	if(!IsAuthAdmin(playerid, 5)) return 1;
-	return EditObject(playerid,objectid);
+	return EditObject(playerid, objectid);
 }
 public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz) {
+	if(GetPVarInt(playerid, "gedit") == 1) {
+		new query[512], gpos[512], gid = GetPVarInt(playerid, "gateid");
+		if(response == EDIT_RESPONSE_FINAL) {
+			GI[gid][gOpenedPos][0] = x;
+			GI[gid][gOpenedPos][1] = y;
+			GI[gid][gOpenedPos][2] = z;
+			GI[gid][gOpenedPos][3] = rx;
+			GI[gid][gOpenedPos][4] = ry;
+			GI[gid][gOpenedPos][5] = rz;
+			for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
+			mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `OpenedPos` = '%s' WHERE `ID` = %i LIMIT 1", gpos, gid);
+			mysql_query(connects, query);
+			DeletePVar(playerid, "gedit");
+			if(GI[gid][gStatus]) {
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			} else {
+				new newpos[512], oldpos[512];
+				for(new i; i < 6; i++) format(oldpos, sizeof(oldpos), "%s%.2f, ", oldpos, GI[gid][gClosedPos][i]);
+				for(new i; i < 6; i++) format(newpos, sizeof(newpos), "%s%.2f, ", newpos, GI[gid][gOpenedPos][i]);
+				printf("oldpos - %s", oldpos);
+				printf("curpos - %s", newpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+			}
+		} else if(response == EDIT_RESPONSE_CANCEL) {
+			gate_edit(playerid, gid);
+			DeletePVar(playerid, "gedit");
+			if(GI[gid][gStatus]) {
+				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
+				printf("#1 cancel opened: %s", gpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			} else {
+				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
+				printf("#1 cancel closed: %s", gpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+			}
+		}
+	} else if(GetPVarInt(playerid, "gedit") == 2) {
+		new query[512], gpos[512], gid = GetPVarInt(playerid, "gateid");
+		if(response == EDIT_RESPONSE_FINAL) {
+			GI[gid][gClosedPos][0] = x;
+			GI[gid][gClosedPos][1] = y;
+			GI[gid][gClosedPos][2] = z;
+			GI[gid][gClosedPos][3] = rx;
+			GI[gid][gClosedPos][4] = ry;
+			GI[gid][gClosedPos][5] = rz;
+			for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
+			mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `ClosedPos` = '%s' WHERE `ID` = %i LIMIT 1", gpos, gid);
+			mysql_query(connects, query);
+			DeletePVar(playerid, "gedit");
+			if(GI[gid][gStatus]) {
+				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
+				printf("#2 final opened: %s", gpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			} else {
+				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
+				printf("#2 final closed: %s", gpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+			}
+		} else if(response == EDIT_RESPONSE_CANCEL) {
+			gate_edit(playerid, gid);
+			DeletePVar(playerid, "gedit");
+			if(GI[gid][gStatus]) {
+				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
+				printf("#2 cancel opened: %s", gpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			} else {
+				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
+				printf("#2 cancel closed: %s", gpos);
+				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
+				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+			}
+		}
+	}
 	if(GetPVarInt(playerid, "oedit")) {
 		new query[512], opos[512], oid = GetPVarInt(playerid, "object");
 		if(response == EDIT_RESPONSE_FINAL) {
@@ -45352,16 +45628,18 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			for(new i; i < 6; i++) format(opos, sizeof(opos), "%s%f, ", opos, OI[oid][oPosition][i]);
 			mysql_format(connects, query, sizeof(query), "UPDATE `objects` SET `Position` = '%s' WHERE `ID` = %i LIMIT 1", opos, oid);
 			mysql_query(connects, query);
-		} else if(response != EDIT_RESPONSE_UPDATE) {
+			DeletePVar(playerid, "oedit");
+		} else if(response == EDIT_RESPONSE_CANCEL) {
 			SetDynamicObjectPos(OI[oid][oObject], OI[oid][oPosition][0], OI[oid][oPosition][1], OI[oid][oPosition][2]);
 			SetDynamicObjectRot(OI[oid][oObject], OI[oid][oPosition][3], OI[oid][oPosition][4], OI[oid][oPosition][5]);
+			DeletePVar(playerid, "oedit");
 		}
 	}
 	new stringer[255];
 	if(response == EDIT_RESPONSE_FINAL) {
 		if(GPVI(playerid, "BauldMappingCreating")) {
 			DPV(playerid, "BauldMappingCreating");
-			AddObject(objectid, x, y, z,rx,ry,rz, playerid);
+			AddObject(objectid, x, y, z, rx, ry, rz, playerid);
 			return 1;
 		}
 		if(GPVI(playerid, "EditOwnMap")) {
@@ -45401,7 +45679,7 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			SetTimerEx("SetObjectOldPos", 300, false, "dffffff", ATMData[atmID][atm_Object], ATMData[objectid][ATM_Pos][0], ATMData[objectid][ATM_Pos][1], ATMData[objectid][ATM_Pos][2], ATMData[objectid][ATM_Pos][3], ATMData[objectid][ATM_Pos][4], ATMData[objectid][ATM_Pos][5]);
 			EdittingATM[playerid] = 0;
 		}
-	} else if(response) SetDynamicObjectPos(objectid,x, y, z), SetDynamicObjectRot(objectid,rx,ry,rz);
+	} else if(response) SetDynamicObjectPos(objectid, x, y, z), SetDynamicObjectRot(objectid,rx,ry,rz);
 	return 1;
 }
 CB:SetObjectOldPos(objectid, Float:oldX, Float:oldY, Float:oldZ, Float:oldRotX, Float:oldRotY, Float:oldRotZ) {
@@ -45809,6 +46087,73 @@ stock SendHint(playerid, const text[]) {
   new string[256];
   format(string, 256, O"| "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
+}
+
+stock SendFormat(playerid, const fstring[], {Float, _}:...) {
+	static const STATIC_ARGS = 3;
+	new n = (numargs() - STATIC_ARGS) * BYTES_PER_CELL;
+	if(n) {
+		new message[128], arg_start, arg_end;
+		#emit CONST.alt			fstring
+		#emit LCTRL				5
+		#emit ADD
+		#emit STOR.S.pri		arg_start
+		#emit LOAD.S.alt		n
+		#emit ADD
+		#emit STOR.S.pri		arg_end
+		do {
+			#emit LOAD.I
+			#emit PUSH.pri
+			arg_end -= BYTES_PER_CELL;
+			#emit LOAD.S.pri	arg_end
+		}
+		while(arg_end > arg_start);
+		#emit PUSH.S			fstring
+		#emit PUSH.C			128
+		#emit PUSH.ADR			message
+		n += BYTES_PER_CELL * 3;
+		#emit PUSH.S			n
+		#emit SYSREQ.C			format
+		n += BYTES_PER_CELL;
+		#emit LCTRL				4
+		#emit LOAD.S.alt		n
+		#emit ADD
+		#emit SCTRL				4
+		return SendClientMessage(playerid, 0xFFFFFF, message);
+	} else return SendClientMessage(playerid, 0xFFFFFF, fstring);
+}
+stock SendFormatAll(const fstring[], {Float, _}:...) { 
+	static const STATIC_ARGS = 2; 
+	new n = (numargs() - STATIC_ARGS) * BYTES_PER_CELL;
+	if(n) { 
+		new message[128], arg_start, arg_end; 
+		#emit CONST.alt			fstring
+		#emit LCTRL				5
+		#emit ADD
+		#emit STOR.S.pri		arg_start
+		#emit LOAD.S.alt		n
+		#emit ADD
+		#emit STOR.S.pri		arg_end
+		do {
+			#emit LOAD.I
+			#emit PUSH.pri
+			arg_end -= BYTES_PER_CELL;
+			#emit LOAD.S.pri	arg_end
+		} 
+		while(arg_end > arg_start);
+		#emit PUSH.S			fstring
+		#emit PUSH.C			128
+		#emit PUSH.ADR			message
+		n += BYTES_PER_CELL * 3;
+		#emit PUSH.S			n
+		#emit SYSREQ.C			format
+		n += BYTES_PER_CELL;
+		#emit LCTRL				4
+		#emit LOAD.S.alt		n
+		#emit ADD
+		#emit SCTRL				4
+		return SendClientMessageToAll(0xFFFFFF, message);
+	} else return SendClientMessageToAll(0xFFFFFF, fstring);
 }
 stock GetCheckID(const name[]) {
 	new ID = INVALID_PLAYER_ID;
@@ -63692,7 +64037,7 @@ CB:OnMemoryCheckFakePromo(playerid, fake_promo[]) {
 }
 stock textdraw_bank(playerid) {
 	// Пограбування банка
-	hack_numbers[playerid][0] = CreatePlayerTextDraw(playerid, 343.7333, 130.1963, "1"); // пусто
+	hack_numbers[playerid][0] = CreatePlayerTextDraw(playerid, 343.7333, 130.1963, "1");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][0], 0.4812, 2.3921);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][0], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][0], 2);
@@ -63704,7 +64049,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][0], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][0], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][0], true);
-	hack_numbers[playerid][1] = CreatePlayerTextDraw(playerid, 369.4284, 130.1963, "2"); // пусто
+	hack_numbers[playerid][1] = CreatePlayerTextDraw(playerid, 369.4284, 130.1963, "2");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][1], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][1], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][1], 2);
@@ -63716,7 +64061,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][1], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][1], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][1], true);
-	hack_numbers[playerid][2] = CreatePlayerTextDraw(playerid, 395.6221, 130.1963, "3"); // пусто
+	hack_numbers[playerid][2] = CreatePlayerTextDraw(playerid, 395.6221, 130.1963, "3");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][2], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][2], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][2], 2);
@@ -63728,7 +64073,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][2], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][2], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][2], true);
-	hack_numbers[playerid][3] = CreatePlayerTextDraw(playerid, 395.2221, 157.1965, "6"); // пусто
+	hack_numbers[playerid][3] = CreatePlayerTextDraw(playerid, 395.2221, 157.1965, "6");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][3], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][3], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][3], 2);
@@ -63740,7 +64085,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][3], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][3], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][3], true);
-	hack_numbers[playerid][4] = CreatePlayerTextDraw(playerid, 395.4220, 185.9981, "9"); // пусто
+	hack_numbers[playerid][4] = CreatePlayerTextDraw(playerid, 395.4220, 185.9981, "9");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][4], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][4], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][4], 2);
@@ -63752,7 +64097,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][4], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][4], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][4], true);
-	hack_numbers[playerid][5] = CreatePlayerTextDraw(playerid, 369.6285, 185.4981, "8"); // пусто
+	hack_numbers[playerid][5] = CreatePlayerTextDraw(playerid, 369.6285, 185.4981, "8");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][5], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][5], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][5], 2);
@@ -63764,7 +64109,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][5], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][5], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][5], true);
-	hack_numbers[playerid][6] = CreatePlayerTextDraw(playerid, 369.6285, 157.4965, "5"); // пусто
+	hack_numbers[playerid][6] = CreatePlayerTextDraw(playerid, 369.6285, 157.4965, "5");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][6], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][6], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][6], 2);
@@ -63776,7 +64121,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][6], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][6], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][6], true);
-	hack_numbers[playerid][7] = CreatePlayerTextDraw(playerid, 369.6285, 213.6999, "0"); // пусто
+	hack_numbers[playerid][7] = CreatePlayerTextDraw(playerid, 369.6285, 213.6999, "0");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][7], 0.2755, 2.3963);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][7], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][7], 2);
@@ -63788,7 +64133,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][7], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][7], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][7], true);
-	hack_numbers[playerid][8] = CreatePlayerTextDraw(playerid, 343.7333, 155.4963, "4"); // пусто
+	hack_numbers[playerid][8] = CreatePlayerTextDraw(playerid, 343.7333, 155.4963, "4");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][8], 0.3066, 2.7074);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][8], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][8], 2);
@@ -63800,7 +64145,7 @@ stock textdraw_bank(playerid) {
 	PlayerTextDrawSetProportional(playerid,hack_numbers[playerid][8], 1);
 	PlayerTextDrawSetShadow(playerid,hack_numbers[playerid][8], 0);
 	PlayerTextDrawSetSelectable(playerid,hack_numbers[playerid][8], true);
-	hack_numbers[playerid][9] = CreatePlayerTextDraw(playerid, 344.1333, 184.3981, "7"); // пусто
+	hack_numbers[playerid][9] = CreatePlayerTextDraw(playerid, 344.1333, 184.3981, "7");
 	PlayerTextDrawLetterSize(playerid,hack_numbers[playerid][9], 0.3066, 2.7074);
 	PlayerTextDrawTextSize(playerid,hack_numbers[playerid][9], 10.0000, 19.0000);
 	PlayerTextDrawAlignment(playerid,hack_numbers[playerid][9], 2);
@@ -63884,7 +64229,7 @@ stock CreatePlayerCapture(playerid) {
 	PlayerTextDrawFont(playerid,CaptPlayer[playerid][4], 2);
 	PlayerTextDrawSetProportional(playerid,CaptPlayer[playerid][4], 1);
 	PlayerTextDrawSetShadow(playerid,CaptPlayer[playerid][4], 0);
-	CaptPlayer[playerid][5] = CreatePlayerTextDraw(playerid, 60.3333, 216.9630, "CAPTURE"); // пусто
+	CaptPlayer[playerid][5] = CreatePlayerTextDraw(playerid, 60.3333, 216.9630, "CAPTURE");
 	PlayerTextDrawLetterSize(playerid, CaptPlayer[playerid][5], 0.1556, 0.8865);
 	PlayerTextDrawAlignment(playerid, CaptPlayer[playerid][5], 2);
 	PlayerTextDrawColor(playerid, CaptPlayer[playerid][5], -1);
