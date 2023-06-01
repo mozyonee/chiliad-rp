@@ -17868,10 +17868,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					ShowPlayerDialog(playerid, D_GATE_EDIT_INTERIOR, DSI, header, W"Введіть новий інтер'єр для створених воріт.", "Готово", "Назад");
 				}
 				case 5: {
+					SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
+					SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
 					SetPVarInt(playerid, "gedit", 1);
 					EditDynamicObject(playerid, GI[gid][gObject]);
 				}
 				case 6: {
+					SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
+					SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 					SetPVarInt(playerid, "gedit", 2);
 					EditDynamicObject(playerid, GI[gid][gObject]);
 				}
