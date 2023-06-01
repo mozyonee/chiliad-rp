@@ -6663,92 +6663,6 @@ gAdvertCount,
 gAdvertTime;
 new calls_news[3],
 calls_ether[3];
-enum object_moved_data {
-	moved_id,
-	moved_vw,
-	moved_modelid,
-	Float:movedPosX,
-	Float:movedPosY,
-	Float:movedPosZ,
-	Float:movedPosRotationX,
-	Float:movedPosRotationY,
-	Float:movedPosRotationZ,
-	bool:status_moved
-}
-new moved_info[MAX_OBJECT_MOVED][object_moved_data] = {
-	{-1, -1, 968, 36.051998, -1518.188964, 4.782000, 0.0, 270.0, 87.995002,false}, // Блок пост ЛС 0.
-	{-1, -1, 968, 35.923999, -1534.245971, 4.794000, 0.0, 270.0, 87.989997,false}, // Блок пост ЛС 1.
-	{-1, -1, 968, 66.999000, -1538.291015, 4.724998, 0.0, 270.0, 87.989997,false}, // Блок пост ЛС 2.
-	{-1, -1, 968, 67.121002, -1522.211059, 4.782000, 0.0, 270.0, 87.989997,false}, // Блок пост ЛС 3.
-	{-1, -1, 1569, 59.928001, -1533.542968, 4.499000, 0.0, 0.0, 82.0,false}, //[Блок пост] ЛС двері 4.
-	{-1, -1, 2990, 1589.65820, -1637.95203, 15.00631, 0.0, 0.0, 180.0,false}, //[ПД] Ворота в гараж LSPD 5.
-	// {-1, -1, 968, 1544.69006348, -1630.90002441, 13.13999939, 0.0, 90.0, 90.0,false}, //[ПД] Шлагбаум в гараж ЛСПД 6.
-	{-1, -1, 1522, 3.228899, -76.665580, 1025.362548, 0.0, 0.0, 90.0,false},
-	{-1, -1, 968, 1106.5142, -1744.2399, 13.2450, 0.0000, 90.0000, 90.0000,false}, //[TAXI] Шлагбаум LS 9.
-	{-1, -1, 1495, 17.454246, 1411.338745, 1068.350097, 0.0, 0.0, 0.0,false}, //[FBI] Двері збройної.
-	{-1, -1, 13817, 5000.0, 5000.0, 5000.0, 0.0, 0.0, 96.200035,false}, // LCN (Не працює).
-	{-1, -1, 985, 2720.499511, -2504.235595, 14.171773, 0.000007, -0.0, 90.099929,false}, // Національна гвардія 2.
-	{-1, -1, 968, 1206.085449, -1501.230102, 13.168020, 0.0, -88.799987, 90.200073, false}, // Авторинок 13.
-	{-1, -1, 1495, 193.160522, -152.582107, 1019.205688, 0.0, 0.0, 270.0,false}, // Гардероб ЛСПД.
-	{-1, -1, 1495, 202.633590, -152.582107, 1019.205688, -0.000022, 0.0, -89.999931,false}, // Двері Офіс шерифа округу Ред.
-	{-1, -1, 1495, 203.591506, -149.240661, 1019.188720, 0.0, 0.0, 0.0,false}, // Двері лідера.
-	{-1, -1, 980, 1366.781982, 399.024780, 21.041847, 0.0, 0.0, 66.100036,false}, // // Штраф стоянка 17.
-	{-1, -1, 985, 2720.499511, -2405.411621, 14.171773, 0.0, 0.0, 90.099952,false}, // Національна гвардія.
-	{-1, -1, 1569, 2836.979736, 1091.134399, 1051.567260, 0.0, 0.0, 450.0,false},
-	{4, 4, 1569, 1580.538818, 1754.573608, 1025.403076, 0.000007, 0.0, 180.000030,false}, // Автошкола.
-	{4, 4, 1569, 1579.067016, 1746.214965, 1025.403076, 0.0, 0.0, 180.0,false},
-	{-1, -1, 1569, 2836.971435, 1068.374267, 1051.567260, 0.0, 0.0, 450.0,false},
-	{-1, -1, 1569, 2832.838623, 1068.374267, 1051.567260, 0.0, 0.0, 450.0,false},
-	{-1, -1, 1569, 2832.838623, 1091.134399, 1051.567260, 0.0, 0.0, 90.0,false},
-	{-1, -1, 1495, 208.243621, -151.124130, 1019.205688, -0.000022, 0.0, -89.999931,false},
-	{-1, -1, 1569, -1141.117187, 19.201545, 1168.569824, -0.000047, -0.000035, 359.999847,false},
-	{-1, -1, 1569, -1144.760253, 29.231416, 1168.569824, -0.000065, -0.000028, 179.999938,false},
-	{-1, -1, 968, -486.344726, -562.425537, 25.272714, 0.0, -90.000007, 0.0,false}, // ТК у рибалки.
-	{-1, -1, 968, 559.421813, -1255.287475, 16.894090, 0.000022, -89.999946, 30.999986,false}, // Автосалон.
-	{-1, -1, 1495, -47.386756, -190.726776, 1025.983154, 0.0, 0.0, 0.0,false}, // RCSO.
-	{-1, -1, 1495, -37.796813, -190.726760, 1025.983154, 0.0, 0.0, 0.0,false}, // RCSO.
-	{-1, -1, 1495, -45.876758, -179.886886, 1025.983154, 0.0, 0.0, 180.0,false}, // RCSO.
-	{-1, -1, 1495, -32.306766, -186.196929, 1025.983154, 0.0, 0.0, 450.0,false}, // RCSO.
-	{-1, -1, 1495, -32.843727, -175.250106, 1025.985229, 0.0, 0.0, 0.0,false}, // RCSO.
-	{-1, -1, 1495, -32.863727, -177.470092, 1025.985229, 0.0, 0.0, 270.0,false} // RCSO.
-},
-Float:moved_pos_object[MAX_OBJECT_MOVED][6]={
-	{36.051998, -1518.188964, 4.782000, 0.0, 0.0, 87.995002},
-	{35.923999, -1534.245971, 4.794000, 0.0, 0.0, 87.989997},
-	{66.999000, -1538.291015, 4.724998, 0.0, 0.0, 87.989997},
-	{67.121002, -1522.211059, 4.782000, 0.0, 0.0, 87.989997},
-	{59.928001, -1533.542968, 4.499000, 0.0, 0.0, 0.0},
-	{1597.39136, -1637.95203, 15.00631, 0.0, 0.0, 180.0},
-	// {1544.69006348, -1630.90002441, 13.13999939, 0.0, 0.0, 90.0},
-	{3.228899, -76.635574, 1025.368408, -0.000014, 0.0, 20.000045}, // lcn
-	{1106.50305, -1744.17004, 13.005, 0.0, 0.0, 90.0},
-	{17.454246, 1411.338745, 1068.350097, 0.0, 0.0, 90.0},
-	{657.098754, -475.049255, 13.575927, 0.0, 0.0, 0.0},
-	{2720.485839, -2496.274658, 14.171773, 0.000007, -0.0, 90.099929},
-	{1206.085449, -1501.230102, 13.168020, 0.0, 0.0, 90.800071},
-	{193.160522, -152.582107, 1019.205688, 0.0, 0.0, 0.0},
-	{202.633590, -152.582107, 1019.205688, -0.000022, 0.0, 0.0},
-	{203.591506, -149.240661, 1019.188720, 0.0, 0.0, 270.0},
-	{1366.781982, 399.024780, 15.961837, 0.0, 0.0, 66.100036}, //
-	{2720.485595, -2397.470703, 14.171773, 0.0, 0.0, 90.099952},
-	{2836.979736, 1091.134399, 1051.567260, 0.0, 0.0, 180.0},
-	{1580.538818, 1754.573608, 1025.403076, 0.000007, 0.0, -90.000030},
-	{1579.067016, 1746.214965, 1025.403076, 0.0, 0.0, 90.0},
-	{2836.971435, 1068.374267, 1051.567260, 0.0, 0.0, 180.0},
-	{2832.838623, 1068.374267, 1051.567260, 0.0, 0.0, 0.0},
-	{2832.838623, 1091.134399, 1051.567260, 0.0, 0.0, 0.0},
-	{208.243621, -151.124130, 1019.205688, -0.000022, 0.0, 0.0},
-	{-1141.117187, 19.201545, 1168.569824, -0.000047, -0.000035, 90.0000300},
-	{-1146.241210, 29.231416, 1168.569824, -0.000065, -0.000028, 179.999938},
-	{-486.344726, -562.425537, 25.272714, 0.0, 0.000007, 0.0},
-	{559.421813, -1255.287475, 16.894090, 0.000022, 0.000053, 30.999986},
-	{-47.386756, -190.726776, 1025.983154, 0.0, 0.0, 270.0},
-	{-37.796813, -190.726760, 1025.983154, 0.0, 0.0, -60.0},
-	{-45.876758, -179.886886, 1025.983154, 0.0, 0.0, 90.0},
-	{-32.306766, -186.196929, 1025.983154, 0.0, 0.0, 0.0},
-	{-32.843727, -175.250106, 1025.985229, 0.0, 0.0, -60.0},
-	{-32.863727, -177.470092, 1025.985229, 0.0, 0.0, 180.0}
-};
 new call_id[MAX_PLAYERS];
 new selected_object[MAX_PLAYERS];
 new tempbobject[MAX_PLAYERS];
@@ -17868,14 +17782,12 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					ShowPlayerDialog(playerid, D_GATE_EDIT_INTERIOR, DSI, header, W"Введіть новий інтер'єр для створених воріт.", "Готово", "Назад");
 				}
 				case 5: {
-					SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
-					SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+					MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
 					SetPVarInt(playerid, "gedit", 1);
 					EditDynamicObject(playerid, GI[gid][gObject]);
 				}
 				case 6: {
-					SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
-					SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+					MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 					SetPVarInt(playerid, "gedit", 2);
 					EditDynamicObject(playerid, GI[gid][gObject]);
 				}
@@ -30475,14 +30387,6 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 	return 1;
 }
 public OnDynamicObjectMoved(objectid) {
-	for(new id = 0; id < MAX_OBJECT_MOVED; id++) {
-		if(objectid == moved_info[id][moved_id] && moved_info[id][status_moved]) {
-			ServerMovedEx[id] = 1;
-			moved_info[id][status_moved] = false;
-			ServerMovedFix[id] = gettime() + 6;
-			return 1;
-		}
-	}
 	if(objectid == l_casino[2] && l_start == 1) { // лифт закрив двери
 		MoveDynamicObject(l_casino[0], 300.390136, -139.715637, 1036.076904, 1, 0.0, 0.0, 270.0);
 		l2_casino = CreateDynamicObject(19325, 300.430572, -137.912704, 1029.311523, 0.0, 0.0, 90.0, 58, 7, -1, 300.0, 300.00);
@@ -33396,54 +33300,6 @@ stock Create3dText() {
 	CreateDynamic3DTextLabel("Для виходу натисніть "P"ENTER", -1, 1400.8309, -1205.0583, 130.2086+ 1.0, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
 	CreateDynamic3DTextLabel("Кістки 1x1:\n"P"/dice", -1, 295.3712, -112.4607, 1036.669+0.1, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
 	CreateDynamic3DTextLabel("Кістки 1x1:\n"P"/dice", -1, 300.7174, -112.3977, 1036.6692+0.1, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
-	new moved = 0;
-	for(moved = 0; moved < MAX_OBJECT_MOVED; moved++) {
-		moved_info[moved][moved_id] = CreateDynamicObject(moved_info[moved][moved_modelid], moved_info[moved][movedPosX], moved_info[moved][movedPosY], moved_info[moved][movedPosZ], moved_info[moved][movedPosRotationX], moved_info[moved][movedPosRotationY], moved_info[moved][movedPosRotationZ], moved_info[moved][moved_vw]);
-		switch(moved) {
-			case 0, 1, 2, 3, 5, 16, 11, 8:  CreateDynamic3DTextLabel(""W"Взаємодія: "G"'H'", -1, moved_info[moved][movedPosX], moved_info[moved][movedPosY], moved_info[moved][movedPosZ]+0.8, 8.0);
-			case 4, 7, 9, 13, 14, 15, 19, 20, 21, 22, 23, 18, 24, 25:  CreateDynamic3DTextLabel(""W"Взаємодія: "G"'ALT'", -1, moved_info[moved][movedPosX], moved_info[moved][movedPosY], moved_info[moved][movedPosZ]+ 1.5, 8.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1);
-			case 6, 10, 12, 17:  CreateDynamic3DTextLabel(""G"'H'"W" (у транспорті)\n"G"'ALT'"W" (пішки)", -1, moved_info[moved][movedPosX], moved_info[moved][movedPosY], moved_info[moved][movedPosZ]+0.8, 8.0);
-		}
-	}
-	SetDynamicObjectMaterial(moved_info[8][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[8][moved_id], 2, 18646, "matcolours", "grey-40-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[11][moved_id], 0, 10101, "2notherbuildsfe", "ferry_build14", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[11][moved_id], 1, 10101, "2notherbuildsfe", "ferry_build14", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[9][moved_id], 0, 10765, "airportgnd_sfse", "black64", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[9][moved_id], 1, 3820, "boxhses_sfsx", "ws_ irongate", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[9][moved_id], 2, 14415, "carter_block_2", "ws_doormat", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[6][moved_id], 0, 16093, "a51_ext", "des_backdoor1", 0xFFFFFFFF);
-	SetDynamicObjectMaterial(moved_info[18][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[19][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[20][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[21][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[22][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[17][moved_id], 0, 18029, "genintintsmallrest", "GB_restaursmll12", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[12][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[12][moved_id], 2, 18646, "matcolours", "grey-30-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[13][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[13][moved_id], 2, 18646, "matcolours", "grey-30-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[14][moved_id], 0, 18646, "matcolours", "grey-93-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[14][moved_id], 2, 18646, "matcolours", "grey-30-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[23][moved_id], 0, 18646, "matcolours", "grey-50-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[23][moved_id], 1, 18646, "matcolours", "grey-93-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[23][moved_id], 2, 18646, "matcolours", "grey-93-percent", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[24][moved_id], 0, 16093, "a51_ext", "des_backdoor1", 0xFFFFFFFF);
-	SetDynamicObjectMaterial(moved_info[25][moved_id], 0, 3042, "ct_ventx", "liftdoorsac128", 0xFFFFFFFF);
-	//
-	SetDynamicObjectMaterial(moved_info[28][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[28][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[29][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[29][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[30][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[30][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[31][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[31][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[32][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[32][moved_id], 1, 2669, "cj_chris", "cj_metalplate2", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[32][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[33][moved_id], 0, 10755, "airportrminl_sfse", "ws_airportconc1", 0x00000000);
-	SetDynamicObjectMaterial(moved_info[33][moved_id], 2, 5718, "hobos_lawn", "Smear_CemLAwN", 0x00000000);
 	gMenu[0] = CreateDynamic3DTextLabel("-", 0x339966AA, -25.5349, -72.6542, 1026.4205, 6.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 1); //Ballas
 	gMenu[1] = CreateDynamic3DTextLabel("-", 0x339966AA, -25.5349, -72.6542, 1026.4205, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 2); //Vagos
 	gMenu[2] = CreateDynamic3DTextLabel("-", 0x339966AA, -25.5349, -72.6542, 1026.4205, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, 3); //Grove
@@ -38413,9 +38269,7 @@ alias:hbjectedit("hbedit")
 CMD:objects(playerid) {
 	if(!IsAuthAdmin(playerid, 5)) return 1;
 	new content[1024] = "Номер\tМодель\tАвтор\n";
-	for(new i; i < sizeof(OI); i++) {
-		if(OI[i][oID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, OI[i][oID], OI[i][oModel], OI[i][oAuthor]);
-	}
+	for(new i; i < sizeof(OI); i++) if(OI[i][oID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, OI[i][oID], OI[i][oModel], OI[i][oAuthor]);
 	strcat(content, P"-"W" Створити об'єкт.");
 	ShowPlayerDialog(playerid, D_OBJECTS_LIST, DSTH, P"|"W" Керування об'єктами.", content, "Обрати", "Закрити");
 	return 1;
@@ -38423,9 +38277,7 @@ CMD:objects(playerid) {
 CMD:gates(playerid) {
 	if(!IsAuthAdmin(playerid, 5)) return 1;
 	new content[1024] = "Номер\tМодель\tАвтор\n";
-	for(new i; i < sizeof(GI); i++) {
-		if(GI[i][gID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, GI[i][gID], GI[i][gModel], GI[i][gAuthor]);
-	}
+	for(new i; i < sizeof(GI); i++) if(GI[i][gID]) format(content, sizeof(content), "%s%i\t%i\t%s\n", content, GI[i][gID], GI[i][gModel], GI[i][gAuthor]);
 	strcat(content, P"-"W" Створити ворота.");
 	ShowPlayerDialog(playerid, D_GATES_LIST, DSTH, P"|"W" Керування воротами.", content, "Обрати", "Закрити");
 	return 1;
@@ -40431,20 +40283,13 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 
-		new barrierid = IsObjectBarrier(playerid);
-		if(barrierid != -1) CheckBarrier(playerid,barrierid);
-		else if((IsPlayerInRangeOfPoint(playerid, 20.0, 1050.0936, -1868.7532, 894.0478) ||
-					IsPlayerInRangeOfPoint(playerid, 20.0, 1123.6130, -1849.0645, 894.0478) ||
-					IsPlayerInRangeOfPoint(playerid, 20.0, 1053.8595, -1785.5875, 894.0478) ||
-					IsPlayerInRangeOfPoint(playerid, 20.0, 1108.8413, -1783.3357, 894.0478)) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
+		if((IsPlayerInRangeOfPoint(playerid, 20.0, 1050.0936, -1868.7532, 894.0478) || IsPlayerInRangeOfPoint(playerid, 20.0, 1123.6130, -1849.0645, 894.0478) || IsPlayerInRangeOfPoint(playerid, 20.0, 1053.8595, -1785.5875, 894.0478) || IsPlayerInRangeOfPoint(playerid, 20.0, 1108.8413, -1783.3357, 894.0478)) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			new i = TI[playerid][tSelectHouse];
 			new Veh = GetPlayerVehicleID(playerid);
 			SetVehiclePos(Veh, gHouses[i][houseParkX], gHouses[i][houseParkY], gHouses[i][houseParkZ]);
 			SetVehicleZAngle(Veh, gHouses[i][houseParkR]);
 			exit_garage(Veh, 0);
-			switch(i) {
-			case 425..434: FreezePlayerForTime(playerid, 2);
-			}
+			if(425 <= i <= 434) FreezePlayerForTime(playerid, 2);
 			SetCameraBehindPlayer(playerid);
 			TI[playerid][tInHouse] = false;
 			TI[playerid][tSelectHouse] = 0;
@@ -41035,18 +40880,16 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		return pc_cmd_radiocar(playerid);
 	} */
 	if(newkeys & KEY_WALK && !IsPlayerInAnyVehicle(playerid)) {
-		new barrierid = IsObjectBarrier(playerid);
-		if(barrierid != -1) CheckBarrier(playerid,barrierid);
 		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1120.8074, -893.6594, 1046.0126)) return show_poisk(playerid);
-		if(IsPlayerInRangeOfPoint(playerid, 1.0, 86.8335, -235.0523, 1.6274) && IsCrime(playerid)&& Accepts == false) {
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 86.8335, -235.0523, 1.6274) && IsCrime(playerid) && Accepts == false) {
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			JobTempProcess[playerid] = 27;
 			RandomYareNforJOBS(playerid);
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
-				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
+				if(YN < 2) PlayerTextDrawShow(playerid, YandNsysTDPlayer[playerid][YN]);
 			}
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 1.5, 1400.5125, -20.4098, 1010.3695)&& GetPlayerVirtualWorld(playerid) == 61) return invitetrS(playerid);
@@ -42840,15 +42683,12 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 		ApplyAnimation(playerid, "CRIB", "CRIB_Use_Switch", 4.0, 0, 0, 0, 1, 0, 1);
 		if(progress_rob[playerid] == 10) {
 			TI[playerid][tCodeBank] = 0;
-			MoveDynamicObject(moved_info[26][moved_id], moved_pos_object[26][0], moved_pos_object[26][1], moved_pos_object[26][2],(moved_info[26][moved_modelid] == 968) ? (0.014) : (moved_info[26][moved_modelid] == 2920) ? (0.014) : (moved_info[26][moved_modelid] == 1495) ? (0.034) : (moved_info[26][moved_modelid] == 2949) ? (0.034) : (moved_info[26][moved_modelid] == 2949) ? (10.0) : (1.2), moved_pos_object[26][3], moved_pos_object[26][4], moved_pos_object[26][5]);
 			text_bank = CreateDynamic3DTextLabel("{F7A587}Спрацювала сигналізація двері"W"\n\nЗакриття через{F7A587} 5"W" хв", 0xFFFFFFFF, -1146.6598, 28.7786, 1169.5699+ 1.5, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1);
 			bank_vzlom[1] = 5;
 			bank_vzlom[3] = 5;
 			SendPDMessage(CDEPARTMENT, "[Увага] Спрацювала сигналізація сховища в центральному банку ЛС.");
 			for(new it = 0; it < 24; it++) TextDrawHideForPlayer(playerid, hack_magaz_TD[it]);
-			for(new i; i < 13; i++) {
-				PlayerTextDrawHide(playerid, hack_numbers[playerid][i]);
-			}
+			for(new i; i < 13; i++) PlayerTextDrawHide(playerid, hack_numbers[playerid][i]);
 			ApplyAnimation(playerid, "CARRY", "null", 1.0, 0, 0, 0, 0, 0, 0);
 			PlayerClearAnim[playerid] = 1;
 			CancelSelectTextDraw(playerid);
@@ -45572,24 +45412,15 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `OpenedPos` = '%s' WHERE `ID` = %i LIMIT 1", gpos, gid);
 			mysql_query(connects, query);
 			DeletePVar(playerid, "gedit");
-			if(GI[gid][gStatus]) {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
-			} else {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
-			}
+			if(GI[gid][gStatus]) MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			else MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 		} else if(response == EDIT_RESPONSE_CANCEL) {
 			gate_edit(playerid, gid);
 			DeletePVar(playerid, "gedit");
-			if(GI[gid][gStatus]) {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
-			} else {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
-			}
+			if(GI[gid][gStatus]) MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			else MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 		}
+		return 1;
 	} else if(GetPVarInt(playerid, "gedit") == 2) {
 		new query[512], gpos[512], gid = GetPVarInt(playerid, "gateid");
 		if(response == EDIT_RESPONSE_FINAL) {
@@ -45603,24 +45434,15 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `ClosedPos` = '%s' WHERE `ID` = %i LIMIT 1", gpos, gid);
 			mysql_query(connects, query);
 			DeletePVar(playerid, "gedit");
-			if(GI[gid][gStatus]) {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
-			} else {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
-			}
+			if(GI[gid][gStatus]) MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			else MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 		} else if(response == EDIT_RESPONSE_CANCEL) {
 			gate_edit(playerid, gid);
 			DeletePVar(playerid, "gedit");
-			if(GI[gid][gStatus]) {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
-			} else {
-				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
-				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
-			}
+			if(GI[gid][gStatus]) MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+			else MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 		}
+		return 1;
 	}
 	if(GetPVarInt(playerid, "oedit")) {
 		new query[512], opos[512], oid = GetPVarInt(playerid, "object");
@@ -46896,48 +46718,6 @@ CB:start_character(playerid) {
 	TI[playerid][tStarted] = true;
 	serv_stats[0]++;
 	SetPlayerTime(playerid, tmphour, tmpminute);
-	return 1;
-}
-IsObjectBarrier(playerid) {
-	new max_rear_object_id = -1;
-	new Float:max_rear_object_distance = 100000;
-	for(new id; id < MAX_OBJECT_MOVED; id++) {
-		if(moved_info[id][moved_vw] != GetPlayerVirtualWorld(playerid) && moved_info[id][moved_vw] != -1) continue;
-		new Float:here_distance = (!IsPlayerInAnyVehicle(playerid)) ? floatround(GetPlayerDistanceFromPoint(playerid, moved_info[id][movedPosX], moved_info[id][movedPosY], moved_info[id][movedPosZ])) : floatround(GetVehicleDistanceFromPoint(GetPlayerVehicleID(playerid), moved_info[id][movedPosX], moved_info[id][movedPosY], moved_info[id][movedPosZ]));
-		if(here_distance < max_rear_object_distance) {
-			max_rear_object_id = id;
-			max_rear_object_distance = here_distance;
-		}
-	}
-	if(max_rear_object_distance > 15.0 && IsPlayerInAnyVehicle(playerid)) max_rear_object_id = -1;
-	else if(max_rear_object_distance > 3.5 && !IsPlayerInAnyVehicle(playerid)) max_rear_object_id = -1;
-	return max_rear_object_id;
-}
-MoveObjectBarrier(id) {
-	if(moved_info[id][status_moved]) return 1;
-	if(IsDynamicObjectMoving(moved_info[id][moved_id])) return 1;
-	if(id == 27 || id == 26) MoveDynamicObject(moved_info[id][moved_id], moved_pos_object[id][0], moved_pos_object[id][1], moved_pos_object[id][2],(moved_info[id][moved_modelid] == 968) ? (0.014) : (moved_info[id][moved_modelid] == 2920) ? (0.014) : (moved_info[id][moved_modelid] == 1495) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (10.0) : (1.2), moved_pos_object[id][3], moved_pos_object[id][4], moved_pos_object[id][5]);
-	else MoveDynamicObject(moved_info[id][moved_id], moved_pos_object[id][0], moved_pos_object[id][1], moved_pos_object[id][2]+0.04,(moved_info[id][moved_modelid] == 968) ? (0.014) : (moved_info[id][moved_modelid] == 2920) ? (0.014) : (moved_info[id][moved_modelid] == 1495) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (10.0) : (1.2), moved_pos_object[id][3], moved_pos_object[id][4], moved_pos_object[id][5]);
-	moved_info[id][status_moved] = true;
-	return 1;
-}
-CB:CheckObjectBarrier(id) {
-	if(id == 27 || id == 26) MoveDynamicObject(moved_info[id][moved_id], moved_info[id][movedPosX], moved_info[id][movedPosY], moved_info[id][movedPosZ],(moved_info[id][moved_modelid] == 968) ? (0.014) : (moved_info[id][moved_modelid] == 2920) ? (0.014) : (moved_info[id][moved_modelid] == 1495) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (10.0) : (1.2), moved_info[id][movedPosRotationX], moved_info[id][movedPosRotationY], moved_info[id][movedPosRotationZ]);
-	else MoveDynamicObject(moved_info[id][moved_id], moved_info[id][movedPosX], moved_info[id][movedPosY], moved_info[id][movedPosZ]-0.04,(moved_info[id][moved_modelid] == 968) ? (0.014) : (moved_info[id][moved_modelid] == 2920) ? (0.014) : (moved_info[id][moved_modelid] == 1495) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (0.034) : (moved_info[id][moved_modelid] == 2949) ? (10.0) : (1.2), moved_info[id][movedPosRotationX], moved_info[id][movedPosRotationY], moved_info[id][movedPosRotationZ]);
-	return 1;
-}
-stock CheckBarrier(playerid, barrierid) {
-	switch(barrierid) {
-		case 4: if(IsPlayerInAnyVehicle(playerid) || (!IsAnEnforcement(playerid) && !IsAGovernment(playerid))) return 1;
-		case 8: if(!IsPlayerInAnyVehicle(playerid)) return 1;
-		case 7: if(FI[CI[playerid][pMember]][fType] != fCIVIL) return 1;
-		case 21, 22, 23, 18: if(FI[CI[playerid][pMember]][fType] != fMEDIA) return 1;
-		case 10, 16: if(FI[CI[playerid][pMember]][fType] != fMAFIA) return 1;
-		case 25: if(CI[playerid][pJob] != 8) return 1;
-		case 26: if(CI[playerid][pJob] != 8 || !GetPVarInt(playerid, "inc_start") || bank_vzlom[1] > 0) return 1;
-		case 5, 6, 9, 11, 13, 14, 15, 17, 24, 29, 30, 31, 32, 33, 34: if(!IsAnEnforcement(playerid) && !IsAGovernment(playerid)) return 1;
-	}
-	MoveObjectBarrier(barrierid);
 	return 1;
 }
 stock GetVehicleFreeSeat(vehicleid) {
@@ -53989,8 +53769,6 @@ stock MyButtonSystem(playerid) {
 				if(IsPlayerInRangeOfPoint(playerid, 1.0, 1693.6610, 431.5511, 30.6758)) Welding[playerid] = CreatePlayerObject(playerid, 18717, 1693.695922, 431.868621, 29.245740, 0.0, 0.0, 0.0, 300.00);
 			}
 		case 23: {
-				if(IsPlayerInRangeOfPoint(playerid, 3.0, 2719.1243, -2503.9795, 13.4942)) MoveObjectBarrier(11);
-				if(IsPlayerInRangeOfPoint(playerid, 3.0, 2718.5977, -2405.0637, 13.4643)) MoveObjectBarrier(17);
 				ClearAnimations(playerid);
 				ApplyAnimation(playerid, "CARRY", "null", 1.0, 0, 0, 0, 0, 0, 0);
 			}
@@ -54008,7 +53786,6 @@ stock MyButtonSystem(playerid) {
 				SetPVarInt(playerid, "PlusWareHouse", 1);
 				SetPlayerAttachedObject(playerid, 1, 2358, 6, 0.0, 0.10, -0.2, -110.0, 0.0, 78.0);
 				JobTempProcess[playerid] = 0;
-			//
 			}
 		case 27:{
 				switch(random(4)) {
@@ -54901,324 +54678,323 @@ stock AtachPlayerAcces(playerid, setobject,skinid) {
 		}
 		case 19320: {
 			switch(skinid) {
-			case 1..311:SetPlayerAttachedObject(playerid, 2, 19320, 2, 0.1570, -0.0040, 0.0000, 0.0000, 89.8000, 0.0000, 0.6560, 0.6340, 0.7240);
-			default: SendError(playerid, !"Аксесуар 'Гарбуз', не буде відображатися на цьому скіні.");
+				case 1..311:SetPlayerAttachedObject(playerid, 2, 19320, 2, 0.1570, -0.0040, 0.0000, 0.0000, 89.8000, 0.0000, 0.6560, 0.6340, 0.7240);
+				default: SendError(playerid, !"Аксесуар 'Гарбуз', не буде відображатися на цьому скіні.");
 			}
 		}
-		case 2226:
-		{
-		switch(skinid) {
-			case 1: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.202000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 1
-			case 2: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.209000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 2
-			case 3: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 3
-			case 4: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 4
-			case 5: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.238000, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 5
-			case 6: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102000, -0.227000, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 6
-			case 7: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.208000, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 7
-			case 8: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.196999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 8
-			case 9: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.184999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 9
-			case 10: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.021000, -0.184999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 10
-			case 11: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.109999, -0.163999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 11
-			case 12: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.163999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 12
-			case 13: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106999, -0.163999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 13
-			case 14: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106999, -0.163999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 14
-			case 15: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.192999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 15
-			case 16: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.117999, -0.192999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 16
-			case 17: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.180999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 17
-			case 18: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.061999, -0.180999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 18
-			case 19: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102999, -0.180999, -0.063999, 0.0, 37.099975, 0.0, 0.647999, 0.767000, 0.738000); // 19
-			case 20: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.188999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 20
-			case 21: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.0430, -0.1830, -0.0590, 0.0000, 34.5000, 0.0000, 0.6760, 0.7840, 0.7600, -1, -1);
-			case 22: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.219999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 22
-			case 23: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.196999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 23
-			case 24: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.196999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 24
-			case 25: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.196999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 25
-			case 27: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.085999, -0.193000, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 27
-			case 28: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.085999, -0.187000, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 28
-			case 29: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.060999, -0.210000, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 29
-			case 30: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083999, -0.187000, -0.077000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 30
-			case 31: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.044999, -0.189000, -0.077000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 31
-			case 32: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.161999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 32
-			case 33: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.045999, -0.161999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 33
-			case 34: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.189000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 34
-			case 35: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.183000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 35
-			case 36: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.179000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 36
-			case 37: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.076999, -0.172999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 37
-			case 38: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.023999, -0.166999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 38
-			case 39: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.023999, -0.191000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 39
-			case 40: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.168999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 40
-			case 41: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091999, -0.156999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 41
-			case 42: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.169999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 42
-			case 43: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.038999, -0.169999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 43
-			case 44: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.038999, -0.157999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 44
-			case 45: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.065999, -0.177999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 45
-			case 46: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.203999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 46
-			case 47: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.196999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 47
-			case 48: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.186999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 48
-			case 49: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.171999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 49
-			case 50: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.190999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 50
-			case 51: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.115999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 51
-			case 52: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.115999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 52
-			case 53: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.038999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 53
-			case 54: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.024999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 54
-			case 55: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.163999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 55
-			case 56: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.154999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 56
-			case 57: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.107999, -0.183999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 57
-			case 58: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.059999, -0.164999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 58
-			case 59: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.177999, -0.070000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 59
-			case 60: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.192999, -0.070000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 60
-			case 61: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.179999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 61
-			case 62: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.171999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 62
-			case 63: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103999, -0.152999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 63
-			case 64: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.133999, -0.152999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 64
-			case 65: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.133999, -0.152999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 65
-			case 66: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.193999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 66
-			case 67: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.193999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 67
-			case 68: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.174999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 68
-			case 69: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.154999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 69
-			case 70: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.180999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 70
-			case 71: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.190999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 71
-			case 72: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.072999, -0.182999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 72
-			case 73: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.072999, -0.172999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 73
-			case 74: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.168999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 74
-			case 75: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.155999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 75
-			case 76: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094000, -0.146999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 76
-			case 77: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.024000, -0.174999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 77
-			case 78: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103999, -0.199999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 78
-			case 79: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.192999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 79
-			case 80: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.177999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 80
-			case 81: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.177999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 81
-			case 82: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.186999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 82
-			case 83: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.180999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 83
-			case 84: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.195999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 84
-			case 85: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.101000, -0.176999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 85
-			case 86: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.203999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 86
-			case 87: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.131000, -0.156999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 87
-			case 88: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.036000, -0.156999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 88
-			case 89: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.026000, -0.187999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 89
-			case 90: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.120000, -0.154999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 90
-			case 91: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103000, -0.149999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 91
-			case 92: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103000, -0.132999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 92
-			case 93: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.105000, -0.149999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 93
-			case 94: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.149999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 94
-			case 95: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.145999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 95
-			case 96: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.135000, -0.186999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 96
-			case 97: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.082000, -0.174999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 97
-			case 98: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078000, -0.201999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 98
-			case 99: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.123000, -0.162999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 99
-			case 100: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106000, -0.180999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 100
-			case 101: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.107000, -0.215999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 101
-			case 102: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.092000, -0.192999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 102
-			case 103: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.121000, -0.224999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 103
-			case 104: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.093000, -0.213999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 104
-			case 105: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110000, -0.230999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 105
-			case 106: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.206999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 106
-			case 107: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.093000, -0.200999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 107
-			case 108: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.101000, -0.178999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 108
-			case 109: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075000, -0.176999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 109
-			case 110: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081000, -0.181999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 110
-			case 111: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.088000, -0.172999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 111
-			case 112: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.062000, -0.172999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 112
-			case 113: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.076000, -0.185999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 113
-			case 114: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090000, -0.182999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 114
-			case 115: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.188999, -0.063000, 0.0, 37.099975, 5.700001, 0.647999, 0.767000, 0.738000); // 115
-			case 116: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.093000, -0.199999, -0.063000, 0.0, 37.099975, 5.700001, 0.632999, 0.767000, 0.738000); // 116
-			case 117: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089000, -0.188999, -0.072000, 0.0, 37.099975, 5.700001, 0.632999, 0.767000, 0.738000); // 117
-			case 118: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.082000, -0.197999, -0.072000, 0.0, 37.099975, 5.700001, 0.632999, 0.767000, 0.738000); // 118
-			case 119: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.190999, -0.069999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 119
-			case 120: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.199999, -0.069999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 120
-			case 121: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.210999, -0.069999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 121
-			case 122: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090000, -0.187999, -0.070999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 122
-			case 123: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.187999, -0.070999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 123
-			case 124: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.170999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 124
-			case 125: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.185999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 125
-			case 126: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.198999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 126
-			case 127: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.209999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 127
-			case 128: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069000, -0.179999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 128
-			case 129: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.033000, -0.167999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 129
-			case 130: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.033000, -0.185999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 130
-			case 131: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.116000, -0.164999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 131
-			case 132: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.043000, -0.151999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 132
-			case 133: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.171999, -0.051999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 133
-			case 134: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.034000, -0.158999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 134
-			case 135: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069000, -0.192999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 135
-			case 136: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.016000, -0.164999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 136
-			case 137: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078000, -0.155999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 137
-			case 138: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.146999, -0.056999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 138
-			case 139: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.146999, -0.076999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 139
-			case 140: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.146999, -0.076999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 140
-			case 141: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.112999, -0.158999, -0.076999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 141
-			case 142: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102999, -0.193999, -0.083000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 142
-			case 143: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.193999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 143
-			case 144: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.209999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 144
-			case 145: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.161999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 145
-			case 146: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.179999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 146
-			case 147: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.173999, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 147
-			case 148: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.159999, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 148
-			case 149: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.260999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 149
-			case 150: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.155999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 150
-			case 151: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.168999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 151
-			case 152: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.152998, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 152
-			case 153: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.172998, -0.052999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 153
-			case 154: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.172998, -0.052999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 154
-			case 155: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.208999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 155
-			case 156: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.181998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 156
-			case 157: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.157998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 157
-			case 158: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.088999, -0.171998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 158
-			case 159: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084999, -0.171998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 159
-			case 160: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.143998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 160
-			case 161: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.185998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 161
-			case 162: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.172998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 162
-			case 163: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.183998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 163
-			case 164: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.177998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 164
-			case 165: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.037999, -0.196998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 165
-			case 166: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.040999, -0.196998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 166
-			case 167: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.104999, -0.175998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 167
-			case 168: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.082999, -0.175998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 168
-			case 169: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.151998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 169
-			case 170: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.183998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 170
-			case 171: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.183998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 171
-			case 172: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096000, -0.154998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 172
-			case 173: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096000, -0.181998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 173
-			case 174: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091000, -0.185998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 174
-			case 175: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091000, -0.181998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 175
-			case 176: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.211998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 176
-			case 177: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.211998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 177
-			case 178: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102000, -0.162998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 178
-			case 179: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.173998, -0.071999, 0.0, 37.099975, -0.499997, 0.644999, 0.767000, 0.738000); // 179
-			case 180: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.203998, -0.071999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 180
-			case 181: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.121999, -0.177998, -0.071999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 181
-			case 182: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.177998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 182
-			case 183: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.164998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 183
-			case 184: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.190998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 184
-			case 185: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.184998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 185
-			case 186: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.192998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 186
-			case 187: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.177998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 187
-			case 188: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.177998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 188
-			case 189: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083999, -0.185998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 189
-			case 190: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.120999, -0.165998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 190
-			case 191: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.132999, -0.154998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 191
-			case 192: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.132999, -0.145998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 192
-			case 193: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.132999, -0.145998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 193
-			case 194: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.117999, -0.142998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 194
-			case 195: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106999, -0.142998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 195
-			case 196: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.021999, -0.158998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 196
-			case 197: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.021999, -0.199998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 197
-			case 198: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.111999, -0.170998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 198
-			case 199: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.027999, -0.170998, -0.065999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 199
-			case 200: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.170998, -0.065999, 0.0, 37.099975, -0.099994, 0.644999, 0.767000, 0.738000); // 200
-			case 201: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.111999, -0.157998, -0.065999, 0.0, 37.099975, 1.700005, 0.644999, 0.767000, 0.738000); // 201
-			case 202: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.111999, -0.169998, -0.065999, 0.0, 37.099975, 1.700005, 0.644999, 0.767000, 0.738000); // 202
-			case 203: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.186998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 203
-			case 204: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.186998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 204
-			case 205: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.186998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 205
-			case 206: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.176998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 206
-			case 207: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.171998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 207
-			case 208: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.197998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 208
-			case 209: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.055999, -0.162997, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 209
-			case 210: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.049999, -0.154997, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 210
-			case 211: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.100999, -0.143997, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 211
-			case 212: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.027999, -0.162997, -0.065999, 0.0, 37.099975, 1.400005, 0.644999, 0.767000, 0.738000); // 212
-			case 213: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.189997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 213
-			case 214: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.152997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 214
-			case 215: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.152997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 215
-			case 216: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.152997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 216
-			case 217: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.163997, -0.065999, 0.0, 37.099975, 0.700006, 0.644999, 0.767000, 0.738000); // 217
-			case 218: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.023999, -0.163997, -0.065999, 0.0, 37.099975, 0.700006, 0.644999, 0.767000, 0.738000); // 218
-			case 219: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.150997, -0.065999, 0.0, 37.099975, 0.700006, 0.644999, 0.767000, 0.738000); // 219
-			case 220: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.193997, -0.065999, 0.0, 37.099975, 5.500005, 0.644999, 0.767000, 0.738000); // 220
-			case 221: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.176997, -0.065999, 0.0, 37.099975, 4.200006, 0.644999, 0.767000, 0.738000); // 221
-			case 222: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.176997, -0.065999, 0.0, 37.099975, 4.200006, 0.644999, 0.767000, 0.738000); // 222
-			case 223: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.196997, -0.065999, 0.0, 37.099975, 6.300006, 0.644999, 0.767000, 0.738000); // 223
-			case 224: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.135997, -0.042999, 0.0, 37.099975, -7.699989, 0.644999, 0.767000, 0.738000); // 224
-			case 225: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.135997, -0.042999, 0.0, 37.099975, -7.699989, 0.644999, 0.767000, 0.738000); // 225
-			case 226: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.135997, -0.042999, 0.0, 37.099975, -7.699989, 0.644999, 0.767000, 0.738000); // 226
-			case 227: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.200997, -0.065999, 0.0, 37.099975, -0.699989, 0.644999, 0.767000, 0.738000); // 227
-			case 228: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.191997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 228
-			case 229: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.045999, -0.159997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 229
-			case 230: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.061999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 230
-			case 231: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.002999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 231
-			case 232: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.002999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 232
-			case 233: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.100999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 233
-			case 234: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.040999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 234
-			case 235: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.040999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 235
-			case 236: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.047999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 236
-			case 237: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 237
-			case 238: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 238
-			case 239: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.192997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 239
-			case 240: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.187997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 240
-			case 241: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.213997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 241
-			case 242: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.205997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 242
-			case 243: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.177997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 243
-			case 244: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.157997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 244
-			case 245: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069999, -0.204997, -0.055000, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 245
-			case 246: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069999, -0.168997, -0.055000, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 246
-			case 247: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 247
-			case 248: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 248
-			case 249: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 249
-			case 250: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.088999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 250
-			case 251: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.161997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 251
-			case 252: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.161997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 252
-			case 253: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.050999, -0.161997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 253
-			case 254: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.183997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 254
-			case 255: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078999, -0.168997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 255
-			case 256: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.158997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 256
-			case 257: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.158997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 257
-			case 258: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.202997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 258
-			case 259: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.202997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 259
-			case 260: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.188997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 260
-			case 261: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.052999, -0.172997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 261
-			case 262: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.061999, -0.193997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 262
-			case 263: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.100999, -0.159997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 263
-			case 264: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.208997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 264
-			case 265: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.208997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 265
-			case 266: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.208997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 266
-			case 267: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.304999, -0.199997, -0.087000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 267
-			case 268: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.191997, -0.079000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 268
-			case 269: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.237997, -0.079000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 269
-			case 270: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.203997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 270
-			case 271: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078999, -0.203997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 271
-			case 272: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070999, -0.203997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 272
-			case 273: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.058999, -0.187997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 273
-			case 274: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.187997, -0.068000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 274
-			case 275: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.187997, -0.068000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 275
-			case 276: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.187997, -0.068000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 276
-			case 277: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.225997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 277
-			case 278: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.217997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 278
-			case 279: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.217997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 279
-			case 280: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.194997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 280
-			case 281: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.194997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 281
-			case 282: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.197997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 282
-			case 283: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091999, -0.187997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 283
-			case 284: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.177997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 284
-			case 285: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.188997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 285
-			case 286: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.188997, -0.058000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 286
-			case 287: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.196997, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 287
-			case 288: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.190997, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 288
-			case 289: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.200997, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 289
-			case 290: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.195996, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 290
-			case 291: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.185996, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 291
-			case 292: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.185996, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 292
-			case 293: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.101999, -0.185996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 293
-			case 294: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083999, -0.185996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 294
-			case 295: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.016999, -0.195996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 295
-			case 296: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.016999, -0.195996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 296
-			case 297: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.064999, -0.195996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 297
-			case 298: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102999, -0.180996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 298
-			case 299: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.135999, -0.201996, -0.062000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 299
-			case 300: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.195996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 300
-			case 301: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.195996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 301
-			case 302: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 302
-			case 303: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 303
-			case 304: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 304
-			case 305: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 305
-			case 306: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.162996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 306
-			case 307: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.155996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 307
-			case 308: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.155996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 308
-			case 309: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.155996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 309
-			case 310: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.188996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 310
-			case 311: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.184996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 311
-		}
+		case 2226: {
+			switch(skinid) {
+				case 1: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.202000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 1
+				case 2: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.209000, -0.065999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 2
+				case 3: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 3
+				case 4: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.195999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 4
+				case 5: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.238000, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 5
+				case 6: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102000, -0.227000, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 6
+				case 7: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.208000, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 7
+				case 8: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.196999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 8
+				case 9: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.184999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 9
+				case 10: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.021000, -0.184999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 10
+				case 11: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.109999, -0.163999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 11
+				case 12: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.163999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 12
+				case 13: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106999, -0.163999, -0.057999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 13
+				case 14: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106999, -0.163999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 14
+				case 15: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.192999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 15
+				case 16: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.117999, -0.192999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 16
+				case 17: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.180999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 17
+				case 18: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.061999, -0.180999, -0.063999, 0.0, 37.099975, 0.0, 0.651999, 0.767000, 0.738000); // 18
+				case 19: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102999, -0.180999, -0.063999, 0.0, 37.099975, 0.0, 0.647999, 0.767000, 0.738000); // 19
+				case 20: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.188999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 20
+				case 21: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.0430, -0.1830, -0.0590, 0.0000, 34.5000, 0.0000, 0.6760, 0.7840, 0.7600, -1, -1);
+				case 22: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.219999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 22
+				case 23: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.196999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 23
+				case 24: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.196999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 24
+				case 25: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.196999, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 25
+				case 27: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.085999, -0.193000, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 27
+				case 28: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.085999, -0.187000, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 28
+				case 29: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.060999, -0.210000, -0.063999, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 29
+				case 30: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083999, -0.187000, -0.077000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 30
+				case 31: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.044999, -0.189000, -0.077000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 31
+				case 32: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.161999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 32
+				case 33: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.045999, -0.161999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 33
+				case 34: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.189000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 34
+				case 35: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.183000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 35
+				case 36: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.179000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 36
+				case 37: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.076999, -0.172999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 37
+				case 38: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.023999, -0.166999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 38
+				case 39: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.023999, -0.191000, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 39
+				case 40: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.168999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 40
+				case 41: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091999, -0.156999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 41
+				case 42: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.169999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 42
+				case 43: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.038999, -0.169999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 43
+				case 44: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.038999, -0.157999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 44
+				case 45: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.065999, -0.177999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 45
+				case 46: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.203999, -0.062000, 0.0, 37.099975, 0.899999, 0.647999, 0.767000, 0.738000); // 46
+				case 47: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.196999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 47
+				case 48: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.186999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 48
+				case 49: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.171999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 49
+				case 50: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.190999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 50
+				case 51: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.115999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 51
+				case 52: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.115999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 52
+				case 53: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.038999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 53
+				case 54: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.024999, -0.175999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 54
+				case 55: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.163999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 55
+				case 56: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.154999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 56
+				case 57: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.107999, -0.183999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 57
+				case 58: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.059999, -0.164999, -0.062000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 58
+				case 59: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.177999, -0.070000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 59
+				case 60: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.192999, -0.070000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 60
+				case 61: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.179999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 61
+				case 62: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.171999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 62
+				case 63: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103999, -0.152999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 63
+				case 64: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.133999, -0.152999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 64
+				case 65: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.133999, -0.152999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 65
+				case 66: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.193999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 66
+				case 67: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.193999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 67
+				case 68: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.174999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 68
+				case 69: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.154999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 69
+				case 70: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.180999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 70
+				case 71: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.190999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 71
+				case 72: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.072999, -0.182999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 72
+				case 73: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.072999, -0.172999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 73
+				case 74: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.168999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 74
+				case 75: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.155999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 75
+				case 76: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094000, -0.146999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 76
+				case 77: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.024000, -0.174999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 77
+				case 78: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103999, -0.199999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 78
+				case 79: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.192999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 79
+				case 80: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.177999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 80
+				case 81: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.177999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 81
+				case 82: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.186999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 82
+				case 83: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.180999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 83
+				case 84: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.195999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 84
+				case 85: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.101000, -0.176999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 85
+				case 86: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.203999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 86
+				case 87: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.131000, -0.156999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 87
+				case 88: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.036000, -0.156999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 88
+				case 89: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.026000, -0.187999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 89
+				case 90: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.120000, -0.154999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 90
+				case 91: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103000, -0.149999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 91
+				case 92: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.103000, -0.132999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 92
+				case 93: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.105000, -0.149999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 93
+				case 94: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.149999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 94
+				case 95: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070000, -0.145999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 95
+				case 96: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.135000, -0.186999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 96
+				case 97: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.082000, -0.174999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 97
+				case 98: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078000, -0.201999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 98
+				case 99: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.123000, -0.162999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 99
+				case 100: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106000, -0.180999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 100
+				case 101: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.107000, -0.215999, -0.063000, 0.0, 37.099975, 1.300000, 0.647999, 0.767000, 0.738000); // 101
+				case 102: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.092000, -0.192999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 102
+				case 103: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.121000, -0.224999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 103
+				case 104: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.093000, -0.213999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 104
+				case 105: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110000, -0.230999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 105
+				case 106: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.206999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 106
+				case 107: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.093000, -0.200999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 107
+				case 108: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.101000, -0.178999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 108
+				case 109: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075000, -0.176999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 109
+				case 110: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081000, -0.181999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 110
+				case 111: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.088000, -0.172999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 111
+				case 112: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.062000, -0.172999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 112
+				case 113: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.076000, -0.185999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 113
+				case 114: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090000, -0.182999, -0.063000, 0.0, 37.099975, 2.800000, 0.647999, 0.767000, 0.738000); // 114
+				case 115: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.188999, -0.063000, 0.0, 37.099975, 5.700001, 0.647999, 0.767000, 0.738000); // 115
+				case 116: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.093000, -0.199999, -0.063000, 0.0, 37.099975, 5.700001, 0.632999, 0.767000, 0.738000); // 116
+				case 117: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089000, -0.188999, -0.072000, 0.0, 37.099975, 5.700001, 0.632999, 0.767000, 0.738000); // 117
+				case 118: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.082000, -0.197999, -0.072000, 0.0, 37.099975, 5.700001, 0.632999, 0.767000, 0.738000); // 118
+				case 119: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.190999, -0.069999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 119
+				case 120: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071000, -0.199999, -0.069999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 120
+				case 121: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086000, -0.210999, -0.069999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 121
+				case 122: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090000, -0.187999, -0.070999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 122
+				case 123: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.187999, -0.070999, 0.0, 37.099975, 3.000002, 0.632999, 0.767000, 0.738000); // 123
+				case 124: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.170999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 124
+				case 125: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.185999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 125
+				case 126: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.198999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 126
+				case 127: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.067999, -0.209999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 127
+				case 128: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069000, -0.179999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 128
+				case 129: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.033000, -0.167999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 129
+				case 130: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.033000, -0.185999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 130
+				case 131: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.116000, -0.164999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 131
+				case 132: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.043000, -0.151999, -0.059999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 132
+				case 133: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.171999, -0.051999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 133
+				case 134: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.034000, -0.158999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 134
+				case 135: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069000, -0.192999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 135
+				case 136: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.016000, -0.164999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 136
+				case 137: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078000, -0.155999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 137
+				case 138: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.146999, -0.056999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 138
+				case 139: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.146999, -0.076999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 139
+				case 140: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.146999, -0.076999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 140
+				case 141: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.112999, -0.158999, -0.076999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 141
+				case 142: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102999, -0.193999, -0.083000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 142
+				case 143: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.193999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 143
+				case 144: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.209999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 144
+				case 145: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.161999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 145
+				case 146: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096999, -0.179999, -0.079000, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 146
+				case 147: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.173999, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 147
+				case 148: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.159999, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 148
+				case 149: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.260999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 149
+				case 150: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.155999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 150
+				case 151: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.168999, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 151
+				case 152: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.152998, -0.070999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 152
+				case 153: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.172998, -0.052999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 153
+				case 154: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.172998, -0.052999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 154
+				case 155: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.208999, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 155
+				case 156: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.181998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 156
+				case 157: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.081999, -0.157998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 157
+				case 158: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.088999, -0.171998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 158
+				case 159: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084999, -0.171998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 159
+				case 160: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.143998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 160
+				case 161: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.185998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 161
+				case 162: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.172998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 162
+				case 163: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.183998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 163
+				case 164: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.110999, -0.177998, -0.073999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 164
+				case 165: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.037999, -0.196998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 165
+				case 166: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.040999, -0.196998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 166
+				case 167: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.104999, -0.175998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 167
+				case 168: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.082999, -0.175998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 168
+				case 169: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.151998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 169
+				case 170: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.183998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 170
+				case 171: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083000, -0.183998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 171
+				case 172: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096000, -0.154998, -0.064999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 172
+				case 173: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.096000, -0.181998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 173
+				case 174: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091000, -0.185998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 174
+				case 175: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091000, -0.181998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 175
+				case 176: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.211998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 176
+				case 177: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084000, -0.211998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 177
+				case 178: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102000, -0.162998, -0.071999, 0.0, 37.099975, 3.000002, 0.644999, 0.767000, 0.738000); // 178
+				case 179: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.173998, -0.071999, 0.0, 37.099975, -0.499997, 0.644999, 0.767000, 0.738000); // 179
+				case 180: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.203998, -0.071999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 180
+				case 181: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.121999, -0.177998, -0.071999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 181
+				case 182: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.177998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 182
+				case 183: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.164998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 183
+				case 184: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.190998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 184
+				case 185: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.184998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 185
+				case 186: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.192998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 186
+				case 187: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.177998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 187
+				case 188: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.177998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 188
+				case 189: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083999, -0.185998, -0.059999, 0.0, 37.099975, 2.000003, 0.644999, 0.767000, 0.738000); // 189
+				case 190: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.120999, -0.165998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 190
+				case 191: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.132999, -0.154998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 191
+				case 192: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.132999, -0.145998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 192
+				case 193: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.132999, -0.145998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 193
+				case 194: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.117999, -0.142998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 194
+				case 195: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.106999, -0.142998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 195
+				case 196: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.021999, -0.158998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 196
+				case 197: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.021999, -0.199998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 197
+				case 198: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.111999, -0.170998, -0.059999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 198
+				case 199: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.027999, -0.170998, -0.065999, 0.0, 37.099975, 4.400004, 0.644999, 0.767000, 0.738000); // 199
+				case 200: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.170998, -0.065999, 0.0, 37.099975, -0.099994, 0.644999, 0.767000, 0.738000); // 200
+				case 201: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.111999, -0.157998, -0.065999, 0.0, 37.099975, 1.700005, 0.644999, 0.767000, 0.738000); // 201
+				case 202: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.111999, -0.169998, -0.065999, 0.0, 37.099975, 1.700005, 0.644999, 0.767000, 0.738000); // 202
+				case 203: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.186998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 203
+				case 204: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.186998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 204
+				case 205: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.186998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 205
+				case 206: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.176998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 206
+				case 207: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.171998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 207
+				case 208: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.098999, -0.197998, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 208
+				case 209: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.055999, -0.162997, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 209
+				case 210: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.049999, -0.154997, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 210
+				case 211: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.100999, -0.143997, -0.065999, 0.0, 37.099975, 5.500004, 0.644999, 0.767000, 0.738000); // 211
+				case 212: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.027999, -0.162997, -0.065999, 0.0, 37.099975, 1.400005, 0.644999, 0.767000, 0.738000); // 212
+				case 213: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.189997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 213
+				case 214: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.152997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 214
+				case 215: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.152997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 215
+				case 216: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.152997, -0.065999, 0.0, 37.099975, 4.200005, 0.644999, 0.767000, 0.738000); // 216
+				case 217: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.163997, -0.065999, 0.0, 37.099975, 0.700006, 0.644999, 0.767000, 0.738000); // 217
+				case 218: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.023999, -0.163997, -0.065999, 0.0, 37.099975, 0.700006, 0.644999, 0.767000, 0.738000); // 218
+				case 219: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.150997, -0.065999, 0.0, 37.099975, 0.700006, 0.644999, 0.767000, 0.738000); // 219
+				case 220: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.086999, -0.193997, -0.065999, 0.0, 37.099975, 5.500005, 0.644999, 0.767000, 0.738000); // 220
+				case 221: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.176997, -0.065999, 0.0, 37.099975, 4.200006, 0.644999, 0.767000, 0.738000); // 221
+				case 222: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.176997, -0.065999, 0.0, 37.099975, 4.200006, 0.644999, 0.767000, 0.738000); // 222
+				case 223: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.196997, -0.065999, 0.0, 37.099975, 6.300006, 0.644999, 0.767000, 0.738000); // 223
+				case 224: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.135997, -0.042999, 0.0, 37.099975, -7.699989, 0.644999, 0.767000, 0.738000); // 224
+				case 225: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.135997, -0.042999, 0.0, 37.099975, -7.699989, 0.644999, 0.767000, 0.738000); // 225
+				case 226: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.074999, -0.135997, -0.042999, 0.0, 37.099975, -7.699989, 0.644999, 0.767000, 0.738000); // 226
+				case 227: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.200997, -0.065999, 0.0, 37.099975, -0.699989, 0.644999, 0.767000, 0.738000); // 227
+				case 228: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.080999, -0.191997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 228
+				case 229: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.045999, -0.159997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 229
+				case 230: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.061999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 230
+				case 231: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.002999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 231
+				case 232: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.002999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 232
+				case 233: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.100999, -0.154997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 233
+				case 234: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.040999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 234
+				case 235: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.040999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 235
+				case 236: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.047999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 236
+				case 237: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 237
+				case 238: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.150997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 238
+				case 239: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.192997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 239
+				case 240: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.187997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 240
+				case 241: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.075999, -0.213997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 241
+				case 242: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.205997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 242
+				case 243: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.177997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 243
+				case 244: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.094999, -0.157997, -0.065999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 244
+				case 245: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069999, -0.204997, -0.055000, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 245
+				case 246: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.069999, -0.168997, -0.055000, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 246
+				case 247: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.084999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 247
+				case 248: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 248
+				case 249: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 249
+				case 250: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.088999, -0.180997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 250
+				case 251: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.161997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 251
+				case 252: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.161997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 252
+				case 253: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.050999, -0.161997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 253
+				case 254: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.183997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 254
+				case 255: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078999, -0.168997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 255
+				case 256: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.158997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 256
+				case 257: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.158997, -0.062999, 0.0, 37.099975, 2.500010, 0.644999, 0.767000, 0.738000); // 257
+				case 258: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.202997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 258
+				case 259: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.202997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 259
+				case 260: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.188997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 260
+				case 261: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.052999, -0.172997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 261
+				case 262: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.061999, -0.193997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 262
+				case 263: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.100999, -0.159997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 263
+				case 264: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.208997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 264
+				case 265: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.208997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 265
+				case 266: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.208997, -0.062999, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 266
+				case 267: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.304999, -0.199997, -0.087000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 267
+				case 268: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.191997, -0.079000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 268
+				case 269: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.237997, -0.079000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 269
+				case 270: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.203997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 270
+				case 271: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.078999, -0.203997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 271
+				case 272: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.070999, -0.203997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 272
+				case 273: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.058999, -0.187997, -0.068000, 0.0, 37.099975, 5.400009, 0.644999, 0.767000, 0.738000); // 273
+				case 274: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.187997, -0.068000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 274
+				case 275: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.187997, -0.068000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 275
+				case 276: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.187997, -0.068000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 276
+				case 277: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.090999, -0.225997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 277
+				case 278: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.217997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 278
+				case 279: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.122999, -0.217997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 279
+				case 280: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.194997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 280
+				case 281: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.194997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 281
+				case 282: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.097999, -0.197997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 282
+				case 283: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.091999, -0.187997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 283
+				case 284: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.177997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 284
+				case 285: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.077999, -0.188997, -0.058000, 0.0, 37.099975, 1.700010, 0.644999, 0.767000, 0.738000); // 285
+				case 286: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.188997, -0.058000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 286
+				case 287: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.196997, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 287
+				case 288: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.087999, -0.190997, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 288
+				case 289: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.200997, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 289
+				case 290: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.071999, -0.195996, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 290
+				case 291: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.079999, -0.185996, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 291
+				case 292: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.185996, -0.062000, 0.0, 37.099975, 3.300009, 0.644999, 0.767000, 0.738000); // 292
+				case 293: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.101999, -0.185996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 293
+				case 294: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.083999, -0.185996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 294
+				case 295: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.016999, -0.195996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 295
+				case 296: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.016999, -0.195996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 296
+				case 297: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.064999, -0.195996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 297
+				case 298: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.102999, -0.180996, -0.062000, 0.0, 37.099975, 0.000010, 0.644999, 0.767000, 0.738000); // 298
+				case 299: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.135999, -0.201996, -0.062000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 299
+				case 300: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.195996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 300
+				case 301: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.195996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 301
+				case 302: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.095999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 302
+				case 303: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 303
+				case 304: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 304
+				case 305: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.190996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 305
+				case 306: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.162996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 306
+				case 307: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.155996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 307
+				case 308: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.155996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 308
+				case 309: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.155996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 309
+				case 310: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.188996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 310
+				case 311: SetPlayerAttachedObject(playerid, 5, 2226, 1, 0.089999, -0.184996, -0.063000, 0.0, 37.099975, 3.400009, 0.644999, 0.767000, 0.738000); // 311
+			}
 		}
 	case 362: {
 			switch(skinid) {
@@ -62355,7 +62131,6 @@ CB:second_timer() {
 		for (new id = 0; id < MAX_OBJECT_MOVED; id++) {
 			if(ServerMovedEx[id] == 1) {
 				if(ServerMovedFix[id] < gettime()) {
-					CheckObjectBarrier(id);
 					ServerMovedEx[id] = 0;
 				}
 			}
@@ -62484,7 +62259,6 @@ CB:minute_timer() {
 		if(bank_vzlom[1] == 0) {
 			DestroyDynamic3DTextLabelEx(text_bank);
 			bank_vzlom[2] = 0;
-			MoveDynamicObject(moved_info[27][moved_id], moved_info[27][movedPosX], moved_info[27][movedPosY], moved_info[27][movedPosZ],(moved_info[27][moved_modelid] == 968) ? (0.014) : (moved_info[27][moved_modelid] == 2920) ? (0.014) : (moved_info[27][moved_modelid] == 1495) ? (0.034) : (moved_info[27][moved_modelid] == 2949) ? (0.034) : (moved_info[27][moved_modelid] == 2949) ? (10.0) : (1.2), moved_info[27][movedPosRotationX], moved_info[27][movedPosRotationY], moved_info[27][movedPosRotationZ]);
 		}
 	}
 	for(new i=0; i <10; i++) {
