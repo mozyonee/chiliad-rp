@@ -3,3 +3,4 @@ bans.json
 log.txt
 *.amx
 gamemodes/chiliad.amx
+*.amx
