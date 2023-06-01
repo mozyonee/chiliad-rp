@@ -1330,8 +1330,8 @@ enum gInfo {
 	gID,
 	gModel,
 	gObject,
-	gSphere,
 	gStatus,
+	Float:gRadius,
 	Float:gSpeed,
 	Float:gOpenedPos[6],
 	Float:gClosedPos[6],
@@ -2616,6 +2616,7 @@ enum dialogs {
 	D_GATE_ADD,
 	D_GATE_CONTROL,
 	D_GATE_EDIT_MODEL,
+	D_GATE_EDIT_RADIUS,
 	D_GATE_EDIT_SPEED,
 	D_GATE_EDIT_WORLD,
 	D_GATE_EDIT_INTERIOR,
@@ -17830,7 +17831,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				cache_get_value_name_int(0, "ID", GI[fid][gID]);
 				cache_get_value_name_int(0, "Model", GI[fid][gModel]);
-				cache_get_value_name_int(0, "Status", GI[fid][gStatus]);
+				cache_get_value_name_float(0, "Radius", GI[fid][gRadius]);
 				cache_get_value_name_float(0, "Speed", GI[fid][gSpeed]);
 				cache_get_value_name(0, "OpenedPos", strpos, sizeof(strpos)), sscanf(strpos, "p<,>a<f>[6]", GI[fid][gOpenedPos]);
 				cache_get_value_name(0, "ClosedPos", strpos, sizeof(strpos)), sscanf(strpos, "p<,>a<f>[6]", GI[fid][gClosedPos]);
@@ -17851,31 +17852,35 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					ShowPlayerDialog(playerid, D_GATE_EDIT_MODEL, DSI, header, W"Введіть нову модель об'єкта для створених воріт.", "Готово", "Назад");
 				}
 				case 1: {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Радіус.", gid);
+					ShowPlayerDialog(playerid, D_GATE_EDIT_RADIUS, DSI, header, W"Введіть новий радіус відкриття для створених воріт.", "Готово", "Назад");
+				}
+				case 2: {
 					format(header, sizeof(header), P"|"W" Керування воротами #%i. Швидкість.", gid);
 					ShowPlayerDialog(playerid, D_GATE_EDIT_SPEED, DSI, header, W"Введіть нову швидкість відкриття для створених воріт.", "Готово", "Назад");
 				}
-				case 2: {
+				case 3: {
 					format(header, sizeof(header), P"|"W" Керування воротами #%i. Віртуальний світ.", gid);
 					ShowPlayerDialog(playerid, D_GATE_EDIT_WORLD, DSI, header, W"Введіть новий віртуальний світ для створених воріт.", "Готово", "Назад");
 				}
-				case 3: {
+				case 4: {
 					format(header, sizeof(header), P"|"W" Керування воротами #%i. Інтер'єр.", gid);
 					ShowPlayerDialog(playerid, D_GATE_EDIT_INTERIOR, DSI, header, W"Введіть новий інтер'єр для створених воріт.", "Готово", "Назад");
 				}
-				case 4: {
+				case 5: {
 					SetPVarInt(playerid, "gedit", 1);
 					EditDynamicObject(playerid, GI[gid][gObject]);
 				}
-				case 5: {
+				case 6: {
 					SetPVarInt(playerid, "gedit", 2);
 					EditDynamicObject(playerid, GI[gid][gObject]);
 				}
-				case 6: {
+				case 7: {
 					if(GI[gid][gStatus]) SetPlayerPosAC(playerid, GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gWorld], GI[gid][gInterior]);
 					else SetPlayerPosAC(playerid, GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gWorld], GI[gid][gInterior]);
 					FreezePlayerForTime(playerid, 1);
 				}
-				case 7: {
+				case 8: {
 					DestroyDynamicObject(GI[gid][gObject]);
 					remove_gate(gid);
 					mysql_format(connects, query, sizeof(query), "DELETE FROM `gates` WHERE `ID` = %i", gid);
@@ -17900,8 +17905,21 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			gate_edit(playerid, gid);
 		}
+		case D_GATE_EDIT_RADIUS: {
+			new query[256], header[64], Float:gradius, gid = GetPVarInt(playerid, "gateid");
+			if(response) {
+				if(sscanf(inputtext, "f", gradius)) {
+					format(header, sizeof(header), P"|"W" Керування воротами #%i. Радіус.", gid);
+					return ShowPlayerDialog(playerid, D_GATE_EDIT_RADIUS, DSI, header, W"Введіть новий радіус відкриття для створених воріт.", "Готово", "Назад");
+				}
+				GI[gid][gRadius] = gradius;
+				mysql_format(connects, query, sizeof(query), "UPDATE `gates` SET `Radius` = %f WHERE `ID` = %i", GI[gid][gRadius], gid);
+				mysql_query(connects, query);
+			}
+			gate_edit(playerid, gid);
+		}
 		case D_GATE_EDIT_SPEED: {
-			new query[256], header[64], gspeed, gid = GetPVarInt(playerid, "gateid");
+			new query[256], header[64], Float:gspeed, gid = GetPVarInt(playerid, "gateid");
 			if(response) {
 				if(sscanf(inputtext, "f", gspeed)) {
 					format(header, sizeof(header), P"|"W" Керування воротами #%i. Швидкість.", gid);
@@ -39459,8 +39477,7 @@ CB:gate_edit(playerid, gid) {
 	new header[64], content[512];
 	SetPVarInt(playerid, "gateid", gid);
 	format(header, sizeof(header), P"|"W" Керування воротами #%i.", gid);
-	format(content, sizeof(content), W"Модель\t%i\nШвидкість\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\nВідкрита позиція\t%.2f, %.2f, %.2f (%.2f, %.2f, %.2f)\nЗакрита позиція\t%.2f, %.2f, %.2f (%.2f, %.2f, %.2f)\n"P"-"W" Телепортуватися до воріт.\n"P"-"W" Видалити ворота.",
-	GI[gid][gModel], GI[gid][gSpeed], GI[gid][gWorld], GI[gid][gInterior], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+	format(content, sizeof(content), W"Модель\t%i\nРадіус\t%f\nШвидкість\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\nВідкрита позиція\t%.2f, %.2f, %.2f (%.2f, %.2f, %.2f)\nЗакрита позиція\t%.2f, %.2f, %.2f (%.2f, %.2f, %.2f)\n"P"-"W" Телепортуватися до воріт.\n"P"-"W" Видалити ворота.", GI[gid][gModel], GI[gid][gRadius], GI[gid][gSpeed], GI[gid][gWorld], GI[gid][gInterior], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 	ShowPlayerDialog(playerid, D_GATE_CONTROL, DST, header, content, "Обрати", "Назад");
 	return 1;
 }
@@ -40395,6 +40412,21 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 	}
 	if(newkeys & KEY_CROUCH) {
+		for(new gid = 1; gid <= sizeof(GI); gid++) {
+			new Float:gpos[3];
+			GetDynamicObjectPos(GI[gid][gObject], gpos[0], gpos[1], gpos[2]);
+			if(IsPlayerInRangeOfPoint(playerid, GI[gid][gRadius], gpos[0], gpos[1], gpos[2]) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
+				if(GI[gid][gStatus]) {
+					GI[gid][gStatus] = 0;
+					MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+				} else {
+					GI[gid][gStatus] = 1;
+					MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+				}
+				break;
+			}
+		}
+
 		new barrierid = IsObjectBarrier(playerid);
 		if(barrierid != -1) CheckBarrier(playerid,barrierid);
 		else if((IsPlayerInRangeOfPoint(playerid, 20.0, 1050.0936, -1868.7532, 894.0478) ||
@@ -40416,8 +40448,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(gBusiness[56][bizzMafia] != CI[playerid][pMember]) return 1;
 			if(GetVehicleModel(GetPlayerVehicleID(playerid)) != 482)  return SendError(playerid, "Ви не у фургоні для розвезення наркотиків.");
 			ShowPlayerDialog(playerid, DIALOG_PRITON_6, DSL, P"Склад наркопритона.", P"1."W" Розвантажити наркотики.\n"P"2."W" Завантажити наркотики.", "Обрати", "Закрити");
-		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1078.4210, -352.8502, 74.5498)) // ЛЕС
-		{
+		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1078.4210, -352.8502, 74.5498)) { // ЛЕС
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулeм тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 5) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
@@ -40433,8 +40464,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
-		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, -50.1009, 22.8516, 3.1172)) // Ферма
-		{
+		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, -50.1009, 22.8516, 3.1172)) { // Ферма
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 1) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
@@ -40450,8 +40480,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
-		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1708.5884, 407.1685, 30.6304)) // Будівництво.
-		{
+		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1708.5884, 407.1685, 30.6304)) { // Будівництво.
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 4) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
@@ -40467,8 +40496,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
-		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, -56.5448, -224.0444, 5.4297)) // Завод з виготовлення зброї матеріали.
-		{
+		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, -56.5448, -224.0444, 5.4297)) { // Завод з виготовлення зброї матеріали.
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулём тягоча");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза");
 			if(TI[playerid][tTrucker][1] != 2) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
@@ -40484,8 +40512,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
-		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1219.8451, 189.5213, 19.8915)) // Місто Montgomery.
-		{
+		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 1219.8451, 189.5213, 19.8915)) { // Montgomery.
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 3) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
@@ -40501,8 +40528,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TK_Trailer[playerid] = INVALID_VEHICLE_ID;
 			TI[playerid][tTrucker][0] = 0;
 			TI[playerid][tTrucker][1] = 0;
-		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 2249.0378, -81.1264, 26.5151)) // Місто Palomino Creek.
-		{
+		} else if(IsPlayerInRangeOfPoint(playerid, 5.0, 2249.0378, -81.1264, 26.5151)) { // Palomino Creek.
 			if(VehicleInfo[GetPlayerVehicleID(playerid)][vBizz] != 61 && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendError(playerid, "Необхідно знаходитись за рулем тягача.");
 			if(TK_Trailer[playerid] == INVALID_VEHICLE_ID || !GetVehicleTrailer(GetPlayerVehicleID(playerid))) return SendError(playerid, "У вас немає груза.");
 			if(TI[playerid][tTrucker][1] != 3) return SendError(playerid, "Доставте товар в потрібне місце розташування. (/truck)");
@@ -40568,8 +40594,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(GetPlayerVirtualWorld(playerid) == 1) {
 				SetVehiclePos(Veh, 2299.4138, -1788.3569, 13.1830);
 				SetVehicleZAngle(Veh, 0.8304);
-			}
-			if(GetPlayerVirtualWorld(playerid) == 2) {
+			} else if(GetPlayerVirtualWorld(playerid) == 2) {
 				SetVehiclePos(Veh, 859.6544, -1662.5564, 13.2295);
 				SetVehicleZAngle(Veh, 269.0478);
 			}
@@ -40736,13 +40761,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			}
 		}
 	}
-	if(newkeys & KEY_CTRL_BACK) {
-		for(new gid = 1; gid <= sizeof(GI); gid++) {
-			if(IsPlayerInDynamicArea(playerid, GI[gid][gSphere]) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER){
-				SendHint(playerid, "works");
-			}
-		}
-	}
 	if(newkeys & KEY_WALK) {
 		for(new bint; bint < sizeof(gBints); bint++) {
 			if(IsPlayerInDynamicArea(playerid, bintSphere[bint]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
@@ -40760,6 +40778,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				FreezePlayerForTime(playerid, freezeSeconds);
 
 				DeletePVar(playerid, "businessID");
+				break;
 			} else if(IsPlayerInDynamicArea(playerid, bintActiveSphere[bint]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && GetPVarInt(playerid, "businessID")) {
 				new bid = GetPVarInt(playerid, "businessID"), content[1028] = "Назва\tНаявність\tЦіна\n", instock[72];
 				switch(gBusiness[bid][businessType]) {
@@ -40818,6 +40837,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 						ShowPlayerDialog(playerid, dBusinessShop, DIALOG_STYLE_LIST, "24/7", string, "Обрати", "Закрити");
 					}
 				} */
+				break;
 			}
 		}
 		for(new businessareaid = 1; businessareaid <= gBusinessCount; businessareaid++) {
@@ -40848,10 +40868,11 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					format(string, sizeof(string), "%s (( %s ))", gBusiness[businessareaid][bDescription], gBusiness[businessareaid][bName]);
 					SendClientMessage(playerid, COLOR_PURPLE, string);
 				}
+
+				break;
 			}
 		}
-		SendInfo(playerid, "pickups");
-		for(new puid = 1; puid <= PICKUPS_COUNT; puid++) {
+		for(new puid = 1; puid < PICKUPS_COUNT; puid++) {
 			if(IsPlayerInDynamicArea(playerid, PUI[puid][puSphere]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
 				switch(PUI[puid][puType]) {
 					case 0: {
@@ -40927,17 +40948,21 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 						}
 					}
 				}
-			} else SendHint(playerid, "error");
+				break;
+			}
 		}
-		SendInfo(playerid, "started");
 		for(new gid = 1; gid <= sizeof(GI); gid++) {
-			if(IsPlayerInDynamicArea(playerid, GI[gid][gSphere]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT){
-				SendHint(playerid, "works");
-			} else {
-				new Float:gpos[3];
-				GetDynamicObjectPos(GI[gid][gSphere], gpos[0], gpos[1], gpos[2]);
-				SetPlayerPos(playerid, gpos[0], gpos[1], gpos[2]);
-				SendError(playerid, "not");
+			new Float:gpos[3];
+			GetDynamicObjectPos(GI[gid][gObject], gpos[0], gpos[1], gpos[2]);
+			if(IsPlayerInRangeOfPoint(playerid, GI[gid][gRadius], gpos[0], gpos[1], gpos[2]) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT) {
+				if(GI[gid][gStatus]) {
+					GI[gid][gStatus] = 0;
+					MoveDynamicObject(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gSpeed], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
+				} else {
+					GI[gid][gStatus] = 1;
+					MoveDynamicObject(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gSpeed], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
+				}
+				break;
 			}
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 1516.3621, 1458.1116, 10.8708)) {
@@ -44453,20 +44478,14 @@ stock load_gates() {
 		GI[gid][gID] = gid;
 		DestroyDynamicObject(GI[gid][gObject]);
 		cache_get_value_name_int(i, "Model", GI[gid][gModel]);
-		cache_get_value_name_int(i, "Status", GI[gid][gStatus]);
+		cache_get_value_name_float(i, "Radius", GI[gid][gRadius]);
 		cache_get_value_name_float(i, "Speed", GI[gid][gSpeed]);
 		cache_get_value_name(i, "OpenedPos", gpos, sizeof(gpos)), sscanf(gpos, "p<,>a<f>[6]", GI[gid][gOpenedPos]);
 		cache_get_value_name(i, "ClosedPos", gpos, sizeof(gpos)), sscanf(gpos, "p<,>a<f>[6]", GI[gid][gClosedPos]);
 		cache_get_value_name_int(i, "World", GI[gid][gWorld]);
 		cache_get_value_name_int(i, "Interior", GI[gid][gInterior]);
 		cache_get_value_name(i, "Author", GI[gid][gAuthor]);
-		if(GI[gid][gStatus]) {
-			GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
-			GI[gid][gSphere] = CreateDynamicSphere(GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2], 1.0, GI[gid][gInterior], GI[gid][gInterior]);
-		} else {
-			GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
-			GI[gid][gSphere] = CreateDynamicSphere(GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], 1.0, GI[gid][gInterior], GI[gid][gInterior]);
-		}
+		GI[gid][gObject] = CreateDynamicObject(GI[gid][gModel], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5], GI[gid][gInterior], GI[gid][gInterior]);
 	}
 }
 stock load_factions() {
@@ -45553,11 +45572,6 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
 			} else {
-				new newpos[512], oldpos[512];
-				for(new i; i < 6; i++) format(oldpos, sizeof(oldpos), "%s%.2f, ", oldpos, GI[gid][gClosedPos][i]);
-				for(new i; i < 6; i++) format(newpos, sizeof(newpos), "%s%.2f, ", newpos, GI[gid][gOpenedPos][i]);
-				printf("oldpos - %s", oldpos);
-				printf("curpos - %s", newpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 			}
@@ -45565,13 +45579,9 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			gate_edit(playerid, gid);
 			DeletePVar(playerid, "gedit");
 			if(GI[gid][gStatus]) {
-				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
-				printf("#1 cancel opened: %s", gpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
 			} else {
-				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
-				printf("#1 cancel closed: %s", gpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 			}
@@ -45590,13 +45600,9 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			mysql_query(connects, query);
 			DeletePVar(playerid, "gedit");
 			if(GI[gid][gStatus]) {
-				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
-				printf("#2 final opened: %s", gpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
 			} else {
-				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
-				printf("#2 final closed: %s", gpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 			}
@@ -45604,13 +45610,9 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 			gate_edit(playerid, gid);
 			DeletePVar(playerid, "gedit");
 			if(GI[gid][gStatus]) {
-				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gOpenedPos][i]);
-				printf("#2 cancel opened: %s", gpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gOpenedPos][0], GI[gid][gOpenedPos][1], GI[gid][gOpenedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gOpenedPos][3], GI[gid][gOpenedPos][4], GI[gid][gOpenedPos][5]);
 			} else {
-				for(new i; i < 6; i++) format(gpos, sizeof(gpos), "%s%.2f, ", gpos, GI[gid][gClosedPos][i]);
-				printf("#2 cancel closed: %s", gpos);
 				SetDynamicObjectPos(GI[gid][gObject], GI[gid][gClosedPos][0], GI[gid][gClosedPos][1], GI[gid][gClosedPos][2]);
 				SetDynamicObjectRot(GI[gid][gObject], GI[gid][gClosedPos][3], GI[gid][gClosedPos][4], GI[gid][gClosedPos][5]);
 			}
@@ -46087,6 +46089,12 @@ stock SendHint(playerid, const text[]) {
   new string[256];
   format(string, 256, O"| "W"%s", text);
   return SendClientMessage(playerid, COLOR_WHITE, string);
+}
+
+stock SendInt(playerid, text) {
+	new string[256];
+	valstr(string, text);
+	return SendClientMessage(playerid, COLOR_WHITE, string);
 }
 
 stock SendFormat(playerid, const fstring[], {Float, _}:...) {
