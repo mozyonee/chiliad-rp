@@ -1,108 +1,73 @@
 forward blackjack_Timer();
 public blackjack_Timer() {
 	foreach(new tableid: blackjackTables) {
-		if (!blackjackTableInfo[tableid][blackjackTableTimer]) {
-			if (blackjackTableInfo[tableid][blackjackTableStatus] != BLACKJACK_STATUS_NONE)
+		if(!blackjackTableInfo[tableid][blackjackTableTimer]) {
+			if(blackjackTableInfo[tableid][blackjackTableStatus] != BLACKJACK_STATUS_NONE)
 			blackjack_ResetTable(tableid);
 			continue;
 		}
 		blackjack_TimerID(tableid);
 	}
-	return true;
+	return 1;
 }
 stock blackjack_TimerID(tableid) {
-	if (blackjackTableInfo[tableid][blackjackTableplayers] < 1) {
-		blackjack_ResetTable(tableid);
-		return false;
-	}
-	switch (blackjackTableInfo[tableid][blackjackTableStatus])
-	{
-	case BLACKJACK_STATUS_NONE:
-		{
+	if(blackjackTableInfo[tableid][blackjackTableplayers] < 1) return blackjack_ResetTable(tableid);
+	switch (blackjackTableInfo[tableid][blackjackTableStatus]) {
+	case BLACKJACK_STATUS_NONE: {
 			blackjack_ResetRound(tableid);
-
 			blackjackTableInfo[tableid][blackjackTableStatus] = BLACKJACK_STATUS_STARTING;
 			blackjackTableInfo[tableid][blackjackTableDelay] = (15);
-
-			for (new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++)
-			{
+			for(new i, playerid; i < MAX_BLACKJACK_SEATS; i++) {
 				playerid = blackjackTableInfo[tableid][blackjackTableSlots][i];
-				if ((playerid) != INVALID_PLAYER_ID)
-				{
+				if((playerid) != INVALID_PLAYER_ID) {
 					blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_MMBA);
 				}
 			}
 		}
-	case BLACKJACK_STATUS_STARTING:
-		{
-			if (blackjackTableInfo[tableid][blackjackTableDelay])
-			{
+	case BLACKJACK_STATUS_STARTING: {
+			if(blackjackTableInfo[tableid][blackjackTableDelay]) {
 				blackjackTableInfo[tableid][blackjackTablePlayerid] = (-1);
-
-				if (--blackjackTableInfo[tableid][blackjackTableDelay] == 0)
-				{
+				if(--blackjackTableInfo[tableid][blackjackTableDelay] == 0) {
 					blackjackTableInfo[tableid][blackjackTableStatus] = BLACKJACK_STATUS_STARTED;
 					blackjackTableInfo[tableid][blackjackTablePlayersActive] = 0;
-
-					for (new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++)
-					{
+					for(new i, playerid; i < MAX_BLACKJACK_SEATS; i++) {
 						playerid = blackjackTableInfo[tableid][blackjackTableSlots][i];
-						if (playerid != INVALID_PLAYER_ID)
-						{
+						if(playerid != INVALID_PLAYER_ID) {
 							blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 							BJ_PlayerInfo[playerid][pBlackJackLanguage] = CI[playerid][pCasinoLanguage];
-
-							if (BJ_PlayerInfo[playerid][pBlackJackBet][0])
-							{
-								if (CI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0])
-								{
+							if(BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
+								if(CI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
 									BJ_PlayerInfo[playerid][pBlackJackBet][0] = EOS;
 									blackjack_LeaveGame(playerid);
 									SendClientMessage(playerid, COLOR_GREY, "У вас недостаточно фишек.");
-								}
-								else
-								{
+								} else {
 									new str[300];
 									format(str, sizeof(str), "[BJ]: %s поставил ставку в %d фишек (стол #%d), рука #1",CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1);
 									printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
-									ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
+									ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1, 1);
 									blackjackTableInfo[tableid][blackjackTablePlayersActive]++;
 								}
-							}
-							else blackjack_LeaveGame(playerid);
+							} else blackjack_LeaveGame(playerid);
 						}
 					}
 					ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1);
-
 					blackjack_ShuffleHands(tableid); // shuffle & deal
-
-					if (blackjackTableInfo[tableid][blackjackTablePlayersActive] == 0)
-					{
-						if (!blackjackTableInfo[tableid][blackjackTableplayers])
-						{
+					if(blackjackTableInfo[tableid][blackjackTablePlayersActive] == 0) {
+						if(!blackjackTableInfo[tableid][blackjackTableplayers]) {
 							blackjack_ResetTable(tableid);
-						}
-						else
-						{
+						} else {
 							ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1);
-
-							for (new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++)
-							{
+							for(new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++) {
 								playerid = blackjackTableInfo[tableid][blackjackTableSlots][i];
-								if (playerid != INVALID_PLAYER_ID)
-								{
+								if(playerid != INVALID_PLAYER_ID) {
 									blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 									BJ_PlayerInfo[playerid][pBlackJackDelay] =
 									BJ_PlayerInfo[playerid][pBlackJackActiveID] = 0;
 									blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
 									BJ_PlayerInfo[playerid][pBlackJackStatus][BJ_PlayerInfo[playerid][pBlackJackBlockID]] = BJ_PLAYER_STATUS_STAY;
-
 									PlayerTextDrawHide(playerid, Blackjack_PTD[playerid][54]);
 								}
 							}
-
 							blackjackTableInfo[tableid][blackjackTableStatus] = BLACKJACK_STATUS_ENDING;
 							blackjackTableInfo[tableid][blackjackTableDelay] = (15);
 						}
@@ -110,32 +75,22 @@ stock blackjack_TimerID(tableid) {
 				}
 			}
 		}
-	case BLACKJACK_STATUS_STARTED:
-		{
-			if (blackjackTableInfo[tableid][blackjackTablePlayerid] == (-1))
-			{
+	case BLACKJACK_STATUS_STARTED: {
+			if(blackjackTableInfo[tableid][blackjackTablePlayerid] == (-1)) {
 				blackjack_NextTurn(tableid);
 				blackjack_CheckCards(blackjackTableInfo[tableid][blackjackTablePlayerid]);
 			}
 		}
-	case BLACKJACK_STATUS_ENDING:
-		{
-			if (blackjackTableInfo[tableid][blackjackTableDelay])
-			{
+	case BLACKJACK_STATUS_ENDING: {
+			if(blackjackTableInfo[tableid][blackjackTableDelay]) {
 				blackjackTableInfo[tableid][blackjackTablePlayerid] = (-1);
-
-				if (--blackjackTableInfo[tableid][blackjackTableDelay] == 0)
-				{
+				if(--blackjackTableInfo[tableid][blackjackTableDelay] == 0) {
 					blackjack_ResetRound(tableid);
-
 					blackjackTableInfo[tableid][blackjackTableStatus] = BLACKJACK_STATUS_STARTING;
 					blackjackTableInfo[tableid][blackjackTableDelay] = (20);
-
-					for (new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++)
-					{
+					for(new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++) {
 						playerid = blackjackTableInfo[tableid][blackjackTableSlots][i];
-						if (playerid != INVALID_PLAYER_ID)
-						{
+						if(playerid != INVALID_PLAYER_ID) {
 						   if(BJ_PlayerInfo[playerid][pBlackJackTableID] == 1)
 						   {
 						  
@@ -163,25 +118,18 @@ stock blackjack_TimerID(tableid) {
 		52/* (56_dealer) */
 	}
 	;
-	for (new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++)
-	{
+	for(new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++) {
 		playerid = blackjackTableInfo[tableid][blackjackTableSlots][i];
-		if (playerid != INVALID_PLAYER_ID)
-		{
+		if(playerid != INVALID_PLAYER_ID) {
 			new language_id = BJ_PlayerInfo[playerid][pBlackJackLanguage];
-			switch (blackjackTableInfo[tableid][blackjackTableStatus])
-			{
-			case BLACKJACK_STATUS_STARTING:
-				{
-					if (!BJ_PlayerInfo[playerid][pBlackJackBet][0])
-					{
+			switch (blackjackTableInfo[tableid][blackjackTableStatus]) {
+			case BLACKJACK_STATUS_STARTING: {
+					if(!BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
 						format(blackjack_string, 58, "%s ~r~%d~n~%s",
 						blackjack_language_massive[language_id][0], blackjackTableInfo[tableid][blackjackTableDelay],
 						blackjack_language_massive[language_id][2]
 						);
-					}
-					else
-					{
+					} else {
 						format(blackjack_string, 58, "%s ~r~%d~n~%s ~p~%d",
 						blackjack_language_massive[language_id][0], blackjackTableInfo[tableid][blackjackTableDelay],
 						blackjack_language_massive[language_id][3], BJ_PlayerInfo[playerid][pBlackJackBet][0]
@@ -189,67 +137,48 @@ stock blackjack_TimerID(tableid) {
 					}
 					PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][53], blackjack_string);
 				}
-			case BLACKJACK_STATUS_ENDING:
-				{
+			case BLACKJACK_STATUS_ENDING: {
 					format(blackjack_string, 32, "%s ~r~%d", blackjack_language_massive[language_id][1], blackjackTableInfo[tableid][blackjackTableDelay]);
 					PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][53], blackjack_string);
 				}
-			case BLACKJACK_STATUS_STARTED:
-				{
-					if (blackjackTableInfo[tableid][blackjackTablePlayerid] == (-1))
-					{
+			case BLACKJACK_STATUS_STARTED: {
+					if(blackjackTableInfo[tableid][blackjackTablePlayerid] == (-1)) {
 						PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][53], blackjack_language_massive[language_id][4]);
 					}
 				}
 			}
-			if (blackjackTableInfo[tableid][blackjackTableDealerScore])
-			{
+			if(blackjackTableInfo[tableid][blackjackTableDealerScore]) {
 				new dealer_score = blackjackTableInfo[tableid][blackjackTableDealerScore];
-
-				if (blackjackTableInfo[tableid][blackjackTableDealerHidden])
-				{
+				if(blackjackTableInfo[tableid][blackjackTableDealerHidden]) {
 					dealer_score -= blackjack_GetCardScore(blackjackTableInfo[tableid][blackjackTableDealerCard][blackjackTableInfo[tableid][blackjackTableDealerCards] - 1]);
 				}
-				switch (dealer_score)
-				{
+				switch (dealer_score) {
 				case 0..20: format(blackjack_string, 24, "~y~%d", dealer_score);
 				case 21:	format(blackjack_string, 24, "~g~%d", dealer_score);
 				default: 	format(blackjack_string, 24, "~r~%d", dealer_score);
 				}
-				if (blackjackTableInfo[tableid][blackjackTableDealerDelay])
-				{
-					if (--blackjackTableInfo[tableid][blackjackTableDealerDelay] == 0)
-					{
+				if(blackjackTableInfo[tableid][blackjackTableDealerDelay]) {
+					if(--blackjackTableInfo[tableid][blackjackTableDealerDelay] == 0) {
 						blackjackTableInfo[tableid][blackjackTableDealerHidden] = 0;
-
 						dealer_score = blackjackTableInfo[tableid][blackjackTableDealerScore];
-
-						if (blackjackTableInfo[tableid][blackjackTableDealerHidden])
-						{
+						if(blackjackTableInfo[tableid][blackjackTableDealerHidden]) {
 							dealer_score -= blackjack_GetCardScore(blackjackTableInfo[tableid][blackjackTableDealerCard][blackjackTableInfo[tableid][blackjackTableDealerCards] - 1]);
 						}
-						switch (dealer_score)
-						{
+						switch (dealer_score) {
 						case 0..20: format(blackjack_string, 24, "~y~%d", dealer_score);
 						case 21:	format(blackjack_string, 24, "~g~%d", dealer_score);
 						default: 	format(blackjack_string, 24, "~r~%d", dealer_score);
 						}
 						blackjack_CheckWinners(tableid);
-
 						ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1);
 						blackjackTableInfo[tableid][blackjackTableStatus] = BLACKJACK_STATUS_ENDING;
 						blackjackTableInfo[tableid][blackjackTableDelay] = (15);
-					}
-					else
-					{
+					} else {
 						blackjack_CheckCardToDealer(tableid);
-
 						dealer_score = blackjackTableInfo[tableid][blackjackTableDealerScore];
-						if (blackjackTableInfo[tableid][blackjackTableDealerHidden])
+						if(blackjackTableInfo[tableid][blackjackTableDealerHidden])
 						dealer_score -= blackjack_GetCardScore(blackjackTableInfo[tableid][blackjackTableDealerCard][blackjackTableInfo[tableid][blackjackTableDealerCards] - 1]);
-
-						switch (dealer_score)
-						{
+						switch (dealer_score) {
 						case 0..20: format(blackjack_string, 24, "~y~%d", dealer_score);
 						case 21:	format(blackjack_string, 24, "~g~%d", dealer_score);
 						default: 	format(blackjack_string, 24, "~r~%d", dealer_score);
@@ -259,172 +188,110 @@ stock blackjack_TimerID(tableid) {
 				}
 				PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[3]], blackjack_string);
 			}
-			if (blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_STARTING)
-			{
-				for (new card_id = 0; card_id < 5; card_id++)
-				{
+			if(blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_STARTING) {
+				for(new card_id = 0; card_id < 5; card_id++) {
 					PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[3] + card_id], "_");
 				}
 				PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[3]], "_");
-			}
-			else
-			{
-				if (blackjackTableInfo[tableid][blackjackTableDealerCards])
-				{
-					for (new card_id = 0; card_id < (blackjackTableInfo[tableid][blackjackTableDealerCards]); card_id++)
-					{
-						if ((blackjackTableInfo[tableid][blackjackTableDealerCards] - 1) == card_id && blackjackTableInfo[tableid][blackjackTableDealerHidden] == 1)
-						{
+			} else {
+				if(blackjackTableInfo[tableid][blackjackTableDealerCards]) {
+					for(new card_id = 0; card_id < (blackjackTableInfo[tableid][blackjackTableDealerCards]); card_id++) {
+						if((blackjackTableInfo[tableid][blackjackTableDealerCards] - 1) == card_id && blackjackTableInfo[tableid][blackjackTableDealerHidden] == 1) {
 							PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[3] + card_id], "LD_CARD:cdback");
-						}
-						else
-						{
+						} else {
 							PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[3] + card_id],
 							CASINO_BJ_CARD_INFO[blackjackTableInfo[tableid][blackjackTableDealerCard][card_id]][CASINO_BJ_CARD_NAME]
 							);
-
 						}
 					}
-
 				}
 			}
-			if (BJ_PlayerInfo[playerid][pBlackJackActiveID] && BJ_PlayerInfo[playerid][pBlackJackDelay])
-			{
-				if (blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_ENDING)
-				{
+			if(BJ_PlayerInfo[playerid][pBlackJackActiveID] && BJ_PlayerInfo[playerid][pBlackJackDelay]) {
+				if(blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_ENDING) {
 					PlayerTextDrawHide(playerid, Blackjack_PTD[playerid][54]);
-
 					BJ_PlayerInfo[playerid][pBlackJackDelay] =
 					BJ_PlayerInfo[playerid][pBlackJackActiveID] = 0;
-
 					BJ_PlayerInfo[playerid][pBlackJackStatus][BJ_PlayerInfo[playerid][pBlackJackBlockID]] = BJ_PLAYER_STATUS_STAY;
 					blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
 				}
-				if (--BJ_PlayerInfo[playerid][pBlackJackDelay] == 0 && BJ_PlayerInfo[playerid][pBlackJackSeatID] == blackjackTableInfo[tableid][blackjackTablePlayerid])
+				if(--BJ_PlayerInfo[playerid][pBlackJackDelay] == 0 && BJ_PlayerInfo[playerid][pBlackJackSeatID] == blackjackTableInfo[tableid][blackjackTablePlayerid])
 				blackjack_NextTurn(tableid);
 			}
-			for (new slotid = 0, player_Name[MAX_PLAYER_NAME + 24], targetid; slotid < MAX_BLACKJACK_SEATS; slotid++)
-			{
+			for(new slotid = 0, player_Name[MAX_PLAYER_NAME + 24], targetid; slotid < MAX_BLACKJACK_SEATS; slotid++) {
 				targetid = blackjackTableInfo[tableid][blackjackTableSlots][slotid];
-				if (targetid != INVALID_PLAYER_ID)
-				{
+				if(targetid != INVALID_PLAYER_ID) {
 					strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
-
-					if (targetid == playerid)
-					{
+					if(targetid == playerid) {
 						strreplace(player_Name, "_", "~n~~g~~h~");
 						format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, CI[playerid][pCasinoChips]);
-					}
-					else
-					{
+					} else {
 						strreplace(player_Name, "_", "~n~");
 						format(player_Name, sizeof(player_Name), "%s~n~~p~%d", player_Name, CI[playerid][pCasinoChips]);
 					}
 					language_id = BJ_PlayerInfo[targetid][pBlackJackLanguage];
-
-					if (language_id != CI[targetid][pCasinoLanguage])
-					{
+					if(language_id != CI[targetid][pCasinoLanguage]) {
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][3], blackjack_language_massive[language_id][5]);
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][54], blackjack_language_massive[language_id][6]);
 					}
 					PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][i], player_Name), player_Name[0] = EOS;
 					PlayerTextDrawShow(targetid, Blackjack_PTD[targetid][i]);
-
-					if (blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_STARTING)
-					{
-						for (new card_id = 0, ptd_id; card_id < (MAX_BLACKJACK_PLAYER_CARD * 2); card_id++)
-						{
+					if(blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_STARTING) {
+						for(new card_id = 0, ptd_id; card_id < (MAX_BLACKJACK_PLAYER_CARD * 2); card_id++) {
 							PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[i] + card_id], "_");
-
-							if (card_id >= 2) continue;
+							if(card_id >= 2) continue;
 							ptd_id = (i + ((card_id == 0) ? (8) : (55)));
-
-							if (0 == card_id && BJ_PlayerInfo[playerid][pBlackJackBet][card_id])
-							{
+							if(0 == card_id && BJ_PlayerInfo[playerid][pBlackJackBet][card_id]) {
 								format(blackjack_string, 22, "~g~READY~n~~p~%d", BJ_PlayerInfo[playerid][pBlackJackBet][card_id]);
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][ptd_id], blackjack_string);
-							}
-							else PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][ptd_id], "_");
+							} else PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][ptd_id], "_");
 							PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_score_array[i] + card_id], "_");
 						}
-					}
-					else if (BJ_PlayerInfo[playerid][pBlackJackActiveHand])
-					{
-						if (BJ_PlayerInfo[playerid][pBlackJackCards][0])
-						{
-							for (new card_id = 0; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][0]); card_id++)
-							{
+					} else if(BJ_PlayerInfo[playerid][pBlackJackActiveHand]) {
+						if(BJ_PlayerInfo[playerid][pBlackJackCards][0]) {
+							for(new card_id = 0; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][0]); card_id++) {
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[i] + card_id],
 								CASINO_BJ_CARD_INFO[BJ_PlayerInfo[playerid][pBlackJackCard][card_id]][CASINO_BJ_CARD_NAME]
 								);
 							}
-						}
-						else
-						{
-							for (new card_id = 0; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][0]); card_id++)
+						} else {
+							for(new card_id = 0; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][0]); card_id++)
 							PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[i] + card_id], "_");
-
 						}
-						if (BJ_PlayerInfo[playerid][pBlackJackCards][1])
-						{
-							for (new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][1] + 5); card_id++)
-							{
+						if(BJ_PlayerInfo[playerid][pBlackJackCards][1]) {
+							for(new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][1] + 5); card_id++) {
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[i] + card_id],
 								CASINO_BJ_CARD_INFO[BJ_PlayerInfo[playerid][pBlackJackCard][card_id]][CASINO_BJ_CARD_NAME]
 								);
 							}
-						}
-						else
-						{
-							for (new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][1] + 5); card_id++)
+						} else {
+							for(new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][1] + 5); card_id++)
 							PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[i] + card_id], "_");
-
 						}
-						for (new card_score_id = 0, ptd_id; card_score_id < 2; card_score_id++)
-						{
+						for(new card_score_id = 0, ptd_id; card_score_id < 2; card_score_id++) {
 							ptd_id = (i + ((card_score_id == 0) ? (8) : (55)));
-
-							if (BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id])
-							{
+							if(BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]) {
 								format(blackjack_string, 22, "~p~%d", BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id]);
-								if (card_score_id == BJ_PlayerInfo[playerid][pBlackJackBlockID] && BJ_PlayerInfo[playerid][pBlackJackActiveID] && BJ_PlayerInfo[playerid][pBlackJackDelay])
-								{
+								if(card_score_id == BJ_PlayerInfo[playerid][pBlackJackBlockID] && BJ_PlayerInfo[playerid][pBlackJackActiveID] && BJ_PlayerInfo[playerid][pBlackJackDelay]) {
 									format(blackjack_string, 26, "~r~00:%02d~n~%s", BJ_PlayerInfo[playerid][pBlackJackDelay], blackjack_string);
-								}
-								else if (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_STAY)
-								{
+								} else if(BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_STAY) {
 									format(blackjack_string, 22, "~y~STAY~n~%s", blackjack_string);
-								}
-								else if (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_SPLIT)
-								{
+								} else if(BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_SPLIT) {
 									format(blackjack_string, 22, "~y~SPLIT~n~%s", blackjack_string);
-								}
-								else if (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_DOUBLE)
-								{
+								} else if(BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_DOUBLE) {
 									format(blackjack_string, 22, "~y~DOUBLE~n~%s", blackjack_string);
-								}
-								else if (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_WON)
-								{
+								} else if(BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_WON) {
 									format(blackjack_string, 22, "+~g~%d", BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id]);
-								}
-								else if (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_LOSE)
-								{
+								} else if(BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] == BJ_PLAYER_STATUS_LOSE) {
 									format(blackjack_string, 22, "-~r~%d", BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id]);
-								}
-								else if (0 == BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id]) blackjack_string[0] = EOS;
-
+								} else if(0 == BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id]) blackjack_string[0] = EOS;
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][ptd_id], blackjack_string);
-
-								switch (BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id])
-								{
+								switch (BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]) {
 								case 21:	format(blackjack_string, 12, "~g~%d", BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]);
 								case 0..20: format(blackjack_string, 12, "~y~%d", BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]);
 								default: 	format(blackjack_string, 12, "~r~%d", BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]);
 								}
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_score_array[i] + card_score_id], blackjack_string);
-							}
-							else
-							{
+							} else {
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][ptd_id], "_");
 								PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_score_array[i] + card_score_id], "_");
 							}
@@ -432,21 +299,16 @@ stock blackjack_TimerID(tableid) {
 					}
 				}
 			}
-		}
-		else {
-			for (new slotid = 0, targetid; slotid < MAX_BLACKJACK_SEATS; slotid++)
-			{
-				if ((targetid = blackjackTableInfo[tableid][blackjackTableSlots][slotid]) != INVALID_PLAYER_ID)
-				{
-					for (new card_id = 0, ptd_id; card_id < (MAX_BLACKJACK_PLAYER_CARD * 2); card_id++)
-					{
+		} else {
+			for(new slotid = 0, targetid; slotid < MAX_BLACKJACK_SEATS; slotid++) {
+				if((targetid = blackjackTableInfo[tableid][blackjackTableSlots][slotid]) != INVALID_PLAYER_ID) {
+					for(new card_id = 0, ptd_id; card_id < (MAX_BLACKJACK_PLAYER_CARD * 2); card_id++) {
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[i] + card_id], "_");
-
-						if (card_id >= 2) continue;
+						if(card_id >= 2) continue;
 						ptd_id = (i + ((card_id == 0) ? (8) : (55)));
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][ptd_id], "_");
 					}
-					for (new card_score_id = 0; card_score_id < 2; card_score_id++) {
+					for(new card_score_id = 0; card_score_id < 2; card_score_id++) {
 						PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_score_array[i] + card_score_id], "_");
 					}
 					PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][i], blackjack_language_massive[CASINO_LANGUAGE_ENGLISH][0]);
@@ -455,135 +317,106 @@ stock blackjack_TimerID(tableid) {
 			}
 		}
 	}
-	return true;
+	return 1;
 }
-blackjack_ActionStay(playerid)
-{
-	if (
-			!BJ_PlayerInfo[playerid][pBlackJackTableID] ||
-			!BJ_PlayerInfo[playerid][pBlackJackActiveID] ||
-			!BJ_PlayerInfo[playerid][pBlackJackDelay]
-			) return;
-
+blackjack_ActionStay(playerid) {
+	if(!BJ_PlayerInfo[playerid][pBlackJackTableID] || !BJ_PlayerInfo[playerid][pBlackJackActiveID] || !BJ_PlayerInfo[playerid][pBlackJackDelay]) return 1;
 	new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1);
 	blackjack_NextTurn(tableid);
+	return 1;
 }
-blackjack_CheckWinners(tableid)
-{
+blackjack_CheckWinners(tableid) {
 	new player_score = 0, dealer_score = 0;
-	for (new i = 0, playerid, cards_win[2]; i < MAX_BLACKJACK_SEATS; i++) if ((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
-		for (new card_score_id = 0; card_score_id < 2; card_score_id++) if (BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]) {
+	for(new i = 0, playerid, cards_win[2]; i < MAX_BLACKJACK_SEATS; i++) if((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
+		for(new card_score_id = 0; card_score_id < 2; card_score_id++) if(BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id]) {
 			player_score = BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_score_id];
 			dealer_score = blackjackTableInfo[tableid][blackjackTableDealerScore];
-
-			if (player_score > 21)
-			{ // lose
+			if(player_score > 21) { // lose
 				CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
 				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_LOSE;
-			}
-			else if (dealer_score > 21)
-			{ // win
+			} else if(dealer_score > 21) { // win
 				new str[300];
 				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str), /*WriteLog("logs_casino", STRING_GLOBAL), */
-
 				CI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
 				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_WON;
-			}
-			else if (player_score == dealer_score)
-			{ // draw
+			} else if(player_score == dealer_score) { // draw
 				BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id] = 0;
-			}
-			else if (player_score > dealer_score)
-			{ // win
+			} else if(player_score > dealer_score) { // win
 				new str[300];
 				format(str, sizeof(str), "[BJ]: %s выиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
 				CI[playerid][pCasinoChips] += BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
 				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_WON;
-			}
-			else
-			{ // lose
+			} else { // lose
 				new str[300];
 				format(str, sizeof(str), "[BJ]: %s проиграл %d фишек (стол #%d), рука #%d", CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id], tableid + 1, card_score_id + 1);
 				printf(str); /*WriteLog("logs_casino", STRING_GLOBAL), */
-
 				CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][card_score_id];
 				UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id] = BJ_PLAYER_STATUS_LOSE;
 			}
-			switch (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id])
-			{
+			switch (BJ_PlayerInfo[playerid][pBlackJackStatus][card_score_id]) {
 			case BJ_PLAYER_STATUS_LOSE: cards_win[card_score_id] = 0;
 			default: cards_win[card_score_id] = 1;
 			}
 		}
-		if (!cards_win[0] && !cards_win[1])
-		ApplyAnimation(playerid, "CASINO", "cards_lose", 4.1, false, true, true, true, 1, 1);
-		else ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, false, true, true, true, 1, 1);
+		if(!cards_win[0] && !cards_win[1])
+		ApplyAnimation(playerid, "CASINO", "cards_lose", 4.1, 0, 1, 1, 1, 1, 1);
+		else ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, 0, 1, 1, 1, 1, 1);
 	}
 }
 blackjack_GiveTurn(playerid, tableid, block_id) {
 	new seatid = BJ_PlayerInfo[playerid][pBlackJackSeatID];
-
 	blackjackTableInfo[tableid][blackjackTablePlayerid] = seatid;
-
 	blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_DSHS);
-
 	BJ_PlayerInfo[playerid][pBlackJackDelay] = (30 + 1);
 	BJ_PlayerInfo[playerid][pBlackJackActiveID] = 1;
-
 	BJ_PlayerInfo[playerid][pBlackJackBlockID] = block_id;
-
-	ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
+	ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1, 1);
 	PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][54]);
 }
 blackjack_NextTurn(tableid) {
-	if (!blackjackTableInfo[tableid][blackjackTablePlayersActive])
-	return false;
+	if(!blackjackTableInfo[tableid][blackjackTablePlayersActive])
+	return 0;
 	new
 	block_id,
 	new_playerid = (-1),
 	playerid = blackjackTableInfo[tableid][blackjackTablePlayerid],
 	last_playerid = blackjackTableInfo[tableid][blackjackTablePlayerid]
 	;
-	if (playerid == INVALID_PLAYER_ID) playerid = (-1);
-	if (playerid != (-1) &&
+	if(playerid == INVALID_PLAYER_ID) playerid = (-1);
+	if(playerid != (-1) &&
 			(tableid + 1) == BJ_PlayerInfo[blackjackTableInfo[tableid][blackjackTableSlots][playerid]][pBlackJackTableID] &&
 			0 == BJ_PlayerInfo[blackjackTableInfo[tableid][blackjackTableSlots][playerid]][pBlackJackBlockID] &&
 			BJ_PlayerInfo[blackjackTableInfo[tableid][blackjackTableSlots][playerid]][pBlackJackCards][1]
 			) {
 		new_playerid = playerid;
 		block_id = 1;
-	}
-	else {
-		for (new i = 0; i < MAX_BLACKJACK_SEATS; i++) if ((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID && !BJ_PlayerInfo[playerid][pBlackJackStatus][0] && BJ_PlayerInfo[playerid][pBlackJackActiveHand] && i > last_playerid) {
+	} else {
+		for(new i = 0; i < MAX_BLACKJACK_SEATS; i++) if((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID && !BJ_PlayerInfo[playerid][pBlackJackStatus][0] && BJ_PlayerInfo[playerid][pBlackJackActiveHand] && i > last_playerid) {
 			new_playerid = i;
 			block_id = 0;
 			break;
 		}
 	}
-	if ((playerid = blackjackTableInfo[tableid][blackjackTablePlayerid]) != (-1)) { // +ResetTurn
+	if((playerid = blackjackTableInfo[tableid][blackjackTablePlayerid]) != (-1)) { // +ResetTurn
 		playerid = blackjackTableInfo[tableid][blackjackTableSlots][blackjackTableInfo[tableid][blackjackTablePlayerid]];
-
-		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
-
+		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
 		BJ_PlayerInfo[playerid][pBlackJackDelay] =
 		BJ_PlayerInfo[playerid][pBlackJackActiveID] = 0;
 		blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
 		BJ_PlayerInfo[playerid][pBlackJackStatus][BJ_PlayerInfo[playerid][pBlackJackBlockID]] = BJ_PLAYER_STATUS_STAY;
 		PlayerTextDrawHide(playerid, Blackjack_PTD[blackjackTableInfo[tableid][blackjackTableSlots][blackjackTableInfo[tableid][blackjackTablePlayerid]]][54]);
 	}
-	if (new_playerid != (-1))
+	if(new_playerid != (-1))
 	blackjack_GiveTurn(blackjackTableInfo[tableid][blackjackTableSlots][new_playerid], tableid, block_id);
 	else blackjackTableInfo[tableid][blackjackTableDealerDelay] = 10;
-
 	return new_playerid;
 }
-
 blackjack_GetCardScore(card_id) {
 	new card_value = CASINO_BJ_CARD_INFO[card_id][CASINO_BJ_CARD_VALUE], card_score = (card_value + 1);
 	switch (card_value) {
@@ -594,54 +427,44 @@ blackjack_GetCardScore(card_id) {
 	return card_score;
 }
 blackjack_ShuffleHands(tableid) {
-	for (new i = 0; i < MAX_BLACKJACK_SEATS; i++) if (blackjackTableInfo[tableid][blackjackTableSlots][i] != INVALID_PLAYER_ID)
+	for(new i = 0; i < MAX_BLACKJACK_SEATS; i++) if(blackjackTableInfo[tableid][blackjackTableSlots][i] != INVALID_PLAYER_ID)
 	PlayerPlaySound(blackjackTableInfo[tableid][blackjackTableSlots][i], 5600, 0.0, 0.0, 0.0);
-	for (new i = 0; i < MAX_CASINO_CARDS; i++)
+	for(new i = 0; i < MAX_CASINO_CARDS; i++)
 	blackjackTableInfo[tableid][blackjackTableDeck][i] = i;
 	new rand, tmp, i;
-
-	for (i = MAX_CASINO_CARDS; i > 1; i--) {
+	for(i = MAX_CASINO_CARDS; i > 1; i--) {
 		rand = random(MAX_CASINO_CARDS) % i;
 		tmp = blackjackTableInfo[tableid][blackjackTableDeck][rand];
 		blackjackTableInfo[tableid][blackjackTableDeck][rand] = blackjackTableInfo[tableid][blackjackTableDeck][i - 1];
 		blackjackTableInfo[tableid][blackjackTableDeck][i - 1] = tmp;
 	}
 	blackjack_DealHands(tableid);
-
-	return true;
+	return 1;
 }
 blackjack_DealHands(tableid) {
 	new tmp_id = 0;
-	for (new i = 0, playerid, card_value[2]; i < MAX_BLACKJACK_SEATS; i++) if ((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
-		if (BJ_PlayerInfo[playerid][pBlackJackBet][0] && CI[playerid][pCasinoChips] >= BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
+	for(new i = 0, playerid, card_value[2]; i < MAX_BLACKJACK_SEATS; i++) if((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
+		if(BJ_PlayerInfo[playerid][pBlackJackBet][0] && CI[playerid][pCasinoChips] >= BJ_PlayerInfo[playerid][pBlackJackBet][0]) {
 			BJ_PlayerInfo[playerid][pBlackJackCard][0] = blackjackTableInfo[tableid][blackjackTableDeck][tmp_id + 0];
 			BJ_PlayerInfo[playerid][pBlackJackCard][1] = blackjackTableInfo[tableid][blackjackTableDeck][tmp_id + 1];
-
 			BJ_PlayerInfo[playerid][pBlackJackActiveHand] = 1;
-
 			blackjackTableInfo[tableid][blackjackTableHandsActive]++;
-
 			PlayerPlaySound(playerid, 5602, 0.0, 0.0, 0.0);
-			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, false, true, true, true, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1, 1);
 			BJ_PlayerInfo[playerid][pBlackJackCards][0] = 2;
 			blackjack_CheckCards(playerid);
-
 			card_value[0] = CASINO_BJ_CARD_INFO[BJ_PlayerInfo[playerid][pBlackJackCard][0]][CASINO_BJ_CARD_VALUE];
-			if (card_value[0] >= BJ_CARD_NUMBER_TEN && card_value[0] <= BJ_CARD_NUMBER_KING) card_value[0] = BJ_CARD_NUMBER_TEN;
+			if(card_value[0] >= BJ_CARD_NUMBER_TEN && card_value[0] <= BJ_CARD_NUMBER_KING) card_value[0] = BJ_CARD_NUMBER_TEN;
 			card_value[1] = CASINO_BJ_CARD_INFO[BJ_PlayerInfo[playerid][pBlackJackCard][1]][CASINO_BJ_CARD_VALUE];
-			if (card_value[1] >= BJ_CARD_NUMBER_TEN && card_value[1] <= BJ_CARD_NUMBER_KING) card_value[1] = BJ_CARD_NUMBER_TEN;
-
-			if ((card_value[0] + card_value[1]) != (BJ_CARD_NUMBER_ACE * 2) && card_value[0] == card_value[1])
+			if(card_value[1] >= BJ_CARD_NUMBER_TEN && card_value[1] <= BJ_CARD_NUMBER_KING) card_value[1] = BJ_CARD_NUMBER_TEN;
+			if((card_value[0] + card_value[1]) != (BJ_CARD_NUMBER_ACE * 2) && card_value[0] == card_value[1])
 			BJ_PlayerInfo[playerid][pBlackJackSplit] = 1;
 			else BJ_PlayerInfo[playerid][pBlackJackSplit] = 0;
-
 			tmp_id += 2;
-		}
-		else continue;
+		} else continue;
 	}
 	blackjackTableInfo[tableid][blackjackTableDealerCards] = blackjackTableInfo[tableid][blackjackTableDealerScore] = 0;
-
-	for (new i = 0; i < 2; i++) {
+	for(new i = 0; i < 2; i++) {
 		blackjackTableInfo[tableid][blackjackTableDealerCard][i] = blackjackTableInfo[tableid][blackjackTableDeck][tmp_id];
 		blackjackTableInfo[tableid][blackjackTableDealerScore] += blackjack_GetCardScore(blackjackTableInfo[tableid][blackjackTableDealerCard][i]);
 		blackjackTableInfo[tableid][blackjackTableDealerCards]++;
@@ -650,121 +473,101 @@ blackjack_DealHands(tableid) {
 	}
 	ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1);
 	blackjackTableInfo[tableid][blackjackTableCardsActive] = tmp_id;
-
-	return true;
+	return 1;
 }
 blackjack_CheckCards(playerid, cards_block = 0) {
-	if (playerid == -1 || !BJ_PlayerInfo[playerid][pBlackJackTableID]) return 0;
+	if(playerid == -1 || !BJ_PlayerInfo[playerid][pBlackJackTableID]) return 0;
 	new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1), total_score = 0;
-	if (0 == cards_block) for (new card_id = 0; card_id < BJ_PlayerInfo[playerid][pBlackJackCards][cards_block]; card_id++)
+	if(0 == cards_block) for(new card_id = 0; card_id < BJ_PlayerInfo[playerid][pBlackJackCards][cards_block]; card_id++)
 	total_score += blackjack_GetCardScore(BJ_PlayerInfo[playerid][pBlackJackCard][card_id]);
-	else for (new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][cards_block] + 5); card_id++)
+	else for(new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][cards_block] + 5); card_id++)
 	total_score += blackjack_GetCardScore(BJ_PlayerInfo[playerid][pBlackJackCard][card_id]);
-	if (total_score >= 21 && BJ_PlayerInfo[playerid][pBlackJackActiveID])
+	if(total_score >= 21 && BJ_PlayerInfo[playerid][pBlackJackActiveID])
 	blackjack_NextTurn(tableid);
 	return (BJ_PlayerInfo[playerid][pBlackJackCardsScore][cards_block] = total_score);
 }
 blackjack_ActionSplit(playerid) {
-	if (CI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0] * 2) return;
+	if(CI[playerid][pCasinoChips] < BJ_PlayerInfo[playerid][pBlackJackBet][0] * 2) return 1;
 	new
 	tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1),
 	card_id = blackjackTableInfo[tableid][blackjackTableCardsActive]
 	;
-	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, false, true, true, true, 1, 1);
-
+	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
 	BJ_PlayerInfo[playerid][pBlackJackStatus][0] = BJ_PLAYER_STATUS_SPLIT;
 	BJ_PlayerInfo[playerid][pBlackJackSplit] = 0;
-
 	BJ_PlayerInfo[playerid][pBlackJackCard][5 + 0] = BJ_PlayerInfo[playerid][pBlackJackCard][1];
 	BJ_PlayerInfo[playerid][pBlackJackCard][1] = blackjackTableInfo[tableid][blackjackTableDeck][card_id];
 	BJ_PlayerInfo[playerid][pBlackJackCard][5 + 1] = blackjackTableInfo[tableid][blackjackTableDeck][card_id + 1];
 	BJ_PlayerInfo[playerid][pBlackJackCards][0] = BJ_PlayerInfo[playerid][pBlackJackCards][1] = 2;
-
 	blackjackTableInfo[tableid][blackjackTableCardsActive] += 2;
 	blackjackTableInfo[tableid][blackjackTablePlayerid] = BJ_PlayerInfo[playerid][pBlackJackSeatID];
-
 	blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_DSHS);
-
 	BJ_PlayerInfo[playerid][pBlackJackDelay] = (30 + 1);
 	BJ_PlayerInfo[playerid][pBlackJackActiveID] = 1;
 	BJ_PlayerInfo[playerid][pBlackJackBlockID] = 0;
-
 	BJ_PlayerInfo[playerid][pBlackJackBet][1] = BJ_PlayerInfo[playerid][pBlackJackBet][0];
 	PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][54]);
-
 	blackjack_CheckCards(playerid, 0), blackjack_CheckCards(playerid, 1);
+	return 1;
 }
 blackjack_ActionDouble(playerid) {
-	if (GetChips(playerid)/*BJ_PlayerInfo[playerid][pBlackJackBet][0]*/ < BJ_PlayerInfo[playerid][pBlackJackBet][0] * 2) {
+	if(GetChips(playerid)/*BJ_PlayerInfo[playerid][pBlackJackBet][0]*/ < BJ_PlayerInfo[playerid][pBlackJackBet][0] * 2) {
 		SendClientMessage(playerid, COLOR_GREY, "У вас недостаточно фишек.");
-		return;
+		return 1;
 	}
-	if (BJ_PlayerInfo[playerid][pBlackJackCards][0] != 2) return;
+	if(BJ_PlayerInfo[playerid][pBlackJackCards][0] != 2) return 1;
 
-
-
-	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, false, true, true, true, 1, 1);
-
+	ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
 	BJ_PlayerInfo[playerid][pBlackJackStatus][0] = BJ_PLAYER_STATUS_DOUBLE;
 	BJ_PlayerInfo[playerid][pBlackJackBet][0] *= 2;
 	blackjack_ActionHit(playerid);
 	new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1);
-	if (BJ_PlayerInfo[playerid][pBlackJackActiveID]) blackjack_NextTurn(tableid);
+	if(BJ_PlayerInfo[playerid][pBlackJackActiveID]) blackjack_NextTurn(tableid);
+	return 1;
 }
 blackjack_ActionHit(playerid, cards_block = 0) {
-	if (!BJ_PlayerInfo[playerid][pBlackJackBet][cards_block] /*|| !BJ_PlayerInfo[playerid][pBlackJackCards][cards_block]*/) return;
-
+	if(!BJ_PlayerInfo[playerid][pBlackJackBet][cards_block] /*|| !BJ_PlayerInfo[playerid][pBlackJackCards][cards_block]*/) return 1;
 	new
 	tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1),
 	player_card_id = (BJ_PlayerInfo[playerid][pBlackJackCards][cards_block]),
 	card_id = blackjackTableInfo[tableid][blackjackTableCardsActive]
 	;
-	if (player_card_id == MAX_BLACKJACK_PLAYER_CARD)
-	return;
-	ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, false, true, true, true, 1, 1);
-
-	if (cards_block) player_card_id += 5;
-
+	if(player_card_id == MAX_BLACKJACK_PLAYER_CARD)
+	return 1;
+	ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1, 1);
+	if(cards_block) player_card_id += 5;
 	BJ_PlayerInfo[playerid][pBlackJackCard][player_card_id] = blackjackTableInfo[tableid][blackjackTableDeck][card_id];
 	BJ_PlayerInfo[playerid][pBlackJackCards][cards_block]++;
 	blackjackTableInfo[tableid][blackjackTableCardsActive]++;
-
 	blackjack_UpdateOptions(playerid, BJ_PlayerInfo[playerid][pBlackJackOptions]);
 	blackjack_CheckCards(playerid, cards_block);
+	return 1;
 }
 blackjack_CheckCardToDealer(tableid) {
-	if (blackjackTableInfo[tableid][blackjackTableDealerScore] >= 17) return;
-
-	new
-	dealer_card_id = blackjackTableInfo[tableid][blackjackTableDealerCards],
-	card_id = blackjackTableInfo[tableid][blackjackTableCardsActive]
-	;
-	if (dealer_card_id == MAX_BLACKJACK_PLAYER_CARD)
-	return;
+	if(blackjackTableInfo[tableid][blackjackTableDealerScore] >= 17) return 1;
+	new dealer_card_id = blackjackTableInfo[tableid][blackjackTableDealerCards], card_id = blackjackTableInfo[tableid][blackjackTableCardsActive];
+	if(dealer_card_id == MAX_BLACKJACK_PLAYER_CARD)
+	return 1;
 	ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1);
-
 	blackjackTableInfo[tableid][blackjackTableDealerCard][dealer_card_id] = blackjackTableInfo[tableid][blackjackTableDeck][card_id];
 	blackjackTableInfo[tableid][blackjackTableDealerScore] += blackjackTableInfo[tableid][blackjackTableDealerCard][dealer_card_id];
 	blackjackTableInfo[tableid][blackjackTableDealerCards]++;
 	blackjackTableInfo[tableid][blackjackTableCardsActive]++;
-
 	blackjackTableInfo[tableid][blackjackTableDealerScore] = 0;
-	for (new card__id = 0; card__id < blackjackTableInfo[tableid][blackjackTableDealerCards]; card__id++)
+	for(new card__id = 0; card__id < blackjackTableInfo[tableid][blackjackTableDealerCards]; card__id++)
 	blackjackTableInfo[tableid][blackjackTableDealerScore] += blackjack_GetCardScore(blackjackTableInfo[tableid][blackjackTableDealerCard][card__id]);
+	return 1;
 }
 blackjack_ResetRound(tableid) {
 	blackjackTableInfo[tableid][blackjackTableDealerCards] =
 	blackjackTableInfo[tableid][blackjackTableDealerScore] =
 	blackjackTableInfo[tableid][blackjackTableDealerHidden] =
 	blackjackTableInfo[tableid][blackjackTableDealerDelay] =
-
 	blackjackTableInfo[tableid][blackjackTableCardsActive] =
 	blackjackTableInfo[tableid][blackjackTableHandsActive] = 0;
 	blackjackTableInfo[tableid][blackjackTableDelay] = 0;
-
 	blackjackTableInfo[tableid][blackjackTablePlayerid] = (-1);
-
-	for (new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++) if ((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
+	for(new i = 0, playerid; i < MAX_BLACKJACK_SEATS; i++) if((playerid = blackjackTableInfo[tableid][blackjackTableSlots][i]) != INVALID_PLAYER_ID) {
 		BJ_PlayerInfo[playerid][pBlackJackDelay] =
 		BJ_PlayerInfo[playerid][pBlackJackActiveHand] =
 		BJ_PlayerInfo[playerid][pBlackJackActiveID] =
@@ -773,51 +576,43 @@ blackjack_ResetRound(tableid) {
 		BJ_PlayerInfo[playerid][pBlackJackCards][0] = BJ_PlayerInfo[playerid][pBlackJackCards][1] =
 		BJ_PlayerInfo[playerid][pBlackJackCardsScore][0] = BJ_PlayerInfo[playerid][pBlackJackCardsScore][1] =
 		BJ_PlayerInfo[playerid][pBlackJackStatus][0] = BJ_PlayerInfo[playerid][pBlackJackStatus][1] = 0;
-
-		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
+		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
 	}
 	ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1);
-	return true;
+	return 1;
 }
 blackjack_ResetTable(tableid) {
 	blackjackTableInfo[tableid][blackjackTableMaxBet] = BLACKJACK_DEFAULT_MAX_BET;
 	blackjackTableInfo[tableid][blackjackTableMinBet] = BLACKJACK_DEFAULT_MIN_BET;
 	blackjackTableInfo[tableid][blackjackTableEnterPrice] = BLACKJACK_DEFAULT_SEAT_PRICE;
 	blackjackTableInfo[tableid][blackjackTableStatus] = BLACKJACK_STATUS_NONE;
-
 	blackjackTableInfo[tableid][blackjackTableDealerCards] =
 	blackjackTableInfo[tableid][blackjackTableDealerScore] =
 	blackjackTableInfo[tableid][blackjackTableDealerHidden] =
 	blackjackTableInfo[tableid][blackjackTableDealerDelay] =
-
 	blackjackTableInfo[tableid][blackjackTableCardsActive] =
 	blackjackTableInfo[tableid][blackjackTableHandsActive] =
 	blackjackTableInfo[tableid][blackjackTableTimer] =
-
 	blackjackTableInfo[tableid][blackjackTableDelay] =
 	blackjackTableInfo[tableid][blackjackTableplayers] =
 	blackjackTableInfo[tableid][blackjackTableTimer] = 0;
-
-	for (new targetid = 0; targetid < (blackjackTableInfo[tableid][blackjackTableLimit] = MAX_BLACKJACK_SEATS); targetid++)
+	for(new targetid = 0; targetid < (blackjackTableInfo[tableid][blackjackTableLimit] = MAX_BLACKJACK_SEATS); targetid++)
 	blackjackTableInfo[tableid][blackjackTableSlots][targetid] = INVALID_PLAYER_ID;
-
 	ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1);
 	ClearDynamicActorAnimations(blackjackTableInfo[tableid][blackjackTableActorID]);
 	ApplyDynamicActorAnimation(blackjackTableInfo[tableid][blackjackTableActorID], "CARRY", "crry_prtial", 1.0, 0, 0, 0, 0, 0);
-	return true;
+	return 1;
 }
 blackjack_LeaveGame(playerid) {
-	if (!BJ_PlayerInfo[playerid][pBlackJackTableID]) return false;
+	if(!BJ_PlayerInfo[playerid][pBlackJackTableID]) return 0;
 	SetPVarInt(playerid,"blackjack_JoinGameTick",GetTickCount());
-
 	new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1);
 	PlayerPlaySound(playerid, 5852, 0.0, 0.0, 0.0);
 
-
-	if ((tableid + 1)) {
+	if((tableid + 1)) {
 		switch (blackjackTableInfo[tableid][blackjackTableStatus]) {
 		case BLACKJACK_STATUS_STARTED: {
-				if (BJ_PlayerInfo[playerid][pBlackJackBet][0] && BJ_PlayerInfo[playerid][pBlackJackStatus][0] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][0] != BJ_PLAYER_STATUS_LOSE) {
+				if(BJ_PlayerInfo[playerid][pBlackJackBet][0] && BJ_PlayerInfo[playerid][pBlackJackStatus][0] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][0] != BJ_PLAYER_STATUS_LOSE) {
 					new str[300];
 					format(str, sizeof(str), "[BJ]: %s вышел из стола и проиграл %d фишек (стол #%d), рука #1",
 					CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][0], tableid + 1
@@ -826,7 +621,7 @@ blackjack_LeaveGame(playerid) {
 					CI[playerid][pCasinoChips] -= BJ_PlayerInfo[playerid][pBlackJackBet][0];
 					UpdateCharacterData(playerid,"casino_chips",CI[playerid][pCasinoChips]);
 				}
-				if (BJ_PlayerInfo[playerid][pBlackJackBet][1] && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_LOSE) {
+				if(BJ_PlayerInfo[playerid][pBlackJackBet][1] && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_WON && BJ_PlayerInfo[playerid][pBlackJackStatus][1] != BJ_PLAYER_STATUS_LOSE) {
 					new str[300];
 					format(str, sizeof(str), "[BJ]: %s вышел из стола и проиграл %d фишек (стол #%d), рука #2",
 					CI[playerid][cName], BJ_PlayerInfo[playerid][pBlackJackBet][1], tableid + 1
@@ -837,53 +632,43 @@ blackjack_LeaveGame(playerid) {
 				}
 			}
 		}
-		if (--blackjackTableInfo[tableid][blackjackTableplayers]) {
-			if (BJ_PlayerInfo[playerid][pBlackJackBet][0] || BJ_PlayerInfo[playerid][pBlackJackBet][1])
+		if(--blackjackTableInfo[tableid][blackjackTableplayers]) {
+			if(BJ_PlayerInfo[playerid][pBlackJackBet][0] || BJ_PlayerInfo[playerid][pBlackJackBet][1])
 			blackjackTableInfo[tableid][blackjackTablePlayersActive]--;
-			if (BJ_PlayerInfo[playerid][pBlackJackActiveHand])
+			if(BJ_PlayerInfo[playerid][pBlackJackActiveHand])
 			blackjackTableInfo[tableid][blackjackTableHandsActive]--;
-			if (BJ_PlayerInfo[playerid][pBlackJackActiveID] && BJ_PlayerInfo[playerid][pBlackJackDelay] && BJ_PlayerInfo[playerid][pBlackJackSeatID] == blackjackTableInfo[tableid][blackjackTablePlayerid]) {
+			if(BJ_PlayerInfo[playerid][pBlackJackActiveID] && BJ_PlayerInfo[playerid][pBlackJackDelay] && BJ_PlayerInfo[playerid][pBlackJackSeatID] == blackjackTableInfo[tableid][blackjackTablePlayerid]) {
 				blackjack_NextTurn(tableid);
 			}
 		}
 		new blackjack_seatid = BJ_PlayerInfo[playerid][pBlackJackSeatID];
 		blackjackTableInfo[tableid][blackjackTableSlots][blackjack_seatid] = INVALID_PLAYER_ID;
 		/*
-
-		for (new i = 0, targetid; i < MAX_BLACKJACK_SEATS; i++)
-		{
+		for(new i = 0, targetid; i < MAX_BLACKJACK_SEATS; i++) {
 			targetid = blackjackTableInfo[tableid][blackjackTableSlots][i];
-			if (targetid != INVALID_PLAYER_ID) {
-
-				for (new card_id = 0; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][0]); card_id++)
+			if(targetid != INVALID_PLAYER_ID) {
+				for(new card_id = 0; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][0]); card_id++)
 				PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[blackjack_seatid] + card_id], "_");
-
-				for (new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][1] + 5); card_id++)
+				for(new card_id = 5; card_id < (BJ_PlayerInfo[playerid][pBlackJackCards][1] + 5); card_id++)
 				PlayerTextDrawSetString(targetid, Blackjack_PTD[targetid][blackjack_td_seats_array[blackjack_seatid] + card_id], "_");
 			}
 		}*/
-		/*if (!blackjackTableInfo[tableid][blackjackTableround] && blackjackTableInfo[tableid][blackjackTableDelay] < 5)
+		/*if(!blackjackTableInfo[tableid][blackjackTableround] && blackjackTableInfo[tableid][blackjackTableDelay] < 5)
 			blackjack_ResetRound(tableid); */
-		Streamer_ToggleItem(playerid, STREAMER_TYPE_3D_TEXT_LABEL, blackjackTableInfo[tableid][blackjackTableTextID], true);
+		Streamer_ToggleItem(playerid, STREAMER_TYPE_3D_TEXT_LABEL, blackjackTableInfo[tableid][blackjackTableTextID], 1);
 		Streamer_Update(playerid, STREAMER_TYPE_3D_TEXT_LABEL);
-
 		SetPlayerInterior(playerid, blackjackTableInfo[tableid][blackjackTableInterior]);
 		SetPlayerVirtualWorld(playerid, blackjackTableInfo[tableid][blackjackTableWorld]);
-
-		if (!blackjackTableInfo[tableid][blackjackTableplayers]) blackjack_ResetTable(tableid);
+		if(!blackjackTableInfo[tableid][blackjackTableplayers]) blackjack_ResetTable(tableid);
 	}
 	SetPlayerPos(playerid, BJ_PlayerInfo[playerid][pBlackJackPos][0], BJ_PlayerInfo[playerid][pBlackJackPos][1], BJ_PlayerInfo[playerid][pBlackJackPos][2] + 0.1);
-
 	blackjack_DestroyGUI(playerid);
-
 	/*BJ_PlayerInfo[playerid][pBlackJackTableID] =
 	BJ_PlayerInfo[playerid][pBlackJackSeatID] =
-
 	BJ_PlayerInfo[playerid][pBlackJackDelay] =
 	BJ_PlayerInfo[playerid][pBlackJackActiveID] =
 	BJ_PlayerInfo[playerid][pBlackJackActiveHand] = 0;
-
-	for (new card_id = 0; card_id < 2; card_id++) {
+	for(new card_id = 0; card_id < 2; card_id++) {
 		BJ_PlayerInfo[playerid][pBlackJackStatus][card_id] = BJ_PLAYER_STATUS_NONE;
 		BJ_PlayerInfo[playerid][pBlackJackCards][card_id] =
 		BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_id] =
@@ -892,60 +677,49 @@ blackjack_LeaveGame(playerid) {
 	BJ_PlayerInfo[playerid][pBlackJackPos][0] =
 	BJ_PlayerInfo[playerid][pBlackJackPos][1] =
 	BJ_PlayerInfo[playerid][pBlackJackPos][2] = 0.0;*/
-
 	BJ_PlayerInfo[playerid] = NULL_BJ_PI;
 
-
-	TogglePlayerControllable(playerid, true);
+	TogglePlayerControllable(playerid, 1);
 	SetCameraBehindPlayer(playerid);
 	CancelSelectTextDraw(playerid);
-
 	ClearAnimations(playerid);
-	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, false, false, false, false, 0, 1);
-
-	return true;
+	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, 0, 0, 0, 0, 0, 1);
+	return 1;
 }
 blackjack_DestroyGUI(playerid) {
-	if (!BJ_PlayerInfo[playerid][pBlackJackGUI])
-	return false;
-
-	for (new i = 0; i < sizeof(Blackjack_TD); i++)
+	if(!BJ_PlayerInfo[playerid][pBlackJackGUI])
+	return 0;
+	for(new i = 0; i < sizeof(Blackjack_TD); i++)
 	TextDrawHideForPlayer(playerid, Blackjack_TD[i]);
-	for (new i = 0; i < 58; i++)
+	for(new i = 0; i < 58; i++)
 	PlayerTextDrawDestroy(playerid, Blackjack_PTD[playerid][i]);
 	BJ_PlayerInfo[playerid][pBlackJackGUI] = 0;
-	return true;
+	return 1;
 }
 blackjack_JoinGame(playerid, tableid) {
-	/*if (Server::Settings[Server::BLACKJACK] == 0)
+	/*if(Server::Settings[Server::BLACKJACK] == 0)
 		return SendClientMessage(playerid, COLOR_GREY, "Блекджек в данный момент закрыт для пользования.");*/
 	/*#pragma unused tableid
 	return SendClientMessage(playerid, COLOR_GREY, "Блекджек в данный момент отключен для пользования.");*/
-	if ((GetTickCount() - GetPVarInt(playerid,"blackjack_JoinGameTick")) < 1200)
-	return false;
+	if((GetTickCount() - GetPVarInt(playerid,"blackjack_JoinGameTick")) < 1200)
+	return 0;
 	SetPVarInt(playerid,"blackjack_JoinGameTick",GetTickCount());
-
-	if (blackjackTableInfo[tableid][blackjackTableplayers] >= blackjackTableInfo[tableid][blackjackTableLimit])
-	return SendClientMessage(playerid, COLOR_GREY, "Нет свободных мест."), false;
-	// if (blackjackTableInfo[tableid][blackjackTableactive] == 1) return false;
-	if (blackjackTableInfo[tableid][blackjackTableEnterPrice] && GetPlayerMoneyEx(playerid) < blackjackTableInfo[tableid][blackjackTableEnterPrice])
-	{
+	if(blackjackTableInfo[tableid][blackjackTableplayers] >= blackjackTableInfo[tableid][blackjackTableLimit])
+	return SendClientMessage(playerid, COLOR_GREY, "Нет свободных мест."), 0;
+	// if(blackjackTableInfo[tableid][blackjackTableactive] == 1) return 0;
+	if(blackjackTableInfo[tableid][blackjackTableEnterPrice] && GetPlayerMoneyEx(playerid) < blackjackTableInfo[tableid][blackjackTableEnterPrice]) {
 		new str[120];
 		format(str,sizeof(str),"У вас недостаточно средств, чтобы вступить в игру необходимо $%d.", blackjackTableInfo[tableid][blackjackTableEnterPrice]);
 		SendClientMessage(playerid, COLOR_GREY, str);
-		return true;
+		return 1;
 	}
-	for (new targetid = 0, Float:object_angle = 0.0; targetid < MAX_BLACKJACK_SEATS; targetid++) if (blackjackTableInfo[tableid][blackjackTableSlots][targetid] == INVALID_PLAYER_ID) {
+	for(new targetid = 0, Float:object_angle = 0.0; targetid < MAX_BLACKJACK_SEATS; targetid++) if(blackjackTableInfo[tableid][blackjackTableSlots][targetid] == INVALID_PLAYER_ID) {
 		BJ_PlayerInfo[playerid][pBlackJackLanguage] = CI[playerid][pCasinoLanguage];
 		GivePlayerMoney(playerid, -blackjackTableInfo[tableid][blackjackTableEnterPrice]);
-
 		blackjack_CreatePTD(playerid, targetid);
 		blackjack_ShowGUI(playerid);
-
 		SelectTextDraw(playerid, 0x000000FF);
-
 		blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 		BJ_PlayerInfo[playerid][pBlackJackTableID] = (tableid + 1);
 		BJ_PlayerInfo[playerid][pBlackJackSeatID] = targetid;
 		BJ_PlayerInfo[playerid][pBlackJackDelay] =
@@ -953,23 +727,19 @@ blackjack_JoinGame(playerid, tableid) {
 		BJ_PlayerInfo[playerid][pBlackJackLastBet] =
 		BJ_PlayerInfo[playerid][pBlackJackBlockID] =
 		BJ_PlayerInfo[playerid][pBlackJackActiveHand] = 0;
-
-		for (new card_id = 0; card_id < 2; card_id++) {
+		for(new card_id = 0; card_id < 2; card_id++) {
 			BJ_PlayerInfo[playerid][pBlackJackStatus][card_id] = BJ_PLAYER_STATUS_NONE;
 			BJ_PlayerInfo[playerid][pBlackJackCards][card_id] =
 			BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_id] =
 			BJ_PlayerInfo[playerid][pBlackJackBet][card_id] = 0;
 		}
 		blackjackTableInfo[tableid][blackjackTableplayers]++;
-		if (blackjackTableInfo[tableid][blackjackTableplayers] == 1)
+		if(blackjackTableInfo[tableid][blackjackTableplayers] == 1)
 		blackjackTableInfo[tableid][blackjackTableTimer] = 1;
 		blackjackTableInfo[tableid][blackjackTableSlots][targetid] = playerid;
-
-		Streamer_ToggleItem(playerid, STREAMER_TYPE_3D_TEXT_LABEL, blackjackTableInfo[tableid][blackjackTableTextID], false);
+		Streamer_ToggleItem(playerid, STREAMER_TYPE_3D_TEXT_LABEL, blackjackTableInfo[tableid][blackjackTableTextID], 0);
 		Streamer_Update(playerid, STREAMER_TYPE_3D_TEXT_LABEL);
-
 		GetDynamicObjectRot(blackjackTableInfo[tableid][blackjackTableObjectID], object_angle, object_angle, object_angle);
-
 		CameraRadiusSetPos(playerid,
 		blackjackTableInfo[tableid][blackjackTablePos][0], blackjackTableInfo[tableid][blackjackTablePos][1], blackjackTableInfo[tableid][blackjackTablePos][2],
 		(object_angle + 180.0), 2.3, 3.2
@@ -977,36 +747,32 @@ blackjack_JoinGame(playerid, tableid) {
 		GetPlayerPos(playerid, BJ_PlayerInfo[playerid][pBlackJackPos][0], BJ_PlayerInfo[playerid][pBlackJackPos][1], BJ_PlayerInfo[playerid][pBlackJackPos][2]);
 		SetPlayerInterior(playerid, blackjackTableInfo[tableid][blackjackTableInterior]);
 		SetPlayerVirtualWorld(playerid, blackjackTableInfo[tableid][blackjackTableWorld]);
-
-		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
-		TogglePlayerControllable(playerid, false);
-
+		ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+		TogglePlayerControllable(playerid, 0);
 		SetPlayerFacingAngle(playerid, (blackjack_TableOffsets[targetid][3] + object_angle));
 		SetPlayerPosObjectOffset(blackjackTableInfo[tableid][blackjackTableObjectID], playerid, blackjack_TableOffsets[targetid][0], blackjack_TableOffsets[targetid][1], blackjack_TableOffsets[targetid][2]);
-
-		if (blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_STARTING && blackjackTableInfo[tableid][blackjackTableDelay] > 2)
+		if(blackjackTableInfo[tableid][blackjackTableStatus] == BLACKJACK_STATUS_STARTING && blackjackTableInfo[tableid][blackjackTableDelay] > 2)
 		blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_MMBA);
 		break;
 	}
-	return true;
+	return 1;
 }
 blackjack_ShowGUI(playerid) {
-	for (new i = 0; i < 2; i++)
+	for(new i = 0; i < 2; i++)
 	TextDrawShowForPlayer(playerid, Blackjack_TD[i]);
 	PlayerTextDrawHide(playerid, Blackjack_PTD[playerid][0]);
-	for (new i = 3; i < 58; i++) {
+	for(new i = 3; i < 58; i++) {
 		switch (i) {
 		case 54: continue;
 		}
 		PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][i]);
 	}
-	return true;
+	return 1;
 }
-
 blackjack_UpdateOptions(playerid, option = BLACKJACK_OPTION_NONE) {
-	if (playerid == INVALID_PLAYER_ID) return false;
+	if(playerid == INVALID_PLAYER_ID) return 0;
 	new tableid = (BJ_PlayerInfo[playerid][pBlackJackTableID] - 1);
-	if (tableid == -1) return false;
+	if(tableid == -1) return 0;
 	switch (option) {
 	case BLACKJACK_OPTION_NONE: { //	(null)
 			TextDrawHideForPlayer(playerid, Blackjack_TD[2]), PlayerTextDrawHide(playerid, Blackjack_PTD[playerid][4]);
@@ -1016,63 +782,55 @@ blackjack_UpdateOptions(playerid, option = BLACKJACK_OPTION_NONE) {
 		}
 	case BLACKJACK_OPTION_MMBA: { //	MIN  MAX  (1-300)  300
 			BJ_PlayerInfo[playerid][pBlackJackActiveID] = 1;
-
 			new blackjack_string[18];
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][4], "~w~~h~MIN");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][5], "~w~~h~MAX");
-
-			if (tableid != -1) {
+			if(tableid != -1) {
 				format(blackjack_string, sizeof(blackjack_string), "~w~~h~(%d-%d)",
 				blackjackTableInfo[tableid][blackjackTableMinBet],
 				blackjackTableInfo[tableid][blackjackTableMaxBet]
 				);
 				PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][6], blackjack_string);
 			}
-			if (BJ_PlayerInfo[playerid][pBlackJackLastBet])
+			if(BJ_PlayerInfo[playerid][pBlackJackLastBet])
 			format(blackjack_string, sizeof(blackjack_string), "~w~%d", BJ_PlayerInfo[playerid][pBlackJackLastBet]);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][7], blackjack_string);
-
-			if (BLACKJACK_OPTION_NONE == BJ_PlayerInfo[playerid][pBlackJackOptions]) {
+			if(BLACKJACK_OPTION_NONE == BJ_PlayerInfo[playerid][pBlackJackOptions]) {
 				TextDrawShowForPlayer(playerid, Blackjack_TD[2]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][4]);
 				TextDrawShowForPlayer(playerid, Blackjack_TD[3]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][5]);
 				TextDrawShowForPlayer(playerid, Blackjack_TD[4]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][6]);
-				if (BJ_PlayerInfo[playerid][pBlackJackLastBet])
+				if(BJ_PlayerInfo[playerid][pBlackJackLastBet])
 				TextDrawShowForPlayer(playerid, Blackjack_TD[5]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][7]);
 				else TextDrawHideForPlayer(playerid, Blackjack_TD[5]), PlayerTextDrawHide(playerid, Blackjack_PTD[playerid][7]);
 			}
 		}
 	case BLACKJACK_OPTION_DSHS: { //	DOUBLE  SPLIT  HIT  STAY
 			BJ_PlayerInfo[playerid][pBlackJackActiveID] = 1;
-			if (BJ_PlayerInfo[playerid][pBlackJackCards][0] < 3 && BJ_PlayerInfo[playerid][pBlackJackCards][1] == 0)
+			if(BJ_PlayerInfo[playerid][pBlackJackCards][0] < 3 && BJ_PlayerInfo[playerid][pBlackJackCards][1] == 0)
 			blackjack_CheckCards(playerid);
-
-			if (BJ_PlayerInfo[playerid][pBlackJackCards][0] == 2)
+			if(BJ_PlayerInfo[playerid][pBlackJackCards][0] == 2)
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][4], "~w~~h~DOUBLE");
 			else PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][4], "DOUBLE");
-
-			if (BJ_PlayerInfo[playerid][pBlackJackSplit])
+			if(BJ_PlayerInfo[playerid][pBlackJackSplit])
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][5], "~w~~h~SPLIT");
 			else PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][5], "SPLIT");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][6], "~w~~h~HIT");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][7], "~w~~h~STAY");
-
-			if (BLACKJACK_OPTION_NONE == BJ_PlayerInfo[playerid][pBlackJackOptions]) {
+			if(BLACKJACK_OPTION_NONE == BJ_PlayerInfo[playerid][pBlackJackOptions]) {
 				TextDrawShowForPlayer(playerid, Blackjack_TD[2]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][4]);
 				TextDrawShowForPlayer(playerid, Blackjack_TD[3]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][5]);
 				TextDrawShowForPlayer(playerid, Blackjack_TD[4]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][6]);
 				TextDrawShowForPlayer(playerid, Blackjack_TD[5]), PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][7]);
 			}
 		}
-	default: return true;
+	default: return 1;
 	}
 	return (BJ_PlayerInfo[playerid][pBlackJackOptions] = option);
 }
 blackjack_CreateTable(Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, worldid, interiorid) {
-	if (Iter_Count(blackjackTables) >= MAX_BLACKJACK_TABLES)
-	return false;
+	if(Iter_Count(blackjackTables) >= MAX_BLACKJACK_TABLES)
+	return 0;
 	new tableid = Iter_Free(blackjackTables), objectid;
-
 	objectid = blackjackTableInfo[tableid][blackjackTableObjectID] = CreateDynamicObject(2188,
 	(blackjackTableInfo[tableid][blackjackTablePos][0] = x), (blackjackTableInfo[tableid][blackjackTablePos][1] = y),
 	(blackjackTableInfo[tableid][blackjackTablePos][2] = z), (blackjackTableInfo[tableid][blackjackTablePos][3] = rx),
@@ -1088,13 +846,10 @@ blackjack_CreateTable(Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, w
 	INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, blackjackTableInfo[tableid][blackjackTableWorld], blackjackTableInfo[tableid][blackjackTableInterior], -1
 	);
 	Iter_Add(blackjackTables, tableid);
-
 	new Float:object_px, Float:object_py, Float:object_pz,
 Float:object_rx, Float:object_ry, Float:object_rz;
-
 	GetDynamicObjectPos(objectid, object_px, object_py, object_pz);
 	GetDynamicObjectRot(objectid, object_rx, object_ry, object_rz);
-
 	new Float:cos_x = floatcos(object_rx, degrees),
 Float:cos_y = floatcos(object_ry, degrees),
 Float:cos_z = floatcos(object_rz, degrees),
@@ -1105,9 +860,7 @@ Float:sin_z = floatsin(object_rz, degrees)
 	x = object_px + blackjack_TableOffsets[3][0] * cos_y * cos_z - blackjack_TableOffsets[3][0] * sin_x * sin_y * sin_z - blackjack_TableOffsets[3][1] * cos_x * sin_z + blackjack_TableOffsets[3][2] * sin_y * cos_z + blackjack_TableOffsets[3][2] * sin_x * cos_y * sin_z;
 	y = object_py + blackjack_TableOffsets[3][0] * cos_y * sin_z + blackjack_TableOffsets[3][0] * sin_x * sin_y * cos_z + blackjack_TableOffsets[3][1] * cos_x * cos_z + blackjack_TableOffsets[3][2] * sin_y * sin_z - blackjack_TableOffsets[3][2] * sin_x * cos_y * cos_z;
 	z = object_pz - blackjack_TableOffsets[3][0] * cos_x * sin_y + blackjack_TableOffsets[3][1] * sin_x + blackjack_TableOffsets[3][2] * cos_x * cos_y;
-
 	blackjackTableInfo[tableid][blackjackTableActorID] = CreateActor(171, x, y, z, (blackjack_TableOffsets[3][3] + object_rz));
-
 	SetActorVirtualWorld(blackjackTableInfo[tableid][blackjackTableActorID], worldid);
 	
 	blackjack_ResetTable(tableid);
@@ -1120,12 +873,11 @@ stock blackjack_CreateTD() {
 	TextDrawColor(Blackjack_TD[0], 336860415);
 	TextDrawSetShadow(Blackjack_TD[0], 0);
 	TextDrawFont(Blackjack_TD[0], 5);
-	TextDrawSetProportional(Blackjack_TD[0], false);
+	TextDrawSetProportional(Blackjack_TD[0], 0);
 	TextDrawBackgroundColor(Blackjack_TD[0], 0);
-	TextDrawSetSelectable(Blackjack_TD[0], true);
+	TextDrawSetSelectable(Blackjack_TD[0], 1);
 	TextDrawSetPreviewModel(Blackjack_TD[0], 10955);
 	TextDrawSetPreviewRot(Blackjack_TD[0], 90.000000, 0.000000, 0.000000, 0.828445);
-
 	Blackjack_TD[1] = TextDrawCreate(600.629699, 418.066802, "~p~EXIT");
 	TextDrawLetterSize(Blackjack_TD[1], 0.477306, 2.002500);
 	TextDrawAlignment(Blackjack_TD[1], 2);
@@ -1134,22 +886,20 @@ stock blackjack_CreateTD() {
 	TextDrawSetOutline(Blackjack_TD[1], 1);
 	TextDrawBackgroundColor(Blackjack_TD[1], 255);
 	TextDrawFont(Blackjack_TD[1], 1);
-	TextDrawSetProportional(Blackjack_TD[1], true);
-
+	TextDrawSetProportional(Blackjack_TD[1], 1);
 	Blackjack_TD[2] = TextDrawCreate(179.797958, 392.23, "click_1");
 	Blackjack_TD[3] = TextDrawCreate(247.297805, 392.23, "click_2");
 	Blackjack_TD[4] = TextDrawCreate(315.797729, 392.23, "click_3");
 	Blackjack_TD[5] = TextDrawCreate(384.297729, 392.23, "click_4");
-
-	for (new td_id = 2; td_id < 6; td_id++) {
+	for(new td_id = 2; td_id < 6; td_id++) {
 		TextDrawTextSize(Blackjack_TD[td_id], 75.000000, 39.000000);
 		TextDrawAlignment(Blackjack_TD[td_id], 1);
 		TextDrawColor(Blackjack_TD[td_id], 168430320);
 		TextDrawSetShadow(Blackjack_TD[td_id], 0);
 		TextDrawFont(Blackjack_TD[td_id], 5);
-		TextDrawSetProportional(Blackjack_TD[td_id], false);
+		TextDrawSetProportional(Blackjack_TD[td_id], 0);
 		TextDrawBackgroundColor(Blackjack_TD[td_id], 0);
-		TextDrawSetSelectable(Blackjack_TD[td_id], true);
+		TextDrawSetSelectable(Blackjack_TD[td_id], 1);
 		TextDrawSetPreviewModel(Blackjack_TD[td_id], 10955);
 		TextDrawSetPreviewRot(Blackjack_TD[td_id], 90.000000, 0.000000, 0.000000, 1.000000);
 	}
@@ -1158,50 +908,47 @@ stock blackjack_CreateTD() {
 	TextDrawTextSize(Blackjack_Tutorial_TD[0], 172.000000, 0.000000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[0], 1);
 	TextDrawColor(Blackjack_Tutorial_TD[0], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[0], true);
+	TextDrawUseBox(Blackjack_Tutorial_TD[0], 1);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[0], 336860415);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[0], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[0], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[0], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[0], true);
-
+	TextDrawSetProportional(Blackjack_Tutorial_TD[0], 1);
 	Blackjack_Tutorial_TD[1] = TextDrawCreate(61.992675, 414.550170, "~w~<< ~w~~h~HA€Aѓ");
 	TextDrawLetterSize(Blackjack_Tutorial_TD[1], 0.219619, 1.214998);
 	TextDrawTextSize(Blackjack_Tutorial_TD[1], 10.000000, 73.000000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[1], 2);
 	TextDrawColor(Blackjack_Tutorial_TD[1], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[1], true);
+	TextDrawUseBox(Blackjack_Tutorial_TD[1], 1);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[1], -1523963137);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[1], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[1], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[1], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[1], true);
-	TextDrawSetSelectable(Blackjack_Tutorial_TD[1], true);
-
+	TextDrawSetProportional(Blackjack_Tutorial_TD[1], 1);
+	TextDrawSetSelectable(Blackjack_Tutorial_TD[1], 1);
 	Blackjack_Tutorial_TD[2] = TextDrawCreate(132.992675, 414.550170, "~w~>> ~w~~h~ѓA‡EE");
 	TextDrawLetterSize(Blackjack_Tutorial_TD[2], 0.219619, 1.214998);
 	TextDrawTextSize(Blackjack_Tutorial_TD[2], 10.000000, 73.000000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[2], 2);
 	TextDrawColor(Blackjack_Tutorial_TD[2], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[2], true);
+	TextDrawUseBox(Blackjack_Tutorial_TD[2], 1);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[2], 8388863);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[2], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[2], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[2], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[2], true);
-	TextDrawSetSelectable(Blackjack_Tutorial_TD[2], true);
-
+	TextDrawSetProportional(Blackjack_Tutorial_TD[2], 1);
+	TextDrawSetSelectable(Blackjack_Tutorial_TD[2], 1);
 	Blackjack_Tutorial_TD[3] = TextDrawCreate(97.469276, 331.300262, "OЂYЌEH…E");
 	TextDrawLetterSize(Blackjack_Tutorial_TD[3], 0.302547, 1.343333);
 	TextDrawTextSize(Blackjack_Tutorial_TD[3], 0.000000, 149.500000);
 	TextDrawAlignment(Blackjack_Tutorial_TD[3], 2);
 	TextDrawColor(Blackjack_Tutorial_TD[3], -1);
-	TextDrawUseBox(Blackjack_Tutorial_TD[3], true);
+	TextDrawUseBox(Blackjack_Tutorial_TD[3], 1);
 	TextDrawBoxColor(Blackjack_Tutorial_TD[3], -1523963166);
 	TextDrawSetShadow(Blackjack_Tutorial_TD[3], 0);
 	TextDrawBackgroundColor(Blackjack_Tutorial_TD[3], 255);
 	TextDrawFont(Blackjack_Tutorial_TD[3], 1);
-	TextDrawSetProportional(Blackjack_Tutorial_TD[3], true);
+	TextDrawSetProportional(Blackjack_Tutorial_TD[3], 1);
 }
 blackjack_CreatePTD(playerid, seatid) {
 	new Float:blackjack_ptd_float[MAX_BLACKJACK_SEATS][2] = {
@@ -1212,19 +959,18 @@ blackjack_CreatePTD(playerid, seatid) {
 	Blackjack_PTD[playerid][0] = CreatePlayerTextDraw(playerid, blackjack_ptd_float[0][0], blackjack_ptd_float[0][1], "_"); // Monsieur~n~Developer~n~~p~1,000
 	Blackjack_PTD[playerid][1] = CreatePlayerTextDraw(playerid, blackjack_ptd_float[1][0], blackjack_ptd_float[1][1], "_"); // Monsieur~n~Developer~n~~p~1,000
 	Blackjack_PTD[playerid][2] = CreatePlayerTextDraw(playerid, blackjack_ptd_float[2][0], blackjack_ptd_float[2][1], "_"); // Monsieur~n~Developer~n~~p~1,000
-
-	for (new ptd_id = 0; ptd_id < 3; ptd_id++) {
+	for(new ptd_id = 0; ptd_id < 3; ptd_id++) {
 		PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.189631, 0.940832);
 		PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.000000, 61.000000);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 2);
 		PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][ptd_id], -1);
-		PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][ptd_id], true);
+		PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBoxColor(playerid, Blackjack_PTD[playerid][ptd_id], 168430335);
 		PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 	}
 	Blackjack_PTD[playerid][3] = CreatePlayerTextDraw(playerid,
 	(blackjack_ptd_float[seatid][0] + 34.42456), (blackjack_ptd_float[seatid][1] + 25.416534), blackjack_language_massive[language_id][5]
@@ -1233,32 +979,29 @@ blackjack_CreatePTD(playerid, seatid) {
 	PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][3], 0.000000, 12.000000);
 	PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][3], 2);
 	PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][3], -1);
-	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][3], true);
+	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][3], 1);
 	PlayerTextDrawBoxColor(playerid, Blackjack_PTD[playerid][3], -2139094785);
 	PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][3], 0);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][3], 255);
 	PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][3], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][3], true);
-
+	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][3], 1);
 	Blackjack_PTD[playerid][4] = CreatePlayerTextDraw(playerid, 218.368286, 407.250030, "_");
 	Blackjack_PTD[playerid][5] = CreatePlayerTextDraw(playerid, 284.081756, 407.250000, "_");
 	Blackjack_PTD[playerid][6] = CreatePlayerTextDraw(playerid, 353.423278, 407.250030, "_");
 	Blackjack_PTD[playerid][7] = CreatePlayerTextDraw(playerid, 421.358795, 407.250000, "_");
-
-	for (new ptd_id = 4; ptd_id < 8; ptd_id++) {
+	for(new ptd_id = 4; ptd_id < 8; ptd_id++) {
 		PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.300000, 1.399999);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 2);
 		PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][ptd_id], -2139062017); // -1
 		PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 	}
 	Blackjack_PTD[playerid][8] = CreatePlayerTextDraw(playerid, 280.000000, 316.000000, "_");
 	Blackjack_PTD[playerid][9] = CreatePlayerTextDraw(playerid, 71.000000, 262.500000, "_");
 	Blackjack_PTD[playerid][10] = CreatePlayerTextDraw(playerid, 496.000000, 262.500000, "_");
-
-	for (new ptd_id = 8; ptd_id < 11; ptd_id++) {
+	for(new ptd_id = 8; ptd_id < 11; ptd_id++) {
 		PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.176045, 0.870832);
 		PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.000000, 47.000000);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 2);
@@ -1267,9 +1010,8 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 	} // player hands
-
 	// seatid = 1 [1] * center
 	Blackjack_PTD[playerid][11] = CreatePlayerTextDraw(playerid, 249.233200, 240.233398, "_"); // "LD_CARD:cdback");
 	Blackjack_PTD[playerid][12] = CreatePlayerTextDraw(playerid, 267.233062, 244.233337, "_"); // "LD_CARD:cdback");
@@ -1312,15 +1054,14 @@ blackjack_CreatePTD(playerid, seatid) {
 	Blackjack_PTD[playerid][43] = CreatePlayerTextDraw(playerid, 310.115264, 125.216728, "_"); // "LD_CARD:cdback");
 	Blackjack_PTD[playerid][44] = CreatePlayerTextDraw(playerid, 336.352600, 125.216720, "_"); // "LD_CARD:cdback");
 	Blackjack_PTD[playerid][45] = CreatePlayerTextDraw(playerid, 362.589904, 125.216720, "_"); // "LD_CARD:cdback");
-
-	for (new ptd_id = 11; ptd_id < 46; ptd_id++) {
+	for(new ptd_id = 11; ptd_id < 46; ptd_id++) {
 		PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][ptd_id], 25.000000, 40.000000);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][ptd_id], -1);
 		PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 4);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], false);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 0);
 	}
 	// seatid = 1 [1] * center
 	Blackjack_PTD[playerid][46] = CreatePlayerTextDraw(playerid, 280.507141, 220.500000/* - 6.0*/, "_"); // 21
@@ -1333,8 +1074,7 @@ blackjack_CreatePTD(playerid, seatid) {
 	Blackjack_PTD[playerid][51] = CreatePlayerTextDraw(playerid, 575.207336, 166.500000/* - 6.0*/, "_"); // 21
 	// seatid = dealer * top center
 	Blackjack_PTD[playerid][52] = CreatePlayerTextDraw(playerid, 324.079559, 106.900000 - 6.0, "_"); // 21
-
-	for (new ptd_id = 46; ptd_id < 53; ptd_id++) {
+	for(new ptd_id = 46; ptd_id < 53; ptd_id++) {
 		PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.265534, 1.104166);
 		PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.000000, 59.000000);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 2);
@@ -1343,7 +1083,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 	}
 	Blackjack_PTD[playerid][53] = CreatePlayerTextDraw(playerid, 320.000000, 168.000000, "_");
 	PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][53], 0.227115, 0.987499);
@@ -1354,25 +1094,22 @@ blackjack_CreatePTD(playerid, seatid) {
 	PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][53], 1);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][53], 255);
 	PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][53], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][53], true);
-
+	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][53], 1);
 	Blackjack_PTD[playerid][54] = CreatePlayerTextDraw(playerid, 320.000000, 386.099639, blackjack_language_massive[language_id][6]);
 	PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][54], 0.228989, 1.004999);
 	PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][54], 0.000000, 81.000000);
 	PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][54], 2);
 	PlayerTextDrawColor(playerid, Blackjack_PTD[playerid][54], -1);
-	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][54], true);
+	PlayerTextDrawUseBox(playerid, Blackjack_PTD[playerid][54], 1);
 	PlayerTextDrawBoxColor(playerid, Blackjack_PTD[playerid][54], -1523963137);
 	PlayerTextDrawSetShadow(playerid, Blackjack_PTD[playerid][54], 0);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][54], 255);
 	PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][54], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][54], true);
-
+	PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][54], 1);
 	Blackjack_PTD[playerid][55] = CreatePlayerTextDraw(playerid, 359.000000, 316.000000, "_");
 	Blackjack_PTD[playerid][56] = CreatePlayerTextDraw(playerid, 150.000000, 262.500000, "_");
 	Blackjack_PTD[playerid][57] = CreatePlayerTextDraw(playerid, 575.000000, 262.500000, "_");
-
-	for (new ptd_id = 55; ptd_id < 58; ptd_id++) {
+	for(new ptd_id = 55; ptd_id < 58; ptd_id++) {
 		PlayerTextDrawLetterSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.176045, 0.870832);
 		PlayerTextDrawTextSize(playerid, Blackjack_PTD[playerid][ptd_id], 0.000000, 47.000000);
 		PlayerTextDrawAlignment(playerid, Blackjack_PTD[playerid][ptd_id], 2);
@@ -1381,7 +1118,7 @@ blackjack_CreatePTD(playerid, seatid) {
 		PlayerTextDrawSetOutline(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 		PlayerTextDrawBackgroundColor(playerid, Blackjack_PTD[playerid][ptd_id], 255);
 		PlayerTextDrawFont(playerid, Blackjack_PTD[playerid][ptd_id], 1);
-		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], true);
+		PlayerTextDrawSetProportional(playerid, Blackjack_PTD[playerid][ptd_id], 1);
 	}
 	Blackjack_Tutorial_PTD[playerid] = CreatePlayerTextDraw(playerid, 24.992675, 349.550140, "_");
 	PlayerTextDrawLetterSize(playerid, Blackjack_Tutorial_PTD[playerid], 0.206496, 1.109997);
@@ -1392,14 +1129,11 @@ blackjack_CreatePTD(playerid, seatid) {
 	PlayerTextDrawSetOutline(playerid, Blackjack_Tutorial_PTD[playerid], 1);
 	PlayerTextDrawBackgroundColor(playerid, Blackjack_Tutorial_PTD[playerid], 255);
 	PlayerTextDrawFont(playerid, Blackjack_Tutorial_PTD[playerid], 1);
-	PlayerTextDrawSetProportional(playerid, Blackjack_Tutorial_PTD[playerid], true);
-
+	PlayerTextDrawSetProportional(playerid, Blackjack_Tutorial_PTD[playerid], 1);
 	BJ_PlayerInfo[playerid][pBlackJackGUI] = 1;
 }
-
 stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
-	if (!step) step = 1;
-
+	if(!step) step = 1;
 	new
 	blackjack_td_score_array[MAX_BLACKJACK_SEATS + 1] = {
 		46/* (46 - 47) */,
@@ -1418,7 +1152,6 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 	switch (step) {
 	case 1: {
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"~w~В игре участвуют от ~y~1-3 игроков~w~.~n~\
 				Каждый игрок собирает комбинацию карт.~n~\
@@ -1478,7 +1211,6 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			"Давайте перейдем у игре.")
 			);
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], "_");
 			PlayerTextDrawHide(playerid, Blackjack_PTD[playerid][0]);
 		}
@@ -1489,21 +1221,16 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 1000);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
 			PlayerTextDrawShow(playerid, Blackjack_PTD[playerid][0]);
-
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_MMBA);
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"~w~Перед началом игры, игроки вносят свои ~y~ставки~w~.")
 			);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[1]] + 0], "_");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[1]] + 1], "_");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0]] + 0], "_");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0]] + 1], "_");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]]], "_");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[1]]], "_");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "_");
 		}
 	case 12: {
@@ -1512,22 +1239,17 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
-
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"~w~Далее данным игрокам и дилеру раздается по ~y~2 карты~w~. ~n~\
 				При этом ~y~одна карта ~w~дилера прячется.")
 			);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]]], "~y~16");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[1]]], "~y~9");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[1]] + 0], "LD_CARD:cd9c");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[1]] + 1], "LD_CARD:cdback");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0]] + 0], "LD_CARD:cd8c");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0]] + 1], "LD_CARD:cd8d");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~g~READY~n~~p~300");
 		}
 	case 13: {
@@ -1535,7 +1257,6 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			"~w~Далее игрокам поочередно даётся ~y~ход~w~.")
 			);
 			BJ_PlayerInfo[playerid][pBlackJackSplit] = 1;
-
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~g~READY~n~~p~300");
 		}
@@ -1545,20 +1266,15 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
-
-			ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, false, true, true, true, 1, 1);
-
+			ApplyAnimation(playerid, "CASINO", "cards_loop", 4.1, 0, 1, 1, 1, 1, 1);
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_DSHS);
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"~w~Вам достались карты одинакового номинала, можно ~n~\
 				их разделить и удвоить ставку ~y~SPLIT~w~.")
 			);
 			BJ_PlayerInfo[playerid][pBlackJackTutorialKey] = BLACKJACK_KEY_SPLIT;
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]] + 0], "~y~16");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]] + 1], "_");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~r~00:30~n~~p~300");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "_");
 		}
@@ -1568,26 +1284,19 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 400);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
-
-			if (from_next_key) return;
-
-			ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, false, true, true, true, 1, 1);
-
+			if(from_next_key) return 1;
+			ApplyAnimation(playerid, "CASINO", "cards_raise", 4.1, 0, 1, 1, 1, 1, 1);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0] + 0] + 0], "LD_CARD:cd8c");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0] + 0] + 1], "LD_CARD:cd3h");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0]] + 5 + 0], "LD_CARD:cd8d");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0]] + 5 + 1], "LD_CARD:cd9s");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]] + 0], "~y~11");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]] + 1], "~y~17");
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"~w~Вы ~y~разделили карты~w~, вам даётся два хода на ~y~обе руки~w~.")
 			);
 			BJ_PlayerInfo[playerid][pBlackJackSplit] = 0;
 			BJ_PlayerInfo[playerid][pBlackJackTutorialKey] = 0;
-
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_DSHS);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "~g~READY~n~~p~300");
 		}
@@ -1601,18 +1310,15 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~r~00:30~n~~p~300");
 		}
 	case 17: {
-			if (from_next_key) return;
-
-			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, false, true, true, true, 1, 1);
+			if(from_next_key) return 1;
+			ApplyAnimation(playerid, "CASINO", "cards_in", 4.1, 0, 1, 1, 1, 1, 1);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[0] + 0] + 2], "LD_CARD:cd11s");
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"Отлично! ~w~У вас в сумме набралось ~y~21 очко ~g~(BLACKJACK). ~n~\
 				~w~Ход передается на вашу ~y~вторую руку~w~.")
 			);
 			BJ_PlayerInfo[playerid][pBlackJackTutorialKey] = 0;
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[0]] + 0], "~g~21");
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~y~STAY~n~~p~300");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "~g~READY~n~~p~300");
 		}
@@ -1622,30 +1328,24 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 				Нажмите ~y~STAY~w~.")
 			);
 			BJ_PlayerInfo[playerid][pBlackJackTutorialKey] = BLACKJACK_KEY_STAY;
-
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_DSHS);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "~r~00:30~n~~p~300");
 		}
 	case 19: {
-			if (from_next_key) return;
-
+			if(from_next_key) return 1;
 			new player_Name[MAX_PLAYER_NAME + 24];
 			strmid(player_Name, CI[playerid][cName], 0, MAX_PLAYER_NAME + 1);
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 400);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
-
-			ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"Ход передается дилеру.")
 			);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[1]]], "~y~9");
 			blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 			BJ_PlayerInfo[playerid][pBlackJackTutorialKey] = 0;
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~y~STAY~n~~p~300");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "~y~STAY~n~~p~300");
 		}
@@ -1655,43 +1355,34 @@ stock blackjack_TutorialNextStep(playerid, step = 1, from_next_key = 1) {
 			strreplace(player_Name, "_", "~n~~g~~h~");
 			format(player_Name, sizeof(player_Name), "~g~~h~%s~n~~p~%d", player_Name, 700);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][0], player_Name), player_Name[0] = EOS;
-
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_seats_array[slots_id[1]] + 1], "LD_CARD:cd8s");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][blackjack_td_score_array[slots_id[1]]], "~y~19");
-
 			PlayerTextDrawSetString(playerid, Blackjack_Tutorial_PTD[playerid], TranslateText(
 			"~w~К сожалению, ваша вторая ставка проигрышная, поскольку у дилера~n~\
 				оказалось больше очков - ~y~19~w~. Но первая ставка - ~g~выиграла~w~.")
 			);
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][8], "~g~+300");
 			PlayerTextDrawSetString(playerid, Blackjack_PTD[playerid][55], "~r~-300");
-
-			ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, false, true, true, true, 1, 1);
+			ApplyAnimation(playerid, "CASINO", "cards_win", 4.1, 0, 1, 1, 1, 1, 1);
 		}
 	case 21: blackjack_StopTutorial(playerid);
 	}
 	BJ_PlayerInfo[playerid][pBlackJackTutorialStep] = step;
+	return 1;
 }
 stock blackjack_StartTutorial(playerid) {
 	new tableid = 0, Float:object_angle = 0.0;
-
 	BJ_PlayerInfo[playerid][pBlackJackLanguage] = CASINO_LANGUAGE_RUSSIAN;
-
 	SetPVarInt(playerid, "casinoTempWorldID", GetPlayerVirtualWorld(playerid));
-
 	blackjack_CreatePTD(playerid, 0);
 	blackjack_ShowGUI(playerid);
-
 	SelectTextDraw(playerid, 0x000000FF);
-	for (new td_id = 0; td_id < sizeof(Blackjack_Tutorial_TD); td_id++)
+	for(new td_id = 0; td_id < sizeof(Blackjack_Tutorial_TD); td_id++)
 	TextDrawShowForPlayer(playerid, Blackjack_Tutorial_TD[td_id]);
 	PlayerTextDrawShow(playerid, Blackjack_Tutorial_PTD[playerid]);
-
 	blackjack_UpdateOptions(playerid, BLACKJACK_OPTION_NONE);
-
 	BJ_PlayerInfo[playerid][pBlackJackTutorialStep] = 0;
 	blackjack_TutorialNextStep(playerid, BJ_PlayerInfo[playerid][pBlackJackTutorialStep] + 1);
-
 	BJ_PlayerInfo[playerid][pBlackJackTableID] = (tableid + 1);
 	BJ_PlayerInfo[playerid][pBlackJackSeatID] =
 	BJ_PlayerInfo[playerid][pBlackJackDelay] =
@@ -1699,18 +1390,15 @@ stock blackjack_StartTutorial(playerid) {
 	BJ_PlayerInfo[playerid][pBlackJackLastBet] =
 	BJ_PlayerInfo[playerid][pBlackJackBlockID] =
 	BJ_PlayerInfo[playerid][pBlackJackActiveHand] = 0;
-
-	for (new card_id = 0; card_id < 2; card_id++) {
+	for(new card_id = 0; card_id < 2; card_id++) {
 		BJ_PlayerInfo[playerid][pBlackJackStatus][card_id] = BJ_PLAYER_STATUS_NONE;
 		BJ_PlayerInfo[playerid][pBlackJackCards][card_id] =
 		BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_id] =
 		BJ_PlayerInfo[playerid][pBlackJackBet][card_id] = 0;
 	}
-	Streamer_ToggleItem(playerid, STREAMER_TYPE_3D_TEXT_LABEL, blackjackTableInfo[tableid][blackjackTableTextID], false);
+	Streamer_ToggleItem(playerid, STREAMER_TYPE_3D_TEXT_LABEL, blackjackTableInfo[tableid][blackjackTableTextID], 0);
 	Streamer_Update(playerid, STREAMER_TYPE_3D_TEXT_LABEL);
-
 	GetDynamicObjectRot(blackjackTableInfo[tableid][blackjackTableObjectID], object_angle, object_angle, object_angle);
-
 	CameraRadiusSetPos(playerid,
 	blackjackTableInfo[tableid][blackjackTablePos][0], blackjackTableInfo[tableid][blackjackTablePos][1], blackjackTableInfo[tableid][blackjackTablePos][2],
 	(object_angle + 180.0), 2.3, 3.2
@@ -1718,35 +1406,27 @@ stock blackjack_StartTutorial(playerid) {
 	GetPlayerPos(playerid, BJ_PlayerInfo[playerid][pBlackJackPos][0], BJ_PlayerInfo[playerid][pBlackJackPos][1], BJ_PlayerInfo[playerid][pBlackJackPos][2]);
 	SetPlayerInterior(playerid, blackjackTableInfo[tableid][blackjackTableInterior]);
 	SetPlayerVirtualWorld(playerid, blackjackTableInfo[tableid][blackjackTableWorld]);
-
-	ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, false, true, true, true, 1, 1);
-	TogglePlayerControllable(playerid, false);
-
+	ApplyAnimation(playerid, "CASINO", "cards_out", 4.1, 0, 1, 1, 1, 1, 1);
+	TogglePlayerControllable(playerid, 0);
 	SetPlayerFacingAngle(playerid, (blackjack_TableOffsets[0][3] + object_angle));
 	SetPlayerPosObjectOffset(blackjackTableInfo[tableid][blackjackTableObjectID], playerid, blackjack_TableOffsets[0][0], blackjack_TableOffsets[0][1], blackjack_TableOffsets[0][2]);
-
 	SelectTextDraw(playerid, 0x191919FF);
 	blackjack_TutorialNextStep(playerid);
-	return true;
+	return 1;
 }
 stock blackjack_StopTutorial(playerid) {
 	PlayerPlaySound(playerid, 5852, 0.0, 0.0, 0.0);
-
 	SetPlayerInterior(playerid, blackjackTableInfo[1][blackjackTableInterior]);
 	SetPlayerVirtualWorld(playerid, GetPVarInt(playerid, "casinoTempWorldID")/*blackjackTableInfo[1][blackjackTableWorld]*/);
-
 	SetPlayerPos(playerid, BJ_PlayerInfo[playerid][pBlackJackPos][0], BJ_PlayerInfo[playerid][pBlackJackPos][1], BJ_PlayerInfo[playerid][pBlackJackPos][2] + 0.1);
-
 	BJ_PlayerInfo[playerid][pBlackJackTableID] =
 	BJ_PlayerInfo[playerid][pBlackJackSeatID] =
-
 	BJ_PlayerInfo[playerid][pBlackJackDelay] =
 	BJ_PlayerInfo[playerid][pBlackJackActiveID] =
 	BJ_PlayerInfo[playerid][pBlackJackActiveHand] =
 	BJ_PlayerInfo[playerid][pBlackJackTutorialStep] = 0;
 
-
-	for (new card_id = 0; card_id < 2; card_id++) {
+	for(new card_id = 0; card_id < 2; card_id++) {
 		BJ_PlayerInfo[playerid][pBlackJackStatus][card_id] = BJ_PLAYER_STATUS_NONE;
 		BJ_PlayerInfo[playerid][pBlackJackCards][card_id] =
 		BJ_PlayerInfo[playerid][pBlackJackCardsScore][card_id] =
@@ -1755,19 +1435,14 @@ stock blackjack_StopTutorial(playerid) {
 	BJ_PlayerInfo[playerid][pBlackJackPos][0] =
 	BJ_PlayerInfo[playerid][pBlackJackPos][1] =
 	BJ_PlayerInfo[playerid][pBlackJackPos][2] = 0.0;
-
 	blackjack_DestroyGUI(playerid);
-
-	for (new td_id = 0; td_id < sizeof(Blackjack_Tutorial_TD); td_id++)
+	for(new td_id = 0; td_id < sizeof(Blackjack_Tutorial_TD); td_id++)
 	TextDrawHideForPlayer(playerid, Blackjack_Tutorial_TD[td_id]);
 	PlayerTextDrawDestroy(playerid, Blackjack_Tutorial_PTD[playerid]);
-
-	TogglePlayerControllable(playerid, true);
+	TogglePlayerControllable(playerid, 1);
 	SetCameraBehindPlayer(playerid);
 	CancelSelectTextDraw(playerid);
-
 	ClearAnimations(playerid);
-	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, false, false, false, false, 0, 1);
+	ApplyAnimation(playerid, "CARRY", "crry_prtial", 1.0, 0, 0, 0, 0, 0, 1);
 }
-
 stock GetChips(playerid) return CI[playerid][pCasinoChips];
