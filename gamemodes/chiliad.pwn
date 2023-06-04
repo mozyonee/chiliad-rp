@@ -265,6 +265,10 @@ new Text3D:MeatText[sizeof(MeatWork)];
 new MeatObject[sizeof(MeatWork)];
 new MeatSphere[sizeof(MeatWork)];
 new MeatWorkHands[2];
+new MeatCutTimer[MAX_PLAYERS];
+new MeatConveyor, MeatWarehouse, MeatConveyorEnd, MeatFactoryTotal;
+new Text3D:MeatWarehouseText;
+new MeatPlayerObject[MAX_PLAYERS];
 
 new ProgressBarTimer[MAX_PLAYERS];
 new PlayerText:ProgressBarTD[MAX_PLAYERS][3];
@@ -272,7 +276,7 @@ new PlayerText:ProgressBarTD[MAX_PLAYERS][3];
 new ProgressBarMeatCut[MAX_PLAYERS];
 
 new MeatActor;
-new Text:MeatBarTD[45];
+new Text:MeatBarTD[38];
 new ProgressBarMeatWashTimer[MAX_PLAYERS];
 
 
@@ -10995,53 +10999,51 @@ stock CreateTextDraws(playerid) {
 	TextDrawSetSelectable(buyskin[23], 1);
 
 
-	MeatBarTD[0] = TextDrawCreate(252.000, 193.000, "_");
-	TextDrawLetterSize(MeatBarTD[0], 0.300, 5.399);
-	TextDrawTextSize(MeatBarTD[0], 167.000, 8.000);
+	MeatBarTD[0] = TextDrawCreate(258.000, 123.000, "LD_SPAC:white");
+	TextDrawTextSize(MeatBarTD[0], 117.000, 10.000);
 	TextDrawAlignment(MeatBarTD[0], 1);
-	TextDrawColor(MeatBarTD[0], -1);
-	TextDrawUseBox(MeatBarTD[0], 1);
-	TextDrawBoxColor(MeatBarTD[0], 150);
-	TextDrawSetShadow(MeatBarTD[0], 1);
-	TextDrawSetOutline(MeatBarTD[0], 1);
-	TextDrawBackgroundColor(MeatBarTD[0], 150);
-	TextDrawFont(MeatBarTD[0], 1);
+	TextDrawColor(MeatBarTD[0], 255);
+	TextDrawSetShadow(MeatBarTD[0], 0);
+	TextDrawSetOutline(MeatBarTD[0], 0);
+	TextDrawBackgroundColor(MeatBarTD[0], 255);
+	TextDrawFont(MeatBarTD[0], 4);
 	TextDrawSetProportional(MeatBarTD[0], 1);
 
-	MeatBarTD[1] = TextDrawCreate(171.000, 194.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[1], 37.000, 37.000);
+	MeatBarTD[1] = TextDrawCreate(258.000, 123.000, "_");
+	TextDrawLetterSize(MeatBarTD[1], 0.300, 19.699);
+	TextDrawTextSize(MeatBarTD[1], 375.000, 2.000);
 	TextDrawAlignment(MeatBarTD[1], 1);
-	TextDrawColor(MeatBarTD[1], 125);
-	TextDrawSetShadow(MeatBarTD[1], 0);
-	TextDrawSetOutline(MeatBarTD[1], 0);
-	TextDrawBackgroundColor(MeatBarTD[1], 255);
-	TextDrawFont(MeatBarTD[1], 4);
+	TextDrawColor(MeatBarTD[1], -1);
+	TextDrawUseBox(MeatBarTD[1], 1);
+	TextDrawBoxColor(MeatBarTD[1], 150);
+	TextDrawSetShadow(MeatBarTD[1], 1);
+	TextDrawSetOutline(MeatBarTD[1], 1);
+	TextDrawBackgroundColor(MeatBarTD[1], 150);
+	TextDrawFont(MeatBarTD[1], 1);
 	TextDrawSetProportional(MeatBarTD[1], 1);
-	TextDrawSetSelectable(MeatBarTD[1], 1);
 
-	MeatBarTD[2] = TextDrawCreate(211.000, 194.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[2], 37.000, 37.000);
-	TextDrawAlignment(MeatBarTD[2], 1);
-	TextDrawColor(MeatBarTD[2], 150);
+	MeatBarTD[2] = TextDrawCreate(277.000, 123.000, "Pig carcass");
+	TextDrawLetterSize(MeatBarTD[2], 0.200, 0.999);
+	TextDrawAlignment(MeatBarTD[2], 2);
+	TextDrawColor(MeatBarTD[2], -1);
 	TextDrawSetShadow(MeatBarTD[2], 0);
 	TextDrawSetOutline(MeatBarTD[2], 0);
-	TextDrawBackgroundColor(MeatBarTD[2], 255);
-	TextDrawFont(MeatBarTD[2], 4);
+	TextDrawBackgroundColor(MeatBarTD[2], 150);
+	TextDrawFont(MeatBarTD[2], 1);
 	TextDrawSetProportional(MeatBarTD[2], 1);
-	TextDrawSetSelectable(MeatBarTD[2], 1);
 
-	MeatBarTD[3] = TextDrawCreate(171.000, 233.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[3], 37.000, 0.689);
-	TextDrawAlignment(MeatBarTD[3], 1);
-	TextDrawColor(MeatBarTD[3], -1061109505);
+	MeatBarTD[3] = TextDrawCreate(361.000, 123.000, "150.0kg");
+	TextDrawLetterSize(MeatBarTD[3], 0.190, 0.999);
+	TextDrawAlignment(MeatBarTD[3], 2);
+	TextDrawColor(MeatBarTD[3], -1);
 	TextDrawSetShadow(MeatBarTD[3], 0);
 	TextDrawSetOutline(MeatBarTD[3], 0);
-	TextDrawBackgroundColor(MeatBarTD[3], 255);
-	TextDrawFont(MeatBarTD[3], 4);
+	TextDrawBackgroundColor(MeatBarTD[3], 150);
+	TextDrawFont(MeatBarTD[3], 1);
 	TextDrawSetProportional(MeatBarTD[3], 1);
 
-	MeatBarTD[4] = TextDrawCreate(211.000, 183.000, "_");
-	TextDrawTextSize(MeatBarTD[4], 68.000, 57.000);
+	MeatBarTD[4] = TextDrawCreate(244.000, 134.000, "_");
+	TextDrawTextSize(MeatBarTD[4], 158.000, 161.000);
 	TextDrawAlignment(MeatBarTD[4], 1);
 	TextDrawColor(MeatBarTD[4], -1);
 	TextDrawSetShadow(MeatBarTD[4], 0);
@@ -11049,12 +11051,12 @@ stock CreateTextDraws(playerid) {
 	TextDrawBackgroundColor(MeatBarTD[4], 0);
 	TextDrawFont(MeatBarTD[4], 5);
 	TextDrawSetProportional(MeatBarTD[4], 0);
-	TextDrawSetPreviewModel(MeatBarTD[4], 19621);
-	TextDrawSetPreviewRot(MeatBarTD[4], -7.000, -2.000, 465.000, 1.200);
+	TextDrawSetPreviewModel(MeatBarTD[4], 2589);
+	TextDrawSetPreviewRot(MeatBarTD[4], -31.000, 0.000, 218.000, 0.299);
 	TextDrawSetPreviewVehCol(MeatBarTD[4], 0, 0);
 
-	MeatBarTD[5] = TextDrawCreate(173.000, 195.000, "_");
-	TextDrawTextSize(MeatBarTD[5], 43.000, 44.000);
+	MeatBarTD[5] = TextDrawCreate(314.000, 135.000, "_");
+	TextDrawTextSize(MeatBarTD[5], 72.000, 79.000);
 	TextDrawAlignment(MeatBarTD[5], 1);
 	TextDrawColor(MeatBarTD[5], -1);
 	TextDrawSetShadow(MeatBarTD[5], 0);
@@ -11063,218 +11065,218 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(MeatBarTD[5], 5);
 	TextDrawSetProportional(MeatBarTD[5], 0);
 	TextDrawSetPreviewModel(MeatBarTD[5], 19583);
-	TextDrawSetPreviewRot(MeatBarTD[5], -47.000, -11.000, 36.000, 0.598);
+	TextDrawSetPreviewRot(MeatBarTD[5], 84.000, 12.000, 66.000, 1.400);
 	TextDrawSetPreviewVehCol(MeatBarTD[5], 0, 0);
+	TextDrawSetSelectable(MeatBarTD[5], 1);
 
-	MeatBarTD[6] = TextDrawCreate(211.000, 233.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[6], 37.000, 0.699);
+	MeatBarTD[6] = TextDrawCreate(236.000, 180.000, "_");
+	TextDrawTextSize(MeatBarTD[6], 77.000, 80.000);
 	TextDrawAlignment(MeatBarTD[6], 1);
-	TextDrawColor(MeatBarTD[6], 1097458175);
+	TextDrawColor(MeatBarTD[6], -1);
 	TextDrawSetShadow(MeatBarTD[6], 0);
 	TextDrawSetOutline(MeatBarTD[6], 0);
-	TextDrawBackgroundColor(MeatBarTD[6], 255);
-	TextDrawFont(MeatBarTD[6], 4);
-	TextDrawSetProportional(MeatBarTD[6], 1);
+	TextDrawBackgroundColor(MeatBarTD[6], 0);
+	TextDrawFont(MeatBarTD[6], 5);
+	TextDrawSetProportional(MeatBarTD[6], 0);
+	TextDrawSetPreviewModel(MeatBarTD[6], 19583);
+	TextDrawSetPreviewRot(MeatBarTD[6], 90.000, 10.000, 282.000, 1.300);
+	TextDrawSetPreviewVehCol(MeatBarTD[6], 0, 0);
+	TextDrawSetSelectable(MeatBarTD[6], 1);
 
-	MeatBarTD[7] = TextDrawCreate(171.000, 237.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[7], 77.000, 3.700);
+	MeatBarTD[7] = TextDrawCreate(315.000, 246.000, "_");
+	TextDrawTextSize(MeatBarTD[7], 72.000, 79.000);
 	TextDrawAlignment(MeatBarTD[7], 1);
-	TextDrawColor(MeatBarTD[7], -2147483451);
+	TextDrawColor(MeatBarTD[7], -1);
 	TextDrawSetShadow(MeatBarTD[7], 0);
 	TextDrawSetOutline(MeatBarTD[7], 0);
-	TextDrawBackgroundColor(MeatBarTD[7], 255);
-	TextDrawFont(MeatBarTD[7], 4);
-	TextDrawSetProportional(MeatBarTD[7], 1);
+	TextDrawBackgroundColor(MeatBarTD[7], 0);
+	TextDrawFont(MeatBarTD[7], 5);
+	TextDrawSetProportional(MeatBarTD[7], 0);
+	TextDrawSetPreviewModel(MeatBarTD[7], 19583);
+	TextDrawSetPreviewRot(MeatBarTD[7], 84.000, 12.000, 110.000, 1.400);
+	TextDrawSetPreviewVehCol(MeatBarTD[7], 0, 0);
+	TextDrawSetSelectable(MeatBarTD[7], 1);
 
-	MeatBarTD[8] = TextDrawCreate(212.000, 177.000, "Instruments");
-	TextDrawLetterSize(MeatBarTD[8], 0.187, 0.999);
+
+	//meat icons
+
+	MeatBarTD[8] = TextDrawCreate(256.500, 304.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[8], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[8], 1);
-	TextDrawColor(MeatBarTD[8], -1061109505);
+	TextDrawColor(MeatBarTD[8], -93);
 	TextDrawSetShadow(MeatBarTD[8], 0);
 	TextDrawSetOutline(MeatBarTD[8], 0);
-	TextDrawBackgroundColor(MeatBarTD[8], 150);
-	TextDrawFont(MeatBarTD[8], 1);
+	TextDrawBackgroundColor(MeatBarTD[8], 255);
+	TextDrawFont(MeatBarTD[8], 4);
 	TextDrawSetProportional(MeatBarTD[8], 1);
 
-	MeatBarTD[9] = TextDrawCreate(171.000, 237.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[9], 0.000, 3.700);
+	MeatBarTD[9] = TextDrawCreate(257.000, 304.000, "_");
+	TextDrawTextSize(MeatBarTD[9], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[9], 1);
-	TextDrawColor(MeatBarTD[9], -12254977);
+	TextDrawColor(MeatBarTD[9], -1);
 	TextDrawSetShadow(MeatBarTD[9], 0);
 	TextDrawSetOutline(MeatBarTD[9], 0);
-	TextDrawBackgroundColor(MeatBarTD[9], 255);
-	TextDrawFont(MeatBarTD[9], 4);
-	TextDrawSetProportional(MeatBarTD[9], 1);
+	TextDrawBackgroundColor(MeatBarTD[9], 0);
+	TextDrawFont(MeatBarTD[9], 5);
+	TextDrawSetProportional(MeatBarTD[9], 0);
+	TextDrawSetPreviewModel(MeatBarTD[9], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[9], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[9], 0, 0);
 
-	MeatBarTD[10] = TextDrawCreate(169.500, 178.000, "_");
-	TextDrawLetterSize(MeatBarTD[10], 0.358, 0.999);
-	TextDrawTextSize(MeatBarTD[10], 249.250, -2.000);
-	TextDrawAlignment(MeatBarTD[10], 1);
+	MeatBarTD[10] = TextDrawCreate(268.000, 325.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[10], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[10], 2);
 	TextDrawColor(MeatBarTD[10], -1);
-	TextDrawUseBox(MeatBarTD[10], 1);
-	TextDrawBoxColor(MeatBarTD[10], 150);
-	TextDrawSetShadow(MeatBarTD[10], 1);
-	TextDrawSetOutline(MeatBarTD[10], 1);
+	TextDrawSetShadow(MeatBarTD[10], 0);
+	TextDrawSetOutline(MeatBarTD[10], 0);
 	TextDrawBackgroundColor(MeatBarTD[10], 150);
 	TextDrawFont(MeatBarTD[10], 1);
 	TextDrawSetProportional(MeatBarTD[10], 1);
 
-	MeatBarTD[11] = TextDrawCreate(211.000, 196.000, "_");
-	TextDrawLetterSize(MeatBarTD[11], 0.200, 3.598);
-	TextDrawTextSize(MeatBarTD[11], 246.000, 7.000);
+	MeatBarTD[11] = TextDrawCreate(281.299, 304.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[11], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[11], 1);
-	TextDrawColor(MeatBarTD[11], -1);
-	TextDrawUseBox(MeatBarTD[11], 1);
-	TextDrawBoxColor(MeatBarTD[11], 25);
-	TextDrawSetShadow(MeatBarTD[11], 1);
-	TextDrawSetOutline(MeatBarTD[11], 1);
-	TextDrawBackgroundColor(MeatBarTD[11], 150);
-	TextDrawFont(MeatBarTD[11], 1);
+	TextDrawColor(MeatBarTD[11], -93);
+	TextDrawSetShadow(MeatBarTD[11], 0);
+	TextDrawSetOutline(MeatBarTD[11], 0);
+	TextDrawBackgroundColor(MeatBarTD[11], 255);
+	TextDrawFont(MeatBarTD[11], 4);
 	TextDrawSetProportional(MeatBarTD[11], 1);
-	TextDrawSetSelectable(MeatBarTD[11], 1);
 
-	// meat icons
-
-	MeatBarTD[12] = TextDrawCreate(189.500, 178.000, "_");
-	TextDrawLetterSize(MeatBarTD[12], 0.358, 0.999);
-	TextDrawTextSize(MeatBarTD[12], 249.250, -2.000);
+	MeatBarTD[12] = TextDrawCreate(282.000, 304.000, "_");
+	TextDrawTextSize(MeatBarTD[12], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[12], 1);
 	TextDrawColor(MeatBarTD[12], -1);
-	TextDrawUseBox(MeatBarTD[12], 1);
-	TextDrawBoxColor(MeatBarTD[12], 150);
-	TextDrawSetShadow(MeatBarTD[12], 1);
-	TextDrawSetOutline(MeatBarTD[12], 1);
-	TextDrawBackgroundColor(MeatBarTD[12], 150);
-	TextDrawFont(MeatBarTD[12], 1);
-	TextDrawSetProportional(MeatBarTD[12], 1);
+	TextDrawSetShadow(MeatBarTD[12], 0);
+	TextDrawSetOutline(MeatBarTD[12], 0);
+	TextDrawBackgroundColor(MeatBarTD[12], 0);
+	TextDrawFont(MeatBarTD[12], 5);
+	TextDrawSetProportional(MeatBarTD[12], 0);
+	TextDrawSetPreviewModel(MeatBarTD[12], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[12], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[12], 0, 0);
 
-	MeatBarTD[13] = TextDrawCreate(178.000, 266.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[13], 0.160, 0.699);
+	MeatBarTD[13] = TextDrawCreate(293.000, 325.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[13], 0.150, 0.799);
 	TextDrawAlignment(MeatBarTD[13], 2);
-	TextDrawColor(MeatBarTD[13], -421070081);
+	TextDrawColor(MeatBarTD[13], -1);
 	TextDrawSetShadow(MeatBarTD[13], 0);
 	TextDrawSetOutline(MeatBarTD[13], 0);
 	TextDrawBackgroundColor(MeatBarTD[13], 150);
 	TextDrawFont(MeatBarTD[13], 1);
 	TextDrawSetProportional(MeatBarTD[13], 1);
 
-	MeatBarTD[14] = TextDrawCreate(188.000, 246.000, "_");
-	TextDrawLetterSize(MeatBarTD[14], 0.200, 2.899);
-	TextDrawTextSize(MeatBarTD[14], 167.000, 3.000);
+	MeatBarTD[14] = TextDrawCreate(306.299, 304.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[14], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[14], 1);
-	TextDrawColor(MeatBarTD[14], -1);
-	TextDrawUseBox(MeatBarTD[14], 1);
-	TextDrawBoxColor(MeatBarTD[14], 150);
-	TextDrawSetShadow(MeatBarTD[14], 1);
-	TextDrawSetOutline(MeatBarTD[14], 1);
-	TextDrawBackgroundColor(MeatBarTD[14], 150);
-	TextDrawFont(MeatBarTD[14], 1);
+	TextDrawColor(MeatBarTD[14], -93);
+	TextDrawSetShadow(MeatBarTD[14], 0);
+	TextDrawSetOutline(MeatBarTD[14], 0);
+	TextDrawBackgroundColor(MeatBarTD[14], 255);
+	TextDrawFont(MeatBarTD[14], 4);
 	TextDrawSetProportional(MeatBarTD[14], 1);
 
-	MeatBarTD[15] = TextDrawCreate(170.000, 265.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[15], 15.000, 0.500);
+	MeatBarTD[15] = TextDrawCreate(307.000, 304.000, "_");
+	TextDrawTextSize(MeatBarTD[15], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[15], 1);
-	TextDrawColor(MeatBarTD[15], -421070081);
+	TextDrawColor(MeatBarTD[15], -1);
 	TextDrawSetShadow(MeatBarTD[15], 0);
 	TextDrawSetOutline(MeatBarTD[15], 0);
-	TextDrawBackgroundColor(MeatBarTD[15], 255);
-	TextDrawFont(MeatBarTD[15], 4);
-	TextDrawSetProportional(MeatBarTD[15], 1);
+	TextDrawBackgroundColor(MeatBarTD[15], 0);
+	TextDrawFont(MeatBarTD[15], 5);
+	TextDrawSetProportional(MeatBarTD[15], 0);
+	TextDrawSetPreviewModel(MeatBarTD[15], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[15], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[15], 0, 0);
 
-	MeatBarTD[16] = TextDrawCreate(168.000, 245.000, "_");
-	TextDrawTextSize(MeatBarTD[16], 18.000, 20.000);
-	TextDrawAlignment(MeatBarTD[16], 1);
+	MeatBarTD[16] = TextDrawCreate(318.000, 325.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[16], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[16], 2);
 	TextDrawColor(MeatBarTD[16], -1);
 	TextDrawSetShadow(MeatBarTD[16], 0);
 	TextDrawSetOutline(MeatBarTD[16], 0);
-	TextDrawBackgroundColor(MeatBarTD[16], 0);
-	TextDrawFont(MeatBarTD[16], 5);
-	TextDrawSetProportional(MeatBarTD[16], 0);
-	TextDrawSetPreviewModel(MeatBarTD[16], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[16], 86.000, 1.000, -1.000, 1.000);
-	TextDrawSetPreviewVehCol(MeatBarTD[16], 0, 0);
+	TextDrawBackgroundColor(MeatBarTD[16], 150);
+	TextDrawFont(MeatBarTD[16], 1);
+	TextDrawSetProportional(MeatBarTD[16], 1);
 
-	MeatBarTD[17] = TextDrawCreate(210.000, 246.000, "_");
-	TextDrawLetterSize(MeatBarTD[17], 0.180, 2.899);
-	TextDrawTextSize(MeatBarTD[17], 188.000, 3.000);
+	MeatBarTD[17] = TextDrawCreate(331.000, 304.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[17], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[17], 1);
-	TextDrawColor(MeatBarTD[17], -1);
-	TextDrawUseBox(MeatBarTD[17], 1);
-	TextDrawBoxColor(MeatBarTD[17], 150);
-	TextDrawSetShadow(MeatBarTD[17], 1);
-	TextDrawSetOutline(MeatBarTD[17], 1);
-	TextDrawBackgroundColor(MeatBarTD[17], 150);
-	TextDrawFont(MeatBarTD[17], 1);
+	TextDrawColor(MeatBarTD[17], -93);
+	TextDrawSetShadow(MeatBarTD[17], 0);
+	TextDrawSetOutline(MeatBarTD[17], 0);
+	TextDrawBackgroundColor(MeatBarTD[17], 255);
+	TextDrawFont(MeatBarTD[17], 4);
 	TextDrawSetProportional(MeatBarTD[17], 1);
 
-	MeatBarTD[18] = TextDrawCreate(191.000, 265.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[18], 16.000, 0.500);
+	MeatBarTD[18] = TextDrawCreate(332.000, 304.000, "_");
+	TextDrawTextSize(MeatBarTD[18], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[18], 1);
-	TextDrawColor(MeatBarTD[18], -421070081);
+	TextDrawColor(MeatBarTD[18], -1);
 	TextDrawSetShadow(MeatBarTD[18], 0);
 	TextDrawSetOutline(MeatBarTD[18], 0);
-	TextDrawBackgroundColor(MeatBarTD[18], 255);
-	TextDrawFont(MeatBarTD[18], 4);
-	TextDrawSetProportional(MeatBarTD[18], 1);
+	TextDrawBackgroundColor(MeatBarTD[18], 0);
+	TextDrawFont(MeatBarTD[18], 5);
+	TextDrawSetProportional(MeatBarTD[18], 0);
+	TextDrawSetPreviewModel(MeatBarTD[18], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[18], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[18], 0, 0);
 
-	MeatBarTD[19] = TextDrawCreate(199.000, 266.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[19], 0.160, 0.699);
+	MeatBarTD[19] = TextDrawCreate(342.000, 325.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[19], 0.150, 0.799);
 	TextDrawAlignment(MeatBarTD[19], 2);
-	TextDrawColor(MeatBarTD[19], -421070081);
+	TextDrawColor(MeatBarTD[19], -1);
 	TextDrawSetShadow(MeatBarTD[19], 0);
 	TextDrawSetOutline(MeatBarTD[19], 0);
 	TextDrawBackgroundColor(MeatBarTD[19], 150);
 	TextDrawFont(MeatBarTD[19], 1);
 	TextDrawSetProportional(MeatBarTD[19], 1);
 
-	MeatBarTD[20] = TextDrawCreate(190.000, 245.000, "_");
-	TextDrawTextSize(MeatBarTD[20], 18.000, 20.000);
+	MeatBarTD[20] = TextDrawCreate(355.299, 304.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[20], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[20], 1);
-	TextDrawColor(MeatBarTD[20], -1);
+	TextDrawColor(MeatBarTD[20], -93);
 	TextDrawSetShadow(MeatBarTD[20], 0);
 	TextDrawSetOutline(MeatBarTD[20], 0);
-	TextDrawBackgroundColor(MeatBarTD[20], 0);
-	TextDrawFont(MeatBarTD[20], 5);
-	TextDrawSetProportional(MeatBarTD[20], 0);
-	TextDrawSetPreviewModel(MeatBarTD[20], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[20], 86.000, 1.000, -1.000, 1.000);
-	TextDrawSetPreviewVehCol(MeatBarTD[20], 0, 0);
+	TextDrawBackgroundColor(MeatBarTD[20], 255);
+	TextDrawFont(MeatBarTD[20], 4);
+	TextDrawSetProportional(MeatBarTD[20], 1);
 
-	MeatBarTD[21] = TextDrawCreate(231.000, 246.000, "_");
-	TextDrawLetterSize(MeatBarTD[21], 0.200, 2.899);
-	TextDrawTextSize(MeatBarTD[21], 210.000, 3.000);
+	MeatBarTD[21] = TextDrawCreate(356.000, 304.000, "_");
+	TextDrawTextSize(MeatBarTD[21], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[21], 1);
 	TextDrawColor(MeatBarTD[21], -1);
-	TextDrawUseBox(MeatBarTD[21], 1);
-	TextDrawBoxColor(MeatBarTD[21], 150);
-	TextDrawSetShadow(MeatBarTD[21], 1);
-	TextDrawSetOutline(MeatBarTD[21], 1);
-	TextDrawBackgroundColor(MeatBarTD[21], 150);
-	TextDrawFont(MeatBarTD[21], 1);
-	TextDrawSetProportional(MeatBarTD[21], 1);
+	TextDrawSetShadow(MeatBarTD[21], 0);
+	TextDrawSetOutline(MeatBarTD[21], 0);
+	TextDrawBackgroundColor(MeatBarTD[21], 0);
+	TextDrawFont(MeatBarTD[21], 5);
+	TextDrawSetProportional(MeatBarTD[21], 0);
+	TextDrawSetPreviewModel(MeatBarTD[21], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[21], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[21], 0, 0);
 
-	MeatBarTD[22] = TextDrawCreate(213.000, 265.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[22], 15.000, 0.500);
-	TextDrawAlignment(MeatBarTD[22], 1);
-	TextDrawColor(MeatBarTD[22], -421070081);
+	MeatBarTD[22] = TextDrawCreate(367.000, 325.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[22], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[22], 2);
+	TextDrawColor(MeatBarTD[22], -1);
 	TextDrawSetShadow(MeatBarTD[22], 0);
 	TextDrawSetOutline(MeatBarTD[22], 0);
-	TextDrawBackgroundColor(MeatBarTD[22], 255);
-	TextDrawFont(MeatBarTD[22], 4);
+	TextDrawBackgroundColor(MeatBarTD[22], 150);
+	TextDrawFont(MeatBarTD[22], 1);
 	TextDrawSetProportional(MeatBarTD[22], 1);
 
-	MeatBarTD[23] = TextDrawCreate(221.000, 266.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[23], 0.160, 0.699);
-	TextDrawAlignment(MeatBarTD[23], 2);
-	TextDrawColor(MeatBarTD[23], -421070081);
+	MeatBarTD[23] = TextDrawCreate(256.500, 336.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[23], 21.000, 30.000);
+	TextDrawAlignment(MeatBarTD[23], 1);
+	TextDrawColor(MeatBarTD[23], -93);
 	TextDrawSetShadow(MeatBarTD[23], 0);
 	TextDrawSetOutline(MeatBarTD[23], 0);
-	TextDrawBackgroundColor(MeatBarTD[23], 150);
-	TextDrawFont(MeatBarTD[23], 1);
+	TextDrawBackgroundColor(MeatBarTD[23], 255);
+	TextDrawFont(MeatBarTD[23], 4);
 	TextDrawSetProportional(MeatBarTD[23], 1);
 
-	MeatBarTD[24] = TextDrawCreate(211.000, 245.000, "_");
-	TextDrawTextSize(MeatBarTD[24], 18.000, 20.000);
+	MeatBarTD[24] = TextDrawCreate(257.000, 336.000, "_");
+	TextDrawTextSize(MeatBarTD[24], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[24], 1);
 	TextDrawColor(MeatBarTD[24], -1);
 	TextDrawSetShadow(MeatBarTD[24], 0);
@@ -11283,136 +11285,130 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(MeatBarTD[24], 5);
 	TextDrawSetProportional(MeatBarTD[24], 0);
 	TextDrawSetPreviewModel(MeatBarTD[24], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[24], 86.000, 1.000, -1.000, 1.000);
+	TextDrawSetPreviewRot(MeatBarTD[24], 73.000, 0.000, 0.000, 1.000);
 	TextDrawSetPreviewVehCol(MeatBarTD[24], 0, 0);
 
-	MeatBarTD[25] = TextDrawCreate(252.000, 246.000, "_");
-	TextDrawLetterSize(MeatBarTD[25], 0.200, 2.899);
-	TextDrawTextSize(MeatBarTD[25], 231.000, 3.000);
-	TextDrawAlignment(MeatBarTD[25], 1);
+	MeatBarTD[25] = TextDrawCreate(268.000, 357.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[25], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[25], 2);
 	TextDrawColor(MeatBarTD[25], -1);
-	TextDrawUseBox(MeatBarTD[25], 1);
-	TextDrawBoxColor(MeatBarTD[25], 150);
-	TextDrawSetShadow(MeatBarTD[25], 1);
-	TextDrawSetOutline(MeatBarTD[25], 1);
+	TextDrawSetShadow(MeatBarTD[25], 0);
+	TextDrawSetOutline(MeatBarTD[25], 0);
 	TextDrawBackgroundColor(MeatBarTD[25], 150);
 	TextDrawFont(MeatBarTD[25], 1);
 	TextDrawSetProportional(MeatBarTD[25], 1);
 
-	MeatBarTD[26] = TextDrawCreate(234.000, 265.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[26], 15.000, 0.500);
+	MeatBarTD[26] = TextDrawCreate(281.299, 336.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[26], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[26], 1);
-	TextDrawColor(MeatBarTD[26], -421070081);
+	TextDrawColor(MeatBarTD[26], -93);
 	TextDrawSetShadow(MeatBarTD[26], 0);
 	TextDrawSetOutline(MeatBarTD[26], 0);
 	TextDrawBackgroundColor(MeatBarTD[26], 255);
 	TextDrawFont(MeatBarTD[26], 4);
 	TextDrawSetProportional(MeatBarTD[26], 1);
 
-	MeatBarTD[27] = TextDrawCreate(242.000, 266.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[27], 0.160, 0.699);
-	TextDrawAlignment(MeatBarTD[27], 2);
-	TextDrawColor(MeatBarTD[27], -421070081);
+	MeatBarTD[27] = TextDrawCreate(282.000, 336.000, "_");
+	TextDrawTextSize(MeatBarTD[27], 21.000, 23.000);
+	TextDrawAlignment(MeatBarTD[27], 1);
+	TextDrawColor(MeatBarTD[27], -1);
 	TextDrawSetShadow(MeatBarTD[27], 0);
 	TextDrawSetOutline(MeatBarTD[27], 0);
-	TextDrawBackgroundColor(MeatBarTD[27], 150);
-	TextDrawFont(MeatBarTD[27], 1);
-	TextDrawSetProportional(MeatBarTD[27], 1);
+	TextDrawBackgroundColor(MeatBarTD[27], 0);
+	TextDrawFont(MeatBarTD[27], 5);
+	TextDrawSetProportional(MeatBarTD[27], 0);
+	TextDrawSetPreviewModel(MeatBarTD[27], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[27], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[27], 0, 0);
 
-	MeatBarTD[28] = TextDrawCreate(232.000, 245.000, "_");
-	TextDrawTextSize(MeatBarTD[28], 18.000, 20.000);
-	TextDrawAlignment(MeatBarTD[28], 1);
+	MeatBarTD[28] = TextDrawCreate(293.000, 357.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[28], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[28], 2);
 	TextDrawColor(MeatBarTD[28], -1);
 	TextDrawSetShadow(MeatBarTD[28], 0);
 	TextDrawSetOutline(MeatBarTD[28], 0);
-	TextDrawBackgroundColor(MeatBarTD[28], 0);
-	TextDrawFont(MeatBarTD[28], 5);
-	TextDrawSetProportional(MeatBarTD[28], 0);
-	TextDrawSetPreviewModel(MeatBarTD[28], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[28], 86.000, 1.000, -1.000, 1.000);
-	TextDrawSetPreviewVehCol(MeatBarTD[28], 0, 0);
+	TextDrawBackgroundColor(MeatBarTD[28], 150);
+	TextDrawFont(MeatBarTD[28], 1);
+	TextDrawSetProportional(MeatBarTD[28], 1);
 
-	MeatBarTD[29] = TextDrawCreate(178.000, 298.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[29], 0.160, 0.699);
-	TextDrawAlignment(MeatBarTD[29], 2);
-	TextDrawColor(MeatBarTD[29], -421070081);
+	MeatBarTD[29] = TextDrawCreate(306.299, 336.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[29], 21.000, 30.000);
+	TextDrawAlignment(MeatBarTD[29], 1);
+	TextDrawColor(MeatBarTD[29], -93);
 	TextDrawSetShadow(MeatBarTD[29], 0);
 	TextDrawSetOutline(MeatBarTD[29], 0);
-	TextDrawBackgroundColor(MeatBarTD[29], 150);
-	TextDrawFont(MeatBarTD[29], 1);
+	TextDrawBackgroundColor(MeatBarTD[29], 255);
+	TextDrawFont(MeatBarTD[29], 4);
 	TextDrawSetProportional(MeatBarTD[29], 1);
 
-	MeatBarTD[30] = TextDrawCreate(188.000, 278.000, "_");
-	TextDrawLetterSize(MeatBarTD[30], 0.200, 2.899);
-	TextDrawTextSize(MeatBarTD[30], 167.000, 3.000);
+	MeatBarTD[30] = TextDrawCreate(307.000, 336.000, "_");
+	TextDrawTextSize(MeatBarTD[30], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[30], 1);
 	TextDrawColor(MeatBarTD[30], -1);
-	TextDrawUseBox(MeatBarTD[30], 1);
-	TextDrawBoxColor(MeatBarTD[30], 150);
-	TextDrawSetShadow(MeatBarTD[30], 1);
-	TextDrawSetOutline(MeatBarTD[30], 1);
-	TextDrawBackgroundColor(MeatBarTD[30], 150);
-	TextDrawFont(MeatBarTD[30], 1);
-	TextDrawSetProportional(MeatBarTD[30], 1);
+	TextDrawSetShadow(MeatBarTD[30], 0);
+	TextDrawSetOutline(MeatBarTD[30], 0);
+	TextDrawBackgroundColor(MeatBarTD[30], 0);
+	TextDrawFont(MeatBarTD[30], 5);
+	TextDrawSetProportional(MeatBarTD[30], 0);
+	TextDrawSetPreviewModel(MeatBarTD[30], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[30], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[30], 0, 0);
 
-	MeatBarTD[31] = TextDrawCreate(170.000, 297.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[31], 15.000, 0.500);
-	TextDrawAlignment(MeatBarTD[31], 1);
-	TextDrawColor(MeatBarTD[31], -421070081);
+	MeatBarTD[31] = TextDrawCreate(318.000, 357.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[31], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[31], 2);
+	TextDrawColor(MeatBarTD[31], -1);
 	TextDrawSetShadow(MeatBarTD[31], 0);
 	TextDrawSetOutline(MeatBarTD[31], 0);
-	TextDrawBackgroundColor(MeatBarTD[31], 255);
-	TextDrawFont(MeatBarTD[31], 4);
+	TextDrawBackgroundColor(MeatBarTD[31], 150);
+	TextDrawFont(MeatBarTD[31], 1);
 	TextDrawSetProportional(MeatBarTD[31], 1);
 
-	MeatBarTD[32] = TextDrawCreate(168.000, 277.000, "_");
-	TextDrawTextSize(MeatBarTD[32], 18.000, 20.000);
+	MeatBarTD[32] = TextDrawCreate(331.000, 336.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[32], 21.000, 30.000);
 	TextDrawAlignment(MeatBarTD[32], 1);
-	TextDrawColor(MeatBarTD[32], -1);
+	TextDrawColor(MeatBarTD[32], -93);
 	TextDrawSetShadow(MeatBarTD[32], 0);
 	TextDrawSetOutline(MeatBarTD[32], 0);
-	TextDrawBackgroundColor(MeatBarTD[32], 0);
-	TextDrawFont(MeatBarTD[32], 5);
-	TextDrawSetProportional(MeatBarTD[32], 0);
-	TextDrawSetPreviewModel(MeatBarTD[32], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[32], 86.000, 1.000, -1.000, 1.000);
-	TextDrawSetPreviewVehCol(MeatBarTD[32], 0, 0);
+	TextDrawBackgroundColor(MeatBarTD[32], 255);
+	TextDrawFont(MeatBarTD[32], 4);
+	TextDrawSetProportional(MeatBarTD[32], 1);
 
-	MeatBarTD[33] = TextDrawCreate(210.000, 278.000, "_");
-	TextDrawLetterSize(MeatBarTD[33], 0.180, 2.899);
-	TextDrawTextSize(MeatBarTD[33], 188.000, 3.000);
+	MeatBarTD[33] = TextDrawCreate(332.000, 336.000, "_");
+	TextDrawTextSize(MeatBarTD[33], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[33], 1);
 	TextDrawColor(MeatBarTD[33], -1);
-	TextDrawUseBox(MeatBarTD[33], 1);
-	TextDrawBoxColor(MeatBarTD[33], 150);
-	TextDrawSetShadow(MeatBarTD[33], 1);
-	TextDrawSetOutline(MeatBarTD[33], 1);
-	TextDrawBackgroundColor(MeatBarTD[33], 150);
-	TextDrawFont(MeatBarTD[33], 1);
-	TextDrawSetProportional(MeatBarTD[33], 1);
+	TextDrawSetShadow(MeatBarTD[33], 0);
+	TextDrawSetOutline(MeatBarTD[33], 0);
+	TextDrawBackgroundColor(MeatBarTD[33], 0);
+	TextDrawFont(MeatBarTD[33], 5);
+	TextDrawSetProportional(MeatBarTD[33], 0);
+	TextDrawSetPreviewModel(MeatBarTD[33], 2806);
+	TextDrawSetPreviewRot(MeatBarTD[33], 73.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(MeatBarTD[33], 0, 0);
 
-	MeatBarTD[34] = TextDrawCreate(191.000, 297.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[34], 16.000, 0.500);
-	TextDrawAlignment(MeatBarTD[34], 1);
-	TextDrawColor(MeatBarTD[34], -421070081);
+	MeatBarTD[34] = TextDrawCreate(342.000, 357.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[34], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[34], 2);
+	TextDrawColor(MeatBarTD[34], -1);
 	TextDrawSetShadow(MeatBarTD[34], 0);
 	TextDrawSetOutline(MeatBarTD[34], 0);
-	TextDrawBackgroundColor(MeatBarTD[34], 255);
-	TextDrawFont(MeatBarTD[34], 4);
+	TextDrawBackgroundColor(MeatBarTD[34], 150);
+	TextDrawFont(MeatBarTD[34], 1);
 	TextDrawSetProportional(MeatBarTD[34], 1);
 
-	MeatBarTD[35] = TextDrawCreate(199.000, 298.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[35], 0.160, 0.699);
-	TextDrawAlignment(MeatBarTD[35], 2);
-	TextDrawColor(MeatBarTD[35], -421070081);
+	MeatBarTD[35] = TextDrawCreate(355.299, 336.000, "LD_SPAC:black");
+	TextDrawTextSize(MeatBarTD[35], 21.000, 30.000);
+	TextDrawAlignment(MeatBarTD[35], 1);
+	TextDrawColor(MeatBarTD[35], -93);
 	TextDrawSetShadow(MeatBarTD[35], 0);
 	TextDrawSetOutline(MeatBarTD[35], 0);
-	TextDrawBackgroundColor(MeatBarTD[35], 150);
-	TextDrawFont(MeatBarTD[35], 1);
+	TextDrawBackgroundColor(MeatBarTD[35], 255);
+	TextDrawFont(MeatBarTD[35], 4);
 	TextDrawSetProportional(MeatBarTD[35], 1);
 
-	MeatBarTD[36] = TextDrawCreate(190.000, 277.000, "_");
-	TextDrawTextSize(MeatBarTD[36], 18.000, 20.000);
+	MeatBarTD[36] = TextDrawCreate(356.000, 336.000, "_");
+	TextDrawTextSize(MeatBarTD[36], 21.000, 23.000);
 	TextDrawAlignment(MeatBarTD[36], 1);
 	TextDrawColor(MeatBarTD[36], -1);
 	TextDrawSetShadow(MeatBarTD[36], 0);
@@ -11421,100 +11417,18 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(MeatBarTD[36], 5);
 	TextDrawSetProportional(MeatBarTD[36], 0);
 	TextDrawSetPreviewModel(MeatBarTD[36], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[36], 86.000, 1.000, -1.000, 1.000);
+	TextDrawSetPreviewRot(MeatBarTD[36], 73.000, 0.000, 0.000, 1.000);
 	TextDrawSetPreviewVehCol(MeatBarTD[36], 0, 0);
 
-	MeatBarTD[37] = TextDrawCreate(231.000, 278.000, "_");
-	TextDrawLetterSize(MeatBarTD[37], 0.200, 2.899);
-	TextDrawTextSize(MeatBarTD[37], 210.000, 3.000);
-	TextDrawAlignment(MeatBarTD[37], 1);
+	MeatBarTD[37] = TextDrawCreate(367.000, 357.000, "5.59");
+	TextDrawLetterSize(MeatBarTD[37], 0.150, 0.799);
+	TextDrawAlignment(MeatBarTD[37], 2);
 	TextDrawColor(MeatBarTD[37], -1);
-	TextDrawUseBox(MeatBarTD[37], 1);
-	TextDrawBoxColor(MeatBarTD[37], 150);
-	TextDrawSetShadow(MeatBarTD[37], 1);
-	TextDrawSetOutline(MeatBarTD[37], 1);
+	TextDrawSetShadow(MeatBarTD[37], 0);
+	TextDrawSetOutline(MeatBarTD[37], 0);
 	TextDrawBackgroundColor(MeatBarTD[37], 150);
 	TextDrawFont(MeatBarTD[37], 1);
 	TextDrawSetProportional(MeatBarTD[37], 1);
-
-	MeatBarTD[38] = TextDrawCreate(213.000, 297.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[38], 15.000, 0.500);
-	TextDrawAlignment(MeatBarTD[38], 1);
-	TextDrawColor(MeatBarTD[38], -421070081);
-	TextDrawSetShadow(MeatBarTD[38], 0);
-	TextDrawSetOutline(MeatBarTD[38], 0);
-	TextDrawBackgroundColor(MeatBarTD[38], 255);
-	TextDrawFont(MeatBarTD[38], 4);
-	TextDrawSetProportional(MeatBarTD[38], 1);
-
-	MeatBarTD[39] = TextDrawCreate(221.000, 298.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[39], 0.160, 0.699);
-	TextDrawAlignment(MeatBarTD[39], 2);
-	TextDrawColor(MeatBarTD[39], -421070081);
-	TextDrawSetShadow(MeatBarTD[39], 0);
-	TextDrawSetOutline(MeatBarTD[39], 0);
-	TextDrawBackgroundColor(MeatBarTD[39], 150);
-	TextDrawFont(MeatBarTD[39], 1);
-	TextDrawSetProportional(MeatBarTD[39], 1);
-
-	MeatBarTD[40] = TextDrawCreate(211.000, 277.000, "_");
-	TextDrawTextSize(MeatBarTD[40], 18.000, 20.000);
-	TextDrawAlignment(MeatBarTD[40], 1);
-	TextDrawColor(MeatBarTD[40], -1);
-	TextDrawSetShadow(MeatBarTD[40], 0);
-	TextDrawSetOutline(MeatBarTD[40], 0);
-	TextDrawBackgroundColor(MeatBarTD[40], 0);
-	TextDrawFont(MeatBarTD[40], 5);
-	TextDrawSetProportional(MeatBarTD[40], 0);
-	TextDrawSetPreviewModel(MeatBarTD[40], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[40], 86.000, 1.000, -1.000, 1.000);
-	TextDrawSetPreviewVehCol(MeatBarTD[40], 0, 0);
-
-	MeatBarTD[41] = TextDrawCreate(252.000, 278.000, "_");
-	TextDrawLetterSize(MeatBarTD[41], 0.200, 2.899);
-	TextDrawTextSize(MeatBarTD[41], 231.000, 3.000);
-	TextDrawAlignment(MeatBarTD[41], 1);
-	TextDrawColor(MeatBarTD[41], -1);
-	TextDrawUseBox(MeatBarTD[41], 1);
-	TextDrawBoxColor(MeatBarTD[41], 150);
-	TextDrawSetShadow(MeatBarTD[41], 1);
-	TextDrawSetOutline(MeatBarTD[41], 1);
-	TextDrawBackgroundColor(MeatBarTD[41], 150);
-	TextDrawFont(MeatBarTD[41], 1);
-	TextDrawSetProportional(MeatBarTD[41], 1);
-
-	MeatBarTD[42] = TextDrawCreate(234.000, 297.000, "LD_SPAC:white");
-	TextDrawTextSize(MeatBarTD[42], 15.000, 0.500);
-	TextDrawAlignment(MeatBarTD[42], 1);
-	TextDrawColor(MeatBarTD[42], -421070081);
-	TextDrawSetShadow(MeatBarTD[42], 0);
-	TextDrawSetOutline(MeatBarTD[42], 0);
-	TextDrawBackgroundColor(MeatBarTD[42], 255);
-	TextDrawFont(MeatBarTD[42], 4);
-	TextDrawSetProportional(MeatBarTD[42], 1);
-
-	MeatBarTD[43] = TextDrawCreate(242.000, 298.000, "2.85");
-	TextDrawLetterSize(MeatBarTD[43], 0.160, 0.699);
-	TextDrawAlignment(MeatBarTD[43], 2);
-	TextDrawColor(MeatBarTD[43], -421070081);
-	TextDrawSetShadow(MeatBarTD[43], 0);
-	TextDrawSetOutline(MeatBarTD[43], 0);
-	TextDrawBackgroundColor(MeatBarTD[43], 150);
-	TextDrawFont(MeatBarTD[43], 1);
-	TextDrawSetProportional(MeatBarTD[43], 1);
-
-	MeatBarTD[44] = TextDrawCreate(232.000, 277.000, "_");
-	TextDrawTextSize(MeatBarTD[44], 18.000, 20.000);
-	TextDrawAlignment(MeatBarTD[44], 1);
-	TextDrawColor(MeatBarTD[44], -1);
-	TextDrawSetShadow(MeatBarTD[44], 0);
-	TextDrawSetOutline(MeatBarTD[44], 0);
-	TextDrawBackgroundColor(MeatBarTD[44], 0);
-	TextDrawFont(MeatBarTD[44], 5);
-	TextDrawSetProportional(MeatBarTD[44], 0);
-	TextDrawSetPreviewModel(MeatBarTD[44], 2806);
-	TextDrawSetPreviewRot(MeatBarTD[44], 86.000, 1.000, -1.000, 1.000);
-	TextDrawSetPreviewVehCol(MeatBarTD[44], 0, 0);
 
 	ProgressBarTD[playerid][0] = CreatePlayerTextDraw(playerid, 167.000, 272.000, "_");
 	PlayerTextDrawLetterSize(playerid, ProgressBarTD[playerid][0], 0.379, 2.599);
@@ -18953,24 +18867,40 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 		case dMeatWork: {
 			if(!response) return 1;
-			if(GetPVarInt(playerid, "MeatWorkStarted")) {
-				DeletePVar(playerid, "MeatWorkStarted");
-				DeletePVar(playerid, "MeatNeedToWashHands");
-				A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
-				SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
-			} else {
-				SetPVarInt(playerid, "MeatWorkStarted", 1);
-				A_SetPlayerSkin(playerid, 168);
-				new point = RandomEx(1,2);
-				switch(point) {
-					case 1: SetPlayerCheckpoint(playerid, 939.4187, 2177.0251, 1011.0234, 1);
-					case 2: SetPlayerCheckpoint(playerid, 944.5671, 2177.0251, 1011.0234, 1);
+			switch(listitem)
+			{
+				case 0:
+				{
+
 				}
-				SendOK(playerid, "Ви успішно влаштувалися на м'ясокомбінат.");
-				SendHint(playerid, "Перш ніж розпочати роботу, Вам необхідно помити руки. Чекпоінт встановлено на мапі.");
-				SetPVarInt(playerid, "MeatNeedToWashHands", 1);
-				SetPVarFloat(playerid, "MeatBarTDx", 36.500);
-				SetPVarFloat(playerid, "MeatChance", 0.1);
+				case 1:
+				{
+					if(GetPVarInt(playerid, "MeatWorkStarted")) 
+					{
+						DeletePVar(playerid, "MeatWorkStarted");
+						DeletePVar(playerid, "MeatNeedToWashHands");
+						A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
+						GiveMoney(playerid, GetPVarInt(playerid, "MeatSalary"), "meat factory work");
+						DeletePVar(playerid, "MeatTotal");
+						DeletePVar(playerid, "MeatSalary");
+						SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
+					} 
+					else 
+					{
+						SetPVarInt(playerid, "MeatWorkStarted", 1);
+						A_SetPlayerSkin(playerid, 168);
+						new point = RandomEx(1,2);
+						switch(point) {
+							case 1: SetPlayerCheckpoint(playerid, 939.4187, 2177.0251, 1011.0234, 1);
+							case 2: SetPlayerCheckpoint(playerid, 944.5671, 2177.0251, 1011.0234, 1);
+						}
+						SendOK(playerid, "Ви успішно влаштувалися на м'ясокомбінат.");
+						SendHint(playerid, "Перш ніж розпочати роботу, Вам необхідно помити руки. Чекпоінт встановлено на мапі.");
+						SetPVarInt(playerid, "MeatNeedToWashHands", 1);
+						SetPVarFloat(playerid, "MeatBarTDx", 36.500);
+						SetPVarFloat(playerid, "MeatChance", 0.1);
+					}
+				}
 			}
 		}
 		case dDiverWork: {
@@ -32933,8 +32863,38 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			ShowPlayerDialog(playerid, D_APART_ENTER, DSM, P"Інформація", mes2, "Увійти", "Закрити");
 		}
 	}*/
-
-	if(areaid == MeatWorkHands[0] || areaid == MeatWorkHands[1] && GetPVarInt(playerid, "MeatNeedToWashHands")) {
+	if(areaid == MeatConveyor && GetPVarInt(playerid, "MeatConveyor"))
+	{
+		DeletePVar(playerid, "MeatConveyor");
+		MeatPlayerObject[playerid] = CreateDynamicObject(2803, 942.334, 2172.070 ,1011.614, 0.000, 0.000, 0.000, 1, 1, -1, 300.000, 300.000);
+		MoveDynamicObject(MeatPlayerObject[playerid], 942.334, 2154.702, 1011.614, 1.000, 0.000, 0.000, 0.000);
+		RemovePlayerAttachedObject(playerid, 0);
+		SetTimerEx("MeatConveyorT", 15000, false, "i", playerid);
+	}
+	if(areaid == MeatConveyorEnd && GetPVarInt(playerid, "MeatConveyorEnd"))
+	{
+		if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 2805, 5, 0.45, 0, 0, 0, -90, 30, 0.5, 0.5, 0.5);
+		DestroyDynamicObject(MeatPlayerObject[playerid]);
+		SetPlayerCheckpoint(playerid, 964.9331, 2160.0940, 1011.0303, 1);
+		SendHint(playerid, "Віднесіть м'ясо на склад.");
+		SetPVarInt(playerid, "MeatWarehouse", 1);
+	}
+	if(areaid == MeatWarehouse && GetPVarInt(playerid, "MeatWarehouse"))
+	{
+		DeletePVar(playerid, "MeatConveyor");
+		DeletePVar(playerid, "MeatWarehouse");
+		DeletePVar(playerid, "MeatLowerPart");
+		DeletePVar(playerid, "MeatMiddlePart");
+		DeletePVar(playerid, "MeatHigherPart");
+		DeletePVar(playerid, "MeatConveyorEnd");
+		SetPVarInt(playerid, "MeatSalary", GetPVarInt(playerid, "MeatSalary") + floatround(GetPVarFloat(playerid, "MeatTotal")*0.7));
+		RemovePlayerAttachedObject(playerid, 0);
+		new string[56];
+		format(string, sizeof(string), "Ви віднесли м'ясо на склад. Зароблено: "GREEN"$%d");
+		SendOK(playerid, string);
+	}
+	if(areaid == MeatWorkHands[0] || areaid == MeatWorkHands[1] && GetPVarInt(playerid, "MeatNeedToWashHands")) 
+	{
 		if(areaid == MeatWorkHands[0]) SetPlayerPosAC(playerid, 939.4187, 2177.0251, 1011.0234, 1, 1);
 		else SetPlayerPosAC(playerid, 944.5671, 2177.0251, 1011.0234, 1, 1);
 		DisablePlayerCheckpoint(playerid);
@@ -43064,12 +43024,18 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 	}
 
-	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && newkeys == 16) {
-		for(new i; i < sizeof(MeatWork); i++) {
-			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]) && GetPVarInt(playerid, "MeatWorkStarted") && !GetPVarInt(playerid, "MeatNeedToWashHands")) {
+	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && newkeys == 16) 
+	{
+		for(new i; i < sizeof(MeatWork); i++) 
+		{
+			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]) && GetPVarInt(playerid, "MeatWorkStarted") && !GetPVarInt(playerid, "MeatNeedToWashHands")) 
+			{
 				if(MeatPlayer[i] != INVALID_PLAYER_ID) return SendError(playerid, "Ця туша вже обробляється.");
 
-				for(new id; id < 12; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				new weight[32];
+				format(weight, sizeof(weight), "%.2fkg", MeatWork[i][mWeight]);
+				TextDrawSetString(MeatBarTD[3], weight);
+				for(new id; id < 8; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
 				MeatPlayer[i] = playerid;
 				SetPVarInt(playerid, "Meat", 1);
 				SelectTextDraw(playerid, 0xbfbfbfff);
@@ -43078,9 +43044,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				new string[256];
 				format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n{98FB98}Обробляє: %s", MeatWork[i][mWeight], CI[MeatPlayer[i]][cName]);
 				UpdateDynamic3DTextLabelText(MeatText[i], -1, string);
-				SendClientMessage(playerid, -1, "");
-				SendHint(playerid, "Чергуйте нарізку м'яса з його миттям, щоб отримати достатню кількість кілограм.");
-				SendHint(playerid, "Чим брудніше м'ясо, тим менше кілограм буде отримано при нарізці.");
+				
 			}
 		}
 	}
@@ -43732,8 +43696,8 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			return ShowPlayerDialog(playerid, dDiverWork, DIALOG_STYLE_LIST, ""P"| "W"Тайлер (робота дайвером).", string, "Обрати", "Закрити");
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 960.6432,2098.9656,1011.0243)) {
-			if(GetPVarInt(playerid, "MeatWorkStarted")) ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_MSGBOX, "Start", "Хочете завершити різати дохлих свиней?", "Так", "Ні");
-			else ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_MSGBOX, "Start", "Хочете розпочати різати дохлих свиней?", "Так", "Ні");
+			if(GetPVarInt(playerid, "MeatWorkStarted")) ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_LIST, ""P"| "W"М'ясокомбінат", ""P"1. "W"Інформація про роботу\n"P"2. "W"Завершити роботу", "Обрати", "Закрити");
+			else ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_LIST, ""P"| "W"М'ясокомбінат", ""P"1. "W"Інформація про роботу\n"P"2. "W"Влаштуватися м'ясником", "Обрати", "Закрити");
 
 		}
 		for(new gid = 1; gid <= sizeof(GI); gid++) {
@@ -45790,15 +45754,32 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		}
 	}
 
-	if(GetPVarInt(playerid, "Meat")) {
-		if(clickedid == MeatBarTD[1]) {
-			ProgressBarMeatCutT(playerid);
-			//ShowMeat(playerid, )
-
-		} else if(clickedid == MeatBarTD[2]) {
-			if(GetPVarInt(playerid, "progressbarmeatwash")) return 1;
-			if(GetPVarInt(playerid, "NeedToWashMeat") < 5) return SendError(playerid, "Туша свині чиста, продовжуйте нарізку.");
-			ProgressBarMeatWash(playerid);
+	if(GetPVarInt(playerid, "Meat") && !GetPVarInt(playerid, "MeatConveyor")) 
+	{
+		if(clickedid == MeatBarTD[7])
+		{
+			if(GetPVarInt(playerid, "CutProcess")) return 1;
+			SetPVarInt(playerid, "CutProcess", 1);
+			MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 1);
+			ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
+			if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+		}
+		else if(clickedid == MeatBarTD[6])
+		{
+			if(!GetPVarInt(playerid, "MeatLowerPart")) return SendError(playerid, "Ви не обробили нижню частину туші.");
+			SetPVarInt(playerid, "CutProcess", 1);
+			MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 2);
+			ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
+			if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+		}
+		else if(clickedid == MeatBarTD[5])
+		{
+			if(GetPVarInt(playerid, "CutProcess")) return 1;
+			if(!GetPVarInt(playerid, "MeatMiddlePart")) return SendError(playerid, "Ви не обробили середню частину туші.");
+			SetPVarInt(playerid, "CutProcess", 1);
+			MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 3);
+			ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
+			if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
 		}
 	}
 	if(GetPVarInt(playerid, "buyskin")) {
@@ -45831,7 +45812,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			accs_close(playerid);
 		}
 		if(GetPVarInt(playerid, "Meat")) {
-			for(new i; i < 12; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+			for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
 			DeletePVar(playerid, "Meat");
 			CancelSelectTextDraw(playerid);
 			TogglePlayerControllable(playerid, 1);
@@ -68908,7 +68889,7 @@ stock LoadMeatWork() {
 
 		MeatObject[i] = CreateDynamicObject(2589, MeatWork[i][mX], MeatWork[i][mY], MeatWork[i][mZ], 0.000000, 0.000000, 0.000000, 1, 1, -1, 300.00, 300.00);
 		MeatSphere[i] = CreateDynamicSphere(MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.1153, MeatWork[i][mZ] - 3.588318, 2, 1, 1);
-		randomweight = mathfrandom(140.0, 150.0);
+		randomweight = mathfrandom(65.0, 75.0);
 		MeatWork[i][mWeight] = randomweight;
 		MeatPlayer[i] = INVALID_PLAYER_ID;
 		format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][mWeight]);
@@ -68919,6 +68900,13 @@ stock LoadMeatWork() {
 	MeatWorkHands[0] = CreateDynamicSphere(939.4187, 2177.0251, 1011.0234, 1, 1, 1);
 	MeatWorkHands[1] = CreateDynamicSphere(944.5671, 2177.0251, 1011.0234, 1, 1, 1);
 	CreateDynamic3DTextLabel(G"ALT", -1, 960.6542, 2097.6040, 1011.0230, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
+
+	MeatConveyor = CreateDynamicSphere(942.3709, 2173.1387, 1011.0234, 1, 1, 1);
+	MeatConveyorEnd = CreateDynamicSphere(942.4107, 2153.7458, 1011.0234, 1, 1, 1);
+	MeatWarehouse = CreateDynamicSphere(964.9331, 2160.0940, 1011.0303, 1, 1, 1);
+
+	format(string, sizeof(string), "{98FB98}Склад м'ясокомбінату\n\n"W"%.2f кілограм", MeatFactoryTotal);
+	MeatWarehouseText = CreateDynamic3DTextLabel(string, -1, 964.9331, 2160.0940, 1011.0303, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
 	return 1; 
 }
 stock GetNicknameFromNumber(number) {
@@ -68929,7 +68917,8 @@ stock GetNicknameFromNumber(number) {
 	cache_delete(result);
 	return Name;
 }
-CB:MeatWashingHands(playerid) {
+CB:MeatWashingHands(playerid) 
+{
 	DeletePVar(playerid, "MeatNeedToWashHands");
 	DeletePVar(playerid, "MeatWashHands");
 	ClearAnimations(playerid);
@@ -69002,7 +68991,7 @@ stock ShowMeat(playerid, cycle, Float:meat) {
 			for(new i = 32; i < 36; i++) TextDrawShowForPlayer(playerid, MeatBarTD[i]);
 		}
 		case 7: {
-			TextDrawSetString(MeatBarTD[39], string);
+			//TextDrawSetString(MeatBarTD[39], string);
 			for(new i = 36; i < 40; i++) TextDrawShowForPlayer(playerid, MeatBarTD[i]);
 		}
 		/*case 8: {
@@ -69092,5 +69081,178 @@ stock LoadDiverWork() {
 		}
 		DiverPickup[i] = CreateDynamicPickup(model, 23, Diver[i][dX], Diver[i][dY], Diver[i][dZ], 0, 0, -1);
 	}
+	return 1;
+}
+CB:MeatCut(playerid, part)
+{
+	new process;
+	new meat = GetPVarInt(playerid, "MeatPlayer");
+	new Float:weight = mathfrandom(2.00, 7.00);
+	new td[32];
+	format(td, sizeof(td), "%.2f", weight);
+	switch(part)
+	{
+		case 1:
+		{
+			ClearAnimations(playerid);
+			SetPVarInt(playerid, "MeatProcessLowerPart", GetPVarInt(playerid, "MeatProcessLowerPart") + 1);
+			process = GetPVarInt(playerid, "MeatProcessLowerPart");
+			DeletePVar(playerid, "CutProcess");
+			switch(process)
+			{
+				case 1:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[8]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[9]);
+					TextDrawSetString(MeatBarTD[10], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[10]);
+				}
+				case 2:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[11]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[12]);
+					TextDrawSetString(MeatBarTD[13], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[13]);
+				}
+				case 3:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[14]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[15]);
+					TextDrawSetString(MeatBarTD[16], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[16]);
+					TextDrawHideForPlayer(playerid, MeatBarTD[7]);
+					SetPVarInt(playerid, "MeatLowerPart", 1);
+					SetPVarInt(playerid, "MeatProcessLowerPart", GetPVarInt(playerid, "MeatProcessMiddlePart") + 1);
+					SendOK(playerid, "Ви завершили обробку нижньої частині туші.");
+					SendHint(playerid, "Переходьте до обробки середньої частини.");
+				}
+			}
+		}
+		case 2:
+		{
+			ClearAnimations(playerid);
+			SetPVarInt(playerid, "MeatProcessMiddlePart", GetPVarInt(playerid, "MeatProcessMiddlePart") + 1);
+			process = GetPVarInt(playerid, "MeatProcessMiddlePart");
+			DeletePVar(playerid, "CutProcess");
+			switch(process)
+			{
+				case 1:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[17]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[18]);
+					TextDrawSetString(MeatBarTD[19], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[19]);
+				}
+				case 2:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[20]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[21]);
+					TextDrawSetString(MeatBarTD[22], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[22]);
+				}
+				case 3:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[23]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[24]);
+					TextDrawSetString(MeatBarTD[22], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[25]);
+				}
+				case 4:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[26]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[27]);
+					TextDrawSetString(MeatBarTD[28], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[28]);
+					TextDrawHideForPlayer(playerid, MeatBarTD[6]);
+					SetPVarInt(playerid, "MeatMiddlePart", 1);
+					DeletePVar(playerid, "MeatProcessMiddlePart");
+					SendOK(playerid, "Ви завершили обробку середньої частині туші.");
+					SendHint(playerid, "Переходьте до обробки верхньої частини.");
+				}
+			}
+		}
+		case 3:
+		{
+			ClearAnimations(playerid);
+			SetPVarInt(playerid, "MeatProcessHigherPart", GetPVarInt(playerid, "MeatProcessHigherPart") + 1);
+			process = GetPVarInt(playerid, "MeatProcessHigherPart");
+			DeletePVar(playerid, "CutProcess");
+			switch(process)
+			{
+				case 1:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[29]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[30]);
+					TextDrawSetString(MeatBarTD[31], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[31]);
+				}
+				case 2:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[32]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[33]);
+					TextDrawSetString(MeatBarTD[34], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[34]);
+				}
+				case 3:
+				{
+					TextDrawShowForPlayer(playerid, MeatBarTD[35]);
+					TextDrawShowForPlayer(playerid, MeatBarTD[36]);
+					TextDrawSetString(MeatBarTD[37], td);
+					TextDrawShowForPlayer(playerid, MeatBarTD[37]);
+					TextDrawHideForPlayer(playerid, MeatBarTD[5]);
+					SetPVarInt(playerid, "MeatHigherPart", 1);
+					DeletePVar(playerid, "MeatProcessHigherPart");
+					for(new i; i < 38; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+					TogglePlayerControllable(playerid, 1);
+					CancelSelectTextDraw(playerid);
+				}
+			}
+		}
+	}
+	MeatWork[meat][mWeight] = MeatWork[meat][mWeight] - weight;
+	new string[256];
+	format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n{98FB98}Обробляє: %s", MeatWork[meat][mWeight], CI[MeatPlayer[meat]][cName]);
+	UpdateDynamic3DTextLabelText(MeatText[meat], -1, string);
+
+	format(string, sizeof(string), "%.2fkg", MeatWork[meat][mWeight]);
+	TextDrawSetString(MeatBarTD[3], string);
+
+	SetPVarFloat(playerid, "MeatTotal", GetPVarFloat(playerid, "MeatTotal") + weight);
+
+	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f кг. "W"Загальна кількість зрізаного м'яса: "P"%.2f кг.", weight, GetPVarFloat(playerid, "MeatTotal"));
+	SendInfo(playerid, string);
+
+	format(string, sizeof(string), "MeetTotal: %.2f", GetPVarFloat(playerid, "MeatTotal"));
+	SendInfo(playerid, string);
+
+	if(GetPVarInt(playerid, "MeatHigherPart"))
+	{
+		SendOK(playerid, "in pvar");
+		MeatPlayer[meat] = INVALID_PLAYER_ID;
+		DestroyDynamic3DTextLabel(MeatText[meat]);
+		DestroyDynamicArea(MeatSphere[meat]);
+		DestroyDynamicObject(MeatObject[meat]);
+
+		SendOK(playerid, "destroy");
+
+		SendOK(playerid, "Ви завершили обробку всієї туші.");
+		SendHint(playerid, "Віднесіть м'ясо на конвеєр для переробки.");
+		format(string, sizeof(string), "Залишок м'яса вагою "P"%.2f кг. "W"зіпсувався.", MeatWork[meat][mWeight] - GetPVarFloat(playerid, "MeatTotal"));
+		SendInfo(playerid, string);
+
+		RemovePlayerAttachedObject(playerid, 0);
+
+		if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 2805, 5, 0.45, 0, 0, 0, -90, 30, 0.5, 0.5, 0.5);
+
+		SetPlayerCheckpoint(playerid, 942.3709,2173.1387,1011.0234, 1);
+		SetPVarInt(playerid, "MeatConveyor", 1);
+	}
+
+	return 1;
+}
+CB:MeatConveyorT(playerid)
+{
+	SetPVarInt(playerid, "MeatConveyorEnd", 1);
+	SetPlayerCheckpoint(playerid, 942.4107,2153.7458,1011.0234, 1);
 	return 1;
 }
