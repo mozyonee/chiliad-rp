@@ -12641,11 +12641,10 @@ stock RemoveBuildings(playerid) {
 	}
 }
 public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ) {
-	if(hittype > 4) return 0;
-	if((hittype == BULLET_HIT_TYPE_PLAYER && ! IsPlayerConnected(hitid)) ||
-		(hittype == BULLET_HIT_TYPE_VEHICLE && !IsValidVehicle(hitid)) ||
-		(hittype == BULLET_HIT_TYPE_OBJECT && !IsValidVehicle(hitid)) ||
-		(hittype == BULLET_HIT_TYPE_PLAYER_OBJECT && !IsValidPlayerObject(playerid, hitid))) return 0;
+	if((hittype == BULLET_HIT_TYPE_PLAYER && !IsPlayerConnected(hitid)) || (hittype == BULLET_HIT_TYPE_VEHICLE && !IsValidVehicle(hitid)) || (hittype == BULLET_HIT_TYPE_OBJECT && !IsValidVehicle(hitid)) || (hittype == BULLET_HIT_TYPE_PLAYER_OBJECT && !IsValidPlayerObject(playerid, hitid))) return 0;
+	
+	SendInt(playerid, 0xFFFF);
+
 	if(hittype == BULLET_HIT_TYPE_PLAYER && hitid != 0xFFFF) {
 		static Float: fOriginX, Float: fOriginY, Float: fOriginZ, Float: fHitPosX, Float: fHitPosY, Float: fHitPosZ;
 		GetPlayerLastShotVectors(playerid, fOriginX, fOriginY, fOriginZ, fHitPosX, fHitPosY, fHitPosZ);
@@ -12653,7 +12652,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		GetPlayerPos(playerid, PosIgnore, PosIgnore, PosPlayerZ);
 		if(fOriginZ == fHitPosZ) {
 			if(PlayerWarningTimeSilent[playerid][0] < gettime()) {
-				format(string, sizeof(string), "<< Warning >> %s[%i]: підозра на Silent Aim", CI[playerid][cName], playerid);
+				format(string, sizeof(string), "[Warning] %s[%i] підозрюється у викорситанні Silent Aim.", CI[playerid][cName], playerid);
 				SendAdminAttention(string);
 				PlayerWarningTimeSilent[playerid][0] = gettime() + 5;
 				return 0;
@@ -12663,7 +12662,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		if(floatabs(ReasonCheat) < 0.03) {
 			if(++PlayerWarningSilent[playerid] >= 3) {
 				if(PlayerWarningTimeSilent[playerid][1] < gettime()) {
-					format(string, sizeof(string), "<< Warning >> %s[%i]: підозра на Silent Aim v12+", CI[playerid][cName], playerid);
+					format(string, sizeof(string), "[Warning] %s[%i] підозрюється у викорситанні Silent Aim v12+.", CI[playerid][cName], playerid);
 					SendAdminAttention(string);
 					PlayerWarningTimeSilent[playerid][1] = gettime() + 5;
 					return 0;
@@ -13342,7 +13341,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			} else mysql_format(connects, stringer, sizeof(stringer), "INSERT INTO `actors` (`x`, `y`, `z`, `a`, `skin`, `vw`, `text`, `s_text`, `anim_actors`) VALUES (%.2f, %.2f, %.2f, %.2f, %i, %i, '', '0', '-1')", position[0], position[1], position[2], position[3], other[0], other[1]);
 			mysql_query(connects, stringer);
 			
-			UploadActors(1);
+			mysql_tquery(connects, "SELECT * FROM `actors` ORDER BY `id` DESC LIMIT 1", "LoadActors");
 			SendOK(playerid, "Актора додано у список, оновлення параметрів розпочато.");
 			}
 		case 5736: {
@@ -35580,7 +35579,7 @@ public OnGameModeInit() {
 	load_trailer();
 	load_diplomation();
 	load_pickups();
-	UploadActors(0);
+	mysql_tquery(connects, "SELECT * FROM `actors`", "LoadActors");
 	LoadMeatWork();
 	LoadDiverWork();
 	// load_garage();
@@ -35591,22 +35590,10 @@ public OnGameModeInit() {
 	// mysql_tquery(connects, "SELECT * FROM `Settings`", "LoadSettings");
 	mysql_tquery(connects, "UPDATE "TABLE_CHARACTERS" SET `online_status` = '1001'", "", "");
 	blackjack_CreateTD();
-	blackjack_CreateTable(
-	290.739837, -111.020553, 1035.385009, 0.0, 0.000007, 0.0,
-	CASINO_WORLD_ID+ 1, .interiorid = CASINO_INTERIOR_ID
-	);
-	blackjack_CreateTable(
-	290.739837, -111.020553, 1035.385009, 0.0, 0.000007, 0.0, CASINO_WORLD_ID,
-	.interiorid = CASINO_INTERIOR_ID
-	);
-	blackjack_CreateTable(
-	287.249725, -111.020553, 1035.385009, 0.0, 0.000007, 0.0,
-	CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID
-	);
-	blackjack_CreateTable(
-	289.799468, -115.350494, 1035.385009, 0.0, 0.0, 270.0,
-	CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID
-	);
+	blackjack_CreateTable(290.739837, -111.020553, 1035.385009, 0.0, 0.000007, 0.0, CASINO_WORLD_ID + 1, .interiorid = CASINO_INTERIOR_ID);
+	blackjack_CreateTable(290.739837, -111.020553, 1035.385009, 0.0, 0.000007, 0.0, CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID);
+	blackjack_CreateTable(287.249725, -111.020553, 1035.385009, 0.0, 0.000007, 0.0, CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID);
+	blackjack_CreateTable(289.799468, -115.350494, 1035.385009, 0.0, 0.0, 270.0, CASINO_WORLD_ID, .interiorid = CASINO_INTERIOR_ID);
 	for(new i; i < MAX_DROP_GUNS; i++) {
 		drop_gun[i][dg_object] = -1;
 		drop_gun[i][dg_gun] = -1;
@@ -43882,29 +43869,15 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			if(!IsCrime(playerid) || IsAnEnforcement(playerid)) return 1;
 			if(GetPVarInt(playerid, "AntiFloods") > gettime()) return SendError(playerid, "Не флудіть.");
 			SetPVarInt(playerid, "AntiFloods", gettime() + 3);
-			/**/
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			JobTempProcess[playerid] = 25;
 			RandomYareNforJOBS(playerid);
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
-		}
-		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1543.4821, -1627.3247, 13.4028)) {
-			if(!IsAnEnforcement(playerid)) return 1;
-			if(GetPVarInt(playerid, "AntiFloods") > gettime()) return SendError(playerid, "Не флудіть.");
-			SetPVarInt(playerid, "AntiFloods", gettime() + 15);
-			SendInfo(playerid, "Через 15 секунд ворота закриються.");
-			return 1;
-		}
-		if(IsPlayerInRangeOfPoint(playerid, 5.0, 1269.723510, -913.950134, 43.448936)) {
-			if(GetPVarInt(playerid, "AntiFloods") > gettime()) return SendError(playerid, "Не флудіть.");
-			SetPVarInt(playerid, "AntiFloods", gettime() + 15);
-			SendInfo(playerid, "Через 15 секунд ворота закриються.");
-			return 1;
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 5.0, 2219.8818, 2058.8755, 96.8735) && IsAMafia(playerid)) {
 			if(GetPVarInt(playerid, "Toms") == 1) return SendClientMessage(playerid, COLOR_WHITE, "Бармен: Чого стоїмо то? Вперед!");
@@ -43920,10 +43893,10 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		if(GetPVarInt(playerid, "Texting") == 1) {
 			new Float:xx, Float:xy, Float:xz;
 			GetVehiclePos(GetPVarInt(playerid, "VehicleID"), xx, xy, xz);
-			if(IsPlayerInRangeOfPoint(playerid, 5.0, xx, xy, xz)) return ShowPlayerDialog(playerid, D_ROBBOT_WARGEHOUSE, DSL, P"Багажник.", P"1."W" Поїхати\n"P"2."W"Закинути сумку", "Обрати", "Закрити");
+			if(IsPlayerInRangeOfPoint(playerid, 5.0, xx, xy, xz)) return ShowPlayerDialog(playerid, D_ROBBOT_WARGEHOUSE, DSL, P"|"W" Багажник.", P"1."W" Поїхати.\n"P"2."W"Закинути сумку.", "Обрати", "Закрити");
 		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 2360.8240, 1839.1799, 1211.6302) && GetPVarInt(playerid, "Ready") == 1) RobBiker(playerid);
-		if(IsPlayerInRangeOfPoint(playerid, 5.0, 816.1916, -1843.3940, 8.3624)) return ShowPlayerDialog(playerid, D_SELFISH, DSL, P"Рибак.", P"1."W" Показати перепустку\n"P"2."W" Продати улов", "Обрати", "Закрити");
+		if(IsPlayerInRangeOfPoint(playerid, 5.0, 816.1916, -1843.3940, 8.3624)) return ShowPlayerDialog(playerid, D_SELFISH, DSL, P"|"W" Рибак.", P"1."W" Показати перепусткую.\n"P"2."W" Продати улов.", "Обрати", "Закрити");
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, -1307.6519, -1509.0223, 24.0463)) {
 			if(TI[playerid][tPobeg_Z] != 1) return SendError(playerid, "Ви не виконали перше завдання.");
 			CI[playerid][pJail] = 0;
@@ -55136,14 +55109,6 @@ CMD:newobj(playerid) {
 }
 CMD:createactor(playerid) {
 	if(IsAuthAdmin(playerid, 7)) ShowPlayerDialog(playerid, 1776, DSL, P"|"W" Створення акторів.", P"1."W" Інструкція по створенню акторів.\n"P"2."W" Створити актора.", "Обрати", "Закрити");
-	return 1;
-}
-
-CB:UploadActors(type) {
-	mysql_query(connects, "ALTER TABLE `actors` DROP `id`");
-	mysql_query(connects, "ALTER TABLE `actors` ADD `id` INT(11) NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`)");
-	if(type) mysql_tquery(connects, "SELECT * FROM actors ORDER BY id DESC LIMIT 1", "LoadActors");
-	else mysql_tquery(connects, "SELECT * FROM `actors`", "LoadActors");
 	return 1;
 }
 
