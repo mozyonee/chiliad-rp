@@ -1808,9 +1808,6 @@
 	tmpobjid=CreateDynamicObject(19377,1950.036132,1881.288574,2517.911132,0,90.000022,179.999938,-1,-1,-1,300,300);
 	SetDynamicObjectMaterial(tmpobjid,0,14623,"mafcasmain","ab_MarbleDiamond",0xFFF0FFFF);
 	SetDynamicObjectMaterial(tmpobjid,1,11092,"burgalrystore_sfse","ws_altz_wall2bluetop",0x00000000);
-	tmpobjid=CreateDynamicObject(1495,1958.330200,1885.653076,2517.951904,0,0,-89.599922,-1,-1,-1,300,300);
-	SetDynamicObjectMaterial(tmpobjid,0,-1,"none","none",0xFFFFFFFF);
-	SetDynamicObjectMaterial(tmpobjid,2,1560,"7_11_door","CJ_CHROME2",0x00000000);
 	tmpobjid=CreateDynamicObject(19450,1953.264770,1881.990600,2519.718261,0.000018,0.000007,269.999938,-1,-1,-1,300,300);
 	SetDynamicObjectMaterial(tmpobjid,0,14387,"dr_gsnew","mp_gs_wall1",0xFFF0FFFF);
 	tmpobjid=CreateDynamicObject(19450,1956.206787,1881.691406,2519.718261,0.000018,0.000007,359.999938,-1,-1,-1,300,300);
