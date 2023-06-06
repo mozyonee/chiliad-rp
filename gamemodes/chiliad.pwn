@@ -11014,7 +11014,7 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(MeatBarTD[2], 1);
 	TextDrawSetProportional(MeatBarTD[2], 1);
 
-	MeatBarTD[3] = TextDrawCreate(361.000, 123.000, "150.0kg");
+	MeatBarTD[3] = TextDrawCreate(361.000, 123.000, "150.0p");
 	TextDrawLetterSize(MeatBarTD[3], 0.190, 0.999);
 	TextDrawAlignment(MeatBarTD[3], 2);
 	TextDrawColor(MeatBarTD[3], -1);
@@ -12688,6 +12688,7 @@ public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags) {
 }
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
+	DeletePVars(playerid);
 	EnablePlayerCameraTarget(playerid, 1);
 	Streamer_VisibleItems(STREAMER_TYPE_OBJECT, 990, playerid);
 	player_target_object[playerid] = INVALID_OBJECT_ID;
@@ -16942,7 +16943,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					TI[playerid][tProcess][0] = 0;
 					TI[playerid][tProcess][1] = 10;
 					PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-					for(new YN = 0;YN < 3;YN++) {
+					for(new YN; YN < 3; YN++) {
 						TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 						if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 					}
@@ -18397,10 +18398,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					SetPVarInt(playerid, "report", gettime() +30);
 				} else {
 					new bool:report = false, reps = 0;
-					for(new i; i<MAX_REPORTS; i++) {
+					for(new i; i < MAX_REPORTS; i++) {
 						if(PlayerReport[i] != -1) reps++;
 					}
-					for(new i; i<MAX_REPORTS; i++) {
+					for(new i; i < MAX_REPORTS; i++) {
 						if(PlayerReport[reps] != -1) {
 							reps++;
 							continue;
@@ -18840,34 +18841,23 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 		case dMeatWork: {
 			if(!response) return 1;
-			switch(listitem) {
-				case 0: {
 
-				}
-				case 1: {
-					if(GetPVarInt(playerid, "MeatWorkStarted")) {
-						DeletePVar(playerid, "MeatWorkStarted");
-						DeletePVar(playerid, "MeatNeedToWashHands");
-						A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
-						GiveMoney(playerid, GetPVarInt(playerid, "MeatSalary"), "meat factory work");
-						DeletePVar(playerid, "MeatTotal");
-						DeletePVar(playerid, "MeatSalary");
-						SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
-					} else {
-						SetPVarInt(playerid, "MeatWorkStarted", 1);
-						A_SetPlayerSkin(playerid, 168);
-						new point = RandomEx(1,2);
-						switch(point) {
-							case 1: SetPlayerCheckpoint(playerid, 939.4187, 2177.0251, 1011.0234, 1);
-							case 2: SetPlayerCheckpoint(playerid, 944.5671, 2177.0251, 1011.0234, 1);
-						}
-						SendOK(playerid, "Ви успішно влаштувалися на м'ясокомбінат.");
-						SendHint(playerid, "Перш ніж розпочати роботу, Вам необхідно помити руки. Чекпоінт встановлено на мапі.");
-						SetPVarInt(playerid, "MeatNeedToWashHands", 1);
-						SetPVarFloat(playerid, "MeatBarTDx", 36.500);
-						SetPVarFloat(playerid, "MeatChance", 0.1);
-					}
-				}
+			if(GetPVarInt(playerid, "MeatWorkStarted")) {
+				DeletePVar(playerid, "MeatWorkStarted");
+				//DeletePVar(playerid, "MeatNeedToWashHands");
+				A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
+				GiveMoney(playerid, GetPVarInt(playerid, "MeatSalary"), "meat factory work");
+				DeletePVar(playerid, "MeatTotal");
+				DeletePVar(playerid, "MeatSalary");
+				SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
+			} else {
+				SetPVarInt(playerid, "MeatWorkStarted", 1);
+				A_SetPlayerSkin(playerid, 168);
+				SendOK(playerid, "Ви успішно влаштувалися на м'ясокомбінат.");
+				//SendHint(playerid, "Перш ніж розпочати роботу, Вам необхідно помити руки. Чекпоінт встановлено на мапі.");
+				//SetPVarInt(playerid, "MeatNeedToWashHands", 1);
+				//SetPVarFloat(playerid, "MeatBarTDx", 36.500);
+				//SetPVarFloat(playerid, "MeatChance", 0.1);
 			}
 		}
 		case dDiverWork: {
@@ -20198,7 +20188,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(CI[playerid][pCash] < price) return SendError(playerid, "У вас недостатньо грошей.");
 			gAdvertCount ++;
 			new slot = -1;
-			for(new i; i<MAX_ADVERT_COUNT; i++) {
+			for(new i; i < MAX_ADVERT_COUNT; i++) {
 				if(!gAdvert[i][adBusy]) {slot = i; break;}
 			}
 			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -22034,7 +22024,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						TI[playerid][tProcess][0] = 0;
 						TI[playerid][tProcess][1] = 10;
 						PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-						for(new YN = 0;YN < 3;YN++) {
+						for(new YN; YN < 3; YN++) {
 							TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 							if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 						}
@@ -30942,7 +30932,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				JobTempProcess[playerid] = 8;
 				RandomYareNforJOBS(playerid);
 				PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-				for(new YN = 0;YN < 3;YN++) {
+				for(new YN; YN < 3; YN++) {
 					TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 					if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 				}
@@ -30957,7 +30947,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 3: {
 						new Float:x, Float:y, Float:z;
 						GetPlayerPos(playerid, x, y, z);
-						for(new i; i<MAX_OGRAD; i++) {
+						for(new i; i < MAX_OGRAD; i++) {
 							if(object[i]!=-1) {
 								GetDynamicObjectPos(object[i], x, y, z);
 								if(IsPlayerInRangeOfPoint(playerid, 2, x, y, z)) {
@@ -31144,7 +31134,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
+				for(new i; i < MAX_ADVERT_COUNT; i++) {
 					if(!gAdvert[i][adBusy]) {slot = i; break;}
 				}
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31193,7 +31183,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 						if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 						new slot = -1;
-						for(new i; i<MAX_ADVERT_COUNT; i++) {
+						for(new i; i < MAX_ADVERT_COUNT; i++) {
 							if(!gAdvert[i][adBusy]) {slot = i; break;}
 						}
 						if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31223,7 +31213,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_HOUSE_3, DSI, P"Оголошення | Купити | Будинок", "\n\n"W"Введіть вартість, за яку ви хочете придбати дім:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
+				for(new i; i < MAX_ADVERT_COUNT; i++) {
 					if(!gAdvert[i][adBusy]) {slot = i; break;}
 				}
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31254,7 +31244,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_HOUSE_3, DSI, P"Оголошення | Продати | Будинок", "\n\n"W"Введіть вартість, за яку ви хочете продати дім:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
+				for(new i; i < MAX_ADVERT_COUNT; i++) {
 					if(!gAdvert[i][adBusy]) {slot = i; break;}
 				}
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31279,7 +31269,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
+				for(new i; i < MAX_ADVERT_COUNT; i++) {
 					if(!gAdvert[i][adBusy]) {slot = i; break;}
 				}
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31305,7 +31295,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_BIZZ_2, DSI, P"Оголошення | Купити | Бізнес", "\n\n"W"Введіть вартість, за яку ви хочете придбати бізнес:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
+				for(new i; i < MAX_ADVERT_COUNT; i++) {
 					if(!gAdvert[i][adBusy]) {slot = i; break;}
 				}
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31328,7 +31318,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_BIZZ_2, DSI, P"Оголошення | Продати | Бізнес", "\n\n"W"Введіть вартість, за яку ви хочете продати бізнес:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
+				for(new i; i < MAX_ADVERT_COUNT; i++) {
 					if(!gAdvert[i][adBusy]) {slot = i; break;}
 				}
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
@@ -31345,9 +31335,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
+				for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
 				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 				gAdvertCount ++;
 				GiveMoney(playerid, -1000, "подача оголошення");
@@ -31358,407 +31346,372 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				DeletePVar(playerid, "auto_bizz_type");
 			}
 		case D_AUTONEWS_BUY_AIRPORT: {
-				if(!response) return 1;
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_AIRPORT, DSI, P"Оголошення | Купити | Аеропорт", "\n\n"W"Введіть вартість, за яку ви хочете придбати аеропорт:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				format(gAdvert[slot][adText], 100, "Куплю аеропорт. Вартість: $%i",strval(inputtext));
-				auto_news(slot, playerid);
+			if(!response) return 1;
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_AIRPORT, DSI, P"Оголошення | Купити | Аеропорт", "\n\n"W"Введіть вартість, за яку ви хочете придбати аеропорт:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			format(gAdvert[slot][adText], 100, "Куплю аеропорт. Вартість: $%i",strval(inputtext));
+			auto_news(slot, playerid);
 			}
 		case D_AUTONEWS_SELL_AIRPORT: {
-				if(!response) return 1;
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_AIRPORT, DSI, P"Оголошення | Продати | Аеропорт", "\n\n"W"Введіть вартість, за яку ви хочете продати аеропорт:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				format(gAdvert[slot][adText], 100, "Продам аеропорт. Вартість: $%i",strval(inputtext));
-				auto_news(slot, playerid);
+			if(!response) return 1;
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_AIRPORT, DSI, P"Оголошення | Продати | Аеропорт", "\n\n"W"Введіть вартість, за яку ви хочете продати аеропорт:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			format(gAdvert[slot][adText], 100, "Продам аеропорт. Вартість: $%i",strval(inputtext));
+			auto_news(slot, playerid);
 			}
 		case D_AUTONEWS_BUY_CAR: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_tune", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_2, DSL, P"Оголошення | Купити | Автомобіль", P"1."W" Пропустити\n"P"2."W" Економ\n"P"3."W" Средний\n"P"4."W" Спорт", "Обрати", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_tune", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_2, DSL, P"Оголошення | Купити | Автомобіль", P"1."W" Пропустити\n"P"2."W" Економ\n"P"3."W" Средний\n"P"4."W" Спорт", "Обрати", "Закрити");
 			}
 		case D_AUTONEWS_BUY_CAR_2: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_class", listitem);
-				switch(listitem) {
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_class", listitem);
+			switch(listitem) {
 				case 0: ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_4, DSI, P"Оголошення | Купити | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете придбати автомобіль:\n\n", "Ввести", "Закрити");
 				case 1: ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_3, DSL, P"Оголошення | Купити | Автомобіль", P"1."W" Пропустити\n"P"2."W" Bravura\n"P"3."W" Broadway\n"P"4."W" Clover\n"P"5."W" Emperor\n"P"6."W" Glendale\n"P"7."W" Greenwood\n"P"8."W" Hermes\n"P"9."W" Hustler\n"P"10."W" Majestic\n"P"11."W" Manana\n"P"12."W" Oceanic\n"P"13."W" Volvo V90\n"P"14."W" Picador\n"P"15."W" Regina\n"P"16."W" Clover\n"P"17."W" Stallion\n"P"18."W" Tampa\n"P"19."W" Tornado\n"P"20."W" Voodoo", "Обрати", "Закрити");
 				case 2: ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_3, DSL, P"Оголошення | Купити | Автомобіль", P"1."W" Пропустити\n"P"2."W" Admiral\n"P"3."W" Blist-Compact\n"P"4."W" Cadrona\n"P"5."W" Club\n"P"6."W" Feltzer\n"P"7."W" Huntley\n"P"8."W" Landstalker\n"P"9."W" Mesa\n"P"10."W" Phoenix\n"P"11."W" Premier\n"P"12."W" Rancher\n"P"13."W" Remington\n"P"14."W" Plymouth Barracuda\n"P"15."W" Savanna\n"P"16."W" Sentinel\n"P"17."W" Slamvan\n"P"18."W" Solair\n"P"19."W" Stafford\n"P"20."W" Tahoma\n"P"20."W" Uranus\n"P"20."W" Washington\n"P"20."W" Windsor\n"P"20."W" Yosemite", "Обрати", "Закрити");
 				case 3: ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_3, DSL, P"Оголошення | Купити | Автомобіль", P"1."W" Пропустити\n"P"2."W" Alpha\n"P"3."W" Banshee\n"P"4."W" Buffalo\n"P"5."W" Bullet\n"P"6."W" Cheetah\n"P"7."W" Comet\n"P"8."W" Elegy\n"P"9."W" Euros\n"P"10."W" Hotknife\n"P"11."W" Hotring\n"P"12."W" Infernus\n"P"13."W" Jester\n"P"14."W" Sandking\n"P"15."W" Sultan\n"P"16."W" Super GT\n"P"17."W" Turismo\n"P"18."W" ZR-350", "Обрати", "Закрити");
-				}
+			}
 			}
 		case D_AUTONEWS_BUY_CAR_3: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_class_2", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_4, DSI, P"Оголошення | Купити | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете придбати автомобіль:\n\n", "Ввести", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_class_2", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_4, DSI, P"Оголошення | Купити | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете придбати автомобіль:\n\n", "Ввести", "Закрити");
 			}
 		case D_AUTONEWS_BUY_CAR_4: {
-				if(!response) return DeletePVar(playerid, "auto_bizz_type");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_4, DSI, P"Оголошення | Купити | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете придбати автомобіль:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
-				new car_class[4][12] = {"no", "економ", "середній", "спорт"};
-				if(!GetPVarInt(playerid, "auto_car_class")) {
-					format(gAdvert[slot][adText], 100, "Куплю автомобіль[%s]. Вартість: $%i",car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-				} else if(!GetPVarInt(playerid, "auto_car_class_2")) {
-					format(gAdvert[slot][adText], 100, "Куплю автомобіль[%s] класу \"%s\". Вартість: $%i",car_tune[GetPVarInt(playerid, "auto_car_tune")],car_class[GetPVarInt(playerid, "auto_car_class")],strval(inputtext));
-				} else {
-					switch(GetPVarInt(playerid, "auto_car_class")) {
+			if(!response) return DeletePVar(playerid, "auto_bizz_type");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_CAR_4, DSI, P"Оголошення | Купити | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете придбати автомобіль:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
+			new car_class[4][12] = {"no", "економ", "середній", "спорт"};
+			if(!GetPVarInt(playerid, "auto_car_class")) format(gAdvert[slot][adText], 100, "Куплю автомобіль[%s]. Вартість: $%i",car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
+			else if(!GetPVarInt(playerid, "auto_car_class_2")) format(gAdvert[slot][adText], 100, "Куплю автомобіль[%s] класу \"%s\". Вартість: $%i",car_tune[GetPVarInt(playerid, "auto_car_tune")],car_class[GetPVarInt(playerid, "auto_car_class")],strval(inputtext));
+			else {
+				switch(GetPVarInt(playerid, "auto_car_class")) {
 					case 1: {
-							new car_name[20][40] = {"No", "Bravura", "Broadway", "Clover", "Emperor", "Glendale", "Greenwood", "Hermes", "Hustler", "Majestic", "Manana", "Oceanic", "Volvo V90", "Picador", "Regina", "Clover", "Stallion", "Tampa", "Tornado", "Voodoo"};
-							format(gAdvert[slot][adText], 100, "Куплю автомобіль марки \"%s\"[%s]. Вартість: $%i",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-						}
+						new car_name[20][40] = {"No", "Bravura", "Broadway", "Clover", "Emperor", "Glendale", "Greenwood", "Hermes", "Hustler", "Majestic", "Manana", "Oceanic", "Volvo V90", "Picador", "Regina", "Clover", "Stallion", "Tampa", "Tornado", "Voodoo"};
+						format(gAdvert[slot][adText], 100, "Куплю автомобіль марки \"%s\"[%s]. Вартість: $%i",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
+					}
 					case 2: {
-							new car_name[24][35] = {"No", "Admiral", "Blist-Compact", "Cadrona", "Club", "Feltzer", "Huntley", "Landstalker", "Mesa", "Phoenix", "Premier", "Rancher", "Remington", "Plymouth Barracuda", "Savanna", "Sentinel", "Slamvan", "Solair", "Stafford", "Tahoma", "Uranus", "Washington", "Windsor", "Yosemite"};
-							format(gAdvert[slot][adText], 100, "Куплю автомобіль марки \"%s\"[%s]. Вартість: $%i",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-						}
+						new car_name[24][35] = {"No", "Admiral", "Blist-Compact", "Cadrona", "Club", "Feltzer", "Huntley", "Landstalker", "Mesa", "Phoenix", "Premier", "Rancher", "Remington", "Plymouth Barracuda", "Savanna", "Sentinel", "Slamvan", "Solair", "Stafford", "Tahoma", "Uranus", "Washington", "Windsor", "Yosemite"};
+						format(gAdvert[slot][adText], 100, "Куплю автомобіль марки \"%s\"[%s]. Вартість: $%i",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
+					}
 					case 3: {
-							new car_name[18][35] = {"No", "Alpha", "Banshee", "Buffalo", "Bullet", "Cheetah", "Comet", "Elegy", "Euros", "Hotknife", "Hotring", "Infernus", "Jester", "Sandking", "Sultan", "Super GT", "Turismo", "ZR-350"};
-							format(gAdvert[slot][adText], 100, "Куплю автомобіль марки \"%s\"[%s]. Вартість: $%i",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-						}
+						new car_name[18][35] = {"No", "Alpha", "Banshee", "Buffalo", "Bullet", "Cheetah", "Comet", "Elegy", "Euros", "Hotknife", "Hotring", "Infernus", "Jester", "Sandking", "Sultan", "Super GT", "Turismo", "ZR-350"};
+						format(gAdvert[slot][adText], 100, "Куплю автомобіль марки \"%s\"[%s]. Вартість: $%i",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
 					}
 				}
-				auto_news(slot, playerid);
+			}
+			auto_news(slot, playerid);
 			}
 		case D_AUTONEWS_SELL_CAR: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_tune", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_2, DSL, P"Оголошення | Продати | Автомобіль", P"1."W" Пропустити\n"P"2."W" Економ\n"P"3."W" Средний\n"P"4."W" Спорт", "Обрати", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_tune", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_2, DSL, P"Оголошення | Продати | Автомобіль", P"1."W" Пропустити\n"P"2."W" Економ\n"P"3."W" Средний\n"P"4."W" Спорт", "Обрати", "Закрити");
 			}
 		case D_AUTONEWS_SELL_CAR_2: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_class", listitem);
-				switch(listitem) {
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_class", listitem);
+			switch(listitem) {
 				case 0: ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_4, DSI, P"Оголошення | Продати | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете продати автомобіль:\n\n", "Ввести", "Закрити");
 				case 1: ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_3, DSL, P"Оголошення | Продати | Автомобіль", P"1."W" Пропустити\n"P"2."W" Bravura\n"P"3."W" Broadway\n"P"4."W" Clover\n"P"5."W" Emperor\n"P"6."W" Glendale\n"P"7."W" Greenwood\n"P"8."W" Hermes\n"P"9."W" Hustler\n"P"10."W" Majestic\n"P"11."W" Manana\n"P"12."W" Oceanic\n"P"13."W" Volvo V90\n"P"14."W" Picador\n"P"15."W" Regina\n"P"16."W" Clover\n"P"17."W" Stallion\n"P"18."W" Tampa\n"P"19."W" Tornado\n"P"20."W" Voodoo", "Обрати", "Закрити");
 				case 2: ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_3, DSL, P"Оголошення | Продати | Автомобіль", P"1."W" Пропустити\n"P"2."W" Admiral\n"P"3."W" Blist-Compact\n"P"4."W" Cadrona\n"P"5."W" Club\n"P"6."W" Feltzer\n"P"7."W" Huntley\n"P"8."W" Landstalker\n"P"9."W" Mesa\n"P"10."W" Phoenix\n"P"11."W" Premier\n"P"12."W" Rancher\n"P"13."W" Remington\n"P"14."W" Plymouth Barracuda\n"P"15."W" Savanna\n"P"16."W" Sentinel\n"P"17."W" Slamvan\n"P"18."W" Solair\n"P"19."W" Stafford\n"P"20."W" Tahoma\n"P"20."W" Uranus\n"P"20."W" Washington\n"P"20."W" Windsor\n"P"20."W" Yosemite", "Обрати", "Закрити");
 				case 3: ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_3, DSL, P"Оголошення | Продати | Автомобіль", P"1."W" Пропустити\n"P"2."W" Alpha\n"P"3."W" Banshee\n"P"4."W" Buffalo\n"P"5."W" Bullet\n"P"6."W" Cheetah\n"P"7."W" Comet\n"P"8."W" Elegy\n"P"9."W" Euros\n"P"10."W" Hotknife\n"P"11."W" Hotring\n"P"12."W" Infernus\n"P"13."W" Jester\n"P"14."W" Sandking\n"P"15."W" Sultan\n"P"16."W" Super GT\n"P"17."W" Turismo\n"P"18."W" ZR-350", "Обрати", "Закрити");
-				}
+			}
 			}
 		case D_AUTONEWS_SELL_CAR_3: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_class_2", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_4, DSI, P"Оголошення | Продати | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете продати автомобіль:\n\n", "Ввести", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_class_2", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_4, DSI, P"Оголошення | Продати | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете продати автомобіль:\n\n", "Ввести", "Закрити");
 			}
 		case D_AUTONEWS_SELL_CAR_4: {
-				if(!response) return DeletePVar(playerid, "auto_car_class_2");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_4, DSI, P"Оголошення | Продати | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете продати автомобіль:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
-				new car_class[4][12] = {"no", "економ", "середній", "спорт"};
-				if(!GetPVarInt(playerid, "auto_car_class")) {
-					format(gAdvert[slot][adText], 100, "Продам автомобіль[%s]. Вартість: $%i.",car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-				} else if(!GetPVarInt(playerid, "auto_car_class_2")) {
-					format(gAdvert[slot][adText], 100, "Продам автомобіль[%s] класу \"%s\". Вартість: $%i.",car_tune[GetPVarInt(playerid, "auto_car_tune")],car_class[GetPVarInt(playerid, "auto_car_class")],strval(inputtext));
-				} else {
-					switch(GetPVarInt(playerid, "auto_car_class")) {
+			if(!response) return DeletePVar(playerid, "auto_car_class_2");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_CAR_4, DSI, P"Оголошення | Продати | Автомобіль", "\n\n"W"Введіть вартість, за яку ви хочете продати автомобіль:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
+			new car_class[4][12] = {"no", "економ", "середній", "спорт"};
+			if(!GetPVarInt(playerid, "auto_car_class")) format(gAdvert[slot][adText], 100, "Продам автомобіль[%s]. Вартість: $%i.",car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
+			else if(!GetPVarInt(playerid, "auto_car_class_2")) format(gAdvert[slot][adText], 100, "Продам автомобіль[%s] класу \"%s\". Вартість: $%i.",car_tune[GetPVarInt(playerid, "auto_car_tune")],car_class[GetPVarInt(playerid, "auto_car_class")],strval(inputtext));
+			else {
+				switch(GetPVarInt(playerid, "auto_car_class")) {
 					case 1: {
-							new car_name[20][30] = {"No", "Bravura", "Broadway", "Clover", "Emperor", "Glendale", "Greenwood", "Hermes", "Hustler", "Majestic", "Manana", "Oceanic", "Volvo V90", "Picador", "Regina", "Clover", "Stallion", "Tampa", "Tornado", "Voodoo"};
-							format(gAdvert[slot][adText], 100, "Продам автомобіль марки \"%s\"[%s]. Вартість: $%i.",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-						}
+						new car_name[20][30] = {"No", "Bravura", "Broadway", "Clover", "Emperor", "Glendale", "Greenwood", "Hermes", "Hustler", "Majestic", "Manana", "Oceanic", "Volvo V90", "Picador", "Regina", "Clover", "Stallion", "Tampa", "Tornado", "Voodoo"};
+						format(gAdvert[slot][adText], 100, "Продам автомобіль марки \"%s\"[%s]. Вартість: $%i.",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
+					}
 					case 2: {
-							new car_name[24][35] = {"No", "Admiral", "Blist-Compact", "Cadrona", "Club", "Feltzer", "Huntley", "Landstalker", "Mesa", "Phoenix", "Premier", "Rancher", "Remington", "Plymouth Barracuda", "Savanna", "Sentinel", "Slamvan", "Solair", "Stafford", "Tahoma", "Uranus", "Washington", "Windsor", "Yosemite"};
-							format(gAdvert[slot][adText], 100, "Продам автомобіль марки \"%s\"[%s]. Вартість: $%i.",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-						}
+						new car_name[24][35] = {"No", "Admiral", "Blist-Compact", "Cadrona", "Club", "Feltzer", "Huntley", "Landstalker", "Mesa", "Phoenix", "Premier", "Rancher", "Remington", "Plymouth Barracuda", "Savanna", "Sentinel", "Slamvan", "Solair", "Stafford", "Tahoma", "Uranus", "Washington", "Windsor", "Yosemite"};
+						format(gAdvert[slot][adText], 100, "Продам автомобіль марки \"%s\"[%s]. Вартість: $%i.",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
+					}
 					case 3: {
-							new car_name[18][35] = {"No", "Alpha", "Banshee", "Buffalo", "Bullet", "Cheetah", "Comet", "Elegy", "Euros", "Hotknife", "Hotring", "Infernus", "Jester", "Sandking", "Sultan", "Super GT", "Turismo", "ZR-350"};
-							format(gAdvert[slot][adText], 100, "Продам автомобіль марки \"%s\"[%s]. Вартість: $%i.",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
-						}
+						new car_name[18][35] = {"No", "Alpha", "Banshee", "Buffalo", "Bullet", "Cheetah", "Comet", "Elegy", "Euros", "Hotknife", "Hotring", "Infernus", "Jester", "Sandking", "Sultan", "Super GT", "Turismo", "ZR-350"};
+						format(gAdvert[slot][adText], 100, "Продам автомобіль марки \"%s\"[%s]. Вартість: $%i.",car_name[GetPVarInt(playerid, "auto_car_class_2")],car_tune[GetPVarInt(playerid, "auto_car_tune")],strval(inputtext));
 					}
 				}
-				auto_news(slot, playerid);
+			}
+			auto_news(slot, playerid);
 			}
 		case D_AUTONEWS_CHANGE_CAR: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_tune", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_2, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Економ\n"P"3."W" Средний\n"P"4."W" Спорт", "Обрати", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_tune", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_2, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Економ\n"P"3."W" Средний\n"P"4."W" Спорт", "Обрати", "Закрити");
 			}
 		case D_AUTONEWS_CHANGE_CAR_2: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_car_class", listitem);
-				switch(listitem) {
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_car_class", listitem);
+			switch(listitem) {
 				case 0: {
-						if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-						if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-						new slot = -1;
-						for(new i; i<MAX_ADVERT_COUNT; i++) {
-							if(!gAdvert[i][adBusy]) {slot = i; break;}
-						}
-						if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-						gAdvertCount ++;
-						GiveMoney(playerid, -1000, "подача оголошення");
-						new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
-						format(gAdvert[slot][adText], 100, "Обміняю автомобіль[%s]",car_tune[GetPVarInt(playerid, "auto_car_tune")]);
-						auto_news(slot, playerid);
-					}
-				case 1: ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_3, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Bravura\n"P"3."W" Broadway\n"P"4."W" Clover\n"P"5."W" Emperor\n"P"6."W" Glendale\n"P"7."W" Greenwood\n"P"8."W" Hermes\n"P"9."W" Hustler\n"P"10."W" Majestic\n"P"11."W" Manana\n"P"12."W" Oceanic\n"P"13."W" Volvo V90\n"P"14."W" Picador\n"P"15."W" Regina\n"P"16."W" Clover\n"P"17."W" Stallion\n"P"18."W" Tampa\n"P"19."W" Tornadof\n"P"20."W" Voodoo", "Обрати", "Закрити");
-				case 2: ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_3, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Admiral\n"P"3."W" Blist-Compact\n"P"4."W" Cadrona\n"P"5."W" Club\n"P"6."W" Feltzer\n"P"7."W" Huntley\n"P"8."W" Landstalker\n"P"9."W" Mesa\n"P"10."W" Phoenix\n"P"11."W" Premier\n"P"12."W" Rancher\n"P"13."W" Remington\n"P"14."W" Plymouth Barracuda\n"P"15."W" Savanna\n"P"16."W" Sentinel\n"P"17."W" Slamvan\n"P"18."W" Solair\n"P"19."W" Stafford\n"P"20."W" Tahoma\n"P"20."W" Uranus\n"P"20."W" Washington\n"P"20."W" Windsor\n"P"20."W" Yosemite", "Обрати", "Закрити");
-				case 3: ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_3, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Alpha\n"P"3."W" Banshee\n"P"4."W" Buffalo\n"P"5."W" Bullet\n"P"6."W" Cheetah\n"P"7."W" Comet\n"P"8."W" Elegy\n"P"9."W" Euros\n"P"10."W" Hotknife\n"P"11."W" Hotring\n"P"12."W" Infernus\n"P"13."W" Jester\n"P"14."W" Sandking\n"P"15."W" Sultan\n"P"16."W" Super GT\n"P"17."W" Turismo\n"P"18."W" ZR-350", "Обрати", "Закрити");
-				}
-			}
-		case D_AUTONEWS_CHANGE_CAR_3: {
-				if(!response) return DeletePVar(playerid, "auto_car_class_2");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
-				new car_class[4][12] = {"no", "економ", "середній", "спорт"};
-				if(!GetPVarInt(playerid, "auto_car_class")) {
-					format(gAdvert[slot][adText], 100, "Обміняю автомобіль[%s]",car_tune[GetPVarInt(playerid, "auto_car_tune")]);
-				} else if(!GetPVarInt(playerid, "auto_car_class_2")) {
-					format(gAdvert[slot][adText], 100, "Обміняю автомобіль[%s] класу \"%s\"",car_tune[GetPVarInt(playerid, "auto_car_tune")],car_class[GetPVarInt(playerid, "auto_car_class")]);
-				} else {
-					switch(GetPVarInt(playerid, "auto_car_class")) {
-					case 1: {
-							new car_name[20][30] = {"No", "Bravura", "Broadway", "Clover", "Emperor", "Glendale", "Greenwood", "Hermes", "Hustler", "Majestic", "Manana", "Oceanic", "Volvo V90", "Picador", "Regina", "Clover", "Stallion", "Tampa", "Tornado", "Voodoo"};
-							format(gAdvert[slot][adText], 100, "Обміняю автомобіль марки \"%s\"[%s]",car_name[listitem],car_tune[GetPVarInt(playerid, "auto_car_tune")]);
-						}
-					case 2: {
-							new car_name[24][35] = {"No", "Admiral", "Blist-Compact", "Cadrona", "Club", "Feltzer", "Huntley", "Landstalker", "Mesa", "Phoenix", "Premier", "Rancher", "Remington", "Plymouth Barracuda", "Savanna", "Sentinel", "Slamvan", "Solair", "Stafford", "Tahoma", "Uranus", "Washington", "Windsor", "Yosemite"};
-							format(gAdvert[slot][adText], 100, "Обміняю автомобіль марки \"%s\"[%s]",car_name[listitem],car_tune[GetPVarInt(playerid, "auto_car_tune")]);
-						}
-					case 3: {
-							new car_name[18][35] = {"No", "Alpha", "Banshee", "Buffalo", "Bullet", "Cheetah", "Comet", "Elegy", "Euros", "Hotknife", "Hotring", "Infernus", "Jester", "Sandking", "Sultan", "Super GT", "Turismo", "ZR-350"};
-							format(gAdvert[slot][adText], 100, "Обміняю автомобіль марки \"%s\"[%s]",car_name[listitem],car_tune[GetPVarInt(playerid, "auto_car_tune")]);
-						}
-					}
-				}
-				auto_news(slot, playerid);
-			}
-		case D_AUTONEWS_BUY_SIM: {
-				if(!response) return 1;
-				if(listitem == 0) {
-					SetPVarString(playerid, "auto_sim_format", "NONE");
-					ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_3, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете придбати сим-карту:\n\n", "Ввести", "Закрити");
-				} else ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_2, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
-			}
-		case D_AUTONEWS_BUY_SIM_2: {
-				if(!response) return 1;
-				if(!strlen(inputtext) || strlen(inputtext) != 6 || !CheckSim(inputtext)) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
-				SetPVarString(playerid, "auto_sim_format", inputtext);
-				ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_3, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете придбати сим-карту:\n\n", "Ввести", "Закрити");
-			}
-		case D_AUTONEWS_BUY_SIM_3: {
-				if(!response) return DeletePVar(playerid, "auto_sim_format");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_3, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете придбати сим-карту:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				new format_sim[7];
-				GetPVarString(playerid, "auto_sim_format", format_sim, 15);
-				if(GetString(format_sim, "NONE")) {
-					format(gAdvert[slot][adText], 100, "Куплю сим-карту. Вартість: $%i",strval(inputtext));
-				} else format(gAdvert[slot][adText], 100, "Куплю сим-карту формату \"%s\". Вартість: $%i", format_sim,strval(inputtext));
-				auto_news(slot, playerid);
-			}
-		case D_AUTONEWS_SELL_SIM: {
-				if(!response) return 1;
-				if(listitem == 0) {
-					SetPVarString(playerid, "auto_sim_format", "NONE");
-					ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_3, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете продати сим-карту:\n\n", "Ввести", "Закрити");
-				} else ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_2, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
-			}
-		case D_AUTONEWS_SELL_SIM_2: {
-				if(!response) return 1;
-				if(!strlen(inputtext) || strlen(inputtext) != 6 || !CheckSim(inputtext)) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
-				SetPVarString(playerid, "auto_sim_format", inputtext);
-				ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_3, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете продати сим-карту:\n\n", "Ввести", "Закрити");
-			}
-		case D_AUTONEWS_SELL_SIM_3: {
-				if(!response) return DeletePVar(playerid, "auto_sim_format");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_3, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете продати сим-карту:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				new format_sim[7];
-				GetPVarString(playerid, "auto_sim_format", format_sim, 15);
-				if(GetString(format_sim, "NONE")) {
-					format(gAdvert[slot][adText], 100, "Продам сім-карту. Вартість: $%i",strval(inputtext));
-				} else format(gAdvert[slot][adText], 100, "Продам сім-карту формату \"%s\". Вартість: $%i", format_sim,strval(inputtext));
-				auto_news(slot, playerid);
-			}
-		case D_AUTONEWS_CHANGE_SIM: {
-				if(!response) return 1;
-				if(listitem == 0) {
 					if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 					if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
 					new slot = -1;
-					for(new i; i<MAX_ADVERT_COUNT; i++) {
+					for(new i; i < MAX_ADVERT_COUNT; i++) {
 						if(!gAdvert[i][adBusy]) {slot = i; break;}
 					}
 					if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
 					gAdvertCount ++;
 					GiveMoney(playerid, -1000, "подача оголошення");
-					format(gAdvert[slot][adText], 100, "Обміняю сім-карту");
+					new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
+					format(gAdvert[slot][adText], 100, "Обміняю автомобіль[%s]",car_tune[GetPVarInt(playerid, "auto_car_tune")]);
 					auto_news(slot, playerid);
-				} else ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_SIM_2, DSI, P"Оголошення | Обміняти | Сім-Карту", "\n\n"W"Введіть формат номеру сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
+					}
+				case 1: ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_3, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Bravura\n"P"3."W" Broadway\n"P"4."W" Clover\n"P"5."W" Emperor\n"P"6."W" Glendale\n"P"7."W" Greenwood\n"P"8."W" Hermes\n"P"9."W" Hustler\n"P"10."W" Majestic\n"P"11."W" Manana\n"P"12."W" Oceanic\n"P"13."W" Volvo V90\n"P"14."W" Picador\n"P"15."W" Regina\n"P"16."W" Clover\n"P"17."W" Stallion\n"P"18."W" Tampa\n"P"19."W" Tornadof\n"P"20."W" Voodoo", "Обрати", "Закрити");
+				case 2: ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_3, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Admiral\n"P"3."W" Blist-Compact\n"P"4."W" Cadrona\n"P"5."W" Club\n"P"6."W" Feltzer\n"P"7."W" Huntley\n"P"8."W" Landstalker\n"P"9."W" Mesa\n"P"10."W" Phoenix\n"P"11."W" Premier\n"P"12."W" Rancher\n"P"13."W" Remington\n"P"14."W" Plymouth Barracuda\n"P"15."W" Savanna\n"P"16."W" Sentinel\n"P"17."W" Slamvan\n"P"18."W" Solair\n"P"19."W" Stafford\n"P"20."W" Tahoma\n"P"20."W" Uranus\n"P"20."W" Washington\n"P"20."W" Windsor\n"P"20."W" Yosemite", "Обрати", "Закрити");
+				case 3: ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_CAR_3, DSL, P"Оголошення | Обміняти | Автомобіль", P"1."W" Пропустити\n"P"2."W" Alpha\n"P"3."W" Banshee\n"P"4."W" Buffalo\n"P"5."W" Bullet\n"P"6."W" Cheetah\n"P"7."W" Comet\n"P"8."W" Elegy\n"P"9."W" Euros\n"P"10."W" Hotknife\n"P"11."W" Hotring\n"P"12."W" Infernus\n"P"13."W" Jester\n"P"14."W" Sandking\n"P"15."W" Sultan\n"P"16."W" Super GT\n"P"17."W" Turismo\n"P"18."W" ZR-350", "Обрати", "Закрити");
+			}
+			}
+		case D_AUTONEWS_CHANGE_CAR_3: {
+			if(!response) return DeletePVar(playerid, "auto_car_class_2");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			new car_tune[4][8] = {"No Tune", "FT", "PT", "FT/PT"};
+			new car_class[4][12] = {"no", "економ", "середній", "спорт"};
+			if(!GetPVarInt(playerid, "auto_car_class")) format(gAdvert[slot][adText], 100, "Обміняю автомобіль[%s]",car_tune[GetPVarInt(playerid, "auto_car_tune")]);
+			else if(!GetPVarInt(playerid, "auto_car_class_2")) format(gAdvert[slot][adText], 100, "Обміняю автомобіль[%s] класу \"%s\"",car_tune[GetPVarInt(playerid, "auto_car_tune")],car_class[GetPVarInt(playerid, "auto_car_class")]);
+			else {
+				switch(GetPVarInt(playerid, "auto_car_class")) {
+				case 1: {
+						new car_name[20][30] = {"No", "Bravura", "Broadway", "Clover", "Emperor", "Glendale", "Greenwood", "Hermes", "Hustler", "Majestic", "Manana", "Oceanic", "Volvo V90", "Picador", "Regina", "Clover", "Stallion", "Tampa", "Tornado", "Voodoo"};
+						format(gAdvert[slot][adText], 100, "Обміняю автомобіль марки \"%s\"[%s]",car_name[listitem],car_tune[GetPVarInt(playerid, "auto_car_tune")]);
+					}
+				case 2: {
+						new car_name[24][35] = {"No", "Admiral", "Blist-Compact", "Cadrona", "Club", "Feltzer", "Huntley", "Landstalker", "Mesa", "Phoenix", "Premier", "Rancher", "Remington", "Plymouth Barracuda", "Savanna", "Sentinel", "Slamvan", "Solair", "Stafford", "Tahoma", "Uranus", "Washington", "Windsor", "Yosemite"};
+						format(gAdvert[slot][adText], 100, "Обміняю автомобіль марки \"%s\"[%s]",car_name[listitem],car_tune[GetPVarInt(playerid, "auto_car_tune")]);
+					}
+				case 3: {
+						new car_name[18][35] = {"No", "Alpha", "Banshee", "Buffalo", "Bullet", "Cheetah", "Comet", "Elegy", "Euros", "Hotknife", "Hotring", "Infernus", "Jester", "Sandking", "Sultan", "Super GT", "Turismo", "ZR-350"};
+						format(gAdvert[slot][adText], 100, "Обміняю автомобіль марки \"%s\"[%s]",car_name[listitem],car_tune[GetPVarInt(playerid, "auto_car_tune")]);
+					}
+				}
+			}
+			auto_news(slot, playerid);
+			}
+		case D_AUTONEWS_BUY_SIM: {
+			if(!response) return 1;
+			if(listitem == 0) {
+				SetPVarString(playerid, "auto_sim_format", "NONE");
+				ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_3, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете придбати сим-карту:\n\n", "Ввести", "Закрити");
+			} else ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_2, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
+			}
+		case D_AUTONEWS_BUY_SIM_2: {
+			if(!response) return 1;
+			if(!strlen(inputtext) || strlen(inputtext) != 6 || !CheckSim(inputtext)) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
+			SetPVarString(playerid, "auto_sim_format", inputtext);
+			ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_3, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете придбати сим-карту:\n\n", "Ввести", "Закрити");
+			}
+		case D_AUTONEWS_BUY_SIM_3: {
+			if(!response) return DeletePVar(playerid, "auto_sim_format");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_SIM_3, DSI, P"Оголошення | Купити | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете придбати сим-карту:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			new format_sim[7];
+			GetPVarString(playerid, "auto_sim_format", format_sim, 15);
+			if(GetString(format_sim, "NONE")) format(gAdvert[slot][adText], 100, "Куплю сим-карту. Вартість: $%i",strval(inputtext));
+			else format(gAdvert[slot][adText], 100, "Куплю сим-карту формату \"%s\". Вартість: $%i", format_sim,strval(inputtext));
+			auto_news(slot, playerid);
+			}
+		case D_AUTONEWS_SELL_SIM: {
+			if(!response) return 1;
+			if(listitem == 0) {
+				SetPVarString(playerid, "auto_sim_format", "NONE");
+				ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_3, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете продати сим-карту:\n\n", "Ввести", "Закрити");
+			} else ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_2, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
+			}
+		case D_AUTONEWS_SELL_SIM_2: {
+			if(!response) return 1;
+			if(!strlen(inputtext) || strlen(inputtext) != 6 || !CheckSim(inputtext)) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
+			SetPVarString(playerid, "auto_sim_format", inputtext);
+			ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_3, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете продати сим-карту:\n\n", "Ввести", "Закрити");
+			}
+		case D_AUTONEWS_SELL_SIM_3: {
+			if(!response) return DeletePVar(playerid, "auto_sim_format");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_SIM_3, DSI, P"Оголошення | Продати | Сім-Карту", "\n\n"W"Введіть вартість, за яку ви хочете продати сим-карту:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			new format_sim[7];
+			GetPVarString(playerid, "auto_sim_format", format_sim, 15);
+			if(GetString(format_sim, "NONE")) format(gAdvert[slot][adText], 100, "Продам сім-карту. Вартість: $%i",strval(inputtext));
+			else format(gAdvert[slot][adText], 100, "Продам сім-карту формату \"%s\". Вартість: $%i", format_sim,strval(inputtext));
+			auto_news(slot, playerid);
+			}
+		case D_AUTONEWS_CHANGE_SIM: {
+			if(!response) return 1;
+			if(listitem == 0) {
+				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+				new slot = -1;
+				for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+				gAdvertCount ++;
+				GiveMoney(playerid, -1000, "подача оголошення");
+				format(gAdvert[slot][adText], 100, "Обміняю сім-карту");
+				auto_news(slot, playerid);
+			} else ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_SIM_2, DSI, P"Оголошення | Обміняти | Сім-Карту", "\n\n"W"Введіть формат номеру сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
 			}
 		case D_AUTONEWS_CHANGE_SIM_2: {
-				if(!response) return 1;
-				if(!strlen(inputtext) || strlen(inputtext) != 6 || !CheckSim(inputtext)) return ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_SIM_2, DSI, P"Оголошення | Обміняти | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				format(gAdvert[slot][adText], 100, "Обміняю сім-карту формату %s",inputtext);
-				auto_news(slot, playerid);
+			if(!response) return 1;
+			if(!strlen(inputtext) || strlen(inputtext) != 6 || !CheckSim(inputtext)) return ShowPlayerDialog(playerid, D_AUTONEWS_CHANGE_SIM_2, DSI, P"Оголошення | Обміняти | Сім-Карту", "\n\n"W"Введіть формат номера сім-карти:\n"NO"*"G" Примітка: формат сім-карти: ABCDEF (6 букв)\n\n", "Ввести", "Закрити");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			format(gAdvert[slot][adText], 100, "Обміняю сім-карту формату %s",inputtext);
+			auto_news(slot, playerid);
 			}
 		case D_AUTONEWS_BUY_MOTO: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_moto_class", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_BUY_MOTO_2, DSI, P"Оголошення | Купити | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете придбати мотоцикл:\n\n", "Ввести", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_moto_class", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_BUY_MOTO_2, DSI, P"Оголошення | Купити | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете придбати мотоцикл:\n\n", "Ввести", "Закрити");
 			}
 		case D_CNN_PHOTO: {
-				if(!response) return 1;
-				if(GetPlayerWeapon(playerid) == 43) return SendError(playerid, "Ви вже маєте фотоапарат.");
-				GivePlayerWeapon(playerid, 43, 30);
+			if(!response) return 1;
+			if(GetPlayerWeapon(playerid) == 43) return SendError(playerid, "Ви вже маєте фотоапарат.");
+			GivePlayerWeapon(playerid, 43, 30);
 			}
 		case D_AUTONEWS_BUY_MOTO_2: {
-				if(!response) return DeletePVar(playerid, "auto_moto_class");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_MOTO_2, DSI, P"Оголошення | Купити | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете придбати мотоцикл:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				if(!GetPVarInt(playerid, "auto_moto_class")) {
-					format(gAdvert[slot][adText], 100, "Куплю мотоцикл. Вартість: $%i",strval(inputtext));
-				} else {
-					new car_name[12][14] = {"No", "Bike", "BMX", "Fagio", "FCR-900", "Freeway", "Mountain-Bike", "NRG-500", "PCJ-600", "Quad", "Sanchez", "Wayfarer"};
-					format(gAdvert[slot][adText], 100, "Куплю мотоцикл марки \"%s\". Вартість: $%i",car_name[GetPVarInt(playerid, "auto_moto_class")],strval(inputtext));
-				}
-				auto_news(slot, playerid);
-				DeletePVar(playerid, "auto_moto_class");
+			if(!response) return DeletePVar(playerid, "auto_moto_class");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_BUY_MOTO_2, DSI, P"Оголошення | Купити | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете придбати мотоцикл:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			if(!GetPVarInt(playerid, "auto_moto_class")) format(gAdvert[slot][adText], 100, "Куплю мотоцикл. Вартість: $%i",strval(inputtext));
+			else {
+				new car_name[12][14] = {"No", "Bike", "BMX", "Fagio", "FCR-900", "Freeway", "Mountain-Bike", "NRG-500", "PCJ-600", "Quad", "Sanchez", "Wayfarer"};
+				format(gAdvert[slot][adText], 100, "Куплю мотоцикл марки \"%s\". Вартість: $%i",car_name[GetPVarInt(playerid, "auto_moto_class")],strval(inputtext));
+			}
+			auto_news(slot, playerid);
+			DeletePVar(playerid, "auto_moto_class");
 			}
 		case D_AUTONEWS_SELL_MOTO: {
-				if(!response) return 1;
-				SetPVarInt(playerid, "auto_moto_class", listitem);
-				ShowPlayerDialog(playerid, D_AUTONEWS_SELL_MOTO_2, DSI, P"Оголошення | Продати | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете продати мотоцикл:\n\n", "Ввести", "Закрити");
+			if(!response) return 1;
+			SetPVarInt(playerid, "auto_moto_class", listitem);
+			ShowPlayerDialog(playerid, D_AUTONEWS_SELL_MOTO_2, DSI, P"Оголошення | Продати | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете продати мотоцикл:\n\n", "Ввести", "Закрити");
 			}
 		case D_AUTONEWS_SELL_MOTO_2: {
-				if(!response) return DeletePVar(playerid, "auto_moto_class");
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_MOTO_2, DSI, P"Оголошення | Продати | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете продати мотоцикл:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				if(!GetPVarInt(playerid, "auto_moto_class")) {
-					format(gAdvert[slot][adText], 100, "Продам мотоцикл. Вартість: $%i",strval(inputtext));
-				} else {
-					new car_name[12][14] = {"No", "Bike", "BMX", "Fagio", "FCR-900", "Freeway", "Mountain-Bike", "NRG-500", "PCJ-600", "Quad", "Sanchez", "Wayfarer"};
-					format(gAdvert[slot][adText], 100, "Продам мотоцикл марки \"%s\". Вартість: $%i",car_name[GetPVarInt(playerid, "auto_moto_class")],strval(inputtext));
-				}
-				auto_news(slot, playerid);
-				DeletePVar(playerid, "auto_moto_class");
+			if(!response) return DeletePVar(playerid, "auto_moto_class");
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(strval(inputtext) < 1 || strval(inputtext) > 50000000) return ShowPlayerDialog(playerid, D_AUTONEWS_SELL_MOTO_2, DSI, P"Оголошення | Продати | Мотоцикл", "\n\n"W"Введіть вартість, за яку ви хочете продати мотоцикл:\n"NO"*"G" Від $1 і до $50.000.000\n\n", "Ввести", "Закрити");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			if(!GetPVarInt(playerid, "auto_moto_class")) format(gAdvert[slot][adText], 100, "Продам мотоцикл. Вартість: $%i",strval(inputtext));
+			else {
+				new car_name[12][14] = {"No", "Bike", "BMX", "Fagio", "FCR-900", "Freeway", "Mountain-Bike", "NRG-500", "PCJ-600", "Quad", "Sanchez", "Wayfarer"};
+				format(gAdvert[slot][adText], 100, "Продам мотоцикл марки \"%s\". Вартість: $%i",car_name[GetPVarInt(playerid, "auto_moto_class")],strval(inputtext));
+			}
+			auto_news(slot, playerid);
+			DeletePVar(playerid, "auto_moto_class");
 			}
 		case D_AUTONEWS_CHANGE_MOTO: {
-				if(!response) return 1;
-				if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
-				new slot = -1;
-				for(new i; i<MAX_ADVERT_COUNT; i++) {
-					if(!gAdvert[i][adBusy]) {slot = i; break;}
-				}
-				if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
-				gAdvertCount ++;
-				GiveMoney(playerid, -1000, "подача оголошення");
-				if(!listitem) {
-					format(gAdvert[slot][adText], 100, "Обміняю мотоцикл");
-				} else {
-					new car_name[12][14] = {"No", "Bike", "BMX", "Fagio", "FCR-900", "Freeway", "Mountain-Bike", "NRG-500", "PCJ-600", "Quad", "Sanchez", "Wayfarer"};
-					format(gAdvert[slot][adText], 100, "Обміняю мотоцикл марки \"%s\"",car_name[listitem]);
-				}
-				auto_news(slot, playerid);
+			if(!response) return 1;
+			if(gAdvertCount >= MAX_ADVERT_COUNT) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			if(CI[playerid][pCash] < 1000) return SendError(playerid, "У вас недостатньо грошей. Для публікації оголошення необхідно мати $1.000.");
+			new slot = -1;
+			for(new i; i < MAX_ADVERT_COUNT; i++) if(!gAdvert[i][adBusy]) { slot = i; break; }
+			if(slot == -1) return SendError(playerid, "На жаль, черга на оголошення зайнята, спробуйте пізніше.");
+			gAdvertCount ++;
+			GiveMoney(playerid, -1000, "подача оголошення");
+			if(!listitem) format(gAdvert[slot][adText], 100, "Обміняю мотоцикл");
+			else {
+				new car_name[12][14] = { "No", "Bike", "BMX", "Fagio", "FCR-900", "Freeway", "Mountain-Bike", "NRG-500", "PCJ-600", "Quad", "Sanchez", "Wayfarer" };
+				format(gAdvert[slot][adText], 100, "Обміняю мотоцикл марки \"%s\"",car_name[listitem]);
+			}
+			auto_news(slot, playerid);
 			}
 		case D_JOB_CLEAR: {
-				if(!response) return RemovePlayerFromVehicleAC(playerid);
-				if(CI[playerid][pCash] < 500) {
-					SendError(playerid, "У вас недостатньо грошей для оренди авто для продажу їжі.");
-					RemovePlayerFromVehicleAC(playerid);
-					return 1;
-				}
-				if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
-				GiveMoney(playerid, -500, "оренда прибиральник вулиць");
-				TI[playerid][tArendaCar] = GetPlayerVehicleID(playerid);
-				VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = playerid;
-				ShowPlayerDialog(playerid, D_JOB_CLEAR_2, DSL, P"Вибір маршруту.", P"1."W" Лос-Сантос #1\n"P"2."W" Лос-Сантос #2", "Обрати", "Закрити");
+			if(!response) return RemovePlayerFromVehicleAC(playerid);
+			if(CI[playerid][pCash] < 500) {
+				SendError(playerid, "У вас недостатньо грошей для оренди авто для продажу їжі.");
+				RemovePlayerFromVehicleAC(playerid);
+				return 1;
+			}
+			if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 1;
+			GiveMoney(playerid, -500, "оренда прибиральник вулиць");
+			TI[playerid][tArendaCar] = GetPlayerVehicleID(playerid);
+			VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = playerid;
+			ShowPlayerDialog(playerid, D_JOB_CLEAR_2, DSL, P"Вибір маршруту.", P"1."W" Лос-Сантос #1\n"P"2."W" Лос-Сантос #2", "Обрати", "Закрити");
 			}
 		case D_JOB_CLEAR_2: {
-				if(!response) return ShowPlayerDialog(playerid, D_JOB_CLEAR_2, DSL, P"Вибір маршруту", P"1."W" Лос-Сантос #1\n"P"2."W" Лос-Сантос #2", "Обрати", "Закрити");
-				SetPVarInt(playerid, "clear_id", GetPlayerVehicleID(playerid));
-				switch(listitem) {
+			if(!response) return ShowPlayerDialog(playerid, D_JOB_CLEAR_2, DSL, P"Вибір маршруту", P"1."W" Лос-Сантос #1\n"P"2."W" Лос-Сантос #2", "Обрати", "Закрити");
+			SetPVarInt(playerid, "clear_id", GetPlayerVehicleID(playerid));
+			switch(listitem) {
 				case 0: SendOK(playerid, "Ви вибрали маршрут: Лос-Сантос #1. Починайте прибирання.");
 				case 1: SendOK(playerid, "Ви вибрали маршрут: Лос-Сантос #2. Починайте прибирання.");
-				}
-				SetPVarInt(playerid, "route_job_cleaner",listitem);
-				SetNextJobClearCP(playerid, GetPVarInt(playerid, "route_job_cleaner"));
+			}
+			SetPVarInt(playerid, "route_job_cleaner",listitem);
+			SetNextJobClearCP(playerid, GetPVarInt(playerid, "route_job_cleaner"));
 			}
 		case D_JOB_CLEAR_3: {
-				if(response) return ShowPlayerDialog(playerid, D_JOB_CLEAR_2, DSL, P"Вибір маршруту.", P"1."W" Лос-Сантос #1\n"P"2."W" Лос-Сантос #2", "Обрати", "Закрити");
-				SetVehicleToRespawn(TI[playerid][tArendaCar]);
+			if(response) return ShowPlayerDialog(playerid, D_JOB_CLEAR_2, DSL, P"Вибір маршруту.", P"1."W" Лос-Сантос #1\n"P"2."W" Лос-Сантос #2", "Обрати", "Закрити");
+			SetVehicleToRespawn(TI[playerid][tArendaCar]);
 			}
 	}
 	#if defined _hacker_inc
@@ -31778,8 +31731,8 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 		format(string, sizeof(string), W"Бізнес: "P"%s\n\n\
 					"W"Необхідно продуктів: "O"%i\n\
 					"W"Доступно для розвантаження: "O"%i\n\
-					"W"Введіть кількість продуктів для продажу:"
-		, gBusiness[bizid][bizzName], gBusiness[bizid][bizzProdOrder], GetPVarInt(playerid, "count_prod"));
+					"W"Введіть кількість продуктів для продажу:",
+					gBusiness[bizid][bizzName], gBusiness[bizid][bizzProdOrder], GetPVarInt(playerid, "count_prod"));
 		return ShowPlayerDialog(playerid, dProdSell, DSI, P"Доставка.", string, "Готово", "Закрити");
 	}
 	if(checkpointid == EggSklad[playerid]) {
@@ -32444,9 +32397,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 	if(areaid == MeatWarehouse && GetPVarInt(playerid, "MeatWarehouse")) {
 		DeletePVar(playerid, "MeatConveyor");
 		DeletePVar(playerid, "MeatWarehouse");
-		DeletePVar(playerid, "MeatLowerPart");
-		DeletePVar(playerid, "MeatMiddlePart");
-		DeletePVar(playerid, "MeatHigherPart");
 		DeletePVar(playerid, "MeatConveyorEnd");
 		SetPVarInt(playerid, "MeatSalary", GetPVarInt(playerid, "MeatSalary") + floatround(GetPVarFloat(playerid, "MeatTotal")*0.7));
 		RemovePlayerAttachedObject(playerid, 0);
@@ -32454,7 +32404,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		format(string, sizeof(string), "Ви віднесли м'ясо на склад. Зароблено: "GREEN"$%d");
 		SendOK(playerid, string);
 	}
-	if(areaid == MeatWorkHands[0] || areaid == MeatWorkHands[1] && GetPVarInt(playerid, "MeatNeedToWashHands")) {
+	/*if(areaid == MeatWorkHands[0] || areaid == MeatWorkHands[1] && GetPVarInt(playerid, "MeatNeedToWashHands")) {
 		if(areaid == MeatWorkHands[0]) SetPlayerPosAC(playerid, 939.4187, 2177.0251, 1011.0234, 1, 1);
 		else SetPlayerPosAC(playerid, 944.5671, 2177.0251, 1011.0234, 1, 1);
 		DisablePlayerCheckpoint(playerid);
@@ -32463,7 +32413,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		SetTimerEx("MeatWashingHands", 10000, false, "i", playerid);
 		ApplyAnimation(playerid, "CASINO", "DEALONE", 4.1, 1, 0, 0, 0, 0, 0);
 		//ApplyAnimation(playerid,"CASINO","dealone",4.1,1,1,1,1,1)
-	}
+	}*/
 	if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
 		if(GetPVarInt(playerid, "pOff9") > gettime()) return SendError(playerid, "Зачекайте.");
 		ApplyAnimation(playerid, "CARRY", "putdwn", 4.0, 0, 1, 1, 0, 0, 1);
@@ -32520,7 +32470,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
@@ -32532,7 +32482,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		TI[playerid][tProcess][0] = 0;
 		TI[playerid][tProcess][1] = 10;
 		PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-		for (new YN = 0; YN < 3; YN++) {
+		for (new YN; YN < 3; YN++) {
 			TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 			if(YN < 2) PlayerTextDrawShow(playerid, YandNsysTDPlayer[playerid][YN]);
 		}
@@ -32600,7 +32550,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 				TI[playerid][tProcess][0] = 0;
 				TI[playerid][tProcess][1] = 10;
 				PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-				for(new YN = 0;YN < 3;YN++) {
+				for(new YN; YN < 3; YN++) {
 					TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 					if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 				}
@@ -32765,7 +32715,7 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 		DeletePVar(playerid, "bailer_4");
 		TI[playerid][tProcess][0] = -1;
 		TI[playerid][tProcess][1] = -1;
-		for(new YN = 0;YN < 3;YN++) {
+		for(new YN; YN < 3; YN++) {
 			TextDrawHideForPlayer(playerid, YandNsysTD[YN]);
 			if(YN < 2) PlayerTextDrawHide(playerid,YandNsysTDPlayer[playerid][YN]);
 		}
@@ -32784,7 +32734,7 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 			WD::[TI[playerid][tJobWood][2]][woodUse] = false;
 			TI[playerid][tProcess][0] = -1;
 			TI[playerid][tProcess][1] = -1;
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawHideForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawHide(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
@@ -32840,6 +32790,7 @@ public OnDynamicObjectMoved(objectid) {
 }
 public OnPlayerDisconnect(playerid, reason) {
 	SetPlayerName(playerid, PI[playerid][pName]);
+	DeletePVars(playerid);
 	KillTimer(CI[playerid][cDeathTimer]);
 	GetPlayerHealth(playerid, CI[playerid][pHP]);
 	new query[256];
@@ -32945,7 +32896,7 @@ public OnPlayerDisconnect(playerid, reason) {
 		TI[playerid][tYoutubcar] = INVALID_VEHICLE_ID;
 	}
 	if(rep_system) {
-		for(new i; i<MAX_REPORTS; i++) {
+		for(new i; i < MAX_REPORTS; i++) {
 			if(PlayerReport[i] == -1) continue;
 			if(PlayerReport[i] == playerid) ReportDell(i);
 		}
@@ -33879,7 +33830,7 @@ public OnPlayerEnterCheckpoint(playerid) {
 				TI[playerid][tProcess][0] = 0;
 				TI[playerid][tProcess][1] = 10;
 				PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-				for(new YN = 0;YN < 3;YN++) {
+				for(new YN; YN < 3; YN++) {
 					TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 					if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 				}
@@ -34068,7 +34019,7 @@ public OnPlayerLeaveCheckpoint(playerid) {
 			if(!IsPlayerInDynamicCP(playerid, gun_pickup[id])) {
 				TI[playerid][tProcess][0] = -1;
 				TI[playerid][tProcess][1] = -1;
-				for(new YN = 0;YN < 3;YN++) {
+				for(new YN; YN < 3; YN++) {
 					TextDrawHideForPlayer(playerid, YandNsysTD[YN]);
 					if(YN < 2) PlayerTextDrawHide(playerid,YandNsysTDPlayer[playerid][YN]);
 				}
@@ -35536,7 +35487,7 @@ CB:CreateSphree() {
 	actor[53] = CreateActor(185, 722.3, -1440, 13.55, -22.5);
 	SetActorVirtualWorld(actor[52], 0);
 	Create3DTextLabel(P"Інструктор\n\n"W"Для взаємодії натисніть: "P"'ALT'", 0xFFFFFFFF, 722.3, -1440, 13.55, 7.0, 0);
-	for(new i; i<MAX_ACTORSS; i++) {
+	for(new i; i < MAX_ACTORSS; i++) {
 		new Float: x, Float:y, Float:z;
 		GetActorPos(actor[i], x, y,z);
 		tActor[i] = Create3DTextLabel("",COLOR_GREY, x, y, z+ 1, 10.0, GetActorVirtualWorld(actor[i]));
@@ -38869,7 +38820,7 @@ CMD:fish(playerid) {
 	TI[playerid][tProcess][0] = 0;
 	TI[playerid][tProcess][1] = 10;
 	PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-	for(new YN = 0;YN < 3;YN++) {
+	for(new YN; YN < 3; YN++) {
 		TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 		if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 	}
@@ -38890,7 +38841,7 @@ CMD:search(playerid) {
 	TI[playerid][tProcess][0] = 0;
 	TI[playerid][tProcess][1] = 10;
 	PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-	for(new YN = 0;YN < 3;YN++) {
+	for(new YN; YN < 3; YN++) {
 		TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 		if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 	}
@@ -40523,7 +40474,7 @@ CMD:vhack(playerid) {
 	TI[playerid][tProcess][0] = 0;
 	TI[playerid][tProcess][1] = 10;
 	PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-	for(new YN = 0;YN < 3;YN++) {
+	for(new YN; YN < 3; YN++) {
 		TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 		if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 	}
@@ -42578,15 +42529,36 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 		}
 	}
 
-	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && newkeys == 16) {
-		for(new i; i < sizeof(MeatWork); i++) {
-			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]) && GetPVarInt(playerid, "MeatWorkStarted") && !GetPVarInt(playerid, "MeatNeedToWashHands")) {
+	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && newkeys == 16) 
+	{
+		for(new i; i < sizeof(MeatWork); i++) 
+		{
+			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]) && GetPVarInt(playerid, "MeatWorkStarted")) 
+			{
+				if(GetPVarInt(playerid, "MeatConveyor")) return SendError(playerid, "Ви вже обробили тушу. Віднесіть м'ясо на конвеєр.");
 				if(MeatPlayer[i] != INVALID_PLAYER_ID) return SendError(playerid, "Ця туша вже обробляється.");
 
 				new weight[32];
-				format(weight, sizeof(weight), "%.2fkg", MeatWork[i][mWeight]);
+				format(weight, sizeof(weight), "%.2fp", MeatWork[i][mWeight]);
 				TextDrawSetString(MeatBarTD[3], weight);
-				for(new id; id < 8; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				new td = random(3);
+				switch(td)
+				{
+					case 0: {
+						TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+					}
+					case 1: {
+						TextDrawShowForPlayer(playerid, MeatBarTD[5]);
+					}
+					case 2: {
+						TextDrawShowForPlayer(playerid, MeatBarTD[6]);
+					}
+					case 3: {
+						TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+					}
+				}
+				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				//for(new id; id < 8; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
 				MeatPlayer[i] = playerid;
 				SetPVarInt(playerid, "Meat", 1);
 				SelectTextDraw(playerid, 0xbfbfbfff);
@@ -43240,6 +43212,48 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				break;
 			}
 		}
+
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 837.9875, -2054.6074, 12.8672)) {
+
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 838.0031, -2061.7444, 12.8672)) {
+			new string[256];
+			format(string, sizeof(string), ""G"Предмет\t"G"Ціна\n\
+					"W"Мішок для речей\t"GREEN"$300\n\
+					"W"Балон на 6 літрів\t"GREEN"$1200\n\
+					"W"Балон на 12 літрів\t"GREEN"$2300\n\
+					"W"Балон на 18 літрів\t"GREEN"$3000");
+			ShowPlayerDialog(playerid, dDiverEquip, DIALOG_STYLE_LIST, ""P"| "W"Спорядження дайвера", string, "Придбати", "Закрити");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 848.9777, -2054.0410, 12.8672)) {
+			new string[256];
+			format(string, sizeof(string), "\
+				"P"1. "W"Інформація про роботу\n\
+				"P"2. "W"%s\n\
+				"P"3. "W"Отримати зарплату", (GetPVarInt(playerid, "DiverWork"))?("Yes"):("No"));
+			return ShowPlayerDialog(playerid, dDiverWork, DIALOG_STYLE_LIST, ""P"| "W"Тайлер (робота дайвером).", string, "Обрати", "Закрити");
+		}
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 960.6432,2098.9656,1011.0243)) 
+		{
+			new string[256];
+			if(GetPVarInt(playerid, "MeatWorkStarted"))
+			{
+				format(string, sizeof(string), "\
+					"W"Тривалість поточного робочого сеансу: "P"%d\n\
+					"W"Оброблено м'яса: "P"%d фунт(-ів)\n\
+					"W"Зароблено: "GREEN"$%d\n\n\
+					"W"Ви справді хочете завершити роботу?", 15, 75, 150);
+			}
+			else 
+			{
+				format(string, sizeof(string), "\
+					"W"Поточна кількість працівників: "P"%d\n\
+					"W"Поточна ціна за 1 фунт м'яса: "GREEN"$%d\n\n\
+					"W"Ви справді хочете влаштуватися на цю роботу?", 3, 15);
+			}
+			ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_MSGBOX, ""P"| "W"М'ясокомбінат", string, "Так", "Ні");
+
+		}
 		for(new gid = 1; gid <= sizeof(GI); gid++) {
 			new Float:gpos[3];
 			GetDynamicObjectPos(GI[gid][gObject], gpos[0], gpos[1], gpos[2]);
@@ -43657,7 +43671,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
@@ -43801,8 +43815,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			SetPlayerPosAC(playerid, Sewer[u][seX],Sewer[u][seY],Sewer[u][seZ], 0, 0);
 			DeletePVar(playerid, "id_kanal");
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1465.0834, -101.0406, 895.9769) || IsPlayerInRangeOfPoint(playerid, 1.0, 1465.3014, -109.6158, 895.9769) ||
-				IsPlayerInRangeOfPoint(playerid, 1.0, 1465.2758, -113.7661, 895.9769) || IsPlayerInRangeOfPoint(playerid, 1.0, 1465.0853, -118.6356, 895.9769)) {
+		if(IsPlayerInRangeOfPoint(playerid, 1.0, 1465.0834, -101.0406, 895.9769) || IsPlayerInRangeOfPoint(playerid, 1.0, 1465.3014, -109.6158, 895.9769) || IsPlayerInRangeOfPoint(playerid, 1.0, 1465.2758, -113.7661, 895.9769) || IsPlayerInRangeOfPoint(playerid, 1.0, 1465.0853, -118.6356, 895.9769)) {
 			new u = GetPVarInt(playerid, "id_kanal") - 1;
 			if(GetPVarInt(playerid, "_musor")) return SendError(playerid, "Ви вже зібрали мусор, віднесіть його в робочу машину.");
 			if(Sewer[u][seAmmout] == 0) return SendError(playerid, "В цій каналізації немає сміття.");
@@ -43811,7 +43824,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 6;
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
@@ -43819,7 +43832,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant_Loop", 4.1, 1, 0, 0, 1, 1, 1);
 			return 1;
 		}
-		for(new i; i <MAX_MARKET; i++) {
+		for(new i; i < MAX_MARKET; i++) {
 			if(IsPlayerInRangeOfPoint(playerid, 2.0, Market[i][m_x], Market[i][m_y], Market[i][m_z])) {
 				SetPVarInt(playerid, "p_id",i);
 				if(CI[playerid][pPalatka] == Market[i][m_id]) {
@@ -43986,7 +43999,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				}
 			}
 		}
-		for(new i; i<MAX_DROP_GUNS; i++) {
+		for(new i; i < MAX_DROP_GUNS; i++) {
 			if(drop_gun[i][dg_object] == -1) continue;
 			if(drop_gun[i][dg_time] < 1) continue;
 			new Float:x, Float:y, Float:z;
@@ -44043,7 +44056,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 			TI[playerid][tProcess][0] = 0;
 			TI[playerid][tProcess][1] = 10;
 			PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-			for(new YN = 0;YN < 3;YN++) {
+			for(new YN; YN < 3; YN++) {
 				TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 				if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 			}
@@ -45304,8 +45317,10 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		}
 	}
 
-	if(GetPVarInt(playerid, "Meat") && !GetPVarInt(playerid, "MeatConveyor")) {
-		if(clickedid == MeatBarTD[7]) {
+	if(GetPVarInt(playerid, "Meat") && !GetPVarInt(playerid, "MeatConveyor")) 
+	{
+		/*if(clickedid == MeatBarTD[7])
+		{
 			if(GetPVarInt(playerid, "CutProcess")) return 1;
 			SetPVarInt(playerid, "CutProcess", 1);
 			MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 1);
@@ -45324,8 +45339,20 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 3);
 			ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 			if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+		}*/
+		for(new i = 5; i < 8; i++)
+		{
+			if(clickedid == MeatBarTD[i])
+			{
+				if(GetPVarInt(playerid, "CutProcess")) return 1;
+				SetPVarInt(playerid, "CutProcess", 1);
+				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
+				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
+				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+			}
 		}
 	}
+
 	if(GetPVarInt(playerid, "buyskin")) {
 		if(clickedid == buyskin[16]) ChooseSkin(playerid/*, 1*/);
 		else if(clickedid == buyskin[17]) ChooseSkin(playerid/*, 0*/);
@@ -48002,7 +48029,7 @@ stock ShowAdvertList(playerid) {
 	new data[3][30],index, string[128];
 	format(data[0], 30, "{FF6347}Відправлення"W""), format(data[1], 30, "{FFFF00}Перевірка"W""), format(data[2], 30, "{33AA33}Очікування"W"");
 	adlist = "#\tВідправник\tСтатус\n";
-	for(new i; i<MAX_ADVERT_COUNT; i++) {
+	for(new i; i < MAX_ADVERT_COUNT; i++) {
 		if(!gAdvert[i][adBusy]) {
 			format(string, sizeof(string), "%i\t-\t-\n", i + 1);
 			strcat(adlist, string);
@@ -49949,7 +49976,7 @@ stock Endfish(playerid) {
 	TogglePlayerControllable(playerid, 1);
 	TI[playerid][tProcess][0] = -1;
 	TI[playerid][tProcess][1] = -1;
-	for(new YN = 0;YN < 3; YN++) {
+	for(new YN; YN < 3; YN++) {
 		TextDrawHideForPlayer(playerid, YandNsysTD[YN]);
 		if(YN < 2) PlayerTextDrawHide(playerid, YandNsysTDPlayer[playerid][YN]);
 	}
@@ -50545,7 +50572,7 @@ CMD:robhouse(playerid) {
 	TI[playerid][tProcess][0] = 0;
 	TI[playerid][tProcess][1] = 10;
 	PlayerTextDrawColor(playerid, YandNsysTDPlayer[playerid][1], -1);
-	for(new YN = 0;YN < 3;YN++) {
+	for(new YN; YN < 3; YN++) {
 		TextDrawShowForPlayer(playerid, YandNsysTD[YN]);
 		if(YN < 2) PlayerTextDrawShow(playerid,YandNsysTDPlayer[playerid][YN]);
 	}
@@ -52484,7 +52511,7 @@ CMD:ans(playerid, params[]) {
 CMD:reps(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 1)) return 1;
 	if(!rep_system) return SendError(playerid, "Тимчасово недоступно, використовуйте /ans.");
-	for(new i; i<MAX_REPORTS; i++) {
+	for(new i; i < MAX_REPORTS; i++) {
 		if(PlayerReport[i] != -1) {
 			if(ReportSlot[i] == 1) continue;
 			new string[400];
@@ -55803,7 +55830,7 @@ stock SendBotMessage(playerid, const mesage[]) {
 	new Float:x, Float:y, Float:z, Float:x1, Float:y1, Float:z1;
 	new Float: minDist, minA=-1, text[120];
 	GetPlayerPos(playerid, x1, y1, z1);
-	for(new i; i<MAX_ACTORSS; i++) {
+	for(new i; i < MAX_ACTORSS; i++) {
 		GetActorPos(actor[i], x, y, z);
 		new Float:Dist = floatsqroot(floatpower(floatabs(floatsub(x1, x)), 2) + floatpower(floatabs(floatsub(y1, y)), 2) + floatpower(floatabs(floatsub(z1, z)), 2));
 		if(Dist < 10) {
@@ -55849,7 +55876,7 @@ stock RandomYareNforJOBS(playerid) {
 		TogglePlayerControllable(playerid, 1);
 		TI[playerid][tProcess][0] = -1;
 		TI[playerid][tProcess][1] = -1;
-		for(new YN = 0;YN < 3;YN++) {
+		for(new YN; YN < 3; YN++) {
 			TextDrawHideForPlayer(playerid, YandNsysTD[YN]);
 			if(YN < 2) PlayerTextDrawHide(playerid,YandNsysTDPlayer[playerid][YN]);
 		}
@@ -55934,7 +55961,7 @@ stock MyButtonSystem(playerid) {
 	if(TI[playerid][tProcess][0] >= 10) {
 		TI[playerid][tProcess][0] = -1;
 		TI[playerid][tProcess][1] = -1;
-		for(new YN = 0;YN < 3;YN++) {
+		for(new YN; YN < 3; YN++) {
 			TextDrawHideForPlayer(playerid, YandNsysTD[YN]);
 			if(YN < 2) PlayerTextDrawHide(playerid,YandNsysTDPlayer[playerid][YN]);
 		}
@@ -64542,7 +64569,7 @@ CB:minute_timer() {
 			Sewer[i][seAmmout] = 15;
 		}
 	}
-	for(new i; i<MAX_DROP_GUNS; i++) {
+	for(new i; i < MAX_DROP_GUNS; i++) {
 		if(drop_gun[i][dg_object] == -1) continue;
 		if(drop_gun[i][dg_time] < 1) continue;
 		drop_gun[i][dg_time] --;
@@ -64779,7 +64806,7 @@ stock pay_realty() {
 			UpdateBusinessText(i);
 		}
 	}
-	for(new i; i<MAX_BILLBORDS; i++) {
+	for(new i; i < MAX_BILLBORDS; i++) {
 		if(BildInfo[i][bOwned] && BildInfo[i][bDay] <= gettime()) {
 			BildInfo[i][bFontSize] = 0;
 			BildInfo[i][bBackColor] = 0;
@@ -67175,7 +67202,7 @@ stock RobLeave(playerid) {
 	AlkoGol = 0;
 	DestroyDynamic3DTextLabel(WHCar);
 	DestroyDynamic3DTextLabel(WHCar);
-	for(new i=0; i<MAX_PLAYER_ATTACHED_OBJECTS; i++) {
+	for(new i=0; i < MAX_PLAYER_ATTACHED_OBJECTS; i++) {
 		if(IsPlayerAttachedObjectSlotUsed(playerid, i)) RemovePlayerAttachedObject(playerid, i);
 	}
 	Vizod = false;
@@ -68332,17 +68359,17 @@ stock load_meat_work() {
 
 		MeatObject[i] = CreateDynamicObject(2589, MeatWork[i][mX], MeatWork[i][mY], MeatWork[i][mZ], 0.000000, 0.000000, 0.000000, 1, 1, -1, 300.00, 300.00);
 		MeatSphere[i] = CreateDynamicSphere(MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.1153, MeatWork[i][mZ] - 3.588318, 2, 1, 1);
-		randomweight = mathfrandom(65.0, 75.0);
+		randomweight = mathfrandom(90.0, 110.0);
 		MeatWork[i][mWeight] = randomweight;
 		MeatPlayer[i] = INVALID_PLAYER_ID;
-		format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][mWeight]);
+		format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f фунт(-ів).\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][mWeight]);
 		MeatText[i] = CreateDynamic3DTextLabel(string, -1, MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.0953, MeatWork[i][mZ] - 3.588318, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
 	}
 	MeatActor = CreateDynamicActor(95, 960.6542, 2097.6040, 1011.0230, 0.1075, 1, 100.0, 1, 1, -1);
 	// warning 204: symbol is assigned a value that is never used: "MeatActor"
 	MeatWorkHands[0] = CreateDynamicSphere(939.4187, 2177.0251, 1011.0234, 1, 1, 1);
 	MeatWorkHands[1] = CreateDynamicSphere(944.5671, 2177.0251, 1011.0234, 1, 1, 1);
-	CreateDynamic3DTextLabel(G"ALT", -1, 960.6542, 2097.6040, 1011.0230, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
+	CreateDynamic3DTextLabel(""W"Роботодавець\n\n"G"ALT", -1, 960.6542, 2097.6040, 1011.0230, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
 
 	MeatConveyor = CreateDynamicSphere(942.3709, 2173.1387, 1011.0234, 1, 1, 1);
 	MeatConveyorEnd = CreateDynamicSphere(942.4107, 2153.7458, 1011.0234, 1, 1, 1);
@@ -68528,10 +68555,33 @@ stock load_diver_work() {
 CB:MeatCut(playerid, part) {
 	new process;
 	new meat = GetPVarInt(playerid, "MeatPlayer");
-	new Float:weight = mathfrandom(2.00, 7.00);
+	new Float:weight = mathfrandom(5.00, 9.00);
 	new td[32];
 	format(td, sizeof(td), "%.2f", weight);
-	switch(part) {
+	ClearAnimations(playerid);
+	SetPVarInt(playerid, "MeatCutProcess", GetPVarInt(playerid, "MeatCutProcess") + 1);
+	process = GetPVarInt(playerid, "MeatCutProcess");
+	DeletePVar(playerid, "CutProcess");
+	for(new i = 5; i < 8; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+	new textd = random(3);
+	switch(textd)
+	{
+		case 0: {
+			TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+		}
+		case 1: {
+			TextDrawShowForPlayer(playerid, MeatBarTD[5]);
+		}
+		case 2: {
+			TextDrawShowForPlayer(playerid, MeatBarTD[6]);
+		}
+		case 3: {
+			TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+		}
+	}
+	ClearAnimations(playerid);
+	/*switch(part)
+	{
 		case 1: {
 			ClearAnimations(playerid);
 			SetPVarInt(playerid, "MeatProcessLowerPart", GetPVarInt(playerid, "MeatProcessLowerPart") + 1);
@@ -68632,43 +68682,49 @@ CB:MeatCut(playerid, part) {
 				}
 			}
 		}
-	}
+	}*/
 	MeatWork[meat][mWeight] = MeatWork[meat][mWeight] - weight;
 	new string[256];
-	format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n{98FB98}Обробляє: %s", MeatWork[meat][mWeight], CI[MeatPlayer[meat]][cName]);
+	format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f фунт(-ів)\n\n{98FB98}Обробляє: %s", MeatWork[meat][mWeight], CI[MeatPlayer[meat]][cName]);
 	UpdateDynamic3DTextLabelText(MeatText[meat], -1, string);
 
-	format(string, sizeof(string), "%.2fkg", MeatWork[meat][mWeight]);
+	format(string, sizeof(string), "%.2fp", MeatWork[meat][mWeight]);
 	TextDrawSetString(MeatBarTD[3], string);
 
 	SetPVarFloat(playerid, "MeatTotal", GetPVarFloat(playerid, "MeatTotal") + weight);
 
-	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f кг. "W"Загальна кількість зрізаного м'яса: "P"%.2f кг.", weight, GetPVarFloat(playerid, "MeatTotal"));
+	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f фунт(-ів). "W"Загальна кількість зрізаного м'яса: "P"%.2f фунт(-ів).", weight, GetPVarFloat(playerid, "MeatTotal"));
 	SendInfo(playerid, string);
 
-	format(string, sizeof(string), "MeetTotal: %.2f", GetPVarFloat(playerid, "MeatTotal"));
-	SendInfo(playerid, string);
+	//format(string, sizeof(string), "MeetTotal: %.2f", GetPVarFloat(playerid, "MeatTotal"));
+	//SendInfo(playerid, string);
 
-	if(GetPVarInt(playerid, "MeatHigherPart")) {
-		SendOK(playerid, "in pvar");
+	if(process >= 10) {
+		//SendOK(playerid, "in pvar");
 		MeatPlayer[meat] = INVALID_PLAYER_ID;
 		DestroyDynamic3DTextLabel(MeatText[meat]);
 		DestroyDynamicArea(MeatSphere[meat]);
 		DestroyDynamicObject(MeatObject[meat]);
 
-		SendOK(playerid, "destroy");
+		//SendOK(playerid, "destroy");
+		for(new i; i < 38; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+		TogglePlayerControllable(playerid, 1);
+		CancelSelectTextDraw(playerid);
 
 		SendOK(playerid, "Ви завершили обробку всієї туші.");
 		SendHint(playerid, "Віднесіть м'ясо на конвеєр для переробки.");
-		format(string, sizeof(string), "Залишок м'яса вагою "P"%.2f кг. "W"зіпсувався.", MeatWork[meat][mWeight] - GetPVarFloat(playerid, "MeatTotal"));
-		SendInfo(playerid, string);
+		//format(string, sizeof(string), "Залишок м'яса вагою "P"%.2f кг. "W"зіпсувався.", MeatWork[meat][mWeight] - GetPVarFloat(playerid, "MeatTotal"));
+		//SendInfo(playerid, string);
+
 
 		RemovePlayerAttachedObject(playerid, 0);
 
-		if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 2805, 5, 0.45, 0, 0, 0, -90, 30, 0.5, 0.5, 0.5);
+		ApplyAnimation(playerid, "CARRY", "liftup105", 1.0, 0, 1, 1, 0, 0, 1);
 
+		SetTimerEx("ccry_partial", 1000, false, "i", playerid);
 		SetPlayerCheckpoint(playerid, 942.3709,2173.1387,1011.0234, 1);
 		SetPVarInt(playerid, "MeatConveyor", 1);
+		SetPVarInt(playerid, "MeatCarry", 1);
 	}
 
 	return 1;
@@ -68676,5 +68732,24 @@ CB:MeatCut(playerid, part) {
 CB:MeatConveyorT(playerid) {
 	SetPVarInt(playerid, "MeatConveyorEnd", 1);
 	SetPlayerCheckpoint(playerid, 942.4107,2153.7458,1011.0234, 1);
+	return 1;
+}
+stock DeletePVars(playerid)
+{
+	// meat factory
+	DeletePVar(playerid, "MeatTotal");
+	DeletePVar(playerid, "MeatSalary");
+	DeletePVar(playerid, "MeatConveyor");
+	DeletePVar(playerid, "MeatWarehouse");
+	DeletePVar(playerid, "MeatConveyorEnd");
+	DeletePVar(playerid, "MeatWorkStarted");
+	DeletePVar(playerid, "CutProcess");
+	DeletePVar(playerid, "Meat");
+	return 1;
+}
+CB:ccry_partial(playerid)
+{
+	ApplyAnimation(playerid, "CARRY", "crry_prtial", 4.0, 1, 0, 0, 1, 1, 1);
+	if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0,2803,1,0.23,0.45,0.00,0.00,92.40,-4.49,0.50,0.50,0.50);
 	return 1;
 }
