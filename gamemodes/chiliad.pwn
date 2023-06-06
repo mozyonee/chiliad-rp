@@ -11032,7 +11032,7 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(MeatBarTD[2], 1);
 	TextDrawSetProportional(MeatBarTD[2], 1);
 
-	MeatBarTD[3] = TextDrawCreate(361.000, 123.000, "150.0kg");
+	MeatBarTD[3] = TextDrawCreate(361.000, 123.000, "150.0p");
 	TextDrawLetterSize(MeatBarTD[3], 0.190, 0.999);
 	TextDrawAlignment(MeatBarTD[3], 2);
 	TextDrawColor(MeatBarTD[3], -1);
@@ -12706,6 +12706,7 @@ public OnPlayerCommandPerformed(playerid, cmd[], params[], result, flags) {
 }
 public OnPlayerConnect(playerid) {
 	RemoveBuildings(playerid);
+	DeletePVars(playerid);
 	EnablePlayerCameraTarget(playerid, 1);
 	Streamer_VisibleItems(STREAMER_TYPE_OBJECT, 990, playerid);
 	player_target_object[playerid] = INVALID_OBJECT_ID;
@@ -18866,40 +18867,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		}
 		case dMeatWork: {
 			if(!response) return 1;
-			switch(listitem)
-			{
-				case 0:
-				{
 
-				}
-				case 1:
-				{
-					if(GetPVarInt(playerid, "MeatWorkStarted")) 
-					{
-						DeletePVar(playerid, "MeatWorkStarted");
-						DeletePVar(playerid, "MeatNeedToWashHands");
-						A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
-						GiveMoney(playerid, GetPVarInt(playerid, "MeatSalary"), "meat factory work");
-						DeletePVar(playerid, "MeatTotal");
-						DeletePVar(playerid, "MeatSalary");
-						SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
-					} 
-					else 
-					{
-						SetPVarInt(playerid, "MeatWorkStarted", 1);
-						A_SetPlayerSkin(playerid, 168);
-						new point = RandomEx(1,2);
-						switch(point) {
-							case 1: SetPlayerCheckpoint(playerid, 939.4187, 2177.0251, 1011.0234, 1);
-							case 2: SetPlayerCheckpoint(playerid, 944.5671, 2177.0251, 1011.0234, 1);
-						}
-						SendOK(playerid, "Ви успішно влаштувалися на м'ясокомбінат.");
-						SendHint(playerid, "Перш ніж розпочати роботу, Вам необхідно помити руки. Чекпоінт встановлено на мапі.");
-						SetPVarInt(playerid, "MeatNeedToWashHands", 1);
-						SetPVarFloat(playerid, "MeatBarTDx", 36.500);
-						SetPVarFloat(playerid, "MeatChance", 0.1);
-					}
-				}
+			if(GetPVarInt(playerid, "MeatWorkStarted")) 
+			{
+				DeletePVar(playerid, "MeatWorkStarted");
+				//DeletePVar(playerid, "MeatNeedToWashHands");
+				A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
+				GiveMoney(playerid, GetPVarInt(playerid, "MeatSalary"), "meat factory work");
+				DeletePVar(playerid, "MeatTotal");
+				DeletePVar(playerid, "MeatSalary");
+				SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
+			} 
+			else 
+			{
+				SetPVarInt(playerid, "MeatWorkStarted", 1);
+				A_SetPlayerSkin(playerid, 168);
+				SendOK(playerid, "Ви успішно влаштувалися на м'ясокомбінат.");
+				//SendHint(playerid, "Перш ніж розпочати роботу, Вам необхідно помити руки. Чекпоінт встановлено на мапі.");
+				//SetPVarInt(playerid, "MeatNeedToWashHands", 1);
+				//SetPVarFloat(playerid, "MeatBarTDx", 36.500);
+				//SetPVarFloat(playerid, "MeatChance", 0.1);
 			}
 		}
 		case dDiverWork: {
@@ -32882,9 +32869,6 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 	{
 		DeletePVar(playerid, "MeatConveyor");
 		DeletePVar(playerid, "MeatWarehouse");
-		DeletePVar(playerid, "MeatLowerPart");
-		DeletePVar(playerid, "MeatMiddlePart");
-		DeletePVar(playerid, "MeatHigherPart");
 		DeletePVar(playerid, "MeatConveyorEnd");
 		SetPVarInt(playerid, "MeatSalary", GetPVarInt(playerid, "MeatSalary") + floatround(GetPVarFloat(playerid, "MeatTotal")*0.7));
 		RemovePlayerAttachedObject(playerid, 0);
@@ -32892,7 +32876,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		format(string, sizeof(string), "Ви віднесли м'ясо на склад. Зароблено: "GREEN"$%d");
 		SendOK(playerid, string);
 	}
-	if(areaid == MeatWorkHands[0] || areaid == MeatWorkHands[1] && GetPVarInt(playerid, "MeatNeedToWashHands")) 
+	/*if(areaid == MeatWorkHands[0] || areaid == MeatWorkHands[1] && GetPVarInt(playerid, "MeatNeedToWashHands")) 
 	{
 		if(areaid == MeatWorkHands[0]) SetPlayerPosAC(playerid, 939.4187, 2177.0251, 1011.0234, 1, 1);
 		else SetPlayerPosAC(playerid, 944.5671, 2177.0251, 1011.0234, 1, 1);
@@ -32902,7 +32886,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		SetTimerEx("MeatWashingHands", 10000, false, "i", playerid);
 		ApplyAnimation(playerid, "CASINO", "DEALONE", 4.1, 1, 0, 0, 0, 0, 0);
 		//ApplyAnimation(playerid,"CASINO","dealone",4.1,1,1,1,1,1)
-	}
+	}*/
 	if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
 		if(GetPVarInt(playerid, "pOff9") > gettime()) return SendError(playerid, "Зачекайте.");
 		ApplyAnimation(playerid, "CARRY", "putdwn", 4.0, 0, 1, 1, 0, 0, 1);
@@ -33279,6 +33263,7 @@ public OnDynamicObjectMoved(objectid) {
 }
 public OnPlayerDisconnect(playerid, reason) {
 	SetPlayerName(playerid, PI[playerid][pName]);
+	DeletePVars(playerid);
 	KillTimer(CI[playerid][cDeathTimer]);
 	GetPlayerHealth(playerid, CI[playerid][pHP]);
 	new query[256];
@@ -43015,14 +43000,36 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	{
 		for(new i; i < sizeof(MeatWork); i++) 
 		{
-			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]) && GetPVarInt(playerid, "MeatWorkStarted") && !GetPVarInt(playerid, "MeatNeedToWashHands")) 
+			if(IsPlayerInDynamicArea(playerid, MeatSphere[i]) && GetPVarInt(playerid, "MeatWorkStarted")) 
 			{
+				if(GetPVarInt(playerid, "MeatConveyor")) return SendError(playerid, "Ви вже обробили тушу. Віднесіть м'ясо на конвеєр.");
 				if(MeatPlayer[i] != INVALID_PLAYER_ID) return SendError(playerid, "Ця туша вже обробляється.");
 
 				new weight[32];
-				format(weight, sizeof(weight), "%.2fkg", MeatWork[i][mWeight]);
+				format(weight, sizeof(weight), "%.2fp", MeatWork[i][mWeight]);
 				TextDrawSetString(MeatBarTD[3], weight);
-				for(new id; id < 8; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				new td = random(3);
+				switch(td)
+				{
+					case 0:
+					{
+						TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+					}
+					case 1:
+					{
+						TextDrawShowForPlayer(playerid, MeatBarTD[5]);
+					}
+					case 2:
+					{
+						TextDrawShowForPlayer(playerid, MeatBarTD[6]);
+					}
+					case 3:
+					{
+						TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+					}
+				}
+				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				//for(new id; id < 8; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
 				MeatPlayer[i] = playerid;
 				SetPVarInt(playerid, "Meat", 1);
 				SelectTextDraw(playerid, 0xbfbfbfff);
@@ -43682,9 +43689,25 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				"P"3. "W"Отримати зарплату", (GetPVarInt(playerid, "DiverWork"))?("Yes"):("No"));
 			return ShowPlayerDialog(playerid, dDiverWork, DIALOG_STYLE_LIST, ""P"| "W"Тайлер (робота дайвером).", string, "Обрати", "Закрити");
 		}
-		if(IsPlayerInRangeOfPoint(playerid, 2.0, 960.6432,2098.9656,1011.0243)) {
-			if(GetPVarInt(playerid, "MeatWorkStarted")) ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_LIST, ""P"| "W"М'ясокомбінат", ""P"1. "W"Інформація про роботу\n"P"2. "W"Завершити роботу", "Обрати", "Закрити");
-			else ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_LIST, ""P"| "W"М'ясокомбінат", ""P"1. "W"Інформація про роботу\n"P"2. "W"Влаштуватися м'ясником", "Обрати", "Закрити");
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, 960.6432,2098.9656,1011.0243)) 
+		{
+			new string[256];
+			if(GetPVarInt(playerid, "MeatWorkStarted"))
+			{
+				format(string, sizeof(string), "\
+					"W"Тривалість поточного робочого сеансу: "P"%d\n\
+					"W"Оброблено м'яса: "P"%d фунт(-ів)\n\
+					"W"Зароблено: "GREEN"$%d\n\n\
+					"W"Ви справді хочете завершити роботу?", 15, 75, 150);
+			}
+			else 
+			{
+				format(string, sizeof(string), "\
+					"W"Поточна кількість працівників: "P"%d\n\
+					"W"Поточна ціна за 1 фунт м'яса: "GREEN"$%d\n\n\
+					"W"Ви справді хочете влаштуватися на цю роботу?", 3, 15);
+			}
+			ShowPlayerDialog(playerid, dMeatWork, DIALOG_STYLE_MSGBOX, ""P"| "W"М'ясокомбінат", string, "Так", "Ні");
 
 		}
 		for(new gid = 1; gid <= sizeof(GI); gid++) {
@@ -45729,7 +45752,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 
 	if(GetPVarInt(playerid, "Meat") && !GetPVarInt(playerid, "MeatConveyor")) 
 	{
-		if(clickedid == MeatBarTD[7])
+		/*if(clickedid == MeatBarTD[7])
 		{
 			if(GetPVarInt(playerid, "CutProcess")) return 1;
 			SetPVarInt(playerid, "CutProcess", 1);
@@ -45753,8 +45776,20 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 3);
 			ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 			if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+		}*/
+		for(new i = 5; i < 8; i++)
+		{
+			if(clickedid == MeatBarTD[i])
+			{
+				if(GetPVarInt(playerid, "CutProcess")) return 1;
+				SetPVarInt(playerid, "CutProcess", 1);
+				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
+				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
+				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+			}
 		}
 	}
+
 	if(GetPVarInt(playerid, "buyskin")) {
 		if(clickedid == buyskin[16]) ChooseSkin(playerid/*, 1*/);
 		else if(clickedid == buyskin[17]) ChooseSkin(playerid/*, 0*/);
@@ -68854,17 +68889,17 @@ stock LoadMeatWork() {
 
 		MeatObject[i] = CreateDynamicObject(2589, MeatWork[i][mX], MeatWork[i][mY], MeatWork[i][mZ], 0.000000, 0.000000, 0.000000, 1, 1, -1, 300.00, 300.00);
 		MeatSphere[i] = CreateDynamicSphere(MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.1153, MeatWork[i][mZ] - 3.588318, 2, 1, 1);
-		randomweight = mathfrandom(65.0, 75.0);
+		randomweight = mathfrandom(90.0, 110.0);
 		MeatWork[i][mWeight] = randomweight;
 		MeatPlayer[i] = INVALID_PLAYER_ID;
-		format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][mWeight]);
+		format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f фунт(-ів).\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][mWeight]);
 		MeatText[i] = CreateDynamic3DTextLabel(string, -1, MeatWork[i][mX] + 0.1320, MeatWork[i][mY] + 0.0953, MeatWork[i][mZ] - 3.588318, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
 	}
 	MeatActor = CreateDynamicActor(95, 960.6542, 2097.6040, 1011.0230, 0.1075, 1, 100.0, 1, 1, -1);
 	// warning 204: symbol is assigned a value that is never used: "MeatActor"
 	MeatWorkHands[0] = CreateDynamicSphere(939.4187, 2177.0251, 1011.0234, 1, 1, 1);
 	MeatWorkHands[1] = CreateDynamicSphere(944.5671, 2177.0251, 1011.0234, 1, 1, 1);
-	CreateDynamic3DTextLabel(G"ALT", -1, 960.6542, 2097.6040, 1011.0230, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
+	CreateDynamic3DTextLabel(""W"Роботодавець\n\n"G"ALT", -1, 960.6542, 2097.6040, 1011.0230, 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
 
 	MeatConveyor = CreateDynamicSphere(942.3709, 2173.1387, 1011.0234, 1, 1, 1);
 	MeatConveyorEnd = CreateDynamicSphere(942.4107, 2153.7458, 1011.0234, 1, 1, 1);
@@ -69052,10 +69087,36 @@ CB:MeatCut(playerid, part)
 {
 	new process;
 	new meat = GetPVarInt(playerid, "MeatPlayer");
-	new Float:weight = mathfrandom(2.00, 7.00);
+	new Float:weight = mathfrandom(5.00, 9.00);
 	new td[32];
 	format(td, sizeof(td), "%.2f", weight);
-	switch(part)
+	ClearAnimations(playerid);
+	SetPVarInt(playerid, "MeatCutProcess", GetPVarInt(playerid, "MeatCutProcess") + 1);
+	process = GetPVarInt(playerid, "MeatCutProcess");
+	DeletePVar(playerid, "CutProcess");
+	for(new i = 5; i < 8; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+	new textd = random(3);
+	switch(textd)
+	{
+		case 0:
+		{
+			TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+		}
+		case 1:
+		{
+			TextDrawShowForPlayer(playerid, MeatBarTD[5]);
+		}
+		case 2:
+		{
+			TextDrawShowForPlayer(playerid, MeatBarTD[6]);
+		}
+		case 3:
+		{
+			TextDrawShowForPlayer(playerid, MeatBarTD[7]);
+		}
+	}
+	ClearAnimations(playerid);
+	/*switch(part)
 	{
 		case 1:
 		{
@@ -69173,44 +69234,50 @@ CB:MeatCut(playerid, part)
 				}
 			}
 		}
-	}
+	}*/
 	MeatWork[meat][mWeight] = MeatWork[meat][mWeight] - weight;
 	new string[256];
-	format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f кг.\n\n{98FB98}Обробляє: %s", MeatWork[meat][mWeight], CI[MeatPlayer[meat]][cName]);
+	format(string, sizeof(string), "{98FB98}Туша м'яса\n\n"W"Вага: "G"%.2f фунт(-ів)\n\n{98FB98}Обробляє: %s", MeatWork[meat][mWeight], CI[MeatPlayer[meat]][cName]);
 	UpdateDynamic3DTextLabelText(MeatText[meat], -1, string);
 
-	format(string, sizeof(string), "%.2fkg", MeatWork[meat][mWeight]);
+	format(string, sizeof(string), "%.2fp", MeatWork[meat][mWeight]);
 	TextDrawSetString(MeatBarTD[3], string);
 
 	SetPVarFloat(playerid, "MeatTotal", GetPVarFloat(playerid, "MeatTotal") + weight);
 
-	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f кг. "W"Загальна кількість зрізаного м'яса: "P"%.2f кг.", weight, GetPVarFloat(playerid, "MeatTotal"));
+	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f фунт(-ів). "W"Загальна кількість зрізаного м'яса: "P"%.2f фунт(-ів).", weight, GetPVarFloat(playerid, "MeatTotal"));
 	SendInfo(playerid, string);
 
-	format(string, sizeof(string), "MeetTotal: %.2f", GetPVarFloat(playerid, "MeatTotal"));
-	SendInfo(playerid, string);
+	//format(string, sizeof(string), "MeetTotal: %.2f", GetPVarFloat(playerid, "MeatTotal"));
+	//SendInfo(playerid, string);
 
-	if(GetPVarInt(playerid, "MeatHigherPart"))
+	if(process >= 10)
 	{
-		SendOK(playerid, "in pvar");
+		//SendOK(playerid, "in pvar");
 		MeatPlayer[meat] = INVALID_PLAYER_ID;
 		DestroyDynamic3DTextLabel(MeatText[meat]);
 		DestroyDynamicArea(MeatSphere[meat]);
 		DestroyDynamicObject(MeatObject[meat]);
 
-		SendOK(playerid, "destroy");
+		//SendOK(playerid, "destroy");
+		for(new i; i < 38; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
+		TogglePlayerControllable(playerid, 1);
+		CancelSelectTextDraw(playerid);
 
 		SendOK(playerid, "Ви завершили обробку всієї туші.");
 		SendHint(playerid, "Віднесіть м'ясо на конвеєр для переробки.");
-		format(string, sizeof(string), "Залишок м'яса вагою "P"%.2f кг. "W"зіпсувався.", MeatWork[meat][mWeight] - GetPVarFloat(playerid, "MeatTotal"));
-		SendInfo(playerid, string);
+		//format(string, sizeof(string), "Залишок м'яса вагою "P"%.2f кг. "W"зіпсувався.", MeatWork[meat][mWeight] - GetPVarFloat(playerid, "MeatTotal"));
+		//SendInfo(playerid, string);
+
 
 		RemovePlayerAttachedObject(playerid, 0);
 
-		if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 2805, 5, 0.45, 0, 0, 0, -90, 30, 0.5, 0.5, 0.5);
+		ApplyAnimation(playerid, "CARRY", "liftup105", 1.0, 0, 1, 1, 0, 0, 1);
 
+		SetTimerEx("ccry_partial", 1000, false, "i", playerid);
 		SetPlayerCheckpoint(playerid, 942.3709,2173.1387,1011.0234, 1);
 		SetPVarInt(playerid, "MeatConveyor", 1);
+		SetPVarInt(playerid, "MeatCarry", 1);
 	}
 
 	return 1;
@@ -69219,5 +69286,24 @@ CB:MeatConveyorT(playerid)
 {
 	SetPVarInt(playerid, "MeatConveyorEnd", 1);
 	SetPlayerCheckpoint(playerid, 942.4107,2153.7458,1011.0234, 1);
+	return 1;
+}
+stock DeletePVars(playerid)
+{
+	// meat factory
+	DeletePVar(playerid, "MeatTotal");
+	DeletePVar(playerid, "MeatSalary");
+	DeletePVar(playerid, "MeatConveyor");
+	DeletePVar(playerid, "MeatWarehouse");
+	DeletePVar(playerid, "MeatConveyorEnd");
+	DeletePVar(playerid, "MeatWorkStarted");
+	DeletePVar(playerid, "CutProcess");
+	DeletePVar(playerid, "Meat");
+	return 1;
+}
+CB:ccry_partial(playerid)
+{
+	ApplyAnimation(playerid, "CARRY", "crry_prtial", 4.0, 1, 0, 0, 1, 1, 1);
+	if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0,2803,1,0.23,0.45,0.00,0.00,92.40,-4.49,0.50,0.50,0.50);
 	return 1;
 }
