@@ -379,7 +379,7 @@ stock ShowQuestHacker(playerid, idx){
 }
 stock ContinueQuest(playerid){
 	SendClientMessage(playerid, COLOR_GREY, "Молодец, я в тебе не сомневался!");
-	GiveMoney(playerid, 2500, "Quest Hacker #1");
+	GiveMoney(playerid, 2500);
 	if(GetPVarInt(playerid, "HackerQuest1")) CI[playerid][QuestHacker][0] = 1, DeleteHackerPVar(playerid, 1);
 	if(GetPVarInt(playerid, "HackerQuest2")) CI[playerid][QuestHacker][1] = 1, DeleteHackerPVar(playerid, 2);
 	if(GetPVarInt(playerid, "HackerQuest3")) CI[playerid][QuestHacker][2] = 1, DeleteHackerPVar(playerid, 3);
@@ -550,7 +550,7 @@ stock HideButton(playerid, id){
 			DeletePVar(playerid, "PlayerID");
 			NextlvlHacker(playerid, 1);
 			InsertPlayerHacker(playerid, "Взлом телефона");
-			return GiveMoney(playerid, 5000, "Взлом телефона.");
+			return GiveMoney(playerid, 5000);
 
 		}
 		case 34:{
@@ -596,7 +596,7 @@ stock HideButton(playerid, id){
 				}
 				default:{ SendClientMessage(playerid, COLOR_RED, "[Мысли]: Слава богу что обошёлся без всяких происшествий."); }
 			}
-			GiveMoney(playerid, 150000, "Vzlom Bank");
+			GiveMoney(playerid, 150000);
 			NextlvlHacker(playerid, 1);
 			InsertPlayerHacker(playerid, "Ограбление банка");
 			return 1;

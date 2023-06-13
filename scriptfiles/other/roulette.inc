@@ -840,8 +840,8 @@ public roulette_TakePrize(playerid, prize_bdid) {
 }
 stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
     switch (db_type_id) {
-		case PRIZE_TYPE_LEVEL: GiveMoney(playerid, 10000* db_model_id, "50% продаж 'level'");
-		case PRIZE_TYPE_EXP: GiveMoney(playerid, 2500* db_model_id, "50% продаж 'EXP'");
+		case PRIZE_TYPE_LEVEL: GiveMoney(playerid, 10000* db_model_id);
+		case PRIZE_TYPE_EXP: GiveMoney(playerid, 2500* db_model_id);
 		case PRIZE_TYPE_VIP_UAHY:{
 			switch(db_model_id){
 				case 1:  CI[playerid][pDonate] += 15;
@@ -863,19 +863,19 @@ stock roulette_SellPrize(playerid, db_id, db_array_id, db_model_id, db_type_id) 
 			CI[playerid][pDonate] += ((db_model_id/100)*50);
 			
 		}
-		case PRIZE_TYPE_MONEY: GiveMoney(playerid, (db_model_id/100)*50, "usePrize");
+		case PRIZE_TYPE_MONEY: GiveMoney(playerid, (db_model_id/100)*50);
 		case PRIZE_TYPE_SKIN: {
 			switch(db_model_id){
-				case 177: GiveMoney(playerid, 150000, "50% продаж 'Clother'");
-				case 249: GiveMoney(playerid, 450000, "50% продаж 'Clother'");
-				case 294: GiveMoney(playerid, 6500000, "50% продаж 'Clother'");
+				case 177: GiveMoney(playerid, 150000);
+				case 249: GiveMoney(playerid, 450000);
+				case 294: GiveMoney(playerid, 6500000);
 			}
 		}
 		case PRIZE_TYPE_ACCESORY:{
 			switch(db_model_id){
-				case 133: GiveMoney(playerid, 100000, "50% продаж 'Accesory'");
-				case 453: GiveMoney(playerid, 250000, "50% продаж 'Accesory'");
-				case 461: GiveMoney(playerid, 400000, "50% продаж 'Accesory'");
+				case 133: GiveMoney(playerid, 100000);
+				case 453: GiveMoney(playerid, 250000);
+				case 461: GiveMoney(playerid, 400000);
 			}
 
 		}
@@ -939,13 +939,13 @@ stock roulette_UsePrize(playerid, db_id, db_array_id, db_model_id, db_type_id) {
 			CI[playerid][pDonate] += db_model_id;
 			UpdateCharacterData(playerid, "donatemonegy", CI[playerid][pDonate]);
 		}
-		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id, "usePrize");
+		case PRIZE_TYPE_MONEY: GiveMoney(playerid, db_model_id);
 		case PRIZE_TYPE_SKIN: AddInactiveItem(playerid, 140 + db_model_id, 1);
 		case PRIZE_TYPE_ACCESORY: AddInactiveItem(playerid, db_model_id, 1);
 		default: return true;
-		/*case : {
+		/* case : {
 			// Выдача вип стандарт навсегда
-		}*/
+		} */
 		
 	}
 	format(CHAT_GLOBAL, sizeof (CHAT_GLOBAL), "{479FF2}[Успіх] "W"Ви успішно використали приз - %s.", PrizeRouletInfo[db_array_id][prize_text_name]);
