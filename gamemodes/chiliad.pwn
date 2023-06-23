@@ -2808,7 +2808,6 @@ enum dialogs {
 	D_MEDSEX,
 	D_SUSPECT,
 	D_FINE,
-	dInviteSkin,
 	dRank,
 	dBizList,
 	D_TAXIST,
@@ -21267,7 +21266,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(header, sizeof(header), P"|"W" Керування %s. Колір.", FI[fid][fName]);
 					return ShowPlayerDialog(playerid, D_FACTION_EDIT_COLOR, DSI, header, W"Введіть новий колір фракції у форматі HEX.\nОсь декілька прикладів: "P"AD12FF"W", "P"5D4CBB"W".", "Готово", "Закрити");
 				}
-				format(fcolor, sizeof(fcolor), "0x%sFF", inputtext);
+				format(fcolor, sizeof(fcolor), "0x%s00", inputtext);
 				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_FACTIONS" SET `Color` = '%e' WHERE `ID` = %i LIMIT 1", fcolor, fid);
 				mysql_query(connects, query);
 				sscanf(fcolor, "x", FI[fid][fColor]);
@@ -25218,44 +25217,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(string, sizeof(string), "%s (%i) виписав вам штраф у розмірі "GREEN"$%i"W" за %s, який ви можете оплатити в банку.", CI[playerid][cName], playerid, AdministrativeCode[listitem][Price], AdministrativeCode[listitem][Title]);
 			SendError(targetid, string);
 		}
-		case dInviteSkin: {
-			new inviter = GetPVarInt(playerid, "inviter");
-			DeletePVar(playerid, "inviter");
-			if(!IsPlayerConnected(inviter)) return SendError(playerid, "Гравець, що запросив вас у організацію, офлайн.");
-			CI[playerid][pMember] = CI[inviter][pMember];
-			CI[playerid][pFracSkin] = FI[CI[playerid][pMember]][fSkins][1];
-			CI[playerid][pJob] = 0;
-			CI[playerid][pRank] = 1;
-			CI[playerid][pSpawn] = 2;
-			CI[playerid][pfWarn] = 0;
-			CI[playerid][pFmute] = 0;
-			CI[playerid][cDuty] = 1;
-			UpdateCharacterDataInt(playerid, "pFracSkin", CI[playerid][pFracSkin]);
-			UpdateCharacterDataInt(playerid, "pMember", CI[playerid][pMember]);
-			UpdateCharacterDataInt(playerid, "pRank", CI[playerid][pRank]);
-			UpdateCharacterDataInt(playerid, "pJob", CI[playerid][pJob]);
-			UpdateCharacterDataInt(playerid, "FracDuty", CI[playerid][cDuty]);
-			UpdateCharacterDataInt(playerid, "fwarn", 0);
-			UpdateCharacterDataInt(playerid, "spawn", CI[playerid][pSpawn]);
-			UpdateCharacterDataInt(playerid, "fmute", CI[playerid][pFmute]);
-			SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
-			new string[128];
-			format(string, sizeof(string), P"%s"W" був прийнятий у вашу організацію.", CI[playerid][cName]);
-			SendOK(inviter, string);
-			format(string, sizeof(string), "Ви були прийняті у фракцію "P"%s"W".", FI[CI[playerid][pMember]][fName]);
-			SendOK(playerid, string);
-			A_SetPlayerSkin(playerid, CI[playerid][pFracSkin]);
-			add_datefrac(playerid);
-			WriteLog(LOG_INVITE, CI[inviter][cName], CI[playerid][cName]);
-			}
 		case dRank: {
 				if(!response) return 1;
 				if(listitem == -1) return 1;
 				if(CI[playerid][pRank] <= listitem) return SendError(playerid, "Ваш ранг недостатній.");
 				new rank_id = GetPVarInt(playerid, "id_giverank"), string[128];
-				format(string, sizeof(string), "Ви змінили ранг "P"%s"W" на "P"%s"W".", CI[rank_id][cName], fRanks[CI[playerid][pMember]][listitem + 1][frName]);
+				format(string, sizeof(string), "Ви змінили ранг %s на %s.", CI[rank_id][cName], fRanks[CI[playerid][pMember]][listitem + 1][frName]);
 				SendOK(playerid, string);
-				format(string, sizeof(string), P"%s"W" змінив вам ранг на "P"%s"W".", CI[playerid][cName], fRanks[CI[playerid][pMember]][listitem + 1][frName]);
+				format(string, sizeof(string), "%s змінив вам ранг на %s.", CI[playerid][cName], fRanks[CI[playerid][pMember]][listitem + 1][frName]);
 				SendOK(rank_id, string);
 				CI[rank_id][pRank] = listitem + 1;
 				UpdateCharacterData(rank_id, "pRank", CI[rank_id][pRank]);
@@ -30329,8 +30298,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 		case D_LEAVE: {
 			if(!response) return 1;
-			if(CI[playerid][pLeader]) return SendError(playerid, "Лідеру заборонено.");
-			if(!CI[playerid][pMember]) return SendError(playerid, "Ви не перебуваєте в організації.");
 			if(CI[playerid][cDuty]) {
 				SendInfo(playerid, "Робочий день завершено.");
 				CI[playerid][cDuty] = 0;
@@ -30344,7 +30311,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			CI[playerid][pAdvert] = 0;
 			skin_player(playerid);
 			SetArmour(playerid, 0);
-			SetPlayerColor(playerid, 0xFFFFFF11);
+			SetPlayerColor(playerid, 0xFFFFFF00);
 			UpdateCharacterDataInt(playerid, "pMember", CI[playerid][pMember]);
 			UpdateCharacterDataInt(playerid, "pRank", CI[playerid][pRank]);
 			UpdateCharacterDataInt(playerid, "pJob", CI[playerid][pJob]);
@@ -41008,12 +40975,12 @@ CMD:invite(playerid, params[]) {
 	if(IsBLName(CI[params[0]][cID], CI[playerid][pMember])) return SendError(playerid, "Гравець в ЧС вашої організації.");
 	if(!IsPlayerStream(7.0, playerid, params[0])) return SendError(playerid, "Ви далеко від гравця.");
 	if(active_accept(params[0])) return SendError(playerid, "У гравця вже є активна пропозиція.");
-	format(string, sizeof(string), P"%s"W" запропонував вам вступити в організацію "P"%s"W".", CI[playerid][cName], FI[CI[playerid][pMember]][fName]);
+	format(string, sizeof(string), "%s (%i) запропонував вам вступити в організацію %s.", CI[playerid][cName], playerid, FI[CI[playerid][pMember]][fName]);
 	SendOK(params[0], string);
 	SendHint(params[0], "Натисніть "YES"Y"W" щоб погодитися, або "NO"N"W" для відмови.");
-	format(string, sizeof(string), "Ви запропонували "P"%s"W" вступити в організацію "P"%s"W".", CI[params[0]][cName], FI[CI[playerid][pMember]][fName]);
+	format(string, sizeof(string), "Ви запропонували %s (%i) вступити в організацію %s.", CI[params[0]][cName], params[0], FI[CI[playerid][pMember]][fName]);
 	SendOK(playerid, string);
-	SetPVarInt(params[0], "inviter", playerid);
+	SetPVarInt(params[0], "inviter", playerid + 1);
 	return 1;
 }
 CMD:uninvite(playerid, params[]) {
@@ -41070,10 +41037,9 @@ CMD:uninvite(playerid, params[]) {
 }
 CMD:leave(playerid) {
 	if(CI[playerid][pLeader]) return SendError(playerid, "Лідеру заборонено виходити з фракції.");
-	if(!CI[playerid][pPremium]) return SendError(playerid, "У вас немає преміум-акаунта.");
 	if(!CI[playerid][pMember]) return SendError(playerid, "Ви не перебуваєте в організації.");
 	if(IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Не можна використовувати в машині.");
-	ShowPlayerDialog(playerid, D_LEAVE, DSM, P"Звільнення.", "\n\n"W"Ви дійсно хочете покинути організацію за власним бажанням?\n\n", "Покинути", "Закрити");
+	ShowPlayerDialog(playerid, D_LEAVE, DSM, P"|"W" Звільнення.", W"Ви дійсно хочете покинути організацію за власним бажанням?", "Так", "Ні");
 	return 1;
 }
 CMD:truck(playerid) {
@@ -63437,7 +63403,7 @@ stock key_activate(playerid) {
 		SetPVarInt(i, "fight_start", 1);
 		return 1;
 	} else if(GetPVarInt(playerid, "inviter")) {
-		new inviter = GetPVarInt(playerid, "inviter"), string[128];
+		new inviter = GetPVarInt(playerid, "inviter") - 1, string[128];
 		DeletePVar(playerid, "inviter");
 		if(!IsPlayerConnected(inviter)) return SendError(playerid, "Гравець, що запросив вас у організацію, офлайн.");
 		CI[playerid][pMember] = CI[inviter][pMember];
@@ -63459,9 +63425,9 @@ stock key_activate(playerid) {
 		UpdateCharacterDataInt(playerid, "fmute", CI[playerid][pFmute]);
 		UpdateCharacterDataInt(playerid, "cRadioChannel", FI[CI[playerid][pMember]][fRadio]);
 		SetPlayerColor(playerid, FI[CI[playerid][pMember]][fColor]);
-		format(string, sizeof(string), P"%s"W" був прийнятий у вашу організацію.", CI[playerid][cName]);
+		format(string, sizeof(string), "%s (%i) був прийнятий у вашу організацію.", CI[playerid][cName], playerid);
 		SendOK(inviter, string);
-		format(string, sizeof(string), "Ви були прийняті у фракцію "P"%s"W".", FI[CI[playerid][pMember]][fName]);
+		format(string, sizeof(string), "Ви були прийняті у фракцію %s.", FI[CI[playerid][pMember]][fName]);
 		SendOK(playerid, string);
 		A_SetPlayerSkin(playerid, CI[playerid][pFracSkin]);
 		add_datefrac(playerid);
@@ -63756,6 +63722,7 @@ stock key_activate(playerid) {
 		ShowPlayerDialog(playerid, D_HOUSE_BUY_2, DSM, P"|"W" Купівля будинку.", string, "Готово", "Закрити");
 	} else if(GetPVarInt(playerid, "cufferid")) {
 		new string[128], cufferid = GetPVarInt(playerid, "cufferid") - 1;
+		DeletePVar(playerid, "cufferid");
 		TurnPlayerFaceToPlayer(cufferid, playerid);
 		TurnPlayerFaceToPlayer(playerid, cufferid);
 		ApplyAnimation(cufferid, "BD_FIRE", "wash_up", 4.1, 0, 0, 0, 0, 0, 1);
@@ -63765,7 +63732,6 @@ stock key_activate(playerid) {
 		SendOK(playerid, string);
 		format(string, sizeof(string), "Ви надягнули на %s (%i) наручники.", CI[playerid][cName], playerid);
 		SendOK(cufferid, string);
-		DeletePVar(playerid, "cufferid");
 	}
 	return 1;
 }
@@ -63866,19 +63832,17 @@ stock key_deactivate(playerid) {
 		}
 	} else if(GetPVarInt(playerid, "inviter")) {
 		SendOK(playerid, "Ви відмовились від вступу в організацію.");
-		SendOK(GetPVarInt(playerid, "inviter"), "Гравець відмовився від вступу в організацію.");
+		SendOK(GetPVarInt(playerid, "inviter") - 1, "Гравець відмовився від вступу в організацію.");
 		DeletePVar(playerid, "inviter");
 	} else if(GetPVarInt(playerid, "kiss")) {
 		SendOK(playerid, "Ви відмовились від поцілунку.");
 		SendOK(GetPVarInt(playerid, "kiss") - 1, "Гравець відмовився від поцілунку.");
 		DeletePVar(playerid, "kiss");
-	}
-	if(GetPVarInt(playerid, "hi")) {
+	} else if(GetPVarInt(playerid, "hi")) {
 		SendOK(playerid, "Ви відмовились від рукостискання.");
 		SendOK(GetPVarInt(playerid, "hi") -1, "Гравець відмовився від рукостискання.");
 		DeletePVar(playerid, "hi");
-	}
-	if(GetPVarInt(playerid, "family_invite")) {
+	} else if(GetPVarInt(playerid, "family_invite")) {
 		SendOK(playerid, "Ви відмовились від пропозиції вступити в сім'ю.");
 		SendOK(GetPVarInt(playerid, "family_invite") - 1, "Гравець відмовився від пропозиції вступити у вашу сім'ю.");
 		DeletePVar(GetPVarInt(playerid, "family_invite") - 1, "family_invite");
