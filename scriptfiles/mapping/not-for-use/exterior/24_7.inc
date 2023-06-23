@@ -392,5 +392,4 @@
 	SetDynamicObjectMaterial(tmpobjid,0,5040,"shopliquor_las","las69str4",0xFFFFFFFF);
 	tmpobjid=CreateDynamicObject(1689,2481.858886,-1463.913330,31.423629,0,0,90,-1,-1,-1,300,300);
 	
-	RemoveBuildingForPlayer(playerid,17856,2492.3203,-1484.8047,28.2656,0.25);
-	RemoveBuildingForPlayer(playerid,17853,2492.3203,-1484.8047,28.2656,0.25);
+	
