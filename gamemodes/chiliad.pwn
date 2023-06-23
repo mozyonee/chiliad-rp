@@ -45357,26 +45357,40 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 				strcat(string, "0");
 				SetPVarString(playerid, "call_number", string);
 				PlayerTextDrawSetString(playerid, PhoneNumber[playerid][33], string);
-			} else if(playertextid == PhoneNumber[playerid][81]) {
+			} 
+			else if(playertextid == PhoneNumber[playerid][81]) 
+			{
 				DeletePVar(playerid, "phone_call");
 				for(new i; i < 82; i++) PlayerTextDrawHide(playerid, PhoneNumber[playerid][i]);
 				for(new i; i < 32; i++) PlayerTextDrawShow(playerid, PhoneLocked[playerid][i]);
 				for(new i; i < 22; i++) PlayerTextDrawShow(playerid, PhoneDesktop[playerid][i]);
 				SelectTextDraw(playerid, 0xbfbfbfff);
-			} else if(playertextid == PhoneNumber[playerid][78]) {
+			} 
+			else if(playertextid == PhoneNumber[playerid][78]) 
+			{
 				new query[1028];
 				mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
 				return mysql_tquery(connects, query, "phone_contacts", "i", playerid);
-			} else if(playertextid == PhoneNumber[playerid][66]) {
+			} 
+			else if(playertextid == PhoneNumber[playerid][66]) 
+			{
 				SendInfo(playerid, "favorites");
-			} else if(playertextid == PhoneNumber[playerid][74]) {
+			} 
+			else if(playertextid == PhoneNumber[playerid][74]) 
+			{
 				SendInfo(playerid, "recents");
-			} else if(playertextid == PhoneNumber[playerid][65]) {
+			} 
+			else if(playertextid == PhoneNumber[playerid][65]) 
+			{
 				PlayerTextDrawSetString(playerid, PhoneNumber[playerid][33], "_");
 				SetPVarString(playerid, "call_number", "");
-			} else if(playertextid == PhoneNumber[playerid][34]) {
-				SendOK(playerid, "Add number");
-			} else if(playertextid == PhoneNumber[playerid][47]) {
+			} 
+			else if(playertextid == PhoneNumber[playerid][34]) 
+			{
+				
+			} 
+			else if(playertextid == PhoneNumber[playerid][47]) 
+			{
 				new hour, minute, second, string[50];
 				gettime(hour, minute, second);
 				format(string, sizeof(string), "%02d:%02d", hour, minute);
