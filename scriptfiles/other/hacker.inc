@@ -59,8 +59,8 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			new ID = strval(inputtext);
 			if(!IsPlayerConnected(ID)) return SendClientMessage(playerid, COLOR_GRAY, "Игрок не в сети!");
 			if(!TI[ID][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-			if(!CI[ID][pWanted]) return SendClientMessage(playerid, COLOR_GREY, "Игрок не в розыске");
-			if(CI[ID][pWanted] > 2) return SendClientMessage(playerid, COLOR_GREY, "Вы не можете снимать розыск больше двух звёзд!");
+			if(!CI[ID][cWanted]) return SendClientMessage(playerid, COLOR_GREY, "Игрок не в розыске");
+			if(CI[ID][cWanted] > 2) return SendClientMessage(playerid, COLOR_GREY, "Вы не можете снимать розыск больше двух звёзд!");
 			SetPVarInt(playerid, "WantedID", ID);
 			JobTempProcess[playerid] = 31;
 			TI[playerid][tProcess][0] = 0;
@@ -141,9 +141,9 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			switch(random(3))
 			{
 				case 1: {
-					CI[playerid][pWanted] = 3;
-					UpdateCharacterData(playerid,"pSearch",CI[playerid][pWanted]);
-					SetPlayerWantedLevel(playerid, CI[playerid][pWanted]);
+					CI[playerid][cWanted] = 3;
+					UpdateCharacterData(playerid,"pSearch",CI[playerid][cWanted]);
+					SetPlayerWantedLevel(playerid, CI[playerid][cWanted]);
 					
 				}
 				default: {
@@ -162,7 +162,7 @@ hacker_OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]){
 			new IpD = strval(inputtext);
 			if(!IsPlayerConnected(IpD)) return SendClientMessage(playerid, COLOR_RED, "Игрок не в сети!");
 			if(!TI[IpD][tLogin]) return SendClientMessage(playerid, COLOR_RED, "Игрок не авторизован на сервере!");
-			if(CI[IpD][pJail] == 0 )  return SendClientMessage(playerid, COLOR_RED, "Игрок на свободе!");
+			if(CI[IpD][cJail] == 0 )  return SendClientMessage(playerid, COLOR_RED, "Игрок на свободе!");
 	
 			SetPVarInt(playerid, "PlayerID", IpD);
 			ShowButton(playerid, 36);
@@ -188,7 +188,7 @@ stock IsAWanteds()
 	new num = 0;
 	foreach(new i: Player)
 	{
-		if(CI[i][pWanted] < 3) num++;
+		if(CI[i][cWanted] < 3) num++;
 	}
 	return num;
 }
@@ -232,7 +232,7 @@ stock ShowHackerStats(playerid, id){
 	Уровень розыска:\t%i",
 	CI[id][cName], CI[id][pLevel], CI[id][cSex] ? "Мужчина" : "Женщина", CI[id][pMarried], CI[id][pPhone], CI[id][pMobile],
 	gTransport[CarsInfo[id][carModel][0]-400][trName], CarsInfo[id][carModel][0], gTransport[CarsInfo[id][carModel][1]-400][trName], CarsInfo[id][carModel][1],
-	CI[id][pCrimes], CI[id][pArrested], CI[id][pWanted]);
+	CI[id][pCrimes], CI[id][pArrested], CI[id][cWanted]);
 
 	if(CI[id][pMember]) format(string, 128,"%s\nОрганизация:\t\t\t%s", string, FI[CI[id][pMember]][fName]);
 	else strcat(string,"\nОрганизация:\t\t\tОтсутствует");
@@ -283,9 +283,9 @@ stock HackerCamera(playerid, idx)
 			SetPlayerCameraLookAt(playerid, 1480.6001, -1768.7527, 66.7675);
 			SetPlayerPos(playerid,1480.6001, -1768.7527, 50.7675);
 			TogglePlayerControllable(playerid, false);
-			CI[playerid][pWanted] = 2;
-			UpdateCharacterData(playerid,"pSearch",CI[playerid][pWanted]);
-			SetPlayerWantedLevel(playerid, CI[playerid][pWanted]);
+			CI[playerid][cWanted] = 2;
+			UpdateCharacterData(playerid,"pSearch",CI[playerid][cWanted]);
+			SetPlayerWantedLevel(playerid, CI[playerid][cWanted]);
 			SetTimerEx("HackCamer",1000*5,false,"i",playerid);
 			SendClientMessage(playerid, COLOR_GRAY, "[Мысли]: Отлично, я ещё и в розыске...");
 		}
@@ -589,9 +589,9 @@ stock HideButton(playerid, id){
 			switch(random(3))
 			{
 				case 2:{
-					CI[playerid][pWanted] = 4;
-					UpdateCharacterData(playerid,"pSearch",CI[playerid][pWanted]);
-					SetPlayerWantedLevel(playerid, CI[playerid][pWanted]);
+					CI[playerid][cWanted] = 4;
+					UpdateCharacterData(playerid,"pSearch",CI[playerid][cWanted]);
+					SetPlayerWantedLevel(playerid, CI[playerid][cWanted]);
 					SendClientMessage(playerid, COLOR_RED, "[СИСТЕМА]: Вам было выдано 4 звезды. ");
 				}
 				default:{ SendClientMessage(playerid, COLOR_RED, "[Мысли]: Слава богу что обошёлся без всяких происшествий."); }
@@ -658,13 +658,13 @@ stock ShowButton(playerid, id){
 	return 1;
 }
 stock unarrest(playerid){
-	CI[playerid][pJail] = 0;
-	CI[playerid][pJailTime] = 0;
-	UpdateCharacterData(playerid,"pJail",CI[playerid][pJail]);
-	UpdateCharacterData(playerid,"pJailTime",CI[playerid][pJailTime]);
-	CI[playerid][pWanted] = 0;
-	UpdateCharacterData(playerid,"pSearch",CI[playerid][pWanted]);
-	SetPlayerWantedLevel(playerid, CI[playerid][pWanted]);
+	CI[playerid][cJail] = 0;
+	CI[playerid][cJailTime] = 0;
+	UpdateCharacterData(playerid,"cJail",CI[playerid][cJail]);
+	UpdateCharacterData(playerid,"cJailTime",CI[playerid][cJailTime]);
+	CI[playerid][cWanted] = 0;
+	UpdateCharacterData(playerid,"pSearch",CI[playerid][cWanted]);
+	SetPlayerWantedLevel(playerid, CI[playerid][cWanted]);
 	PlayerSpawn(playerid);
 	return 1;
 }
