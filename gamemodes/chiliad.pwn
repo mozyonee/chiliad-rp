@@ -1067,7 +1067,7 @@ new PlayerSecondTimer[MAX_PLAYERS] = {-1, ...};
 #define		MAX_FACTIONS 1 +				30
 #define		MAX_FACTION_RANKS 1 +			30
 #define		MAX_FACTION_SKINS 1 +			30
-#define		MAX_FACTION_FLEET 1 +			50
+#define		MAX_FACTION_FLEET 1 +			150
 #define		MAX_BLACKJACK_PLAYER_CARD		5
 #define		MAX_BLACKJACK_TABLES			10
 #define		MAX_BLACKJACK_SEATS				3
@@ -65396,6 +65396,7 @@ stock UseItem(playerid, oldslot, newslot = -1) {
 		case 568: pc_cmd_radio(playerid);
 		case 579:
 		{
+			HideInvent(playerid);
 			if(GetPVarInt(playerid, "phone")) return SendError(playerid, "Ви вже використовуєте мобільний телефон.");
 			for(new i; i < 34; i++) PlayerTextDrawShow(playerid, PhoneLocked[playerid][i]);
 			PlayerTextDrawShow(playerid, PhoneLocked[playerid][67]);
@@ -65414,7 +65415,6 @@ stock UseItem(playerid, oldslot, newslot = -1) {
 			format(string, sizeof(string), "%s, %02i %s", Names_Days[weekcurrent], day, Names_Months[month - 1]);
 			PlayerTextDrawSetString(playerid, PhoneLocked[playerid][32], string);
 
-			HideInvent(playerid);
 			return 1;
 		}
 		case 580: SendOK(playerid, "sim-card");
