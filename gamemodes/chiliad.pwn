@@ -168,7 +168,8 @@ new Text: iphone[56];
 new PlayerText: PhoneLocked[MAX_PLAYERS][69];
 new PlayerText: PhoneDesktop[MAX_PLAYERS][22];
 new PlayerText: PhoneNumber[MAX_PLAYERS][82];
-new Text: PhoneOutcome[54];
+new Text: PhoneOutcome[52];
+new PlayerText: PhoneOutcomeS[MAX_PLAYERS][2];
 
 enum phone_settings {
 	pStatus,
@@ -191,6 +192,7 @@ new PlayerPhoneColor[8][phone_color] = {
 	{"Рожевий", -954890753}, //pink
 	{"Сірий", -1448498689} //default: grey
 };
+new PhoneCallTimer[MAX_PLAYERS];
 
 enum gps_data {
 	gName[56],
@@ -3330,6 +3332,8 @@ enum dialogs {
 	D_PICKUP_EDIT_TYPE,
 	D_PICKUP_EDIT_FACTION,
 	dPhoneSettings,
+	dPhoneRingtone,
+	dPhoneSaveRing,
 	dPhoneChangeColor,
 	dPhoneMessages,
 	dPhoneFavorites,
@@ -3337,7 +3341,11 @@ enum dialogs {
 	dPhoneContacts,
 	dPhoneAddNumber,
 	dPhoneAddName,
+	dAddNumber,
 	dPhoneEditContact,
+	dChangeNumContact,
+	dRenameContact,
+	dDeleteContact,
 	D_GPS,
 	D_GPS_PUBLIC,
 	D_GPS_WORK,
@@ -10589,74 +10597,74 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(PhoneOutcome[31], 4);
 	TextDrawSetProportional(PhoneOutcome[31], 1);
 
-	PhoneOutcome[32] = TextDrawCreate(88.375, 196.000, "macr0n");
-	TextDrawLetterSize(PhoneOutcome[32], 0.200, 1.200);
-	TextDrawAlignment(PhoneOutcome[32], 2);
-	TextDrawColor(PhoneOutcome[32], -1);
+	PhoneOutcome[32] = TextDrawCreate(61.000, 247.250, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[32], 20.000, 20.000);
+	TextDrawAlignment(PhoneOutcome[32], 1);
+	TextDrawColor(PhoneOutcome[32], 1785228031);
 	TextDrawSetShadow(PhoneOutcome[32], 0);
 	TextDrawSetOutline(PhoneOutcome[32], 0);
-	TextDrawBackgroundColor(PhoneOutcome[32], 150);
-	TextDrawFont(PhoneOutcome[32], 1);
+	TextDrawBackgroundColor(PhoneOutcome[32], 255);
+	TextDrawFont(PhoneOutcome[32], 4);
 	TextDrawSetProportional(PhoneOutcome[32], 1);
+	TextDrawSetSelectable(PhoneOutcome[32], 1);
 
-	PhoneOutcome[33] = TextDrawCreate(88.375, 208.500, "02:34");
-	TextDrawLetterSize(PhoneOutcome[33], 0.100, 0.600);
-	TextDrawTextSize(PhoneOutcome[33], 5.000, 24.000);
-	TextDrawAlignment(PhoneOutcome[33], 2);
-	TextDrawColor(PhoneOutcome[33], -1330596097);
+	PhoneOutcome[33] = TextDrawCreate(69.500, 263.000, "LD_GRAV:beea");
+	TextDrawTextSize(PhoneOutcome[33], 3.000, -10.000);
+	TextDrawAlignment(PhoneOutcome[33], 1);
+	TextDrawColor(PhoneOutcome[33], -1);
 	TextDrawSetShadow(PhoneOutcome[33], 0);
 	TextDrawSetOutline(PhoneOutcome[33], 0);
-	TextDrawBackgroundColor(PhoneOutcome[33], 150);
-	TextDrawFont(PhoneOutcome[33], 1);
+	TextDrawBackgroundColor(PhoneOutcome[33], 255);
+	TextDrawFont(PhoneOutcome[33], 4);
 	TextDrawSetProportional(PhoneOutcome[33], 1);
 
-	PhoneOutcome[34] = TextDrawCreate(61.000, 247.250, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[34], 20.000, 20.000);
+	PhoneOutcome[34] = TextDrawCreate(66.000, 252.000, "_");
+	TextDrawTextSize(PhoneOutcome[34], 10.000, 10.000);
 	TextDrawAlignment(PhoneOutcome[34], 1);
-	TextDrawColor(PhoneOutcome[34], 1785228031);
+	TextDrawColor(PhoneOutcome[34], -1);
 	TextDrawSetShadow(PhoneOutcome[34], 0);
 	TextDrawSetOutline(PhoneOutcome[34], 0);
-	TextDrawBackgroundColor(PhoneOutcome[34], 255);
-	TextDrawFont(PhoneOutcome[34], 4);
-	TextDrawSetProportional(PhoneOutcome[34], 1);
-	TextDrawSetSelectable(PhoneOutcome[34], 1);
+	TextDrawBackgroundColor(PhoneOutcome[34], 0);
+	TextDrawFont(PhoneOutcome[34], 5);
+	TextDrawSetProportional(PhoneOutcome[34], 0);
+	TextDrawSetPreviewModel(PhoneOutcome[34], 1316);
+	TextDrawSetPreviewRot(PhoneOutcome[34], 0.000, -45.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(PhoneOutcome[34], 0, 0);
 
-	PhoneOutcome[35] = TextDrawCreate(69.500, 263.000, "LD_GRAV:beea");
-	TextDrawTextSize(PhoneOutcome[35], 3.000, -10.000);
-	TextDrawAlignment(PhoneOutcome[35], 1);
-	TextDrawColor(PhoneOutcome[35], -1);
+	PhoneOutcome[35] = TextDrawCreate(71.000, 266.000, "mute");
+	TextDrawLetterSize(PhoneOutcome[35], 0.100, 0.600);
+	TextDrawTextSize(PhoneOutcome[35], 5.000, 24.000);
+	TextDrawAlignment(PhoneOutcome[35], 2);
+	TextDrawColor(PhoneOutcome[35], -1330596097);
 	TextDrawSetShadow(PhoneOutcome[35], 0);
 	TextDrawSetOutline(PhoneOutcome[35], 0);
-	TextDrawBackgroundColor(PhoneOutcome[35], 255);
-	TextDrawFont(PhoneOutcome[35], 4);
+	TextDrawBackgroundColor(PhoneOutcome[35], 150);
+	TextDrawFont(PhoneOutcome[35], 1);
 	TextDrawSetProportional(PhoneOutcome[35], 1);
 
-	PhoneOutcome[36] = TextDrawCreate(66.000, 252.000, "_");
-	TextDrawTextSize(PhoneOutcome[36], 10.000, 10.000);
+	PhoneOutcome[36] = TextDrawCreate(78.250, 247.250, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[36], 20.000, 20.000);
 	TextDrawAlignment(PhoneOutcome[36], 1);
-	TextDrawColor(PhoneOutcome[36], -1);
+	TextDrawColor(PhoneOutcome[36], 1785228031);
 	TextDrawSetShadow(PhoneOutcome[36], 0);
 	TextDrawSetOutline(PhoneOutcome[36], 0);
-	TextDrawBackgroundColor(PhoneOutcome[36], 0);
-	TextDrawFont(PhoneOutcome[36], 5);
-	TextDrawSetProportional(PhoneOutcome[36], 0);
-	TextDrawSetPreviewModel(PhoneOutcome[36], 1316);
-	TextDrawSetPreviewRot(PhoneOutcome[36], 0.000, -45.000, 0.000, 1.000);
-	TextDrawSetPreviewVehCol(PhoneOutcome[36], 0, 0);
+	TextDrawBackgroundColor(PhoneOutcome[36], 255);
+	TextDrawFont(PhoneOutcome[36], 4);
+	TextDrawSetProportional(PhoneOutcome[36], 1);
+	TextDrawSetSelectable(PhoneOutcome[36], 1);
 
-	PhoneOutcome[37] = TextDrawCreate(71.000, 266.000, "mute");
-	TextDrawLetterSize(PhoneOutcome[37], 0.100, 0.600);
-	TextDrawTextSize(PhoneOutcome[37], 5.000, 24.000);
-	TextDrawAlignment(PhoneOutcome[37], 2);
-	TextDrawColor(PhoneOutcome[37], -1330596097);
+	PhoneOutcome[37] = TextDrawCreate(83.250, 252.000, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[37], 10.000, 10.000);
+	TextDrawAlignment(PhoneOutcome[37], 1);
+	TextDrawColor(PhoneOutcome[37], -1);
 	TextDrawSetShadow(PhoneOutcome[37], 0);
 	TextDrawSetOutline(PhoneOutcome[37], 0);
-	TextDrawBackgroundColor(PhoneOutcome[37], 150);
-	TextDrawFont(PhoneOutcome[37], 1);
+	TextDrawBackgroundColor(PhoneOutcome[37], 255);
+	TextDrawFont(PhoneOutcome[37], 4);
 	TextDrawSetProportional(PhoneOutcome[37], 1);
 
-	PhoneOutcome[38] = TextDrawCreate(78.250, 247.250, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[38], 20.000, 20.000);
+	PhoneOutcome[38] = TextDrawCreate(84.500, 253.250, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[38], 7.500, 7.500);
 	TextDrawAlignment(PhoneOutcome[38], 1);
 	TextDrawColor(PhoneOutcome[38], 1785228031);
 	TextDrawSetShadow(PhoneOutcome[38], 0);
@@ -10664,10 +10672,9 @@ stock CreateTextDraws(playerid) {
 	TextDrawBackgroundColor(PhoneOutcome[38], 255);
 	TextDrawFont(PhoneOutcome[38], 4);
 	TextDrawSetProportional(PhoneOutcome[38], 1);
-	TextDrawSetSelectable(PhoneOutcome[38], 1);
 
-	PhoneOutcome[39] = TextDrawCreate(83.250, 252.000, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[39], 10.000, 10.000);
+	PhoneOutcome[39] = TextDrawCreate(84.250, 257.000, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[39], 8.000, 3.500);
 	TextDrawAlignment(PhoneOutcome[39], 1);
 	TextDrawColor(PhoneOutcome[39], -1);
 	TextDrawSetShadow(PhoneOutcome[39], 0);
@@ -10676,73 +10683,73 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(PhoneOutcome[39], 4);
 	TextDrawSetProportional(PhoneOutcome[39], 1);
 
-	PhoneOutcome[40] = TextDrawCreate(84.500, 253.250, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[40], 7.500, 7.500);
+	PhoneOutcome[40] = TextDrawCreate(86.750, 254.500, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[40], 3.000, 3.000);
 	TextDrawAlignment(PhoneOutcome[40], 1);
-	TextDrawColor(PhoneOutcome[40], 1785228031);
+	TextDrawColor(PhoneOutcome[40], -1);
 	TextDrawSetShadow(PhoneOutcome[40], 0);
 	TextDrawSetOutline(PhoneOutcome[40], 0);
 	TextDrawBackgroundColor(PhoneOutcome[40], 255);
 	TextDrawFont(PhoneOutcome[40], 4);
 	TextDrawSetProportional(PhoneOutcome[40], 1);
 
-	PhoneOutcome[41] = TextDrawCreate(84.250, 257.000, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[41], 8.000, 3.500);
-	TextDrawAlignment(PhoneOutcome[41], 1);
-	TextDrawColor(PhoneOutcome[41], -1);
+	PhoneOutcome[41] = TextDrawCreate(88.375, 266.000, "contacts");
+	TextDrawLetterSize(PhoneOutcome[41], 0.100, 0.600);
+	TextDrawTextSize(PhoneOutcome[41], 5.000, 24.000);
+	TextDrawAlignment(PhoneOutcome[41], 2);
+	TextDrawColor(PhoneOutcome[41], -1330596097);
 	TextDrawSetShadow(PhoneOutcome[41], 0);
 	TextDrawSetOutline(PhoneOutcome[41], 0);
-	TextDrawBackgroundColor(PhoneOutcome[41], 255);
-	TextDrawFont(PhoneOutcome[41], 4);
+	TextDrawBackgroundColor(PhoneOutcome[41], 150);
+	TextDrawFont(PhoneOutcome[41], 1);
 	TextDrawSetProportional(PhoneOutcome[41], 1);
 
-	PhoneOutcome[42] = TextDrawCreate(86.750, 254.500, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[42], 3.000, 3.000);
+	PhoneOutcome[42] = TextDrawCreate(95.500, 247.250, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[42], 20.000, 20.000);
 	TextDrawAlignment(PhoneOutcome[42], 1);
-	TextDrawColor(PhoneOutcome[42], -1);
+	TextDrawColor(PhoneOutcome[42], 1785228031);
 	TextDrawSetShadow(PhoneOutcome[42], 0);
 	TextDrawSetOutline(PhoneOutcome[42], 0);
 	TextDrawBackgroundColor(PhoneOutcome[42], 255);
 	TextDrawFont(PhoneOutcome[42], 4);
 	TextDrawSetProportional(PhoneOutcome[42], 1);
+	TextDrawSetSelectable(PhoneOutcome[42], 1);
 
-	PhoneOutcome[43] = TextDrawCreate(88.375, 266.000, "contacts");
-	TextDrawLetterSize(PhoneOutcome[43], 0.100, 0.600);
-	TextDrawTextSize(PhoneOutcome[43], 5.000, 24.000);
-	TextDrawAlignment(PhoneOutcome[43], 2);
-	TextDrawColor(PhoneOutcome[43], -1330596097);
+	PhoneOutcome[43] = TextDrawCreate(83.000, 235.000, "_");
+	TextDrawTextSize(PhoneOutcome[43], 40.000, 45.000);
+	TextDrawAlignment(PhoneOutcome[43], 1);
+	TextDrawColor(PhoneOutcome[43], -1);
 	TextDrawSetShadow(PhoneOutcome[43], 0);
 	TextDrawSetOutline(PhoneOutcome[43], 0);
-	TextDrawBackgroundColor(PhoneOutcome[43], 150);
-	TextDrawFont(PhoneOutcome[43], 1);
-	TextDrawSetProportional(PhoneOutcome[43], 1);
+	TextDrawBackgroundColor(PhoneOutcome[43], 0);
+	TextDrawFont(PhoneOutcome[43], 5);
+	TextDrawSetProportional(PhoneOutcome[43], 0);
+	TextDrawSetPreviewModel(PhoneOutcome[43], 19177);
+	TextDrawSetPreviewRot(PhoneOutcome[43], 0.000, 90.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(PhoneOutcome[43], 0, 0);
 
-	PhoneOutcome[44] = TextDrawCreate(95.500, 247.250, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[44], 20.000, 20.000);
+	PhoneOutcome[44] = TextDrawCreate(105.500, 256.000, "LD_SPAC:white");
+	TextDrawTextSize(PhoneOutcome[44], 0.500, 2.500);
 	TextDrawAlignment(PhoneOutcome[44], 1);
-	TextDrawColor(PhoneOutcome[44], 1785228031);
+	TextDrawColor(PhoneOutcome[44], -1);
 	TextDrawSetShadow(PhoneOutcome[44], 0);
 	TextDrawSetOutline(PhoneOutcome[44], 0);
 	TextDrawBackgroundColor(PhoneOutcome[44], 255);
 	TextDrawFont(PhoneOutcome[44], 4);
 	TextDrawSetProportional(PhoneOutcome[44], 1);
-	TextDrawSetSelectable(PhoneOutcome[44], 1);
 
-	PhoneOutcome[45] = TextDrawCreate(83.000, 235.000, "_");
-	TextDrawTextSize(PhoneOutcome[45], 40.000, 45.000);
+	PhoneOutcome[45] = TextDrawCreate(106.500, 255.000, "LD_SPAC:white");
+	TextDrawTextSize(PhoneOutcome[45], 0.500, 4.500);
 	TextDrawAlignment(PhoneOutcome[45], 1);
 	TextDrawColor(PhoneOutcome[45], -1);
 	TextDrawSetShadow(PhoneOutcome[45], 0);
 	TextDrawSetOutline(PhoneOutcome[45], 0);
-	TextDrawBackgroundColor(PhoneOutcome[45], 0);
-	TextDrawFont(PhoneOutcome[45], 5);
-	TextDrawSetProportional(PhoneOutcome[45], 0);
-	TextDrawSetPreviewModel(PhoneOutcome[45], 19177);
-	TextDrawSetPreviewRot(PhoneOutcome[45], 0.000, 90.000, 0.000, 1.000);
-	TextDrawSetPreviewVehCol(PhoneOutcome[45], 0, 0);
+	TextDrawBackgroundColor(PhoneOutcome[45], 255);
+	TextDrawFont(PhoneOutcome[45], 4);
+	TextDrawSetProportional(PhoneOutcome[45], 1);
 
-	PhoneOutcome[46] = TextDrawCreate(105.500, 256.000, "LD_SPAC:white");
-	TextDrawTextSize(PhoneOutcome[46], 0.500, 2.500);
+	PhoneOutcome[46] = TextDrawCreate(107.500, 254.000, "LD_SPAC:white");
+	TextDrawTextSize(PhoneOutcome[46], 0.500, 6.500);
 	TextDrawAlignment(PhoneOutcome[46], 1);
 	TextDrawColor(PhoneOutcome[46], -1);
 	TextDrawSetShadow(PhoneOutcome[46], 0);
@@ -10751,49 +10758,55 @@ stock CreateTextDraws(playerid) {
 	TextDrawFont(PhoneOutcome[46], 4);
 	TextDrawSetProportional(PhoneOutcome[46], 1);
 
-	PhoneOutcome[47] = TextDrawCreate(106.500, 255.000, "LD_SPAC:white");
-	TextDrawTextSize(PhoneOutcome[47], 0.500, 4.500);
-	TextDrawAlignment(PhoneOutcome[47], 1);
-	TextDrawColor(PhoneOutcome[47], -1);
+	PhoneOutcome[47] = TextDrawCreate(105.500, 266.000, "audio");
+	TextDrawLetterSize(PhoneOutcome[47], 0.100, 0.600);
+	TextDrawTextSize(PhoneOutcome[47], 5.000, 24.000);
+	TextDrawAlignment(PhoneOutcome[47], 2);
+	TextDrawColor(PhoneOutcome[47], -1330596097);
 	TextDrawSetShadow(PhoneOutcome[47], 0);
 	TextDrawSetOutline(PhoneOutcome[47], 0);
-	TextDrawBackgroundColor(PhoneOutcome[47], 255);
-	TextDrawFont(PhoneOutcome[47], 4);
+	TextDrawBackgroundColor(PhoneOutcome[47], 150);
+	TextDrawFont(PhoneOutcome[47], 1);
 	TextDrawSetProportional(PhoneOutcome[47], 1);
 
-	PhoneOutcome[48] = TextDrawCreate(107.500, 254.000, "LD_SPAC:white");
-	TextDrawTextSize(PhoneOutcome[48], 0.500, 6.500);
+	PhoneOutcome[48] = TextDrawCreate(78.416, 287.500, "LD_BEAT:chit");
+	TextDrawTextSize(PhoneOutcome[48], 20.000, 20.000);
 	TextDrawAlignment(PhoneOutcome[48], 1);
-	TextDrawColor(PhoneOutcome[48], -1);
+	TextDrawColor(PhoneOutcome[48], -12240129);
 	TextDrawSetShadow(PhoneOutcome[48], 0);
 	TextDrawSetOutline(PhoneOutcome[48], 0);
 	TextDrawBackgroundColor(PhoneOutcome[48], 255);
 	TextDrawFont(PhoneOutcome[48], 4);
 	TextDrawSetProportional(PhoneOutcome[48], 1);
+	TextDrawSetSelectable(PhoneOutcome[48], 1);
 
-	PhoneOutcome[49] = TextDrawCreate(105.500, 266.000, "audio");
-	TextDrawLetterSize(PhoneOutcome[49], 0.100, 0.600);
-	TextDrawTextSize(PhoneOutcome[49], 5.000, 24.000);
-	TextDrawAlignment(PhoneOutcome[49], 2);
-	TextDrawColor(PhoneOutcome[49], -1330596097);
+	PhoneOutcome[49] = TextDrawCreate(75.916, 288.000, "_");
+	TextDrawTextSize(PhoneOutcome[49], 20.000, 20.000);
+	TextDrawAlignment(PhoneOutcome[49], 1);
+	TextDrawColor(PhoneOutcome[49], -1);
 	TextDrawSetShadow(PhoneOutcome[49], 0);
 	TextDrawSetOutline(PhoneOutcome[49], 0);
-	TextDrawBackgroundColor(PhoneOutcome[49], 150);
-	TextDrawFont(PhoneOutcome[49], 1);
-	TextDrawSetProportional(PhoneOutcome[49], 1);
+	TextDrawBackgroundColor(PhoneOutcome[49], 0);
+	TextDrawFont(PhoneOutcome[49], 5);
+	TextDrawSetProportional(PhoneOutcome[49], 0);
+	TextDrawSetPreviewModel(PhoneOutcome[49], 19177);
+	TextDrawSetPreviewRot(PhoneOutcome[49], 0.000, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(PhoneOutcome[49], 0, 0);
 
-	PhoneOutcome[50] = TextDrawCreate(78.416, 287.500, "LD_BEAT:chit");
-	TextDrawTextSize(PhoneOutcome[50], 20.000, 20.000);
+	PhoneOutcome[50] = TextDrawCreate(85.416, 294.000, "_");
+	TextDrawTextSize(PhoneOutcome[50], 6.000, 6.000);
 	TextDrawAlignment(PhoneOutcome[50], 1);
-	TextDrawColor(PhoneOutcome[50], -12240129);
+	TextDrawColor(PhoneOutcome[50], -1);
 	TextDrawSetShadow(PhoneOutcome[50], 0);
 	TextDrawSetOutline(PhoneOutcome[50], 0);
-	TextDrawBackgroundColor(PhoneOutcome[50], 255);
-	TextDrawFont(PhoneOutcome[50], 4);
-	TextDrawSetProportional(PhoneOutcome[50], 1);
-	TextDrawSetSelectable(PhoneOutcome[50], 1);
+	TextDrawBackgroundColor(PhoneOutcome[50], 0);
+	TextDrawFont(PhoneOutcome[50], 5);
+	TextDrawSetProportional(PhoneOutcome[50], 0);
+	TextDrawSetPreviewModel(PhoneOutcome[50], 1316);
+	TextDrawSetPreviewRot(PhoneOutcome[50], -7.500, 0.000, 0.000, 1.000);
+	TextDrawSetPreviewVehCol(PhoneOutcome[50], 0, 0);
 
-	PhoneOutcome[51] = TextDrawCreate(75.916, 288.000, "_");
+	PhoneOutcome[51] = TextDrawCreate(80.916, 288.000, "_");
 	TextDrawTextSize(PhoneOutcome[51], 20.000, 20.000);
 	TextDrawAlignment(PhoneOutcome[51], 1);
 	TextDrawColor(PhoneOutcome[51], -1);
@@ -10806,31 +10819,26 @@ stock CreateTextDraws(playerid) {
 	TextDrawSetPreviewRot(PhoneOutcome[51], 0.000, 0.000, 0.000, 1.000);
 	TextDrawSetPreviewVehCol(PhoneOutcome[51], 0, 0);
 
-	PhoneOutcome[52] = TextDrawCreate(85.416, 294.000, "_");
-	TextDrawTextSize(PhoneOutcome[52], 6.000, 6.000);
-	TextDrawAlignment(PhoneOutcome[52], 1);
-	TextDrawColor(PhoneOutcome[52], -1);
-	TextDrawSetShadow(PhoneOutcome[52], 0);
-	TextDrawSetOutline(PhoneOutcome[52], 0);
-	TextDrawBackgroundColor(PhoneOutcome[52], 0);
-	TextDrawFont(PhoneOutcome[52], 5);
-	TextDrawSetProportional(PhoneOutcome[52], 0);
-	TextDrawSetPreviewModel(PhoneOutcome[52], 1316);
-	TextDrawSetPreviewRot(PhoneOutcome[52], -7.500, 0.000, 0.000, 1.000);
-	TextDrawSetPreviewVehCol(PhoneOutcome[52], 0, 0);
+	PhoneOutcomeS[playerid][0] = CreatePlayerTextDraw(playerid, 88.375, 196.000, "macr0n");
+	PlayerTextDrawLetterSize(playerid, PhoneOutcomeS[playerid][0], 0.200, 1.200);
+	PlayerTextDrawAlignment(playerid, PhoneOutcomeS[playerid][0], 2);
+	PlayerTextDrawColor(playerid, PhoneOutcomeS[playerid][0], -1);
+	PlayerTextDrawSetShadow(playerid, PhoneOutcomeS[playerid][0], 0);
+	PlayerTextDrawSetOutline(playerid, PhoneOutcomeS[playerid][0], 0);
+	PlayerTextDrawBackgroundColor(playerid, PhoneOutcomeS[playerid][0], 150);
+	PlayerTextDrawFont(playerid, PhoneOutcomeS[playerid][0], 1);
+	PlayerTextDrawSetProportional(playerid, PhoneOutcomeS[playerid][0], 1);
 
-	PhoneOutcome[53] = TextDrawCreate(80.916, 288.000, "_");
-	TextDrawTextSize(PhoneOutcome[53], 20.000, 20.000);
-	TextDrawAlignment(PhoneOutcome[53], 1);
-	TextDrawColor(PhoneOutcome[53], -1);
-	TextDrawSetShadow(PhoneOutcome[53], 0);
-	TextDrawSetOutline(PhoneOutcome[53], 0);
-	TextDrawBackgroundColor(PhoneOutcome[53], 0);
-	TextDrawFont(PhoneOutcome[53], 5);
-	TextDrawSetProportional(PhoneOutcome[53], 0);
-	TextDrawSetPreviewModel(PhoneOutcome[53], 19177);
-	TextDrawSetPreviewRot(PhoneOutcome[53], 0.000, 0.000, 0.000, 1.000);
-	TextDrawSetPreviewVehCol(PhoneOutcome[53], 0, 0);
+	PhoneOutcomeS[playerid][1] = CreatePlayerTextDraw(playerid, 88.375, 208.500, "02:34");
+	PlayerTextDrawLetterSize(playerid, PhoneOutcomeS[playerid][1], 0.100, 0.600);
+	PlayerTextDrawTextSize(playerid, PhoneOutcomeS[playerid][1], 5.000, 24.000);
+	PlayerTextDrawAlignment(playerid, PhoneOutcomeS[playerid][1], 2);
+	PlayerTextDrawColor(playerid, PhoneOutcomeS[playerid][1], -1330596097);
+	PlayerTextDrawSetShadow(playerid, PhoneOutcomeS[playerid][1], 0);
+	PlayerTextDrawSetOutline(playerid, PhoneOutcomeS[playerid][1], 0);
+	PlayerTextDrawBackgroundColor(playerid, PhoneOutcomeS[playerid][1], 150);
+	PlayerTextDrawFont(playerid, PhoneOutcomeS[playerid][1], 1);
+	PlayerTextDrawSetProportional(playerid, PhoneOutcomeS[playerid][1], 1);
 
 	//------------------------------------------------------------------------------------------------
 
@@ -18966,21 +18974,40 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_query(connects, query);
 			characters_panel(playerid);
 			}
-		case dPhoneSettings: {
+		case dPhoneSettings: 
+		{
 			if(!response) return 1;
-			switch(listitem) {
-				case 0: {
-					if(!PlayerPhone[playerid][pStatus]) {
+			switch(listitem) 
+			{
+				case 0: 
+				{
+					if(!PlayerPhone[playerid][pStatus]) 
+					{
 						SendOK(playerid, "Ви увімкнули режим польоту на Вашому телефоні.");
 						PlayerPhone[playerid][pStatus] = 1;
 						phonesettings(playerid);
-					} else {
+					} else 
+					{
 						SendOK(playerid, "Ви вимкнули режим польоту на Вашому телефоні.");
 						PlayerPhone[playerid][pStatus] = 0;
 						phonesettings(playerid);
 					}
 				}
-				case 2: {
+				case 1:
+				{
+					/*
+						CAR_PHONE_RING - 20600
+						MOBRING - 23000
+						PED_MOBRING - 20804
+					*/
+					new string[256];
+					if(PlayerPhone[playerid][pRingtone] == 20600) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING "G"(встановлено)\n"W"Рингтон MOBRING\nРингтон PED_MOBRING");
+					else if(PlayerPhone[playerid][pRingtone] == 23000) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING "G"(встановлено)\nРингтон PED_MOBRING");
+					else if(PlayerPhone[playerid][pRingtone] == 20804) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING\nРингтон PED_MOBRING "G"(встановлено)");
+					ShowPlayerDialog(playerid, dPhoneRingtone, DIALOG_STYLE_LIST, ""P"| "W"Рингтони", string, "Обрати", "Назад");
+				}
+				case 2: 
+				{
 					new string[512];
 					format(string, sizeof(string), G"Поточний колір: %s.\n", PlayerPhoneColor[PlayerPhone[playerid][pColor]][Color]);
 					for(new i; i < 8; i++) format(string, sizeof(string), "%s"P"- "W"%s\n", string, PlayerPhoneColor[i][Color]);
@@ -18988,6 +19015,72 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 			update_phone_settings(playerid);
+		}
+		case dPhoneRingtone:
+		{
+			if(!response) return phonesettings(playerid);
+			new ring, string[256];
+			switch(listitem)
+			{
+				case 0:
+				{
+					if(PlayerPhone[playerid][pRingtone] == 20600) 
+					{
+						SendError(playerid, "Цей рингтон вже використовується, як мелодія дзвінка.");
+						if(PlayerPhone[playerid][pRingtone] == 20600) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING "G"(встановлено)\n"W"Рингтон MOBRING\nРингтон PED_MOBRING");
+						else if(PlayerPhone[playerid][pRingtone] == 23000) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING "G"(встановлено)\nРингтон PED_MOBRING");
+						else if(PlayerPhone[playerid][pRingtone] == 20804) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING\nРингтон PED_MOBRING "G"(встановлено)");
+						return ShowPlayerDialog(playerid, dPhoneRingtone, DIALOG_STYLE_LIST, ""P"| "W"Рингтони", string, "Обрати", "Назад");
+					}
+					ring = 20600;
+					SetPVarInt(playerid, "PhoneRingtone", 20600);
+				}
+				case 1:
+				{
+					if(PlayerPhone[playerid][pRingtone] == 23000) 
+					{
+						SendError(playerid, "Цей рингтон вже використовується, як мелодія дзвінка.");
+						if(PlayerPhone[playerid][pRingtone] == 20600) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING "G"(встановлено)\n"W"Рингтон MOBRING\nРингтон PED_MOBRING");
+						else if(PlayerPhone[playerid][pRingtone] == 23000) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING "G"(встановлено)\nРингтон PED_MOBRING");
+						else if(PlayerPhone[playerid][pRingtone] == 20804) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING\nРингтон PED_MOBRING "G"(встановлено)");
+						return ShowPlayerDialog(playerid, dPhoneRingtone, DIALOG_STYLE_LIST, ""P"| "W"Рингтони", string, "Обрати", "Назад");
+					}
+					ring = 23000;
+					SetPVarInt(playerid, "PhoneRingtone", 23000);
+				}
+				case 2:
+				{
+					if(PlayerPhone[playerid][pRingtone] == 20804) 
+					{
+						SendError(playerid, "Цей рингтон вже використовується, як мелодія дзвінка.");
+						if(PlayerPhone[playerid][pRingtone] == 20600) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING "G"(встановлено)\n"W"Рингтон MOBRING\nРингтон PED_MOBRING");
+						else if(PlayerPhone[playerid][pRingtone] == 23000) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING "G"(встановлено)\nРингтон PED_MOBRING");
+						else if(PlayerPhone[playerid][pRingtone] == 20804) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING\nРингтон PED_MOBRING "G"(встановлено)");
+						return ShowPlayerDialog(playerid, dPhoneRingtone, DIALOG_STYLE_LIST, ""P"| "W"Рингтони", string, "Обрати", "Назад");
+					}
+					ring = 20804;
+					SetPVarInt(playerid, "PhoneRingtone", 20804);
+				}
+			}
+			PlayerPlaySound(playerid, ring, 0.0, 0.0, 0.0);
+			ShowPlayerDialog(playerid, dPhoneSaveRing, DIALOG_STYLE_MSGBOX, ""P"| "W"Рингтон", ""W"Для Вас зараз програється мелодія рингтону.\n\nБажаєте використовувати його, як мелодію дзвінка?", "Далі", "Скасувати");
+		}
+		case dPhoneSaveRing:
+		{
+			new string[256];
+			if(!response)
+			{
+				DeletePVar(playerid, "PhoneRingtone");
+				if(PlayerPhone[playerid][pRingtone] == 20600) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING "G"(встановлено)\n"W"Рингтон MOBRING\nРингтон PED_MOBRING");
+				else if(PlayerPhone[playerid][pRingtone] == 23000) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING "G"(встановлено)\nРингтон PED_MOBRING");
+				else if(PlayerPhone[playerid][pRingtone] == 20804) format(string, sizeof(string), ""W"Рингтон CAR_PHONE_RING\n"W"Рингтон MOBRING\nРингтон PED_MOBRING "G"(встановлено)");
+				return ShowPlayerDialog(playerid, dPhoneRingtone, DIALOG_STYLE_LIST, ""P"| "W"Рингтони", string, "Обрати", "Назад");
+			}
+			new query[256];
+			mysql_format(connects, query, sizeof(query), "UPDATE `phone_settings` SET `Ringtone` = %d WHERE `OwnerID` = %d", GetPVarInt(playerid, "PhoneRingtone"), CI[playerid][cName]);
+			mysql_query(connects, query);
+			SendOK(playerid, "Рингтон успішно встановлено, як мелодію дзвінка.");
+			return phonesettings(playerid);
 		}
 		case dPhoneChangeColor: {
 			if(!response) return phonesettings(playerid);
@@ -19034,7 +19127,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 			}
 		}
-		case dPhoneContacts: {
+		case dPhoneContacts: 
+		{
 			if(!response) return 1;
 			if(listitem == 0) return ShowPlayerDialog(playerid, dPhoneAddNumber, DIALOG_STYLE_INPUT, ""P"| "W"Додати контакт", ""W"Введіть у полі нижче номер телефону.", "Далі", "Назад");
 			new cutstring[100], firstelement, secondelement, formattedstring[10], formattedname[40], header[40];
@@ -19042,13 +19136,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			firstelement = strfind(cutstring, "[", true);
 			secondelement = strfind(cutstring, "]", true);
 			strmid(formattedstring, cutstring, firstelement+1, secondelement);
-			strmid(formattedname, cutstring, 0, firstelement-2);
+			strmid(formattedname, cutstring, 0, firstelement-1);
 			SetPVarInt(playerid, "numbertocall", strval(formattedstring));
 			SetPVarString(playerid, "nametocall", formattedname);
 			format(header, sizeof(header), ""G"%s (%d)", formattedname, strval(formattedstring));
 			ShowPlayerDialog(playerid, dPhoneEditContact, DIALOG_STYLE_LIST, header, ""W"Зателефонувати\nНаписати повідомлення\nПерейменувати контакт\nЗмінити номер телефону\nВидалити контакт", "Обрати", "Назад");
 		}
-		case dPhoneAddNumber: {
+		case dPhoneAddNumber: 
+		{
 			if(!response) return 1;
 			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dPhoneAddNumber, DIALOG_STYLE_INPUT, ""P"| "W"Додати контакт", ""W"Введіть у полі нижче номер телефону.", "Далі", "Назад");
 			new number = strval(inputtext);
@@ -19056,8 +19151,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarInt(playerid, "numbertoadd", number);
 			ShowPlayerDialog(playerid, dPhoneAddName, DIALOG_STYLE_INPUT, ""P"| "W"Додати контакт", ""W"Введіть у полі нижче назву контакту.", "Далі", "Назад");
 		}
-		case dPhoneAddName: {
-			if(!response) {
+		case dPhoneAddName: 
+		{
+			if(!response) 
+			{
 				DeletePVar(playerid, "numbertoadd");
 				return ShowPlayerDialog(playerid, dPhoneAddNumber, DIALOG_STYLE_INPUT, ""P"| "W"Додати контакт", ""W"Введіть у полі нижче номер телефону.", "Далі", "Назад");
 			}
@@ -19065,12 +19162,87 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarString(playerid, "nametoadd", inputtext);
 			PhoneAddContact(playerid);
 		}
+		case dAddNumber:
+		{
+			if(!response) return 1;
+			if(!strlen(inputtext) || strlen(inputtext) > 40) ShowPlayerDialog(playerid, dAddNumber, DIALOG_STYLE_INPUT, ""P"| "W"Додати контакт", ""W"Введіть у полі нижче назву контакту.", "Далі", "Назад");
+			SetPVarInt(playerid, "numbertoadd", GetPVarInt(playerid, "call_number"));
+			SetPVarString(playerid, "nametoadd", inputtext);
+			PhoneAddContact(playerid);
+		}
 		case dPhoneEditContact: {
 			if(!response) return 1;
-			switch(listitem) {
-				case 0: return 1;
-				default: return 1;
+			switch(listitem) 
+			{
+				case 0: {}//call
+				case 1:
+				{
+					new query[1028], name[40];
+					GetPVarString(playerid, "nametocall", name, 40);
+					FixSVarString(name);
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_messages` WHERE (`Sender` = '%e' AND `Recipient` = '%e') OR (`Recipient` = '%e' AND `Sender` = '%e') ORDER BY `time` DESC LIMIT 0, 20", CI[playerid][cName], name, CI[playerid][cName], name);
+					mysql_tquery(connects, query, "ShowPlayerMessage", "d", playerid); 
+					mysql_format(connects, query, sizeof(query), "UPDATE `phone_messages` SET `read` = '0' WHERE `Recipient` = '%e' AND `Sender` = '%e'", CI[playerid][cName], name);
+					mysql_query(connects, query);
+				}
+				case 2: ShowPlayerDialog(playerid, dRenameContact, DIALOG_STYLE_INPUT, ""P"| "W"Перейменування контакту", "Введіть у полі нижче нову назву контакту.", "Далі", "Назад");
+				case 3: ShowPlayerDialog(playerid, dChangeNumContact, DIALOG_STYLE_INPUT, ""P"| "W"Зміна номера телефону контакту", "Введіть у полі нижче новий номер телефону контакту.", "Далі", "Назад");
+				case 4:
+				{
+					new string[256], name[40];
+					GetPVarString(playerid, "nametocall", name, 40);
+					FixSVarString(name);
+					format(string, sizeof(string), "Ви справді хочете видалити контакт %s з номером телефону %d", name, GetPVarInt(playerid, "numbertocall"));
+					ShowPlayerDialog(playerid, dDeleteContact, DIALOG_STYLE_MSGBOX, ""P"| "W"Видалення контакту", string, "Далі", "Назад");
+				}
 			}
+		}
+		case dChangeNumContact:
+		{
+			new query[1028];
+			if(!response)
+			{
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "phone_contacts", "i", playerid);
+			}
+			if(strlen(inputtext) > 7) return ShowPlayerDialog(playerid, dChangeNumContact, DIALOG_STYLE_INPUT, ""P"| "W"Зміна номера телефону контакту", "Введіть у полі нижче новий номер телефону контакту.", "Далі", "Назад");
+			if(!CheckContactByNumber(playerid, strval(inputtext))) return ShowPlayerDialog(playerid, dChangeNumContact, DIALOG_STYLE_INPUT, ""P"| "W"Зміна номера телефону контакту", "Введіть у полі нижче новий номер телефону контакту.\n\n"E"Контакт з таким номером телефону вже існує.", "Далі", "Назад");
+			mysql_format(connects, query, sizeof(query), "UPDATE `phone_contacts` SET `Number` = %d WHERE `cID` = %d AND `Number` = %d", strval(inputtext), CI[playerid][cID], GetPVarInt(playerid, "numbertocall"));
+			mysql_query(connects, query);
+			SendOK(playerid, "Номер телефону контакту успішно змінено.");
+		}
+		case dDeleteContact:
+		{
+			new query[1028];
+			if(!response)
+			{
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "phone_contacts", "i", playerid);
+			}
+			new name[40];
+			GetPVarString(playerid, "nametocall", name, 40);
+			FixSVarString(name);
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `phone_contacts` WHERE `cID` = %d AND `Contact` = '%s' AND `Number` = %d", CI[playerid][cID], name, GetPVarInt(playerid, "numbertocall"));
+			mysql_query(connects, query);
+			SendOK(playerid, "Контакт успішно видалено.");
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
+			return mysql_tquery(connects, query, "phone_contacts", "i", playerid); 
+		}
+		case dRenameContact:
+		{
+			new query[1028], name[40];
+			GetPVarString(playerid, "nametocall", name, 40);
+			FixSVarString(name);
+			if(!response)
+			{
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "phone_contacts", "i", playerid);
+			}
+			if(strlen(inputtext) > 40) return ShowPlayerDialog(playerid, dRenameContact, DIALOG_STYLE_INPUT, ""P"| "W"Перейменування контакту", "Введіть у полі нижче нову назву контакту.", "Далі", "Назад");
+			if(!CheckContactByName(playerid, inputtext)) return ShowPlayerDialog(playerid, dRenameContact, DIALOG_STYLE_INPUT, ""P"| "W"Перейменування контакту", "Введіть у полі нижче нову назву контакту.\n\n"E"Контакт з таким іменем вже існує.", "Далі", "Назад");
+			mysql_format(connects, query, sizeof(query), "UPDATE `phone_contacts` SET `Contact` = '%s' WHERE `cID` = %d AND `Contact` = '%s'", inputtext, CI[playerid][cID], name);
+			mysql_query(connects, query);
+			SendOK(playerid, "Контакт успішно перейменовано.");
 		}
 		case dHelp:
 		{
@@ -19284,8 +19456,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			format(string, sizeof(string), "Координати місця "P"%s"W" поблизу позначено на вашій карті.", inputtext);
 			SendOK(playerid, string);
 		}
-		case dPhoneCall: {
-			if(!response) {
+		case dPhoneCall: 
+		{
+			if(!response) 
+			{
 				if(PhoneShow[playerid] == true) SelectTextDraw(playerid, 0xFFD900FF);
 				return 1;
 			}
@@ -26083,8 +26257,22 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						CI[playerid][pPhone] = 1;
 						// UpdatePlayerData(playerid, "Phone", CI[playerid][pPhone]);
 					}
-					switch(article) {
-						case 0: AddInactiveItem(playerid, 579, 1);
+					switch(article) 
+					{
+						case 0:
+						{
+							new query[256];
+							mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM `phone_settings` WHERE `OwnerID` = %d", CI[playerid][cID]);
+							new Cache:result = mysql_query(connects, query);
+							if(!cache_num_rows())
+							{
+								mysql_format(connects, query, sizeof(query), "INSERT INTO `phone_settings` (`OwnerID`, `Status`, `DesktopColor`, `Rightone`) VALUES (%d, 0, 0, 0)", CI[playerid][cID]);
+								mysql_query(connects, query);
+								load_player_phone_settings(playerid);
+							}
+							cache_delete(result);
+							AddInactiveItem(playerid, 579, 1);
+						}
 						case 1: AddInactiveItem(playerid, 580, 1);
 						case 2: AddInactiveItem(playerid, 581, 1);
 						case 3: AddInactiveItem(playerid, 582, 1);
@@ -45293,11 +45481,12 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 				mysql_format(connects, query, sizeof(query), "select pm.`Sender`, pm.`Recipient`, pm.`Message`, pm.`time`, pm.`read` from `phone_messages` pm join (select `Sender`, max(`time`) as `mtime` from `phone_messages` where `Recipient` = '%e' group by `Sender`) pm1 on pm.`Sender` = pm1.`Sender` and pm.`time` = pm1.`mtime` order by pm.`time` desc", CI[playerid][cName]);
 				return mysql_tquery(connects, query, "phone_messages", "i", playerid);
 			} else if(playertextid == PhoneDesktop[playerid][10]) phonesettings(playerid);
-			else if(playertextid == PhoneDesktop[playerid][13]) gps(playerid);
+			else if(playertextid == PhoneDesktop[playerid][13]) pc_cmd_gps(playerid);
 			else if(playertextid == PhoneDesktop[playerid][16]) SendOK(playerid, "Taxi");
 			else if(playertextid == PhoneDesktop[playerid][19]) SendOK(playerid, "Bank");
 		}
-		if(GetPVarInt(playerid, "phone_call")) {
+		if(GetPVarInt(playerid, "phone_call")) 
+		{
 			for(new i; i < 82; i++) {
 				if(playertextid == PhoneNumber[playerid][i]) {
 					new string[15];
@@ -45353,54 +45542,25 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 			} 
 			else if(playertextid == PhoneNumber[playerid][34]) 
 			{
-				
+				//new number = GetPVarInt(playerid, "call_number");
+				new number[10];
+				format(number, sizeof(number), "%d", GetPVarInt(playerid, "call_number"));
+				SendOK(playerid, number);
+				//new len = strlen(GetPVarInt(playerid, "call_number"));
+				if(!GetPVarInt(playerid, "call_number") || strlen(number) < 7) return SendError(playerid, "Номер не відповідає необхідному формату (7 цифр).");
+				ShowPlayerDialog(playerid, dAddNumber, DIALOG_STYLE_INPUT, ""P"| "W"Додати контакт", ""W"Введіть у полі нижче назву контакту.", "Далі", "Назад");
 			} 
 			else if(playertextid == PhoneNumber[playerid][47]) 
 			{
-				new hour, minute, second, string[50];
-				gettime(hour, minute, second);
-				format(string, sizeof(string), "%02d:%02d", hour, minute);
-				for(new i; i < 82; i++) PlayerTextDrawHide(playerid, PhoneNumber[playerid][i]);
-				TextDrawSetString(PhoneOutcome[23], string);
-				for(new i; i < 54; i++) TextDrawShowForPlayer(playerid, PhoneOutcome[i]);
-				SetPVarInt(playerid, "call_outcome", 1);
-				DeletePVar(playerid, "phone_call");
-				SelectTextDraw(playerid, 0xbfbfbfff);
+				if(PlayerPhone[playerid][pStatus]) return SendError(playerid, "Телефон у режимі польоту.");
 				new number_string[15];
-
 				GetPVarString(playerid, "call_number", number_string, 15);
 				new number = strval(number_string);
-				format(string, sizeof(string), "String: %s. Number: %d", number_string, number);
-				SendInfo(playerid, string);
-				
-				if(CI[playerid][pMute]) return SendError(playerid, "У вас бан чата.");
-				if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
-
-				if(number == CI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
-				switch(number) {
-					case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, P"Оберіть сервіс.", P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Механік", "Обрати", "Закрити");
-					case 222: {
-						new driver = 0;
-						foreach(new i:Player) {
-							if(GetPVarInt(i, "taxi_started")) {
-								driver++;
-								if(GetPlayerVirtualWorld(playerid) != 0) return SendError(playerid, "Для виклику таксі вийдіть з приміщення.");
-								ShowPlayerDialog(playerid, D_TAXI_CALL, DSL, P"|"W"Диспетчер. Таксі.", P"-"W" Обрати місце призначення у GPS навігаторі\n"P"-"W" Вказати дорогу таксисту", "Далі", "Закрити");
-							}
-						}
-						if(driver == 0) return SendError(playerid, "Диспетчер: наразі немає таксистів на зміні.");
-						new ids = 0;
-						for(new x = GetVehiclePoolSize() + 1; --x != 0;) {
-							if(!IsValidVehicle(x)) continue;
-							if(!IsVehicleOccupied(x)) continue;
-							if(VehicleInfo[x][vJob] != 8) continue;
-							ids++;
-							ShowPlayerDialog(playerid, D_TAXI_CALL, DSM, P"Диспетчер: Таксі", W"Ви дійсно бажаєте викликати таксі на ваше поточне місце розташування?\n\n"G"", "Викликати", "Закрити");
-						}
-						if(ids == 0) return SendError(playerid, "Диспетчер: Наразі немає вільних таксистів."); 
-						return 1;
-					}
-					case 554: {
+				switch(number) 
+				{
+					//case 911: return ShowPlayerDialog(playerid, D_CALL_SERVICES, DSL, P"Оберіть сервіс.", P"1."W" Поліція\n"P"2."W" Екстрена медична допомога\n"P"3."W" Механік", "Обрати", "Закрити");
+					case 554: 
+					{
 						if(CI[playerid][pMobile] <= 9) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
 						if(calls_news[0] == INVALID_PLAYER_ID) return SendError(playerid, "Прийом дзінків відключено.");
 						if(calls_ether[0] != INVALID_PLAYER_ID) return SendError(playerid, "Лінія зайнята.");
@@ -45412,10 +45572,64 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid) {
 						calls_ether[0] = playerid;
 						TI[playerid][tPhoneNews] = true;
 					}
-					default: {
+					default: 
+					{
+
+
+						if(!IsValidNumber(number)) return SendError(playerid, "Такого номера телефону не існує.");
+
 						if(CI[playerid][pMobile] <= 9) return SendError(playerid, "Недостатньо коштів на рахунку телефона.");
+
+						if(CI[playerid][pMute]) return SendError(playerid, "У вас бан чата.");
+						if(TI[playerid][tGag]) return SendError(playerid, "У вас кляп.");
+
+						if(number == CI[playerid][pPhone]) return SendError(playerid, "Абонент поза зоною досяжності.");
+
+
+						new hour, minute, second, string[50];
+						gettime(hour, minute, second);
+						format(string, sizeof(string), "%02d:%02d", hour, minute);
+
+
+						for(new i; i < 82; i++) PlayerTextDrawHide(playerid, PhoneNumber[playerid][i]);
+
+
+						TextDrawSetString(PhoneOutcome[23], string);
+
+
+						for(new i; i < 52; i++) TextDrawShowForPlayer(playerid, PhoneOutcome[i]);
+
+						new query[512], name[40], num[40];
+						mysql_format(connects, query, sizeof(query), "SELECT `Contact`, `Number` FROM `phone_contacts` WHERE `cID` = %d AND `Number` = '%d' LIMIT 1", CI[playerid][cID], number);
+						new Cache:result = mysql_query(connects, query);
+						new rows = cache_num_rows();
+						if(!rows) format(num, sizeof(num), "%d", number);
+						else
+						{
+							cache_get_value_name(0, "Contact", name, 40);
+							format(num, sizeof(num), "%s", name);
+						}
+						cache_delete(result);
+
+						SetPVarInt(playerid, "CallStarted", 1);
+
+						PlayerTextDrawSetString(playerid, PhoneOutcomeS[playerid][0], num);
+						PlayerTextDrawShow(playerid, PhoneOutcomeS[playerid][0]);
+
+
+						PlayerTextDrawShow(playerid, PhoneOutcomeS[playerid][1]);
+
+
+						SetPVarInt(playerid, "call_outcome", 1);
+						DeletePVar(playerid, "phone_call");
+						SelectTextDraw(playerid, 0xbfbfbfff);
+
+
+
+
 						new bool:isnumber = false;
-						foreach(new i:Player) {
+						foreach(new i:Player) 
+						{
 							if(!TI[i][tLogin]) continue;
 							if(CI[i][pPhone] == number) {
 								if(SERIU[i][sID] != INVALID_PLAYER_ID) return SendError(playerid, "Абонент поза зоною досяжності.");
@@ -47254,7 +47468,8 @@ CB:load_business_interiors() {
 	cache_delete(result);
 	return 1;
 }
-CB:load_player_phone_settings(playerid) {
+stock load_player_phone_settings(playerid) 
+{
 	new Cache:result, query[512], rows;
 	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_settings` WHERE `OwnerID` = %d", CI[playerid][cID]);
 	result = mysql_query(connects, query);
@@ -47264,7 +47479,7 @@ CB:load_player_phone_settings(playerid) {
 	cache_get_value_name(0, "DesktopColor", PlayerPhone[playerid][pColor]);
 	cache_get_value_name_int(0, "Rightone", PlayerPhone[playerid][pRingtone]);
 	cache_delete(result);
-	printf("Phone loading: %i rows", rows);
+	printf("[Phone] Settings loaded (%s): %i rows.", CI[playerid][cName], rows);
 	return 1;
 }
 CB:load_business_new() {
@@ -64531,6 +64746,13 @@ CB:player_timer(playerid) {
 			GameTextForPlayer(playerid, string, 1000, 4);
 		}
 		if(GetPVarInt(playerid, "MeatWorkStarted")) MeatWorkTime[playerid]++;
+		if(GetPVarInt(playerid, "CallStarted"))
+		{
+			PhoneCallTimer[playerid]++;
+			new string[10];
+			format(string, sizeof(string), "%s", Convert(PhoneCallTimer[playerid]));
+			PlayerTextDrawSetString(playerid, PhoneOutcomeS[playerid][1], string);
+		}
 	}
 	@AntiCheat(playerid);
 	if(PlayerToKvadrat(playerid, 1327, -1534.5, 1377, -1487.5) && IsAMedic(playerid)) {
@@ -65396,7 +65618,10 @@ stock UseItem(playerid, oldslot, newslot = -1) {
 		case 568: pc_cmd_radio(playerid);
 		case 579:
 		{
-			HideInvent(playerid);
+
+
+			//HideInvent(playerid);
+
 			if(GetPVarInt(playerid, "phone")) return SendError(playerid, "Ви вже використовуєте мобільний телефон.");
 			for(new i; i < 34; i++) PlayerTextDrawShow(playerid, PhoneLocked[playerid][i]);
 			PlayerTextDrawShow(playerid, PhoneLocked[playerid][67]);
@@ -68631,6 +68856,28 @@ stock PhoneAddContact(playerid) {
 	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
 	mysql_tquery(connects, query, "phone_contacts", "i", playerid);
 	return 1;
+}
+stock CheckContactByName(playerid, const name[])
+{
+	new query[512];
+	//GetPVarString(playerid, "nametoadd", name, 40);
+	//FixSVarString(name);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d AND `Name` = '%e' LIMIT 1", CI[playerid][cID], name);
+	new Cache:result = mysql_query(connects, query);
+	new rows = cache_num_rows();
+	cache_delete(result);
+	return rows;
+}
+stock CheckContactByNumber(playerid, number)
+{
+	new query[512];
+	//GetPVarString(playerid, "nametoadd", name, 40);
+	//FixSVarString(name);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d AND `Number` = %d LIMIT 1", CI[playerid][cID], number);
+	new Cache:result = mysql_query(connects, query);
+	new rows = cache_num_rows();
+	cache_delete(result);
+	return rows;
 }
 
 CB:ProgressBar(playerid, const text[]) {
