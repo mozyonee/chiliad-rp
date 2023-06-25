@@ -263,6 +263,7 @@ new Text3D:MeatText[sizeof(MeatWork)];
 new MeatObject[sizeof(MeatWork)];
 new MeatWorkHands[2];
 new MeatCutTimer[MAX_PLAYERS];
+new MeatProgressTimer[MAX_PLAYERS];
 new MeatConveyor, MeatWarehouse, MeatConveyorEnd, MeatFactoryTotal, MeatWorkerCount, MeatWorkTime[MAX_PLAYERS];
 new Text3D:MeatFactoryTotalText;
 new MeatPlayerObject[MAX_PLAYERS];
@@ -19751,6 +19752,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				DeletePVar(playerid, "MeatDeer");
 				DeletePVar(playerid, "MeatTotal");
 				DeletePVar(playerid, "MeatTotalWeigth");
+				DeletePVar(playerid, "MeatWorkStarted");
 				SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
 				MeatWorkerCount--;
 				MeatWorkTime[playerid] = 0;
@@ -33296,6 +33298,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 
 		new Float:fixedprice = price / 10;
 
+		format(string, sizeof(string), "floatround(GetPVarFloat(playerid, MeatTotal)*fixedprice): %d", floatround(GetPVarFloat(playerid, "MeatTotal")*fixedprice));
+		SendInfo(playerid, string);
 		SetPVarInt(playerid, "MeatSalary", GetPVarInt(playerid, "MeatSalary") + floatround(GetPVarFloat(playerid, "MeatTotal")*fixedprice));
 
 		MeatFactoryTotal = MeatFactoryTotal + floatround(GetPVarFloat(playerid, "MeatTotal"));
@@ -33304,6 +33308,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 
 		format(string, sizeof(string), "{98FB98}Склад м'ясокомбінату\n\n"W"%d фунт(-ів)", MeatFactoryTotal);
 		UpdateDynamic3DTextLabelText(MeatFactoryTotalText, -1, string);
+
+		UpdateEconomyData("MeatFactoryTotal", MeatFactoryTotal);
 
 		RemovePlayerAttachedObject(playerid, 0);
 
@@ -33319,6 +33325,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		DeletePVar(playerid, "MeatPork");
 		DeletePVar(playerid, "MeatDeer");
 		DeletePVar(playerid, "MeatTotal");
+		DeletePVar(playerid, "MeatCutProcess");
 	}
 	if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
 		if(GetPVarInt(playerid, "pOff9") > gettime()) return SendError(playerid, "Зачекайте.");
@@ -42962,6 +42969,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					case 3: TextDrawShowForPlayer(playerid, MeatCowTD[7]);
 				}
 				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatCowTD[id]);
+				TextDrawShowForPlayer(playerid, MeatProgressBar[0]);
 				SetPVarInt(playerid, "MeatCow", 1);
 				SelectTextDraw(playerid, 0xFF0000ff);
 				MeatPlayer[cow] = playerid;
@@ -42984,6 +42992,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					case 3: TextDrawShowForPlayer(playerid, MeatDeerTD[7]);
 				}
 				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatDeerTD[id]);
+				TextDrawShowForPlayer(playerid, MeatProgressBar[0]);
 				SetPVarInt(playerid, "MeatDeer", 1);
 				SelectTextDraw(playerid, 0xFF0000ff);
 				MeatPlayer[deer] = playerid;
@@ -43006,6 +43015,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					case 3: TextDrawShowForPlayer(playerid, MeatBarTD[7]);
 				}
 				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				TextDrawShowForPlayer(playerid, MeatProgressBar[0]);
 				SetPVarInt(playerid, "MeatPork", 1);
 				SelectTextDraw(playerid, 0xFF0000ff);
 				MeatPlayer[pork] = playerid;
@@ -46302,20 +46312,32 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
 				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+				PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 28.250, 3.000);
+				PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+				SetPVarInt(playerid, "MeatStarted", 1);
+				MeatProgressTimer[playerid] = SetTimerEx("MeatProgressT", 1000, true, "ii", playerid, 1);
 			}
 			if(clickedid == MeatDeerTD[i]) {
 				if(GetPVarInt(playerid, "CutProcess")) return 1;
 				SetPVarInt(playerid, "CutProcess", 1);
-				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
+				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 1);
 				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+				PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 28.250, 3.000);
+				PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+				SetPVarInt(playerid, "MeatStarted", 1);
+				MeatProgressTimer[playerid] = SetTimerEx("MeatProgressT", 2000, true, "ii", playerid, 1);
 			}
 			if(clickedid == MeatCowTD[i]) {
 				if(GetPVarInt(playerid, "CutProcess")) return 1;
 				SetPVarInt(playerid, "CutProcess", 1);
-				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
+				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 7000, false, "ii", playerid, 1);
 				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+				PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 28.250, 3.000);
+				PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+				SetPVarInt(playerid, "MeatStarted", 1);
+				MeatProgressTimer[playerid] = SetTimerEx("MeatProgressT", 1500, true, "ii", playerid, 1);
 			}
 		}
 	}
@@ -46349,15 +46371,20 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			DeletePVar(playerid, "buy_accses");
 			accs_close(playerid);
 		}
-		if(GetPVarInt(playerid, "MeatCow") || GetPVarInt(playerid, "MeatDeer") || GetPVarInt(playerid, "MeatPork")) {
-			if(GetPVarInt(playerid, "MeatCutStarted")) {
+
+		if(GetPVarInt(playerid, "MeatCow") || GetPVarInt(playerid, "MeatDeer") || GetPVarInt(playerid, "MeatPork"))
+		{
+			if(GetPVarInt(playerid, "MeatStarted"))
+			{
 				SendError(playerid, "Ви не можете перервати процес обробки туші м'яса.");
 				SendHint(playerid, "Вам необхідно довести до кінця поточний процес обробки.");
+				TogglePlayerControllable(playerid, 0);
 				return SelectTextDraw(playerid, 0xFF0000ff);
 			}
 			if(GetPVarInt(playerid, "CutProcess")) return SelectTextDraw(playerid, 0xFF0000ff);
 			if(GetPVarInt(playerid, "MeatCow")) {
 				for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatCowTD[i]);
+				TextDrawHideForPlayer(playerid, MeatProgressBar[0]);
 				CancelSelectTextDraw(playerid);
 				TogglePlayerControllable(playerid, 1);
 				new meat = GetPVarInt(playerid, "MeatPlayer");
@@ -46370,6 +46397,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			if(GetPVarInt(playerid, "MeatDeer")) {
 				for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatDeerTD[i]);
 				CancelSelectTextDraw(playerid);
+				TextDrawHideForPlayer(playerid, MeatProgressBar[0]);
 				TogglePlayerControllable(playerid, 1);
 				new meat = GetPVarInt(playerid, "MeatPlayer");
 				DeletePVar(playerid, "MeatDeer");
@@ -46381,6 +46409,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			if(GetPVarInt(playerid, "MeatPork")) {
 				for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
 				CancelSelectTextDraw(playerid);
+				TextDrawHideForPlayer(playerid, MeatProgressBar[0]);
 				TogglePlayerControllable(playerid, 1);
 				new meat = GetPVarInt(playerid, "MeatPlayer");
 				DeletePVar(playerid, "MeatPork");
@@ -47081,6 +47110,7 @@ stock load_economy() {
 		cache_get_value_name_int(0, "MeatCowPrice", MeatCowPrice);
 		cache_get_value_name_int(0, "MeatDeerPrice", MeatDeerPrice);
 		cache_get_value_name_int(0, "MeatPorkPrice", MeatPorkPrice);
+		cache_get_value_name_int(0, "MeatFactoryTotal", MeatFactoryTotal);
 	}
 	cache_delete(result);
 	print("[Success] Economics loaded.");
@@ -69389,6 +69419,8 @@ CB:MeatCut(playerid, part) {
 	}
 	ClearAnimations(playerid);
 
+	PlayerTextDrawHide(playerid, MeatProgress[playerid][0]);
+
 	new Float:weight;
 	if(GetPVarInt(playerid, "MeatCow")) weight = mathfrandom(6.00, 9.00);
 	else if(GetPVarInt(playerid, "MeatDeer")) weight = mathfrandom(3.00, 6.00);
@@ -69415,69 +69447,6 @@ CB:MeatCut(playerid, part) {
 	new td[32];
 	format(td, sizeof(td), "%.2f", weight);
 
-	switch(process) {
-		case 1: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[8]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[9]);
-			TextDrawSetString(MeatBarTD[10], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[10]);
-		}
-		case 2: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[11]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[12]);
-			TextDrawSetString(MeatBarTD[13], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[13]);
-		}
-		case 3: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[14]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[15]);
-			TextDrawSetString(MeatBarTD[16], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[16]);
-		}
-		case 4: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[17]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[18]);
-			TextDrawSetString(MeatBarTD[19], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[19]);
-		}
-		case 5: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[20]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[21]);
-			TextDrawSetString(MeatBarTD[22], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[22]);
-		}
-		case 6: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[23]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[24]);
-			TextDrawSetString(MeatBarTD[25], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[25]);
-		}
-		case 7: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[26]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[27]);
-			TextDrawSetString(MeatBarTD[28], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[28]);
-		}
-		case 8: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[29]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[30]);
-			TextDrawSetString(MeatBarTD[31], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[31]);
-		}
-		case 9: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[32]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[33]);
-			TextDrawSetString(MeatBarTD[34], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[34]);
-		}
-		case 10: {
-			TextDrawShowForPlayer(playerid, MeatBarTD[35]);
-			TextDrawShowForPlayer(playerid, MeatBarTD[36]);
-			TextDrawSetString(MeatBarTD[37], td);
-			TextDrawShowForPlayer(playerid, MeatBarTD[37]);
-		}
-
-	}
 
 	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f фунт(-ів). "W"Загальна кількість зрізаного м'яса: "P"%.2f фунт(-ів).", weight, GetPVarFloat(playerid, "MeatTotal"));
 	SendInfo(playerid, string);
@@ -69506,8 +69475,10 @@ stock EndMeatProcess(playerid) {
 	TogglePlayerControllable(playerid, 1);
 	CancelSelectTextDraw(playerid);
 
-	SendOK(playerid, "Ви завершили обробку всієї туші.");
+	SendOK(playerid, "Ви завершили обробку туші.");
 	SendHint(playerid, "Віднесіть м'ясо на конвеєр для переробки.");
+
+	DeletePVar(playerid, "MeatStarted");
 
 	RemovePlayerAttachedObject(playerid, 0);
 
@@ -69544,7 +69515,43 @@ CB:ccry_partial(playerid) {
 	if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0,2803,1,0.23,0.45,0.00,0.00,92.40,-4.49,0.50,0.50,0.50);
 	return 1;
 }
-stock LoadBusRoutes() {
+
+CB:MeatProgressT(playerid)
+{
+	if(!GetPVarInt(playerid, "MeatProgressTStarted")) SetPVarInt(playerid, "MeatProgressTStarted", 1);
+
+	switch(GetPVarInt(playerid, "MeatProgressTStarted"))
+	{
+		case 1:
+		{
+			PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 56.50, 3.000);
+			PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+			SetPVarInt(playerid, "MeatProgressTStarted", 2);
+		}
+		case 2:
+		{
+			PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 84.75, 3.000);
+			PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+			SetPVarInt(playerid, "MeatProgressTStarted", 3);
+		}
+		case 3:
+		{
+			PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 113.00, 3.000);
+			PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+			SetPVarInt(playerid, "MeatProgressTStarted", 4);
+		}
+		case 4:
+		{
+			DeletePVar(playerid, "MeatProgressTStarted");
+			KillTimer(MeatProgressTimer[playerid]);
+		}
+	}
+	SendInt(playerid, GetPVarInt(playerid, "MeatProgressTStarted"));
+	return 1;
+}
+
+stock LoadBusRoutes()
+{
 	new string[256];
 	for( new i; i < MAX_ROUTES; i++ ) {
 		mysql_format(string, sizeof(string), "SELECT * FROM `bus_routes` WHERE `r_route` = %d ORDER BY `r_id`", route[i]);
@@ -69673,262 +69680,3 @@ stock AddDescriptionRoute(r, descript[]) {
 	mysql_tquery(connects, string);
 	return 1;
 }
-
-/* stock Job_OnPlayerEnterRaceCheckpoint(playerid) {
-	if(Job[playerid][j_vehicleid]) {
-		new vehicleid = GetPlayerVehicleID(playerid), route = GetPVarInt(playerid, "Job:SelectRoute"), point = Job[playerid][j_point], count = Route[route][r_point] - 1;
-
-		if(vehicleid >= cars_bus[0] && vehicleid <= cars_bus[1]) {
-			Job[playerid][j_earn] += EARN_FOR_CHECKPOINT;
-			Player[playerid][uCheck] += EARN_FOR_CHECKPOINT;
-			UpdatePlayer(playerid, "uCheck", Player[playerid][uCheck]);
-			if(!Bus[route][point][r_param]) {
-				DisablePlayerRaceCheckpoint(playerid);
-				SendClient:(playerid, C_WHITE, gbDefault"Вы подъехали к автобусной остановке, ожидайте пассажиров.");
-				SetTimerEx("OnTimerBusStop", 10000, false, "i", playerid);
-				return 1;
-			}
-			if(point == count) {
-				DisablePlayerRaceCheckpoint(playerid);
-				DeletePVar(playerid, "Job:Bus");
-				if(Player[playerid][uSettings][0]) {
-					PlayerTextDrawShow(playerid, Drivebus[playerid]);
-					TextDrawShowForPlayer(playerid, TaxiBackground);
-				}
-				SetVehicleSpeed(Job[playerid][j_vehicleid], 0.0);
-				format:g_small_string(cWHITE"Вы завершили маршрут "cBLUE"#%i %s"cWHITE"!\n\nЖелаете продолжить рабочий день?", Route[route][r_number], Route[route][r_description]);
-				showPlayerDialog(playerid, d_bus + 2, DIALOG_STYLE_MSGBOX, " ", g_small_string, "Да", "Нет");
-				return 1;
-			}
-			if(GetPVarInt( playerid, "Job:StopLast" )) {
-				SetPlayerRaceCheckpoint( playerid, 0, Bus[route][point][r_pos][0], Bus[route][point][r_pos][1], Bus[route][point][r_pos][2], Bus[route][point + 1][r_pos][0], Bus[route][point + 1][r_pos][1],  Bus[route][point + 1][r_pos][2], 5.0);
-				DeletePVar(playerid, "Job:StopLast");
-				return 1;
-			}
-			point++;
-			if(point == count) {
-				SetPlayerRaceCheckpoint(playerid, 1, Bus[route][point][r_pos][0], Bus[route][point][r_pos][1], Bus[route][point][r_pos][2], Bus[route][point + 1][r_pos][0], Bus[route][point + 1][r_pos][1], Bus[route][point + 1][r_pos][2], 5.0);
-				Job[playerid][j_point]++;
-				return 1;
-			}
-			if(!Bus[route][point][r_param]) {
-				SetPlayerRaceCheckpoint(playerid, 1, Bus[route][point][r_pos][0], Bus[route][point][r_pos][1], Bus[route][point][r_pos][2], Bus[route][point + 1][r_pos][0], Bus[route][point + 1][r_pos][1], Bus[route][point + 1][r_pos][2], 5.0);
-				Job[playerid][j_point]++;
-				return 1;
-			}
-			SetPlayerRaceCheckpoint(playerid, 0, Bus[route][point][r_pos][0], Bus[route][point][r_pos][1], Bus[route][point][r_pos][2], Bus[route][point + 1][r_pos][0], Bus[route][point + 1][r_pos][1], Bus[route][point + 1][r_pos][2], 5.0);
-			Job[playerid][j_point]++;
-		}
-	}
-	return 1;
-}
-
-	case d_makeroute: {
-			if(!response) return 1;
-			switch(listitem) {
-				case 0: showPlayerDialog(playerid, d_makeroute + 1, DIALOG_STYLE_INPUT, " ", "Для добавления чекпоинтов введите номер маршрута:\n\n "gbDefault"Маршруты 353, 454, 675, 893 и 125.", "Далее", "Назад");
-				case 1: ShowRoutes(playerid);
-				case 2: {
-					new route = GetPVarInt(playerid, "Job:AddRoute");
-					if(!route) return SendClient:(playerid, C_WHITE, gbError"Маршрут не выбран!");
-					format:g_string("Установите описание для маршрута "cBLUE"%d"cWHITE":\n\n"gbDialog"Используйте буквы русского или английского алфавита.", Route[route - 1][r_number]);
-					showPlayerDialog(playerid, d_makeroute + 4, DIALOG_STYLE_INPUT, " ", g_string, "Далее", "Назад");
-				}
-			}
-		}
-case d_makeroute + 1: {
-			if( !response ) {
-				return showPlayerDialog( playerid, d_makeroute, DIALOG_STYLE_LIST, " ", "\
-					Добавить чекпоинты\n\
-					Удалить маршрут\n\
-					Добавить описание", 
-				"Выбрать", "Закрыть" );
-			}
-
-			if( inputtext[0] == EOS || !IsNumeric( inputtext ) || strval( inputtext ) < 0 ) {
-				return showPlayerDialog( playerid, d_makeroute + 1, DIALOG_STYLE_INPUT, " ", "\
-					Для добавления чекпоинтов введите номер маршрута:\n\n\
-					"gbDefault"Маршруты 353, 454, 675, 893 и 125.\n\n\
-					"gbDialogError"Неправильный формат значения, повторите ввод!", 
-				"Далее", "Назад" );
-			}
-
-			new
-				bool:status = false;
-
-			for( new i; i < sizeof routes; i++ ) {
-				if(  routes[i] == strval( inputtext ) ) {
-					SetPVarInt( playerid, "Job:AddRoute", i + 1 );
-					status = true;
-				}
-			}
-
-			if( status == false ) {
-				return
-					showPlayerDialog( playerid, d_makeroute + 1, DIALOG_STYLE_INPUT, " ", "\
-						Для добавления чекпоинтов введите номер маршрута:\n\n\
-						"gbDefault"Маршруты 353, 454, 675, 893 и 125.\n\n\
-						"gbDialogError"Такого маршрута нет!", 
-					"Далее", "Назад" );
-			}
-
-			Route[GetPVarInt( playerid, "Job:AddRoute" ) - 1][r_number] = strval( inputtext );
-
-			pformat:( ""gbSuccess"Для добавления чекпоинта маршруту "cBLUE"#%d"cWHITE" используйте "cBLUE"/ap [ параметр ]"cWHITE".", strval( inputtext ) );
-			psend:( playerid, C_WHITE );
-		}
-
-		case d_makeroute + 2: {
-			if( !response ) {
-				return showPlayerDialog( playerid, d_makeroute, DIALOG_STYLE_LIST, " ", "\
-					Добавить чекпоинты\n\
-					Удалить маршрут\n\
-					Добавить описание", 
-				"Выбрать", "Закрыть" );
-			}
-
-			SetPVarInt( playerid, "Job:DelRoute", g_dialog_select[playerid][listitem] );
-			g_dialog_select[playerid][listitem] = INVALID_PARAM;
-
-			format:g_small_string( "\
-				Вы действительно хотите удалить маршрут "cBLUE"#%d"cWHITE"?", Route[GetPVarInt( playerid, "Job:DelRoute" )][r_number] );
-
-			showPlayerDialog( playerid, d_makeroute + 3, DIALOG_STYLE_MSGBOX, " ", g_small_string, "Да", "Нет" );
-		}
-
-		case d_makeroute + 3: {
-			if( !response ) return ShowRoutes( playerid );
-
-			new
-				route = GetPVarInt( playerid, "Job:DelRoute" );
-
-			DeleteRoute( route );
-
-			pformat:( ""gbSuccess"Маршрут "cBLUE"%d"cWHITE" удален!", Route[route][r_number] );
-			psend:( playerid, C_WHITE );
-
-			for( new i; i < MAX_CHECKPOINTS; i++ ) {
-				if( Bus[route][i][r_route] == Route[route][r_number] ) {
-					Bus[route][i][r_id] =
-					Bus[route][i][r_route] = 
-					Bus[route][i][r_param] = 0;
-
-					Bus[route][i][r_pos][0] = 
-					Bus[route][i][r_pos][1] = 
-					Bus[route][i][r_pos][2] = 0.0;
-				}
-			}
-
-			Route[route][r_number] = 
-			Route[route][r_point] = 0;
-
-			if( GetPVarInt( playerid, "Job:AddRoute" ) )
-				DeletePVar( playerid, "Job:AddRoute" );
-
-			DeletePVar( playerid, "Job:DelRoute" );
-		}
-
-		case d_makeroute + 4: {
-			if( !response ) {
-				return showPlayerDialog( playerid, d_makeroute, DIALOG_STYLE_LIST, " ", "\
-					Добавить чекпоинты\n\
-					Удалить маршрут\n\
-					Добавить описание", 
-				"Выбрать", "Закрыть" );
-			}
-
-			new
-				route = GetPVarInt( playerid, "Job:AddRoute" ); 
-
-			if( inputtext[0] == EOS ) {
-				format:g_string( "\
-					Установите описание для маршрута "cBLUE"%d"cWHITE":\n\n\
-					"gbDialog"Используйте буквы русского или английского алфавита.\n\n\
-					"gbDialogError"Поле для ввода не должно быть пустым.", Route[ route - 1 ][r_number] );
-
-				return	showPlayerDialog( playerid, d_makeroute + 4, DIALOG_STYLE_INPUT, " ", g_string, "Далее", "Назад" );
-			}
-
-			if( strlen( inputtext ) > 32 ) {
-				format:g_string( "\
-					Установите описание для маршрута "cBLUE"%d"cWHITE":\n\n\
-					"gbDialog"Используйте буквы русского или английского алфавита.\n\n\
-					"gbDialogError"Превышено допустимое количество символов.", Route[ route - 1 ][r_number] );
-
-				return	showPlayerDialog( playerid, d_makeroute + 4, DIALOG_STYLE_INPUT, " ", g_string, "Далее", "Назад" );
-			}
-
-			AddDescriptionRoute( route - 1, inputtext );
-
-			pformat:( ""gbSuccess"Вы установили описание маршруту "cBLUE"%d"cWHITE".", Route[ route - 1 ][r_number] );
-			psend:( playerid, C_WHITE );
-		}
-
-
-StartRouteBus( playerid, vehicleid ) {
-	new
-		count,
-		route,
-		point;
-
-	for( new i; i < MAX_ROUTES; i++ ) {
-		if( Route[i][r_number] )
-			count++;
-	}
-
-	SetPVarInt( playerid, "Job:SelectRoute", random( count ) );
-	route = GetPVarInt( playerid, "Job:SelectRoute" );
-	SetPVarInt( playerid, "Job:Bus", 1 );
-
-	Job[playerid][j_point] = 
-	point = 0;
-
-	pformat:( ""gbDefault"Ваш маршрут "cBLUE"%s #%d"cWHITE". Проезд в общественном транспорте бесплатный.",
-		Route[route][r_description], Route[route][r_number] );
-	psend:( playerid, C_WHITE );
-
-	format:g_small_string( ""cWHITE"Ваш маршрут "cBLUE"%s #%d"cWHITE"\n\n\
-		"gbDefault"Проезд в общественном транспорте бесплатный.",
-		Route[route][r_description],
-		Route[route][r_number]
-	);
-
-	showPlayerDialog( playerid, INVALID_DIALOG_ID, DIALOG_STYLE_MSGBOX, " ", g_small_string, "Закрыть", "" );
-
-	format:g_small_string( "Route: %d", Route[route][r_number] );
-	PlayerTextDrawSetString( playerid, Drivebus[playerid], g_small_string );
-
-	if( Player[playerid][uSettings][0] ) {
-		PlayerTextDrawShow( playerid, Drivebus[playerid] );
-		TextDrawShowForPlayer( playerid, TaxiBackground );
-	}
-
-	VehicleJob[vehicleid][v_route] = Route[route][r_number];
-	VehicleJob[vehicleid][v_bus_text] = CreateDynamicObject( 19477, 0, 0, -1000.0, 0, 0, 0, 0); 
-
-	switch( GetVehicleModel( vehicleid ) ) {
-		case 431:
-			AttachDynamicObjectToVehicle(VehicleJob[vehicleid][v_bus_text], vehicleid, 1.060, 5.721, 1.700, 0.000, -11.300, 89.700 );
-
-		case 437:
-			AttachDynamicObjectToVehicle(VehicleJob[vehicleid][v_bus_text], vehicleid, -0.911, 5.391, 1.660, 0.000, 0.000, 90.000 );
-	}
-
-	format:g_string( "%d", Route[route][r_number] );
-	SetDynamicObjectMaterialText( VehicleJob[vehicleid][v_bus_text], 0, g_string, 130, "Ariel", 32, 1, 0xFFFFFFFF, 0, 1 );
-
-	SetPlayerRaceCheckpoint( playerid, 0, 
-		Bus[route][point][r_pos][0], 
-		Bus[route][point][r_pos][1], 
-		Bus[route][point][r_pos][2],
-		Bus[route][point + 1][r_pos][0], 
-		Bus[route][point + 1][r_pos][1], 
-		Bus[route][point + 1][r_pos][2],
-		5.0
-	);
-
-	return 1;
-}
-new PlayerText:Drivebus[ MAX_PLAYERS ];
-
-*/
