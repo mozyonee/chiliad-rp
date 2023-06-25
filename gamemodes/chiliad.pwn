@@ -263,6 +263,7 @@ new Text3D:MeatText[sizeof(MeatWork)];
 new MeatObject[sizeof(MeatWork)];
 new MeatWorkHands[2];
 new MeatCutTimer[MAX_PLAYERS];
+new MeatProgressTimer[MAX_PLAYERS];
 new MeatConveyor, MeatWarehouse, MeatConveyorEnd, MeatFactoryTotal, MeatWorkerCount, MeatWorkTime[MAX_PLAYERS];
 new Text3D:MeatFactoryTotalText;
 new MeatPlayerObject[MAX_PLAYERS];
@@ -19787,6 +19788,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				DeletePVar(playerid, "MeatDeer");
 				DeletePVar(playerid, "MeatTotal");
 				DeletePVar(playerid, "MeatTotalWeigth");
+				DeletePVar(playerid, "MeatWorkStarted");
 				SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
 				MeatWorkerCount--;
 				MeatWorkTime[playerid] = 0;
@@ -33344,6 +33346,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		
 		new Float:fixedprice = price / 10;
 
+		format(string, sizeof(string), "floatround(GetPVarFloat(playerid, MeatTotal)*fixedprice): %d", floatround(GetPVarFloat(playerid, "MeatTotal")*fixedprice));
+		SendInfo(playerid, string);
 		SetPVarInt(playerid, "MeatSalary", GetPVarInt(playerid, "MeatSalary") + floatround(GetPVarFloat(playerid, "MeatTotal")*fixedprice));
 
 		MeatFactoryTotal = MeatFactoryTotal + floatround(GetPVarFloat(playerid, "MeatTotal"));
@@ -33352,6 +33356,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 
 		format(string, sizeof(string), "{98FB98}Склад м'ясокомбінату\n\n"W"%d фунт(-ів)", MeatFactoryTotal);
 		UpdateDynamic3DTextLabelText(MeatFactoryTotalText, -1, string);
+
+		UpdateEconomyData("MeatFactoryTotal", MeatFactoryTotal);
 
 		RemovePlayerAttachedObject(playerid, 0);
 
@@ -33367,6 +33373,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		DeletePVar(playerid, "MeatPork");
 		DeletePVar(playerid, "MeatDeer");
 		DeletePVar(playerid, "MeatTotal");
+		DeletePVar(playerid, "MeatCutProcess");
 	}
 	if(areaid == gAreas[arZavod] && TI[playerid][tJobGun][0] && TI[playerid][tJobGun][2] && pstate == PLAYER_STATE_ONFOOT) {
 		if(GetPVarInt(playerid, "pOff9") > gettime()) return SendError(playerid, "Зачекайте.");
@@ -43026,6 +43033,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					case 3: TextDrawShowForPlayer(playerid, MeatCowTD[7]);
 				}
 				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatCowTD[id]);
+				TextDrawShowForPlayer(playerid, MeatProgressBar[0]);
 				SetPVarInt(playerid, "MeatCow", 1);
 				SelectTextDraw(playerid, 0xFF0000ff);
 				MeatPlayer[cow] = playerid;
@@ -43051,6 +43059,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					case 3: TextDrawShowForPlayer(playerid, MeatDeerTD[7]);
 				}
 				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatDeerTD[id]);
+				TextDrawShowForPlayer(playerid, MeatProgressBar[0]);
 				SetPVarInt(playerid, "MeatDeer", 1);
 				SelectTextDraw(playerid, 0xFF0000ff);
 				MeatPlayer[deer] = playerid;
@@ -43076,6 +43085,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					case 3: TextDrawShowForPlayer(playerid, MeatBarTD[7]);
 				}
 				for(new id; id < 5; id++) TextDrawShowForPlayer(playerid, MeatBarTD[id]);
+				TextDrawShowForPlayer(playerid, MeatProgressBar[0]);
 				SetPVarInt(playerid, "MeatPork", 1);
 				SelectTextDraw(playerid, 0xFF0000ff);
 				MeatPlayer[pork] = playerid;
@@ -46399,22 +46409,34 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
 				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+				PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 28.250, 3.000);
+				PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+				SetPVarInt(playerid, "MeatStarted", 1);
+				MeatProgressTimer[playerid] = SetTimerEx("MeatProgressT", 1000, true, "ii", playerid, 1);
 			}
 			if(clickedid == MeatDeerTD[i])
 			{
 				if(GetPVarInt(playerid, "CutProcess")) return 1;
 				SetPVarInt(playerid, "CutProcess", 1);
-				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
+				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 9000, false, "ii", playerid, 1);
 				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+				PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 28.250, 3.000);
+				PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+				SetPVarInt(playerid, "MeatStarted", 1);
+				MeatProgressTimer[playerid] = SetTimerEx("MeatProgressT", 2000, true, "ii", playerid, 1);
 			}
 			if(clickedid == MeatCowTD[i])
 			{
 				if(GetPVarInt(playerid, "CutProcess")) return 1;
 				SetPVarInt(playerid, "CutProcess", 1);
-				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 5000, false, "ii", playerid, 1);
+				MeatCutTimer[playerid] = SetTimerEx("MeatCut", 7000, false, "ii", playerid, 1);
 				ApplyAnimation(playerid, "KNIFE", "KNIFE_PART", 4.1, 1, 0, 0, 0, 0, 0);
 				if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 19583, 6, 0.1, 0.03, 0.01, -75, 170, 0, 1, 0.6, 1);
+				PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 28.250, 3.000);
+				PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+				SetPVarInt(playerid, "MeatStarted", 1);
+				MeatProgressTimer[playerid] = SetTimerEx("MeatProgressT", 1500, true, "ii", playerid, 1);
 			}
 		}
 	}
@@ -46450,16 +46472,18 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 		}
 		if(GetPVarInt(playerid, "MeatCow") || GetPVarInt(playerid, "MeatDeer") || GetPVarInt(playerid, "MeatPork"))
 		{
-			if(GetPVarInt(playerid, "MeatCutStarted"))
+			if(GetPVarInt(playerid, "MeatStarted"))
 			{
 				SendError(playerid, "Ви не можете перервати процес обробки туші м'яса.");
 				SendHint(playerid, "Вам необхідно довести до кінця поточний процес обробки.");
+				TogglePlayerControllable(playerid, 0);
 				return SelectTextDraw(playerid, 0xFF0000ff);
 			}
 			if(GetPVarInt(playerid, "CutProcess")) return SelectTextDraw(playerid, 0xFF0000ff);
 			if(GetPVarInt(playerid, "MeatCow"))
 			{
 				for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatCowTD[i]);
+				TextDrawHideForPlayer(playerid, MeatProgressBar[0]);
 				CancelSelectTextDraw(playerid);
 				TogglePlayerControllable(playerid, 1);
 				new meat = GetPVarInt(playerid, "MeatPlayer");
@@ -46473,6 +46497,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			{
 				for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatDeerTD[i]);
 				CancelSelectTextDraw(playerid);
+				TextDrawHideForPlayer(playerid, MeatProgressBar[0]);
 				TogglePlayerControllable(playerid, 1);
 				new meat = GetPVarInt(playerid, "MeatPlayer");
 				DeletePVar(playerid, "MeatDeer");
@@ -46485,6 +46510,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid) {
 			{
 				for(new i; i < 8; i++) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
 				CancelSelectTextDraw(playerid);
+				TextDrawHideForPlayer(playerid, MeatProgressBar[0]);
 				TogglePlayerControllable(playerid, 1);
 				new meat = GetPVarInt(playerid, "MeatPlayer");
 				DeletePVar(playerid, "MeatPork");
@@ -47185,6 +47211,7 @@ stock load_economy() {
 		cache_get_value_name_int(0, "MeatCowPrice", MeatCowPrice);
 		cache_get_value_name_int(0, "MeatDeerPrice", MeatDeerPrice);
 		cache_get_value_name_int(0, "MeatPorkPrice", MeatPorkPrice);
+		cache_get_value_name_int(0, "MeatFactoryTotal", MeatFactoryTotal);
 	}
 	cache_delete(result);
 	print("[Success] Economics loaded.");
@@ -69533,6 +69560,7 @@ CB:MeatCut(playerid, part)
 		}
 	}
 	ClearAnimations(playerid);
+	PlayerTextDrawHide(playerid, MeatProgress[playerid][0]);
 	
 	new Float:weight;
 	if(GetPVarInt(playerid, "MeatCow")) weight = mathfrandom(6.00, 9.00);
@@ -69561,6 +69589,7 @@ CB:MeatCut(playerid, part)
 	new td[32];
 	format(td, sizeof(td), "%.2f", weight);
 
+	/*
 	switch(process)
 	{
 		case 1:
@@ -69634,7 +69663,7 @@ CB:MeatCut(playerid, part)
 			TextDrawShowForPlayer(playerid, MeatBarTD[37]);
 		}
 
-	}
+	}*/
 
 	format(string, sizeof(string), "Ви відрізали шматок м'яса вагою "P"%.2f фунт(-ів). "W"Загальна кількість зрізаного м'яса: "P"%.2f фунт(-ів).", weight, GetPVarFloat(playerid, "MeatTotal"));
 	SendInfo(playerid, string);
@@ -69665,8 +69694,10 @@ stock EndMeatProcess(playerid)
 	TogglePlayerControllable(playerid, 1);
 	CancelSelectTextDraw(playerid);
 
-	SendOK(playerid, "Ви завершили обробку всієї туші.");
+	SendOK(playerid, "Ви завершили обробку туші.");
 	SendHint(playerid, "Віднесіть м'ясо на конвеєр для переробки.");
+
+	DeletePVar(playerid, "MeatStarted");
 
 	RemovePlayerAttachedObject(playerid, 0);
 
@@ -69705,6 +69736,40 @@ CB:ccry_partial(playerid)
 	if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0,2803,1,0.23,0.45,0.00,0.00,92.40,-4.49,0.50,0.50,0.50);
 	return 1;
 }
+CB:MeatProgressT(playerid)
+{
+	if(!GetPVarInt(playerid, "MeatProgressTStarted")) SetPVarInt(playerid, "MeatProgressTStarted", 1);
+
+	switch(GetPVarInt(playerid, "MeatProgressTStarted"))
+	{
+		case 1:
+		{
+			PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 56.50, 3.000);
+			PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+			SetPVarInt(playerid, "MeatProgressTStarted", 2);
+		}
+		case 2:
+		{
+			PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 84.75, 3.000);
+			PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+			SetPVarInt(playerid, "MeatProgressTStarted", 3);
+		}
+		case 3:
+		{
+			PlayerTextDrawTextSize(playerid, MeatProgress[playerid][0], 113.00, 3.000);
+			PlayerTextDrawShow(playerid, MeatProgress[playerid][0]);
+			SetPVarInt(playerid, "MeatProgressTStarted", 4);
+		}
+		case 4:
+		{
+			DeletePVar(playerid, "MeatProgressTStarted");
+			KillTimer(MeatProgressTimer[playerid]);
+		}
+	}
+	SendInt(playerid, GetPVarInt(playerid, "MeatProgressTStarted"));
+	return 1;
+}
+
 stock LoadBusRoutes()
 {
 	new string[256];
@@ -69887,6 +69952,7 @@ AddDescriptionRoute(r, descript[])
 	
 	return 1;
 }
+
 
 /*
 Job_OnPlayerEnterRaceCheckpoint( playerid )
