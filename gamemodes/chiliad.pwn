@@ -41049,8 +41049,8 @@ CMD:subleaders(playerid) {
 	}
 	if(countleader > 0) {
 		format(string, sizeof(string), "%s\n"ORANGE"В мережі %i заступників", string,countleader);
-		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Заступники організацій.", string, "Закрити", "");
-	} else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"Заступники організацій.", W"Немає заступників у мережі", "Закрити", "");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"|"W" Заступники організацій.", string, "Закрити", "");
+	} else ShowPlayerDialog(playerid, DIALOG_NONE, DSM, P"|"W" Заступники організацій.", W"Немає заступників у мережі", "Закрити", "");
 	return 1;
 }
 CMD:fwarn(playerid, params[]) {
