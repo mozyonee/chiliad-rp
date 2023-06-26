@@ -2397,7 +2397,7 @@ new const hinterior_info[][e_HOUSE_INTERIOR] = {
 #define		COLOR_FADE3 					0xAAAAAAAA
 #define		COLOR_FADE4 					0x8C8C8C8C
 #define		COLOR_FADE5 					0x6E6E6E6E
-#define		COLOR_PURPLE 					0xC2A2DAAA
+#define		COLOR_PURPLE 					0xC2A2DAFF
 #define		COLOR_PERS						0xfF7D895ff
 #define		COLOR_DBLUE 					0x2641FEAA
 #define		COLOR_MINJUST 					0xFF8282AA
@@ -37839,24 +37839,24 @@ CMD:action(playerid, params[]) {
     if(GetPVarInt(playerid, "3DLabel")) {
 		DestroyDynamic3DTextLabel(Text3D:GetPVarInt(playerid, "3DLabel"));
 		DeletePVar(playerid, "3DLabel");
-    	SendOK(playerid, "Дія успішно видалена.");
+    	SendOK(playerid, "Ви видалили свою дію.");
 		return 1;
     }
     if(sscanf(params, "s[144]", params[0])) return SendError(playerid, "Використайте: /action [text]");
     new string[144], Float:p[3];
     GetPlayerPos(playerid, p[0], p[1], p[2]);
     format(string, sizeof(string), "%s\n\n(( %s (%i) ))", params[0], CI[playerid][cName], playerid);
-    SetPVarInt(playerid, "3DLabel", _:CreateDynamic3DTextLabel(string, COLOR_PURPLE, p[0], p[1], p[2], 100.0));
+    SetPVarInt(playerid, "3DLabel", _:CreateDynamic3DTextLabel(string, COLOR_PURPLE, p[0], p[1], p[2], 100.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1));
     return 1;
 }
 CMD:delaction(playerid, params[]) {
     if(!IsAuthAdmin(playerid, 4)) return 1;
     if(sscanf(params, "i", params[0])) return SendError(playerid, "Використайте: /action [playerid]");
-    if(!IsPlayerConnected(params[0])) return SendError(playerid, "Гравець не підключений до сервера.");
+    if(!IsPlayerConnected(params[0])) return SendError(playerid, not_id);
     if(!GetPVarInt(params[0], "3DLabel")) return SendError(playerid, "Гравець не створював дію.");
     DestroyDynamic3DTextLabel(Text3D:GetPVarInt(params[0], "3DLabel"));
     DeletePVar(params[0], "3DLabel");
-    SendOK(playerid, "Дія гравця успішно видалена.");
+    SendOK(playerid, "Ви видалили дію гравця.");
     return 1;
 }
 CMD:me(playerid, params[]) {
@@ -38789,7 +38789,6 @@ CMD:sms(playerid, params[]) {
 			SendClientMessage(playerid, COLOR_YELLOW, string);
 			format(string, sizeof(string), "SMS: %s. Відправник: %s(%i)[т. %i]", params[1], CI[playerid][cName], playerid, CI[playerid][pPhone]);
 			SendClientMessage(i, COLOR_YELLOW, string);
-			SetPlayerChatBubble(playerid, "відправив SMS", COLOR_PURPLE, 10.0, 3000);
 			foreach(new x:Player) {
 				if(GetPVarInt(x, "BigEarSMS") != 1) continue;
 				format(string, 120, "[A] SMS: %s. Відправив %s(%i) %s(%i).", params[1], CI[playerid][cName], playerid, CI[i][cName], i);
@@ -38807,7 +38806,6 @@ CMD:sms(playerid, params[]) {
 			SendClientMessage(playerid, COLOR_YELLOW, string);
 			format(string, sizeof(string), "SMS: %s. Відправник: %s(%i)[т. %i]", params[1], CI[playerid][cName], playerid, CI[playerid][pPhone]);
 			SendClientMessage(i, COLOR_YELLOW, string);
-			SetPlayerChatBubble(playerid, "відправив SMS", COLOR_PURPLE, 10.0, 3000);
 			foreach(new x:Player) {
 				if(GetPVarInt(x, "BigEarSMS") != 1) continue;
 				format(string, 120, "[A] SMS: %s | Відправив %s(%i) %s(%i).", params[1], CI[playerid][cName], playerid, CI[i][cName], i);
@@ -43507,7 +43505,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SignalTick[carid][0] = 0;
 					SignalTick[carid][1] = -1;
 					Signal[carid] = 0;
-					SetPlayerChatBubble(playerid, "вимкнув лівий поворотник.", COLOR_PURPLE, 30.0, 5000);
 				} else {
 					LightsObject[carid][0] = CreateDynamicObject(19294, 0, 0, 0, 0, 0, 0);
 					LightsObject[carid][1] = CreateDynamicObject(19294, 0, 0, 0, 0, 0, 0);
@@ -43517,7 +43514,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SignalTick[carid][0] = 0;
 					SignalTick[carid][1] = -1;
 					Signal[carid] = 1;
-					SetPlayerChatBubble(playerid, "ввімкнув лівий поворотник.", COLOR_PURPLE, 30.0, 5000);
 				}
 				return 1;
 			} else if(PRESSED(KEY_NUM6)) {
@@ -43529,7 +43525,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SignalTick[carid][0] = 0;
 					SignalTick[carid][1] = -1;
 					Signal[carid] = 0;
-					SetPlayerChatBubble(playerid, "вимкнув правий поворотник.", COLOR_PURPLE, 30.0, 5000);
 				} else {
 					LightsObject[carid][0] = CreateDynamicObject(19294, 0, 0, 0, 0, 0, 0);
 					LightsObject[carid][1] = CreateDynamicObject(19294, 0, 0, 0, 0, 0, 0);
@@ -43539,7 +43534,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SignalTick[carid][0] = 0;
 					SignalTick[carid][1] = -1;
 					Signal[carid] = 2;
-					SetPlayerChatBubble(playerid, "ввімкнув правий поворотник.", COLOR_PURPLE, 30.0, 5000);
 				}
 				return 1;
 			}
@@ -67823,7 +67817,7 @@ stock phonesettings(playerid) {
 		case 1: format(status, sizeof(status), "Вимкнути режим польоту.");
 	}
 	format(string, sizeof(string), P"-"W" %s\n"P"1."W" Змінити рингтон.\n"P"2."W" Змінити колір робочого столу.", status);
-	ShowPlayerDialog(playerid, dPhoneSettings, DIALOG_STYLE_LIST, P"| "W"Налаштування.", string, "Обрати", "Закрити");
+	ShowPlayerDialog(playerid, dPhoneSettings, DIALOG_STYLE_LIST, P"|"W" Налаштування.", string, "Обрати", "Закрити");
 	return 1;
 }
 
@@ -67850,26 +67844,26 @@ stock PhoneAddContact(playerid) {
 	new query[512], name[40];
 	GetPVarString(playerid, "nametoadd", name, 40);
 	FixSVarString(name);
-	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d AND (`Number` = %d OR `Name` = '%e') LIMIT 1", CI[playerid][cID], GetPVarInt(playerid, "numbertoadd"), name);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %i AND (`Number` = %i OR `Name` = '%e') LIMIT 1", CI[playerid][cID], GetPVarInt(playerid, "numbertoadd"), name);
 	new Cache:result = mysql_query(connects, query);
 	if(cache_num_rows()) return SendError(playerid, "Контакт з такою назвою або номером телефону вже існує.");
 	cache_delete(result);
 
-	mysql_format(connects, query, sizeof(query), "INSERT INTO `phone_contacts` VALUES (%d, '%e', %d, 0)", CI[playerid][cID], name, GetPVarInt(playerid, "numbertoadd"));
+	mysql_format(connects, query, sizeof(query), "INSERT INTO `phone_contacts` VALUES (%d, '%e', %i, 0)", CI[playerid][cID], name, GetPVarInt(playerid, "numbertoadd"));
 	mysql_query(connects, query);
 	SendOK(playerid, "Контакт успішно додано.");
 	DeletePVar(playerid, "numbertoadd");
 	DeletePVar(playerid, "nametoadd");
 
-	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d", CI[playerid][cID]);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %i", CI[playerid][cID]);
 	mysql_tquery(connects, query, "phone_contacts", "i", playerid);
 	return 1;
 }
 stock CheckContactByName(playerid, const name[]) {
 	new query[512];
-	//GetPVarString(playerid, "nametoadd", name, 40);
-	//FixSVarString(name);
-	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d AND `Name` = '%e' LIMIT 1", CI[playerid][cID], name);
+	// GetPVarString(playerid, "nametoadd", name, 40);
+	// FixSVarString(name);
+	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %i AND `Name` = '%e' LIMIT 1", CI[playerid][cID], name);
 	new Cache:result = mysql_query(connects, query);
 	new rows = cache_num_rows();
 	cache_delete(result);
@@ -67877,8 +67871,8 @@ stock CheckContactByName(playerid, const name[]) {
 }
 stock CheckContactByNumber(playerid, number) {
 	new query[512];
-	//GetPVarString(playerid, "nametoadd", name, 40);
-	//FixSVarString(name);
+	// GetPVarString(playerid, "nametoadd", name, 40);
+	// FixSVarString(name);
 	mysql_format(connects, query, sizeof(query), "SELECT * FROM `phone_contacts` WHERE `cID` = %d AND `Number` = %d LIMIT 1", CI[playerid][cID], number);
 	new Cache:result = mysql_query(connects, query);
 	new rows = cache_num_rows();
@@ -67899,7 +67893,7 @@ CB:ProgressBar(playerid, const text[]) {
 			ProgressBarTimer[playerid] = SetTimerEx("ProgressBar", 1000, true, "i", playerid);
 		}
 		case 1..9: {
-			SetPVarInt(playerid, "progressbar", cycle+1);
+			SetPVarInt(playerid, "progressbar", cycle + 1);
 			SetPVarFloat(playerid, "progressx", x + 5.000);
 			PlayerTextDrawTextSize(playerid, ProgressBarTD[playerid][1], x, 2.000);
 			PlayerTextDrawShow(playerid, ProgressBarTD[playerid][1]);
