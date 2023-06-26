@@ -44,6 +44,8 @@ main () { /* Тут живе генератор геніальних ідей. */}
 // #include	<rustext>
 // #include	<samp-distance>
 #include 	<discord-connector>
+#include 	<colandreas>
+#include    <mapandreas>
 // #include	<tgconnector>
 #define		ID_TARGET 0x46111
 forward InterMenuController(player_id, const argument[]);
@@ -33133,7 +33135,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		}
 	}
 	if(IsAGang(playerid) || IsAnEnforcement(playerid) || IsAMafia(playerid) || CI[playerid][pJob] == 6 || GetPVarInt(playerid, "inc_start")) {
-		for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+		for(new i = MAX_VEHICLES + 1; --i != 0;) {
 			if(areaid == VG[i][vgArea]) {
 				if(VG[i][vgLoading] == true && GetPVarInt(playerid, "carrygun")) {
 					new gunamount = GetPVarInt(playerid, "carrygun");
@@ -35177,7 +35179,11 @@ public OnPlayerRequestDownload(playerid, type, crc) {
 	}
 	return 1;
 } */
-public OnGameModeInit() {
+public OnGameModeInit() 
+{
+	CA_Init();
+	MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAFull.hmap");
+	
 	// SetDisableSyncBugs(true);
 	gCurDay = GetDayNumber();
 	SetGameModeText("CRP 0.X");
@@ -35480,7 +35486,7 @@ stock CreateVehicless() {
 	VWH3DText[1] = CreateDynamic3DTextLabel("{FFFFFF}Щоб взяти матеріали\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 164.8852, 1852.3386, 643.0618, 10.0);
 	VehicleInfo[VehicleWareHouse[0]][vAkum] = 100;
 	VehicleInfo[VehicleWareHouse[0]][vFuel] = gTransport[VehicleWareHouse[0]][trTank];
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		SignalTick[i][1] = -1;
 		LightsObject[i][0] = -1;
 		LightsObject[i][1] = -1;
@@ -39438,7 +39444,7 @@ CMD:call(playerid, const params[])  {
 			}
 			if(!driver) return SendError(playerid, "Диспетчер: наразі немає таксистів на зміні.");
 			/* new ids;
-			for(new x = GetVehiclePoolSize() + 1; --x != 0;) {
+			for(new x = MAX_VEHICLES + 1; --x != 0;) {
 				if(!IsValidVehicle(x)) continue;
 				if(!IsVehicleOccupied(x)) continue;
 				if(VehicleInfo[x][vJob] != 8) continue;
@@ -39967,7 +39973,7 @@ CMD:trunk(playerid) {
 			return ShowPlayerDialog(playerid, D_TRUNK_LIST, DSTH, "Багажник", string, "Обрати", "Закрити");
 		} else trunk_close(playerid);
 	}
-	for(new c = GetVehiclePoolSize() + 1; --c != 0;) {
+	for(new c = MAX_VEHICLES + 1; --c != 0;) {
 		if(!IsValidVehicle(c)) continue;
 		if(IsABike(c) || IsAVelik(c) || IsABoat(c)) continue;
 		GetVehicleShiftPos(c, 1, x, y, z, 2.0);
@@ -40562,7 +40568,7 @@ CMD:marklist(playerid) {
 	return SendError(playerid, "У вас немає доступу до цієї команди.");
 	new idx = 0, string[300], string_2[300];
 	format(STRING_GLOBAL, sizeof (STRING_GLOBAL), " \n"G"Назва моделі транспорт - Маркування - Ким встановлена\n");
-	for (new vehicleid = GetVehiclePoolSize() + 1; --vehicleid != 0;) {
+	for (new vehicleid = MAX_VEHICLES + 1; --vehicleid != 0;) {
 		if(!VehicleInfo[vehicleid][vMarked])
 		continue;
 		if(CI[playerid][pMember] != VehicleInfo[vehicleid][vTeam])
@@ -41278,7 +41284,7 @@ CMD:trspcar(playerid) {
 	if(!IsATK(playerid)) return SendError(playerid, "Ви не працівник транспортной компанії.");
 	if(CI[playerid][bizz_status] < 2) return SendError(playerid, "Ця функція доступна тільки керівнику транспортної компанії.");
 	new string[128];
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;)  {
+	for(new i = MAX_VEHICLES + 1; --i != 0;)  {
 		if(VehicleInfo[i][vBizz] != CI[playerid][bizz_work]) continue;
 		if(IsVehicleOccupied(i)) continue;
 		LinkVehicleToInterior(i, 0);
@@ -44325,7 +44331,7 @@ stock GetNearestHouse(playerid) {
 }
 stock GetNearestVehicle(playerid) {
 	new Float:X, Float:Y, Float:Z;
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		GetVehiclePos(i, X, Y, Z);
 		if(IsPlayerInRangeOfPoint(playerid, 4.0, X, Y, Z)) return i;
 	}
@@ -53062,7 +53068,7 @@ CMD:fspcar(playerid) {
 		SendError(playerid, string);
 		return 1;
 	}
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		if(!IsValidVehicle(i)) continue;
 		if(VehicleInfo[i][vTeam] != CI[playerid][pMember]) continue;
 		if(IsVehicleOccupied(i)) continue;
@@ -53946,7 +53952,7 @@ CMD:gethere(playerid, params[]) {
 CMD:spawnveh(playerid) {
 	if(!IsAuthAdmin(playerid, 4)) return 1;
 	new string[64];
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		if(IsVehicleOccupied(i)) continue;
 		SetVehicleToRespawn(i);
 	}
@@ -54243,7 +54249,7 @@ CMD:veh(playerid, params[]) {
 		color2 = random(256);
 	} else return SendError(playerid, "Використайте: /veh [vehid] [color] [color]");
 	if(!(400 <= car <= 611)) return SendError(playerid, "ID транспорта від 400 до 611.");
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
+	for(new i = MAX_VEHICLES + 1; --i != 0;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
 	new Float:X, Float:Y, Float:Z, Float:A;
 	GetPlayerPos(playerid, X, Y, Z);
 	GetPlayerFacingAngle(playerid, A);
@@ -54274,7 +54280,7 @@ CMD:plveh(playerid, params[]) {
 		color1 = 400 + random(211);
 		color2 = 400 + random(211);
 	}
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
+	for(new i = MAX_VEHICLES + 1; --i != 0;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
 	new Float:X, Float:Y, Float:Z, Float:A;
 	GetPlayerPos(giveplayerid, X, Y, Z);
 	GetPlayerFacingAngle(giveplayerid, A);
@@ -54303,7 +54309,7 @@ CMD:delveh(playerid) {
 }
 CMD:alldelveh(playerid) {
 	if(!IsAuthAdmin(playerid, 4)) return 1;
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
 		A_DestroyVehicle(i);
 	}
@@ -54685,7 +54691,7 @@ CMD:respv(playerid, params[]) {
 	if(sscanf(params, "f", rad)) return SendError(playerid, "Використайте: /respv[radius]");
 	if(rad > 100 || rad < 2) return SendError(playerid, "Радіус від 2 до 100");
 	GetPlayerPos(playerid, position[0], position[1], position[2]);
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		GetVehiclePos(i, position[0], position[1], position[2]);
 		if(IsPlayerInRangeOfPoint(playerid,rad, position[0], position[1], position[2])) SetVehicleToRespawn(i);
 	}
@@ -54845,7 +54851,7 @@ CMD:setskin(playerid, params[]) {
 CMD:fuelcars(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
 	new null, string[128];
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		if(!VehicleInfo[i][vJob] && !VehicleInfo[i][vTeam]) continue;
 		VehicleInfo[i][vFuel] = gTransport[GetVehicleModel(i) - 400][trTank];
 		null++;
@@ -66101,7 +66107,7 @@ stock ParkPlayerVehicle(playerid) {
 	GetVehiclePos(vehicleid, vehiclePos[0], vehiclePos[1], vehiclePos[2]);
 	GetVehicleZAngle(vehicleid, vehiclePos[3]);
 	new Float:vehicle_Pos[3], bool:isReturn = false;
-	for (new x = GetVehiclePoolSize() + 1; --x != 0;) {
+	for (new x = MAX_VEHICLES + 1; --x != 0;) {
 		if(!IsValidVehicle(x)) continue;
 		AntiCheatGetVehicleSpawnPos(x, vehicle_Pos[0], vehicle_Pos[1], vehicle_Pos[2]);
 		if(!IsPlayerInRangeOfPoint(playerid, 4.5, vehicle_Pos[0], vehicle_Pos[1], vehicle_Pos[2])) continue;
@@ -67815,7 +67821,7 @@ stock RemoveMask(playerid) {
 }
 CMD:vehicle(playerid) {
 	new car = 612, color1 = 0, color2 = 0;
-	for(new i = GetVehiclePoolSize() + 1; --i != 0;) {
+	for(new i = MAX_VEHICLES + 1; --i != 0;) {
 		if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
 	}
 	new Float:X, Float:Y, Float:Z, Float:A;
