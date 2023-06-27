@@ -44,8 +44,8 @@ main () { /* Тут живе генератор геніальних ідей. */}
 // #include	<rustext>
 // #include	<samp-distance>
 #include 	<discord-connector>
-#include 	<colandreas>
-#include    <mapandreas>
+// #include 	<colandreas>
+// #include    <mapandreas>
 // #include	<tgconnector>
 #define		ID_TARGET 0x46111
 forward InterMenuController(player_id, const argument[]);
@@ -53,7 +53,7 @@ forward CefTargetStart(player_id);
 forward CefTargetClosed(player_id);
 /* new Text3D:NickNames[MAX_PLAYERS];
 new bool:Nicks[MAX_PLAYERS] = false; */
-new bool:WHvar = false;
+new bool:WHvar;
 new Trailer_job[MAX_PLAYERS];
 new gKilled[MAX_PLAYERS];
 new TK_Trailer[MAX_PLAYERS];
@@ -62,15 +62,15 @@ new Text3D:Gruz[MAX_PLAYERS];
 new Text3D:WareHouses;
 new Text3D:WHCar;
 new WareHouse;
-new bool:Accepts = false;
-new TimerRobWeapon = 0;
-new bool:TimerRobWeaponBool = false, bool:TimerEndWeaponBool = false;
-new KillerWarGang = 0, KillerWarCop = 0, TimerEndWeapon = 0;
+new bool:Accepts;
+new TimerRobWeapon;
+new bool:TimerRobWeaponBool, bool:TimerEndWeaponBool;
+new KillerWarGang, KillerWarCop, TimerEndWeapon;
 new GZ_ZONE1;
 #define		SkladOne						2258.5747, 79.4172, 26.4844
 #define		SkladTwo						-2088.7078, -2262.2795, 30.6960
 #define		SkladThree						1229.8450, 145.3465, 20.4609
-new InLoadFrac[23] = false;
+new InLoadFrac[23];
 new VehicleWareHouse[2];
 new CountMaterialVehicleWH = 0;
 #define		MYSQL_HOST						"92.119.113.102"
@@ -1162,7 +1162,7 @@ Float:blackjackTablePos[6],
 }
 new blackjackTableInfo[MAX_BLACKJACK_TABLES][blackjackTableE], Iterator:blackjackTables<MAX_BLACKJACK_TABLES>;
 enum {
-	BLACKJACK_OPTION_NONE = 0,
+	BLACKJACK_OPTION_NONE,
 	BLACKJACK_OPTION_MMBA, // MIN(1)  MAX(300)  BET(1-300)  AGAIN(300).
 	BLACKJACK_OPTION_DSHS, // DOUBLE  SPLIT  HIT  STAY.
 };
@@ -1284,9 +1284,7 @@ enum {
 new actors[MAX_D_ACTORS][3];
 new Float:actorspos[MAX_D_ACTORS][4];
 new Text3D:actors3d[MAX_D_ACTORS];
-new actors3d_s[MAX_D_ACTORS],
-	actors_string						[MAX_D_ACTORS][128],
-	choosen_actor        				[MAX_PLAYERS];
+new actors3d_s[MAX_D_ACTORS], actors_string[MAX_D_ACTORS][128], choosen_actor[MAX_PLAYERS];
 new anim_actors[MAX_D_ACTORS];
 new OldDialogID[MAX_PLAYERS];
 new PlayerAdminFix[MAX_PLAYERS];
@@ -21136,7 +21134,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS, DSL, header, content, "Обрати", "Назад");
 				}
 				case 9: {
-					for(new i = 1, count; i < MAX_FACTION_FLEET; i++) if(fFleet[fid][i][fleetID]) count++, format(content, sizeof(content), "%s"P"%i."W" %s (#%i).\n", content, count, VehicleNames[fFleet[fid][i][fleetModel] - 400], fFleet[fid][i][fleetID]);
+					for(new i = 1; i < MAX_FACTION_FLEET; i++) if(fFleet[fid][i][fleetID]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, VehicleNames[fFleet[fid][i][fleetModel] - 400]);
 					strcat(content, P"-"W" Додати транспорт.");
 					format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
@@ -21155,7 +21153,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 11: {
 					new string[256];
 					format(string, sizeof(string), "Ви впевнені, що хочете видалити організацію %s?", FI[fid][fName]);
-					ShowPlayerDialog(playerid, D_FACTION_DELETE, DSL, P"|"W" Видалення організації.", content, "Так", "Ні");
+					ShowPlayerDialog(playerid, D_FACTION_DELETE, DSL, P"|"W" Видалення фракції.", content, "Так", "Ні");
 				}
 			}
 			}
@@ -21361,15 +21359,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				for(new i = 1; strcmp(fRanks[fid][i][frName], ""); i++) maxrank = i;
 				if(lrank - maxrank > 0) {
-					format(query, sizeof(query), "INSERT INTO faction_ranks (Faction, Name) VALUES");
-					for(new i = maxrank + 1; i <= lrank; i++) {
-						strmid(fRanks[fid][i][frName], frank, 0, 24);
-						format(query, sizeof(query), "%s (%d, '%e')%s", query, fid, frank, (i == lrank) ? "" : ",");
-					}
-					mysql_query(connects, query);
+					mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_ranks` (Faction, fID, Name) SELECT %i, MIN(t.fID) + 1, '%e' FROM (SELECT fID FROM `faction_ranks` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_ranks` AS fs ON fs.fID = t.fID + 1 AND fs.Faction = %i WHERE fs.fID IS NULL", fid, frank, fid, fid);
+					for(new i = maxrank + 1; i <= lrank; i++) mysql_query(connects, query);
 				} else if(lrank - maxrank < 0) {
 					for(new i = maxrank; i > lrank; i--) strmid(fRanks[fid][i][frName], "", 0, 2);
-					mysql_format(connects, query, sizeof(query), "DELETE FROM faction_ranks WHERE Faction = %i AND ID IN (SELECT ID FROM (SELECT ID, (@row_number:=@row_number+1) AS ordinal_number FROM faction_ranks, (SELECT @row_number:=0) AS rn WHERE Faction = %i ORDER BY ID) AS subquery WHERE ordinal_number > %i)", fid, fid, lrank);
+					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_ranks` WHERE `Faction` = %i AND `fID` > %i", fid, lrank);
 					mysql_query(connects, query);
 				}
 				FI[fid][lRank] = lrank;
@@ -21431,7 +21425,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return ShowPlayerDialog(playerid, D_FACTION_EDIT_RANK_NAMES_SUB, DSI, header, W"Введіть нову назву для цього рангу.\nМінімальна кількість символів - "P"4"W", максимальна - "P"24"W".", "Готово", "Скасувати");
 				}
 				strmid(fRanks[fid][rid][frName], inputtext, 0, 24);
-				mysql_format(connects, query, sizeof(query), "UPDATE faction_ranks SET Name = '%e' WHERE ID IN (SELECT ID FROM (SELECT ID, @row_number:=@row_number+1 AS row_num FROM faction_ranks, (SELECT @row_number:=0) AS rn WHERE Faction = %i) AS subquery WHERE row_num = %i)", fRanks[fid][rid][frName], fid, rid);
+				mysql_format(connects, query, sizeof(query), "UPDATE `faction_ranks` SET `Name` = '%e' WHERE `ID` = %i", fRanks[fid][rid][frName], fRanks[fid][rid][frID]);
 				mysql_query(connects, query);
 				SendHint(playerid, query);
 			}
@@ -21458,7 +21452,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					return ShowPlayerDialog(playerid, D_FACTION_EDIT_RANK_SALARY_SUB, DSI, header, W"Введіть нову назву для цього рангу.\nМінімальна кількість символів - "P"4"W", максимальна - "P"24"W".", "Готово", "Скасувати");
 				}
 				fRanks[fid][rid][frSalary] = salary;
-				mysql_format(connects, query, sizeof(query), "UPDATE faction_ranks SET Salary = %i WHERE ID IN (SELECT ID FROM (SELECT ID, @row_number:=@row_number+1 AS row_num FROM faction_ranks, (SELECT @row_number:=0) AS rn WHERE Faction = %i) AS subquery WHERE row_num = %i)", fRanks[fid][rid][frSalary], fid, rid);
+				mysql_format(connects, query, sizeof(query), "UPDATE `faction_ranks` SET `Salary` = %i WHERE `ID` = %i", fRanks[fid][rid][frSalary], fRanks[fid][rid][frID]);
 				mysql_query(connects, query);
 			}
 			for(new i = 1; i <= FI[fid][lRank]; i++) if(strcmp(fRanks[fid][i][frName], "")) format(content, sizeof(content), "%s%s\t"GREEN"$%i"W"\n", content, fRanks[fid][i][frName], fRanks[fid][i][frSalary]);
@@ -21473,7 +21467,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				format(header, sizeof(header), P"|"W" Керування %s. Додавання скіна.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_SKINS_SUB, DSI, header, W"Введіть ID скіна, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Skins_All.html"W".\nДопустимі значення - "P"1-311"W" ("P"74"W" - заборонений).", "Готово", "Закрити");
 			}
-			mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_skins` WHERE `Faction` = %i and `Skin` = %i", fid, FI[fid][fSkins][strval(sid)]);
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_skins` WHERE `Faction` = %i and `fID` = %i", fid, strval(sid));
 			mysql_query(connects, query);
 			FI[fid][fSkins][strval(sid)] = 0;
 			for(new i = 1; i < MAX_FACTION_SKINS; i++) if(FI[fid][fSkins][i]) format(content, sizeof(content), "%s"P"%i."W" Скін %i.\n", content, i, FI[fid][fSkins][i]);
@@ -21514,8 +21508,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				format(header, sizeof(header), P"|"W" Керування %s. Додавання транспорта.", FI[fid][fName]);
 				return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_ADD, DSI, header, W"Введіть ID транспорта, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".\nДопустимі значення - "P"400-611"W".", "Готово", "Закрити");
 			}
-			strmid(vehstr, inputtext, strfind(inputtext, "#") + 1, strfind(inputtext, ")."));
-			SetPVarInt(playerid, "fvehid", fFleet[fid][strval(vehstr)][fleetID]);
+			strmid(vehstr, inputtext, 0, strfind(inputtext, "."));
+			SetPVarInt(playerid, "fvehid", strval(vehstr));
 			new vid = GetPVarInt(playerid, "fvehid");
 			format(header, sizeof(header), P"|"W" Керування %s. %s.", FI[fid][fName], VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
 			format(content, sizeof(content), "Модель\t%i\nКолір #1\t%i\nКолір #2\t%i\nСирена\t%s\nСпавн\tРедагувати\n"P"-"W" Видалити транспорт.", fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSiren] ? "Присутня" : "Відсутня");
@@ -21528,7 +21522,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					format(header, sizeof(header), P"|"W" Керування %s. Додавання транспорта.", FI[fid][fName]);
 					return ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_ADD, DSI, header, W"Введіть ID транспорта, який ви хочете додати у фракцію.\n\nПереглянути усі доступні ідентифікатори можна на сайті "P"team.sa-mp.com/wiki/Vehicles_All.html"W".\nДопустимі значення - "P"400-611"W".", "Готово", "Закрити");
 				}
-				mysql_query(connects, "SELECT MIN(t1.ID + 1) AS freeID FROM `faction_fleets` t1 LEFT JOIN `faction_fleets` t2 ON t1.ID + 1 = t2.ID WHERE t2.ID IS NULL"); // Шукає перший вільний ID.
+				mysql_format(connects, query, sizeof(query), "SELECT MIN(t.fID) + 1 AS freeID FROM (SELECT fID FROM faction_fleets WHERE Faction = 2 UNION ALL SELECT 0) AS t LEFT JOIN faction_fleets AS fs ON fs.fID = t.fID + 1 AND fs.Faction = 2 WHERE fs.fID IS NULL", fid, fid); // Шукає перший вільний ID.
+				mysql_query(connects, query);
 				cache_get_value_name_int(0, "freeID", freeid);
 				if(!freeid) freeid++;
 
@@ -21547,10 +21542,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				FreezePlayerForTime(playerid, 2.5);
 				CreateOrgsVehicle(fFleet[fid][freeid][fleetID], fid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], 0, 0, 1, fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
 				PutPlayerInVehicle(playerid, VehicleInfo[vid][vID], 0);
-				mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_fleets`(`ID`, `Faction`, `Model`, `SpawnX`, `SpawnY`, `SpawnZ`, `SpawnA`, `SpawnVW`, `SpawnI`) VALUES (%i, %i, %i, %.2f, %.2f, %.2f, %.2f, %i, %i)", freeid, fid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
+				mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_fleets`(`Faction`, `fID`, `Model`, `SpawnX`, `SpawnY`, `SpawnZ`, `SpawnA`, `SpawnVW`, `SpawnI`) VALUES (%i, %i, %i, %.2f, %.2f, %.2f, %.2f, %i, %i)", fid, freeid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
 				mysql_query(connects, query);
 			}
-			for(new i = 1, count; i < MAX_FACTION_FLEET; i++) if(fFleet[fid][i][fleetID]) count++, format(content, sizeof(content), "%s"P"%i."W" %s (#%i).\n", content, count, VehicleNames[fFleet[fid][i][fleetModel] - 400], fFleet[fid][i][fleetID]);
+			for(new i = 1; i < MAX_FACTION_FLEET; i++) if(fFleet[fid][i][fleetID]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, VehicleNames[fFleet[fid][i][fleetModel] - 400]);
 			strcat(content, P"-"W" Додати транспорт.");
 			format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
@@ -21603,7 +21598,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					}
 				}
 			}
-			for(new i = 1, count; i < MAX_FACTION_FLEET; i++) if(fFleet[fid][i][fleetID]) count++, format(content, sizeof(content), "%s"P"%i."W" %s (#%i).\n", content, count, VehicleNames[fFleet[fid][i][fleetModel] - 400], fFleet[fid][i][fleetID]);
+			for(new i = 1; i < MAX_FACTION_FLEET; i++) if(fFleet[fid][i][fleetID]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, VehicleNames[fFleet[fid][i][fleetModel] - 400]);
 			strcat(content, P"-"W" Додати транспорт.");
 			format(header, sizeof(header), P"|"W" Керування %s. Транспорт.", FI[fid][fName]);
 			ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET, DSL, header, content, "Обрати", "Назад");
@@ -21620,7 +21615,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					FreezePlayerForTime(playerid, 2.5);
 				}
 				fFleet[fid][vid][fleetModel] = vmodel;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `Model` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
@@ -21641,7 +21636,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					FreezePlayerForTime(playerid, 2.5);
 				}
 				fFleet[fid][vid][fleetColor1] = vcolor;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `Color1` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
@@ -21662,7 +21657,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					FreezePlayerForTime(playerid, 2.5);
 				}
 				fFleet[fid][vid][fleetColor2] = vcolor;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `Color2` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
@@ -21713,7 +21708,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_query(connects, query);
 					pc_cmd_slap(playerid, IntToStr(playerid));
 					FreezePlayerForTime(playerid, 2.5);
-					A_DestroyVehicle(VehicleInfo[vid][vID]);
+					A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 					CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -21731,7 +21726,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `SpawnX` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnX] = fcoord;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
@@ -21748,7 +21743,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `SpawnY` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnY] = fcoord;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
@@ -21765,7 +21760,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `SpawnZ` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnZ] = fcoord;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
@@ -21782,7 +21777,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `SpawnA` = %f WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnA] = fcoord;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
@@ -21799,7 +21794,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `SpawnVW` = %i WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnVW] = fcoord;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
@@ -21816,7 +21811,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `SpawnI` = %i WHERE `ID` = %i", fcoord, fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnVW] = fcoord;
-				A_DestroyVehicle(VehicleInfo[vid][vID]);
+				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
 				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
@@ -21875,10 +21870,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			mysql_format(connects, query, sizeof(query), "INSERT INTO "TABLE_FACTIONS" (`ID`, `Type`, `Name`, `MapIcon`, `Spawn`) VALUES (%i, %i, '%e', '%e', '%e')", FI[fid][fID], FI[fid][fType], FI[fid][fName], fmapicon, fspawn);
 			mysql_query(connects, query);
 
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_ranks` (Faction, ID, Name) SELECT %i, MIN(t.ID) + 1, %e FROM (SELECT ID FROM `faction_ranks` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_ranks` AS fs ON fs.ID = t.ID + 1 AND fs.Faction = %i WHERE fs.ID IS NULL", FI[fid][fID], frank, FI[fid][fID], FI[fid][fID]);
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_ranks` (Faction, fID, Name) SELECT %i, MIN(t.fID) + 1, '%e' FROM (SELECT fID FROM `faction_ranks` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_ranks` AS fs ON fs.fID = t.fID + 1 AND fs.Faction = %i WHERE fs.fID IS NULL", FI[fid][fID], frank, FI[fid][fID], FI[fid][fID]);
 			for(new i; i < 10; i++) mysql_query(connects, query);
 
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_skins` (Faction, ID, Skin) SELECT %i, MIN(t.ID) + 1, %i FROM (SELECT ID FROM `faction_skins` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_skins` AS fs ON fs.ID = t.ID + 1 AND fs.Faction = %i WHERE fs.ID IS NULL", FI[fid][fID], FI[fid][fSkins][1], FI[fid][fID], FI[fid][fID]);
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_skins` (Faction, fID, Skin) SELECT %i, MIN(t.fID) + 1, %i FROM (SELECT fID FROM `faction_skins` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_skins` AS fs ON fs.fID = t.fID + 1 AND fs.Faction = %i WHERE fs.fID IS NULL", FI[fid][fID], FI[fid][fSkins][1], FI[fid][fID], FI[fid][fID]);
 			mysql_query(connects, query);
 			pc_cmd_factions(playerid);
 			}
@@ -27340,7 +27335,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new query[256], string[128], slot = GetPVarInt(playerid, "edit_rank");
 			format(string, sizeof(string), "%i ранг перейменовано з "P"%s"W" на "P"%s"W".", slot + 1, fRanks[CI[playerid][pMember]][slot][frName], inputtext);
 			strmid(fRanks[CI[playerid][pMember]][slot], inputtext, 0, strlen(inputtext));
-			mysql_format(connects, query, sizeof(query), "UPDATE faction_ranks SET Name = '%e' WHERE ID IN (SELECT ID FROM (SELECT ID, @row_number:=@row_number+1 AS row_num FROM faction_ranks, (SELECT @row_number:=0) AS rn WHERE Faction = %i) AS subquery WHERE row_num = %i)", fRanks[CI[playerid][pMember]][slot][frName], CI[playerid][pMember], slot);
+			mysql_format(connects, query, sizeof(query), "UPDATE `faction_ranks` SET `Name` = '%e' WHERE `ID` = %i", fRanks[CI[playerid][pMember]][slot][frName], fRanks[CI[playerid][pMember]][slot][frID]);
 			mysql_query(connects, query);
 			SendOK(playerid, string);
 			}
@@ -30912,12 +30907,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_OBJ: {
 			if(!response) return 1;
 			switch(listitem) {
-				case 0: ShowPlayerDialog(playerid, D_OBJ_2, DSL, P"|"W" Об'єкти. Загородження.", P"1."W" Перешкода #1.\n"P"2."W" Перешкода #2.\n"P"3."W" Відбійник.\n"P"4."W" Конус.\n"P"5."W" Табличка.\n"P"6."W" Лежачий поліцейський.\n"P"7."W" Залізна огорожа #1.\n"P"8."W" Залізна огорожа #2.\n"P"9."W" Поліцейська стрічка.", "Обрати", "Назад");
-				case 1: ShowPlayerDialog(playerid, D_OBJ_3, DSL, P"|"W" Об'єкти. Дорожні знаки.", P"1."W" Обмеження швидкості.\n"P"2."W" Заборона рухатись прямо.\n"P"3."W" Зачинено.\n"P"4."W" Стоп.\n"P"5."W" Поступитися дорогою.\n"P"6."W" Ремонт дороги.\n"P"7."W" Напрямок руху вперед.\n"P"8."W" Поворот наліво.\n"P"9."W" Поворот направо.", "Обрати", "Назад");
+				case 0: ShowPlayerDialog(playerid, D_OBJ_2, DSL, P"|"W" Об'єкти. Загородження.", P"1."W" Перешкода #1.\n"P"2."W" Перешкода #2.\n"P"3."W" Відбійник.\n"P"4."W" Конус.\n"P"5."W" Лежачий поліцейський.\n"P"6."W" Залізна огорожа #1.\n"P"7."W" Залізна огорожа #2.\n"P"8."W" Поліцейська стрічка.", "Обрати", "Назад");
+				case 1: ShowPlayerDialog(playerid, D_OBJ_3, DSL, P"|"W" Об'єкти. Дорожні знаки.", P"1."W" Обмеження швидкості.\n"P"2."W" Заборона рухатись прямо.\n"P"3."W" Зачинено.\n"P"4."W" Стоп.\n"P"5."W" Поступитися дорогою.\n"P"6."W" Ремонт дороги.\n"P"7."W" Напрямок руху вперед.\n"P"8."W" Поворот наліво.\n"P"9."W" Поворот направо.\n"P"10."W" Табличка.", "Обрати", "Назад");
 				case 2: ShowPlayerDialog(playerid, D_OBJ_4, DSL, P"|"W" Об'єкти. Інше.", P"1."W" Радар.\n"P"2."W" Шипи.", "Обрати", "Назад");
 				case 3: {
 					new Float:x, Float:y, Float:z;
 					GetPlayerPos(playerid, x, y, z);
+					ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
 					for(new i; i < MAX_OGRAD; i++) {
 						if(object[i] != -1) {
 							GetDynamicObjectPos(object[i], x, y, z);
@@ -30927,20 +30923,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 									DestroyDynamicArea(GetPVarInt(playerid, "Ships"));
 									DeletePVar(playerid, "block");
 									DeletePVar(playerid, "Ships");
-									return 1;
+									break;
 								}
 								if(objectrot[i] != -1) {
 									DestroyDynamicObject(objectrot[i]);
 									objectrot[i] = -1;
 								}
 								DestroyDynamicObject(object[i]);
-								ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
 								object[i] = -1;
-								SendOK(playerid, "Ви прибрали об'єкт.");
-								return 1;
+								break;
 							}
 						}
 					}
+					SendOK(playerid, "Ви прибрали об'єкт.");
 				}
 			}
 			}
@@ -30958,11 +30953,10 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 1: object[idobject] = CreateDynamicObject(1282, x, y, z - 0.3, 0, 0, angle-90);
 				case 2: object[idobject] = CreateDynamicObject(1237, x, y, z - 1.0, 0, 0, angle);
 				case 3: object[idobject] = CreateDynamicObject(1238, x, y, z - 0.65, 0, 0, angle);
-				case 4: ShowPlayerDialog(playerid, D_OBJ_5, DSI, P"|"W" Об'єкти. Табличка.", W"Введіть текст, який буде відображатися на загородженні.", "Готово", "Скасувати");
-				case 5: object[idobject] = CreateDynamicObject(19425, x, y, z - 0.9, 0, 0, angle);
-				case 6: object[idobject] = CreateDynamicObject(983, x, y, z - 0.3, 0, 0, angle-90);
-				case 7: object[idobject] = CreateDynamicObject(970, x, y, z - 0.5, 0, 0, angle);
-				case 8: object[idobject] = CreateDynamicObject(19834, x, y, z + 0.125, 0, 0, angle);
+				case 4: object[idobject] = CreateDynamicObject(19425, x, y, z - 0.9, 0, 0, angle);
+				case 5: object[idobject] = CreateDynamicObject(983, x, y, z - 0.3, 0, 0, angle-90);
+				case 6: object[idobject] = CreateDynamicObject(970, x, y, z - 0.5, 0, 0, angle);
+				case 7: object[idobject] = CreateDynamicObject(19834, x, y, z + 0.125, 0, 0, angle);
 			}
 			if(listitem != 4) ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0), Streamer_Update(playerid);
 			}
@@ -30985,6 +30979,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 6: object[idobject] = CreateDynamicObject(19957, x, y, z - 1.1, 0, 0, angle);
 				case 7: object[idobject] = CreateDynamicObject(19955, x, y, z - 1.1, 0, 0, angle);
 				case 8: object[idobject] = CreateDynamicObject(19956, x, y, z - 1.1, 0, 0, angle);
+				case 9: ShowPlayerDialog(playerid, D_OBJ_5, DSI, P"|"W" Об'єкти. Табличка.", W"Введіть текст, який буде відображатися на загородженні.", "Готово", "Скасувати");
 			}
 			Streamer_Update(playerid);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
@@ -31012,7 +31007,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
 			}
 		case D_OBJ_5: {
-			if(!response) return ShowPlayerDialog(playerid, D_OBJ_2, DSL, P"|"W" Об'єкти. Загородження.", P"1."W" Перешкода #1.\n"P"2."W" Перешкода #2.\n"P"3."W" Відбійник.\n"P"4."W" Конус.\n"P"5."W" Табличка.\n"P"6."W" Лежачий поліцейський.\n"P"7."W" Залізна огорожа #1.\n"P"8."W" Залізна огорожа #2.\n"P"9."W" Поліцейська стрічка.", "Обрати", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, D_OBJ_3, DSL, P"|"W" Об'єкти. Дорожні знаки.", P"1."W" Обмеження швидкості.\n"P"2."W" Заборона рухатись прямо.\n"P"3."W" Зачинено.\n"P"4."W" Стоп.\n"P"5."W" Поступитися дорогою.\n"P"6."W" Ремонт дороги.\n"P"7."W" Напрямок руху вперед.\n"P"8."W" Поворот наліво.\n"P"9."W" Поворот направо.\n"P"10."W" Табличка.", "Обрати", "Назад");
 			if(!(5 <= strlen(inputtext) <= 40)) return ShowPlayerDialog(playerid, D_OBJ_5, DSI, P"|"W" Об'єкти.", W"Введіть текст, який буде відображатися на загородженні.\n"G"* Від 5 до 40 символів.", "Готово", "Скасувати");
 			new idobject;
 			for(idobject = 0; idobject < MAX_OGRAD; idobject++) if(object[idobject] == -1) break;
@@ -31025,7 +31020,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetDynamicObjectMaterial(object[idobject], 2, 2823, "gb_kitchtake", "deep_red64", 0);
 			GetDynamicObjectPos(object[idobject], ox, oy, oz);
 			GetDynamicObjectRot(object[idobject], rx, ry, rz);
-			objectrot[idobject] = CreateDynamicObject(19477, ox - 0.05 * floatsin(-rz, degrees), oy - 0.05 * floatcos(-rz, degrees), oz + 1.6, 0.0, 0.0, rz - 90.0);
+			objectrot[idobject] = CreateDynamicObject(19477, ox - 0.1 * floatsin(-rz, degrees), oy - 0.1 * floatcos(-rz, degrees), oz + 2.6, 0.0, 0.0, rz - 90.0);
 			SetDynamicObjectMaterialText(objectrot[idobject], 0, inputtext, 90, "Ariel", 15, 1, COLOR_WHITE, 0, 1);
 			Streamer_Update(playerid);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
@@ -32651,10 +32646,10 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			}
 		}
 	}
-	new state_ship = GetPlayerState(playerid), state_vehicle = GetPlayerVehicleID(playerid);
+	new state_vehicle = GetPlayerVehicleID(playerid);
 	foreach(new i:Player) {
 		if(!TI[i][tStarted]) continue;
-		if(areaid == GetPVarInt(i, "Ships") && state_ship == PLAYER_STATE_DRIVER) {
+		if(areaid == GetPVarInt(i, "Ships") && GetPlayerState(playerid) == PLAYER_STATE_DRIVER) {
 			new panels, tires;
 			GetVehicleDamageStatus(state_vehicle, panels, vehdoors, vehlights, tires);
 			UpdateVehicleDamageStatus(state_vehicle, panels, vehdoors, vehlights, 15);
@@ -32666,9 +32661,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 	return 1;
 }
 public OnPlayerLeaveDynamicArea(playerid, areaid) {
-	for(new i; i < MAX_STREAMS; i++) {
-		if(areaid == Streams[i][sStream]) StopAudioStreamForPlayer(playerid);
-	}
+	for(new i; i < MAX_STREAMS; i++) if(areaid == Streams[i][sStream]) StopAudioStreamForPlayer(playerid);
 	if(CI[playerid][cStage] == 1 && areaid == CI[playerid][cDeathArea]) PlayerSpawn(playerid);
 	else if(areaid >= gHouseArea[0] && areaid <= gHouseArea[gHouseCount]) TI[playerid][tSelectHouse] = 0;
 	else if(areaid >= b_area[0] && areaid <= b_area[gBusinessCount - 1] && TI[playerid][tTPpick] == false) TI[playerid][tSelectedBusinessID] = -1;
@@ -33023,9 +33016,7 @@ public OnPlayerDisconnect(playerid, reason) {
 		skill_player_td[playerid][1] = PlayerText:-1;
 	}
 	if(GetPVarInt(playerid, "block")) {
-		if(ObjectShip[playerid] != 0x7F800000) {
-			DestroyDynamicObject(ObjectShip[playerid]);
-		}
+		DestroyDynamicObject(ObjectShip[playerid]);
 		DestroyDynamicArea(GetPVarInt(playerid, "Ships"));
 		DestroyDynamic3DTextLabelEx(ShipText[playerid]);
 	}
@@ -33749,7 +33740,7 @@ public OnPlayerEnterCheckpoint(playerid) {
 	}
 	new vehicleid = GetPlayerVehicleID(playerid);
 	switch(GetPVarInt(playerid, "MatsArmyCar")) {
-	case 1..4: {
+		case 1..4: {
 			DisablePlayerCheckpoint(playerid);
 			if(GetPVarInt(playerid, "MatsArmyCar") == 1 && !IsPlayerInRangeOfPoint(playerid, 10.0, 1535.8534, -1674.4445, 13.3828)) return 1;
 			if(GetPVarInt(playerid, "MatsArmyCar") == 2 && !IsPlayerInRangeOfPoint(playerid, 10.0, 1611.7229, -1262.0503, 17.4984)) return 1;
@@ -33758,25 +33749,25 @@ public OnPlayerEnterCheckpoint(playerid) {
 			new string[96];
 			if(VG[vehicleid][vgAmount][0] <= 0) return SendError(playerid, "Вантажівка пуста.");
 			switch(GetPVarInt(playerid, "MatsArmyCar")) {
-			case 1: {
+				case 1: {
 					// FI[fLShowPlayerDialog][fMaterials] += VG[vehicleid][vgAmount][0]*500;
 					// if(FI[fLShowPlayerDialog][fMaterials] > 500000) FI[fLShowPlayerDialog][fMaterials] = 500000;
 					// format(string, sizeof(string), "Боєприпаси успішно відгружені. На складі Департаментe поліції Лос-Сантоса: %i.", FI[fLShowPlayerDialog][fMaterials]);
 					SendOK(playerid, string);
 				}
-			case 2: {
+				case 2: {
 					// FI[fFBI][fMaterials] += VG[vehicleid][vgAmount][0]*500;
 					// if(FI[fFBI][fMaterials] > 500000) FI[fFBI][fMaterials] = 500000;
 					// format(string, sizeof(string), "Боєприпаси успішно відгружені. На складі Федерального бюро розслідувань: %i.", FI[fFBI][fMaterials]);
 					SendOK(playerid, string);
 				}
-			case 3: {
+				case 3: {
 					// FI[fARMYLS][fMaterials] += VG[vehicleid][vgAmount][0]*500;
 					// if(FI[fARMYLS][fMaterials] > 1000000) FI[fARMYLS][fMaterials] = 1000000;
 					// format(string, sizeof(string), "Боєприпаси успішно відгружені. На складі Національної гвардії: %i.", FI[fARMYLS][fMaterials]);
 					SendOK(playerid, string);
 				}
-			case 4: {
+				case 4: {
 					// FI[fRCSO][fMaterials] += VG[vehicleid][vgAmount][0]*500;
 					// if(FI[fRCSO][fMaterials] > 1000000) FI[fRCSO][fMaterials] = 1000000;
 					// format(string, sizeof(string), "Боєприпаси успішно відгружені. На складі Офісу шерифа округу Ред: %i.", FI[fRCSO][fMaterials]);
@@ -33786,7 +33777,7 @@ public OnPlayerEnterCheckpoint(playerid) {
 			VG[vehicleid][vgAmount][0] = 0;
 			DeletePVar(playerid, "MatsArmyCar");
 		}
-	case 6: {
+		case 6: {
 			static const f_str[] = ""W"Введіть кількість боєприпасів, яку ви хочете покласти у вантажівку:\n\n\
 									Доступно боєприпасів: "ORANGE"%i\n\
 									"W"У вантажівку влізе: "ORANGE"%i";
@@ -33796,14 +33787,14 @@ public OnPlayerEnterCheckpoint(playerid) {
 			DeletePVar(playerid, "MatsArmyCar");
 			DisablePlayerCheckpoint(playerid);
 		}
-	case 7: {
+		case 7: {
 			new string[128];
 			// format(string, sizeof(string), W"Введіть кількість боєприпасів, яку ви хочете розвантажити на склад:\n\nДоступно боєприпасів: "P"%i"W"\nНа склад влізе: "P"%i"W, VG[vehicleid][vgAmount][0], 1000000-FI[fARMYLS][fMaterials]);
 			ShowPlayerDialog(playerid, D_ARMY_CARM_SF_6, DSI, P"Завантаження боєприпасів", string, "Готово", "Закрити");
 			DeletePVar(playerid, "MatsArmyCar");
 			DisablePlayerCheckpoint(playerid);
 		}
-	case 11: {
+		case 11: {
 			if(VG[vehicleid][vgAmount][0]) return SendError(playerid, "В автомобілі вже є боєприпаси.");
 			// if(FI[fARMYLS][fMaterials] < 12500) return SendError(playerid, "На складі гвардії недостатньо боєприпасів.");
 			VG[vehicleid][vgAmount][0] = 25;
@@ -34557,23 +34548,19 @@ public OnGameModeExit() {
 }
 /* new SERVER_DOWNLOAD[] = "http://chiliad-rp.com/models/";
 public OnPlayerRequestDownload(playerid, type, crc) {
-	if(!IsPlayerConnected(playerid))
-		return 0;
+	if(!IsPlayerConnected(playerid)) return 0;
 	new filename[64], filefound, final_url[256];
-	if(type == DOWNLOAD_REQUEST_TEXTURE_FILE)
-		filefound = FindTextureFileNameFromCRC(crc, filename, sizeof(filename));
-	else if(type == DOWNLOAD_REQUEST_MODEL_FILE)
-		filefound = FindModelFileNameFromCRC(crc, filename, sizeof(filename));
+	if(type == DOWNLOAD_REQUEST_TEXTURE_FILE) filefound = FindTextureFileNameFromCRC(crc, filename, sizeof(filename));
+	else if(type == DOWNLOAD_REQUEST_MODEL_FILE) filefound = FindModelFileNameFromCRC(crc, filename, sizeof(filename));
 	if(filefound) {
 		format(final_url, sizeof(final_url), "%s/%s", SERVER_DOWNLOAD, filename);
 		RedirectDownload(playerid, final_url);
 	}
 	return 1;
 } */
-public OnGameModeInit() 
-{
-	CA_Init();
-	MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAFull.hmap");
+public OnGameModeInit() {
+	// CA_Init();
+	// MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAFull.hmap");
 	
 	// SetDisableSyncBugs(true);
 	gCurDay = GetDayNumber();
@@ -34877,7 +34864,7 @@ stock CreateVehicless() {
 	VWH3DText[1] = CreateDynamic3DTextLabel("{FFFFFF}Щоб взяти матеріали\n\n\nНатисніть: 'ALT'", 0xFFFFFFFF, 164.8852, 1852.3386, 643.0618, 10.0);
 	VehicleInfo[VehicleWareHouse[0]][vAkum] = 100;
 	VehicleInfo[VehicleWareHouse[0]][vFuel] = gTransport[VehicleWareHouse[0]][trTank];
-	for(new i = MAX_VEHICLES + 1; --i;) {
+	for(new i = MAX_VEHICLES; --i;) {
 		SignalTick[i][1] = -1;
 		LightsObject[i][0] = -1;
 		LightsObject[i][1] = -1;
@@ -35082,12 +35069,11 @@ stock load_gm_pickups() {
 	CreateDynamicPickup(19135, 23, 2716.3943, -2395.9451, 13.6328); // вхід в будку
 
 	CreateDynamicPickup(1318, 23, -677.4073, 1727.0359, 1376.6718); // Виход з трейлера
-	CreateDynamic3DTextLabel(W"Для виходу використайте"G" 'ALT'", -1, -677.4073, 1727.0359, 1376.6718, 4.0);
-	CreateDynamic3DTextLabel("Для входу натисніть ALT", 0xFFFFFFFF, 2716.3943, -2395.9451, 13.6328, 1.5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // багатоквартирка
-	CreateDynamic3DTextLabel("Для виходу натисніть ALT", 0xFFFFFFFF, 2716.4363, -2395.2075, 13.6390, 1.5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // багатоквартирка
+	CreateDynamic3DTextLabel("Вихід - "G"ALT", -1, -677.4073, 1727.0359, 1376.6718, 4.0);
+	CreateDynamic3DTextLabel("Вхід - "G"ALT", -1, 2716.3943, -2395.9451, 13.6328, 1.5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // багатоквартирка
+	CreateDynamic3DTextLabel("Вихід - "G"ALT", -1, 2716.4363, -2395.2075, 13.6390, 1.5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, -1, -1); // багатоквартирка
 
-	/*
-	for(new i; i < sizeof(gTeleportsToD); i++) {
+	/* for(new i; i < sizeof(gTeleportsToD); i++) {
 		new string[72];
 		strcat(string, gTeleportsToD[i][tpName]), strcat(string, "\n\n"G"Вcтаньте на пікап, щоб увійти");
 		if(!GetString(gTeleportsToD[i][tpName], "None")) CreateDynamic3DTextLabel(string, PP, gTeleportsToD[i][tpEnterPos_X], gTeleportsToD[i][tpEnterPos_Y], gTeleportsToD[i][tpEnterPos_Z]+0.2, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, gTeleportsToD[i][tpEnterWorld], gTeleportsToD[i][tpEnterInt]);
@@ -35098,8 +35084,7 @@ stock load_gm_pickups() {
 		CreateDynamicPickup(gPickupData[pick][2], 23, gPickup[pick][0], gPickup[pick][1], gPickup[pick][2], gPickupData[pick][1], gPickupData[pick][0]);
 		gpuID[pick] = CreateDynamicSphere(gPickup[pick][0], gPickup[pick][1], gPickup[pick][2], 1.0, gPickupData[pick][1], gPickupData[pick][0]);
 		if(!GetString(gPickupDataName[pick][picName], "None")) CreateDynamic3DTextLabel(gPickupDataName[pick][picName], 0xFFFFFFFF, gPickup[pick][0], gPickup[pick][1], gPickup[pick][2]+0.5, 10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, gPickupData[pick][1], gPickupData[pick][0]);
-	}
-	*/
+	} */
 	for(new i; i < sizeof(gun_checkpoints); i ++) gun_pickup[i] = CreateDynamicCP(gun_checkpoints[i][0], gun_checkpoints[i][1], gun_checkpoints[i][2]-0.6, 0.7, 1, 2, -1, 3.0);
 	for(new i; i < sizeof(sad_objects); i ++) {
 		SI[i][sad_object][0] = CreateDynamicObject(765, sad_objects[i][0], sad_objects[i][1], sad_objects[i][2], sad_objects[i][3], sad_objects[i][4], sad_objects[i][5], -1, -1, -1, 90.0);
@@ -46584,8 +46569,8 @@ CB:load_faction_ranks() {
 	for(new i; i < rows; i++) {
 		new fid, rid;
 		cache_get_value_name_int(i, "Faction", fid);
-		cache_get_value_name_int(i, "ID", rid);
-		fRanks[fid][rid][frID] = rid;
+		cache_get_value_name_int(i, "fID", rid);
+		cache_get_value_name_int(i, "ID", fRanks[fid][rid][frID]);
 		cache_get_value_name(i, "Name", fRanks[fid][rid][frName], 24);
 		cache_get_value_name_int(i, "Salary", fRanks[fid][rid][frSalary]);
 	}
@@ -46598,7 +46583,7 @@ CB:load_faction_skins() {
 	for(new i; i < rows; i++) {
 		new fid, sid;
 		cache_get_value_name_int(i, "Faction", fid);
-		cache_get_value_name_int(i, "ID", sid);
+		cache_get_value_name_int(i, "fID", sid);
 		cache_get_value_name_int(i, "Skin", FI[fid][fSkins][sid]);
 	}
 	printf("[Success] Faction skins loaded (%i pcs.)", rows);
@@ -46610,8 +46595,8 @@ CB:load_faction_fleets() {
 	for(new i; i < rows; i++) {
 		new fid, vid;
 		cache_get_value_name_int(i, "Faction", fid);
-		cache_get_value_name_int(i, "ID", vid);
-		fFleet[fid][vid][fleetID] = vid;
+		cache_get_value_name_int(i, "fID", vid);
+		cache_get_value_name_int(i, "ID", fFleet[fid][vid][fleetID]);
 		cache_get_value_name_int(i, "Model", fFleet[fid][vid][fleetModel]);
 		cache_get_value_name_int(i, "Color1", fFleet[fid][vid][fleetColor1]);
 		cache_get_value_name_int(i, "Color2", fFleet[fid][vid][fleetColor2]);

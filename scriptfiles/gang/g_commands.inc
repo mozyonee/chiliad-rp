@@ -137,7 +137,7 @@ CMD:bandchat(playerid, params[]) {
 	if(PI[playerid][pRank] < FI[GetTeamID(playerid)][fInviteRang]) return ErrorMessage(playerid,"Вам недоступна данная команда");
 	if(isnull(params) || strlen(params) > 100) return SendEsp(playerid, "/bc [текст]");
 	if(PI[playerid][pMute] > 0) return ErrorMessage(playerid, "У Вас бан чата");
-	if(GetPVarInt(playerid,"gag")) return ErrorMessage(playerid, "У Вас кляп");
+	if(GetPVarInt(playerid, "gag")) return ErrorMessage(playerid, "У Вас кляп");
 	new string[144];
 	format(string, sizeof(string), "[BC] {%06x}%s "W"%s[%d]: %s", gFractionSpawn[PI[playerid][pMember]][fracColor] >>> 8,FI[PI[playerid][pMember]][fName],player_name[playerid],playerid, params);
 	SendBand(COLOR_RED, string);
