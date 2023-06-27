@@ -1073,10 +1073,10 @@ new PlayerBuildExFix[MAX_PLAYERS];
 new PlayerBuild2Fix[MAX_PLAYERS];
 new PlayerBuild2ExFix[MAX_PLAYERS];
 new PlayerSecondTimer[MAX_PLAYERS] = {-1, ...};
-#define		MAX_FACTIONS 1 +				30
-#define		MAX_FACTION_RANKS 1 +			30
-#define		MAX_FACTION_SKINS 1 +			30
-#define		MAX_FACTION_FLEET 1 +			150
+#define		MAX_FACTIONS 1 +				50
+#define		MAX_FACTION_RANKS 1 +			50
+#define		MAX_FACTION_SKINS 1 +			50
+#define		MAX_FACTION_FLEET 1 +			50
 #define		MAX_BLACKJACK_PLAYER_CARD		5
 #define		MAX_BLACKJACK_TABLES			10
 #define		MAX_BLACKJACK_SEATS				3
@@ -21329,19 +21329,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_RANK_SUPERVISOR, DSI, header, W"Введіть ранг, з якого будуть доступні керівні дії у фракції.", "Готово", "Скасувати");
 				}
 				case 2: {
-					for(new i = 1; i <= FI[fid][lRank]; i++) if(strcmp(fRanks[fid][i][frName], "")) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, fRanks[fid][i][frName]);
+					for(new i = 1; i <= FI[fid][lRank]; i++) if(fRanks[fid][i][frID]) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, fRanks[fid][i][frName]);
 					format(header, sizeof(header), P"|"W" Керування %s. Назви рангів.", FI[fid][fName]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_RANK_NAMES, DSL, header, content, "Обрати", "Назад");
 				}
 				case 3: {
-					for(new i = 1; i <= FI[fid][lRank]; i++) if(strcmp(fRanks[fid][i][frName], "")) format(content, sizeof(content), "%s%s\t"GREEN"$%i"W"\n", content, fRanks[fid][i][frName], fRanks[fid][i][frSalary]);
+					for(new i = 1; i <= FI[fid][lRank]; i++) if(fRanks[fid][i][frID]) format(content, sizeof(content), "%s%s\t"GREEN"$%i"W"\n", content, fRanks[fid][i][frName], fRanks[fid][i][frSalary]);
 					format(header, sizeof(header), P"|"W" Керування %s. Зарплати.", FI[fid][fName]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_RANK_SALARY, DST, header, content, "Обрати", "Назад");
 				}
 			}
 			}
 		case D_FACTION_EDIT_RANK_LEADER: {
-			new query[256], header[128], content[512], frank[24], lrank, maxrank, leadercid, membercid, fid = GetPVarInt(playerid, "factionid");
+			new query[512], header[128], content[512], frank[24], lrank, maxrank, leadercid, membercid, fid = GetPVarInt(playerid, "factionid");
 			if(response) {
 				if(sscanf(inputtext, "i", lrank) || !(FI[fid][sRank] <= strval(inputtext) <= MAX_FACTION_RANKS)) {
 					format(header, sizeof(header), P"|"W" Керування %s. Ранг лідера.", FI[fid][fName]);
@@ -21357,36 +21357,41 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					case 7: frank = "Адміністратор";
 					default: frank = "Вільний ранг";
 				}
-				for(new i = 1; strcmp(fRanks[fid][i][frName], ""); i++) maxrank = i;
-				if(lrank - maxrank > 0) {
-					mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_ranks` (Faction, fID, Name) SELECT %i, MIN(t.fID) + 1, '%e' FROM (SELECT fID FROM `faction_ranks` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_ranks` AS fs ON fs.fID = t.fID + 1 AND fs.Faction = %i WHERE fs.fID IS NULL", fid, frank, fid, fid);
-					for(new i = maxrank + 1; i <= lrank; i++) mysql_query(connects, query);
-				} else if(lrank - maxrank < 0) {
-					for(new i = maxrank; i > lrank; i--) strmid(fRanks[fid][i][frName], "", 0, 2);
+				for(new i = 1; i < MAX_FACTION_RANKS; i++) if(!fRanks[fid][i][frID]) { maxrank = i; break; }
+				if(maxrank <= lrank) {
+					mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_ranks` (Faction, fID, Name) SELECT %i, MIN(t.fID) + 1, '%s' FROM (SELECT fID FROM `faction_ranks` WHERE Faction = %i UNION ALL SELECT 0) AS t LEFT JOIN `faction_ranks` AS fs ON fs.fID = t.fID + 1 AND fs.Faction = %i WHERE fs.fID IS NULL", fid, frank, fid, fid);
+					for(new i = maxrank; i <= lrank; i++) mysql_query(connects, query);
+					load_faction_ranks();
+				} else {
+					for(new i = maxrank; i > lrank; i--) {
+						fRanks[fid][i][frID] = 0;
+						fRanks[fid][i][frSalary] = 0;
+						strmid(fRanks[fid][i][frName], "", 0, 2);
+					}
 					mysql_format(connects, query, sizeof(query), "DELETE FROM `faction_ranks` WHERE `Faction` = %i AND `fID` > %i", fid, lrank);
 					mysql_query(connects, query);
 				}
+
 				FI[fid][lRank] = lrank;
 				UpdateFaction(fid, "lRank", FI[fid][lRank]);
 
-				mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `pMember` = %i AND `pRank` >= %i", fid, FI[fid][lRank]);
+				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pRank` = %i WHERE `pMember` = %i AND `pRank` >= %i", FI[fid][lRank] - 1, fid, FI[fid][lRank]);
+				mysql_query(connects, query);
+				mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `pMember` = %i AND `pRank` = %i", fid, FI[fid][lRank] - 1);
 				mysql_query(connects, query);
 				for(new i; i < cache_num_rows(); i++) {
-					SendInfo(playerid, "row");
 					cache_get_value_name_int(i, "cID", membercid);
-					mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pRank` = %i WHERE `cID` = %i LIMIT 1", FI[fid][lRank] - 1, membercid);
-					mysql_query(connects, query);
-					foreach(new n:Player) if(CI[n][cID] == membercid) SendError(playerid, CI[n][cName]), CI[n][pRank] = FI[fid][lRank] - 1;
+					foreach(new n:Player) if(CI[n][cID] == membercid) CI[n][pRank] = FI[fid][lRank] - 1;
 				}
 
-				mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%e' LIMIT 1", FI[fid][fLeader]);
+				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pRank` = %i WHERE `Name` = '%s' LIMIT 1", FI[fid][lRank], FI[fid][fLeader]);
 				mysql_query(connects, query);
-				SendHint(playerid, "row");
+				mysql_format(connects, query, sizeof(query), "SELECT `cID` FROM "TABLE_CHARACTERS" WHERE `Name` = '%s' LIMIT 1", FI[fid][fLeader]);
+				mysql_query(connects, query);
 				cache_get_value_name_int(0, "cID", leadercid);
-				mysql_format(connects, query, sizeof(query), "UPDATE "TABLE_CHARACTERS" SET `pRank` = %i WHERE `cID` = %i LIMIT 1", FI[fid][lRank], leadercid);
-				mysql_query(connects, query);
-				foreach(new i:Player) if(CI[i][cID] == leadercid) SendOK(playerid, CI[i][cName]), CI[i][pRank] = FI[fid][lRank];
+				foreach(new i:Player) if(CI[i][cID] == leadercid) CI[i][pRank] = FI[fid][lRank];
 			}
+
 			for(new i = 1; i <= FI[fid][lRank]; i++) if(strcmp(fRanks[fid][i][frName], "")) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, fRanks[fid][i][frName]);
 			format(content, sizeof(content), W"Ранг лідера\t%i\nРанг керівника\t%i\nНазви рангів\tРедагувати\nЗарплати рангів\tРедагувати", FI[fid][lRank], FI[fid][sRank]);
 			format(header, sizeof(header), P"|"W" Керування %s. Ранги.", FI[fid][fName]);
@@ -21427,7 +21432,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				strmid(fRanks[fid][rid][frName], inputtext, 0, 24);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_ranks` SET `Name` = '%e' WHERE `ID` = %i", fRanks[fid][rid][frName], fRanks[fid][rid][frID]);
 				mysql_query(connects, query);
-				SendHint(playerid, query);
 			}
 			for(new i = 1; i <= FI[fid][lRank]; i++) if(strcmp(fRanks[fid][i][frName], "")) format(content, sizeof(content), "%s"P"%i."W" %s.\n", content, i, fRanks[fid][i][frName]);
 			format(header, sizeof(header), P"|"W" Керування %s. Назви рангів.", FI[fid][fName]);
@@ -30958,7 +30962,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 6: object[idobject] = CreateDynamicObject(970, x, y, z - 0.5, 0, 0, angle);
 				case 7: object[idobject] = CreateDynamicObject(19834, x, y, z + 0.125, 0, 0, angle);
 			}
-			if(listitem != 4) ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0), Streamer_Update(playerid);
+			ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0), Streamer_Update(playerid);
 			}
 		case D_OBJ_3: {
 			if(!response) return pc_cmd_fence(playerid);
@@ -30982,7 +30986,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 9: ShowPlayerDialog(playerid, D_OBJ_5, DSI, P"|"W" Об'єкти. Табличка.", W"Введіть текст, який буде відображатися на загородженні.", "Готово", "Скасувати");
 			}
 			Streamer_Update(playerid);
-			ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
+			if(listitem != 9) ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0), Streamer_Update(playerid);
 			}
 		case D_OBJ_4: {
 			if(!response) return pc_cmd_fence(playerid);
@@ -31020,7 +31024,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetDynamicObjectMaterial(object[idobject], 2, 2823, "gb_kitchtake", "deep_red64", 0);
 			GetDynamicObjectPos(object[idobject], ox, oy, oz);
 			GetDynamicObjectRot(object[idobject], rx, ry, rz);
-			objectrot[idobject] = CreateDynamicObject(19477, ox - 0.1 * floatsin(-rz, degrees), oy - 0.1 * floatcos(-rz, degrees), oz + 2.6, 0.0, 0.0, rz - 90.0);
+			objectrot[idobject] = CreateDynamicObject(19477, ox - 0.0 * floatsin(-rz, degrees), oy - 0.0 * floatcos(-rz, degrees), oz + 2.6, 0.0, 0.0, rz - 90.0);
 			SetDynamicObjectMaterialText(objectrot[idobject], 0, inputtext, 90, "Ariel", 15, 1, COLOR_WHITE, 0, 1);
 			Streamer_Update(playerid);
 			ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 2, 0, 0, 0, 0, 0);
@@ -38096,8 +38100,7 @@ CMD:frank(playerid, params[]) {
 }
 CMD:fmembers(playerid) {
 	if(!CI[playerid][pFamily]) return SendError(playerid, "Ви не є членом сім'ї.");
-	new string[700], str[700];
-	strcat(str, W"Ім'я:\t"W"Рівень:\t"W"Ранг:\n");
+	new string[700], str[700] = "Ім'я\tРівень\tРанг\n";
 	strcat(string, str);
 	foreach(new i:Player) {
 		if(!TI[i][tLogin]) continue;
@@ -38106,7 +38109,7 @@ CMD:fmembers(playerid) {
 			strcat(string, str);
 		}
 	}
-	ShowPlayerDialog(playerid, D_FAMILY_INFO, DSTH, P"Члени сім'ї онлайн", string, "Назад", "");
+	ShowPlayerDialog(playerid, D_FAMILY_INFO, DSTH, P"|"W" Члени сім'ї онлайн.", string, "Назад", "");
 	return 1;
 }
 CMD:famspcar(playerid) {
