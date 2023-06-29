@@ -1,0 +1,32 @@
+// Лісопилка екстер'єр
+	RemoveBuildingForPlayer(playerid,3295,1099.116943,-358.476013,77.616997,0.25);
+	RemoveBuildingForPlayer(playerid,3376,1070.475952,-355.164001,77.334999,0.25);
+	RemoveBuildingForPlayer(playerid,3404,1019.382019,-300.242004,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,3404,1045.562012,-300.601013,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,3276,1012.289001,-282.539001,73.843002,0.25);
+	RemoveBuildingForPlayer(playerid,3425,1015.093018,-361.101013,84.039001,0.25);
+	RemoveBuildingForPlayer(playerid,3402,1019.382019,-300.242004,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,3375,1070.475952,-355.164001,77.334999,0.25);
+	RemoveBuildingForPlayer(playerid,3402,1045.562012,-300.601013,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,13206,1072.953003,-289.178986,72.734001,0.25);
+	RemoveBuildingForPlayer(playerid,3286,1099.116943,-358.476013,77.616997,0.25);
+	RemoveBuildingForPlayer(playerid,3253,1106.640015,-319.875000,73.741997,0.25);
+	RemoveBuildingForPlayer(playerid,3250,1110.241943,-298.945007,73.039001,0.25);
+	RemoveBuildingForPlayer(playerid,3295,1099.116943,-358.476013,77.616997,0.25);
+	RemoveBuildingForPlayer(playerid,3376,1070.475952,-355.164001,77.334999,0.25);
+	RemoveBuildingForPlayer(playerid,3404,1019.382019,-300.242004,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,3404,1045.562012,-300.601013,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,3276,1012.289001,-282.539001,73.843002,0.25);
+	RemoveBuildingForPlayer(playerid,3425,1015.093018,-361.101013,84.039001,0.25);
+	RemoveBuildingForPlayer(playerid,3402,1019.382019,-300.242004,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,3375,1070.475952,-355.164001,77.334999,0.25);
+	RemoveBuildingForPlayer(playerid,3402,1045.562012,-300.601013,72.984001,0.25);
+	RemoveBuildingForPlayer(playerid,13206,1072.953003,-289.178986,72.734001,0.25);
+	RemoveBuildingForPlayer(playerid,3286,1099.116943,-358.476013,77.616997,0.25);
+	RemoveBuildingForPlayer(playerid,3253,1106.640015,-319.875000,73.741997,0.25);
+	RemoveBuildingForPlayer(playerid,3250,1110.241943,-298.945007,73.039001,0.25);
+// Далекобійники екстер'єр
+	RemoveBuildingForPlayer(playerid,3622,2403.520020,-2224.239014,15.656000,0.25);
+	RemoveBuildingForPlayer(playerid,3687,2403.520020,-2224.239014,15.656000,0.25);
+	RemoveBuildingForPlayer(playerid,3622,2403.520020,-2224.239014,15.656000,0.25);
+	RemoveBuildingForPlayer(playerid,3687,2403.520020,-2224.239014,15.656000,0.25);
