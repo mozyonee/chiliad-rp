@@ -21663,7 +21663,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 				pc_cmd_slap(playerid, IntToStr(playerid));
 				FreezePlayerForTime(playerid, 2.5);
-				CreateOrgsVehicle(fFleet[fid][freeid][fleetID], fid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], 0, 0, 1, fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
+				CreateOrgsVehicle(fFleet[fid][freeid][fleetID], fid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], 0, 0, fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
 				PutPlayerInVehicle(playerid, VehicleInfo[vid][vID], 0);
 				mysql_format(connects, query, sizeof(query), "INSERT INTO `faction_fleets`(`Faction`, `fID`, `Model`, `SpawnX`, `SpawnY`, `SpawnZ`, `SpawnA`, `SpawnVW`, `SpawnI`) VALUES (%i, %i, %i, %.2f, %.2f, %.2f, %.2f, %i, %i)", fid, freeid, fFleet[fid][freeid][fleetModel], fFleet[fid][freeid][fleetSpawnX], fFleet[fid][freeid][fleetSpawnY], fFleet[fid][freeid][fleetSpawnZ], fFleet[fid][freeid][fleetSpawnA], fFleet[fid][freeid][fleetSpawnVW], fFleet[fid][freeid][fleetSpawnI]);
 				mysql_query(connects, query);
@@ -21739,7 +21739,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				fFleet[fid][vid][fleetModel] = vmodel;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `Model` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 			}
@@ -21760,7 +21760,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				fFleet[fid][vid][fleetColor1] = vcolor;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `Color1` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 			}
@@ -21781,7 +21781,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				fFleet[fid][vid][fleetColor2] = vcolor;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 				mysql_format(connects, query, sizeof(query), "UPDATE `faction_fleets` SET `Color2` = %i WHERE `ID` = %i", fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetID]);
 				mysql_query(connects, query);
 			}
@@ -21832,7 +21832,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					pc_cmd_slap(playerid, IntToStr(playerid));
 					FreezePlayerForTime(playerid, 2.5);
 					A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-					CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+					CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 					format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 					format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
 					ShowPlayerDialog(playerid, D_FACTION_EDIT_FLEET_SPAWN, DST, header, content, "Обрати", "Назад");
@@ -21850,7 +21850,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnX] = fcoord;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -21867,7 +21867,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnY] = fcoord;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -21884,7 +21884,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnZ] = fcoord;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -21901,7 +21901,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnA] = fcoord;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -21918,7 +21918,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnVW] = fcoord;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -21935,7 +21935,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				mysql_query(connects, query);
 				fFleet[fid][vid][fleetSpawnVW] = fcoord;
 				A_DestroyVehicle(VehicleInfo[fFleet[fid][vid][fleetID]][vID]);
-				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+				CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 			}
 			format(content, sizeof(content), W"Точка X\t%f\nТочка Y\t%f\nТочка Z\t%f\nКут повороту\t%f\nВіртуальний світ\t%i\nІнтер'єр\t%i\n"P"-"W" Використати поточну позицію.", fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI]);
 			format(header, sizeof(header), P"|"W" Керування %s. Спавн.", VehicleNames[fFleet[fid][vid][fleetModel] - 400]);
@@ -46616,7 +46616,7 @@ CB:load_faction_fleets() {
 		cache_get_value_name_float(i, "SpawnA", fFleet[fid][vid][fleetSpawnA]);
 		cache_get_value_name_int(i, "SpawnVW", fFleet[fid][vid][fleetSpawnVW]);
 		cache_get_value_name_int(i, "SpawnI", fFleet[fid][vid][fleetSpawnI]);
-		CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], 1, fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
+		CreateOrgsVehicle(fFleet[fid][vid][fleetID], fid, fFleet[fid][vid][fleetModel], fFleet[fid][vid][fleetSpawnX], fFleet[fid][vid][fleetSpawnY], fFleet[fid][vid][fleetSpawnZ], fFleet[fid][vid][fleetSpawnA], fFleet[fid][vid][fleetColor1], fFleet[fid][vid][fleetColor2], fFleet[fid][vid][fleetSpawnVW], fFleet[fid][vid][fleetSpawnI], fFleet[fid][vid][fleetSiren]);
 	}
 	printf("[Success] Faction fleets loaded (%i pcs.)", rows);
 	return 1;
@@ -66913,7 +66913,7 @@ stock dialog_goscar(playerid, listitem, id) {
 		mysql_query(connects, query);
 		fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetModel] = eGC[egID - 1][eModel];
 		A_DestroyVehicle(VehicleInfo[IDModel + 1][vID]);
-		CreateOrgsVehicle(IDModel + 1, eGC[egID - 1][eOrgs], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetModel], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnX], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnY], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnZ], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnA], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetColor1], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetColor2], 1, fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnVW], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnI], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSiren]);
+		CreateOrgsVehicle(IDModel + 1, eGC[egID - 1][eOrgs], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetModel], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnX], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnY], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnZ], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnA], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetColor1], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetColor2], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnVW], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSpawnI], fFleet[eGC[egID - 1][eOrgs]][IDModel][fleetSiren]);
 		new string[150];
 		format(string, sizeof(string), W"Ви придбали автомобіль "P"%s"W" за "GREEN"$%i"W".", gTransport[eGC[egID - 1][eModel] - 400][trName], eGC[egID-1][ePrice]);
 		SendOK(playerid, string);
@@ -66931,8 +66931,8 @@ CMD:statecars(playerid) {
 	"P"4."W" Національна гвардія.", "Далі", "Закрити");
 	return 1;
 }
-stock CreateOrgsVehicle(carid, faction, model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2, spawntime = 1, world, int, siren = 0) {
-	VehicleInfo[carid][vID] = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime, VEHICLE_TYPE_FACTION, world, int, siren);
+stock CreateOrgsVehicle(carid, faction, model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2, world, int, siren = 0) {
+	VehicleInfo[carid][vID] = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, -1, VEHICLE_TYPE_FACTION, world, int, siren);
 	VehicleInfo[carid][vTeam] = faction;
 
 	if(VehicleInfo[carid][vNumberAttached]) {
