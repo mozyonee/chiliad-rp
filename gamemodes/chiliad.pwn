@@ -235,6 +235,28 @@ enum gps_data {
 	Float:gZ
 }
 
+
+// ========= [ Bank data ] =========
+
+enum BankData
+{
+	Float:bankSphX,
+	Float:bankSphY,
+	Float:bankSphZ
+}
+new Bank[][BankData] = 
+{
+	{ -628.1213, 2701.4333, 2501.5398 },
+	{ -628.7666, 2704.4863, 2501.5398 },
+	{ -629.0319, 2708.0530, 2501.5398 },
+	{ -628.5065, 2711.1318, 2501.5398 }
+
+};
+
+
+
+// =================================
+
 new GPSPublic[][gps_data] = {
 	{ "Центр зайнятості", 1411.5740, -1699.5056, 13.5395 }, 
 	{ "Банк м. Лос-Сантос", 595.14, -1244.26, 17.61 }, 
@@ -3367,6 +3389,10 @@ enum dialogs {
 	dDonateOther,
 	dDonateConvert,
 	dDonatePremiumBuy,
+
+	dBankMenu,
+	dBankAccounts,
+
 	dMeat,
 	dMeatWork,
 	dHelp,
@@ -18710,6 +18736,19 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		}
+		case dBankMenu:
+		{
+			if(!response) return 1;
+			new query[512];
+			switch(listitem)
+			{
+				case 0:
+				{
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
+					mysql_tquery(connects, query, "bank_accounts", "i", playerid);
+				}
+			}
+		}
 		case dMeatWork: {
 			if(!response) return 1;
 
@@ -24232,7 +24271,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 		case D_SPAWN: {
 			if(!response) return 1;
 			switch(listitem) {
-				case 0: SendOK(playerid, "Ви обрали вокзал місцем спавну.");
+				case 0: SendOK(playerid, "Ви обрали місто місцем спавну.");
 				case 1: {
 					if(CI[playerid][pHouse] == 0 && CI[playerid][pTempKey] == 0 && CI[playerid][pRoom] == 0) return SendError(playerid, "Ви не маєте будинку/квартири.");
 					SendOK(playerid, "Ви обрали будинок/квартиру місцем спавну.");
@@ -42084,7 +42123,14 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 				break;
 			}
 		}
-
+		for(new b; b < 4; b++)
+		{
+			if(IsPlayerInRangeOfPoint(playerid, 2.0, Bank[b][bankSphX], Bank[b][bankSphY], Bank[b][bankSphZ]))
+			{
+				SendOK(playerid, "in area.");
+				BankDialog(playerid);
+			}
+		}
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, 838.0031, -2061.7444, 12.8672)) {
 			new string[256];
 			format(string, sizeof(string), "Предмет\tЦіна\n\
@@ -67854,9 +67900,31 @@ stock CreatePlayerMeatArray(playerid, meattype)
 	//ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "1", array, "1", "1");
 	return 1;
 }
-public OnPlayerResume(playerid, time)
+stock BankDialog(playerid)
 {
-    new str[128];
-    format(str, sizeof(str), "Ви були на паузі протягом "P"%s"W".", Convert(time * 0.001));
-    return SendInfo(playerid, str);
+	new string[1028];
+	format(string, sizeof(string), "\
+		"P"1. "W"Керування рахунками\n\
+		"P"2. "W"Фінансові операції\n\
+		"P"3. "W"Депозит\n\
+		"P"4. "W"Оплата податків, оренди та штрафів");
+	return ShowPlayerDialog(playerid, dBankMenu, DIALOG_STYLE_LIST, ""P"| "W"Меню банку.", string, "Обрати", "Закрити");
+}
+CB:bank_accounts(playerid)
+{
+	new rows, name[30], number, money, creation[128], string[1028];
+	cache_get_row_count(rows);
+	strcat(string, ""G"Номер\t"G"Назва\t"G"Дата створення\n");
+	for_1(i, rows)
+	{
+		cache_get_value_name_int(i, "ID", number);
+		cache_get_value_name(i, "Name", name, 30);
+		cache_get_value_name_int(i, "Money", money);
+		cache_get_value_name(i, "Creation", creation, 128);
+
+		format(string, sizeof(string), "%s"P"%d\t"W"%s\t"W"%s\n", string, number, name, creation);
+	}
+	strcat(string, ""P"- "W"Створити рахунок");
+	ShowPlayerDialog(playerid, dBankAccounts, DIALOG_STYLE_LIST, ""P"| "W"Банківські рахунки.", string, "Обрати", "Назад");
+	return 1;
 }
