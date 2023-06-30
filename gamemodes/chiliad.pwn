@@ -1012,8 +1012,8 @@ enum PLAYER_VEHICLE_E {
 }
 new PlayerTrailer[MAX_VEHICLES_PLAYER][PLAYER_VEHICLE_E], playerVehicleID[MAX_PLAYERS], playerVehicleAmount[MAX_PLAYERS];
 #define		VEHICLE_STATE_CAR				0
-#define		VEHICLE_STATE_BIKE				1
-#define		VEHICLE_STATE_VELIK				2
+#define		VEHICLE_STATE_MOTORCYCLE		1
+#define		VEHICLE_STATE_BICYCLE			2
 #define		VEHICLE_STATE_PLANE				3
 #define		VEHICLE_STATE_BOAT				4
 #define		VEHICLE_TYPE_NONE				0
@@ -34090,10 +34090,10 @@ stock ToggleEngine(vehicleid, playerid = INVALID_PLAYER_ID) {
 	GetVehiclePos(vehicleid, X, Y, Z);
 	if(!IsPlayerInRangeOfPoint(playerid, 5, X, Y, Z) || vehicleid == -1) return SendError(playerid, "Ви не поруч з автомобілем.");
 	GetVehicleParamsEx(vehicleid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
-	if(playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid) && CI[playerid][cStage] == 0) {
+	if(playerid != INVALID_PLAYER_ID && !IsABicycle(vehicleid) && !CI[playerid][cStage]) {
 		if(CarLic(vehicleid) && !lic[playerid][0]) return SendError(playerid, "У вас немає водійських прав.");
 		if(CI[playerid][pMember] != VehicleInfo[vehicleid][vTeam] && VehicleInfo[vehicleid][vTeam]) return SendError(playerid, "У вас немає ключів.");
-		if(vehengine == 1) {
+		if(vehengine) {
 			VehicleInfo[vehicleid][vLights] = 0;
 			SetVehicleParamsEx(vehicleid, 0, 0, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
 			PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
@@ -34118,7 +34118,7 @@ stock ToggleLights(vehicleid, playerid = INVALID_PLAYER_ID) {
 	new Float:X, Float:Y, Float:Z;
 	GetVehiclePos(vehicleid, X, Y, Z);
 	GetVehicleParamsEx(vehicleid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
-	if(playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid) && vehengine == 1 && CI[playerid][cStage] == 0) {
+	if(playerid != INVALID_PLAYER_ID && !IsABicycle(vehicleid) && vehengine == 1 && CI[playerid][cStage] == 0) {
 		if(vehlights == 1) {
 			VehicleInfo[vehicleid][vLights] = 0;
 			PlayerTextDrawColor(playerid, Speed_PTD[playerid][5], -347323649);
@@ -34137,7 +34137,7 @@ stock ToggleDoors(vehicleid, playerid = INVALID_PLAYER_ID) {
 	GetVehiclePos(GetNearestVehicle(playerid), X, Y, Z);
 	if(!IsPlayerInRangeOfPoint(playerid, 5, X, Y, Z) || vehicleid == -1) return SendError(playerid, "Ви не поруч з автомобілем.");
 	GetVehicleParamsEx(vehicleid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
-	if(playerid != INVALID_PLAYER_ID && !IsAVelik(vehicleid) && CI[playerid][cStage] == 0)  {
+	if(playerid != INVALID_PLAYER_ID && !IsABicycle(vehicleid) && CI[playerid][cStage] == 0)  {
 		if(vehdoors == 1) {
 			VehicleInfo[vehicleid][vLocked] = 0;
 			if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) PlayerTextDrawColor(playerid, Speed_PTD[playerid][6], 8388863);
@@ -38586,7 +38586,7 @@ CMD:exit(playerid) {
 		if(IsPlayerInRangeOfPoint(playerid, 2.0, x, y, z)) {
 			if(gHouses[houseid][houseImprove][2]) ShowPlayerDialog(playerid, D_HOUSE_EXIT, DSL, P"|"W" Вихід.", P"1."W" На вулицю.\n"P"2."W" В гараж.", "Обрати", "Закрити");
 			if(gHouses[houseid][houseImprove][3]) ShowPlayerDialog(playerid, D_HOUSE_EXIT, DSL, P"|"W" Вихід.", P"1."W" На вулицю.\n"P"2."W" В гараж.\n"P"3."W" В підвал.", "Обрати", "Закрити");
-			if(gHouses[houseid][houseImprove][2] == 0) {
+			if(!gHouses[houseid][houseImprove][2]) {
 				switch(houseid) {
 					case 425..434: FreezePlayerForTime(playerid, 2);
 				}
@@ -38855,9 +38855,9 @@ CMD:call(playerid, const params[])  {
 	return 1;
 }
 CMD:togphone(playerid) {
-	if(CI[playerid][pPhone] == 0) return SendError(playerid, "У вас немає мобільного телефона.");
+	if(!CI[playerid][pPhone]) return SendError(playerid, "У вас немає мобільного телефона.");
 	if(!TI[playerid][tPhoneOnline]) TI[playerid][tPhoneOnline] = true, SendOK(playerid, "Телефон вимкнено.");
-	else if(TI[playerid][tPhoneOnline]) TI[playerid][tPhoneOnline] = false, SendOK(playerid, "Телефон ввімкнено.");
+	else TI[playerid][tPhoneOnline] = false, SendOK(playerid, "Телефон ввімкнено.");
 	return 1;
 }
 CMD:book(playerid) {
@@ -38868,7 +38868,7 @@ CMD:book(playerid) {
 		new id = GetPlayerID(pPhoneName[playerid][i]);
 		if(IsPlayerConnected(id)) status = "{33AA33}Online";
 		else status = "{AA3333}Offline";
-		if(CI[playerid][pPhoneNumber][i] == 0) strcat(string, "--\t--\t--\n");
+		if(!CI[playerid][pPhoneNumber][i]) strcat(string, "--\t--\t--\n");
 		else format(str, sizeof(str), "%i\t%s\t%s\n", CI[playerid][pPhoneNumber][i], pPhoneName[playerid][i], status), strcat(string, str);
 	}
 	ShowPlayerDialog(playerid, D_BOOK, DSTH, "Телефонна книга", string, "Обрати", "Закрити");
@@ -39250,7 +39250,7 @@ CMD:trunk(playerid) {
 	}
 	for(new c = MAX_VEHICLES + 1; --c;) {
 		if(!IsValidVehicle(c)) continue;
-		if(IsABike(c) || IsAVelik(c) || IsABoat(c)) continue;
+		if(IsAMotorcycle(c) || IsABicycle(c) || IsABoat(c)) continue;
 		GetVehicleShiftPos(c, 1, x, y, z, 2.0);
 		if(IsPlayerInRangeOfPoint(playerid, 2, x, y, z)) {
 			if(!TrunkInfo[c][tOpen] && c != house_car[playerid][0] && c != house_car[playerid][1]) return SendError(playerid, "Багажник зачинений.");
@@ -39264,7 +39264,7 @@ CMD:trunk(playerid) {
 			} else AnimationTrunk(playerid, Float:x, Float:y, Float:z, Float:a, Float:pos_y, Float:pos_z);
 			idaofcar[playerid] = c;
 			new string[512], oper[30];
-			if(TrunkInfo[c][tOpen] == 0) oper = R"Зачинений"W;
+			if(!TrunkInfo[c][tOpen]) oper = R"Зачинений"W;
 			else oper = G"Відчинений"W;
 			format(string, sizeof(string), "Найменування\tКількість\nБагажник:\t%s"W"\nКаністри:\t"P"%i/2"W"\nНаркотики:\t"P"%i/200"W"\nМатеріали:\t"P"%i/1000"W"\nDeagle:\t"P"%i/50"W"\nAK47:\t"P"%i/50"W"\nM4:\t"P"%i/50"W"\nShotgun:\t"P"%i/50"W, oper, TrunkInfo[c][tKanistra], TrunkInfo[c][tNarko], TrunkInfo[c][tMats], TrunkInfo[c][tGun][0], TrunkInfo[c][tGun][1], TrunkInfo[c][tGun][2], TrunkInfo[c][tGun][3]);
 			ShowPlayerDialog(playerid, D_TRUNK_LIST, DSTH, P"|"W" Багажник.", string, "Обрати", "Закрити");
@@ -39289,7 +39289,7 @@ CMD:slimit(playerid, params[]) {
 }
 CMD:engine(playerid, const params[]) {
 	new carid = GetPlayerVehicleID(playerid);
-	if(IsAVelik(carid)) return 0;
+	if(IsABicycle(carid)) return 0;
 	if(carid == INVALID_VEHICLE_ID) return 1;
 	if(thef_car[playerid] == carid && GetPVarInt(playerid, "theft") > 0) return 0;
 	if(GetPVarInt(playerid, "tank_vfuel")) return 1;
@@ -39297,14 +39297,11 @@ CMD:engine(playerid, const params[]) {
 	new Float:Health;
 	GetVehicleHealth(carid, Health);
 	GetVehicleParamsEx(carid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
-	/*if(VehicleInfo[carid][vFuel] <= 0.5 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid) && !IsAVelik(carid) && Health <= 320) {
+	/*if(VehicleInfo[carid][vFuel] <= 0.5 && !IsAPlane(carid) && !IsABoat(carid) && !IsAMotorcycle(carid) && !IsABicycle(carid) && Health <= 320) {
 		SendError(playerid, "Не вдалось завести двигун");
 		return 1;
 	} */
-	if(Health <= 320) {
-		SendError(playerid, "Транспорт зламався, викличте автомеханіка.");
-		return 1;
-	}
+	if(Health <= 320) return SendError(playerid, "Транспорт зламався, викличте автомеханіка.");
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER) ToggleEngine(GetPlayerVehicleID(playerid), playerid);
 	return 1;
 }
@@ -39779,7 +39776,7 @@ CMD:find(playerid, params[]) {
 	if(!IsAnEnforcement(playerid)) return 1;
 	if(sscanf(params, "i", params[0])) return SendError(playerid, "Використайте: /find [playerid]");
 	if(!IsPlayerConnected(params[0]) || params[0] == playerid) return SendError(playerid, not_id);
-	if(CI[params[0]][cWanted] == 0) return SendError(playerid, "Ви не можете розшукувати гравця, який не є злочинцем.");
+	if(!CI[params[0]][cWanted]) return SendError(playerid, "Ви не можете розшукувати гравця, який не є злочинцем.");
 	if(GetPlayerVirtualWorld(params[0]) || GetPlayerInterior(params[0])) return SendError(playerid, "Гравець знаходиться в інтер'єрі.");
 	if(find_timer[playerid] > 0) return SendError(playerid, "Нових відомостей про локацію підозрюваного не надходило.");
 	new string[128], place[64], Float:pos[3];
@@ -40987,7 +40984,7 @@ CMD:light(playerid, const params[]) {
 	if(!IsPlayerInAnyVehicle(playerid)) return 0;
 	if(GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return 0;
 	new carid = GetPlayerVehicleID(playerid);
-	if(IsAVelik(carid)) return 0;
+	if(IsABicycle(carid)) return 0;
 	ToggleLights(carid, playerid);
 	return 1;
 }
@@ -43442,7 +43439,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 	if(IsPlayerInAnyVehicle(playerid)) {
 		new carid = GetPlayerVehicleID(playerid);
 		new model = (GetVehicleModel(carid) - 400);
-		if(!IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid) && !IsAVelik(carid) && GetEngineStat(carid))  {
+		if(!IsAPlane(carid) && !IsABoat(carid) && !IsAMotorcycle(carid) && !IsABicycle(carid) && GetEngineStat(carid))  {
 			if(PRESSED(KEY_NUM4)) {
 				DestroyDynamicObject(LightsObject[carid][0]);
 				DestroyDynamicObject(LightsObject[carid][1]);
@@ -43563,11 +43560,11 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 	}
 	if(newstate == PLAYER_STATE_DRIVER) {
 		new carid = GetPlayerVehicleID(playerid);
-		if(VehicleInfo[carid][vAkum] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid)&&!IsAVelik(carid)) {
+		if(VehicleInfo[carid][vAkum] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsAMotorcycle(carid)&&!IsABicycle(carid)) {
 			SendError(playerid, "В транспорті розрядився акумулятор.");
 			VehicleInfo[carid][vAkum] = 0;
 		}
-		if(VehicleInfo[carid][vFuel] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsABike(carid) && !IsAVelik(carid)) {
+		if(VehicleInfo[carid][vFuel] <= 0 && !IsAPlane(carid) && !IsABoat(carid) && !IsAMotorcycle(carid) && !IsABicycle(carid)) {
 			SendError(playerid, "В транспорті закінчився бензин.");
 			VehicleInfo[carid][vFuel] = 0;
 		}
@@ -43575,11 +43572,11 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 			SetPVarInt(playerid, "theft", 2);
 			RemovePlayerMapIcon(playerid, 12);
 		}
-		if(IsAVelik(carid)) {
+		if(IsABicycle(carid)) {
 			GetVehicleParamsEx(carid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
 			SetVehicleParamsEx(carid, 1, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
 		}
-		if(!IsABikeSped(carid)) {
+		if(!IsAMotorcycleSped(carid)) {
 			if(thef_car[playerid] != carid && CI[playerid][cStage] == 0) SendHint(playerid, "Щоб завести чи заглушити двигун, натисніть "P"LCTRL"W" або введіть "P"/engine"W".");
 			GetVehicleParamsEx(carid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
 			if(vehengine == 0) PlayerTextDrawColor(playerid, Speed_PTD[playerid][4], -347323649);
@@ -48324,7 +48321,7 @@ stock CreateTaxiVehicle(job, model, Float:X, Float:Y, Float:Z, Float:A, Color_1,
 	AttachDynamicObjectToVehicle(VehicleInfo[carid][vTaxi][2], carid, 0.0, -1.681, 0.557, -360.0, -54.999, -90.0);
 	return carid;
 }
-stock IsABikeSped(carid) {
+stock IsAMotorcycleSped(carid) {
 	switch(GetVehicleModel(carid)) { case 448, 435, 449..450, 457, 464..465, 481, 485, 501, 509..510, 530, 564, 569..570, 584, 594, 606..608, 610..611: return 1; }
 	return 0;
 }
@@ -48338,13 +48335,12 @@ stock IsACarModel(carid) {
 	}
 	return 0;
 }
-IsAPlane(carid) return (GetVehicleState(carid) == VEHICLE_STATE_PLANE);
-IsAVelik(carid) return (GetVehicleState(carid) == VEHICLE_STATE_VELIK);
-IsABoat(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BOAT);
-IsABike(carid) return (GetVehicleState(carid) == VEHICLE_STATE_BIKE);
+stock IsAPlane(carid) return (VehicleState[carid] == VEHICLE_STATE_PLANE);
+stock IsABoat(carid) return (VehicleState[carid] == VEHICLE_STATE_BOAT);
+stock IsABicycle(carid) return (VehicleState[carid] == VEHICLE_STATE_BICYCLE);
+stock IsAMotorcycle(carid) return (VehicleState[carid] == VEHICLE_STATE_MOTORCYCLE);
 stock A_AddStaticVehicleEx(model, Float:x, Float:y, Float:z, Float:a, color_1, color_2, spawntime = 300, type, interior = 0, world = 0, addsiren = 0) {
-	if(IsValidVehicleModel(model)) 
-	{
+	if(IsValidVehicleModel(model)) {
 		new vehicleid = AddStaticVehicleEx(model, x, y, z,a, color_1, color_2, spawntime, addsiren);
 		if(vehicleid != INVALID_VEHICLE_ID) {
 			VehicleInfo[vehicleid][veX] = x;
@@ -48369,8 +48365,8 @@ stock A_AddStaticVehicleEx(model, Float:x, Float:y, Float:z, Float:a, color_1, c
 			switch(model) {
 				case 472, 473, 493, 595, 484, 430, 452..454, 446: VehicleState[vehicleid] = VEHICLE_STATE_BOAT;
 				case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 548, 417, 487, 488, 497, 563, 447, 469:  VehicleState[vehicleid] = VEHICLE_STATE_PLANE;
-				case 448, 435, 449, 450, 457, 464, 465, 485, 501, 530, 564, 569, 570, 584, 594, 606, 607, 608, 610, 611: VehicleState[vehicleid] = VEHICLE_STATE_BIKE;
-				case 509, 481, 510: VehicleState[vehicleid] = VEHICLE_STATE_VELIK;
+				case 448, 435, 449, 450, 457, 464, 465, 485, 501, 530, 564, 569, 570, 584, 594, 606, 607, 608, 610, 611: VehicleState[vehicleid] = VEHICLE_STATE_MOTORCYCLE;
+				case 509, 481, 510: VehicleState[vehicleid] = VEHICLE_STATE_BICYCLE;
 				default: VehicleState[vehicleid] = VEHICLE_STATE_CAR;
 			}
 			if(model == 462) VehicleInfo[vehicleid][vFuel] = 100, VehicleInfo[vehicleid][vAkum] = 100;
@@ -48416,7 +48412,7 @@ stock A_DestroyVehicle(vehicleid) {
 }
 stock A_CreateVehicle(model, Float:x, Float:y, Float:z, Float:a, color_1, color_2, spawntime = 300, type, interior = 0, world = 0, addsiren = 0) {
 	if(IsValidVehicleModel(model)) {
-		new vehicleid = CreateVehicle(model, x, y, z,a, color_1, color_2, spawntime, addsiren);
+		new vehicleid = CreateVehicle(model, x, y, z, a, color_1, color_2, spawntime, addsiren);
 		if(VehicleInfo[vehicleid][vNumberAttached]) {
 			DestroyDynamic3DTextLabelEx(VehicleInfo[vehicleid][vNumberTextID]);
 			VehicleInfo[vehicleid][vNumberTextID] = Text3D:-1;
@@ -48437,11 +48433,11 @@ stock A_CreateVehicle(model, Float:x, Float:y, Float:z, Float:a, color_1, color_
 			LinkVehicleToInterior(vehicleid, interior);
 			SetVehicleVirtualWorld(vehicleid, world);
 			switch(model) {
-			case 472, 473, 493, 595, 484, 430, 452..454, 446: VehicleState[vehicleid] = VEHICLE_STATE_BOAT;
-			case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 548, 417, 487, 488, 497, 563, 447, 469:  VehicleState[vehicleid] = VEHICLE_STATE_PLANE;
-			case 448, 435, 449, 450, 457, 464, 465, 485, 501, 530, 564, 569, 570, 584, 594, 606, 607, 608, 610, 611: VehicleState[vehicleid] = VEHICLE_STATE_BIKE;
-			case 509, 481, 510: VehicleState[vehicleid] = VEHICLE_STATE_VELIK;
-			default: VehicleState[vehicleid] = VEHICLE_STATE_CAR;
+				case 472, 473, 493, 595, 484, 430, 452..454, 446: VehicleState[vehicleid] = VEHICLE_STATE_BOAT;
+				case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 548, 417, 487, 488, 497, 563, 447, 469:  VehicleState[vehicleid] = VEHICLE_STATE_PLANE;
+				case 448, 435, 449, 450, 457, 464, 465, 485, 501, 530, 564, 569, 570, 584, 594, 606, 607, 608, 610, 611: VehicleState[vehicleid] = VEHICLE_STATE_MOTORCYCLE;
+				case 509, 481, 510: VehicleState[vehicleid] = VEHICLE_STATE_BICYCLE;
+				default: VehicleState[vehicleid] = VEHICLE_STATE_CAR;
 			}
 			if(model == 462) VehicleInfo[vehicleid][vFuel] = 50, VehicleInfo[vehicleid][vAkum] = 100;
 		}
@@ -51228,7 +51224,6 @@ stock GetEngineStat(vehicleid) {
 	GetVehicleParamsEx(vehicleid, vehengine, vehlights, vehalarm, vehdoors, vehbonnet, vehboot, vehobjective);
 	return vehengine;
 }
-GetVehicleState(vehicleid) return VehicleState[vehicleid];
 stock skin_player(playerid) {
 	A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
 	CI[playerid][pFracSkin] = 0;
@@ -53389,11 +53384,11 @@ CMD:fin(playerid, params[]) {
 CMD:veh(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 4)) return 1;
 	new car, color1, color2;
-	if(!sscanf(params, "iii", car, color1, color2)) if(color1 && color2 && !(0 <= color1 <= 256 || 0 <= color2 <= 256)) return SendError(playerid, "ID кольору транспорта від 0 до 256.");
-	else if(!sscanf(params, "i", car)) {
+	if(sscanf(params, "iii", car, color1, color2)) {
+		if(sscanf(params, "i", car)) return SendError(playerid, "Використайте: /veh [vehid] [color] [color]");
 		color1 = random(256);
 		color2 = random(256);
-	} else return SendError(playerid, "Використайте: /veh [vehid] [color] [color]");
+	} else if(!(0 <= color1 <= 256 || 0 <= color2 <= 256)) return SendError(playerid, "ID кольору транспорта від 0 до 256.");
 	if(!(400 <= car <= 611)) return SendError(playerid, "ID транспорта від 400 до 611.");
 	for(new i = MAX_VEHICLES + 1; --i;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
 	new Float:X, Float:Y, Float:Z, Float:A;
@@ -53407,7 +53402,7 @@ CMD:veh(playerid, params[]) {
 	VehicleInfo[vehicleid][veX] = X;
 	VehicleInfo[vehicleid][veY] = Y;
 	VehicleInfo[vehicleid][veZ] = Z;
-	VehicleInfo[vehicleid][vFuel] = gTransport[GetVehicleModel(vehicleid) -400][trTank];
+	VehicleInfo[vehicleid][vFuel] = gTransport[GetVehicleModel(vehicleid) - 400][trTank];
 	VehicleInfo[vehicleid][vAkum] = 100;
 	PutPlayerInVehicle(playerid, vehicleid, 0);
 	new string[90];
@@ -61778,7 +61773,7 @@ stock add_datefrac(playerid) {
 	mysql_query(connects, query);
 }
 stock IsValidVehicleModel(modelid) {
-	if(modelid >= 400 && modelid <= 611) return 1;
+	if(400 <= modelid <= 611) return 1;
 	return 0;
 }
 stock GetVehicleRotation(vehicleid,&Float:rx,&Float:ry,&Float:rz) {
