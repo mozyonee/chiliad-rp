@@ -18892,7 +18892,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					switch(CI[playerid][pDepositTime])
 					{
 						case 0: format(time, sizeof(time), ""W"Обмеження для зняття коштів з депозитного рахунку відсутні.");
-						case 1..2: format(time, sizeof(time), ""W"До зняття з депозиту залишилося: "P"%d payday."W".", CI[playerid][pDepositTime]);
+						case 1..2: format(time, sizeof(time), ""W"До зняття з депозиту залишилося: "P"%d payday"W".", CI[playerid][pDepositTime]);
 					}
 					format(string, sizeof(string), "\
 						"W"Поточний відсоток депозиту: "P"%.2f%%"W".\n\
@@ -18924,8 +18924,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
 			}
 			new money = strval(inputtext);
-			if(MinDepSum || money < MinDepSum || money > MaxDepSum)
+			if(MinDepSum && money < MinDepSum || money > MaxDepSum || strlen(inputtext) > 9)
 			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+			}
+			if(money > CI[playerid][pCash])
+			{
+				SendError(playerid, "У Вас недостатньо коштів готівкою.");
 				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
 				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
 			}
@@ -18953,8 +18959,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
 			}
 			new money = strval(inputtext);
-			if(MaxDepSum || money < MinDepSum || money > MaxDepSum)
+			if(MaxDepSum && money < MinDepSum || money > MaxDepSum || strlen(inputtext) > 9)
 			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+			}
+			if(money > CI[playerid][pDepositMoney])
+			{
+				SendError(playerid, "На депозитному рахунку немає такої суми.");
 				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
 				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
 			}
