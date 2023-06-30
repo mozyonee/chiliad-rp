@@ -176,6 +176,9 @@ FixSVarString(string[], size = sizeof(string))	for(new i; ((string[i] &= 0xFF) !
 #define		MAILER_MAX_MAIL_SIZE			(1024)
 #define		MAX_STREAMS						50
 
+
+
+
 stock Float:frandom(Float:max) 
 { 
 	return floatdiv(float(random(0)), floatdiv(float(cellmax), max)); 
@@ -256,6 +259,15 @@ new Bank[][BankData] =
 new BankAccount[MAX_PLAYERS];
 new BankTrasferFrom[MAX_PLAYERS];
 
+new 
+	DepositStatus,
+	Float:DepositDef,
+	Float:DepositStart,
+	Float:DepositComf,
+	Float:DepositOpti,
+	MinDepSum,
+	MaxDepSum;
+
 // =================================
 
 new GPSPublic[][gps_data] = {
@@ -331,7 +343,6 @@ new MeatPorkTime, MeatDeerTime, MeatCowTime;
 new Float:MeatPlayerArray[MAX_PLAYERS][50];
 new MeatCutCount[MAX_PLAYERS];
 
-
 new ProgressBarTimer[MAX_PLAYERS];
 new PlayerText:ProgressBarTD[MAX_PLAYERS][3];
 
@@ -348,6 +359,7 @@ new PlayerText: MeatDeerPlayerTD[MAX_PLAYERS][2];
 
 new Text: MeatProgressBar[1];
 new PlayerText: MeatProgress[MAX_PLAYERS][1];
+
 
 enum DiverData {
 	dClass,
@@ -2672,6 +2684,11 @@ enum dialogs {
 	dAdminMeatPrice,
 	dAdminMeat,
 	dAdminWorks,
+	dAdminSystem,
+	dAdminBankDepSum,
+	dAdminBankDepEdit,
+	dAdminBank,
+	dAdminBankEdit,
 	dAdminMeatEdit,
 	dAdminMeatTime,
 	D_MDC_LIST,
@@ -3412,11 +3429,16 @@ enum dialogs {
 	dBankPayBusiness,
 	dBankMobile,
 	dBankTickets,
+	dBankSalaryGet,
+	dBankSalary,
 
 	dDeposit,
 	dDepositEdit,
 	dDepositOpen,
 	dDepositMenu,
+	dDepositPut,
+	dDepositGet,
+	dDepositMenuReturn,
 
 	dMeat,
 	dMeatWork,
@@ -6651,6 +6673,8 @@ enum cInfo {
 	pTLicBoat,
 	pTLicWeapon,
 	pDeposit,
+	pDepositMoney,
+	pDepositTime,
 	pPremiumTime,
 	pYouTube,
 
@@ -18747,11 +18771,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new id[10];
 			strmid(id, inputtext, 0, strlen(inputtext));
 			SetPVarInt(playerid, "BankTicketID", strval(id));
-			SendInt(playerid, strval(id));
+			//SendInt(playerid, strval(id));
 			new Cache:result, query[256];
-			mysql_format(connects, query, sizeof(query), "SELECT * FROM `tickets` WHERE `id` = %d AND `name` = %s LIMIT 1", strval(id), CI[playerid][cName]);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `tickets` WHERE `id` = %d AND `name` = '%s' LIMIT 1", strval(id), CI[playerid][cName]);
 			result = mysql_query(connects, query);
-			if(!cache_num_rows()) return SendError(playerid, "Відбулася помилка при завантаженні деталей штрафу, повідомте адміністрацію.");
+			new rows;
+			cache_get_row_count(rows);
+			if(!rows) return SendError(playerid, "Відбулася помилка при завантаженні деталей штрафу, повідомте адміністрацію.");
 			new givename[32], total, reason[150], time, year, month, day, hour, minute, second, string[512];
 			cache_get_value_name(0, "give_name", givename, 32);
 			cache_get_value_name_int(0, "total", total);
@@ -18769,7 +18795,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			if(!response) return 1;
 			new query[256];
 			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
-			return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+			return mysql_tquery(connects, query, "bank_pay_ticket", "i", playerid);
 		}
 		case dBankPayTicket:
 		{
@@ -18777,19 +18803,33 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			new id[10];
 			strmid(id, inputtext, 0, strlen(inputtext));
 			SetPVarInt(playerid, "BankAccountTicket", strval(id));
+			new ticketid = GetPVarInt(playerid, "BankTicketID");
+			//SendInt(playerid, strval(id));
 			new Cache:result, money, query[256];
-			mysql_format(connects, query, sizeof(query), "SELECT 'Money' FROM `bank_accounts` WHERE `ID` = %d AND `OwnerID` = %d LIMIT 1", strval(id), CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "SELECT `Money` FROM `bank_accounts` WHERE `ID` = %d AND `OwnerID` = %d LIMIT 1", strval(id), CI[playerid][cID]);
 			result = mysql_query(connects, query);
-			cache_get_value_int(0, "Money", money);
+			cache_get_value_name_int(0, "Money", money);
 			cache_delete(result);
 			new ticket = GetPVarInt(playerid, "BankTicketMoney");
+			//SendInt(playerid, money);
+			//SendInt(playerid, ticket);
 			if(money < ticket)
 			{
 				SendError(playerid, "Недостатньо коштів на банківському рахунку.");
 				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
-				return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				return mysql_tquery(connects, query, "bank_pay_ticket", "i", playerid);
 			}
-			//mysql_format(connects, query, sizeof(query), "");
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `tickets` WHERE `id` = %d", ticketid);
+			mysql_query(connects, query);
+
+			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` - %d WHERE `ID` = %d", ticket, strval(id));
+			mysql_query(connects, query);
+
+
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%d, %d, 'Оплата штрафу в розмірі $%d.', %d)", strval(id), CI[playerid][cID], ticket, gettime());
+			mysql_query(connects, query);
+
+			SendOK(playerid, "Ви успішно оплатили штраф.");
 		}
 		case dBankMenu:
 		{
@@ -18803,12 +18843,166 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 				}
 				case 1: ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, ""P"| "W"Фінансові операції.", ""P"1. "W"Поповнити рахунок мобільного телефону\n"P"2. "W"Переказати кошти\n"P"3. "W"Оплатити штраф\n"P"4. "W"Оплатити податок на будинок\n"P"5. "W"Оплатити податок на бізнес", "Обрати", "Назад");
-				case 2:
+				case 2: ShowPlayerDialog(playerid, dBankSalaryGet, DIALOG_STYLE_LIST, ""P"| "W"Зарплатний рахунок.", ""P"1. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+				case 3:
 				{
 					if(CI[playerid][pDeposit]) ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
-					else ShowPlayerDialog(playerid, dDepositOpen, DIALOG_STYLE_MSGBOX, ""P"| "W"Відкриття депозитного рахунку.", "", "Так", "Ні");
+					else
+					{
+						new string[1028], Float:deposit;
+						switch(CI[playerid][pPremium])
+						{
+							case 0: deposit = DepositDef;
+							case 1: deposit = DepositStart;
+							case 2: deposit = DepositComf;
+							case 3: deposit = DepositOpti;
+						}
+						format(string, sizeof(string), "\
+						"W"Депозит - кошти, які вкладник передає банку для безпечного зберігання та\n\
+						отримання пасивного доходу,за умови, що на розміщену суму банк нараховує відсотки.\n\
+						Щогодини Ви будете отримувати "P"%.2f%% "W"від суми на Вашому депозитному рахунку.\n\n\
+						Обмеження депозитного рахунку:\n\
+						"W"Мінімальна сума: "GREEN"$%d"W".\n\
+						"W"Максимальна сума: "GREEN"$%d"W".\n\
+						"W"Поповнення: "G"щогодини"W".\n\
+						"W"Зняття: "G"що дві години"W".", deposit, MinDepSum, MaxDepSum);
+						ShowPlayerDialog(playerid, dDepositOpen, DIALOG_STYLE_MSGBOX, ""P"| "W"Відкриття депозитного рахунку.", string, "Так", "Ні");
+					}
 				}
 			}
+		}
+		case dDepositOpen:
+		{
+			if(!response) return BankDialog(playerid);
+			CI[playerid][pDeposit] = 1;
+			UpdateCharacterDataInt(playerid, "pDeposit", CI[playerid][pDeposit]);
+			SendOK(playerid, "Ви успішно відкрили депозитний рахунок.");
+			ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+		}
+		case dDepositMenu:
+		{
+			if(!response) return BankDialog(playerid);
+			switch(listitem)
+			{
+				case 0:
+				{
+					new string[256], Float:deposit, time[100];
+					switch(CI[playerid][pPremium])
+					{
+						case 0: deposit = DepositDef;
+						case 1: deposit = DepositStart;
+						case 2: deposit = DepositComf;
+						case 3: deposit = DepositOpti;
+					}
+					switch(CI[playerid][pDepositTime])
+					{
+						case 0: format(time, sizeof(time), ""W"Обмеження для зняття коштів з депозитного рахунку відсутні.");
+						case 1..2: format(time, sizeof(time), ""W"До зняття з депозиту залишилося: "P"%d payday."W".", CI[playerid][pDepositTime]);
+					}
+					format(string, sizeof(string), "\
+						"W"Поточний відсоток депозиту: "P"%.2f%%"W".\n\
+						"W"Поточна сума на депозиті: "GREEN"$%d"W".\n\n\
+						%s\n\n"G"Поповнення здійснюється лише готівкою.", deposit, CI[playerid][pDepositMoney], time);
+					ShowPlayerDialog(playerid, dDepositMenuReturn, DIALOG_STYLE_MSGBOX, ""P"| "W"Інформація про мій депозит.", string, "Закрити", "");
+				}
+				case 1:
+				{
+					new string[512];
+					format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+					ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					new string[512];
+					format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+					ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+				}
+			}
+		}
+		case dDepositPut:
+		{
+			new string[256];
+			if(!response) return ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			if(isNotNumeric(inputtext))
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+			}
+			new money = strval(inputtext);
+			if(MinDepSum || money < MinDepSum || money > MaxDepSum)
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+			}
+			CI[playerid][pCash] = CI[playerid][pCash] - money;
+			UpdateCharacterDataInt(playerid, "pCash", CI[playerid][pCash]);
+			CI[playerid][pDepositMoney] = CI[playerid][pDepositMoney] + money;
+			UpdateCharacterDataInt(playerid, "pDepositMoney", CI[playerid][pDepositMoney]);
+
+			format(string, sizeof(string), "Депозит успішно поповнено на "GREEN"$%d"W". Поточна сума на депозиті: "GREEN"$%d"W".", money, CI[playerid][pDepositMoney]);
+			SendOK(playerid, string);
+		}
+		case dDepositGet:
+		{
+			new string[256];
+			if(CI[playerid][pDepositTime])
+			{
+				format(string, sizeof(string), "До зняття коштів з депозитного рахунку залишилося %d година(-и).", CI[playerid][pDepositTime]);
+				SendError(playerid, string);
+				return ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			}
+			if(!response) return ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			if(isNotNumeric(inputtext) || strval(inputtext) <= 0)
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+			}
+			new money = strval(inputtext);
+			if(MaxDepSum || money < MinDepSum || money > MaxDepSum)
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+			}
+			CI[playerid][pCash] = CI[playerid][pCash] + money;
+			UpdateCharacterDataInt(playerid, "pCash", CI[playerid][pCash]);
+			CI[playerid][pDepositMoney] = CI[playerid][pDepositMoney] - money;
+			UpdateCharacterDataInt(playerid, "pDepositMoney", CI[playerid][pDepositMoney]);
+
+			CI[playerid][pDepositTime] = 2;
+			UpdateCharacterDataInt(playerid, "pDepositTime", CI[playerid][pDepositTime]);
+
+			format(string, sizeof(string), "З депозитного рахунку успішно знято "GREEN"$%d"W". Поточна сума на депозиті: "GREEN"$%d"W".", money, CI[playerid][pDepositMoney]);
+			SendOK(playerid, string);
+		}
+		case dDepositMenuReturn: ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+		case dBankSalaryGet:
+		{
+			if(!response) return BankDialog(playerid);
+			new string[256];
+			format(string, sizeof(string), ""W"Поточна сума на рахунку: "GREEN"$%d.\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з рахунку.", CI[playerid][pBank]);
+			ShowPlayerDialog(playerid, dBankSalary, DIALOG_STYLE_INPUT, ""P"| "W"Зарплатний рахунок.", string, "Далі", "Назад");
+		}
+		case dBankSalary:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dBankSalaryGet, DIALOG_STYLE_LIST, ""P"| "W"Зарплатний рахунок.", ""P"1. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			new string[256];
+			if(isNotNumeric(inputtext))
+			{
+				format(string, sizeof(string), ""W"Поточна сума на рахунку: "GREEN"$%d.\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з рахунку.", CI[playerid][pBank]);
+				return ShowPlayerDialog(playerid, dBankSalary, DIALOG_STYLE_INPUT, ""P"| "W"Зарплатний рахунок.", string, "Далі", "Назад");
+			} 
+			new money = strval(inputtext);
+			if(money <= 0 || money > CI[playerid][pBank])
+			{
+				format(string, sizeof(string), ""W"Поточна сума на рахунку: "GREEN"$%d.\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з рахунку.\n\n"E"* Некоректна сума для зняття.", CI[playerid][pBank]);
+				return ShowPlayerDialog(playerid, dBankSalary, DIALOG_STYLE_INPUT, ""P"| "W"Зарплатний рахунок.", string, "Далі", "Назад");
+			} 
+			CI[playerid][pBank] = CI[playerid][pBank] - money;
+			GiveMoney(playerid, money);
+			UpdateCharacterDataInt(playerid, "pCash", CI[playerid][pCash]);
+			UpdateCharacterDataInt(playerid, "pBank", CI[playerid][pBank]);
+			format(string, sizeof(string), "Ви успішно зняли "GREEN"$%d "W"з Вашого зарплатного рахунку.", money);
+			SendOK(playerid, string);
 		}
 		case dBankOperations:
 		{
@@ -18825,11 +19019,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				case 1:
 				{
 					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
-					return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+					return mysql_tquery(connects, query, "bank_transfer", "i", playerid);
 				}
 				case 2:
 				{
-					mysql_format(connects, query, sizeof(query), "SELECT * FROM `ticket` WHERE `name` = `%s`", CI[playerid][cName]);
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `tickets` WHERE `name` = '%s'", CI[playerid][cName]);
 					return mysql_tquery(connects, query, "bank_tickets", "i", playerid);
 				}
 			}
@@ -18849,7 +19043,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			{
 
 				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
-				return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				return mysql_tquery(connects, query, "bank_transfer", "i", playerid);
 			}*/
 			SetPVarInt(playerid, "BankAccountMoneyForTransfer", money);
 			ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
@@ -18862,7 +19056,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				BankTrasferFrom[playerid] = INVALID_PLAYER_ID;
 				DeletePVar(playerid, "BankAccountMoneyForTransfer");
 				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
-				return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				return mysql_tquery(connects, query, "bank_transfer", "i", playerid);
 			}
 			new money = strval(inputtext);
 			new bankmoney = GetPVarInt(playerid, "BankAccountMoneyForTransfer");
@@ -18899,8 +19093,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			DeletePVar(playerid, "InputMoneyForBankTransfer");
 			BankTrasferFrom[playerid] = INVALID_PLAYER_ID;
 			DeletePVar(playerid, "BankAccountMoneyForTransfer");
-
-
 		}
 		case dBankMobile:
 		{
@@ -19199,6 +19391,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				DeletePVar(playerid, "MeatTotal");
 				DeletePVar(playerid, "MeatTotalWeigth");
 				DeletePVar(playerid, "MeatWorkStarted");
+				DeletePVar(playerid, "MeatSalary");
 				SendOK(playerid, "Ви завершили роботу на м'ясокомбінаті");
 				MeatWorkerCount--;
 				MeatWorkTime[playerid] = 0;
@@ -20526,11 +20719,216 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendFactionMessage(fLSNEWS, 0x139BECFF, mes);
 			SendOK(playerid, "Оголошення подано у редакцію. Очікуйте перевірки.");
 		}
-		case dAdminPanel: {
+		case dAdminPanel: 
+		{
 			if(!response) return 1;
-			switch(listitem) {
-				case 0: ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, ""P"| "W"Керування роботами", "М'ясокомбінат", "Обрати", "Назад");
+			switch(listitem) 
+			{
+				case 0: ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, ""P"| "W"Керування роботами.", ""W"М'ясокомбінат.", "Обрати", "Назад");
+				case 1: ShowPlayerDialog(playerid, dAdminSystem, DIALOG_STYLE_LIST, ""P"| "W"Керування системами.", ""W"Банк.\nАвтошкола.", "Обрати", "Назад");
+				case 2: PayDay();
 			}
+		}
+		case dAdminSystem:
+		{
+			if(!response) return pc_cmd_acp(playerid);
+			switch(listitem)
+			{
+				case 0: ShowPlayerDialog(playerid, dAdminBank, DIALOG_STYLE_LIST, ""P"| "W"Керування банком.", "Депозит", "Обрати", "Назад");
+			}
+		}
+		case dAdminBank:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminSystem, DIALOG_STYLE_LIST, ""P"| "W"Керування системами.", ""W"Банк.\nАвтошкола.", "Обрати", "Назад");
+			new string[512], status[50];
+			if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+			else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+			format(string, sizeof(string), "\
+				Ігровий статус\tВідсоток\n\
+				Стандартний\t%.2f%%\n\
+				Початковий\t%.2f%%\n\
+				Комфортний\t%.2f%%\n\
+				Оптимальний\t%.2f%%\n\
+				- Змінити мінімальну суму на депозиті.\n\
+				- Змінити максимальну суму на депозиті.\n\
+				%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+			ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+		}
+		case dAdminBankEdit:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminBank, DIALOG_STYLE_LIST, ""P"| "W"Керування банком.", "Депозит", "Обрати", "Назад");
+			new string[512], status[50];
+			switch(listitem)
+			{
+				case 0:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 1);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Стандартний: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositDef);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: стандартний.", string, "Далі", "Назад");
+				}
+				case 1:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 2);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Початковий: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositStart);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: початковий.", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 3);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Комфортний: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositComf);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: комфортний.", string, "Далі", "Назад");
+				}
+				case 3:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 4);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Оптимальний: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositOpti);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: оптимальний.", string, "Далі", "Назад");
+				}
+				case 4:
+				{
+					SetPVarInt(playerid, "BankDepSum", 1);
+					ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: мінімальна сума.", "Введіть нижче нову мінімальну суму для депозиту.", "Далі", "Назад");
+				}
+				case 5:
+				{
+					SetPVarInt(playerid, "BankDepSum", 2);
+					ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: максимальна сума.", "Введіть нижче нову максимальну суму для депозиту.", "Далі", "Назад");
+				}
+				case 6:
+				{
+					if(!DepositStatus)
+					{
+						DepositStatus = 1;
+						SendOK(playerid, "Ви увімкнули систему депозиту.");
+						format(string, sizeof(string), "Адміністратор %s увімкнув систему депозиту.", CI[playerid][cName]);
+						SendAdminMessage(string);
+					}
+					else
+					{
+						DepositStatus = 0;
+						SendOK(playerid, "Ви вимкнули систему депозиту.");
+						format(string, sizeof(string), "Адміністратор %s вимкнув систему депозиту.", CI[playerid][cName]);
+						SendAdminMessage(string);
+					}
+					new query[256];
+					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `DepositStatus` = %d", DepositStatus);
+					mysql_query(connects, query);
+
+					if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+					else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+					format(string, sizeof(string), "\
+						Ігровий статус\tВідсоток\n\
+						Стандартний\t%.2f%%\n\
+						Початковий\t%.2f%%\n\
+						Комфортний\t%.2f%%\n\
+						Оптимальний\t%.2f%%\n\
+						- Змінити мінімальну суму на депозиті.\n\
+						- Змінити максимальну суму на депозиті.\n\
+						%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+					ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+				}
+			}
+		}
+		case dAdminBankDepSum:
+		{
+			new string[512], status[50];
+			if(!response)
+			{
+				if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+				else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+				format(string, sizeof(string), "\
+					Ігровий статус\tВідсоток\n\
+					Стандартний\t%.2f%%\n\
+					Початковий\t%.2f%%\n\
+					Комфортний\t%.2f%%\n\
+					Оптимальний\t%.2f%%\n\
+					- Змінити мінімальну суму на депозиті.\n\
+					- Змінити максимальну суму на депозиті.\n\
+					%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+				return ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+			} 
+			new sum = strval(inputtext);
+			new tsum[20], mes[150];
+			switch(GetPVarInt(playerid, "BankDepSum"))
+			{
+				case 1:
+				{
+					if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: мінімальна сума.", "Введіть нижче нову мінімальну суму для депозиту.", "Далі", "Назад");
+					MinDepSum = sum;
+					strcat(tsum, "мінімальну");
+					SendOK(playerid, "Мінімальну суму депозиту змінено.");
+				}
+				case 2:
+				{
+					if(sum <= 0) return ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: максимальна сума.", "Введіть нижче нову максимальну суму для депозиту.", "Далі", "Назад");
+					if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: максимальна сума.", "Введіть нижче нову максимальну суму для депозиту.", "Далі", "Назад");
+					MaxDepSum = sum;
+					strcat(tsum, "максимальну");
+					SendOK(playerid, "Максимальну суму депозиту змінено.");
+				}
+			}
+			new query[256];
+			mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MinDepSum` = %d, `MaxDepSum` = %d", MinDepSum, MaxDepSum);
+			mysql_query(connects, query);
+			format(mes, sizeof(mes), "Адміністратор %s встановив нову %s ($%d) для депозиту.", CI[playerid][cName], tsum, sum);
+			SendAdminMessage(mes);
+		}
+		case dAdminBankDepEdit:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminBank, DIALOG_STYLE_LIST, ""P"| "W"Керування банком.", "Депозит", "Обрати", "Назад");
+			new string[512], status[50];
+			
+			format(string, sizeof(string), "%s", inputtext);
+			SendInfo(playerid, string);
+
+			new Float:prc = floatstr(inputtext);
+
+			SendFloat(playerid, prc);
+
+			if(strfind(inputtext, ",") != -1)
+			{
+				SendError(playerid, "Вкажіть відсоток через крапку, а не кому.");
+				if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+				else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+				format(string, sizeof(string), "\
+					Ігровий статус\tВідсоток\n\
+					Стандартний\t%.2f%%\n\
+					Початковий\t%.2f%%\n\
+					Комфортний\t%.2f%%\n\
+					Оптимальний\t%.2f%%\n\
+					- Змінити мінімальну суму на депозиті.\n\
+					- Змінити максимальну суму на депозиті.\n\
+					%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+				return ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+			}
+
+
+
+			new query[256], mes[150], dep[15];
+			switch(GetPVarInt(playerid, "BankPremDepAdmin"))
+			{
+				case 1: DepositDef = prc, strcat(dep, "Стандартний");
+				case 2: DepositStart = prc, strcat(dep, "Початковий");
+				case 3: DepositComf = prc, strcat(dep, "Комфортний");
+				case 4: DepositOpti = prc, strcat(dep, "Оптимальний");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `DepositDef` = %.2f, `DepositStart` = %.2f, `DepositComf` = %.2f, `DepositOpti` = %.2f", DepositDef, DepositStart, DepositComf, DepositOpti);
+			mysql_query(connects, query);
+			format(mes, sizeof(mes), "Адміністратор %s встановив новий відсоток (%.2f%%) депозиту для ігровой статусу %s.", CI[playerid][cName], prc, dep);
+			SendAdminMessage(mes);
+			SendOK(playerid, "Відсоток депозиту змінено.");
+			if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+			else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+			format(string, sizeof(string), "\
+				Ігровий статус\tВідсоток\n\
+				Стандартний\t%.2f%%\n\
+				Початковий\t%.2f%%\n\
+				Комфортний\t%.2f%%\n\
+				Оптимальний\t%.2f%%\n\
+				- Змінити мінімальну суму на депозиті.\n\
+				- Змінити максимальну суму на депозиті.\n\
+				%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+			ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
 		}
 		case dAdminWorks: {
 			if(!response) return pc_cmd_acp(playerid);
@@ -27363,7 +27761,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					else format(header, sizeof(header), ""G"Ігрова валюта (x1)"), format(string, sizeof(string), ""W"Введіть у полі нижче кількість CCoins, яку Ви хочете обміняти на віртуальну ігрову валюту ("GREEN"$"W").\n\n"G"Поточний курс: 1 CCoin = "GREEN"$1.200");
 					ShowPlayerDialog(playerid, dDonateConvert, DSI, header, string, "Обміняти", "Назад");
 				}
-				case 2: ShowPlayerDialog(playerid, dDonatePremium, DIALOG_STYLE_LIST, ""G"Преміум-акаунти", ""P"- "W"Початковий\n"P"- "W"Комфортний\n"P"- "W"Оптимальний\n"G"* Продовжити термін дії преміум-акаунта", "Обрати", "Назад");
+				case 2: ShowPlayerDialog(playerid, dDonatePremium, DIALOG_STYLE_LIST, ""G"Ігрові статуси", ""P"- "W"Початковий\n"P"- "W"Комфортний\n"P"- "W"Оптимальний\n"G"* Продовжити термін дії покращеного ігрового статусу", "Обрати", "Назад");
 				case 3: ShowPlayerDialog(playerid, dDonateOther, DIALOG_STYLE_LIST, ""G"Додаткові можливості", ""P"1. "W"Змінити нікнейм персонажа\n"P"2. "W"Змінити стать персонажа\n"P"3. "W"Анулювати варн\n"P"4. "W"Комплект ліцензій\n"P"5. "W"Елітний номер телефону\n"P"6. "W"Підвищити навички бойових мистецтв\n"P"7. "W"Підвищити навички володіння зброєю", "Обрати", "Назад");
 			}
 			}
@@ -27374,18 +27772,18 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new string[2056];
 					format(string, sizeof(string), "\
 						"W"На сервері існує можливість перевести реальні гроші в Сhiliad Coin (CCoin) - особлива ігрова валюта,\n\
-						за допомогою якої ви можете придбати преміум-акаунт, а також інші додаткові послуги, що дозволяють\n\
+						за допомогою якої ви можете придбати ігровий статус, а також інші додаткові послуги, що дозволяють\n\
 						зробити вашу гру більш комфортною.\n\n\
 						Для того, щоб поповнити рахунок Вашого персонажу, Вам необхідно перейти на сайт "P"chiliad-rp.com\n\
 						"W"та ввести бажану суму за курсом "P"1 гривня = 1 CCoin"W".\n\n\
 						"E"* Примітка:\n\
-						"W"Перед придбанням преміум-акаунта з можливістю мати 2 транспортних засоби, 2 будинки чи 2 бізнеси,\n\
-						враховуйте те, що по завершенню терміну дії преміума другий (додатковий) т/з / будинок / бізнес\n\
+						"W"Перед придбанням ігрового статусу з можливістю мати 2 транспортних засоби, 2 будинки чи 2 бізнеси,\n\
+						враховуйте те, що по завершенню терміну дії статусу другий (додатковий) т/з / будинок / бізнес\n\
 						буде автоматично продано і Вам повернеться його ринкова вартість.\n\
-						Щоб уникнути цього, продовжіть термін дії вашого преміум-акаунта, не виходячи з серверу\n\
-						"P"/donate - Преміум-акаунти - Продовжити термін дії преміум-акаунта"W".\n\n\
-						Дізнатися, коли завершується термін дії преміум-акаунта можна за шляхом\n\
-						"P"/donate - Інформація - Мій преміум-акаунт"W".");
+						Щоб уникнути цього, продовжіть термін дії вашого ігрового статусу, не виходячи з серверу\n\
+						"P"/donate - Ігрові статуси - Продовжити термін дії ігрового статусу"W".\n\n\
+						Дізнатися, коли завершується термін дії ігрового статусу можна за шляхом\n\
+						"P"/donate - Інформація - Мій ігровий статус"W".");
 					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, P"|"W" Загальна інформація.", string, "Назад", "");
 				}
 				case 1: {
@@ -27402,7 +27800,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, P"|"W" Баланс та поповнення рахунку.", string, "Назад", "");
 				}
 				case 2: {
-					if(!CI[playerid][pPremium]) return SendError(playerid, "У Вас немає преміум-акаунта.");
+					if(!CI[playerid][pPremium]) return SendError(playerid, "У Вас немає покращеного ігрового статусу.");
 				}
 			}
 			}
@@ -27422,7 +27820,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"10 %%\n\n\
 						"W"Вартість придбання терміном на "P"30 "W"днів становить "P"180 "W"CCoin.\n\
 						На Вашому рахунку - "P"%d "W"CCoin", CI[playerid][pDonate]);
-					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Преміум-акаунт "GREEN"Початковий", string, "Купити", "Назад");
+					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Ігровий статус "GREEN"Початковий", string, "Купити", "Назад");
 					SetPVarInt(playerid, "premium", 1);
 				}
 				case 1: {
@@ -27438,10 +27836,11 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						"G"Можливість мати "P"2 будинки\n\
 						"G"Зниження цін на тюнінг транспорту на "P""P"20 %%\n\
 						"G"Зниження цін на ремонт транспорту на "P"15 %%\n\
-						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"15 %%\n\n\
+						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"15 %%\n\
+						"G"Можливість отримувати "P"1 CCoin щогодини (PayDay)\n\n\
 						"W"Вартість придбання терміном на "P"30 "W"днів становить "P"400 "W"CCoin.\n\
 						На Вашому рахунку - "P"%d "W"CCoin", CI[playerid][pDonate]);
-					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Преміум-акаунт {DC143C}Комфортний", string, "Купити", "Назад");
+					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Ігровий статус {DC143C}Комфортний", string, "Купити", "Назад");
 					SetPVarInt(playerid, "premium", 2);
 				}
 				case 2: {
@@ -27459,14 +27858,55 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						"G"Можливість мати "P"2 бізнеси\n\
 						"G"Зниження цін на тюнінг транспорту на "P""P"30 %%\n\
 						"G"Зниження цін на ремонт транспорту на "P"20 %%\n\
-						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"20 %%\n\n\
+						"G"Зниження цін на комунальні платежі/оренди будинку/приміщення під бізнес на "P"20 %%\n\
+						"G"Можливість отримувати "P"2 CCoin щогодини (PayDay)\n\n\
 						"W"Вартість придбання терміном на "P"30 "W"днів становить "P"600 "W"CCoin.\n\
 						На Вашому рахунку - "P"%d "W"CCoin", CI[playerid][pDonate]);
-					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Преміум-акаунт {FFD700}Оптимальний", string, "Купити", "Назад");
+					ShowPlayerDialog(playerid, dDonatePremiumBuy, DIALOG_STYLE_MSGBOX, ""W"Ігровий статус {FFD700}Оптимальний", string, "Купити", "Назад");
 					SetPVarInt(playerid, "premium", 3);
 				}
 			}
 			}
+		case dDonatePremiumBuy:
+		{
+			if(!response) return 1;
+			switch(GetPVarInt(playerid, "premium"))
+			{
+				case 1:
+				{
+					if(CI[playerid][pDonate] < 180) return SendError(playerid, "У Вас недостатньо CCoin для придбання ігрового статусу 'Початковий'.");
+					CI[playerid][pPremium] = 1;
+					UpdateCharacterDataInt(playerid, "premium", CI[playerid][pPremium]);
+					//CI[playerid][pPremium]
+					CI[playerid][pPremiumTime] = gettime() +(30*24*60*60);
+					UpdateCharacterDataInt(playerid, "premiumtime", CI[playerid][pPremiumTime]);
+					SendOK(playerid, "Ви придбали ігровий статус 'Початковий' на 30 днів.");
+					SendHint(playerid, "Для продовження терміну дії ігрового статусу використайте /donate -> Ігрові статуси -> Продовжити термін дії.");
+				}
+				case 2:
+				{
+					if(CI[playerid][pDonate] < 400) return SendError(playerid, "У Вас недостатньо CCoin для придбання ігрового статусу 'Комфортний'.");
+					CI[playerid][pPremium] = 2;
+					UpdateCharacterDataInt(playerid, "premium", CI[playerid][pPremium]);
+					//CI[playerid][pPremium]
+					CI[playerid][pPremiumTime] = gettime() +(30*24*60*60);
+					UpdateCharacterDataInt(playerid, "premiumtime", CI[playerid][pPremiumTime]);
+					SendOK(playerid, "Ви придбали ігровий статус 'Комфортний' на 30 днів.");
+					SendHint(playerid, "Для продовження терміну дії ігрового статусу використайте /donate -> Ігрові статуси -> Продовжити термін дії.");
+				}
+				case 3:
+				{
+					if(CI[playerid][pDonate] < 600) return SendError(playerid, "У Вас недостатньо CCoin для придбання ігрового статусу 'Оптимальний'.");
+					CI[playerid][pPremium] = 3;
+					UpdateCharacterDataInt(playerid, "premium", CI[playerid][pPremium]);
+					//CI[playerid][pPremium]
+					CI[playerid][pPremiumTime] = gettime() +(30*24*60*60);
+					UpdateCharacterDataInt(playerid, "premiumtime", CI[playerid][pPremiumTime]);
+					SendOK(playerid, "Ви придбали ігровий статус 'Оптимальний' на 30 днів.");
+					SendHint(playerid, "Для продовження терміну дії ігрового статусу використайте /donate -> Ігрові статуси -> Продовжити термін дії.");
+				}
+			}
+		}
 		case D_DONATE: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -32332,7 +32772,7 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 		SetPVarInt(playerid, "MeatWarehouse", 1);
 
 		SetPVarInt(playerid, "MeatCarry", 1);
-		ApplyAnimation(playerid, "CARRY", "liftup105", 1.0, 0, 1, 1, 0, 0, 1);
+		//ApplyAnimation(playerid, "CARRY", "liftup105", 1.0, 0, 1, 1, 0, 0, 1);
 		if(!IsPlayerAttachedObjectSlotUsed(playerid, 0)) SetPlayerAttachedObject(playerid, 0, 2805, 5, 0.45, 0, 0, 0, -90, 30, 0.5, 0.5, 0.5);
 
 	}
@@ -32349,8 +32789,8 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 
 
 
-		SendFloat(playerid, fixedprice);
-		SendInt(playerid, MeatCowPrice);
+		//SendFloat(playerid, fixedprice);
+		//SendInt(playerid, MeatCowPrice);
 
 		//format(string, sizeof(string), "floatround(GetPVarFloat(playerid, MeatTotal)*fixedprice): %.2f", GetPVarFloat(playerid, "MeatTotal")*fixedprice);
 		//SendInfo(playerid, string);
@@ -37188,24 +37628,101 @@ stock PayDay()
 		mysql_query(connects, "UPDATE "TABLE_CHARACTERS" SET `bizz_lcash` = '0'");
 	}
 	new string[120];
-	foreach(new i:Player) {
+
+
+
+	foreach(new i:Player) 
+	{
 		if(!TI[i][tStarted]) continue;
+
 		SetPlayerTime(i, tmphour, tmpminute);
+
+		SetPVarInt(i, "PayDay", 1);
+
+		SetPVarInt(i, "PayDayTime", tmphour);
+
+		SendHint(i, "Використайте "P"/payday"W", щоб ознайомитися з інформацією.");
 
 		CI[i][pExp] += 3 * PayDayX;
 
-		if(CI[i][pMember] && CI[i][cDuty]) {
-			if(CI[i][pBoost]) {
+		if(CI[i][pMember] && CI[i][cDuty]) 
+		{
+			if(CI[i][pBoost]) 
+			{
 				CI[i][pBank] += fRanks[CI[i][pMember]][CI[i][pRank]][frSalary] * 2;
-				format(string, sizeof(string), "Заробітня плата: "GREEN"$%i"W".", fRanks[CI[i][pMember]][CI[i][pRank]][frSalary] * 2);
-			} else {
+				//format(string, sizeof(string), "Заробітня плата: "GREEN"$%i"W".", fRanks[CI[i][pMember]][CI[i][pRank]][frSalary] * 2);
+			} 
+			else 
+			{
 				CI[i][pBank] += fRanks[CI[i][pMember]][CI[i][pRank]][frSalary];
-				format(string, sizeof(string), "Заробітня плата: "GREEN"$%i"W".", fRanks[CI[i][pMember]][CI[i][pRank]][frSalary]);
+				//format(string, sizeof(string), "Заробітня плата: "GREEN"$%i"W".", fRanks[CI[i][pMember]][CI[i][pRank]][frSalary]);
 			}
-			SendClientMessage(i, -1, string);
+
+			new Float:boost, salary, bsal;
+			if(CI[i][pPremium])
+			{
+				switch(CI[i][pPremium])
+				{
+					case 1: boost = 0.07;
+					case 2: boost = 0.12;
+					case 3: boost = 0.20;
+				}
+				bsal = floatround(fRanks[CI[i][pMember]][CI[i][pRank]][frSalary] * boost);
+				salary = fRanks[CI[i][pMember]][CI[i][pRank]][frSalary] + bsal;
+				SetPVarInt(i, "PayDaySalaryBooster", bsal);
+			}
+			CI[i][pBank] += salary;
+			UpdateCharacterDataInt(i, "pBank", CI[i][pBank]);
+
+			//SendClientMessage(i, -1, string);
+			SetPVarInt(i, "PayDayBank", CI[i][pBank]);
+			SetPVarInt(i, "PayDayFractionSalary", fRanks[CI[i][pMember]][CI[i][pRank]][frSalary]);
 		}
 
-		if(CI[i][pLevel] <= 3 && Nalog[1]) {
+
+		if(CI[i][pDeposit] && CI[i][pDepositMoney])
+		{
+			new Float:deposit;
+			switch(CI[i][pPremium])
+			{
+				case 0: deposit = DepositDef;
+				case 1: deposit = DepositStart;
+				case 2: deposit = DepositComf;
+				case 3: deposit = DepositOpti;
+			}
+			new sum = floatround(CI[i][pDepositMoney] * deposit);
+			CI[i][pDepositMoney] = CI[i][pDepositMoney] + sum;
+			UpdateCharacterDataInt(i, "pDepositMoney", CI[i][pDepositMoney]);
+
+			if(CI[i][pDepositTime])
+			{
+				CI[i][pDepositTime]--; 
+				UpdateCharacterDataInt(i, "pDepositTime", CI[i][pDepositTime]);
+			}
+
+			SetPVarInt(i, "PayDayDeposit", CI[i][pDepositMoney]);
+			SetPVarInt(i, "PayDayDepositSum", sum);
+			//format(string, sizeof(string), "Депозит: $%d (+$%d).", CI[i][pDepositMoney], sum);
+			//SetPVarString(i, "PayDayDeposit", string);
+		}
+
+		new donate;
+		if(CI[i][pPremium]) 
+		{
+			switch(CI[i][pPremium])
+			{
+				case 2: donate = 1;
+				case 3: donate = 2;
+			}
+			CI[i][pDonate] = CI[i][pDonate] + donate;
+			UpdateCharacterDataInt(i, "pDonate", CI[i][pDonate]);
+			SetPVarInt(i, "PayDayDonate", CI[i][pDonate]);
+			SetPVarInt(i, "PayDayDonateBooster", donate);
+		}
+
+
+		if(CI[i][pLevel] <= 3 && Nalog[1]) 
+		{
 			format(string, sizeof(string), "Допомога від уряду: "GREEN"$%i"W".", Nalog[2]);
 			SendClientMessage(i, -1, string);
 			CI[i][pBank] += Nalog[2];
@@ -40306,6 +40823,14 @@ CMD:ap(playerid, params[]) {
 
 	return 1;
 }*/
+cmd:meetarray(playerid)
+{
+	for(new i; i < 50; i++)
+	{
+		SendFloat(playerid, MeatPlayerArray[playerid][i]);
+	}
+	return 1;
+}
 CMD:testfire(playerid) {
 	CreateFire(1);
 	FireStatus = 1;
@@ -41794,7 +42319,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
 
 						
-						if(!MeatCutCount[playerid]) CreatePlayerMeatArray(playerid, 1);
+						CreatePlayerMeatArray(playerid, 1);
 
 						//SendOK(playerid, "cow");
 					}
@@ -41825,7 +42350,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 						UpdateDynamic3DTextLabelText(MeatText[deer], -1, string);
 
 						
-						if(!MeatCutCount[playerid]) CreatePlayerMeatArray(playerid, 2);
+						CreatePlayerMeatArray(playerid, 2);
 
 						//SendOK(playerid, "deer");
 					}
@@ -41857,7 +42382,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
 
 						
-						if(!MeatCutCount[playerid]) CreatePlayerMeatArray(playerid, 3);
+						CreatePlayerMeatArray(playerid, 3);
 
 						//SendOK(playerid, "pork");
 					}
@@ -45869,6 +46394,14 @@ stock load_economy() {
 		cache_get_value_name_int(0, "MeatCowTime", MeatCowTime);
 		cache_get_value_name_int(0, "MeatDeerTime", MeatDeerTime);
 		cache_get_value_name_int(0, "MeatPorkTime", MeatPorkTime);
+
+		cache_get_value_name_int(0, "DepositStatus", DepositStatus);
+		cache_get_value_name_float(0, "DepositDef", DepositDef);
+		cache_get_value_name_float(0, "DepositStart", DepositStart);
+		cache_get_value_name_float(0, "DepositComf", DepositComf);
+		cache_get_value_name_float(0, "DepositOpti", DepositOpti);
+		cache_get_value_name_int(0, "MinDepSum", MinDepSum);
+		cache_get_value_name_int(0, "MaxDepSum", MaxDepSum);
 	}
 	cache_delete(result);
 	print("[Success] Economics loaded.");
@@ -48647,6 +49180,8 @@ CB:load_character(playerid) {
 	cache_get_value_name_int(0, "TLicBoat", CI[playerid][pTLicBoat]);
 	cache_get_value_name_int(0, "TLicWeapon", CI[playerid][pTLicWeapon]);
 	cache_get_value_name_int(0, "pDeposit", CI[playerid][pDeposit]);
+	cache_get_value_name_int(0, "pDepositMoney", CI[playerid][pDepositMoney]);
+	cache_get_value_name_int(0, "pDepositTime", CI[playerid][pDepositTime]);
 	SetString(player_ip[playerid], player_ip_check[playerid]);
 	SetHealth(playerid, CI[playerid][pHP]);
 	cache_get_value_name(0, "spawnData", st, sizeof (st) - 1), sscanf(st, "p<,>ffffiii", CI[playerid][pSpawnPos][0], CI[playerid][pSpawnPos][1], CI[playerid][pSpawnPos][2], CI[playerid][pSpawnPos][3], CI[playerid][pSpawnWorld], CI[playerid][pSpawnInterior], CI[playerid][pSpawnTime]);
@@ -48705,10 +49240,13 @@ CB:start_character(playerid) {
 		SendClientMessage(playerid, COLOR_REDD, "Ваша квартира продана государтству за несплату податків.");
 		UpdateCharacterDataInt(playerid, "roomsell", 0);
 	}
-	if(CI[playerid][pPremium] <= gettime() && CI[playerid][pPremium]) {
-		SendClientMessage(playerid, COLOR_REDD, "У вас закінчився термін дії преміум-акаунта.");
+	if(CI[playerid][pPremiumTime] <= gettime() && CI[playerid][pPremium]) 
+	{
+		SendInfo(playerid, "У Вас закінчився термін дії ігрового статусу.");
 		CI[playerid][pPremium] = 0;
 		UpdateCharacterDataInt(playerid, "premium", 0);
+		CI[playerid][pPremiumTime] = 0;
+		UpdateCharacterDataInt(playerid, "premiumtime", 0);
 	}
 	if(CI[playerid][pTLicCar] <= gettime() && lic[playerid][0]) {
 		SendInfo(playerid, "У вас завершився термін дії ліцензії на водіння.");
@@ -53986,8 +54524,29 @@ CMD:sa(playerid, params[]) {
 	SendOK(playerid, string);
 	return 1;
 }
-CMD:payday(playerid, params[]) {
-	if(IsAuthAdmin(playerid, 7)) PayDay();
+CMD:payday(playerid) 
+{
+	new string[1500], header[150];
+	if(!GetPVarInt(playerid, "PayDay")) return SendError(playerid, "Ви ще не отримували PayDay за цю годину.");
+	format(header, sizeof(header), ""P"| "W"Payday (станом на "G"%i:00"W")", GetPVarInt(playerid, "PayDayTime"));
+
+	strcat(string, ""P"| "W"Персонаж:\n\n");
+
+	if(CI[playerid][pPremium]) format(string, sizeof(string), "%s"W"Заробітня плата: "GREEN"$%d "W"("GREEN"+$%d"W").\n", string, GetPVarInt(playerid, "PayDayFractionSalary"), GetPVarInt(playerid, "PayDaySalaryBooster"));
+	else format(string, sizeof(string), "%s"W"Заробітня плата: "GREEN"$%d\n", string, GetPVarInt(playerid, "PayDayFractionSalary"));
+
+	format(string, sizeof(string), "%s"W"Банк (зарплатний рахунок): "GREEN"$%d "W"("GREEN"+$%d"W")\n", string, GetPVarInt(playerid, "PayDayBank"), GetPVarInt(playerid, "PayDayFractionSalary"));
+
+	format(string, sizeof(string), "%s"W"Депозит: "GREEN"$%d "W"("GREEN"+$%d"W")\n\n", string, GetPVarInt(playerid, "PayDayDeposit"), GetPVarInt(playerid, "PayDayDepositSum"));
+
+	strcat(string, ""P"| "W"Акаунт:\n\n");
+
+	format(string, sizeof(string), "%s"W"Рівень: "G"%d (%d/%d)\n", string, CI[playerid][pLevel], CI[playerid][pExp], CI[playerid][pLevel] * 6);
+
+	format(string, sizeof(string), "%s"W"CCoins: "G"%d (+%d)", string, GetPVarInt(playerid, "PayDayDonate"), GetPVarInt(playerid, "PayDayDonateBooster"));
+
+
+	ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, header, string, "Закрити", "");
 	return 1;
 }
 CMD:cc(playerid, params[]) {
@@ -54573,7 +55132,7 @@ CMD:acp(playerid)
 	if(!IsAuthAdmin(playerid, 1)) return 1;
 	//APanel(playerid);
 	new string[1024];
-	format(string, sizeof(string), P"1."W" Керування роботами.");
+	format(string, sizeof(string), P"1."W" Керування роботами.\n"P"2. "W"Керування системами.\n"P"3. "W"Payday");
 	ShowPlayerDialog(playerid, dAdminPanel, DSL, P"|"W" Адміністративна панель.", string, "Обрати", "Назад");
 	
 	/* format(content, sizeof(content), P"1."W" Адміністрація.\n"P"2."W" Заспавнитися.\n"P"3."W" Влаштуватися на роботу.\n"P"4."W" Гравці у в'язниці.\n"P"5."W" Гравці з баном чату.\n"P"6."W" Адмін інформація %s.\n"P"7."W" Список вбивств %s.", CI[playerid][pAdmMSG] ? G"[ON]" : R"[OFF]", CI[playerid][pAdmKL] ? G"[ON]" : R"[OFF]");
@@ -67948,6 +68507,7 @@ CB:MeatCut(playerid, part)
 	DeletePVar(playerid, "CutProcess");
 
 	for(new i = 3; i < 6; i++) {
+
 		if(GetPVarInt(playerid, "MeatCow")) TextDrawHideForPlayer(playerid, MeatCowTD[i]);
 		else if(GetPVarInt(playerid, "MeatDeer")) TextDrawHideForPlayer(playerid, MeatDeerTD[i]);
 		else if(GetPVarInt(playerid, "MeatPork")) TextDrawHideForPlayer(playerid, MeatBarTD[i]);
@@ -68060,8 +68620,14 @@ stock EndMeatProcess(playerid)
 	for(new i; i < 6; i++) TextDrawHideForPlayer(playerid, MeatCowTD[i]);
 	for(new i; i < 6; i++) TextDrawHideForPlayer(playerid, MeatDeerTD[i]);
 
-	for_1(i, MeatCutCount[playerid]) MeatPlayerArray[playerid][i] = INVALID_PLAYER_ID;
+
+	for(new i = 1; i < 50; i++)
+	{
+		//MeatPlayerArray[playerid][i] = -1;
+		MeatPlayerArray[playerid][i] = INVALID_PLAYER_ID;
+	}
 	MeatCutCount[playerid] = INVALID_PLAYER_ID;
+
 
 	PlayerTextDrawHide(playerid, MeatProgress[playerid][0]);
 
@@ -68073,6 +68639,7 @@ stock EndMeatProcess(playerid)
 
 	DeletePVar(playerid, "MeatStarted");
 	DeletePVar(playerid, "MeatPlayer");
+	DeletePVar(playerid, "MeatTDLen");
 
 	RemovePlayerAttachedObject(playerid, 0);
 
@@ -68297,52 +68864,14 @@ stock RandomEx(min, max)
     new rand = random(max-min)+min;    
     return rand;
 } 
-stock CreatePlayerMeatArray(playerid, meattype)
-{
-	new Float:x, Float:y;
-	switch(meattype)
-	{
-		case 1: x = 6.00, y = 9.00;
-		case 2: x = 3.00, y = 6.00;
-		case 3: x = 5.00, y = 7.00;
-	}
-
-	new Float:w, Float:sum, Float:lastsum;
-	//weight = mathfrandom(6.00, 9.00);
-	//else if(GetPVarInt(playerid, "MeatDeer")) weight = mathfrandom(3.00, 6.00);
-	//else if(GetPVarInt(playerid, "MeatPork")) weight = mathfrandom(5.00, 7.00);
-
-	new meat = GetPVarInt(playerid, "MeatPlayer");
-
-	for(new a = 1; a < 50; a++)
-	{
-		w = mathfrandom(x, y);
-		MeatPlayerArray[playerid][a] = w;
-
-		sum = sum + w;
-
-		if(sum >= MeatWork[meat][mWeight]) break;
-		MeatCutCount[playerid] = a;
-		//lastsum = sum;
-		//format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f.", array, a, MeatPlayerArray[playerid][a], sum);
-	} 
-	//SendFloat(playerid, lastsum);
-	MeatCutCount[playerid]++;
-	MeatPlayerArray[playerid][MeatCutCount[playerid]] = MeatWork[meat][mWeight] - lastsum;
-	//SendFloat(playerid, MeatPlayerArray[playerid][MeatCutCount[playerid]]);
-	//lastsum = lastsum + MeatPlayerArray[playerid][MeatCutCount[playerid]];
-	//format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f", array, MeatCutCount[playerid], MeatPlayerArray[playerid][MeatCutCount[playerid]], lastsum);
-	//format(array, sizeof(array), "%s\nTotal carcass weight: %.2f. Actions count: %d", array, MeatWork[cow][mWeight], MeatCutCount[playerid]);
-	//ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "1", array, "1", "1");
-	return 1;
-}
 stock BankDialog(playerid)
 {
 	new string[1028];
 	format(string, sizeof(string), "\
 		"P"1. "W"Керування рахунками\n\
 		"P"2. "W"Фінансові операції\n\
-		"P"3. "W"Депозит");
+		"P"3. "W"Зарплатний рахунок\n\
+		"P"4. "W"Депозит");
 	return ShowPlayerDialog(playerid, dBankMenu, DIALOG_STYLE_LIST, ""P"| "W"Меню банку.", string, "Обрати", "Закрити");
 }
 CB:bank_accounts(playerid)
@@ -68363,20 +68892,24 @@ CB:bank_accounts(playerid)
 	ShowPlayerDialog(playerid, dBankAccounts, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Банківські рахунки.", string, "Обрати", "Назад");
 	return 1;
 }
-CB:bank_trasfer(playerid)
+CB:bank_transfer(playerid)
 {
 	new rows, name[30], number, money, string[1028];
 	cache_get_row_count(rows);
 	strcat(string, ""G"Номер\t"G"Назва\t"G"Кошти\n");
-	for_1(i, rows)
+	if(rows)
 	{
-		cache_get_value_name_int(i, "ID", number);
-		cache_get_value_name(i, "Name", name, 30);
-		cache_get_value_name_int(i, "Money", money);
+		for_1(i, rows)
+		{
+			cache_get_value_name_int(i, "ID", number);
+			cache_get_value_name(i, "Name", name, 30);
+			cache_get_value_name_int(i, "Money", money);
 
-		format(string, sizeof(string), "%s"P"%d\t"W"%s\t"GREEN"$%d\n", string, number, name, money);
+			format(string, sizeof(string), "%s"P"%d\t"W"%s\t"GREEN"$%d\n", string, number, name, money);
+		}
+		ShowPlayerDialog(playerid, dBankTransferFrom, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Переказ коштів (оберіть рахунок).", string, "Обрати", "Назад");
 	}
-	ShowPlayerDialog(playerid, dBankTransferFrom, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Переказ коштів (оберіть рахунок).", string, "Обрати", "Назад");
+	else ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"| "W"Переказ коштів (оберіть рахунок).", "Банківських рахунків з коштами не знайдено.\nВідкрийте новий або поповніть існуючий.", "Закрити", "");
 	return 1;
 }
 CB:bank_pay_ticket(playerid)
@@ -68384,15 +68917,19 @@ CB:bank_pay_ticket(playerid)
 	new rows, name[30], number, money, string[1028];
 	cache_get_row_count(rows);
 	strcat(string, ""G"Номер\t"G"Назва\t"G"Кошти\n");
-	for_1(i, rows)
+	if(rows)
 	{
-		cache_get_value_name_int(i, "ID", number);
-		cache_get_value_name(i, "Name", name, 30);
-		cache_get_value_name_int(i, "Money", money);
+		for_1(i, rows)
+		{
+			cache_get_value_name_int(i, "ID", number);
+			cache_get_value_name(i, "Name", name, 30);
+			cache_get_value_name_int(i, "Money", money);
 
-		format(string, sizeof(string), "%s"P"%d\t"W"%s\t"GREEN"$%d\n", string, number, name, money);
+			format(string, sizeof(string), "%s"P"%d\t"W"%s\t"GREEN"$%d\n", string, number, name, money);
+		}
+		ShowPlayerDialog(playerid, dBankPayTicket, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Оплата штрафу (оберіть рахунок).", string, "Обрати", "Назад");
 	}
-	ShowPlayerDialog(playerid, dBankPayTicket, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Переказ коштів (оберіть рахунок).", string, "Обрати", "Назад");
+	else ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"| "W"Оплата штрафу (оберіть рахунок).", "Банківських рахунків з коштами не знайдено.\nВідкрийте новий або поповніть існуючий.", "Закрити", "");
 	return 1;
 }
 CB:bank_operations(playerid)
@@ -68416,7 +68953,7 @@ CB:bank_operations(playerid)
 }
 CB:bank_tickets(playerid)
 {
-	new rows, string[1000], id, givename[32], total, reason[150], d, year, month, day, hour, minute, second;
+	new rows, string[3000], id, givename[32], total, reason[150], d, year, month, day, hour, minute, second;
 	cache_get_row_count(rows);
 	strcat(string, ""G"Номер\t"G"Причина\t"G"Сума\t"G"Дата\n");
 	if(rows)
@@ -68432,11 +68969,11 @@ CB:bank_tickets(playerid)
 			timestamp_to_date(d, year, month, day, hour, minute, second);
 			format(string, sizeof(string), "%s"W"%d\t"W"%s\t"GREEN"$%d\t"W"%i-%i-%i %02d:%02d:%02d\n", string, id, reason, total, year, month, day, hour, minute, second);
 		}
-		ShowPlayerDialog(playerid, dBankTickets, DIALOG_STYLE_LIST, ""P"| "W"Оплата штрафів.", string, "Обрати", "Назад");
+		ShowPlayerDialog(playerid, dBankTickets, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Оплата штрафів.", string, "Обрати", "Назад");
 	}
 	else 
 	{
-		format(string, sizeof(string), ""W"Історія операцій пуста.");
+		format(string, sizeof(string), ""W"Штрафів не знайдено.");
 		ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"| "W"Оплата штрафів.", string, "Закрити", "");
 	}
 	return 1;
@@ -68473,4 +69010,56 @@ stock CheckBankAccountAvailability(playerid, bid)
 	}
 	cache_delete(result);
 	return rows;
+}
+
+stock CreatePlayerMeatArray(playerid, meattype)
+{
+	new Float:x, Float:y;
+	switch(meattype)
+	{
+		case 1: x = 10.00, y = 14.00;
+		case 2: x = 6.00, y = 9.00;
+		case 3: x = 8.00, y = 11.00;
+	}
+
+	new Float:w, Float:sum, Float:lastsum;
+	//weight = mathfrandom(6.00, 9.00);
+	//else if(GetPVarInt(playerid, "MeatDeer")) weight = mathfrandom(3.00, 6.00);
+	//else if(GetPVarInt(playerid, "MeatPork")) weight = mathfrandom(5.00, 7.00);
+
+	if(MeatCutCount[playerid])
+	{
+		for(new i = 1; i < 50; i++)
+		{
+			//MeatPlayerArray[playerid][i] = -1;
+			MeatPlayerArray[playerid][i] = INVALID_PLAYER_ID;
+		}
+		MeatCutCount[playerid] = INVALID_PLAYER_ID;
+	}
+
+	new meat = GetPVarInt(playerid, "MeatPlayer");
+
+	for(new a = 1; a < 50; a++)
+	{
+		w = mathfrandom(x, y);
+		MeatPlayerArray[playerid][a] = w;
+
+		sum = sum + w;
+
+		if(sum >= MeatWork[meat][mWeight]) break;
+		MeatCutCount[playerid] = a;
+		SendFloat(playerid, MeatPlayerArray[playerid][a]);
+		SendInt(playerid, MeatCutCount[playerid]);
+		//lastsum = sum;
+		//format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f.", array, a, MeatPlayerArray[playerid][a], sum);
+	} 
+	//SendFloat(playerid, lastsum);
+	MeatCutCount[playerid]++;
+	MeatPlayerArray[playerid][MeatCutCount[playerid]] = MeatWork[meat][mWeight] - lastsum;
+	//SendFloat(playerid, MeatPlayerArray[playerid][MeatCutCount[playerid]]);
+	//lastsum = lastsum + MeatPlayerArray[playerid][MeatCutCount[playerid]];
+	//format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f", array, MeatCutCount[playerid], MeatPlayerArray[playerid][MeatCutCount[playerid]], lastsum);
+	//format(array, sizeof(array), "%s\nTotal carcass weight: %.2f. Actions count: %d", array, MeatWork[cow][mWeight], MeatCutCount[playerid]);
+	//ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "1", array, "1", "1");
+	return 1;
 }
