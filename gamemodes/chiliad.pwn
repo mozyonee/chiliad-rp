@@ -52680,13 +52680,14 @@ CMD:tskin(playerid, params[]) {
 CMD:skin(playerid, params[]) {
 	if(!IsAuthAdmin(playerid, 1)) return 1;
 	new str[128], targetid, skin;
-	if(!sscanf(params, "ui", targetid, skin)) if(!IsPlayerConnected(targetid)) return SendError(playerid, not_id);
-	else if(!sscanf(params, "i", skin)) targetid = playerid;
-	else return SendError(playerid, "Використайте: /skin [playerid] [skinid]");
+	if(sscanf(params, "ui", targetid, skin)) {
+		if(sscanf(params, "i", skin)) return SendError(playerid, "Використайте: /skin [playerid] [skinid]");
+		targetid = playerid;
+	} else if(!IsPlayerConnected(targetid)) return SendError(playerid, not_id);
 	if(!(1 <= skin <= 311) || skin == 74) return SendError(playerid, "Неправильний ID скіна.");
 	CI[playerid][cSkin] = skin;
-	A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
 	UpdateCharacterDataInt(playerid, "cSkin", CI[playerid][cSkin]);
+	if(GetPlayerSkin(playerid) == CI[playerid][cSkin]) A_SetPlayerSkin(playerid, CI[playerid][cSkin]);
 	format(str, sizeof(str), "Адміністратор %s видав вам скін #%i.", PI[playerid][pName], skin);
 	SendOK(targetid, str);
 	return 1;
@@ -53390,7 +53391,6 @@ CMD:veh(playerid, params[]) {
 		color2 = random(256);
 	} else if(!(0 <= color1 <= 256 || 0 <= color2 <= 256)) return SendError(playerid, "ID кольору транспорта від 0 до 256.");
 	if(!(400 <= car <= 611)) return SendError(playerid, "ID транспорта від 400 до 611.");
-	for(new i = MAX_VEHICLES + 1; --i;) if(VehicleInfo[i][vType] != VEHICLE_TYPE_ADMIN) continue;
 	new Float:X, Float:Y, Float:Z, Float:A;
 	GetPlayerPos(playerid, X, Y, Z);
 	GetPlayerFacingAngle(playerid, A);
