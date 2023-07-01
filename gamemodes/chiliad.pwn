@@ -270,6 +270,31 @@ new
 
 // =================================
 
+
+// ========= [ Bus data ] ==========
+
+#define MAX_ROUTES 5
+#define MAX_CHECKPOINTS 100
+
+enum BusRoutes
+{
+	RouteID,
+	RouteName[50],
+	CheckCount
+}
+new routes[MAX_ROUTES][BusRoutes], BusRoutesCount;
+
+enum RoutesCheckpoints
+{
+	RouteID,
+	Float:rcPos[3],
+	Float:IsStop,
+	Float:StopPos[3]
+}
+new bus[MAX_ROUTES][MAX_CHECKPOINTS][RoutesCheckpoints];
+
+// =================================
+
 new GPSPublic[][gps_data] = {
 	{ "Центр зайнятості", 1411.5740, -1699.5056, 13.5395 }, 
 	{ "Банк м. Лос-Сантос", 595.14, -1244.26, 17.61 }, 
@@ -311,20 +336,20 @@ enum MeatData {
 
 new MeatWork[][MeatData] = 
 {
-	{ 80.0, 90.0, 0.0, 948.180, 2174.149, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 }, 
-	{ 80.0, 90.0, 0.0, 948.180, 2167.793, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 }, 
-	{ 80.0, 90.0, 0.0, 948.180, 2161.947, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 },
-	{ 80.0, 90.0, 0.0, 948.180, 2151.624, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 }, 
-	{ 50.0, 60.0, 0.0, 936.027, 2151.885, 1011.619, 0.400, 88.400, 88.500, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 }, 
-	{ 50.0, 60.0, 0.0, 936.027, 2159.092, 1011.619, 0.400, 88.400, 88.500, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 },
-	{ 50.0, 60.0, 0.0, 936.027, 2165.134, 1011.619, 0.400, 88.400, 88.500, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 },
-	{ 50.0, 60.0, 0.0, 936.027, 2174.040, 1011.619, 0.400, 88.400, 88.499, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 },
-	{ 65.0, 70.0, 0.0, 962.434, 2123.039, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
-	{ 65.0, 70.0, 0.0, 955.954, 2123.039, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
-	{ 65.0, 70.0, 0.0, 955.954, 2130.602, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
-	{ 65.0, 70.0, 0.0, 955.954, 2138.456, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
-	{ 65.0, 70.0, 0.0, 962.434, 2130.849, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
-	{ 65.0, 70.0, 0.0, 962.434, 2139.842, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 }
+	{ 170.0, 190.0, 0.0, 948.180, 2174.149, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 }, 
+	{ 170.0, 190.0, 0.0, 948.180, 2167.793, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 }, 
+	{ 170.0, 190.0, 0.0, 948.180, 2161.947, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 },
+	{ 170.0, 190.0, 0.0, 948.180, 2151.624, 1011.801, 84.599, 175.100, 6.899, "Туша корови", 19833, 0, 0.000, 0.750, -1.000, 0.000, 0.750, -1.000 }, 
+	{ 110.0, 130.0, 0.0, 936.027, 2151.885, 1011.619, 0.400, 88.400, 88.500, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 }, 
+	{ 110.0, 130.0, 0.0, 936.027, 2159.092, 1011.619, 0.400, 88.400, 88.500, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 },
+	{ 110.0, 130.0, 0.0, 936.027, 2165.134, 1011.619, 0.400, 88.400, 88.500, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 },
+	{ 110.0, 130.0, 0.0, 936.027, 2174.040, 1011.619, 0.400, 88.400, 88.499, "Туша оленя", 19315, 0, 0.000, 0.000, -1.000, 0.000, 0.000, -1.000 },
+	{ 140.0, 160.0, 0.0, 962.434, 2123.039, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
+	{ 140.0, 160.0, 0.0, 955.954, 2123.039, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
+	{ 140.0, 160.0, 0.0, 955.954, 2130.602, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
+	{ 140.0, 160.0, 0.0, 955.954, 2138.456, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
+	{ 140.0, 160.0, 0.0, 962.434, 2130.849, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 },
+	{ 140.0, 160.0, 0.0, 962.434, 2139.842, 1016.605, 0.000, 0.000, 0.000, "Туша свині", 2589, 0, 0.1320, 0.0953, 3.588318, 0.000, 0.000, -7.000 }
 };
 
 new MeatPlayer[sizeof(MeatWork)];
@@ -2680,6 +2705,8 @@ enum dialogs {
 	D_ADMIN_HISTORY,
 	D_ADMIN_HISTORY_USE,
 	D_ADMIN_PANEL,
+
+
 	dAdminPanel,
 	dAdminMeatPrice,
 	dAdminMeat,
@@ -2691,6 +2718,10 @@ enum dialogs {
 	dAdminBankEdit,
 	dAdminMeatEdit,
 	dAdminMeatTime,
+
+	dBusRoutes,
+
+
 	D_MDC_LIST,
 	D_MDC_DB,
 	D_MDC_DB_PERSON,
@@ -4678,27 +4709,6 @@ enum TRANSPORT_DATA {
 	trProds
 }
 new gTransport[220][TRANSPORT_DATA];
-
-#define MAX_ROUTES 5
-#define MAX_CHECKPOINTS 100
-
-enum e_BUS {
-	r_id,						//ID маршрута
-	r_route,					//Номер маршрута
-	Float:r_pos[3],				//Координаты чекпоинта
-	r_param,					//Параметр остановки
-};
-
-enum e_BUSROUTE {
-	r_number,					//Номер маршрута
-	r_point,					//Считает количество чекпоинтов
-	r_description[32],			//Описание маршрута
-};
-
-
-new const routes[] = { 454, 675, 893, 125, 353 };
-new Bus					[ MAX_ROUTES ][ MAX_CHECKPOINTS ][ e_BUS ],	// Система автобусов
-	Route				[ MAX_ROUTES ][ e_BUSROUTE ];
 
 #define		BUS_PRICE_CHECKPOINT 50
 #define		BUS_PRICE_RENT 500
@@ -21075,7 +21085,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 			switch(GetPVarInt(playerid, "MeatPrice")) {
 				case 1: {
-					if(strfind(inputtext, ",", true)) {
+					if(strfind(inputtext, ",") != -1) {
 						format(string, sizeof(string), W"Введіть нову ціну (через крапку) за фунт яловичини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatCowPrice);
 						return ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 					}
@@ -21086,7 +21096,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_query(connects, query);
 				}
 				case 2: {
-					if(strfind(inputtext, ",", true)) {
+					if(strfind(inputtext, ",") != -1) {
 						format(string, sizeof(string), W"Введіть нову ціну (через крапку) за фунт оленини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatDeerPrice);
 						return ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 					}
@@ -21097,7 +21107,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_query(connects, query);
 				}
 				case 3: {
-					if(strfind(inputtext, ",", true)) {
+					if(strfind(inputtext, ",") != -1) {
 						format(string, sizeof(string), W"Введіть нову ціну (через крапку) за фунт свинини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatPorkPrice);
 						return ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 					}
@@ -40774,39 +40784,16 @@ CMD:phone(playerid) {
 }
 CMD:gps(playerid) return ShowPlayerDialog(playerid, D_GPS, DIALOG_STYLE_LIST, P"|"W" Навігатор.", P"1."W" Громадські місця.\n"P"2."W" Роботи.\n"P"3."W" Організації.\n"P"-"W" Місця поблизу.", "Обрати", "Закрити");
 
-/* CMD:routes(playerid) {
-	ShowPlayerDialog(playerid, dCreateRoute, DIALOG_STYLE_LIST, P"|"W" Маршрути.", "Додати чекпоінти\nВидалити маршрут\nДодати опис", "Обрати", "Закрити");
-	return 1;
-}
-CMD:ap(playerid, params[]) {
-	if( !GetAccessCommand( playerid, "ap" ) )
-	   return SendClient:( playerid, C_WHITE, !NO_ACCESS_CMD );
-
-	if( sscanf( params, "d", params[0] ) ) 
-		return SendClient:( playerid, -1, ""gbDefault"Введите: /ap [ параметр ]" );
-
-	if( params[0] < INVALID_PARAM || params[0] > 0 ) 
-		return SendClient:( playerid, -1, ""gbDefault"Параметры: -1 обычный чекпоинт, 0 автобусная остановка." );
-
-	if( !IsPlayerInAnyVehicle( playerid ) )
-		return SendClient:( playerid, C_WHITE, ""gbError"Вы должны находиться в машине!" );
-
-	new
-		route = GetPVarInt( playerid, "Job:AddRoute" ), param = params[0];
-	  
-	if( !route )
-		return SendClient:( playerid, C_WHITE, ""gbError"Маршрут не выбран!" );
-
-	AddCheckpoint( playerid, route - 1, param );
-
-	return 1;
-}*/
-cmd:meetarray(playerid)
+CMD:routes(playerid)
 {
-	for(new i; i < 50; i++)
+	if(!IsAuthAdmin(playerid, 7)) return 1;
+	new string[256];
+	strcat(string, ""G"Номер\t"G"Назва\n");
+	for(new i; i < MAX_ROUTES; i++)
 	{
-		SendFloat(playerid, MeatPlayerArray[playerid][i]);
+		format(string, sizeof(string), "%s"W"%d\t%s\n", string, routes[i][RouteID], routes[i][RouteName]);
 	}
+	ShowPlayerDialog(playerid, dBusRoutes, DIALOG_STYLE_LIST, ""P"| "W"Автобусні маршрути.", string, "Обрати", "Закрити");
 	return 1;
 }
 CMD:testfire(playerid) {
@@ -68416,7 +68403,7 @@ stock load_meat_work()
 		MeatObject[i] = CreateDynamicObject(MeatWork[i][Model], MeatWork[i][mX], MeatWork[i][mY], MeatWork[i][mZ], MeatWork[i][mrX], MeatWork[i][mrY], MeatWork[i][mrZ], 1, 1, -1, 300.00, 300.00);
 		MeatSphere[i] = CreateDynamicSphere(MeatWork[i][mX] + MeatWork[i][AreaX], MeatWork[i][mY] + MeatWork[i][AreaY], MeatWork[i][mZ] + MeatWork[i][AreaZ], 2, 1, 1);
 		randomweight = mathfrandom(MeatWork[i][minWeight], MeatWork[i][maxWeight]);
-		MeatWork[i][mWeight] = randomweight * 2.205;
+		MeatWork[i][mWeight] = randomweight;
 		MeatPlayer[i] = INVALID_PLAYER_ID;
 		format(string, sizeof(string), "{98FB98}%s\n\n"W"Вага: "G"%.2f фунт(-ів).\n\n"W"Натисніть ENTER, щоб розпочати обробку.", MeatWork[i][Meat], MeatWork[i][mWeight]);
 		MeatText[i] = CreateDynamic3DTextLabel(string, -1, MeatWork[i][mX] + MeatWork[i][TextX], MeatWork[i][mY] + MeatWork[i][TextY], MeatWork[i][mZ] - MeatWork[i][TextZ], 5, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 1, 1,-1, STREAMER_3D_TEXT_LABEL_SD);
@@ -68691,132 +68678,6 @@ CB:MeatProgressT(playerid)
 	return 1;
 }
 
-stock LoadBusRoutes()
-{
-	new string[256];
-	for( new i; i < MAX_ROUTES; i++ ) {
-		mysql_format(string, sizeof(string), "SELECT * FROM `bus_routes` WHERE `r_route` = %d ORDER BY `r_id`", route[i]);
-		mysql_tquery(mysql, string, "LoadCheckpoints", "i", i);
-	}
-	return 1;
-}
-
-
-stock AddCheckpoint(playerid, r, param) {
-	new string[512];
-	for(new i; i < MAX_CHECKPOINTS; i++) {
-		if(!Bus[r][i][r_id]) {
-			new vehicleid = GetPlayerVehicleID(playerid), Float:pos[3];
-
-			GetVehiclePos(vehicleid, pos[0], pos[1], pos[2]);
-
-			Bus[r][i][r_route] = Route[r][r_number];
-			Bus[r][i][r_pos][0] = pos[0];
-			Bus[r][i][r_pos][1] = pos[1];
-			Bus[r][i][r_pos][2] = pos[2];
-			Bus[r][i][r_param] = param;
-
-
-			mysql_format(connects, string , sizeof(string), "INSERT INTO `bus_routes` (`r_route`, `r_pos`, `r_param`) VALUES ('%d', '%f|%f|%f', '%d')", Bus[r][i][r_route], Bus[r][i][r_pos][0], Bus[r][i][r_pos][1], Bus[r][i][r_pos][2], Bus[r][i][r_param]);
-
-			mysql_tquery(connects, string, "InsertRoute", "dd", r, i);
-
-			break;
-		}
-	}
-
-	Route[r][r_point] ++;
-
-	format(string, sizeof(string), "Маршрут "P"%d "W"- чекпоінт "P"#d "W"успішно додано.", Route[r][r_number], Route[r][r_point]);
-
-	SendOK(playerid, string);
-
-	return 1;
-}
-
-function InsertRoute(r, point) {
-	Bus[r][point][r_id] = cache_insert_id();
-	return 1;
-}
-
-function LoadCheckpoints(r) {
-	new rows;
-	cache_get_row_count(rows);
-	if(!rows) return 1;
-	Route[r][r_number] = routes[r];
-	for(new i; i < rows; i++) {
-		if(!Bus[r][i][r_id]) {
-			new id, rt, param;
-			Bus[r][i][r_id] = cache_get_value_name_int(i, "r_id", id);
-			Bus[r][i][r_route] = cache_get_value_name_int(i, "r_route", rt);
-			Bus[r][i][r_param] = cache_get_value_name_int(i, "r_param", param);
-			new pos[128];
-			cache_get_value_name(i, "r_pos", pos, 128);
-			sscanf(pos, "p<|>a<f>[3]", Bus[r][i][r_pos]);
-			Route[r][r_point] ++;
-		}
-	}
-	new string[256];
-	mysql_format(connects, string, sizeof(string), "SELECT * FROM `bus_routes` WHERE `r_route` = %d", Route[r][r_number]);
-	mysql_tquery(connects, string, "LoadRouteDescript", "i", r);
-	return 1;
-}
-
-function LoadRouteDescript(r) {
-	new rows;
-	cache_get_row_count(rows);
-	if(!rows) return 1;
-	for(new i; i < rows; i++) {
-		new descr[256];
-		cache_get_value_name(i, "r_description", descr, 256);
-		strmid(Route[r][r_description], descr, 0, strlen(descr), sizeof descr);
-	}
-	return 1;
-}
-
-stock DeleteRoute(r) {
-	new string[256];
-	mysql_format(connects, string, sizeof(string), "DELETE FROM `bus_routes` WHERE `r_route` = %d", Route[r][r_number]);
-	mysql_tquery(connects, string);
-	if(Route[r][r_description][0] != EOS) {
-		mysql_format(connects, string, sizeof(string), "DELETE FROM `bus_routes_description WHERE `r_route` = %d", Route[r][r_number])''
-		mysql_tquery(connects, string);
-	}
-	return 1;
-}
-
-stock ShowRoutes(playerid) {
-	new count, string[256];
-
-	for(new i; i < MAX_ROUTES; i++) {
-		if(Route[i][r_number]) {
-			format(string, sizeof(string), W"Маршрут #"P"%i"W"\n", Route[i][r_number]);
-			g_dialog_select[playerid][count] = i;
-			count++;
-		}
-	}
-	if(!count) {
-		SendClient:(playerid, C_WHITE, gbError"Маршрутів не знайдено.");
-		SendError(playerid, "Маршрутів не знайдено.");
-		return ShowPlayerDialog(playerid, dCreateRoute, DIALOG_STYLE_LIST, ""P"|"W" Маршрути.", "Додати чекпоінти\nВидалити маршрут\nДодати опис", "Обрати", "Закрити" );
-	}
-	return ShowPlayerDialog( playerid, d_makeroute + 2, DIALOG_STYLE_LIST, " ", g_string, "Обрати", "Назад" );
-}
-
-stock AddDescriptionRoute(r, descript[]) {
-	if(Route[r][r_description][0] == EOS) {
-		clean:<Route[r][r_description]>;
-		strcat(Route[r][r_description], descript, 32);
-		new string[256];
-		mysql_format(connects, string, sizeof(string), "INSERT INTO `bus_routes_description` (`r_route`, `r_description`) VALUES ('%d', '%e')", Route[r][r_number], Route[r][r_description]);
-	} else {
-		clean:<Route[r][r_description]>;
-		strcat(Route[r][r_description], descript, 32);
-		mysql_format(connects, string, sizeof(string), "UPDATE `bus_routes_description` SET `r_description` = '%e' WHERE `r_route` = %d LIMIT 1", Route[r][r_description], Route[r][r_number]);
-	}
-	mysql_tquery(connects, string);
-	return 1;
-}
 CB:MeatRenewal(i)
 {
 	new string[256];
@@ -69035,5 +68896,20 @@ stock CreatePlayerMeatArray(playerid, meattype)
 	//format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f", array, MeatCutCount[playerid], MeatPlayerArray[playerid][MeatCutCount[playerid]], lastsum);
 	//format(array, sizeof(array), "%s\nTotal carcass weight: %.2f. Actions count: %d", array, MeatWork[cow][mWeight], MeatCutCount[playerid]);
 	//ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "1", array, "1", "1");
+	return 1;
+}
+stock LoadBusRoutes()
+{
+	new Cache:result, query[128];
+	result = mysql_query(connects, "SELECT * FROM `bus_description` ORDER BY `ID`");
+	if(rows)
+	{
+		for(new i; i < rows; i++)
+		{
+			cache_get_value_name_int(i, "RouteID", routes[i][RouteID]);
+			cache_get_value_name(i, "RouteName", routes[i][RouteName]);
+		}
+	}
+	else printf("[Автобусник] Не знайдено маршрутів для завантаження."); 
 	return 1;
 }
