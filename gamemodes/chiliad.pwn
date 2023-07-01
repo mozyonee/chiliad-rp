@@ -273,7 +273,9 @@ enum BusRoutes
 {
 	RouteID,
 	RouteName[50],
-	CheckCount
+	CheckCount,
+	CheckPrice,
+	BusCount
 }
 new routes[MAX_ROUTES][BusRoutes], BusRoutesCount;
 
@@ -281,10 +283,21 @@ enum RoutesCheckpoints
 {
 	RouteID,
 	Float:rcPos[3],
-	Float:IsStop,
-	Float:StopPos[3]
+	IsStop,
+	Float:StopObjectPos[6],
+	StopName[64],
+	StopCount,
+	StopStatus
 }
 new bus[MAX_ROUTES][MAX_CHECKPOINTS][RoutesCheckpoints];
+new CStopObject[MAX_CHECKPOINTS];
+new CStopObjectsCount;
+new TempRaceCheckpoint;
+
+new StopDynObject[MAX_CHECKPOINTS];
+new Text3D: StopObjectText[MAX_CHECKPOINTS];
+
+new BusStopSphere[MAX_CHECKPOINTS];
 
 // =================================
 
@@ -2712,7 +2725,10 @@ enum dialogs {
 	dAdminMeatTime,
 
 	dBusRoutes,
-
+	dBusCreateRoute,
+	dBusCreateRouteN,
+	dBusCreateStop,
+	dBusRouteEnd,
 
 	D_MDC_LIST,
 	D_MDC_DB,
@@ -2839,8 +2855,11 @@ enum dialogs {
 	D_LICENSES_2,
 	D_UNIVERSITY,
 	D_UNIVERSITY_1,
+
 	dBusPrice,
-	dBusRent,
+	dBusStart,
+	dBusChooseRoutes,
+
 	D_SPAWN,
 	D_ARMY_CARM,
 	D_ARMY_CARM_SF,
@@ -4704,8 +4723,13 @@ new gTransport[220][TRANSPORT_DATA];
 
 #define		BUS_PRICE_CHECKPOINT 50
 #define		BUS_PRICE_RENT 500
+
+
 new Text3D:gPlayerBusText[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID,...},
 gRouteName[7][32];
+
+
+
 new Text3D:gPlayerTaxiText[MAX_PLAYERS] = {Text3D:INVALID_3DTEXT_ID,...};
 new gPlayerBusObject[MAX_PLAYERS];
 new Text3D:VWH3DText[2];
@@ -21082,6 +21106,79 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		}
+		case dBusRoutes:
+		{
+			if(!response) return 1;
+			new id[10];
+			strmid(id, inputtext, 0, strlen(inputtext));
+			new route = strval(id);
+			SetPVarInt(playerid, "BusRouteID", route);
+			if(!strcmp(inputtext, "- Створити маршрут."))
+			{
+				if(GetPlayerInterior(playerid)) return SendError(playerid, "Вийдіть з інтер'єру.");
+				SetPVarInt(playerid, "BusRouteCreationStarted", 1);
+				ShowPlayerDialog(playerid, dBusCreateRoute, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче номер для нового маршруту.", "Далі", "Назад");
+			}
+		}
+		case dBusCreateRoute:
+		{
+			if(!response)
+			{
+				DeletePVar(playerid, "BusRouteCreationStarted");
+				pc_cmd_routes(playerid);
+				return 1;
+			}
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBusCreateRoute, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче номер для нового маршруту.", "Далі", "Назад");
+			new error;
+			for(new i; i < MAX_ROUTES; i++)
+			{
+				if(routes[i][RouteID] == strval(inputtext)) error = 1;
+				break;
+			}
+			if(error) return ShowPlayerDialog(playerid, dBusCreateRoute, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче номер для нового маршруту.\n\n"E"* "W"Такий номер маршруту вже існує.", "Далі", "Назад");
+			new number = strval(inputtext);
+			SetPVarInt(playerid, "BusRouteCreationNumber", number);
+			ShowPlayerDialog(playerid, dBusCreateRouteN, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче назву для нового маршруту.", "Далі", "Назад");
+		}
+		case dBusCreateRouteN:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dBusCreateRoute, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче номер для нового маршруту.", "Далі", "Назад");
+			SetPVarString(playerid, "BusRouteCreationName", inputtext);
+			new query[512];
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bus_description` (`RouteID`, `RouteName`) VALUES (%d, '%s')", GetPVarInt(playerid, "BusRouteCreationNumber"), inputtext);
+			mysql_query(connects, query);
+
+			routes[BusRoutesCount][RouteID] = GetPVarInt(playerid, "BusRouteCreationNumber");
+			strcat(routes[BusRoutesCount][RouteName], inputtext);
+
+			SendHint(playerid, "Візьміть будь-який автомобіль та, знаходячись в ньому, зберігайте чекпоінти за допомогою "P"/croute"W".");
+			SendHint(playerid, "Перший чекпоінт повинен мати тип "P"'Зупинка'"W".");
+		}
+		case dBusCreateStop:
+		{
+			if(!response)
+			{
+				SetPVarInt(playerid, "BusStopEdit", 1);
+				return EditDynamicObject(playerid, CStopObject[CStopObjectsCount]);
+			} 
+			if(strlen(inputtext) < 3 || strlen(inputtext) > 64) return ShowPlayerDialog(playerid, dBusCreateStop, DIALOG_STYLE_INPUT, ""P"| "W"Створення зупинки.", ""W"Введіть у поле нижче назву зупинки.", "Далі", "Назад");
+
+			new query[1024];
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bus_routes` (`RouteID`, `r_pos`, `IsStop`, `StopPosObject`, `StopPosName`) VALUES (%d, '%.2f|%.2f|%.2f', 1, '%.2f|%.2f|%.2f|%.2f|%.2f|%.2f', '%s')",
+				GetPVarInt(playerid, "BusRouteCreationNumber"), GetPVarFloat(playerid, "BusStopCoordX"), GetPVarFloat(playerid, "BusStopCoordY"), GetPVarFloat(playerid, "BusStopCoordZ"), GetPVarFloat(playerid, "BusStopX"), GetPVarFloat(playerid, "BusStopY"), GetPVarFloat(playerid, "BusStopZ"), GetPVarFloat(playerid, "BusStopRX"), GetPVarFloat(playerid, "BusStopRY"), GetPVarFloat(playerid, "BusStopRZ"), inputtext);
+			mysql_query(connects, query);
+			DestroyDynamicRaceCP(TempRaceCheckpoint);
+			SendOK(playerid, "Зупинку та чекпоінт успішно збережено. Рухайтеся далі ("P"/croute"W").");
+		}
+		case dBusRouteEnd:
+		{
+			if(!response)
+			{
+				DeletePVar(playerid, "BusCP");
+				return SetBusNextCheckpoint(playerid, GetPVarInt(playerid, "BusRoute"));
+			}
+
+		}
 		case D_ADMIN_PANEL: {
 			if(response) {
 				if(!IsAuthAdmin(playerid, 1)) return 1;
@@ -25016,71 +25113,43 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 				return 1;
 			}
-	
-		case dBusRent: {
-				if(!response) return RemovePlayerFromVehicleAC(playerid);
-				if(GetPlayerMoneyEx(playerid) < BUS_PRICE_RENT) return SendError(playerid, "У вас недостатньо коштів."), RemovePlayerFromVehicleAC(playerid);
-				new vehicleid = GetPlayerVehicleID(playerid);
-				TI[playerid][tArendaCar] = GetPlayerVehicleID(playerid);
-				VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = playerid;
-				SetPVarInt(playerid, "bus_id", vehicleid);
-				switch(VehicleInfo[GetPlayerVehicleID(playerid)][vBus]) {
-				case 1: ShowPlayerDialog(playerid, dBusPrice, 2, "Оберіть маршрут:", "1. Автовокзал м. ЛС - Завод - Ферма\n2. Автовокзал м. ЛС - Лісопильня\n3. Автовокзал м. ЛС - Банк - Автошкола", "Обрати", "Закрити");
-				case 2: {
-						new string[156];
-						new model = GetVehicleModel(vehicleid);
-						if(vehicleid == INVALID_VEHICLE_ID || (model != 431 && model != 437)) return 1;
-						SetString(gRouteName[5], "ЗДЛВ - Автовокзал м. ЛС");
-						format(string, sizeof(string), P"%s\n"W"Вартість м. : "GREEN"$%i", gRouteName[5], 100);
-						gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
-						SetPVarInt(playerid, "route", 6);
-						SetNextBusCP(playerid);
-					}
-				case 3: {
-						new string[156];
-						new model = GetVehicleModel(vehicleid);
-						if(vehicleid == INVALID_VEHICLE_ID || (model != 431 && model != 437)) return 1;
-						SetString(gRouteName[6], "ЗДСФ - Автовокзал м. ЛС");
-						format(string, sizeof(string), P"%s\n"W"Вартість квитка: "GREEN"$%i", gRouteName[6], 100);
-						gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
-						SetPVarInt(playerid, "route", 7);
-						SetNextBusCP(playerid);
-					}
-				}
-				GiveMoney(playerid, -BUS_PRICE_RENT);
-				Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerBusText[playerid],E_STREAMER_ATTACH_OFFSET_Y, -0.5);
-				Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerBusText[playerid],E_STREAMER_ATTACH_OFFSET_Z, 3.0);
-				SetPVarFloat(playerid, "bus_damage", 1000.0);
-				return 1;
+		
+		case dBusStart:
+		{
+			if(!response) return RemovePlayerFromVehicleAC(playerid);
+			new vehicleid = GetPlayerVehicleID(playerid);
+			TI[playerid][tArendaCar] = GetPlayerVehicleID(playerid);
+			VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = playerid;
+			SetPVarInt(playerid, "BusID", vehicleid);
+			new string[256];
+			strcat(string, ""G"Номер\t"G"Назва\t"G"Вартість (1 чекпоінт)\n");
+			for(new i; i < BusRoutesCount; i++)
+			{
+				format(string, sizeof(string), "%s"W"%d\t"W"%s\t"GREEN"$%d\n", string, routes[i][RouteID], routes[i][RouteName], routes[i][CheckPrice]);
 			}
-		case dBusPrice: {
-				if(!response) {
-					ShowPlayerDialog(playerid, dBusPrice, 2, "Оберіть маршрут:", "1. Автовокзал м. ЛС - Завод - Ферма\n2. Автовокзал м. ЛС - Лісопильня\n3. Автовокзал м. ЛС - Банк - Автошкола", "Обрати", "Закрити");
-					return 1;
-				}
-				SetPVarInt(playerid, "route_item", listitem);
-				new route = GetPVarInt(playerid, "route_item");
-				DeletePVar(playerid, "route_item");
-				new string[156];
-				new vehicleid = GetPlayerVehicleID(playerid);
-				new model = GetVehicleModel(vehicleid);
-				if(vehicleid == INVALID_VEHICLE_ID || (model != 431 && model != 437)) return 1;
-				switch(route) {
-					case 0: SetString(gRouteName[0], "Автозавод м. ЛС - Завод - Ферма");
-					case 1: SetString(gRouteName[1], "Автозавод м. ЛС - Лісопильня");
-					case 2: SetString(gRouteName[2], "Автозавод м. ЛС - Банк - Автошкола");
-					case 3: SetString(gRouteName[3], "Внутрішньоміський м. ЛС");
-				}
-				format(string, sizeof(string), P"%s\n"W"Вартість квитка: "GREEN"$%i", gRouteName[route], 100);
-				gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
-				Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL , gPlayerBusText[playerid], E_STREAMER_ATTACH_OFFSET_Y, -0.5);
-				Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerBusText[playerid], E_STREAMER_ATTACH_OFFSET_Z, 3.0);
-				SetPVarInt(playerid, "route", route + 1);
-				SetNextBusCP(playerid);
-				SetPVarInt(playerid, "bus_id", vehicleid);
-				SetPVarFloat(playerid, "bus_damage", 1000.0);
-				return 1;
+			ShowPlayerDialog(playerid, dBusChooseRoutes, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Оберіть маршрут.", string, "Обрати", "Назад");
+		}
+		case dBusChooseRoutes:
+		{
+			if(!response)
+			{
+				TI[playerid][tArendaCar] = -1;
+				VehicleInfo[TI[playerid][tArendaCar]][vPlayer] = INVALID_PLAYER_ID;
+				DeletePVar(playerid, "BusID");
+				return RemovePlayerFromVehicleAC(playerid);
 			}
+			new id[10];
+			strmid(id, inputtext, 0, strlen(inputtext));
+			new route = listitem;
+			SetBusNextCheckpoint(playerid, route);
+			SetPVarInt(playerid, "BusRoute", listitem);
+			new string[256];
+			format(string, sizeof(string), "{98FB98}%s"W".\nВартість проїзду: "GREEN"$%d"W".\n\n"W"Водій: %s.", routes[listitem][RouteName], 5, CI[playerid][cName]);
+			gPlayerBusText[playerid] = CreateDynamic3DTextLabel(string, -1, 0.0, 0.0, 0.0, 50.0, INVALID_PLAYER_ID, GetPlayerVehicleID(playerid));
+			Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerBusText[playerid],E_STREAMER_ATTACH_OFFSET_Y, -0.5);
+			Streamer_SetFloatData(STREAMER_TYPE_3D_TEXT_LABEL, gPlayerBusText[playerid],E_STREAMER_ATTACH_OFFSET_Z, 3.0);
+			routes[listitem][BusCount]++;
+		}
 		case D_SPAWN: {
 			if(!response) return 1;
 			switch(listitem) {
@@ -32117,6 +32186,16 @@ public OnPlayerEnterDynamicArea(playerid, areaid) {
 			break;
 		}
 	}
+	if(pstate == PLAYER_STATE_ONFOOT)
+	{
+		for(new r; r < MAX_ROUTES; r++)
+		{
+			for(new i; i < routes[r][CheckCount]; i++)
+			{
+				if(areaid == BusStopSphere[i]) bus[r][i][StopCount]++;
+			}
+		}
+	}
 	/* if(areaid >= TeleportPickup[0] && areaid <= TeleportPickup[sizeof(gTeleportsToD) -1] && pstate == PLAYER_STATE_ONFOOT) {
 		new tp = areaid - TeleportPickup[0];
 		switch(tp) {
@@ -33103,6 +33182,16 @@ public OnPlayerLeaveDynamicArea(playerid, areaid) {
 			SendOK(playerid, "Ви покинули м'ясокомбінат. Роботу було перервано автоматично.");
 			MeatWorkerCount--;
 			MeatWorkTime[playerid] = 0;
+		}
+	}
+	if(GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
+	{
+		for(new r; r < MAX_ROUTES; r++)
+		{
+			for(new i; i < routes[r][CheckCount]; i++)
+			{
+				if(areaid == BusStopSphere[i]) bus[r][i][StopCount]--;
+			}
 		}
 	}
 	return 1;
@@ -34402,8 +34491,22 @@ public OnPlayerEnterRaceCheckpoint(playerid) {
 		else SetPlayerRaceCheckpoint(playerid, 0, AutoCPBoat[slot][0], AutoCPBoat[slot][1], AutoCPBoat[slot][2], AutoCPBoat[slot+ 1][0], AutoCPBoat[slot+ 1][1], AutoCPBoat[slot+ 1][2], 4.5);
 		SetPVarInt(playerid, "LessonSlotBoat", slot + 1);
 		return 1;
-	} else if(GetPlayerState(playerid) == 2 && GetPlayerVehicleID(playerid) && GetPVarInt(playerid, "id_cp") && GetPVarInt(playerid, "route") && VehicleInfo[GetPlayerVehicleID(playerid)][vJob] == 1) {
-		SetNextBusCP(playerid);
+	} else if(GetPlayerState(playerid) == 2 && GetPlayerVehicleID(playerid) /*&& !GetPVarInt(playerid, "NotEnteredCP") && GetPVarInt(playerid, "BusCP") && GetPVarInt(playerid, "route")*/ && VehicleInfo[GetPlayerVehicleID(playerid)][vJob] == 1) 
+	{
+		if(GetPVarInt(playerid, "BusStop"))
+		{
+			DisablePlayerRaceCheckpoint(playerid);
+			new string[256];
+			format(string, sizeof(string), "Автобус за маршрутом %s відправляється через 10 секунд.", routes[GetPVarInt(playerid, "BusRoute")][RouteName]);
+			ProxDetector(15.0, playerid, string, 0x98FB98ff);
+			SetTimerEx("BusStopNew",(10 * 1000), 0, "i", playerid);
+
+			bus[GetPVarInt(playerid, "BusRoute")][GetPVarInt(playerid, "BusStopCP")][StopStatus] = 2;
+
+			SendInt(playerid, GetPVarInt(playerid, "BusCP"));
+			DeletePVar(playerid, "BusStop");
+		}
+		else SetBusNextCheckpoint(playerid, GetPVarInt(playerid, "BusRoute"));
 		return 1;
 	}
 	if(GetPVarInt(playerid, "check_job_cleaner") && GetPVarInt(playerid, "check_job_cleaner") && GetPlayerState(playerid) == 2 && GetPlayerVehicleID(playerid) && VehicleInfo[GetPlayerVehicleID(playerid)][vJob] == 5) {
@@ -40720,8 +40823,6 @@ CMD:phone(playerid) {
 	return 1;
 }
 CMD:gps(playerid) return ShowPlayerDialog(playerid, D_GPS, DIALOG_STYLE_LIST, P"|"W" Навігатор.", P"1."W" Громадські місця.\n"P"2."W" Роботи.\n"P"3."W" Організації.\n"P"-"W" Місця поблизу.", "Обрати", "Закрити");
-
-
 CMD:routes(playerid)
 {
 	if(!IsAuthAdmin(playerid, 7)) return 1;
@@ -40731,8 +40832,76 @@ CMD:routes(playerid)
 	{
 		format(string, sizeof(string), "%s"W"%d\t%s\n", string, routes[i][RouteID], routes[i][RouteName]);
 	}
-	strcat(string, ""P"- "W"Створити новий маршрут");
+	strcat(string, ""P"- "W"Створити маршрут.");
 	ShowPlayerDialog(playerid, dBusRoutes, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Автобусні маршрути.", string, "Обрати", "Закрити");
+	return 1;
+}
+CMD:croute(playerid, params[])
+{
+	if(!IsAuthAdmin(playerid, 7)) return 1;
+	new type, route;
+	if(!GetPVarInt(playerid, "BusRouteCreationStarted")) return SendError(playerid, "Ви не розпочинали створення маршруту.");
+	if(!IsPlayerInAnyVehicle(playerid)) return SendError(playerid, "Ви повинні знаходитися в автомобілі.");
+	if(sscanf(params, "i", type)) return SendHint(playerid, "/croute 0/1/2 (0 - Звичайний чекпоінт, 1 - Зупинка, 2 - Завершити створення маршруту).");
+	new Float:X, Float:Y, Float:Z;
+	new vehicleid = GetPlayerVehicleID(playerid);
+	GetVehiclePos(vehicleid, X, Y, Z);
+	route = GetPVarInt(playerid, "BusRouteCreationNumber");
+	new query[512];
+	switch(type)
+	{
+		case 0:
+		{
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bus_routes` (`RouteID`, `r_pos`, `IsStop`) VALUES (%d, '%.2f|%.2f|%.2f', 0)", route, X, Y, Z);
+			mysql_query(connects, query);
+			SendOK(playerid, "Чекпоінт збережено, рухайтеся далі.");
+		}
+		case 1:
+		{
+			SetPVarFloat(playerid, "BusStopCoordX", X);
+			SetPVarFloat(playerid, "BusStopCoordY", Y);
+			SetPVarFloat(playerid, "BusStopCoordZ", Z);
+
+			TempRaceCheckpoint = CreateDynamicRaceCP(2, X, Y, Z, X, Y, Z, 5.0, -1, -1, playerid, STREAMER_RACE_CP_SD);
+			RemovePlayerFromVehicleAC(playerid);
+			GetPlayerPos(playerid, X, Y, Z);
+			CStopObject[CStopObjectsCount] = CreateDynamicObject(1257, X+10, Y, Z, 0.0, 0.0, 0.0, -1, -1, -1, STREAMER_OBJECT_SD, 200.0);
+			SetDynamicObjectMaterial(CStopObject[CStopObjectsCount], 3, 16640, "a51", "ws_metalpanel1", 0);
+			SetDynamicObjectMaterial(CStopObject[CStopObjectsCount], 1, 18065, "ab_sfammumain", "shelf_glas", 0);
+			SetDynamicObjectMaterial(CStopObject[CStopObjectsCount], 0, 4001, "civic03_lan", "bailbonds2_LAn", 0);
+			SetPVarInt(playerid, "BusStopEdit", 1);
+			SendInt(playerid, CStopObjectsCount);
+			EditDynamicObject(playerid, CStopObject[CStopObjectsCount]);
+			CStopObjectsCount++;
+			SendInt(playerid, CStopObjectsCount);
+		}
+		case 2:
+		{
+			for(new i; i < CStopObjectsCount + 1; i++)
+			{
+				DestroyDynamicObject(CStopObject[i]);
+			}
+			CStopObjectsCount = -1;
+			DeletePVar(playerid, "BusStopCoordX");
+			DeletePVar(playerid, "BusStopCoordY");
+			DeletePVar(playerid, "BusStopCoordZ");
+			DeletePVar(playerid, "BusStopEdit");
+			DeletePVar(playerid, "BusStopX");
+			DeletePVar(playerid, "BusStopY");
+			DeletePVar(playerid, "BusStopZ");
+			DeletePVar(playerid, "BusStopRX");
+			DeletePVar(playerid, "BusStopRY");
+			DeletePVar(playerid, "BusStopRZ");
+			DeletePVar(playerid, "BusStopEdit");
+
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bus_routes` WHERE `RouteID` = %d ORDER BY `ID`", routes[route][RouteID]);
+			mysql_tquery(connects, query, "LoadCheckpoints", "i", BusRoutesCount);
+
+			DeletePVar(playerid, "BusRouteCreationStarted");
+			DeletePVar(playerid, "BusRouteCreationNumber");
+			DeletePVar(playerid, "BusRouteCreationName");
+		}
+	}
 	return 1;
 }
 CMD:testfire(playerid) {
@@ -44089,21 +44258,26 @@ public OnPlayerStateChange(playerid, newstate, oldstate) {
 		}
 		if(VehicleInfo[carid][vJob] > 0) {
 			switch(VehicleInfo[carid][vJob]) {
-				case 1: {
+				case 1: 
+				{
 					if((VehicleInfo[carid][vPlayer] !=-1) && VehicleInfo[carid][vPlayer] != playerid) return SendError(playerid, "Транспорт орендовано іншим гравцем."), RemovePlayerFromVehicleAC(playerid);
 					if(CI[playerid][pJob] != VehicleInfo[carid][vJob]) return SendError(playerid, "Ви не працюєте водієм автобуса."), RemovePlayerFromVehicleAC(playerid);
-					if(CI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) {
-						if(TI[playerid][tArendaCar] != -1) {
+					if(CI[playerid][pJob] == VehicleInfo[carid][vJob] && TI[playerid][tArendaCar] != carid) 
+					{
+						if(TI[playerid][tArendaCar] != -1) 
+						{
 							SendError(playerid, "Ви вже орендуєте робочий транспорт.");
 							return RemovePlayerFromVehicleAC(playerid);
 						}
-						if(GetPlayerMoneyEx(playerid) < BUS_PRICE_RENT) {
+						/*if(GetPlayerMoneyEx(playerid) < BUS_PRICE_RENT) 
+						{
 							SendError(playerid, "Для оренди автобуса необхідно $500.");
 							return RemovePlayerFromVehicleAC(playerid);
-						}
-						new string[128];
-						format(string, sizeof(string), W"Ви хочете орендовати цей автобус за "GREEN"$%i"W"?", BUS_PRICE_RENT);
-						ShowPlayerDialog(playerid, dBusRent, DIALOG_STYLE_MSGBOX, P"Оренда", string, "Так", "Ні");
+						}*/
+						//new string[128];
+						//format(string, sizeof(string), W"Ви хочете орендовати цей автобус за "GREEN"$%i"W"?", BUS_PRICE_RENT);
+						//ShowPlayerDialog(playerid, dBusRent, DIALOG_STYLE_MSGBOX, P"Оренда", string, "Так", "Ні");
+						ShowPlayerDialog(playerid, dBusStart, DIALOG_STYLE_MSGBOX, ""P"| "W"Початок роботи.", ""W"Ви справді бажаєте обрати цей автобус і розпочати роботу водієм автобуса?", "Так", "Ні");
 					}
 					TI[playerid][tSpcarTime] = 0;
 				}
@@ -44296,9 +44470,10 @@ public OnPlayerExitVehicle(playerid, vehicleid) {
 		TI[playerid][tSpcarTime] = 30;
 		SendError(playerid, "У вас є 30 секунд, щоб повернутися в вантажівку.");
 	}
-	if(GetPVarInt(playerid, "bus_id") == vehicleid) {
+	if(GetPVarInt(playerid, "BusID") == vehicleid) 
+	{
 		TI[playerid][tSpcarTime] = 30;
-		SendError(playerid, "У вас є 30 секунд, щоб повернутися в автобус.");
+		SendError(playerid, "У Вас є 30 секунд, щоб повернутися в автобус.");
 	}
 	if(GetPVarInt(playerid, "track_id") == vehicleid) {
 		TI[playerid][tSpcarTime] = 30;
@@ -44388,7 +44563,7 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid) {
 	// SendClientMessageToAll(-1, "OnVehicleDamageStatusUpdate");
 	new Float:vehicleHealth;
 	GetVehicleHealth(vehicleid, vehicleHealth);
-	if(VehicleInfo[vehicleid][vJob] == 1 && GetPVarInt(playerid, "bus_id") == vehicleid) SetPVarFloat(playerid, "bus_damage", vehicleHealth);
+	if(VehicleInfo[vehicleid][vJob] == 1 && GetPVarInt(playerid, "BusID") == vehicleid) SetPVarFloat(playerid, "BusDamage", vehicleHealth);
 	return 1;
 }
 public OnVehicleDeath(vehicleid, killerid) {
@@ -47946,6 +48121,36 @@ public OnPlayerEditDynamicObject(playerid, objectid, response, Float:x, Float:y,
 		}
 		return 1;
 	}
+	if(GetPVarInt(playerid, "BusStopEdit"))
+	{
+		if(response == EDIT_RESPONSE_FINAL)
+		{
+			SetPVarFloat(playerid, "BusStopX", x);
+			SetPVarFloat(playerid, "BusStopY", y);
+			SetPVarFloat(playerid, "BusStopZ", z);
+			SetPVarFloat(playerid, "BusStopRX", rx);
+			SetPVarFloat(playerid, "BusStopRY", ry);
+			SetPVarFloat(playerid, "BusStopRZ", rz);
+			DeletePVar(playerid, "BusStopEdit");
+			ShowPlayerDialog(playerid, dBusCreateStop, DIALOG_STYLE_INPUT, ""P"| "W"Створення зупинки.", ""W"Введіть у поле нижче назву зупинки.", "Далі", "Назад");
+		}
+		else if(response == EDIT_RESPONSE_CANCEL)
+		{
+			DestroyDynamicObject(objectid);
+			SendInt(playerid, CStopObjectsCount);
+			CStopObject[CStopObjectsCount] = INVALID_OBJECT_ID;
+			DeletePVar(playerid, "BusStopEdit");
+			DeletePVar(playerid, "BusStopX");
+			DeletePVar(playerid, "BusStopY");
+			DeletePVar(playerid, "BusStopZ");
+			DeletePVar(playerid, "BusStopRX");
+			DeletePVar(playerid, "BusStopRY");
+			DeletePVar(playerid, "BusStopRZ");
+			CStopObjectsCount--;
+			SendError(playerid, "Ви скасували створення зупинки. Попередні координати не збережено.");
+			SendHint(playerid, "Використайте "P"/croute"W", щоб повторити/продовжити процес.");
+		}
+	}
 	if(GetPVarInt(playerid, "oedit")) {
 		new query[512], opos[512], oid = GetPVarInt(playerid, "object");
 		if(response == EDIT_RESPONSE_FINAL) {
@@ -49867,11 +50072,16 @@ stock MeAction(playerid, const action[], Float:distance = 13.0) {
 stock EndBus(playerid) {
 	if(IsValid3DTextLabel(gPlayerBusText[playerid])) DestroyDynamic3DTextLabelEx(gPlayerBusText[playerid]);
 	DisablePlayerRaceCheckpoint(playerid);
+
 	new string[80];
-	new repairprice = floatround(( 1000.0-GetPVarFloat(playerid, "bus_damage"))*2);
+	new repairprice = floatround(( 1000.0-GetPVarFloat(playerid, "BusDamage"))*2);
 	if(repairprice < 0 || repairprice > 1000) repairprice = 1000;
+
+
 	CI[playerid][pBank] -= repairprice;
 	CI[playerid][pSalary] += GetPVarInt(playerid, "bus_salary");
+
+
 	UpdateCharacterDataInt(playerid, "pBank", CI[playerid][pBank]);
 	SendOK(playerid, "Робочий день завершено.");
 	format(string, sizeof(string), "Ви заробили "GREEN"$%i"W". Штраф за ремонт складає "GREEN"$%i"W".", GetPVarInt(playerid, "bus_salary"), repairprice);
@@ -49881,7 +50091,7 @@ stock EndBus(playerid) {
 	TI[playerid][tSpcarTime] = 0;
 	DeletePVar(playerid, "id_cp");
 	DeletePVar(playerid, "bus_salary");
-	DeletePVar(playerid, "bus_damage");
+	DeletePVar(playerid, "BusDamage");
 	DeletePVar(playerid, "route");
 	return 1;
 }
@@ -64467,6 +64677,22 @@ CB:second_timer() {
 	if(BizWarTime[1]) BizWarTimer();
 	if(BRobTimeForEnter > 0) BRobTimeForEnter--;
 	if(FireStatus == 1 && FireTotal >= 100) DestroyFire(1);
+
+	new string[512], buscount[50];
+	for(new r; r < MAX_ROUTES; r++)
+	{
+		for(new i; i < routes[r][CheckCount]; i++)
+		{
+			if(routes[r][BusCount] == 1) strcat(buscount, "автобус");
+			else if(routes[r][BusCount] >= 2 && routes[r][BusCount] <= 4) strcat(buscount, "автобуси");
+			else strcat(buscount, "автобусів");
+
+			if(bus[r][i][StopStatus] == 1) format(string, sizeof(string), "{98FB98}%s.\n"W"На маршруті "P"%d "W"%s.\nКількість очікуючих на зупинці: "P"%d"W".\n\n"G"Автобус прибуває.", bus[r][i][StopName], routes[r][BusCount], buscount, bus[r][i][StopCount]);
+			else if(bus[r][i][StopStatus] == 2) format(string, sizeof(string), "{98FB98}%s.\n"W"На маршруті "P"%d "W"%s.\nКількість очікуючих на зупинці: "P"%d"W".\n\n"G"Автобус відправляється.", bus[r][i][StopName], routes[r][BusCount], buscount, bus[r][i][StopCount]);
+			else format(string, sizeof(string), "{98FB98}%s.\n"W"На маршруті "P"%d "W"%s.\nКількість очікуючих на зупинці: "P"%d"W".", bus[r][i][StopName], routes[r][BusCount], buscount, bus[r][i][StopCount]);
+			UpdateDynamic3DTextLabelText(StopObjectText[i], -1, string);
+		}
+	}
 	return 1;
 }
 CB:minute_timer() {
@@ -68753,7 +68979,7 @@ stock CheckBankAccountAvailability(playerid, bid)
 
 stock LoadBusRoutes()
 {
-	new Cache:result;
+	new Cache:result, query[256];
 	result = mysql_query(connects, "SELECT * FROM `bus_description` ORDER BY `ID`");
 	new rows;
 	cache_get_row_count(rows);
@@ -68763,11 +68989,120 @@ stock LoadBusRoutes()
 		{
 			cache_get_value_name_int(i, "RouteID", routes[i][RouteID]);
 			cache_get_value_name(i, "RouteName", routes[i][RouteName]);
+			cache_get_value_name_int(i, "CheckPrice", routes[i][CheckPrice]);
 		}
 		cache_delete(result);
-		printf("[Автобусник] Завантажено %i маршрутів.", rows);
-		BusRoutesCount = rows+1;
+		printf("[Bus] %i routes were uploaded.", rows);
+		BusRoutesCount = rows;
+
+		for(new r; r < rows; r++)
+		{
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bus_routes` WHERE `RouteID` = %d ORDER BY `ID`", routes[r][RouteID]);
+			mysql_tquery(connects, query, "LoadCheckpoints", "i", r);
+		}
 	}
-	else printf("[Автобусник] Не знайдено маршрутів для завантаження."); 
+	else printf("[Bus] Routes for uploading were not found."); 
+	return 1;
+}
+CB:LoadCheckpoints(r)
+{
+	new rows;
+	cache_get_row_count(rows);
+	if(!rows) return 1;
+	new r_pos[128], stopposobject[256], string[256];
+	if(rows)
+	{
+		for(new i; i < rows; i++)
+		{
+			cache_get_value_name_int(i, "RouteID", bus[r][i][RouteID]);
+			cache_get_value_name(i, "r_pos", r_pos, 64);
+			cache_get_value_name_int(i, "IsStop", bus[r][i][IsStop]);
+			cache_get_value_name(i, "StopPosObject", stopposobject, 128);
+			cache_get_value_name(i, "StopPosName", bus[r][i][StopName], 64);
+
+			sscanf(r_pos, "p<|>a<f>[3]", bus[r][i][rcPos]);
+
+			sscanf(stopposobject, "p<|>a<f>[6]", bus[r][i][StopObjectPos]);
+
+			if(bus[r][i][IsStop])
+			{
+				StopDynObject[i] = CreateDynamicObject(1257, bus[r][i][StopObjectPos][0], bus[r][i][StopObjectPos][1], bus[r][i][StopObjectPos][2], bus[r][i][StopObjectPos][3], bus[r][i][StopObjectPos][4], bus[r][i][StopObjectPos][5], -1, -1, -1, STREAMER_OBJECT_SD, 200.0);
+				SetDynamicObjectMaterial(StopDynObject[i], 3, 16640, "a51", "ws_metalpanel1", 0);
+				SetDynamicObjectMaterial(StopDynObject[i], 1, 18065, "ab_sfammumain", "shelf_glas", 0);
+				SetDynamicObjectMaterial(StopDynObject[i], 0, 4001, "civic03_lan", "bailbonds2_LAn", 0);
+
+				format(string, sizeof(string), "{98FB98}%s.\n"W"Кількість очікуючих: %d.\n\nЗараз на маршрутів %d автобусів.", bus[r][i][StopName], bus[r][i][StopCount], routes[r][BusCount]);
+				StopObjectText[i] = CreateDynamic3DTextLabel(string, -1, bus[r][i][StopObjectPos][0], bus[r][i][StopObjectPos][1], bus[r][i][StopObjectPos][2] + 2, 10.0);
+			
+				BusStopSphere[i] = CreateDynamicSphere(bus[r][i][StopObjectPos][0], bus[r][i][StopObjectPos][1], bus[r][i][StopObjectPos][2], 2.0, -1, -1, -1);
+			}
+		}
+		routes[r][CheckCount] = rows;
+
+		printf("[Bus] Checkpoints uploading for route #%d: %i pcs.", routes[r][RouteID], rows);
+
+
+
+
+	}
+	else print("[Bus] Checkpoints were not uploaded.");
+	return 1;
+}
+stock SetBusNextCheckpoint(playerid, route)
+{
+	new cp = GetPVarInt(playerid, "BusCP");
+	DisablePlayerRaceCheckpoint(playerid);
+	SetPVarInt(playerid, "BusCP", GetPVarInt(playerid, "BusCP") + 1);
+	new string[256];
+	format(string, sizeof(string), "next pos: %.2f, %.2f, %.2f", bus[route][cp][rcPos][0],
+		bus[route][cp][rcPos][1],
+		bus[route][cp][rcPos][2]);
+	SendInfo(playerid, string);
+	if(bus[route][cp][IsStop])
+	{
+		SetPlayerRaceCheckpoint(playerid, 1,
+		bus[route][cp][rcPos][0],
+		bus[route][cp][rcPos][1],
+		bus[route][cp][rcPos][2],
+		bus[route][cp + 1][rcPos][0],
+		bus[route][cp + 1][rcPos][1],
+		bus[route][cp + 1][rcPos][2],
+		5.0);
+		format(string, sizeof(string), "Наступна зупинка - "P"%d"W".", bus[route][cp][StopName]);
+		ProxDetector(15.0, playerid, string, 0x98FB98ff);
+
+		bus[route][cp][StopStatus] = 1;
+
+		SetPVarInt(playerid, "BusStopCP", cp);
+
+		SetPVarInt(playerid, "BusStop", 1);
+		return 1;
+	}
+	else if(bus[route][cp][rcPos][0] == 0.0)
+	{
+		new money = routes[route][CheckCount] * routes[route][CheckPrice];
+		SetPVarInt(playerid, "BusSalary", GetPVarInt(playerid, "BusSalary") + money);
+		format(string, sizeof(string), ""W"Ви успішно проїхали весь маршрут.\n\nЗароблено за маршрут: "GREEN"$%d"W".\nЗагальний заробіток за поточну сесію: "GREEN"$%d"W".\n\nБажаєте продовжити роботу?", money, GetPVarInt(playerid, "BusSalary"));
+		ShowPlayerDialog(playerid, dBusRouteEnd, DIALOG_STYLE_MSGBOX, ""P"| "W"Завершення маршруту.", string, "Так", "Ні");
+		return 1;
+	}
+	else
+	{
+		SetPlayerRaceCheckpoint(playerid, 0,
+		bus[route][cp][rcPos][0],
+		bus[route][cp][rcPos][1],
+		bus[route][cp][rcPos][2],
+		bus[route][cp + 1][rcPos][0],
+		bus[route][cp + 1][rcPos][1],
+		bus[route][cp + 1][rcPos][2],
+		5.0);
+	}
+	return 1;
+}
+CB:BusStopNew(playerid)
+{
+	bus[GetPVarInt(playerid, "BusRoute")][GetPVarInt(playerid, "BusStopCP")][StopStatus] = 0;
+	DeletePVar(playerid, "BusStopCP");
+	SetBusNextCheckpoint(playerid, GetPVarInt(playerid, "BusStop"));
 	return 1;
 }
