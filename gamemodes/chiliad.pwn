@@ -21152,7 +21152,6 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			strcat(routes[BusRoutesCount][RouteName], inputtext);
 
 			SendHint(playerid, "Візьміть будь-який автомобіль та, знаходячись в ньому, зберігайте чекпоінти за допомогою "P"/croute"W".");
-			SendHint(playerid, "Перший чекпоінт повинен мати тип "P"'Зупинка'"W".");
 		}
 		case dBusCreateStop:
 		{
