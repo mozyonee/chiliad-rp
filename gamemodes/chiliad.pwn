@@ -18762,14 +18762,15 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		}
-		case dBankTickets: {
+		case dBankTickets:
+		{
 			if(!response) return 1;
 			new id[10];
 			strmid(id, inputtext, 0, strlen(inputtext));
 			SetPVarInt(playerid, "BankTicketID", strval(id));
-			// SendInt(playerid, strval(id));
+			//SendInt(playerid, strval(id));
 			new Cache:result, query[256];
-			mysql_format(connects, query, sizeof(query), "SELECT * FROM `tickets` WHERE `id` = %i AND `name` = %s LIMIT 1", strval(id), CI[playerid][cName]);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `tickets` WHERE `id` = %d AND `name` = '%s' LIMIT 1", strval(id), CI[playerid][cName]);
 			result = mysql_query(connects, query);
 			new rows;
 			cache_get_row_count(rows);
@@ -18783,32 +18784,37 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SetPVarInt(playerid, "BankTicketMoney", total);
 
 			timestamp_to_date(time, year, month, day, hour, minute, second);
-			format(string, sizeof(string), W"Ініціатор: "G"%s\n"W"Причина: "G"%s\n"W"Сума: "GREEN"$%i\n"W"Дата: "G"%i-%i-%i %02d:%02d:%02d", givename, reason, total, year, month, day, hour, minute, second);
-			ShowPlayerDialog(playerid, dBankTicketAccount, DIALOG_STYLE_MSGBOX, P"|"W" Деталі штрафу.", string, "Оплатити", "Назад");
+			format(string, sizeof(string), ""W"Ініціатор: "G"%s\n"W"Причина: "G"%s\n"W"Сума: "GREEN"$%d\n"W"Дата: "G"%i-%i-%i %02d:%02d:%02d", givename, reason, total, year, month, day, hour, minute, second);
+			ShowPlayerDialog(playerid, dBankTicketAccount, DIALOG_STYLE_MSGBOX, ""P"| "W"Деталі штрафу.", string, "Оплатити", "Назад");
 		}
-		case dBankTicketAccount: {
+		case dBankTicketAccount:
+		{
 			if(!response) return 1;
 			new query[256];
-			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i AND `Money` > 0", CI[playerid][cID]);
-			return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
+			return mysql_tquery(connects, query, "bank_pay_ticket", "i", playerid);
 		}
-		case dBankPayTicket: {
+		case dBankPayTicket:
+		{
 			if(!response) return 1;
 			new id[10];
 			strmid(id, inputtext, 0, strlen(inputtext));
 			SetPVarInt(playerid, "BankAccountTicket", strval(id));
 			new ticketid = GetPVarInt(playerid, "BankTicketID");
-			// SendInt(playerid, strval(id));
+			//SendInt(playerid, strval(id));
 			new Cache:result, money, query[256];
-			mysql_format(connects, query, sizeof(query), "SELECT 'Money' FROM `bank_accounts` WHERE `ID` = %i AND `OwnerID` = %i LIMIT 1", strval(id), CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "SELECT `Money` FROM `bank_accounts` WHERE `ID` = %d AND `OwnerID` = %d LIMIT 1", strval(id), CI[playerid][cID]);
 			result = mysql_query(connects, query);
 			cache_get_value_name_int(0, "Money", money);
 			cache_delete(result);
 			new ticket = GetPVarInt(playerid, "BankTicketMoney");
-			if(money < ticket) {
+			//SendInt(playerid, money);
+			//SendInt(playerid, ticket);
+			if(money < ticket)
+			{
 				SendError(playerid, "Недостатньо коштів на банківському рахунку.");
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i AND `Money` > 0", CI[playerid][cID]);
-				return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "bank_pay_ticket", "i", playerid);
 			}
 			mysql_format(connects, query, sizeof(query), "DELETE FROM `tickets` WHERE `id` = %d", ticketid);
 			mysql_query(connects, query);
@@ -18822,93 +18828,273 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
 			SendOK(playerid, "Ви успішно оплатили штраф.");
 		}
-		case dBankMenu: {
+		case dBankMenu:
+		{
 			if(!response) return 1;
 			new query[512];
-			switch(listitem) {
-				case 0: {
-					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+			switch(listitem)
+			{
+				case 0:
+				{
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 					mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 				}
-				case 1: ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, P"|"W" Фінансові операції.", P"1."W" Поповнити рахунок мобільного телефону\n"P"2."W" Переказати кошти\n"P"3."W" Оплатити штраф\n"P"4."W" Оплатити податок на будинок\n"P"5."W" Оплатити податок на бізнес", "Обрати", "Назад");
-				case 2: {
-					if(CI[playerid][pDeposit]) ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, P"|"W" Депозитний рахунок", P"1."W" Інформація про мій депозит\n"P"2."W" Покласти кошти на рахунок\n"P"3."W" Зняти кошти з рахунку", "Обрати", "Назад");
-					else ShowPlayerDialog(playerid, dDepositOpen, DIALOG_STYLE_MSGBOX, P"|"W" Відкриття депозитного рахунку.", "", "Так", "Ні");
+				case 1: ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, ""P"| "W"Фінансові операції.", ""P"1. "W"Поповнити рахунок мобільного телефону\n"P"2. "W"Переказати кошти\n"P"3. "W"Оплатити штраф\n"P"4. "W"Оплатити податок на будинок\n"P"5. "W"Оплатити податок на бізнес", "Обрати", "Назад");
+				case 2: ShowPlayerDialog(playerid, dBankSalaryGet, DIALOG_STYLE_LIST, ""P"| "W"Зарплатний рахунок.", ""P"1. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+				case 3:
+				{
+					if(CI[playerid][pDeposit]) ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+					else
+					{
+						new string[1028], Float:deposit;
+						switch(CI[playerid][pPremium])
+						{
+							case 0: deposit = DepositDef;
+							case 1: deposit = DepositStart;
+							case 2: deposit = DepositComf;
+							case 3: deposit = DepositOpti;
+						}
+						format(string, sizeof(string), "\
+						"W"Депозит - кошти, які вкладник передає банку для безпечного зберігання та\n\
+						отримання пасивного доходу,за умови, що на розміщену суму банк нараховує відсотки.\n\
+						Щогодини Ви будете отримувати "P"%.2f%% "W"від суми на Вашому депозитному рахунку.\n\n\
+						Обмеження депозитного рахунку:\n\
+						"W"Мінімальна сума: "GREEN"$%d"W".\n\
+						"W"Максимальна сума: "GREEN"$%d"W".\n\
+						"W"Поповнення: "G"щогодини"W".\n\
+						"W"Зняття: "G"що дві години"W".", deposit, MinDepSum, MaxDepSum);
+						ShowPlayerDialog(playerid, dDepositOpen, DIALOG_STYLE_MSGBOX, ""P"| "W"Відкриття депозитного рахунку.", string, "Так", "Ні");
+					}
 				}
 			}
 		}
-		case dBankOperations: {
+		case dDepositOpen:
+		{
+			if(!response) return BankDialog(playerid);
+			CI[playerid][pDeposit] = 1;
+			UpdateCharacterDataInt(playerid, "pDeposit", CI[playerid][pDeposit]);
+			SendOK(playerid, "Ви успішно відкрили депозитний рахунок.");
+			ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+		}
+		case dDepositMenu:
+		{
+			if(!response) return BankDialog(playerid);
+			switch(listitem)
+			{
+				case 0:
+				{
+					new string[256], Float:deposit, time[100];
+					switch(CI[playerid][pPremium])
+					{
+						case 0: deposit = DepositDef;
+						case 1: deposit = DepositStart;
+						case 2: deposit = DepositComf;
+						case 3: deposit = DepositOpti;
+					}
+					switch(CI[playerid][pDepositTime])
+					{
+						case 0: format(time, sizeof(time), ""W"Обмеження для зняття коштів з депозитного рахунку відсутні.");
+						case 1..2: format(time, sizeof(time), ""W"До зняття з депозиту залишилося: "P"%d payday"W".", CI[playerid][pDepositTime]);
+					}
+					format(string, sizeof(string), "\
+						"W"Поточний відсоток депозиту: "P"%.2f%%"W".\n\
+						"W"Поточна сума на депозиті: "GREEN"$%d"W".\n\n\
+						%s\n\n"G"Поповнення здійснюється лише готівкою.", deposit, CI[playerid][pDepositMoney], time);
+					ShowPlayerDialog(playerid, dDepositMenuReturn, DIALOG_STYLE_MSGBOX, ""P"| "W"Інформація про мій депозит.", string, "Закрити", "");
+				}
+				case 1:
+				{
+					new string[512];
+					format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+					ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					new string[512];
+					format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+					ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+				}
+			}
+		}
+		case dDepositPut:
+		{
+			new string[256];
+			if(!response) return ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			if(isNotNumeric(inputtext))
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+			}
+			new money = strval(inputtext);
+			if(MinDepSum && money < MinDepSum || money > MaxDepSum || strlen(inputtext) > 9)
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+			}
+			if(money > CI[playerid][pCash])
+			{
+				SendError(playerid, "У Вас недостатньо коштів готівкою.");
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для поповнення: "GREEN"$%d\n"W"Максимальна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете покласти на депозитний рахунок.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositPut, DIALOG_STYLE_INPUT, ""P"| "W"Поповнити депозитний рахунок.", string, "Далі", "Назад");
+			}
+			CI[playerid][pCash] = CI[playerid][pCash] - money;
+			UpdateCharacterDataInt(playerid, "pCash", CI[playerid][pCash]);
+			CI[playerid][pDepositMoney] = CI[playerid][pDepositMoney] + money;
+			UpdateCharacterDataInt(playerid, "pDepositMoney", CI[playerid][pDepositMoney]);
+
+			format(string, sizeof(string), "Депозит успішно поповнено на "GREEN"$%d"W". Поточна сума на депозиті: "GREEN"$%d"W".", money, CI[playerid][pDepositMoney]);
+			SendOK(playerid, string);
+		}
+		case dDepositGet:
+		{
+			new string[256];
+			if(CI[playerid][pDepositTime])
+			{
+				format(string, sizeof(string), "До зняття коштів з депозитного рахунку залишилося %d година(-и).", CI[playerid][pDepositTime]);
+				SendError(playerid, string);
+				return ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			}
+			if(!response) return ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			if(isNotNumeric(inputtext) || strval(inputtext) <= 0)
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+			}
+			new money = strval(inputtext);
+			if(MaxDepSum && money < MinDepSum || money > MaxDepSum || strlen(inputtext) > 9)
+			{
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+			}
+			if(money > CI[playerid][pDepositMoney])
+			{
+				SendError(playerid, "На депозитному рахунку немає такої суми.");
+				format(string, sizeof(string), ""W"Поточна сума на депозиті: "GREEN"$%d.\n"W"Мінімальна сума для зняття: "GREEN"$%d\n"W"Максимальна сума для зняття: "GREEN"$%d\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з депозитного рахунку.", CI[playerid][pDepositMoney], MinDepSum, MaxDepSum);
+				return ShowPlayerDialog(playerid, dDepositGet, DIALOG_STYLE_INPUT, ""P"| "W"Зняття з депозитного рахунку.", string, "Далі", "Назад");
+			}
+			CI[playerid][pCash] = CI[playerid][pCash] + money;
+			UpdateCharacterDataInt(playerid, "pCash", CI[playerid][pCash]);
+			CI[playerid][pDepositMoney] = CI[playerid][pDepositMoney] - money;
+			UpdateCharacterDataInt(playerid, "pDepositMoney", CI[playerid][pDepositMoney]);
+
+			CI[playerid][pDepositTime] = 2;
+			UpdateCharacterDataInt(playerid, "pDepositTime", CI[playerid][pDepositTime]);
+
+			format(string, sizeof(string), "З депозитного рахунку успішно знято "GREEN"$%d"W". Поточна сума на депозиті: "GREEN"$%d"W".", money, CI[playerid][pDepositMoney]);
+			SendOK(playerid, string);
+		}
+		case dDepositMenuReturn: ShowPlayerDialog(playerid, dDepositMenu, DIALOG_STYLE_LIST, ""P"| "W"Депозитний рахунок", ""P"1. "W"Інформація про мій депозит\n"P"2. "W"Покласти кошти на рахунок\n"P"3. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+		case dBankSalaryGet:
+		{
+			if(!response) return BankDialog(playerid);
+			new string[256];
+			format(string, sizeof(string), ""W"Поточна сума на рахунку: "GREEN"$%d.\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з рахунку.", CI[playerid][pBank]);
+			ShowPlayerDialog(playerid, dBankSalary, DIALOG_STYLE_INPUT, ""P"| "W"Зарплатний рахунок.", string, "Далі", "Назад");
+		}
+		case dBankSalary:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dBankSalaryGet, DIALOG_STYLE_LIST, ""P"| "W"Зарплатний рахунок.", ""P"1. "W"Зняти кошти з рахунку", "Обрати", "Назад");
+			new string[256];
+			if(isNotNumeric(inputtext))
+			{
+				format(string, sizeof(string), ""W"Поточна сума на рахунку: "GREEN"$%d.\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з рахунку.", CI[playerid][pBank]);
+				return ShowPlayerDialog(playerid, dBankSalary, DIALOG_STYLE_INPUT, ""P"| "W"Зарплатний рахунок.", string, "Далі", "Назад");
+			} 
+			new money = strval(inputtext);
+			if(money <= 0 || money > CI[playerid][pBank])
+			{
+				format(string, sizeof(string), ""W"Поточна сума на рахунку: "GREEN"$%d.\n\n"W"Введіть у поле нижче суму, яку Ви хочете зняти з рахунку.\n\n"E"* Некоректна сума для зняття.", CI[playerid][pBank]);
+				return ShowPlayerDialog(playerid, dBankSalary, DIALOG_STYLE_INPUT, ""P"| "W"Зарплатний рахунок.", string, "Далі", "Назад");
+			} 
+			CI[playerid][pBank] = CI[playerid][pBank] - money;
+			GiveMoney(playerid, money);
+			UpdateCharacterDataInt(playerid, "pCash", CI[playerid][pCash]);
+			UpdateCharacterDataInt(playerid, "pBank", CI[playerid][pBank]);
+			format(string, sizeof(string), "Ви успішно зняли "GREEN"$%d "W"з Вашого зарплатного рахунку.", money);
+			SendOK(playerid, string);
+		}
+		case dBankOperations:
+		{
 			if(!response) return BankDialog(playerid);
 			new query[256], string[256];
-			switch(listitem) {
-				case 0: {
+			switch(listitem)
+			{
+				case 0:
+				{
 					if(!CI[playerid][pPhone]) return SendError(playerid, "У Вас немає номера мобільного телефону.");
-					format(string, sizeof(string), W"Поточний стан рахунку мобільного телефону: "GREEN"$%i"W".\n"W"Максимальна доступна сума для поповнення: "GREEN"$%i\n\n"W"Введіть у полі нижче суму, на яку хочете поповнити рахунок мобільного телефону.", CI[playerid][pMobile], 50000 - CI[playerid][pMobile]);
-					ShowPlayerDialog(playerid, dBankMobile, DIALOG_STYLE_INPUT, P"|"W" Поповнення рахунку мобільного телефону.", string, "Далі", "Назад");
+					format(string, sizeof(string), ""W"Поточний стан рахунку мобільного телефону: "GREEN"$%d"W".\n"W"Максимальна доступна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у полі нижче суму, на яку хочете поповнити рахунок мобільного телефону.", CI[playerid][pMobile], 50000 - CI[playerid][pMobile]);
+					ShowPlayerDialog(playerid, dBankMobile, DIALOG_STYLE_INPUT, ""P"| "W"Поповнення рахунку мобільного телефону.", string, "Далі", "Назад");
 				}
-				case 1: {
-					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i AND `Money` > 0", CI[playerid][cID]);
-					return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				case 1:
+				{
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
+					return mysql_tquery(connects, query, "bank_transfer", "i", playerid);
 				}
-				case 2: {
-					mysql_format(connects, query, sizeof(query), "SELECT * FROM `ticket` WHERE `name` = `%s`", CI[playerid][cName]);
+				case 2:
+				{
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `tickets` WHERE `name` = '%s'", CI[playerid][cName]);
 					return mysql_tquery(connects, query, "bank_tickets", "i", playerid);
 				}
 			}
 		}
-		case dBankTransferFrom: {
-			if(!response) return ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, P"|"W" Фінансові операції.", P"1."W" Поповнити рахунок мобільного телефону\n"P"2."W" Переказати кошти\n"P"3."W" Оплатити штраф\n"P"4."W" Оплатити податок на будинок\n"P"5."W" Оплатити податок на бізнес", "Обрати", "Назад");
+		case dBankTransferFrom:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, ""P"| "W"Фінансові операції.", ""P"1. "W"Поповнити рахунок мобільного телефону\n"P"2. "W"Переказати кошти\n"P"3. "W"Оплатити штраф\n"P"4. "W"Оплатити податок на будинок\n"P"5. "W"Оплатити податок на бізнес", "Обрати", "Назад");
 			new id[10];
 			strmid(id, inputtext, 0, strlen(inputtext));
 			BankTrasferFrom[playerid] = strval(id);
 			new query[256], Cache:result, money;
-			mysql_format(connects, query, sizeof(query), "SELECT `Money` FROM `bank_accounts` WHERE `ID` = %i AND `OwnerID` = %i LIMIT 1", BankTrasferFrom[playerid], CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "SELECT `Money` FROM `bank_accounts` WHERE `ID` = %d AND `OwnerID` = %d LIMIT 1", BankTrasferFrom[playerid], CI[playerid][cID]);
 			result = mysql_query(connects, query);
 			cache_get_value_name_int(0, "Money", money);
 			cache_delete(result);
-			/*if(!money) {
+			/*if(!money)
+			{
 
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
-				return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "bank_transfer", "i", playerid);
 			}*/
 			SetPVarInt(playerid, "BankAccountMoneyForTransfer", money);
-			ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
+			ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
 		}
-		case dBankTransfer: {
-			if(!response) {
+		case dBankTransfer:
+		{
+			if(!response)
+			{
 				new query[256];
 				BankTrasferFrom[playerid] = INVALID_PLAYER_ID;
 				DeletePVar(playerid, "BankAccountMoneyForTransfer");
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i AND `Money` > 0", CI[playerid][cID]);
-				return mysql_tquery(connects, query, "bank_trasfer", "i", playerid);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `Money` > 0", CI[playerid][cID]);
+				return mysql_tquery(connects, query, "bank_transfer", "i", playerid);
 			}
 			new money = strval(inputtext);
 			new bankmoney = GetPVarInt(playerid, "BankAccountMoneyForTransfer");
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
-			if(money > bankmoney) return ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче суму, яку хочете перевести.\n\n"E"* Некоректна сума переказу.", "Далі", "Назад");
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
+			if(money > bankmoney) return ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче суму, яку хочете перевести.\n\n"E"* Некоректна сума переказу.", "Далі", "Назад");
 			SetPVarInt(playerid, "InputMoneyForBankTransfer", money);
-			ShowPlayerDialog(playerid, dBankTransferTo, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче номер рахунку, на який збираєтеся перевести кошти.", "Далі", "Назад");
+			ShowPlayerDialog(playerid, dBankTransferTo, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче номер рахунку, на який збираєтеся перевести кошти.", "Далі", "Назад");
 		}
-		case dBankTransferTo: {
-			if(!response) return ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankTransferTo, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче номер рахунку, на який збираєтеся перевести кошти.", "Далі", "Назад");
+		case dBankTransferTo:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dBankTransfer, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче суму, яку хочете перевести.", "Далі", "Назад");
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankTransferTo, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче номер рахунку, на який збираєтеся перевести кошти.", "Далі", "Назад");
 			new id = strval(inputtext);
-			if(!CheckBankAccountAvailability(playerid, id)) return ShowPlayerDialog(playerid, dBankTransferTo, DIALOG_STYLE_INPUT, P"|"W" Переказ коштів.", W"Введіть у полі нижче номер рахунку, на який збираєтеся перевести кошти.\n\n"E"* Вказаний Вами номер рахунку не існує.", "Далі", "Назад");
+			if(!CheckBankAccountAvailability(playerid, id)) return ShowPlayerDialog(playerid, dBankTransferTo, DIALOG_STYLE_INPUT, ""P"| "W"Переказ коштів.", ""W"Введіть у полі нижче номер рахунку, на який збираєтеся перевести кошти.\n\n"E"* Вказаний Вами номер рахунку не існує.", "Далі", "Назад");
 			new query[512];
-			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` + %i WHERE `ID` = %i", GetPVarInt(playerid, "InputMoneyForBankTransfer"), id);
+			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` + %d WHERE `ID` = %d", GetPVarInt(playerid, "InputMoneyForBankTransfer"), id);
 			mysql_query(connects, query);
 
-			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` - %i WHERE `ID` = %i AND `OwnerID` = %i", GetPVarInt(playerid, "InputMoneyForBankTransfer"), BankTrasferFrom[playerid], CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` - %d WHERE `ID` = %d AND `OwnerID` = %d", GetPVarInt(playerid, "InputMoneyForBankTransfer"), BankTrasferFrom[playerid], CI[playerid][cID]);
 			mysql_query(connects, query);
 
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%i, %i, 'Вихідний переказ $%i на рахунок #%i.', %i)", BankTrasferFrom[playerid], CI[playerid][cID], GetPVarInt(playerid, "InputMoneyForBankTransfer"), GetPVarInt(playerid, "BankTransferTo"), gettime());
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%d, %d, 'Вихідний переказ $%d на рахунок #%d.', %d)", BankTrasferFrom[playerid], CI[playerid][cID], GetPVarInt(playerid, "InputMoneyForBankTransfer"), GetPVarInt(playerid, "BankTransferTo"), gettime());
 			mysql_query(connects, query);
 
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%i, %i, 'Вхідний переказ $%i з рахунку #%i.', %i)", GetPVarInt(playerid, "BankTransferTo"), GetPVarInt(playerid, "BankTransferToOwner"), GetPVarInt(playerid, "InputMoneyForBankTransfer"), BankTrasferFrom[playerid], gettime());
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%d, %d, 'Вхідний переказ $%d з рахунку #%d.', %d)", GetPVarInt(playerid, "BankTransferTo"), GetPVarInt(playerid, "BankTransferToOwner"), GetPVarInt(playerid, "InputMoneyForBankTransfer"), BankTrasferFrom[playerid], gettime());
 			mysql_query(connects, query);
 
 			new string[256];
-			format(string, sizeof(string), "Ви успішно переказали $%i на рахунок #%i.", GetPVarInt(playerid, "InputMoneyForBankTransfer"), GetPVarInt(playerid, "BankTransferTo"));
+			format(string, sizeof(string), "Ви успішно переказали $%d на рахунок #%d.", GetPVarInt(playerid, "InputMoneyForBankTransfer"), GetPVarInt(playerid, "BankTransferTo"));
 			SendOK(playerid, string);
 
 			DeletePVar(playerid, "BankTransferTo");
@@ -18917,35 +19103,39 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			BankTrasferFrom[playerid] = INVALID_PLAYER_ID;
 			DeletePVar(playerid, "BankAccountMoneyForTransfer");
 		}
-		case dBankMobile: {
+		case dBankMobile:
+		{
 			new string[256];
-			if(!response) return ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, P"|"W" Фінансові операції.", P"1."W" Поповнити рахунок мобільного телефону\n"P"2."W" Переказати кошти\n"P"3."W" Оплатити штраф\n"P"4."W" Оплатити податок на будинок\n"P"5."W" Оплатити податок на бізнес", "Обрати", "Назад");
-			if(isNotNumeric(inputtext)) {
-				format(string, sizeof(string), W"Поточний стан рахунку мобільного телефону: "GREEN"$%i"W".\n"W"Максимальна доступна сума для поповнення: "GREEN"$%i\n\n"W"Введіть у полі нижче суму, на яку хочете поповнити рахунок мобільного телефону.", CI[playerid][pMobile], 50000 - CI[playerid][pMobile]);
-				return ShowPlayerDialog(playerid, dBankMobile, DIALOG_STYLE_INPUT, P"|"W" Поповнення рахунку мобільного телефону.", string, "Далі", "Назад");
+			if(!response) return ShowPlayerDialog(playerid, dBankOperations, DIALOG_STYLE_LIST, ""P"| "W"Фінансові операції.", ""P"1. "W"Поповнити рахунок мобільного телефону\n"P"2. "W"Переказати кошти\n"P"3. "W"Оплатити штраф\n"P"4. "W"Оплатити податок на будинок\n"P"5. "W"Оплатити податок на бізнес", "Обрати", "Назад");
+			if(isNotNumeric(inputtext)) 
+			{
+				format(string, sizeof(string), ""W"Поточний стан рахунку мобільного телефону: "GREEN"$%d"W".\n"W"Максимальна доступна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у полі нижче суму, на яку хочете поповнити рахунок мобільного телефону.", CI[playerid][pMobile], 50000 - CI[playerid][pMobile]);
+				return ShowPlayerDialog(playerid, dBankMobile, DIALOG_STYLE_INPUT, ""P"| "W"Поповнення рахунку мобільного телефону.", string, "Далі", "Назад");
 			}
 			new diff = 50000 - CI[playerid][pMobile];
-			if(strval(inputtext) <= 0 || strval(inputtext) > diff) {
-				format(string, sizeof(string), W"Поточний стан рахунку мобільного телефону: "GREEN"$%i"W".\n"W"Максимальна доступна сума для поповнення: "GREEN"$%i\n\n"W"Введіть у полі нижче суму, на яку хочете поповнити рахунок мобільного телефону.", CI[playerid][pMobile], 50000 - CI[playerid][pMobile]);
-				return ShowPlayerDialog(playerid, dBankMobile, DIALOG_STYLE_INPUT, P"|"W" Поповнення рахунку мобільного телефону.", string, "Далі", "Назад");
+			if(strval(inputtext) <= 0 || strval(inputtext) > diff)
+			{
+				format(string, sizeof(string), ""W"Поточний стан рахунку мобільного телефону: "GREEN"$%d"W".\n"W"Максимальна доступна сума для поповнення: "GREEN"$%d\n\n"W"Введіть у полі нижче суму, на яку хочете поповнити рахунок мобільного телефону.", CI[playerid][pMobile], 50000 - CI[playerid][pMobile]);
+				return ShowPlayerDialog(playerid, dBankMobile, DIALOG_STYLE_INPUT, ""P"| "W"Поповнення рахунку мобільного телефону.", string, "Далі", "Назад");
 			}
 			CI[playerid][pMobile] = CI[playerid][pMobile] + strval(inputtext);
 			//UpdatePlayerData(playerid, "pMobile", CI[playerid][pMobile]);
 
 			SendOK(playerid, "Рахунок мобільного телефону успішно поповнено.");
 		}
-		case dBankAccounts: {
+		case dBankAccounts:
+		{
 			if(!response) return BankDialog(playerid);
 			new id[10];
 			SendInfo(playerid, inputtext);
 			strmid(id, inputtext, 0, strlen(inputtext));
 			BankAccount[playerid] = strval(id);
 			SendInt(playerid, BankAccount[playerid]);
-			if(!strcmp(inputtext, "- Відкрити новий рахунок.")) ShowPlayerDialog(playerid, dBankCreateAccount, DIALOG_STYLE_MSGBOX, P"|"W" Відкриття нового рахунку.", W"Ви справді бажаєте відкрити новий банківський рахунок?", "Так", "Ні");
-			else
+			if(!strcmp(inputtext, "- Відкрити новий рахунок.")) ShowPlayerDialog(playerid, dBankCreateAccount, DIALOG_STYLE_MSGBOX, ""P"| "W"Відкриття нового рахунку.", ""W"Ви справді бажаєте відкрити новий банківський рахунок?", "Так", "Ні");
+			else 
 			{
 				new name[30], Cache:result, query[256], pin, money, creation[128];
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i AND `ID` = %i LIMIT 1", CI[playerid][cID], BankAccount[playerid]);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d AND `ID` = %d LIMIT 1", CI[playerid][cID], BankAccount[playerid]);
 				result = mysql_query(connects, query);
 				if(!cache_num_rows()) return SendError(playerid, "Не вдалося отримати назву банківського рахунку.");
 				cache_get_value_name(0, "Name", name, 30);
@@ -18960,21 +19150,23 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SetPVarString(playerid, "BankAccountCreation", creation);
 
 				new string[256], header[100];
-				format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-				format(string, sizeof(string), W"Введіть у полі нижче пін-код від обраного банківського рахунку.");
+				format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+				format(string, sizeof(string), ""W"Введіть у полі нижче пін-код від обраного банківського рахунку.");
 				ShowPlayerDialog(playerid, dBankAccountAuth, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
 			}
 
 
 /*
-				ShowPlayerDialog(playerid, dBankAccountAuth, DIALOG_STYLE_INPUT, "") {
+				ShowPlayerDialog(playerid, dBankAccountAuth, DIALOG_STYLE_INPUT, "")
+			{
 				new query[512], Cache:result, string[256], name[30], money, creation;
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts WHERE `OwnerID` = %i AND `ID` = %i LIMIT 1", CI[playerid][cID], BankAccount[playerid]);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts WHERE `OwnerID` = %d AND `ID` = %d LIMIT 1", CI[playerid][cID], BankAccount[playerid]);
 				result = mysql_query(connects, query);
-				if(!cache_num_rows()) {
-					format(string, sizeof(string), "Виникла помилка при завантаженні банківського рахунку #%i, повідомте адміністраторів.", BankAccount[playerid]);
+				if(!cache_num_rows())
+				{
+					format(string, sizeof(string), "Виникла помилка при завантаженні банківського рахунку #%d, повідомте адміністраторів.", BankAccount[playerid]);
 					SendError(playerid, string);
-					format(string, sizeof(string), "У гравця %s (%i) виникла помилка при завантаженні банківського рахунку #%i.", CI[playerid][cName], playerid, BankAccount[playerid]);
+					format(string, sizeof(string), "У гравця %s (%d) виникла помилка при завантаженні банківського рахунку #%d.", CI[playerid][cName], playerid, BankAccount[playerid]);
 					return SendAdminMessage(string);
 				}
 				cache_get_value_name(0, "Name", name, 30);
@@ -18983,80 +19175,92 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				SetPVarString(playerid, "BankAccountName", name);
 				SetPVarInt(playerid, "BankAccountMoney", money);
 				SetPVarString(playerid, "BankAccountCreation", creation);
-				// ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, P"|"W" Керування банківським рахунком.", "1. Інформація про рахунок\n2. Історія операцій\n3. Покласти кошти на рахунок\n4. Зняти кошти з рахунку\n5. Видалити рахунок", "Обрати", "Назад");
+				//ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, ""P"| "W"Керування банківським рахунком.", "1. Інформація про рахунок\n2. Історія операцій\n3. Покласти кошти на рахунок\n4. Зняти кошти з рахунку\n5. Видалити рахунок", "Обрати", "Назад");
 				
 			}*/
 		}
-		case dBankAccountAuth: {
-			if(!response) {
+		case dBankAccountAuth:
+		{
+			if(!response)
+			{
 				new query[256];
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 				return mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 			}
 			new name[30], string[256], header[100];
 			GetPVarString(playerid, "BankAccountName", name, 30);
 			FixSVarString(name);
-			format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-			if(isNotNumeric(inputtext)) {
-				format(string, sizeof(string), W"Введіть у полі нижче пін-код від обраного банківського рахунку.");
+			format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+			if(isNotNumeric(inputtext))
+			{
+				format(string, sizeof(string), ""W"Введіть у полі нижче пін-код від обраного банківського рахунку.");
 				return ShowPlayerDialog(playerid, dBankAccountAuth, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
-			}
-			if(strlen(inputtext) < 4 || strlen(inputtext) > 4) {
-				format(string, sizeof(string), W"Введіть у полі нижче пін-код від обраного банківського рахунку.\n\n"E"* Довжина пін-коду: 4 цифри.");
+			} 
+			if(strlen(inputtext) < 4 || strlen(inputtext) > 4)
+			{
+				format(string, sizeof(string), ""W"Введіть у полі нижче пін-код від обраного банківського рахунку.\n\n"E"* Довжина пін-коду: 4 цифри.");
 				return ShowPlayerDialog(playerid, dBankAccountAuth, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
-			}
-			if(strval(inputtext) != GetPVarInt(playerid, "BankAccountPin")) {
-				format(string, sizeof(string), W"Введіть у полі нижче пін-код від обраного банківського рахунку.\n\n"E"* Неправильний пін-код.");
+			} 
+			if(strval(inputtext) != GetPVarInt(playerid, "BankAccountPin"))
+			{
+				format(string, sizeof(string), ""W"Введіть у полі нижче пін-код від обраного банківського рахунку.\n\n"E"* Неправильний пін-код.");
 				return ShowPlayerDialog(playerid, dBankAccountAuth, DIALOG_STYLE_INPUT, header, string, "Далі", "Назад");
 			}
 			SendOK(playerid, "Ви успішно авторизувалися в банківському рахунку.");
-			ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+			ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 		}
-		case dBankAccountEdit: {
+		case dBankAccountEdit:
+		{
 			new query[512], string[512];
-			if(!response) {
+			if(!response)
+			{
 				DeletePVar(playerid, "BankAccountName");
 				DeletePVar(playerid, "BankAccountMoney");
 				DeletePVar(playerid, "BankAccountCreation");
 				DeletePVar(playerid, "BankAccountPin");
 				BankAccount[playerid] = INVALID_PLAYER_ID;
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 				return mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 			}
-			switch(listitem) {
-				case 0: {
+			switch(listitem)
+			{
+				case 0:
+				{
 					new name[30], creation[128];
 					GetPVarString(playerid, "BankAccountCreation", creation, 128);
 					GetPVarString(playerid, "BankAccountName", name, 30);
 					FixSVarString(name);
 					format(string, sizeof(string), "\
-						"W"Номер рахунку: "P"%i\n\
+						"W"Номер рахунку: "P"%d\n\
 						"W"Назва рахунку: "P"%s\n\
-						"W"Коштів на рахунку "GREEN"$%i\n\
+						"W"Коштів на рахунку "GREEN"$%d\n\
 						"W"Дата відкриття: "P"%s", BankAccount[playerid], name, GetPVarInt(playerid, "BankAccountMoney"), creation);
-					ShowPlayerDialog(playerid, dBankAccountReturn, DIALOG_STYLE_MSGBOX, P"|"W" Інформація про банківський рахунок.", string, "Закрити", "");
+					ShowPlayerDialog(playerid, dBankAccountReturn, DIALOG_STYLE_MSGBOX, ""P"| "W"Інформація про банківський рахунок.", string, "Закрити", "");
 				}
-				case 1: {
-					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_operations` WHERE `AccountID` = %i AND `OwnerID` = %i ORDER BY `time` LIMIT 0, 40", BankAccount[playerid], CI[playerid][cID]);
+				case 1:
+				{
+					mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_operations` WHERE `AccountID` = %d AND `OwnerID` = %d ORDER BY `time` LIMIT 0, 40", BankAccount[playerid], CI[playerid][cID]);
 					return mysql_tquery(connects, query, "bank_operations", "i", playerid);
 				}
-				case 2: ShowPlayerDialog(playerid, dBankAccountPin, DIALOG_STYLE_INPUT, P"|"W" Зміна пін-коду банківського рахунку.", W"Введіть у полі нижче новий пін-код для банківського рахунку.\n\n"G"* Довжина пін-коду: 4 символи.", "Далі", "Назад");
-				case 3: ShowPlayerDialog(playerid, dBankAccountPutM, DIALOG_STYLE_INPUT, P"|"W" Поповнення банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете покласти на обраний банківський рахунок.", "Далі", "Назад");
-				case 4: ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, P"|"W" Зняття коштів з банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.", "Далі", "Назад");
-				case 5: ShowPlayerDialog(playerid, dBankAccountDelete, DIALOG_STYLE_MSGBOX, P"|"W" Видалення банківського рахунку.", W"Ви справді хочете видалити обраний банківський рахунок?", "Так", "Ні");
+				case 2: ShowPlayerDialog(playerid, dBankAccountPin, DIALOG_STYLE_INPUT, ""P"| "W"Зміна пін-коду банківського рахунку.", ""W"Введіть у полі нижче новий пін-код для банківського рахунку.\n\n"G"* Довжина пін-коду: 4 символи.", "Далі", "Назад");
+				case 3: ShowPlayerDialog(playerid, dBankAccountPutM, DIALOG_STYLE_INPUT, ""P"| "W"Поповнення банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете покласти на обраний банківський рахунок.", "Далі", "Назад");
+				case 4: ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, ""P"| "W"Зняття коштів з банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.", "Далі", "Назад");
+				case 5: ShowPlayerDialog(playerid, dBankAccountDelete, DIALOG_STYLE_MSGBOX, ""P"| "W"Видалення банківського рахунку.", ""W"Ви справді хочете видалити обраний банківський рахунок?", "Так", "Ні");
 			}
 		}
-		case dBankAccountDelete: {
-			if(!response) {
+		case dBankAccountDelete:
+		{
+			if(!response)
+			{
 				new name[30], header[100];
 				GetPVarString(playerid, "BankAccountName", name, 30);
 				FixSVarString(name);
-				format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+				format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 			}
 			if(GetPVarInt(playerid, "BankAccountMoney") >= 1) return SendError(playerid, "Неможливо видалити обраний банківський рахунок, оскільки на ньому присутні кошти.");
 			new query[512];
-			mysql_format(connects, query, sizeof(query), "DELETE FROM `bank_accounts` WHERE `ID` = %i AND `OwnerID` = %i", BankAccount[playerid], CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `bank_accounts` WHERE `ID` = %d AND `OwnerID` = %d", BankAccount[playerid], CI[playerid][cID]);
 			mysql_query(connects, query);
 
 			SendOK(playerid, "Обраний банківський рахунок успішно видалено.");
@@ -19066,105 +19270,116 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			DeletePVar(playerid, "BankAccountCreation");
 			DeletePVar(playerid, "BankAccountPin");
 			BankAccount[playerid] = INVALID_PLAYER_ID;
-			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 			return mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 		}
-		case dBankAccountPutM: {
-			if(!response) {
+		case dBankAccountPutM:
+		{
+			if(!response)
+			{
 				new name[30], header[100];
 				GetPVarString(playerid, "BankAccountName", name, 30);
 				FixSVarString(name);
-				format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+				format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 			}
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankAccountPutM, DIALOG_STYLE_INPUT, P"|"W" Поповнення банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете покласти на обраний банківський рахунок.", "Далі", "Назад");
-			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dBankAccountPutM, DIALOG_STYLE_INPUT, P"|"W" Поповнення банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете покласти на обраний банківський рахунок.\n\n"E"Некоректно введена сума.", "Далі", "Назад");
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankAccountPutM, DIALOG_STYLE_INPUT, ""P"| "W"Поповнення банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете покласти на обраний банківський рахунок.", "Далі", "Назад");
+			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dBankAccountPutM, DIALOG_STYLE_INPUT, ""P"| "W"Поповнення банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете покласти на обраний банківський рахунок.\n\n"E"Некоректно введена сума.", "Далі", "Назад");
 			//if(strfind)
 			GiveMoney(playerid, -strval(inputtext));
 			new oldsum = GetPVarInt(playerid, "BankAccountMoney");
 			UpdateBankAccount(playerid, BankAccount[playerid], strval(inputtext));
 			new string[256];
-			format(string, sizeof(string), "Ви успішно поклали $%i на обраний банківський рахунок.", strval(inputtext));
+			format(string, sizeof(string), "Ви успішно поклали $%d на обраний банківський рахунок.", strval(inputtext));
 			SendOK(playerid, string);
 			new query[512];
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%i, %i, 'Поповнення рахунку на суму $%i ($%i -> $%i).', %i)", BankAccount[playerid], CI[playerid][cID], strval(inputtext), oldsum, GetPVarInt(playerid, "BankAccountMoney"), gettime());
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%d, %d, 'Поповнення рахунку на суму $%d ($%d -> $%d).', %d)", BankAccount[playerid], CI[playerid][cID], strval(inputtext), oldsum, GetPVarInt(playerid, "BankAccountMoney"), gettime());
 			mysql_query(connects, query);
 		}
-		case dBankAccountGetM: {
-			if(!response) {
+		case dBankAccountGetM:
+		{
+			if(!response)
+			{
 				new name[30], header[100];
 				GetPVarString(playerid, "BankAccountName", name, 30);
 				FixSVarString(name);
-				format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+				format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 			}
 			new bankmoney = GetPVarInt(playerid, "BankAccountMoney");
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, P"|"W" Зняття коштів з банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.", "Далі", "Назад");
-			if(strval(inputtext) > bankmoney) return ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, P"|"W" Зняття коштів з банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.\n\n"E"На рахунку недостатньо коштів.", "Далі", "Назад");
-			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, P"|"W" Зняття коштів з банківського рахунку.", W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.\n\n"E"Некоректно введена сума.", "Далі", "Назад");
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, ""P"| "W"Зняття коштів з банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.", "Далі", "Назад");
+			if(strval(inputtext) > bankmoney) return ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, ""P"| "W"Зняття коштів з банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.\n\n"E"На рахунку недостатньо коштів.", "Далі", "Назад");
+			if(strval(inputtext) <= 0) return ShowPlayerDialog(playerid, dBankAccountGetM, DIALOG_STYLE_INPUT, ""P"| "W"Зняття коштів з банківського рахунку.", ""W"Введіть у полі нижче суму, яку Ви хочете зняти з обраного банківського рахунку.\n\n"E"Некоректно введена сума.", "Далі", "Назад");
 			GiveMoney(playerid, strval(inputtext));
 			new oldsum = GetPVarInt(playerid, "BankAccountMoney");
 			UpdateBankAccount(playerid, BankAccount[playerid], -strval(inputtext));
 			new string[256];
-			format(string, sizeof(string), "Ви успішно зняли $%i з обраного банківського рахунку.", strval(inputtext));
+			format(string, sizeof(string), "Ви успішно зняли $%d з обраного банківського рахунку.", strval(inputtext));
 			SendOK(playerid, string);
 			new query[512];
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%i, %i, 'Зняття коштів з рахунку в сумі $%i ($%i -> $%i).', %i)", BankAccount[playerid], CI[playerid][cID], strval(inputtext), oldsum, GetPVarInt(playerid, "BankAccountMoney"), gettime());
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%d, %d, 'Зняття коштів з рахунку в сумі $%d ($%d -> $%d).', %d)", BankAccount[playerid], CI[playerid][cID], strval(inputtext), oldsum, GetPVarInt(playerid, "BankAccountMoney"), gettime());
 			mysql_query(connects, query);
 		}
-		case dBankAccountPin: {
-			if(!response) {
+		case dBankAccountPin:
+		{
+			if(!response)
+			{
 				new name[30], header[100];
 				GetPVarString(playerid, "BankAccountName", name, 30);
 				FixSVarString(name);
-				format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+				format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+				return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 			}
-			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankAccountPin, DIALOG_STYLE_INPUT, P"|"W" Зміна пін-коду банківського рахунку.", W"Введіть у полі нижче новий пін-код для банківського рахунку.\n\n"G"* Довжина пін-коду: 4 символи.", "Далі", "Назад");
-			if(strlen(inputtext) < 4 || strlen(inputtext) > 4) return ShowPlayerDialog(playerid, dBankAccountPin, DIALOG_STYLE_INPUT, P"|"W" Зміна пін-коду банківського рахунку.", W"Введіть у полі нижче новий пін-код для банківського рахунку.\n\n"E"* Довжина пін-коду: 4 символи.", "Далі", "Назад");
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBankAccountPin, DIALOG_STYLE_INPUT, ""P"| "W"Зміна пін-коду банківського рахунку.", ""W"Введіть у полі нижче новий пін-код для банківського рахунку.\n\n"G"* Довжина пін-коду: 4 символи.", "Далі", "Назад");
+			if(strlen(inputtext) < 4 || strlen(inputtext) > 4) return ShowPlayerDialog(playerid, dBankAccountPin, DIALOG_STYLE_INPUT, ""P"| "W"Зміна пін-коду банківського рахунку.", ""W"Введіть у полі нижче новий пін-код для банківського рахунку.\n\n"E"* Довжина пін-коду: 4 символи.", "Далі", "Назад");
 			new pin = strval(inputtext);
 			new query[256];
-			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `PinCode` = %i WHERE `OwnerID` = %i AND `ID` = %i", pin, CI[playerid][cID], BankAccount[playerid]);
+			mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `PinCode` = %d WHERE `OwnerID` = %d AND `ID` = %d", pin, CI[playerid][cID], BankAccount[playerid]);
 			mysql_query(connects, query);
 			SendOK(playerid, "Ви успішно змінили пін-код для банківського рахунку.");
 
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%i, %i, 'Зміна пін-коду з %i на %i.', %i)", BankAccount[playerid], CI[playerid][cID], GetPVarInt(playerid, "BankAccountPin"), pin, gettime());
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_operations` (`AccountID`, `OwnerID`, `Operation`, `time`) VALUES (%d, %d, 'Зміна пін-коду з %d на %d.', %d)", BankAccount[playerid], CI[playerid][cID], GetPVarInt(playerid, "BankAccountPin"), pin, gettime());
 			mysql_query(connects, query);
 
 			SetPVarInt(playerid, "BankAccountPin", pin);	
 			new name[30], header[100];
 			GetPVarString(playerid, "BankAccountName", name, 30);
 			FixSVarString(name);
-			format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-			return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+			format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+			return ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 		}
-		case dBankAccountReturn: {
+		case dBankAccountReturn:
+		{
 			new name[30], header[100];
 			GetPVarString(playerid, "BankAccountName", name, 30);
 			FixSVarString(name);
-			format(header, sizeof(header), "%s (%i)", name, BankAccount[playerid]);
-			ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, P"1."W" Інформація про рахунок\n"P"2."W" Історія операцій\n"P"3."W" Змінити пін-код\n"P"4."W" Покласти кошти на рахунок\n"P"5."W" Зняти кошти з рахунку\n"P"6."W" Видалити рахунок", "Обрати", "Назад");
+			format(header, sizeof(header), "%s (%d)", name, BankAccount[playerid]);
+			ShowPlayerDialog(playerid, dBankAccountEdit, DIALOG_STYLE_LIST, header, ""P"1. "W"Інформація про рахунок\n"P"2. "W"Історія операцій\n"P"3. "W"Змінити пін-код\n"P"4. "W"Покласти кошти на рахунок\n"P"5. "W"Зняти кошти з рахунку\n"P"6. "W"Видалити рахунок", "Обрати", "Назад");
 		}
-		case dBankCreateAccount: {
+		case dBankCreateAccount:
+		{
 			new query[512];
-			if(!response) {
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+			if(!response)
+			{
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 				return mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 			}
-			ShowPlayerDialog(playerid, dBankAccountName, DIALOG_STYLE_INPUT, P"|"W" Назва рахунку.", W"Введіть нижче назву для нового банківського рахунку.\n\n"G"* Максимальна довжина - 30 символів.", "Далі", "Назад");
+			ShowPlayerDialog(playerid, dBankAccountName, DIALOG_STYLE_INPUT, ""P"| "W"Назва рахунку.", ""W"Введіть нижче назву для нового банківського рахунку.\n\n"G"* Максимальна довжина - 30 символів.", "Далі", "Назад");
 		}
-		case dBankAccountName: {
+		case dBankAccountName:
+		{
 			new query[512];
-			if(!response) {
-				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+			if(!response)
+			{
+				mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 				return mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 			}
-			if(strlen(inputtext) > 30) return ShowPlayerDialog(playerid, dBankAccountName, DIALOG_STYLE_INPUT, P"|"W" Назва рахунку.", "Введіть нижче назву для нового банківського рахунку.\n\n"E"* Максимальна довжина - 30 символів.", "Далі", "Назад");
-			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_accounts` (`OwnerID`, `Name`, `Creation`) VALUES (%i, '%s', NOW())", CI[playerid][cID], inputtext);
+			if(strlen(inputtext) > 30) return ShowPlayerDialog(playerid, dBankAccountName, DIALOG_STYLE_INPUT, ""P"| "W"Назва рахунку.", "Введіть нижче назву для нового банківського рахунку.\n\n"E"* Максимальна довжина - 30 символів.", "Далі", "Назад");
+			mysql_format(connects, query, sizeof(query), "INSERT INTO `bank_accounts` (`OwnerID`, `Name`, `Creation`) VALUES (%d, '%s', NOW())", CI[playerid][cID], inputtext);
 			mysql_query(connects, query);
 			SendOK(playerid, "Ви успішно відкрили новий банківський рахунок.");
 			SendHint(playerid, "Встановлено стандартний пін-код: "P"1111"W".");
-			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %i", CI[playerid][cID]);
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bank_accounts` WHERE `OwnerID` = %d", CI[playerid][cID]);
 			mysql_tquery(connects, query, "bank_accounts", "i", playerid);
 		}
 		case dMeatWork: {
@@ -20512,11 +20727,206 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendFactionMessage(fLSNEWS, 0x139BECFF, mes);
 			SendOK(playerid, "Оголошення подано у редакцію. Очікуйте перевірки.");
 		}
-		case dAdminPanel: {
-			if(!response) return 1;
-			switch(listitem) {
-				case 0: ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, P"|"W" Керування роботами", "М'ясокомбінат", "Обрати", "Назад");
+		case dAdminSystem:
+		{
+			if(!response) return pc_cmd_acp(playerid);
+			switch(listitem)
+			{
+				case 0: ShowPlayerDialog(playerid, dAdminBank, DIALOG_STYLE_LIST, ""P"| "W"Керування банком.", "Депозит", "Обрати", "Назад");
 			}
+		}
+		case dAdminBank:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminSystem, DIALOG_STYLE_LIST, ""P"| "W"Керування системами.", ""W"Банк.\nАвтошкола.", "Обрати", "Назад");
+			new string[512], status[50];
+			if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+			else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+			format(string, sizeof(string), "\
+				Ігровий статус\tВідсоток\n\
+				Стандартний\t%.2f%%\n\
+				Початковий\t%.2f%%\n\
+				Комфортний\t%.2f%%\n\
+				Оптимальний\t%.2f%%\n\
+				- Змінити мінімальну суму на депозиті.\n\
+				- Змінити максимальну суму на депозиті.\n\
+				%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+			ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+		}
+		case dAdminBankEdit:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminBank, DIALOG_STYLE_LIST, ""P"| "W"Керування банком.", "Депозит", "Обрати", "Назад");
+			new string[512], status[50];
+			switch(listitem)
+			{
+				case 0:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 1);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Стандартний: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositDef);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: стандартний.", string, "Далі", "Назад");
+				}
+				case 1:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 2);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Початковий: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositStart);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: початковий.", string, "Далі", "Назад");
+				}
+				case 2:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 3);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Комфортний: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositComf);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: комфортний.", string, "Далі", "Назад");
+				}
+				case 3:
+				{
+					SetPVarInt(playerid, "BankPremDepAdmin", 4);
+					format(string, sizeof(string), "Поточний відсоток депозиту для ігрового статусу Оптимальний: %.2f%%.\n\nВведіть нижче новий відсоток (через крапку) депозиту.", DepositOpti);
+					ShowPlayerDialog(playerid, dAdminBankDepEdit, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: оптимальний.", string, "Далі", "Назад");
+				}
+				case 4:
+				{
+					SetPVarInt(playerid, "BankDepSum", 1);
+					ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: мінімальна сума.", "Введіть нижче нову мінімальну суму для депозиту.", "Далі", "Назад");
+				}
+				case 5:
+				{
+					SetPVarInt(playerid, "BankDepSum", 2);
+					ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: максимальна сума.", "Введіть нижче нову максимальну суму для депозиту.", "Далі", "Назад");
+				}
+				case 6:
+				{
+					if(!DepositStatus)
+					{
+						DepositStatus = 1;
+						SendOK(playerid, "Ви увімкнули систему депозиту.");
+						format(string, sizeof(string), "Адміністратор %s увімкнув систему депозиту.", CI[playerid][cName]);
+						SendAdminMessage(string);
+					}
+					else
+					{
+						DepositStatus = 0;
+						SendOK(playerid, "Ви вимкнули систему депозиту.");
+						format(string, sizeof(string), "Адміністратор %s вимкнув систему депозиту.", CI[playerid][cName]);
+						SendAdminMessage(string);
+					}
+					new query[256];
+					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `DepositStatus` = %d", DepositStatus);
+					mysql_query(connects, query);
+
+					if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+					else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+					format(string, sizeof(string), "\
+						Ігровий статус\tВідсоток\n\
+						Стандартний\t%.2f%%\n\
+						Початковий\t%.2f%%\n\
+						Комфортний\t%.2f%%\n\
+						Оптимальний\t%.2f%%\n\
+						- Змінити мінімальну суму на депозиті.\n\
+						- Змінити максимальну суму на депозиті.\n\
+						%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+					ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+				}
+			}
+		}
+		case dAdminBankDepSum:
+		{
+			new string[512], status[50];
+			if(!response)
+			{
+				if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+				else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+				format(string, sizeof(string), "\
+					Ігровий статус\tВідсоток\n\
+					Стандартний\t%.2f%%\n\
+					Початковий\t%.2f%%\n\
+					Комфортний\t%.2f%%\n\
+					Оптимальний\t%.2f%%\n\
+					- Змінити мінімальну суму на депозиті.\n\
+					- Змінити максимальну суму на депозиті.\n\
+					%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+				return ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+			} 
+			new sum = strval(inputtext);
+			new tsum[20], mes[150];
+			switch(GetPVarInt(playerid, "BankDepSum"))
+			{
+				case 1:
+				{
+					if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: мінімальна сума.", "Введіть нижче нову мінімальну суму для депозиту.", "Далі", "Назад");
+					MinDepSum = sum;
+					strcat(tsum, "мінімальну");
+					SendOK(playerid, "Мінімальну суму депозиту змінено.");
+				}
+				case 2:
+				{
+					if(sum <= 0) return ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: максимальна сума.", "Введіть нижче нову максимальну суму для депозиту.", "Далі", "Назад");
+					if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dAdminBankDepSum, DIALOG_STYLE_INPUT, ""P"| "W"Депозит: максимальна сума.", "Введіть нижче нову максимальну суму для депозиту.", "Далі", "Назад");
+					MaxDepSum = sum;
+					strcat(tsum, "максимальну");
+					SendOK(playerid, "Максимальну суму депозиту змінено.");
+				}
+			}
+			new query[256];
+			mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MinDepSum` = %d, `MaxDepSum` = %d", MinDepSum, MaxDepSum);
+			mysql_query(connects, query);
+			format(mes, sizeof(mes), "Адміністратор %s встановив нову %s ($%d) для депозиту.", CI[playerid][cName], tsum, sum);
+			SendAdminMessage(mes);
+		}
+		case dAdminBankDepEdit:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminBank, DIALOG_STYLE_LIST, ""P"| "W"Керування банком.", "Депозит", "Обрати", "Назад");
+			new string[512], status[50];
+			
+			format(string, sizeof(string), "%s", inputtext);
+			SendInfo(playerid, string);
+
+			new Float:prc = floatstr(inputtext);
+
+			SendFloat(playerid, prc);
+
+			if(strfind(inputtext, ",") != -1)
+			{
+				SendError(playerid, "Вкажіть відсоток через крапку, а не кому.");
+				if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+				else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+				format(string, sizeof(string), "\
+					Ігровий статус\tВідсоток\n\
+					Стандартний\t%.2f%%\n\
+					Початковий\t%.2f%%\n\
+					Комфортний\t%.2f%%\n\
+					Оптимальний\t%.2f%%\n\
+					- Змінити мінімальну суму на депозиті.\n\
+					- Змінити максимальну суму на депозиті.\n\
+					%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+				return ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
+			}
+
+
+
+			new query[256], mes[150], dep[15];
+			switch(GetPVarInt(playerid, "BankPremDepAdmin"))
+			{
+				case 1: DepositDef = prc, strcat(dep, "Стандартний");
+				case 2: DepositStart = prc, strcat(dep, "Початковий");
+				case 3: DepositComf = prc, strcat(dep, "Комфортний");
+				case 4: DepositOpti = prc, strcat(dep, "Оптимальний");
+			}
+			mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `DepositDef` = %.2f, `DepositStart` = %.2f, `DepositComf` = %.2f, `DepositOpti` = %.2f", DepositDef, DepositStart, DepositComf, DepositOpti);
+			mysql_query(connects, query);
+			format(mes, sizeof(mes), "Адміністратор %s встановив новий відсоток (%.2f%%) депозиту для ігровой статусу %s.", CI[playerid][cName], prc, dep);
+			SendAdminMessage(mes);
+			SendOK(playerid, "Відсоток депозиту змінено.");
+			if(!DepositStatus) format(status, sizeof(status), "- Увімкнути систему депозиту.");
+			else format(status, sizeof(status), "- Вимкнути систему депозиту.");
+			format(string, sizeof(string), "\
+				Ігровий статус\tВідсоток\n\
+				Стандартний\t%.2f%%\n\
+				Початковий\t%.2f%%\n\
+				Комфортний\t%.2f%%\n\
+				Оптимальний\t%.2f%%\n\
+				- Змінити мінімальну суму на депозиті.\n\
+				- Змінити максимальну суму на депозиті.\n\
+				%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
+			ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
 		}
 		case dAdminWorks: {
 			if(!response) return pc_cmd_acp(playerid);
@@ -34578,6 +34988,7 @@ public OnGameModeInit() {
 	mysql_tquery(connects, "SELECT * FROM `actors`", "load_actors");
 	load_meat_work();
 	load_diver_work();
+	LoadBusRoutes();
 	// load_garage();
 	load_labels();
 	load_mapping();
@@ -40316,11 +40727,12 @@ CMD:routes(playerid)
 	if(!IsAuthAdmin(playerid, 7)) return 1;
 	new string[256];
 	strcat(string, ""G"Номер\t"G"Назва\n");
-	for(new i; i < MAX_ROUTES; i++)
+	for(new i; i < BusRoutesCount; i++)
 	{
 		format(string, sizeof(string), "%s"W"%d\t%s\n", string, routes[i][RouteID], routes[i][RouteName]);
 	}
-	ShowPlayerDialog(playerid, dBusRoutes, DIALOG_STYLE_LIST, ""P"| "W"Автобусні маршрути.", string, "Обрати", "Закрити");
+	strcat(string, ""P"- "W"Створити новий маршрут");
+	ShowPlayerDialog(playerid, dBusRoutes, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Автобусні маршрути.", string, "Обрати", "Закрити");
 	return 1;
 }
 CMD:testfire(playerid) {
@@ -48313,10 +48725,10 @@ stock CreateSpawnCar(model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime, VEHICLE_TYPE_SPAWN);
 	return carid;
 }
-stock CreateBusVehicle(bus,job, model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2, spawntime) {
+stock CreateBusVehicle(buss,job, model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2, spawntime) {
 	new carid = A_AddStaticVehicleEx(model, X, Y, Z, A, Color_1, Color_2, spawntime, VEHICLE_TYPE_JOB);
 	VehicleInfo[carid][vJob] = job;
-	VehicleInfo[carid][vBus] = bus;
+	VehicleInfo[carid][vBus] = buss;
 	return carid;
 }
 stock CreateTaxiVehicle(job, model, Float:X, Float:Y, Float:Z, Float:A, Color_1, Color_2, spawntime) {
@@ -68191,78 +68603,82 @@ stock CreatePlayerMeatArray(playerid, meattype) {
 	return 1;
 }
 
-stock LoadBusRoutes()
+stock BankDialog(playerid)
 {
-	new Cache:result, query[128];
-	result = mysql_query(connects, "SELECT * FROM `bus_description` ORDER BY `ID`");
-	if(rows)
-	{
-		for(new i; i < rows; i++)
-		{
-			cache_get_value_name_int(i, "RouteID", routes[i][RouteID]);
-			cache_get_value_name(i, "RouteName", routes[i][RouteName]);
-		}
-	}
-	else printf("[Автобусник] Не знайдено маршрутів для завантаження."); 
-	return 1;
-}
-stock BankDialog(playerid) {
 	new string[1028];
 	format(string, sizeof(string), "\
-		"P"1."W" Керування рахунками\n\
-		"P"2."W" Фінансові операції\n\
-		"P"3."W" Депозит");
-	return ShowPlayerDialog(playerid, dBankMenu, DIALOG_STYLE_LIST, P"|"W" Меню банку.", string, "Обрати", "Закрити");
+		"P"1. "W"Керування рахунками\n\
+		"P"2. "W"Фінансові операції\n\
+		"P"3. "W"Зарплатний рахунок\n\
+		"P"4. "W"Депозит");
+	return ShowPlayerDialog(playerid, dBankMenu, DIALOG_STYLE_LIST, ""P"| "W"Меню банку.", string, "Обрати", "Закрити");
 }
-CB:bank_accounts(playerid) {
+CB:bank_accounts(playerid)
+{
 	new rows, name[30], number, money, creation[128], string[1028];
 	cache_get_row_count(rows);
-	strcat(string, "Номер\tНазва\tДата створення\n");
-	for_1(i, rows) {
+	strcat(string, ""G"Номер\t"G"Назва\t"G"Дата створення\n");
+	for_1(i, rows)
+	{
 		cache_get_value_name_int(i, "ID", number);
 		cache_get_value_name(i, "Name", name, 30);
 		cache_get_value_name_int(i, "Money", money);
 		cache_get_value_name(i, "Creation", creation, 128);
 
-		format(string, sizeof(string), "%s"P"%i"W"\t%s"W"\t%s\n", string, number, name, creation);
+		format(string, sizeof(string), "%s"P"%d\t"W"%s\t"W"%s\n", string, number, name, creation);
 	}
-	strcat(string, P"-"W" Відкрити новий рахунок.");
-	ShowPlayerDialog(playerid, dBankAccounts, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" Банківські рахунки.", string, "Обрати", "Назад");
+	strcat(string, ""P"- "W"Відкрити новий рахунок.");
+	ShowPlayerDialog(playerid, dBankAccounts, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Банківські рахунки.", string, "Обрати", "Назад");
 	return 1;
 }
-CB:bank_trasfer(playerid) {
-	new rows, name[30], number, money, string[1028];
-	cache_get_row_count(rows);
-	strcat(string, G"Номер\t"G"Назва\t"G"Кошти\n");
-	for_1(i, rows) {
-		cache_get_value_name_int(i, "ID", number);
-		cache_get_value_name(i, "Name", name, 30);
-		cache_get_value_name_int(i, "Money", money);
-
-		format(string, sizeof(string), "%s"P"%i"W"\t%s\t"GREEN"$%i\n", string, number, name, money);
-	}
-	ShowPlayerDialog(playerid, dBankTransferFrom, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" Переказ коштів (оберіть рахунок).", string, "Обрати", "Назад");
-	return 1;
-}
-CB:bank_pay_ticket(playerid) {
+CB:bank_transfer(playerid)
+{
 	new rows, name[30], number, money, string[1028];
 	cache_get_row_count(rows);
 	strcat(string, ""G"Номер\t"G"Назва\t"G"Кошти\n");
-	for_1(i, rows) {
-		cache_get_value_name_int(i, "ID", number);
-		cache_get_value_name(i, "Name", name, 30);
-		cache_get_value_name_int(i, "Money", money);
+	if(rows)
+	{
+		for_1(i, rows)
+		{
+			cache_get_value_name_int(i, "ID", number);
+			cache_get_value_name(i, "Name", name, 30);
+			cache_get_value_name_int(i, "Money", money);
 
-		format(string, sizeof(string), "%s"P"%i"W"\t%s\t"GREEN"$%i\n", string, number, name, money);
+			format(string, sizeof(string), "%s"P"%d\t"W"%s\t"GREEN"$%d\n", string, number, name, money);
+		}
+		ShowPlayerDialog(playerid, dBankTransferFrom, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Переказ коштів (оберіть рахунок).", string, "Обрати", "Назад");
 	}
-	ShowPlayerDialog(playerid, dBankPayTicket, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" Переказ коштів (оберіть рахунок).", string, "Обрати", "Назад");
+	else ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"| "W"Переказ коштів (оберіть рахунок).", "Банківських рахунків з коштами не знайдено.\nВідкрийте новий або поповніть існуючий.", "Закрити", "");
 	return 1;
 }
-CB:bank_operations(playerid) {
+CB:bank_pay_ticket(playerid)
+{
+	new rows, name[30], number, money, string[1028];
+	cache_get_row_count(rows);
+	strcat(string, ""G"Номер\t"G"Назва\t"G"Кошти\n");
+	if(rows)
+	{
+		for_1(i, rows)
+		{
+			cache_get_value_name_int(i, "ID", number);
+			cache_get_value_name(i, "Name", name, 30);
+			cache_get_value_name_int(i, "Money", money);
+
+			format(string, sizeof(string), "%s"P"%d\t"W"%s\t"GREEN"$%d\n", string, number, name, money);
+		}
+		ShowPlayerDialog(playerid, dBankPayTicket, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Оплата штрафу (оберіть рахунок).", string, "Обрати", "Назад");
+	}
+	else ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"| "W"Оплата штрафу (оберіть рахунок).", "Банківських рахунків з коштами не знайдено.\nВідкрийте новий або поповніть існуючий.", "Закрити", "");
+	return 1;
+}
+CB:bank_operations(playerid)
+{
 	new rows, string[3000], operation[300], time, year, month, day, hour, minute, second;
 	cache_get_row_count(rows);
-	if(rows) {
-		for(new i; i < rows; i++) {
+	if(rows)
+	{
+		for(new i; i < rows; i++)
+		{
 			cache_get_value_name(i, "Operation", operation, 300);
 			cache_get_value_name_int(i, "time", time);
 
@@ -68270,16 +68686,19 @@ CB:bank_operations(playerid) {
 			format(string, sizeof(string), "%s"G"[%i-%i-%i %02d:%02d:%02d]: %s\n", string, year, month, day, hour, minute, second, operation);
 		}
 	}
-	else format(string, sizeof(string), W"Історія операцій пуста.");
-	ShowPlayerDialog(playerid, dBankAccountReturn, DIALOG_STYLE_MSGBOX, P"|"W" Історія операцій.", string, "Закрити", "");
+	else format(string, sizeof(string), ""W"Історія операцій пуста.");
+	ShowPlayerDialog(playerid, dBankAccountReturn, DIALOG_STYLE_MSGBOX, ""P"| "W"Історія операцій.", string, "Закрити", "");
 	return 1;
 }
-CB:bank_tickets(playerid) {
-	new rows, string[1000], id, givename[32], total, reason[150], d, year, month, day, hour, minute, second;
+CB:bank_tickets(playerid)
+{
+	new rows, string[3000], id, givename[32], total, reason[150], d, year, month, day, hour, minute, second;
 	cache_get_row_count(rows);
-	strcat(string, G"Номер\t"G"Причина\t"G"Сума\t"G"Дата\n");
-	if(rows) {
-		for(new i; i < rows; i++) {
+	strcat(string, ""G"Номер\t"G"Причина\t"G"Сума\t"G"Дата\n");
+	if(rows)
+	{
+		for(new i; i < rows; i++)
+		{
 			cache_get_value_name_int(i, "id", id);
 			cache_get_value_name(i, "give_name", givename, 32);
 			cache_get_value_name_int(i, "total", total);
@@ -68287,24 +68706,25 @@ CB:bank_tickets(playerid) {
 			cache_get_value_name_int(i, "date", d);
 
 			timestamp_to_date(d, year, month, day, hour, minute, second);
-			format(string, sizeof(string), "%s"W"%i"W"\t%s\t"GREEN"$%i"W"\t%i-%i-%i %02d:%02d:%02d\n", string, id, reason, total, year, month, day, hour, minute, second);
+			format(string, sizeof(string), "%s"W"%d\t"W"%s\t"GREEN"$%d\t"W"%i-%i-%i %02d:%02d:%02d\n", string, id, reason, total, year, month, day, hour, minute, second);
 		}
-		ShowPlayerDialog(playerid, dBankTickets, DIALOG_STYLE_LIST, P"|"W" Оплата штрафів.", string, "Обрати", "Назад");
+		ShowPlayerDialog(playerid, dBankTickets, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Оплата штрафів.", string, "Обрати", "Назад");
 	}
-	else
+	else 
 	{
-		format(string, sizeof(string), W"Історія операцій пуста.");
-		ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, P"|"W" Оплата штрафів.", string, "Закрити", "");
+		format(string, sizeof(string), ""W"Штрафів не знайдено.");
+		ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, ""P"| "W"Оплата штрафів.", string, "Закрити", "");
 	}
 	return 1;
 }
-stock UpdateBankAccount(playerid, id, money) {
+stock UpdateBankAccount(playerid, id, money)
+{
 	new query[512];
-	mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` + %i WHERE `OwnerID` = %i AND `ID` = %i", money, CI[playerid][cID], id);
+	mysql_format(connects, query, sizeof(query), "UPDATE `bank_accounts` SET `Money` = `Money` + %d WHERE `OwnerID` = %d AND `ID` = %d", money, CI[playerid][cID], id);
 	mysql_query(connects, query);
 
 	new Cache:result, newmoney;
-	mysql_format(connects, query, sizeof(query), "SELECT `Money` FROM `bank_accounts` WHERE `OwnerID` = %i AND `ID` = %i LIMIT 1", CI[playerid][cID], id);
+	mysql_format(connects, query, sizeof(query), "SELECT `Money` FROM `bank_accounts` WHERE `OwnerID` = %d AND `ID` = %d LIMIT 1", CI[playerid][cID], id);
 	result = mysql_query(connects, query);
 
 	cache_get_value_name_int(0, "Money", newmoney);
@@ -68313,13 +68733,15 @@ stock UpdateBankAccount(playerid, id, money) {
 	SetPVarInt(playerid, "BankAccountMoney", newmoney);
 	return 1;
 }
-stock CheckBankAccountAvailability(playerid, bid) {
+stock CheckBankAccountAvailability(playerid, bid)
+{
 	new query[256], Cache:result, owner, id, rows;
-	mysql_format(connects, query, sizeof(query), "SELECT ba.*, c.Name FROM `bank_accounts` ba join `characters` c on c.cID = ba.OwnerID WHERE ba.ID = %i LIMIT 1", bid);
+	mysql_format(connects, query, sizeof(query), "SELECT ba.*, c.Name FROM `bank_accounts` ba join `characters` c on c.cID = ba.OwnerID WHERE ba.ID = %d LIMIT 1", bid);
 	result = mysql_query(connects, query);
 
 	cache_get_row_count(rows);
-	if(rows) {
+	if(rows)
+	{
 		cache_get_value_name_int(0, "ID", id);
 		SetPVarInt(playerid, "BankTransferTo", id);
 		cache_get_value_name_int(0, "OwnerID", owner);
@@ -68327,4 +68749,25 @@ stock CheckBankAccountAvailability(playerid, bid) {
 	}
 	cache_delete(result);
 	return rows;
+}
+
+stock LoadBusRoutes()
+{
+	new Cache:result;
+	result = mysql_query(connects, "SELECT * FROM `bus_description` ORDER BY `ID`");
+	new rows;
+	cache_get_row_count(rows);
+	if(rows)
+	{
+		for(new i; i < rows; i++)
+		{
+			cache_get_value_name_int(i, "RouteID", routes[i][RouteID]);
+			cache_get_value_name(i, "RouteName", routes[i][RouteName]);
+		}
+		cache_delete(result);
+		printf("[Автобусник] Завантажено %i маршрутів.", rows);
+		BusRoutesCount = rows+1;
+	}
+	else printf("[Автобусник] Не знайдено маршрутів для завантаження."); 
+	return 1;
 }
