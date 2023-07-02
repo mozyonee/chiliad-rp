@@ -330,7 +330,7 @@ new MeatProgressTimer[MAX_PLAYERS];
 new MeatConveyor, MeatWarehouse, MeatConveyorEnd, MeatFactoryTotal, MeatWorkerCount, MeatWorkTime[MAX_PLAYERS];
 new Text3D:MeatFactoryTotalText;
 new MeatPlayerObject[MAX_PLAYERS];
-new MeatPorkTime, MeatDeerTime, MeatCowTime;
+new Float:MeatPorkTime, Float:MeatDeerTime, Float:MeatCowTime;
 
 new Float:MeatPlayerArray[MAX_PLAYERS][50];
 new MeatCutCount[MAX_PLAYERS];
@@ -349,7 +349,6 @@ new PlayerText: MeatDeerPlayerTD[MAX_PLAYERS][2];
 
 new Text: MeatProgressBar[1];
 new PlayerText: MeatProgress[MAX_PLAYERS][1];
-
 
 enum DiverData {
 	dClass,
@@ -20514,7 +20513,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					new status[32];
 					if(!MeatWorkStatus) format(status, sizeof(status), "- Увімкнути роботу.");
 					else format(status, sizeof(status), "- Вимкнути роботу.");
-					format(string, sizeof(string), "Вид м'яса\tЦіна за 1 фунт\tТаймер обробки\nЯловичина\t"GREEN"$%.2f"W"\t%i\n"W"Оленина\t"GREEN"$%.2f"W"\t%i\n"W"Свинина\t"GREEN"$%.2f"W"\t%i\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
+					format(string, sizeof(string), "Вид м'яса\tЦіна за 1 фунт\tТаймер обробки\nЯловичина\t"GREEN"$%.2f"W"\t%.2f\n"W"Оленина\t"GREEN"$%.2f"W"\t%.2f\n"W"Свинина\t"GREEN"$%.2f"W"\t%.2f\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
 					ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" М'ясокомбінат.", string, "Обрати", "Назад");
 				}
 			}
@@ -20554,9 +20553,9 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			switch(listitem) {
 				case 0: {
 					switch(GetPVarInt(playerid, "MeatPrice")) {
-						case 1: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatCowTime);
-						case 2: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatDeerTime);
-						case 3: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatPorkTime);
+						case 1: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%.2f", MeatCowTime);
+						case 2: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%.2f", MeatDeerTime);
+						case 3: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%.2f", MeatPorkTime);
 					}
 					ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 				}
@@ -20576,41 +20575,38 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new status[32];
 				if(!MeatWorkStatus) format(status, sizeof(status), "- Увімкнути роботу.");
 				else format(status, sizeof(status), "- Вимкнути роботу.");
-				format(string, sizeof(string), G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f"W"\t%i\n"W"Оленина\t"GREEN"$%.2f"W"\t%i\n"W"Свинина\t"GREEN"$%.2f"W"\t%i\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
+				format(string, sizeof(string), G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f"W"\t%.2f\n"W"Оленина\t"GREEN"$%.2f"W"\t%.2f\n"W"Свинина\t"GREEN"$%.2f"W"\t%.2f\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
 				return ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" М'ясокомбінат.", string, "Обрати", "Назад");
 			}
 			switch(GetPVarInt(playerid, "MeatPrice")) {
 				case 1: {
-					if(isNotNumeric(inputtext)) {
-						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatCowTime);
+					if(sscanf(inputtext, "f", MeatCowTime)) {
+						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%.2f", MeatCowTime);
 						return ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 					}
-					MeatCowTime = strval(inputtext);
-					format(string, sizeof(string), "Адміністратор %s встановив таймер %i секунд для однієї ітерації обробки яловичини на м'ясокомбінаті.", CI[playerid][cName], MeatCowTime);
+					format(string, sizeof(string), "Адміністратор %s встановив таймер %.2f секунд для однієї ітерації обробки яловичини на м'ясокомбінаті.", CI[playerid][cName], MeatCowTime);
 					SendAdminMessage(string);
-					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatCowTime` = %i", MeatCowTime);
+					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatCowTime` = %.2f", MeatCowTime);
 					mysql_query(connects, query);
 				}
 				case 2: {
-					if(isNotNumeric(inputtext)) {
-						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatDeerTime);
+					if(sscanf(inputtext, "f", MeatDeerTime)) {
+						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%.2f", MeatDeerTime);
 						return ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 					}
-					MeatDeerTime = strval(inputtext);
-					format(string, sizeof(string), "Адміністратор %s встановив таймер %i секунд для однієї ітерації обробки оленини на м'ясокомбінаті.", CI[playerid][cName], MeatDeerTime);
+					format(string, sizeof(string), "Адміністратор %s встановив таймер %.2f секунд для однієї ітерації обробки оленини на м'ясокомбінаті.", CI[playerid][cName], MeatDeerTime);
 					SendAdminMessage(string);
-					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatDeerTime` = %i", MeatDeerTime);
+					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatDeerTime` = %.2f", MeatDeerTime);
 					mysql_query(connects, query);
 				}
 				case 3: {
-					if(isNotNumeric(inputtext)) {
-						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatPorkTime);
+					if(sscanf(inputtext, "f", MeatPorkTime)) {
+						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%.2f", MeatPorkTime);
 						return ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 					}
-					MeatPorkTime = strval(inputtext);
-					format(string, sizeof(string), "Адміністратор %s встановив таймер %i секунд для однієї ітерації обробки свинини на м'ясокомбінаті.", CI[playerid][cName], MeatPorkTime);
+					format(string, sizeof(string), "Адміністратор %s встановив таймер %.2f секунд для однієї ітерації обробки свинини на м'ясокомбінаті.", CI[playerid][cName], MeatPorkTime);
 					SendAdminMessage(string);
-					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatPorkTime` = %i", MeatPorkTime);
+					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatPorkTime` = %.2f", MeatPorkTime);
 					mysql_query(connects, query);
 				}
 			}
@@ -20621,38 +20617,35 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				new status[32];
 				if(!MeatWorkStatus) format(status, sizeof(status), "- Увімкнути роботу.");
 				else format(status, sizeof(status), "- Вимкнути роботу.");
-				format(string, sizeof(string), G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f"W"\t%i\n"W"Оленина\t"GREEN"$%.2f"W"\t%i\n"W"Свинина\t"GREEN"$%.2f"W"\t%i\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
+				format(string, sizeof(string), G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f"W"\t%.2f\n"W"Оленина\t"GREEN"$%.2f"W"\t%.2f\n"W"Свинина\t"GREEN"$%.2f"W"\t%.2f\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
 				return ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" М'ясокомбінат.", string, "Обрати", "Назад");
 			}
 			switch(GetPVarInt(playerid, "MeatPrice")) {
 				case 1: {
-					if(strfind(inputtext, ",", true)) {
+					if(sscanf(inputtext, "f", MeatCowPrice)) {
 						format(string, sizeof(string), W"Введіть нову ціну (через крапку) за фунт яловичини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatCowPrice);
 						return ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 					}
-					MeatCowPrice = floatstr(inputtext);
 					format(string, sizeof(string), "Адміністратор %s встановив ціну $%.2f за фунт яловичини на м'ясокомбінаті.", CI[playerid][cName], MeatCowPrice);
 					SendAdminMessage(string);
 					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatCowPrice` = %.2f", MeatCowPrice);
 					mysql_query(connects, query);
 				}
 				case 2: {
-					if(strfind(inputtext, ",", true)) {
+					if(sscanf(inputtext, "f", MeatDeerPrice)) {
 						format(string, sizeof(string), W"Введіть нову ціну (через крапку) за фунт оленини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatDeerPrice);
 						return ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 					}
-					MeatDeerPrice = floatstr(inputtext);
 					format(string, sizeof(string), "Адміністратор %s встановив ціну $%.2f за фунт оленини на м'ясокомбінаті.", CI[playerid][cName], MeatDeerPrice);
 					SendAdminMessage(string);
 					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatDeerPrice` = %.2f", MeatDeerPrice);
 					mysql_query(connects, query);
 				}
 				case 3: {
-					if(strfind(inputtext, ",", true)) {
+					if(sscanf(inputtext, "f", MeatPorkPrice)) {
 						format(string, sizeof(string), W"Введіть нову ціну (через крапку) за фунт свинини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatPorkPrice);
 						return ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 					}
-					MeatPorkPrice = floatstr(inputtext);
 					format(string, sizeof(string), "Адміністратор %s встановив ціну $%.2f за фунт свинини на м'ясокомбінаті.", CI[playerid][cName], MeatPorkPrice);
 					SendAdminMessage(string);
 					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatPorkPrice` = %.2f", MeatPorkPrice);
@@ -45845,9 +45838,9 @@ stock load_economy() {
 		cache_get_value_name_float(0, "MeatDeerPrice", MeatDeerPrice);
 		cache_get_value_name_float(0, "MeatPorkPrice", MeatPorkPrice);
 		cache_get_value_name_int(0, "MeatFactoryTotal", MeatFactoryTotal);
-		cache_get_value_name_int(0, "MeatCowTime", MeatCowTime);
-		cache_get_value_name_int(0, "MeatDeerTime", MeatDeerTime);
-		cache_get_value_name_int(0, "MeatPorkTime", MeatPorkTime);
+		cache_get_value_name_float(0, "MeatCowTime", MeatCowTime);
+		cache_get_value_name_float(0, "MeatDeerTime", MeatDeerTime);
+		cache_get_value_name_float(0, "MeatPorkTime", MeatPorkTime);
 
 		cache_get_value_name_int(0, "DepositStatus", DepositStatus);
 		cache_get_value_name_float(0, "DepositDef", DepositDef);
@@ -47727,7 +47720,7 @@ stock UpdateSkladFrakGang() {
 	}
 	if(black_prods[9] > gettime()) {
 		new year, month, day, hour, minute, second;
-		timestamp_to_date(black_prods[9]-gettime(), year, month, day, hour, minute, second);
+		timestamp_to_date(black_prods[9] - gettime(), year, month, day, hour, minute, second);
 		static const f_str[] = "Власник чорного ринку\n\t{%06x}%s\n\n"W"Війна можлива через "P"%i:%i:%i:%i";
 		new str[sizeof(f_str) + 1 + (-2 + 35)];
 		format(str, sizeof(str), f_str, FI[black_prods[0]][fColor] >>> 8, FI[black_prods[0]][fName], day-1, hour, minute, second);
@@ -48651,16 +48644,6 @@ CB:load_character(playerid) {
 	return 1;
 }
 CB:start_character(playerid) {
-	new slot;
-	for(new i = 10; i < MAX_INVENTORY_SLOTS; i++) {
-		if(CI[playerid][pInventory][i] == 570) {
-			SendOK(playerid, "Ви вдягнули маску.");
-			slot = i;
-			break;
-		}
-	}
-	if(slot) UseItem(playerid, slot);
-
 	if(biz_war_gangzone != -1) GangZoneShowForPlayer(playerid, biz_war_gangzone, FI[MZInfo[bFrakVlad]][fColor]);
 	if(IsCrime(playerid) && LastAirDrop[airTime] > 0) {
 		GangZoneShowForPlayer(playerid, LastAirDrop[airZone], 0xFFFFFF11);
@@ -52656,7 +52639,7 @@ CMD:spawn(playerid, const params[]) {
 	if(!IsAuthAdmin(playerid, 1)) return 1;
 	new string[128], targetid;
 	if(!strlen(params)) targetid = playerid;
-	else if(sscanf(params, "u", targetid)) return SendError(playerid, "Використайте: /aspawn [factionid]");
+	else if(sscanf(params, "u", targetid)) return SendError(playerid, "Використайте: /spawn [playerid]");
 	PlayerSpawn(targetid);
 	format(string, sizeof(string), "Ви заспавнили %s.", CI[targetid][cName]);
 	SendOK(playerid, string);
@@ -68284,15 +68267,9 @@ stock CreatePlayerMeatArray(playerid, meattype) {
 	}
 
 	new Float:w, Float:sum, Float:lastsum;
-	// weight = mathfrandom(6.00, 9.00);
-	//else if(GetPVarInt(playerid, "MeatDeer")) weight = mathfrandom(3.00, 6.00);
-	//else if(GetPVarInt(playerid, "MeatPork")) weight = mathfrandom(5.00, 7.00);
 
 	if(MeatCutCount[playerid]) {
-		for(new i = 1; i < 50; i++) {
-			//MeatPlayerArray[playerid][i] = -1;
-			MeatPlayerArray[playerid][i] = INVALID_PLAYER_ID;
-		}
+		for(new i = 1; i < 50; i++) MeatPlayerArray[playerid][i] = INVALID_PLAYER_ID;
 		MeatCutCount[playerid] = INVALID_PLAYER_ID;
 	}
 
@@ -68302,23 +68279,13 @@ stock CreatePlayerMeatArray(playerid, meattype) {
 		w = mathfrandom(x, y);
 		MeatPlayerArray[playerid][a] = w;
 
-		sum = sum + w;
+		sum += w;
 
 		if(sum >= MeatWork[meat][mWeight]) break;
 		MeatCutCount[playerid] = a;
-		SendFloat(playerid, MeatPlayerArray[playerid][a]);
-		SendInt(playerid, MeatCutCount[playerid]);
-		// lastsum = sum;
-		// format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f.", array, a, MeatPlayerArray[playerid][a], sum);
 	}
-	// SendFloat(playerid, lastsum);
 	MeatCutCount[playerid]++;
 	MeatPlayerArray[playerid][MeatCutCount[playerid]] = MeatWork[meat][mWeight] - lastsum;
-	// SendFloat(playerid, MeatPlayerArray[playerid][MeatCutCount[playerid]]);
-	// lastsum = lastsum + MeatPlayerArray[playerid][MeatCutCount[playerid]];
-	// format(array, sizeof(array), "%s\n%d. Weight: %.2f. Sum: %.2f", array, MeatCutCount[playerid], MeatPlayerArray[playerid][MeatCutCount[playerid]], lastsum);
-	// format(array, sizeof(array), "%s\nTotal carcass weight: %.2f. Actions count: %d", array, MeatWork[cow][mWeight], MeatCutCount[playerid]);
-	// ShowPlayerDialog(playerid, DIALOG_NONE, DIALOG_STYLE_MSGBOX, "1", array, "1", "1");
 	return 1;
 }
 stock BankDialog(playerid) {
