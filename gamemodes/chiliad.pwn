@@ -2716,6 +2716,7 @@ enum dialogs {
 	dAdminMeatPrice,
 	dAdminMeat,
 	dAdminWorks,
+	dAdminBus,
 	dAdminSystem,
 	dAdminBankDepSum,
 	dAdminBankDepEdit,
@@ -2729,6 +2730,10 @@ enum dialogs {
 	dBusCreateRouteN,
 	dBusCreateStop,
 	dBusRouteEnd,
+	dBusEditRoute,
+	dBusDeleteRoute,
+	dBusRouteChangeName,
+	dBusRouteChangeNum,
 
 	D_MDC_LIST,
 	D_MDC_DB,
@@ -12589,6 +12594,7 @@ stock CreateTextDraws(playerid) {
 stock RemoveBuildings(playerid) {
 	#include "../scriptfiles/mapping/factions/remove.inc"
 	#include "../scriptfiles/mapping/general/remove.inc"
+	#include "../scriptfiles/mapping/jobs/remove.inc"
 
 	if(FireStatus) {
 		// fire
@@ -20751,6 +20757,16 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			SendFactionMessage(fLSNEWS, 0x139BECFF, mes);
 			SendOK(playerid, "Оголошення подано у редакцію. Очікуйте перевірки.");
 		}
+		case dAdminPanel: 
+		{
+			if(!response) return 1;
+			switch(listitem) 
+			{
+				case 0: ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, ""P"| "W"Керування роботами.", ""W"М'ясокомбінат.", "Обрати", "Назад");
+				case 1: ShowPlayerDialog(playerid, dAdminSystem, DIALOG_STYLE_LIST, ""P"| "W"Керування системами.", ""W"Банк.\nАвтошкола.", "Обрати", "Назад");
+				case 2: PayDay();
+			}
+		}
 		case dAdminSystem:
 		{
 			if(!response) return pc_cmd_acp(playerid);
@@ -20952,33 +20968,48 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				%s", DepositDef, DepositStart, DepositComf, DepositOpti, status);
 			ShowPlayerDialog(playerid, dAdminBankEdit, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"Керування депозитом.", string, "Обрати", "Назад");
 		}
-		case dAdminWorks: {
+		case dAdminWorks: 
+		{
 			if(!response) return pc_cmd_acp(playerid);
 			new string[512];
-			switch(listitem) {
-				case 0: {
+			switch(listitem) 
+			{
+				case 0: 
+				{
 					new status[32];
 					if(!MeatWorkStatus) format(status, sizeof(status), "- Увімкнути роботу.");
 					else format(status, sizeof(status), "- Вимкнути роботу.");
-					format(string, sizeof(string), "Вид м'яса\tЦіна за 1 фунт\tТаймер обробки\nЯловичина\t"GREEN"$%.2f"W"\t%i\n"W"Оленина\t"GREEN"$%.2f"W"\t%i\n"W"Свинина\t"GREEN"$%.2f"W"\t%i\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
-					ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" М'ясокомбінат.", string, "Обрати", "Назад");
+					format(string, sizeof(string), ""G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f\t"W"%d\n"W"Оленина\t"GREEN"$%.2f\t"W"%d\n"W"Свинина\t"GREEN"$%.2f\t"W"%d\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
+					ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, ""P"| "W"М'ясокомбінат", string, "Обрати", "Назад");
 				}
+				case 1: ShowPlayerDialog(playerid, dAdminBus, DIALOG_STYLE_LIST, ""P"| "W"Водій автобуса.", ""W"Маршрути\nАвтобуси", "Обрати", "Назад");
 			}
 		}
-		case dAdminMeat: {
-			if(!response) return ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, P"|"W" Керування роботами.", "М'ясокомбінат", "Обрати", "Назад");
+		case dAdminBus:
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, ""P"| "W"Керування роботами.", "М'ясокомбінат\nВодій автобуса", "Обрати", "Назад");
+			switch(listitem)
+			{
+				case 0: pc_cmd_routes(playerid);
+			}
+		}
+		case dAdminMeat: 
+		{
+			if(!response) return ShowPlayerDialog(playerid, dAdminWorks, DIALOG_STYLE_LIST, ""P"| "W"Керування роботами.", "М'ясокомбінат\nВодій автобуса", "Обрати", "Назад");
 			new string[128], query[128];
-			switch(listitem) {
-				case 0: ShowPlayerDialog(playerid, dAdminMeatEdit, DIALOG_STYLE_LIST, P"|"W" Редагування роботи.", P"1."W" Змінити таймер обробки\n"P"2."W" Змінити ціну за 1 фунт", "Обрати", "Назад"), SetPVarInt(playerid, "MeatPrice", 1);
-				case 1: ShowPlayerDialog(playerid, dAdminMeatEdit, DIALOG_STYLE_LIST, P"|"W" Редагування роботи.", P"1."W" Змінити таймер обробки\n"P"2."W" Змінити ціну за 1 фунт", "Обрати", "Назад"), SetPVarInt(playerid, "MeatPrice", 2);
-				case 2: ShowPlayerDialog(playerid, dAdminMeatEdit, DIALOG_STYLE_LIST, P"|"W" Редагування роботи.", P"1."W" Змінити таймер обробки\n"P"2."W" Змінити ціну за 1 фунт", "Обрати", "Назад"), SetPVarInt(playerid, "MeatPrice", 3);
-				case 3: {
+			switch(listitem) 
+			{
+				case 0: ShowPlayerDialog(playerid, dAdminMeatEdit, DIALOG_STYLE_LIST, ""P"| "W"Редагування роботи.", ""P"1. "W"Змінити таймер обробки\n"P"2. "W"Змінити ціну за 1 фунт", "Обрати", "Назад"), SetPVarInt(playerid, "MeatPrice", 1);
+				case 1: ShowPlayerDialog(playerid, dAdminMeatEdit, DIALOG_STYLE_LIST, ""P"| "W"Редагування роботи.", ""P"1. "W"Змінити таймер обробки\n"P"2. "W"Змінити ціну за 1 фунт", "Обрати", "Назад"), SetPVarInt(playerid, "MeatPrice", 2);
+				case 2: ShowPlayerDialog(playerid, dAdminMeatEdit, DIALOG_STYLE_LIST, ""P"| "W"Редагування роботи.", ""P"1. "W"Змінити таймер обробки\n"P"2. "W"Змінити ціну за 1 фунт", "Обрати", "Назад"), SetPVarInt(playerid, "MeatPrice", 3);
+				case 3: 
+				{
 					if(!MeatWorkStatus) {
 						MeatWorkStatus = 1;
 						SendOK(playerid, "Ви увімкнули роботу на м'ясокомбінаті");
 						format(string, sizeof(string), "Адміністратор %s увімкнув роботу на м'ясокомбінаті.", CI[playerid][cName]);
 						SendAdminMessage(string);
-						mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatWorkStatus` = %i", MeatWorkStatus);
+						mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatWorkStatus` = %d", MeatWorkStatus);
 						mysql_query(connects, query);
 						return 1;
 					} else {
@@ -20986,49 +21017,59 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 						SendOK(playerid, "Ви вимкнули роботу на м'ясокомбінаті");
 						format(string, sizeof(string), "Адміністратор %s вимкнув роботу на м'ясокомбінаті.", CI[playerid][cName]);
 						SendAdminMessage(string);
-						mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatWorkStatus` = %i", MeatWorkStatus);
+						mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatWorkStatus` = %d", MeatWorkStatus);
 						mysql_query(connects, query);
 						return 1;
 					}
 				}
 			}
-			// ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
+			//ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 		}
-		case dAdminMeatEdit: {
+		case dAdminMeatEdit:
+		{
 			if(!response) return 1;
 			new string[256];
-			switch(listitem) {
-				case 0: {
-					switch(GetPVarInt(playerid, "MeatPrice")) {
-						case 1: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatCowTime);
-						case 2: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatDeerTime);
-						case 3: format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatPorkTime);
+			switch(listitem)
+			{
+				case 0:
+				{
+					switch(GetPVarInt(playerid, "MeatPrice"))
+					{
+						case 1: format(string, sizeof(string), ""W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%d", MeatCowTime);
+						case 2: format(string, sizeof(string), ""W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%d", MeatDeerTime); 
+						case 3: format(string, sizeof(string), ""W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%d", MeatPorkTime);
 					}
 					ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 				}
-				case 1: {
-					switch(GetPVarInt(playerid, "MeatPrice")) {
-						case 1: format(string, sizeof(string), W"Введіть нову ціну (через крапку) за 1 фунт яловичини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatCowPrice);
-						case 2: format(string, sizeof(string), W"Введіть нову ціну (через крапку) за 1 фунт оленини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatDeerPrice);
-						case 3: format(string, sizeof(string), W"Введіть нову ціну (через крапку) за 1 фунт свинини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatPorkPrice);
+				case 1:
+				{
+					switch(GetPVarInt(playerid, "MeatPrice"))
+					{
+						case 1: format(string, sizeof(string), ""W"Введіть нову ціну (через крапку) за 1 фунт яловичини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatCowPrice);
+						case 2: format(string, sizeof(string), ""W"Введіть нову ціну (через крапку) за 1 фунт оленини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatDeerPrice); 
+						case 3: format(string, sizeof(string), ""W"Введіть нову ціну (через крапку) за 1 фунт свинини на м'ясокомбінаті.\nПоточна ціна: "GREEN"$%.2f", MeatPorkPrice);
 					}
 					ShowPlayerDialog(playerid, dAdminMeatPrice, DIALOG_STYLE_INPUT, P"|"W" Ціна за фунт м'яса.", string, "Далі", "Назад");
 				}
 			}
 		}
-		case dAdminMeatTime: {
+		case dAdminMeatTime: 
+		{
 			new string[256], query[256];
 			if(!response) {
 				new status[32];
 				if(!MeatWorkStatus) format(status, sizeof(status), "- Увімкнути роботу.");
 				else format(status, sizeof(status), "- Вимкнути роботу.");
-				format(string, sizeof(string), G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f"W"\t%i\n"W"Оленина\t"GREEN"$%.2f"W"\t%i\n"W"Свинина\t"GREEN"$%.2f"W"\t%i\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
+				format(string, sizeof(string), ""G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f\t"W"%d\n"W"Оленина\t"GREEN"$%.2f\t"W"%d\n"W"Свинина\t"GREEN"$%.2f\t"W"%d\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
 				return ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" М'ясокомбінат.", string, "Обрати", "Назад");
 			}
-			switch(GetPVarInt(playerid, "MeatPrice")) {
-				case 1: {
-					if(isNotNumeric(inputtext)) {
-						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatCowTime);
+			switch(GetPVarInt(playerid, "MeatPrice")) 
+			{
+				case 1: 
+				{
+					if(isNotNumeric(inputtext)) 
+					{
+						format(string, sizeof(string), ""W"Введіть тривалість однієї ітерації обробки яловичини на м'ясокомбінаті.\nПоточна тривалість: "G"%d", MeatCowTime);
 						return ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 					}
 					MeatCowTime = strval(inputtext);
@@ -21037,20 +21078,24 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatCowTime` = %i", MeatCowTime);
 					mysql_query(connects, query);
 				}
-				case 2: {
-					if(isNotNumeric(inputtext)) {
-						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatDeerTime);
+				case 2: 
+				{
+					if(isNotNumeric(inputtext)) 
+					{
+						format(string, sizeof(string), ""W"Введіть тривалість однієї ітерації обробки оленини на м'ясокомбінаті.\nПоточна тривалість: "G"%d", MeatDeerTime);
 						return ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 					}
 					MeatDeerTime = strval(inputtext);
 					format(string, sizeof(string), "Адміністратор %s встановив таймер %i секунд для однієї ітерації обробки оленини на м'ясокомбінаті.", CI[playerid][cName], MeatDeerTime);
 					SendAdminMessage(string);
-					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatDeerTime` = %i", MeatDeerTime);
+					mysql_format(connects, query, sizeof(query), "UPDATE `economy` SET `MeatDeerTime` = %d", MeatDeerTime);
 					mysql_query(connects, query);
 				}
-				case 3: {
-					if(isNotNumeric(inputtext)) {
-						format(string, sizeof(string), W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%i", MeatPorkTime);
+				case 3: 
+				{
+					if(isNotNumeric(inputtext))
+					{
+						format(string, sizeof(string), ""W"Введіть тривалість однієї ітерації обробки свинини на м'ясокомбінаті.\nПоточна тривалість: "G"%d", MeatPorkTime);
 						return ShowPlayerDialog(playerid, dAdminMeatTime, DIALOG_STYLE_INPUT, P"|"W" Таймер обробки.", string, "Далі", "Назад");
 					}
 					MeatPorkTime = strval(inputtext);
@@ -21061,13 +21106,14 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 				}
 			}
 		}
-		case dAdminMeatPrice: {
+		case dAdminMeatPrice: 
+		{
 			new string[256], query[256];
 			if(!response) {
 				new status[32];
 				if(!MeatWorkStatus) format(status, sizeof(status), "- Увімкнути роботу.");
 				else format(status, sizeof(status), "- Вимкнути роботу.");
-				format(string, sizeof(string), G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f"W"\t%i\n"W"Оленина\t"GREEN"$%.2f"W"\t%i\n"W"Свинина\t"GREEN"$%.2f"W"\t%i\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
+				format(string, sizeof(string), ""G"Вид м'яса\t"G"Ціна за 1 фунт\t"G"Таймер обробки\n"W"Яловичина\t"GREEN"$%.2f\t"W"%d\n"W"Оленина\t"GREEN"$%.2f\t"W"%d\n"W"Свинина\t"GREEN"$%.2f\t"W"%d\n%s", MeatCowPrice, MeatCowTime, MeatDeerPrice, MeatDeerTime, MeatPorkPrice, MeatPorkTime, status);
 				return ShowPlayerDialog(playerid, dAdminMeat, DIALOG_STYLE_TABLIST_HEADERS, P"|"W" М'ясокомбінат.", string, "Обрати", "Назад");
 			}
 			switch(GetPVarInt(playerid, "MeatPrice")) {
@@ -21117,8 +21163,146 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			{
 				if(GetPlayerInterior(playerid)) return SendError(playerid, "Вийдіть з інтер'єру.");
 				SetPVarInt(playerid, "BusRouteCreationStarted", 1);
-				ShowPlayerDialog(playerid, dBusCreateRoute, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче номер для нового маршруту.", "Далі", "Назад");
+				return ShowPlayerDialog(playerid, dBusCreateRoute, DIALOG_STYLE_INPUT, ""P"| "W"Створення маршруту", ""W"Введіть нижче номер для нового маршруту.", "Далі", "Назад");
 			}
+			new header[50];
+			format(header, sizeof(header), ""P"| "W"Маршрут #%d.", route);
+			ShowPlayerDialog(playerid, dBusEditRoute, DIALOG_STYLE_LIST, header, ""W"Змінити номер\nЗмінити назву\nВидалити маршрут", "Обрати", "Назад");
+		}
+		case dBusEditRoute:
+		{
+			if(!response) return pc_cmd_routes(playerid);
+			switch(listitem)
+			{
+				case 0: ShowPlayerDialog(playerid, dBusRouteChangeNum, DIALOG_STYLE_INPUT, ""P"| "W"Змінити номер маршруту.", ""W"Введіть у поле нижче новий номер для маршруту.", "Далі", "Назад");
+				case 1: ShowPlayerDialog(playerid, dBusRouteChangeName, DIALOG_STYLE_INPUT, ""P"| "W"Змінити назву маршруту.", ""W"Введіть у поле нижче нову назву для маршруту.", "Далі", "Назад");
+				case 2: ShowPlayerDialog(playerid, dBusDeleteRoute, DIALOG_STYLE_MSGBOX, ""P"| "W"Видалення маршруту.", "Ви справді хочете видалити обраний маршрут?", "Так", "Ні");
+			}
+		}
+		case dBusRouteChangeNum:
+		{
+			if(!response)
+			{
+				new header[50];
+				format(header, sizeof(header), ""P"| "W"Маршрут #%d.", GetPVarInt(playerid, "BusRouteID"));
+				ShowPlayerDialog(playerid, dBusEditRoute, DIALOG_STYLE_LIST, header, ""W"Змінити номер\nЗмінити назву\nВидалити маршрут", "Обрати", "Назад");
+			}
+			if(isNotNumeric(inputtext)) return ShowPlayerDialog(playerid, dBusRouteChangeNum, DIALOG_STYLE_INPUT, ""P"| "W"Змінити номер маршруту.", ""W"Введіть у поле нижче новий номер для маршруту.", "Далі", "Назад");
+			new id = strval(inputtext);
+ 			new error;
+ 			for(new i; i < MAX_ROUTES; i++)
+ 			{
+ 				if(id == routes[i][RouteID])
+ 				{
+ 					error = 1;
+ 					break;
+ 				}
+ 			}
+ 			if(error) return ShowPlayerDialog(playerid, dBusRouteChangeNum, DIALOG_STYLE_INPUT, ""P"| "W"Змінити номер маршруту.", ""W"Введіть у поле нижче новий номер для маршруту.\n\n"E"* "W"Маршрут з таким номером вже існує.", "Далі", "Назад");
+ 			new query[256];
+ 			mysql_format(connects, query, sizeof(query), "UPDATE `bus_description` SET `RouteID` = %d WHERE `RouteID` = %d", id, GetPVarInt(playerid, "BusRouteID"));
+ 			mysql_query(connects, query);
+ 			mysql_format(connects, query, sizeof(query), "UPDATE `bus_routes` SET `RouteID` = %d WHERE `RouteID` = %d", id, GetPVarInt(playerid, "BusRouteID"));
+ 			mysql_query(connects, query);
+
+ 			new route;
+ 			for(new i; i < MAX_ROUTES; i++)
+ 			{
+ 				if(id == routes[i][RouteID])
+ 				{
+ 					route = i;
+ 					break;
+ 				}
+ 			}
+ 			routes[route][RouteID] = id;
+
+ 			DeletePVar(playerid, "BusRouteID");
+ 			SendOK(playerid, "Номер обраного маршруту успішно змінено.");
+ 		}
+ 		case dBusRouteChangeName:
+		{
+			if(!response)
+			{
+				new header[50];
+				format(header, sizeof(header), ""P"| "W"Маршрут #%d.", GetPVarInt(playerid, "BusRouteID"));
+				ShowPlayerDialog(playerid, dBusEditRoute, DIALOG_STYLE_LIST, header, ""W"Змінити номер\nЗмінити назву\nВидалити маршрут", "Обрати", "Назад");
+			}
+			if(strlen(inputtext)) return ShowPlayerDialog(playerid, dBusRouteChangeName, DIALOG_STYLE_INPUT, ""P"| "W"Змінити назву маршруту.", ""W"Введіть у поле нижче нову назву для маршруту.\n\n"E"* "W"Максимальна довжина - 64 символи.", "Далі", "Назад");
+ 			new error;
+ 			for(new i; i < MAX_ROUTES; i++)
+ 			{
+ 				if(!strcmp(inputtext, routes[i][RouteName]))
+ 				{
+ 					error = 1;
+ 					break;
+ 				}
+ 			}
+ 			if(error) return ShowPlayerDialog(playerid, dBusRouteChangeName, DIALOG_STYLE_INPUT, ""P"| "W"Змінити назву маршруту.", ""W"Введіть у поле нижче нову назву для маршруту.\n\n"E"* "W"Маршрут з такою назвою вже існує.", "Далі", "Назад");
+ 			new query[256];
+ 			mysql_format(connects, query, sizeof(query), "UPDATE `bus_description` SET `RouteName` = '%s' WHERE `RouteID` = %d", inputtext, GetPVarInt(playerid, "BusRouteID"));
+ 			mysql_query(connects, query);
+ 	
+ 			new route;
+ 			for(new i; i < MAX_ROUTES; i++)
+ 			{
+ 				if(!strcmp(inputtext, routes[i][RouteName]))
+ 				{
+ 					route = i;
+ 					break;
+ 				}
+ 			}
+ 			strdel(routes[route][RouteName], 0, 64);
+ 			strcat(routes[route][RouteName], inputtext);
+
+ 			DeletePVar(playerid, "BusRouteID");
+ 			SendOK(playerid, "Назву обраного маршруту успішно змінено.");
+ 		}
+		case dBusDeleteRoute:
+		{
+			new route = GetPVarInt(playerid, "BusRouteID");
+			if(!response) 
+			{
+				new header[50];
+				format(header, sizeof(header), ""P"| "W"Маршрут #%d.", route);
+				ShowPlayerDialog(playerid, dBusEditRoute, DIALOG_STYLE_LIST, header, ""W"Змінити номер\nЗмінити назву\nВидалити маршрут", "Обрати", "Назад");
+			}
+			new query[256];
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `bus_description` WHERE `RouteID` = %d", route);
+			mysql_query(connects, query);
+
+			mysql_format(connects, query, sizeof(query), "DELETE FROM `bus_routes` WHERE `RouteID` = %d", route);
+			mysql_query(connects, query);
+
+			new id;
+			for(new i; i < MAX_ROUTES; i++)
+			{
+				if(routes[i][RouteID] == route)
+				{
+					id = i;
+					break;
+				}
+			}
+			routes[id][RouteID] = -1;
+			routes[id][RouteName] = -1;
+
+			for(new i; i < routes[id][CheckCount]; i++)
+			{
+				bus[id][i][rcPos][0] = -1;
+				bus[id][i][rcPos][1] = -1;
+				bus[id][i][rcPos][2]  = -1; 
+				bus[id][i][StopStatus] = -1;
+				bus[id][i][StopCount] = -1;
+				bus[id][i][StopName] = -1;
+				bus[id][i][StopObjectPos][0] = -1;
+				bus[id][i][StopObjectPos][1] = -1;
+				bus[id][i][StopObjectPos][2] = -1;
+				bus[id][i][StopObjectPos][3] = -1;
+				bus[id][i][StopObjectPos][4] = -1;
+				bus[id][i][StopObjectPos][5] = -1;
+			}
+
+			routes[id][CheckCount] = -1;
+			SendOK(playerid, "Обраний маршрут успішно видалено.");
 		}
 		case dBusCreateRoute:
 		{
@@ -21178,6 +21362,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 			}
 
 		}
+
 		case D_ADMIN_PANEL: {
 			if(response) {
 				if(!IsAuthAdmin(playerid, 1)) return 1;
@@ -34931,8 +35116,8 @@ stock RemoveSettings(playerid) { // Скидання налаштувань при авторизації/реєстра
 	TK_Trailer[playerid] 						= INVALID_VEHICLE_ID;
 	thef_car[playerid]                          = INVALID_VEHICLE_ID;
 	for(new i; i < 4; i++) 					lic[playerid][i] = 0;
-	for (new i; i < TOTALGZ; i++) 			GangZoneShowForPlayer(playerid, GZInfo[i][gZone], GetGangZoneColor(i));
-	GangZoneShowForPlayer(playerid, SFa, COLOR_YELLOW2);
+	//for (new i; i < TOTALGZ; i++) 			GangZoneShowForPlayer(playerid, GZInfo[i][gZone], GetGangZoneColor(i));
+	//GangZoneShowForPlayer(playerid, SFa, COLOR_YELLOW2);
 	ResetPlayerMoney(playerid);
 	CreateTextDraws(playerid);
 	gKilled[playerid] = 0;
@@ -40893,7 +41078,18 @@ CMD:croute(playerid, params[])
 			DeletePVar(playerid, "BusStopRZ");
 			DeletePVar(playerid, "BusStopEdit");
 
-			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bus_routes` WHERE `RouteID` = %d ORDER BY `ID`", routes[route][RouteID]);
+			new wide;
+			for(new r; r < MAX_ROUTES; r++)
+			{
+				if(!routes[r][RouteID]) 
+				{
+					wide = r;
+					break;
+				}
+			}
+			routes[wide][RouteID] = route;
+
+			mysql_format(connects, query, sizeof(query), "SELECT * FROM `bus_routes` WHERE `RouteID` = %d ORDER BY `ID`", routes[wide][RouteID]);
 			mysql_tquery(connects, query, "LoadCheckpoints", "i", BusRoutesCount);
 
 			DeletePVar(playerid, "BusRouteCreationStarted");
@@ -69069,6 +69265,9 @@ stock SetBusNextCheckpoint(playerid, route)
 		5.0);
 		format(string, sizeof(string), "Наступна зупинка - "P"%d"W".", bus[route][cp][StopName]);
 		ProxDetector(15.0, playerid, string, 0x98FB98ff);
+
+		format(string, sizeof(string), "Кількість очікуючих на зупинці: %d.", bus[route][cp][StopCount]);
+		SendInfo(playerid, string);
 
 		bus[route][cp][StopStatus] = 1;
 
