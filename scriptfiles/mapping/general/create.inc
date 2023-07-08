@@ -662,7 +662,7 @@
 	SetDynamicObjectMaterial(tmpobjid,1,14650,"ab_trukstpc","mp_CJ_WOOD5",0xFF3A4956);
 	tmpobjid=CreateDynamicObject(19478,-640.545654,2707.323974,2501.971435,0,0.000007,0,-1,-1,-1,300,300);
 	SetDynamicObjectMaterial(tmpobjid,0,10765,"airportgnd_sfse","white",0xFF577BAA);
-	SetDynamicObjectMaterialText(tmpobjid,0,"LS",10,"Ariel",30,0,0xFFFFFFFF,0x00000000,1);
+	SetDynamicObjectMaterialText(tmpobjid,0,"CB",10,"Ariel",30,0,0xFFFFFFFF,0x00000000,1);
 	tmpobjid=CreateDynamicObject(18075,-632.855651,2706.358886,2504.540039,0,0,90,-1,-1,-1,300,300);
 	SetDynamicObjectMaterial(tmpobjid,0,10765,"airportgnd_sfse","white",0x00000000);
 	SetDynamicObjectMaterial(tmpobjid,1,10765,"airportgnd_sfse","white",0x00000000);
@@ -712,7 +712,7 @@
 	SetDynamicObjectMaterialText(tmpobjid,0,"BANK",40,"Quartz MS",20,1,0xFFFFFFFF,0x00000000,0);
 	tmpobjid=CreateDynamicObject(19478,-640.545654,2704.471923,2501.971435,0,0,0,-1,-1,-1,300,300);
 	SetDynamicObjectMaterial(tmpobjid,0,10765,"airportgnd_sfse","white",0xFF577BAA);
-	SetDynamicObjectMaterialText(tmpobjid,0,"LS",10,"Ariel",30,0,0xFFFFFFFF,0x00000000,1);
+	SetDynamicObjectMaterialText(tmpobjid,0,"CB",10,"Ariel",30,0,0xFFFFFFFF,0x00000000,1);
 	tmpobjid=CreateDynamicObject(18981,-635.270263,2713.172607,2504.964599,0,90,0,-1,-1,-1,300,300);
 	SetDynamicObjectMaterial(tmpobjid,0,14650,"ab_trukstpc","mp_CJ_WOOD5",0xFF5E7DB9);
 	tmpobjid=CreateDynamicObject(18981,-634.349914,2731.826416,2499.998046,0,90,0,-1,-1,-1,300,300);

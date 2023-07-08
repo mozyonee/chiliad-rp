@@ -2,7 +2,7 @@
 	RemoveBuildingForPlayer(playerid,4179,1686.8828,-1459.9609,16.2969,0.25);
 	RemoveBuildingForPlayer(playerid,4178,1686.8828,-1459.9609,16.2969,0.25);
 // Garage #1 East LS
-	RemoveBuildingForPlayer(playerid,616,2528.708984,-1556.680054,21.468000,0.25);
+	RemoveBuildingForPlayer(playerid,616,2528.708984,-1556.680054,21.468,0.25);
 	RemoveBuildingForPlayer(playerid,620,2510.560059,-1563.479004,21.804001,0.25);
 // Garage #2 East LS
 	RemoveBuildingForPlayer(playerid,17729,2540.828,-1350.585,40.898,0.250);
