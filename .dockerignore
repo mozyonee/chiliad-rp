@@ -1,0 +1,26 @@
+.git/
+.vscode/
+
+# sampctl/generated runtime artifacts
+dependencies/
+plugins/
+announce
+log-core.so
+samp03svr
+samp-npc
+server.cfg
+pawn.lock
+*.amx
+*.lst
+*.asm
+*.exe
+*.dll
+
+# Local secrets and logs
+.env
+.env.*
+scriptfiles/mysql.ini
+logs/
+server_log.txt
+crashinfo.txt
+samp.ban

@@ -1,0 +1,2 @@
+RemoveBuildingForPlayer(playerid, 4178, 1686.8800, -1459.9599, 16.2968, 0.10); // BailBonds3_LAn
+RemoveBuildingForPlayer(playerid, 4179, 1686.8800, -1459.9599, 16.2968, 0.10); // LOD Model of BailBonds3_LAn
