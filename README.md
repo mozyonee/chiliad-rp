@@ -1,6 +1,6 @@
-# chiliad.rp
+# chiliad-rp
 
-[![sampctl](https://img.shields.io/badge/sampctl-chiliad.rp-2f2f2f.svg?style=for-the-badge)](https://github.com/mozyonee/chiliad.rp)
+[![sampctl](https://img.shields.io/badge/sampctl-chiliad-rp-2f2f2f.svg?style=for-the-badge)](https://github.com/mozyonee/chiliad-rp)
 
 <!--
 Short description of your library, why it's useful, some examples, pictures or
@@ -31,13 +31,13 @@ Happy Pawning!
 Simply install to your project:
 
 ```bash
-sampctl package install mozyonee/chiliad.rp
+sampctl package install mozyonee/chiliad-rp
 ```
 
 Include in your code and begin using the library:
 
 ```pawn
-#include <chiliad.rp>
+#include <chiliad-rp>
 ```
 
 ## Usage
