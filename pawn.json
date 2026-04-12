@@ -1,0 +1,13 @@
+{
+	"user": "mozyonee",
+	"repo": "chiliad-rp",
+	"tag": "0.0.1",
+	"preset": "openmp",
+	"entry": "main.pwn",
+	"output": "gamemodes/main.amx",
+	"dependencies": [
+		"openmultiplayer/omp-stdlib",
+		"pawn-lang/samp-stdlib@open.mp",
+		"pawn-lang/pawn-stdlib@open.mp"
+	]
+}
