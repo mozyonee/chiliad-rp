@@ -45,7 +45,6 @@ Character_Change(playerid)
 		return 1;
 	}
 
-	Character_Reset(playerid);
 	CharacterDB_LoadAccountCharacters(playerid);
 	return 1;
 }
@@ -100,14 +99,4 @@ Character_Create(playerid, const name[])
 
 	CharacterDB_FindByName(playerid, name);
 	return 1;
-}
-
-stock bool:Character_IsLoaded(playerid)
-{
-	return CharacterData[playerid][Loaded];
-}
-
-stock Character_GetID(playerid)
-{
-	return CharacterData[playerid][ID];
 }

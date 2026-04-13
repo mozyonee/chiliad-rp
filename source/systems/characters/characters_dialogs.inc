@@ -47,6 +47,11 @@ Character_HandleSelectDialog(playerid, response, listitem)
 {
 	if (!response)
 	{
+		if (CharacterData[playerid][Loaded])
+		{
+			return 1;
+		}
+
 		Kick(playerid);
 		return 1;
 	}

@@ -33,6 +33,7 @@ enum E_CHARACTER_LIST_DATA
 }
 
 new CharacterData[MAX_PLAYERS][E_CHARACTER_DATA];
+// Stores the character selected by a connecting character name until account login succeeds.
 new CharacterLoginData[MAX_PLAYERS][E_CHARACTER_LOGIN_DATA];
 new CharacterList[MAX_PLAYERS][CHARACTER_MAX_PER_ACCOUNT][E_CHARACTER_LIST_DATA];
 new CharacterListCount[MAX_PLAYERS];

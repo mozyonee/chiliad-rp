@@ -51,3 +51,4 @@ bans.json
 
 # Secret files
 scriptfiles/mysql.ini
+scriptfiles/YSI/
