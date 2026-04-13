@@ -3,7 +3,14 @@
 #endif
 #define CHILIAD_BOOTSTRAP
 
+#include "source/core/hooks.inc"
+#include "source/core/dialogs.inc"
 #include "source/core/database.inc"
+
+#include "source/systems/accounts/accounts.inc"
+#include "source/systems/characters/characters.inc"
+#include "source/systems/menus/menus.inc"
 
 #include "source/runtime/startup.inc"
 #include "source/runtime/shutdown.inc"
+#include "source/runtime/player_hooks.inc"

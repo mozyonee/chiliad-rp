@@ -1,7 +1,6 @@
 {
 	"user": "mozyonee",
 	"repo": "chiliad-rp",
-	"tag": "0.0.1",
 	"preset": "openmp",
 	"entry": "main.pwn",
 	"output": "gamemodes/main.amx",
@@ -9,6 +8,9 @@
 		"openmultiplayer/omp-stdlib",
 		"pawn-lang/samp-stdlib@open.mp",
 		"pawn-lang/pawn-stdlib@open.mp",
-		"pBlueG/SA-MP-MySQL:R41-4"
-	]
+		"pBlueG/SA-MP-MySQL:R41-4",
+		"Sreyas-Sreelal/samp-bcrypt:0.4.1",
+		"pawn-lang/YSI-Includes:v5.10.0006"
+	],
+	"runtime": {}
 }

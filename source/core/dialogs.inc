@@ -1,0 +1,8 @@
+#if defined CHILIAD_DIALOGS
+	#endinput
+#endif
+#define CHILIAD_DIALOGS
+
+#define DIALOG_ACCOUNT_BASE (1000)
+#define DIALOG_CHARACTER_BASE (1100)
+#define DIALOG_MENU_BASE (1200)

@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS `characters` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `account_id` INT UNSIGNED NOT NULL,
+    `name` VARCHAR(24) NOT NULL,
+    `skin` SMALLINT UNSIGNED NOT NULL DEFAULT 60,
+    `age` TINYINT UNSIGNED NOT NULL DEFAULT 18,
+    `sex` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    `ethnos` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `last_login_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_characters_name` (`name`),
+    KEY `idx_characters_account_id` (`account_id`),
+    CONSTRAINT `fk_characters_account_id` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

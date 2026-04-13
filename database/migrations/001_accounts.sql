@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS `accounts` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(24) NOT NULL,
+    `password_hash` CHAR(60) NOT NULL,
+    `reg_ip` VARCHAR(45) NOT NULL,
+    `last_ip` VARCHAR(45) NOT NULL,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `last_login_at` TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `uq_accounts_username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

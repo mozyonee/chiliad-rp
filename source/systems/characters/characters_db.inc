@@ -1,0 +1,113 @@
+#if defined CHILIAD_CHARACTERS_DB
+	#endinput
+#endif
+#define CHILIAD_CHARACTERS_DB
+
+CharacterDB_EnsureTables()
+{
+	mysql_query(Database_GetHandle(),
+		"CREATE TABLE IF NOT EXISTS `characters` (\
+			`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\
+			`account_id` INT UNSIGNED NOT NULL,\
+			`name` VARCHAR(24) NOT NULL,\
+			`skin` SMALLINT UNSIGNED NOT NULL DEFAULT 60,\
+			`age` TINYINT UNSIGNED NOT NULL DEFAULT 18,\
+			`sex` TINYINT UNSIGNED NOT NULL DEFAULT 0,\
+			`ethnos` TINYINT UNSIGNED NOT NULL DEFAULT 0,\
+			`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\
+			`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\
+			`last_login_at` TIMESTAMP NULL DEFAULT NULL,\
+			PRIMARY KEY (`id`),\
+			UNIQUE KEY `uq_characters_name` (`name`),\
+			KEY `idx_characters_account_id` (`account_id`),\
+			CONSTRAINT `fk_characters_account_id` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE\
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+		false
+	);
+	return 1;
+}
+
+CharacterDB_LoadAccountCharacters(playerid)
+{
+	new query[256];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"SELECT `id`, `name`, `skin` FROM `characters` WHERE `account_id` = %d ORDER BY `id` ASC LIMIT %d",
+		Account_GetID(playerid),
+		CHARACTER_MAX_PER_ACCOUNT
+	);
+
+	mysql_tquery(Database_GetHandle(), query, "Character_OnListLoaded", "i", playerid);
+	return 1;
+}
+
+CharacterDB_FindAccountByCharacterName(playerid, const name[])
+{
+	new query[384];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"SELECT c.`id` AS `character_id`, a.`id` AS `account_id`, a.`username`, a.`password_hash` \
+		FROM `characters` c \
+		INNER JOIN `accounts` a ON a.`id` = c.`account_id` \
+		WHERE BINARY c.`name` = '%e' LIMIT 1",
+		name
+	);
+
+	mysql_tquery(Database_GetHandle(), query, "Character_OnAccountNameLookup", "i", playerid);
+	return 1;
+}
+
+CharacterDB_FindByName(playerid, const name[])
+{
+	new query[192];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"SELECT `id` FROM `characters` WHERE BINARY `name` = '%e' LIMIT 1",
+		name
+	);
+
+	mysql_tquery(Database_GetHandle(), query, "Character_OnNameLookup", "is", playerid, name);
+	return 1;
+}
+
+CharacterDB_Insert(playerid, const name[])
+{
+	new query[384];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"INSERT INTO `characters` (`account_id`, `name`, `skin`) VALUES (%d, '%e', %d)",
+		Account_GetID(playerid),
+		name,
+		CHARACTER_DEFAULT_SKIN
+	);
+
+	mysql_tquery(Database_GetHandle(), query, "Character_OnInserted", "i", playerid);
+	return 1;
+}
+
+CharacterDB_Load(playerid, character_id)
+{
+	new query[256];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"SELECT `id`, `account_id`, `name`, `skin`, `age`, `sex`, `ethnos` FROM `characters` WHERE `id` = %d AND `account_id` = %d LIMIT 1",
+		character_id,
+		Account_GetID(playerid)
+	);
+
+	mysql_tquery(Database_GetHandle(), query, "Character_OnLoaded", "i", playerid);
+	return 1;
+}
+
+CharacterDB_UpdateLogin(playerid)
+{
+	new query[128];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"UPDATE `characters` SET `last_login_at` = NOW() WHERE `id` = %d LIMIT 1",
+		CharacterData[playerid][ID]
+	);
+
+	mysql_tquery(Database_GetHandle(), query);
+	return 1;
+}
