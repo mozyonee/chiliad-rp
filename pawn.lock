@@ -1,6 +1,6 @@
 {
 	"version": 1,
-	"generated": "2026-04-12T20:10:26.78013Z",
+	"generated": "2026-04-13T00:01:05.0213486Z",
 	"sampctl_version": "1.13.0",
 	"dependencies": {
 		"github.com/openmultiplayer/omp-stdlib": {
@@ -171,5 +171,11 @@
 				"mode": 438
 			}
 		]
+	},
+	"build": {
+		"compiler_preset": "openmp",
+		"entry": "main.pwn",
+		"output": "gamemodes/main.amx",
+		"output_hash": "sha256:8e719bb9bc20fb3cf1030578e0c57ff6c4191b0c04a0b1355678ccdfdcf515ba"
 	}
 }

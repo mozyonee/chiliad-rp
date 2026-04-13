@@ -18,6 +18,7 @@ dependencies/
 # keep `samp.json` file on version control
 # but make sure the `rcon_password` field is set externally
 # you can use the environment variable `SAMP_RCON_PASSWORD` to do this.
+config.json
 server.cfg
 sampctl_build_file.inc 
 
@@ -34,11 +35,13 @@ samp-npc
 
 # logs
 logs/
+log.txt
 server_log.txt
 crashinfo.txt
 
 # Ban list
 samp.ban
+bans.json
 
 #
 # Common files
