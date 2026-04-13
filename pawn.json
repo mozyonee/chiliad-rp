@@ -8,6 +8,7 @@
 	"dependencies": [
 		"openmultiplayer/omp-stdlib",
 		"pawn-lang/samp-stdlib@open.mp",
-		"pawn-lang/pawn-stdlib@open.mp"
+		"pawn-lang/pawn-stdlib@open.mp",
+		"pBlueG/SA-MP-MySQL:R41-4"
 	]
 }

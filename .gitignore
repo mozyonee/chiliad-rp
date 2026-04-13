@@ -48,3 +48,7 @@ bans.json
 #
 
 *.sublime-workspace
+
+
+# Secret files
+scriptfiles/mysql.ini

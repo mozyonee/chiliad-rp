@@ -1,6 +1,6 @@
 {
 	"version": 1,
-	"generated": "2026-04-13T00:01:05.0213486Z",
+	"generated": "2026-04-13T00:20:13.0795792Z",
 	"sampctl_version": "1.13.0",
 	"dependencies": {
 		"github.com/openmultiplayer/omp-stdlib": {
@@ -11,6 +11,15 @@
 			"site": "github.com",
 			"user": "openmultiplayer",
 			"repo": "omp-stdlib"
+		},
+		"github.com/pBlueG/SA-MP-MySQL": {
+			"constraint": ":R41-4",
+			"resolved": "R41-4",
+			"commit": "937e6c9f3e72d93c83806e8200361ae99e1b5dfd",
+			"integrity": "commit:937e6c9f3e72d93c83806e8200361ae99e1b5dfd",
+			"site": "github.com",
+			"user": "pBlueG",
+			"repo": "SA-MP-MySQL"
 		},
 		"github.com/pawn-lang/pawn-stdlib": {
 			"constraint": "@open.mp",
@@ -176,6 +185,6 @@
 		"compiler_preset": "openmp",
 		"entry": "main.pwn",
 		"output": "gamemodes/main.amx",
-		"output_hash": "sha256:8e719bb9bc20fb3cf1030578e0c57ff6c4191b0c04a0b1355678ccdfdcf515ba"
+		"output_hash": "sha256:6492bf08241a284227f764719ca1aadd3bbecd8759e118ebf87ae16a3c292b64"
 	}
 }
