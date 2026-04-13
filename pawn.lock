@@ -1,7 +1,7 @@
 {
 	"version": 1,
-	"generated": "2026-04-13T01:28:29.4546689Z",
-	"sampctl_version": "1.13.0",
+	"generated": "2026-04-13T02:36:22.0913072Z",
+	"sampctl_version": "",
 	"dependencies": {
 		"github.com/Sreyas-Sreelal/samp-bcrypt": {
 			"constraint": ":0.4.1",
@@ -30,6 +30,15 @@
 			"user": "Y-Less",
 			"repo": "indirection"
 		},
+		"github.com/Y-Less/sscanf": {
+			"constraint": ":v2.13.8",
+			"resolved": "v2.13.8",
+			"commit": "143f301ac6b30e6855ff14d57fd0bd1c909c6891",
+			"integrity": "commit:143f301ac6b30e6855ff14d57fd0bd1c909c6891",
+			"site": "github.com",
+			"user": "Y-Less",
+			"repo": "sscanf"
+		},
 		"github.com/Zeex/amx_assembly": {
 			"constraint": "",
 			"resolved": "HEAD",
@@ -38,6 +47,15 @@
 			"site": "github.com",
 			"user": "Zeex",
 			"repo": "amx_assembly"
+		},
+		"github.com/katursis/Pawn.CMD": {
+			"constraint": ":3.4.0-omp",
+			"resolved": "3.4.0-omp",
+			"commit": "39fa56e301fb4ebc9a1ccec5cc5fb7af44de3bee",
+			"integrity": "commit:39fa56e301fb4ebc9a1ccec5cc5fb7af44de3bee",
+			"site": "github.com",
+			"user": "katursis",
+			"repo": "Pawn.CMD"
 		},
 		"github.com/openmultiplayer/omp-stdlib": {
 			"constraint": "",
@@ -239,6 +257,6 @@
 		"compiler_preset": "openmp",
 		"entry": "main.pwn",
 		"output": "gamemodes/main.amx",
-		"output_hash": "sha256:2226e00acb2ca165087b956cfb0748114577425712108fb81e5a4dd75e1a01ce"
+		"output_hash": "sha256:25f84dbc360142a2b720ee49542981b04f8693885479e20dc467fb8a45f5e70b"
 	}
 }

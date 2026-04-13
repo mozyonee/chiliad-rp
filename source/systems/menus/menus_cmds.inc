@@ -3,13 +3,9 @@
 #endif
 #define CHILIAD_MENUS_CMDS
 
-Menu_OnPlayerCommandText(playerid, const cmdtext[])
+alias:menu("mn", "mm")
+CMD:menu(playerid)
 {
-	if (!strcmp(cmdtext, "/menu", true))
-	{
-		Menu_ShowMain(playerid);
-		return 1;
-	}
-
-	return 0;
+	Menu_ShowMain(playerid);
+	return 1;
 }

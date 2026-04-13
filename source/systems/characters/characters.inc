@@ -55,6 +55,17 @@ Character_Load(playerid, character_id)
 	return 1;
 }
 
+stock bool:Character_IsLoaded(playerid)
+{
+	return CharacterData[playerid][Loaded];
+}
+
+stock Character_GetName(playerid, name[], size = sizeof name)
+{
+	format(name, size, "%s", CharacterData[playerid][Name]);
+	return 1;
+}
+
 static bool:Character_IsValidName(const name[])
 {
 	new length = strlen(name);

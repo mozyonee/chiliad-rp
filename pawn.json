@@ -8,9 +8,11 @@
 		"openmultiplayer/omp-stdlib",
 		"pawn-lang/samp-stdlib@open.mp",
 		"pawn-lang/pawn-stdlib@open.mp",
+		"Y-Less/sscanf:v2.13.8",
 		"pBlueG/SA-MP-MySQL:R41-4",
 		"Sreyas-Sreelal/samp-bcrypt:0.4.1",
-		"pawn-lang/YSI-Includes:v5.10.0006"
+		"pawn-lang/YSI-Includes:v5.10.0006",
+		"katursis/Pawn.CMD:3.4.0-omp"
 	],
 	"runtime": {}
 }

@@ -23,13 +23,3 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	Menu_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	return 1;
 }
-
-hook OnPlayerCommandText(playerid, cmdtext[])
-{
-	if (Menu_OnPlayerCommandText(playerid, cmdtext))
-	{
-		return 1;
-	}
-
-	return 0;
-}
