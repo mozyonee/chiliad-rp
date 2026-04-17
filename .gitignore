@@ -10,6 +10,10 @@
 # Vendor directory for dependencies
 dependencies/
 
+# Plugins directory
+components/
+plugins/
+
 #
 # Server/gamemode related files
 #
@@ -22,9 +26,6 @@ config.json
 pawn.lock
 server.cfg
 sampctl_build_file.inc 
-
-# Plugins directory
-plugins/
 
 # binaries
 *.exe
