@@ -184,3 +184,39 @@ stock bool:Database_IsConnected()
 {
 	return gDatabase != MYSQL_INVALID_HANDLE && mysql_errno(gDatabase) == 0;
 }
+
+stock Database_EnsureColumn(const table[], const column[], const definition[])
+{
+	new query[256];
+	new exists;
+
+	mysql_format(gDatabase, query, sizeof(query),
+		"SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS \
+		WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = '%e' AND COLUMN_NAME = '%e'",
+		table,
+		column
+	);
+
+	new Cache:cache = mysql_query(gDatabase, query);
+
+	if (cache != MYSQL_INVALID_CACHE && cache_num_rows())
+	{
+		cache_get_value_index_int(0, 0, exists);
+		cache_delete(cache);
+	}
+
+	if (exists)
+	{
+		return 1;
+	}
+
+	mysql_format(gDatabase, query, sizeof(query),
+		"ALTER TABLE `%e` ADD COLUMN `%e` %s",
+		table,
+		column,
+		definition
+	);
+
+	mysql_query(gDatabase, query, false);
+	return 1;
+}

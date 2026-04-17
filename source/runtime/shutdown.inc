@@ -3,7 +3,7 @@
 #endif
 #define CHILIAD_RUNTIME_SHUTDOWN
 
-hook OnGameModeExit()
+public OnGameModeExit()
 {
 	Database_Shutdown();
 	return 1;

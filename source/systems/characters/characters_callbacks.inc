@@ -38,15 +38,25 @@ public Character_OnAccountNameLookup(playerid)
 		return 1;
 	}
 
-	new account_id, account_name[MAX_PLAYER_NAME + 1], password_hash[BCRYPT_HASH_LENGTH];
+	new account_id, account_name[MAX_PLAYER_NAME + 1], password_hash[BCRYPT_HASH_LENGTH], last_ip[ACCOUNT_IP_LENGTH], last_login_at;
 
 	cache_get_value_name_int(0, "character_id", CharacterLoginData[playerid][LoginCharacterID]);
 	cache_get_value_name_int(0, "account_id", account_id);
 	cache_get_value_name(0, "username", account_name, sizeof(account_name));
 	cache_get_value_name(0, "password_hash", password_hash, sizeof(password_hash));
+	cache_get_value_name(0, "last_ip", last_ip, sizeof(last_ip));
+	cache_get_value_name_int(0, "last_login_at", last_login_at);
 
 	CharacterLoginData[playerid][HasPendingLoginCharacter] = true;
-	Account_SetLoginIdentity(playerid, account_id, account_name, password_hash);
+	Account_SetLoginIdentity(playerid, account_id, account_name, password_hash, last_ip, last_login_at);
+
+	if (Account_CanSkipPassword(playerid))
+	{
+		SendInfo(playerid, "Logged in automatically from trusted IP.");
+		Account_FinishLogin(playerid);
+		return 1;
+	}
+
 	Account_ShowLoginDialog(playerid);
 	return 1;
 }
@@ -82,7 +92,7 @@ public Character_OnNameLookup(playerid, name[])
 
 	if (cache_num_rows() != 0)
 	{
-		SendClientMessage(playerid, 0xE74C3CFF, "That character name is already taken.");
+		SendError(playerid, "That character name is already taken.");
 		Character_ShowCreateNameDialog(playerid);
 		return 1;
 	}
@@ -113,7 +123,7 @@ public Character_OnLoaded(playerid)
 
 	if (cache_num_rows() == 0)
 	{
-		SendClientMessage(playerid, 0xE74C3CFF, "Character could not be loaded.");
+		SendError(playerid, "Character could not be loaded.");
 		CharacterDB_LoadAccountCharacters(playerid);
 		return 1;
 	}
@@ -125,13 +135,23 @@ public Character_OnLoaded(playerid)
 	cache_get_value_name_int(0, "age", CharacterData[playerid][Age]);
 	cache_get_value_name_int(0, "sex", CharacterData[playerid][Sex]);
 	cache_get_value_name_int(0, "ethnos", CharacterData[playerid][Ethnos]);
+	cache_get_value_name_float(0, "last_x", CharacterData[playerid][LastX]);
+	cache_get_value_name_float(0, "last_y", CharacterData[playerid][LastY]);
+	cache_get_value_name_float(0, "last_z", CharacterData[playerid][LastZ]);
+	cache_get_value_name_float(0, "last_angle", CharacterData[playerid][LastAngle]);
+	cache_get_value_name_int(0, "last_interior", CharacterData[playerid][LastInterior]);
+	cache_get_value_name_int(0, "last_world", CharacterData[playerid][LastWorld]);
+	cache_get_value_name_int(0, "last_unloaded_at", CharacterData[playerid][LastUnloadedAt]);
 	CharacterData[playerid][Loaded] = true;
 
-	SetPlayerName(playerid, CharacterData[playerid][Name]);
-	SetSpawnInfo(playerid, NO_TEAM, CharacterData[playerid][Skin], 1958.3783, 1343.1572, 15.3746, 269.1425);
-	SpawnPlayer(playerid);
+	if (Character_CanResumeSession(playerid))
+	{
+		Character_ShowResumeSessionDialog(playerid);
+		return 1;
+	}
 
+	Character_Spawn(playerid, false);
 	CharacterDB_UpdateLogin(playerid);
-	SendClientMessage(playerid, 0x2ECC71FF, "Character loaded.");
+	SendOK(playerid, "Character loaded.");
 	return 1;
 }

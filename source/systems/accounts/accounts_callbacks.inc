@@ -21,6 +21,15 @@ public Account_OnLookup(playerid)
 	AccountData[playerid][Registered] = true;
 	cache_get_value_name_int(0, "id", AccountData[playerid][ID]);
 	cache_get_value_name(0, "password_hash", AccountData[playerid][PasswordHash], BCRYPT_HASH_LENGTH);
+	cache_get_value_name(0, "last_ip", AccountData[playerid][LastIP], ACCOUNT_IP_LENGTH);
+	cache_get_value_name_int(0, "last_login_at", AccountData[playerid][LastLoginAt]);
+
+	if (Account_CanSkipPassword(playerid))
+	{
+		SendInfo(playerid, "Logged in automatically from trusted IP.");
+		Account_FinishLogin(playerid);
+		return 1;
+	}
 
 	Account_ShowLoginDialog(playerid);
 	return 1;
@@ -52,7 +61,7 @@ public Account_OnInserted(playerid)
 	AccountData[playerid][ID] = cache_insert_id();
 	AccountData[playerid][Registered] = true;
 
-	SendClientMessage(playerid, 0x2ECC71FF, "Account registered.");
+	SendOK(playerid, "Account registered.");
 	Account_FinishLogin(playerid);
 	return 1;
 }
@@ -68,7 +77,7 @@ public Account_OnPasswordVerified(playerid, bool:success)
 	if (!success)
 	{
 		AccountData[playerid][LoginAttempts]++;
-		SendClientMessage(playerid, 0xE74C3CFF, "Incorrect password.");
+		SendError(playerid, "Incorrect password.");
 
 		if (AccountData[playerid][LoginAttempts] >= ACCOUNT_MAX_LOGIN_ATTEMPTS)
 		{

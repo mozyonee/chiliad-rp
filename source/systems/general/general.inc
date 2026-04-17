@@ -4,4 +4,5 @@
 #define CHILIAD_GENERAL
 
 #include "source/systems/general/general_utils.inc"
+#include "source/systems/general/general_chat.inc"
 #include "source/systems/general/general_cmds.inc"

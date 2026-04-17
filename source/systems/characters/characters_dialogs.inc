@@ -5,6 +5,7 @@
 
 #define DIALOG_CHARACTER_SELECT (DIALOG_CHARACTER_BASE + 1)
 #define DIALOG_CHARACTER_CREATE_NAME (DIALOG_CHARACTER_BASE + 2)
+#define DIALOG_CHARACTER_RESUME_SESSION (DIALOG_CHARACTER_BASE + 3)
 
 Character_ShowSelectDialog(playerid)
 {
@@ -14,31 +15,42 @@ Character_ShowSelectDialog(playerid)
 
 	for (new i = 0; i < CharacterListCount[playerid]; i++)
 	{
-		format(line, sizeof(line), "%s\n", CharacterList[playerid][i][ListName]);
+		format(line, sizeof(line), P"%d."W" %s\n", i + 1, CharacterList[playerid][i][ListName]);
 		strcat(body, line, sizeof(body));
 	}
 
 	if (CharacterListCount[playerid] < CHARACTER_MAX_PER_ACCOUNT)
 	{
-		strcat(body, "Create new character\n", sizeof(body));
+		strcat(body, P"+"W" Create new character\n", sizeof(body));
 	}
 
-	ShowPlayerDialog(playerid, DIALOG_CHARACTER_SELECT, DIALOG_STYLE_LIST,
-		"Characters",
+	SPD(playerid, DIALOG_CHARACTER_SELECT, DSL,
+		DIALOG_TITLE("Characters"),
 		body,
-		"Select",
-		"Quit"
+		DIALOG_BUTTON_SUBMIT,
+		DIALOG_BUTTON_CANCEL
 	);
 	return 1;
 }
 
 Character_ShowCreateNameDialog(playerid)
 {
-	ShowPlayerDialog(playerid, DIALOG_CHARACTER_CREATE_NAME, DIALOG_STYLE_INPUT,
-		"Create Character",
-		"Enter your character name in Forename_Surname format.",
-		"Create",
-		"Back"
+	SPD(playerid, DIALOG_CHARACTER_CREATE_NAME, DSI,
+		DIALOG_TITLE("Create Character"),
+		W"Enter your character name in "P"Forename_Surname"W" format.",
+		DIALOG_BUTTON_SUBMIT,
+		DIALOG_BUTTON_BACK
+	);
+	return 1;
+}
+
+Character_ShowResumeSessionDialog(playerid)
+{
+	SPD(playerid, DIALOG_CHARACTER_RESUME_SESSION, DSM,
+		DIALOG_TITLE("Resume Session"),
+		W"This character disconnected less than "P"15 minutes"W" ago.\n\nDo you want to resume from the last position?",
+		DIALOG_BUTTON_YES,
+		DIALOG_BUTTON_NO
 	);
 	return 1;
 }
@@ -75,5 +87,13 @@ Character_HandleCreateNameDialog(playerid, response, const inputtext[])
 	}
 
 	Character_Create(playerid, inputtext);
+	return 1;
+}
+
+Character_HandleResumeSessionDialog(playerid, response)
+{
+	Character_Spawn(playerid, bool:response);
+	CharacterDB_UpdateLogin(playerid);
+	SendOK(playerid, "Character loaded.");
 	return 1;
 }

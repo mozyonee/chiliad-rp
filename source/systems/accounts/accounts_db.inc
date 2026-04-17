@@ -28,7 +28,8 @@ AccountDB_FindByName(playerid)
 	new query[192];
 
 	mysql_format(Database_GetHandle(), query, sizeof(query),
-		"SELECT `id`, `username`, `password_hash` FROM `accounts` WHERE BINARY `username` = '%e' LIMIT 1",
+		"SELECT `id`, `username`, `password_hash`, `last_ip`, IFNULL(UNIX_TIMESTAMP(`last_login_at`), 0) AS `last_login_at` \
+		FROM `accounts` WHERE BINARY `username` = '%e' LIMIT 1",
 		AccountData[playerid][Name]
 	);
 

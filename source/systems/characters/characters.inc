@@ -3,6 +3,8 @@
 #endif
 #define CHILIAD_CHARACTERS
 
+forward bool:Character_CanResumeSession(playerid);
+
 #include "source/systems/characters/characters_data.inc"
 #include "source/systems/characters/characters_db.inc"
 #include "source/systems/characters/characters_dialogs.inc"
@@ -24,6 +26,13 @@ Character_Reset(playerid)
 	CharacterData[playerid][Age] = 18;
 	CharacterData[playerid][Sex] = 0;
 	CharacterData[playerid][Ethnos] = 0;
+	CharacterData[playerid][LastX] = CHARACTER_DEFAULT_X;
+	CharacterData[playerid][LastY] = CHARACTER_DEFAULT_Y;
+	CharacterData[playerid][LastZ] = CHARACTER_DEFAULT_Z;
+	CharacterData[playerid][LastAngle] = CHARACTER_DEFAULT_ANGLE;
+	CharacterData[playerid][LastInterior] = 0;
+	CharacterData[playerid][LastWorld] = 0;
+	CharacterData[playerid][LastUnloadedAt] = 0;
 	CharacterData[playerid][Loaded] = false;
 
 	CharacterListCount[playerid] = 0;
@@ -41,7 +50,7 @@ Character_Change(playerid)
 {
 	if (!Account_IsLoggedIn(playerid))
 	{
-		SendClientMessage(playerid, 0xE74C3CFF, "You must be logged in to change character.");
+		SendError(playerid, "You must be logged in to change character.");
 		return 1;
 	}
 
@@ -51,6 +60,12 @@ Character_Change(playerid)
 
 Character_Load(playerid, character_id)
 {
+	if (CharacterData[playerid][Loaded])
+	{
+		Character_SaveUnloadPosition(playerid);
+		Character_Reset(playerid);
+	}
+
 	CharacterDB_Load(playerid, character_id);
 	return 1;
 }
@@ -103,11 +118,72 @@ Character_Create(playerid, const name[])
 {
 	if (!Character_IsValidName(name))
 	{
-		SendClientMessage(playerid, 0xE74C3CFF, "Use Forename_Surname format, for example John_Smith.");
+		SendError(playerid, "Use Forename_Surname format, for example John_Smith.");
 		Character_ShowCreateNameDialog(playerid);
 		return 1;
 	}
 
 	CharacterDB_FindByName(playerid, name);
 	return 1;
+}
+
+Character_SaveUnloadPosition(playerid)
+{
+	if (!CharacterData[playerid][Loaded])
+	{
+		return 1;
+	}
+
+	new Float:x, Float:y, Float:z, Float:angle;
+
+	GetPlayerPos(playerid, x, y, z);
+	GetPlayerFacingAngle(playerid, angle);
+
+	CharacterDB_UpdateUnloadPosition(
+		playerid,
+		x,
+		y,
+		z,
+		angle,
+		GetPlayerInterior(playerid),
+		GetPlayerVirtualWorld(playerid)
+	);
+	return 1;
+}
+
+Character_Spawn(playerid, bool:resume_session)
+{
+	new Float:x = CHARACTER_DEFAULT_X;
+	new Float:y = CHARACTER_DEFAULT_Y;
+	new Float:z = CHARACTER_DEFAULT_Z;
+	new Float:angle = CHARACTER_DEFAULT_ANGLE;
+	new interior = 0;
+	new world = 0;
+
+	if (resume_session)
+	{
+		x = CharacterData[playerid][LastX];
+		y = CharacterData[playerid][LastY];
+		z = CharacterData[playerid][LastZ];
+		angle = CharacterData[playerid][LastAngle];
+		interior = CharacterData[playerid][LastInterior];
+		world = CharacterData[playerid][LastWorld];
+	}
+
+	SetPlayerName(playerid, CharacterData[playerid][Name]);
+	SetPlayerVirtualWorld(playerid, world);
+	SetPlayerInterior(playerid, interior);
+	SetSpawnInfo(playerid, NO_TEAM, CharacterData[playerid][Skin], x, y, z, angle);
+	SpawnPlayer(playerid);
+	return 1;
+}
+
+bool:Character_CanResumeSession(playerid)
+{
+	if (!CharacterData[playerid][LastUnloadedAt])
+	{
+		return false;
+	}
+
+	return gettime() - CharacterData[playerid][LastUnloadedAt] <= CHARACTER_RESUME_WINDOW_SECONDS;
 }

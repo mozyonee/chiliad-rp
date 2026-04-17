@@ -7,11 +7,11 @@
 
 Menu_ShowMain(playerid)
 {
-	ShowPlayerDialog(playerid, DIALOG_MENU_MAIN, DIALOG_STYLE_LIST,
-		"Menu",
-		"Change character",
-		"Select",
-		"Close"
+	SPD(playerid, DIALOG_MENU_MAIN, DSL,
+		DIALOG_TITLE("Menu"),
+		P"1."W" Change character",
+		DIALOG_BUTTON_SUBMIT,
+		DIALOG_BUTTON_CANCEL
 	);
 	return 1;
 }
