@@ -134,6 +134,10 @@ File meanings:
 *   `<feature>_map.inc`: Mapping objects owned by the feature.
 *   `<feature>_textdraws.inc`: Textdraws owned by the feature.
 
+Dialog flow convention:
+
+*   Child dialogs should return to their parent dialog when the player refuses, cancels, or presses a back button. Only top-level dialogs should close on refusal.
+
 Use this mental model:
 
 ```text

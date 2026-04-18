@@ -3,6 +3,8 @@
 #endif
 #define CHILIAD_BOOTSTRAP
 
+#include "source/data/items.inc"
+
 #include "source/core/hooks.inc"
 #include "source/core/dialogs.inc"
 #include "source/core/style.inc"
@@ -14,6 +16,7 @@
 #include "source/systems/characters/characters.inc"
 #include "source/systems/menus/menus.inc"
 #include "source/systems/general/general.inc"
+#include "source/systems/inventory/inventory.inc"
 
 #include "source/runtime/startup.inc"
 #include "source/runtime/shutdown.inc"

@@ -23,6 +23,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	Dialog_ClearOpen(playerid);
 	Account_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	Character_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
+	Inventory_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	Menu_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	return 1;
 }

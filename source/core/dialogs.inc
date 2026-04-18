@@ -6,6 +6,7 @@
 #define DIALOG_ACCOUNT_BASE (1000)
 #define DIALOG_CHARACTER_BASE (1100)
 #define DIALOG_MENU_BASE (1200)
+#define DIALOG_INVENTORY_BASE (1300)
 
 static bool:DialogOpen[MAX_PLAYERS];
 

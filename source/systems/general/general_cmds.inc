@@ -244,8 +244,8 @@ CMD:time(playerid)
 
 CMD:help(playerid)
 {
-	SendInfo(playerid, "Commands: /menu, /n, /an, /s, /w, /me, /ame, /do, /ado, /todo, /try, /coin, /id, /time, /pm");
-	SendInfo(playerid, "Aliases: /mn, /mm, /b, /ab, /shout, /whisper, /flip");
+	SendInfo(playerid, "Commands: /menu, /inv, /pay, /stats, /n, /an, /s, /w, /me, /ame, /do, /ado, /todo, /try, /coin, /id, /time, /pm");
+	SendInfo(playerid, "Aliases: /mn, /mm, /inventory, /b, /ab, /shout, /whisper, /flip");
 	return 1;
 }
 

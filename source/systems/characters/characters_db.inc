@@ -130,6 +130,20 @@ CharacterDB_UpdateLogin(playerid)
 	return 1;
 }
 
+CharacterDB_UpdateSkin(playerid)
+{
+	new query[128];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"UPDATE `characters` SET `skin` = %d WHERE `id` = %d LIMIT 1",
+		CharacterData[playerid][Skin],
+		CharacterData[playerid][ID]
+	);
+
+	mysql_tquery(Database_GetHandle(), query);
+	return 1;
+}
+
 CharacterDB_UpdateUnloadPosition(playerid, Float:x, Float:y, Float:z, Float:angle, interior, world)
 {
 	new query[384];
