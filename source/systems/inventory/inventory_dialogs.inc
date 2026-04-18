@@ -203,10 +203,10 @@ Inventory_HandleGiveDialog(playerid, response, const inputtext[])
 	}
 
 	format(message, sizeof(message), "You gave %s %d x %s.", receiver, amount, itemname);
-	SendOK(playerid, message);
+	SendSuccess(playerid, message);
 
 	format(message, sizeof(message), "%s gave you %d x %s.", sender, amount, itemname);
-	SendOK(targetid, message);
+	SendSuccess(targetid, message);
 	return 1;
 }
 
@@ -237,6 +237,6 @@ Inventory_HandleThrowDialog(playerid, response, const inputtext[])
 	Inventory_Throw(playerid, InventorySelectedItem[playerid], amount);
 
 	format(message, sizeof(message), "You threw away %d x %s.", amount, itemname);
-	SendOK(playerid, message);
+	SendSuccess(playerid, message);
 	return 1;
 }

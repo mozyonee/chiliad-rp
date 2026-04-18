@@ -49,10 +49,6 @@ public Banking_OnCardCreated(playerid)
 		return 1;
 	}
 
-	new message[96];
-	new card_id = cache_insert_id();
-	format(message, sizeof(message), "Bank card #%06d created.", card_id);
-	SendOK(playerid, message);
 	BankingDB_LoadCards(playerid);
 	return 1;
 }
@@ -106,7 +102,7 @@ public Banking_OnOperationDone(playerid)
 		return 1;
 	}
 
-	SendOK(playerid, "Bank operation completed.");
+	SendSuccess(playerid, "Bank operation completed.");
 	Banking_RefreshSelectedCard(playerid);
 	return 1;
 }
@@ -127,7 +123,7 @@ public Banking_OnWithdrawDone(playerid, amount)
 	}
 
 	Money_Give(playerid, amount);
-	SendOK(playerid, "Bank operation completed.");
+	SendSuccess(playerid, "Bank operation completed.");
 	Banking_RefreshSelectedCard(playerid);
 	return 1;
 }
@@ -147,7 +143,7 @@ public Banking_OnTransferDone(playerid)
 		return 1;
 	}
 
-	SendOK(playerid, "Transfer completed.");
+	SendSuccess(playerid, "Transfer completed.");
 	Banking_RefreshSelectedCard(playerid);
 	return 1;
 }

@@ -3,7 +3,7 @@
 #endif
 #define CHILIAD_MESSAGES
 
-stock SendOK(playerid, const text[])
+stock SendSuccess(playerid, const text[])
 {
 	new message[256];
 	format(message, sizeof message, GREEN"|"W" %s", text);

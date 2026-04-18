@@ -18,10 +18,5 @@ public Admin_OnLoaded(playerid)
 
 	AdminLoaded[playerid] = true;
 
-	if (AdminData[playerid][Level] > 0)
-	{
-		SendInfo(playerid, "Use /aduty to start administrating.");
-	}
-
 	return 1;
 }

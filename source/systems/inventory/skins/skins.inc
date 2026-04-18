@@ -30,12 +30,10 @@ bool:InventorySkins_Use(playerid, itemid, amount)
 	if (Character_GetSkin(playerid) == skinid)
 	{
 		Character_SetSkin(playerid, Character_GetNakedSkin(playerid));
-		SendOK(playerid, "Skin removed.");
 		return true;
 	}
 
 	Character_SetSkin(playerid, skinid);
-	SendOK(playerid, "Skin changed.");
 	return true;
 }
 

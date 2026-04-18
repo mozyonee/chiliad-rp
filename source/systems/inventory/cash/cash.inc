@@ -92,10 +92,10 @@ CMD:pay(playerid, params[])
 	Inventory_Transfer(playerid, targetid, ITEM_CASH, amount);
 
 	format(message, sizeof(message), "You paid %s $%d.", receiver, amount);
-	SendOK(playerid, message);
+	SendSuccess(playerid, message);
 
 	format(message, sizeof(message), "%s paid you $%d.", sender, amount);
-	SendOK(targetid, message);
+	SendSuccess(targetid, message);
 	return 1;
 }
 

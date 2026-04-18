@@ -220,7 +220,7 @@ CMD:action(playerid, params[])
 	if (General_HasAction(playerid))
 	{
 		General_ClearAction(playerid);
-		SendOK(playerid, "You deleted your action.");
+		SendSuccess(playerid, "You deleted your action.");
 		return 1;
 	}
 
@@ -257,7 +257,7 @@ CMD:delaction(playerid, params[])
 	}
 
 	General_ClearAction(targetid);
-	SendOK(playerid, "You deleted the player's action.");
+	SendSuccess(playerid, "You deleted the player's action.");
 	return 1;
 }
 
@@ -271,12 +271,12 @@ CMD:pame(playerid, params[])
 	if (isnull(params))
 	{
 		General_ClearPame(playerid);
-		SendOK(playerid, "You deleted your character description.");
+		SendSuccess(playerid, "You deleted your character description.");
 		return 1;
 	}
 
 	General_SetPame(playerid, params);
-	SendOK(playerid, "You updated your character description.");
+	SendSuccess(playerid, "You updated your character description.");
 	return 1;
 }
 

@@ -52,7 +52,6 @@ public Character_OnAccountNameLookup(playerid)
 
 	if (Account_CanSkipPassword(playerid))
 	{
-		SendInfo(playerid, "Logged in automatically from trusted IP.");
 		Account_FinishLogin(playerid);
 		return 1;
 	}
@@ -168,5 +167,11 @@ public Character_OnInventoryLoaded(playerid)
 
 	Character_Spawn(playerid, false);
 	CharacterDB_UpdateLogin(playerid);
+	
+	new name[MAX_PLAYER_NAME + 1], message[144];
+	General_GetDisplayName(playerid, name, sizeof(name));
+	format(message, sizeof message, "Welcome back to Chiliad, %s!", name);
+	SendSuccess(playerid, message);
+	
 	return 1;
 }

@@ -90,5 +90,11 @@ Character_HandleResumeSessionDialog(playerid, response)
 {
 	Character_Spawn(playerid, bool:response);
 	CharacterDB_UpdateLogin(playerid);
+
+	new name[MAX_PLAYER_NAME + 1], message[144];
+	General_GetDisplayName(playerid, name, sizeof(name));
+	format(message, sizeof message, "Welcome back to Chiliad, %s!", name);
+	SendSuccess(playerid, message);
+	
 	return 1;
 }

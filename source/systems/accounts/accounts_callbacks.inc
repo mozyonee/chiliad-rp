@@ -26,7 +26,6 @@ public Account_OnLookup(playerid)
 
 	if (Account_CanSkipPassword(playerid))
 	{
-		SendInfo(playerid, "Logged in automatically from trusted IP.");
 		Account_FinishLogin(playerid);
 		return 1;
 	}
@@ -60,8 +59,7 @@ public Account_OnInserted(playerid)
 
 	AccountData[playerid][ID] = cache_insert_id();
 	AccountData[playerid][Registered] = true;
-
-	SendOK(playerid, "Account registered.");
+	
 	Account_FinishLogin(playerid);
 	return 1;
 }

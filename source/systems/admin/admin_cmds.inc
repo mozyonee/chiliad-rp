@@ -185,7 +185,7 @@ CMD:goto(playerid, params[])
 
 	SetPlayerInterior(playerid, GetPlayerInterior(targetid));
 	SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
-	SendOK(playerid, "Teleported.");
+	SendSuccess(playerid, "Teleported.");
 	return 1;
 }
 
@@ -229,7 +229,7 @@ CMD:gethere(playerid, params[])
 
 	SetPlayerInterior(targetid, GetPlayerInterior(playerid));
 	SetPlayerVirtualWorld(targetid, GetPlayerVirtualWorld(playerid));
-	SendOK(playerid, "Player teleported.");
+	SendSuccess(playerid, "Player teleported.");
 	return 1;
 }
 
@@ -257,7 +257,7 @@ CMD:slap(playerid, params[])
 	GetPlayerPos(targetid, x, y, z);
 	SetPlayerPos(targetid, x, y, z + 2.5);
 	PlayerPlaySound(targetid, 1130, x, y, z + 2.5);
-	SendOK(playerid, "Player slapped.");
+	SendSuccess(playerid, "Player slapped.");
 	return 1;
 }
 
@@ -282,7 +282,7 @@ CMD:freeze(playerid, params[])
 	}
 
 	TogglePlayerControllable(targetid, false);
-	SendOK(playerid, "Player frozen.");
+	SendSuccess(playerid, "Player frozen.");
 	return 1;
 }
 
@@ -307,7 +307,7 @@ CMD:unfreeze(playerid, params[])
 	}
 
 	TogglePlayerControllable(targetid, true);
-	SendOK(playerid, "Player unfrozen.");
+	SendSuccess(playerid, "Player unfrozen.");
 	return 1;
 }
 
@@ -344,7 +344,7 @@ CMD:sethp(playerid, params[])
 	}
 
 	SetPlayerHealth(targetid, float(health));
-	SendOK(playerid, "Health updated.");
+	SendSuccess(playerid, "Health updated.");
 	return 1;
 }
 
@@ -369,7 +369,7 @@ CMD:setarm(playerid, params[])
 	}
 
 	SetPlayerArmour(targetid, float(armour));
-	SendOK(playerid, "Armour updated.");
+	SendSuccess(playerid, "Armour updated.");
 	return 1;
 }
 
@@ -440,7 +440,7 @@ CMD:setskin(playerid, params[])
 	}
 
 	Character_SetSkin(targetid, skinid);
-	SendOK(playerid, "Skin updated.");
+	SendSuccess(playerid, "Skin updated.");
 	return 1;
 }
 
@@ -475,7 +475,7 @@ CMD:makeadmin(playerid, params[])
 	Admin_SetLevel(targetid, level);
 
 	format(message, sizeof(message), "You set %s's admin level to %d.", target_name, level);
-	SendOK(playerid, message);
+	SendSuccess(playerid, message);
 
 	if (level > 0)
 	{

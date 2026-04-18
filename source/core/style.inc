@@ -51,7 +51,7 @@
 #define DIALOG_BUTTON_SUBMIT "Submit"
 #define DIALOG_BUTTON_CANCEL "Cancel"
 #define DIALOG_BUTTON_NEXT "Next"
-#define DIALOG_BUTTON_BACK "Previous"
+#define DIALOG_BUTTON_BACK "Back"
 #define DIALOG_BUTTON_YES "Yes"
 #define DIALOG_BUTTON_NO "No"
 #define DIALOG_BUTTON_CLOSE "Close"
