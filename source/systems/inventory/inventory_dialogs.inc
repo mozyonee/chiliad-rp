@@ -3,11 +3,6 @@
 #endif
 #define CHILIAD_INVENTORY_DIALOGS
 
-#define DIALOG_INVENTORY_LIST (DIALOG_INVENTORY_BASE + 1)
-#define DIALOG_INVENTORY_ITEM (DIALOG_INVENTORY_BASE + 2)
-#define DIALOG_INVENTORY_GIVE (DIALOG_INVENTORY_BASE + 3)
-#define DIALOG_INVENTORY_THROW (DIALOG_INVENTORY_BASE + 4)
-
 Inventory_ShowList(playerid)
 {
 	if (!Inventory_IsLoaded(playerid))
@@ -23,7 +18,7 @@ Inventory_ShowList(playerid)
 
 	for (new i = 0; i < INVENTORY_MAX_CACHE_ITEMS && InventoryDialogItemCount[playerid] < INVENTORY_MAX_DIALOG_ITEMS; i++)
 	{
-		if (InventoryData[playerid][i][InventoryItemID] == INVALID_INVENTORY_ITEM_ID || InventoryData[playerid][i][InventoryAmount] <= 0)
+		if (InventoryData[playerid][i][InventoryItemID] == ITEM_INVALID || InventoryData[playerid][i][InventoryAmount] <= 0)
 		{
 			continue;
 		}
@@ -56,7 +51,9 @@ Inventory_ShowItemOptions(playerid, itemid)
 	Inventory_GetItemName(itemid, name, sizeof(name));
 
 	format(title, sizeof(title), P"|"W" %s", name);
+
 	format(content, sizeof(content), P"1."W" Use\n"P"2."W" Give\n"P"3."W" Throw");
+
 	SPD(playerid, DIALOG_INVENTORY_ITEM, DSL,
 		title,
 		content,
@@ -108,7 +105,7 @@ Inventory_HandleListDialog(playerid, response, listitem)
 {
 	if (!response)
 	{
-		return Inventory_ShowList(playerid);
+		return 1;
 	}
 
 	if (listitem < 0 || listitem >= InventoryDialogItemCount[playerid])
@@ -123,7 +120,7 @@ Inventory_HandleItemDialog(playerid, response, listitem)
 {
 	if (!response)
 	{
-		return Inventory_ShowItemOptions(playerid, InventorySelectedItem[playerid]);
+		return Inventory_ShowList(playerid);
 	}
 
 	if (!Inventory_Has(playerid, InventorySelectedItem[playerid], 1))
@@ -196,8 +193,8 @@ Inventory_HandleGiveDialog(playerid, response, const inputtext[])
 
 	new itemname[INVENTORY_ITEM_NAME_LENGTH], sender[MAX_PLAYER_NAME + 1], receiver[MAX_PLAYER_NAME + 1], message[144];
 	Inventory_GetItemName(InventorySelectedItem[playerid], itemname, sizeof(itemname));
-	Character_GetName(playerid, sender, sizeof(sender));
-	Character_GetName(targetid, receiver, sizeof(receiver));
+	General_GetDisplayName(playerid, sender, sizeof(sender));
+	General_GetDisplayName(targetid, receiver, sizeof(receiver));
 
 	if (!Inventory_Transfer(playerid, targetid, InventorySelectedItem[playerid], amount))
 	{
@@ -217,7 +214,7 @@ Inventory_HandleThrowDialog(playerid, response, const inputtext[])
 {
 	if (!response)
 	{
-		return 1;
+		return Inventory_ShowItemOptions(playerid, InventorySelectedItem[playerid]);
 	}
 
 	new amount;

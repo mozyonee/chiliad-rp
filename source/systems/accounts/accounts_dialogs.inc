@@ -3,9 +3,6 @@
 #endif
 #define CHILIAD_ACCOUNTS_DIALOGS
 
-#define DIALOG_ACCOUNT_LOGIN (DIALOG_ACCOUNT_BASE + 1)
-#define DIALOG_ACCOUNT_REGISTER (DIALOG_ACCOUNT_BASE + 2)
-
 Account_ShowLoginDialog(playerid)
 {
 	new body[160];

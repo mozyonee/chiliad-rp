@@ -5,6 +5,14 @@
 
 General_OnPlayerText(playerid, const text[])
 {
+	if (Admin_IsDuty(playerid))
+	{
+		new message[144];
+		format(message, sizeof(message), "%s", text);
+		pc_cmd_n(playerid, message);
+		return 0;
+	}
+
 	new name[MAX_PLAYER_NAME + 1], message[144];
 
 	General_GetDisplayName(playerid, name, sizeof name);

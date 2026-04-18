@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS `settings` (
+    `character_id` INT UNSIGNED NOT NULL,
+    `pm_enabled` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `ooc_chat_enabled` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`character_id`),
+    CONSTRAINT `fk_settings_character_id` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -25,7 +25,7 @@
 #define DSTH DIALOG_STYLE_TABLIST_HEADERS
 
 #define P "{479FF2}" // Primary blue.
-#define G "{AFAFAF}" // Grey.
+#define G "{AFAFAF}" // Gray.
 #define W "{FFFFFF}" // White.
 #define O "{FFD700}" // Orange.
 #define YES "{48FC23}" // Confirm green.
@@ -43,7 +43,8 @@
 #define COLOR_RP (0xC2A2DAFF)
 #define COLOR_PM (0xF1C40FFF)
 #define COLOR_WHITE (0xFFFFFFFF)
-#define COLOR_GREY (0xAFAFAFFF)
+#define COLOR_GRAY (0xAFAFAFFF)
+#define COLOR_GREEN (0x33AA33FF)
 
 #define DIALOG_TITLE(%0) P"|"W" "%0
 
@@ -53,3 +54,4 @@
 #define DIALOG_BUTTON_BACK "Previous"
 #define DIALOG_BUTTON_YES "Yes"
 #define DIALOG_BUTTON_NO "No"
+#define DIALOG_BUTTON_CLOSE "Close"

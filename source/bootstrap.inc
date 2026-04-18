@@ -14,9 +14,10 @@
 
 #include "source/systems/accounts/accounts.inc"
 #include "source/systems/characters/characters.inc"
-#include "source/systems/menus/menus.inc"
 #include "source/systems/general/general.inc"
+#include "source/systems/admin/admin.inc"
 #include "source/systems/inventory/inventory.inc"
+#include "source/systems/banking/banking.inc"
 
 #include "source/runtime/startup.inc"
 #include "source/runtime/shutdown.inc"

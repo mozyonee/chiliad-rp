@@ -13,7 +13,7 @@ public Inventory_OnLoaded(playerid)
 
 	for (new i = 0; i < INVENTORY_MAX_CACHE_ITEMS; i++)
 	{
-		InventoryData[playerid][i][InventoryItemID] = INVALID_INVENTORY_ITEM_ID;
+		InventoryData[playerid][i][InventoryItemID] = ITEM_INVALID;
 		InventoryData[playerid][i][InventoryAmount] = 0;
 	}
 
@@ -25,7 +25,7 @@ public Inventory_OnLoaded(playerid)
 		cache_get_value_name_int(i, "item_id", itemid);
 		cache_get_value_name_int(i, "amount", amount);
 
-		if (itemid <= INVALID_INVENTORY_ITEM_ID || amount <= 0)
+		if (itemid <= ITEM_INVALID || amount <= 0)
 		{
 			continue;
 		}
@@ -35,6 +35,7 @@ public Inventory_OnLoaded(playerid)
 	}
 
 	InventoryLoaded[playerid] = true;
+	InventoryCash_SyncDisplay(playerid);
 	Character_OnInventoryLoaded(playerid);
 	return 1;
 }

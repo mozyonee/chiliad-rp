@@ -14,6 +14,7 @@ CharacterDB_EnsureTables()
 			`age` TINYINT UNSIGNED NOT NULL DEFAULT 18,\
 			`sex` TINYINT UNSIGNED NOT NULL DEFAULT 0,\
 			`ethnos` TINYINT UNSIGNED NOT NULL DEFAULT 0,\
+			`pame` VARCHAR(64) NOT NULL DEFAULT '',\
 			`last_x` FLOAT NOT NULL DEFAULT 1958.3783,\
 			`last_y` FLOAT NOT NULL DEFAULT 1343.1572,\
 			`last_z` FLOAT NOT NULL DEFAULT 15.3746,\
@@ -32,6 +33,7 @@ CharacterDB_EnsureTables()
 		false
 	);
 	Database_EnsureColumn("characters", "last_x", "FLOAT NOT NULL DEFAULT 1958.3783");
+	Database_EnsureColumn("characters", "pame", "VARCHAR(64) NOT NULL DEFAULT ''");
 	Database_EnsureColumn("characters", "last_y", "FLOAT NOT NULL DEFAULT 1343.1572");
 	Database_EnsureColumn("characters", "last_z", "FLOAT NOT NULL DEFAULT 15.3746");
 	Database_EnsureColumn("characters", "last_angle", "FLOAT NOT NULL DEFAULT 269.1425");
@@ -102,10 +104,10 @@ CharacterDB_Insert(playerid, const name[])
 
 CharacterDB_Load(playerid, character_id)
 {
-	new query[512];
+	new query[640];
 
 	mysql_format(Database_GetHandle(), query, sizeof(query),
-		"SELECT `id`, `account_id`, `name`, `skin`, `age`, `sex`, `ethnos`, \
+		"SELECT `id`, `account_id`, `name`, `skin`, `age`, `sex`, `ethnos`, `pame`, \
 		`last_x`, `last_y`, `last_z`, `last_angle`, `last_interior`, `last_world`, \
 		IFNULL(UNIX_TIMESTAMP(`last_unloaded_at`), 0) AS `last_unloaded_at` \
 		FROM `characters` WHERE `id` = %d AND `account_id` = %d LIMIT 1",
@@ -137,6 +139,20 @@ CharacterDB_UpdateSkin(playerid)
 	mysql_format(Database_GetHandle(), query, sizeof(query),
 		"UPDATE `characters` SET `skin` = %d WHERE `id` = %d LIMIT 1",
 		CharacterData[playerid][Skin],
+		CharacterData[playerid][ID]
+	);
+
+	mysql_tquery(Database_GetHandle(), query);
+	return 1;
+}
+
+CharacterDB_UpdatePame(playerid)
+{
+	new query[192];
+
+	mysql_format(Database_GetHandle(), query, sizeof(query),
+		"UPDATE `characters` SET `pame` = '%e' WHERE `id` = %d LIMIT 1",
+		CharacterData[playerid][Pame],
 		CharacterData[playerid][ID]
 	);
 

@@ -138,6 +138,10 @@ Dialog flow convention:
 
 *   Child dialogs should return to their parent dialog when the player refuses, cancels, or presses a back button. Only top-level dialogs should close on refusal.
 
+ID allocation convention:
+
+*   Use enums for IDs and reserved ranges, including dialogs and inventory items. Prefer one enum format that supports both single IDs and ranges instead of separate `*_BASE + offset` defines.
+
 Use this mental model:
 
 ```text

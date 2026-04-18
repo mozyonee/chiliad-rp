@@ -14,8 +14,17 @@ CMD:n(playerid, params[])
 
 	new name[MAX_PLAYER_NAME + 1], message[144];
 	General_GetDisplayName(playerid, name, sizeof name);
-	format(message, sizeof message, "[Newbie] %s: %s", name, params);
-	SCMA(COLOR_INFO, message);
+
+	if (Admin_IsDuty(playerid))
+	{
+		format(message, sizeof message, "(( Administrator %s: %s ))", name, params);
+	}
+	else
+	{
+		format(message, sizeof message, "(( %s: %s ))", name, params);
+	}
+
+	General_SendLocalOOCMessage(playerid, message);
 	return 1;
 }
 
@@ -30,8 +39,9 @@ CMD:an(playerid, params[])
 
 	new name[MAX_PLAYER_NAME + 1], message[144];
 	General_GetDisplayName(playerid, name, sizeof name);
-	format(message, sizeof message, "[Answer] %s: %s", name, params);
-	SCMA(COLOR_INFO, message);
+	format(message, sizeof message, "(( Administrator %s: %s ))", name, params);
+
+	General_SendLocalOOCMessage(playerid, message);
 	return 1;
 }
 
@@ -200,6 +210,76 @@ CMD:try(playerid, params[])
 	return 1;
 }
 
+CMD:action(playerid, params[])
+{
+	if (!General_RequireCharacter(playerid))
+	{
+		return 1;
+	}
+
+	if (General_HasAction(playerid))
+	{
+		General_ClearAction(playerid);
+		SendOK(playerid, "You deleted your action.");
+		return 1;
+	}
+
+	if (isnull(params))
+	{
+		SendError(playerid, "Usage: /action [text]");
+		return 1;
+	}
+
+	General_SetAction(playerid, params);
+	return 1;
+}
+
+CMD:delaction(playerid, params[])
+{
+	new targetid;
+
+	if (sscanf(params, "u", targetid))
+	{
+		SendError(playerid, "Usage: /delaction [player]");
+		return 1;
+	}
+
+	if (targetid == INVALID_PLAYER_ID || !IsPlayerConnected(targetid))
+	{
+		SendError(playerid, "Player not found.");
+		return 1;
+	}
+
+	if (!General_HasAction(targetid))
+	{
+		SendError(playerid, "That player has not created an action.");
+		return 1;
+	}
+
+	General_ClearAction(targetid);
+	SendOK(playerid, "You deleted the player's action.");
+	return 1;
+}
+
+CMD:pame(playerid, params[])
+{
+	if (!General_RequireCharacter(playerid))
+	{
+		return 1;
+	}
+
+	if (isnull(params))
+	{
+		General_ClearPame(playerid);
+		SendOK(playerid, "You deleted your character description.");
+		return 1;
+	}
+
+	General_SetPame(playerid, params);
+	SendOK(playerid, "You updated your character description.");
+	return 1;
+}
+
 alias:coin("flip")
 CMD:coin(playerid)
 {
@@ -227,7 +307,7 @@ CMD:id(playerid, params[])
 	}
 
 	new name[MAX_PLAYER_NAME + 1], message[96];
-	GetPlayerName(targetid, name, sizeof name);
+	General_GetDisplayName(targetid, name, sizeof name);
 	format(message, sizeof message, "%s is player ID %d.", name, targetid);
 	SendInfo(playerid, message);
 	return 1;
@@ -244,8 +324,35 @@ CMD:time(playerid)
 
 CMD:help(playerid)
 {
-	SendInfo(playerid, "Commands: /menu, /inv, /pay, /stats, /n, /an, /s, /w, /me, /ame, /do, /ado, /todo, /try, /coin, /id, /time, /pm");
-	SendInfo(playerid, "Aliases: /mn, /mm, /inventory, /b, /ab, /shout, /whisper, /flip");
+	SPD(playerid, DIALOG_GENERAL_HELP, DSM,
+		DIALOG_TITLE("Help"),
+		P"/menu"W" - Open the main menu.\n\
+		"P"/inventory"W" - Open your inventory.\n\
+		"P"/settings"W" - Change character settings.\n\
+		"P"/bank"W" - Manage bank cards and money.\n\
+		"P"/admins"W" - View online administrators.\n\
+		"P"/pay"W" - Give cash to another player.\n\
+		"P"/stats"W" - View basic character stats.\n\
+		"P"/pm"W" - Send a private message.\n\
+		"P"/id"W" - Find a player's server ID.\n\
+		"P"/time"W" - View server time.\n\n\
+		"P"/n"W" - Send an OOC message.\n\
+		"P"/an"W" - Send an administrator OOC message.\n\
+		"P"/s"W" - Shout nearby.\n\
+		"P"/w"W" - Whisper nearby.\n\
+		"P"/me"W" - Describe a character action.\n\
+		"P"/ame"W" - Show a short action above you.\n\
+		"P"/do"W" - Describe a scene or detail.\n\
+		"P"/ado"W" - Show a scene detail above you.\n\
+		"P"/todo"W" - Speak with an attached action.\n\
+		"P"/try"W" - Attempt an action with random success.\n\
+		"P"/coin"W" - Flip a coin.\n\n\
+		"P"/action"W" - Set or clear your action label.\n\
+		"P"/delaction"W" - Clear another player's action label.\n\
+		"P"/pame"W" - Set or clear your character description.",
+		DIALOG_BUTTON_CLOSE,
+		""
+	);
 	return 1;
 }
 
@@ -262,6 +369,18 @@ CMD:pm(playerid, params[])
 	if (targetid == INVALID_PLAYER_ID)
 	{
 		SendError(playerid, "Player not found.");
+		return 1;
+	}
+
+	if (!Settings_IsPMEnabled(playerid))
+	{
+		SendError(playerid, "Your private messages are disabled.");
+		return 1;
+	}
+
+	if (!Settings_IsPMEnabled(targetid))
+	{
+		SendError(playerid, "That player has disabled private messages.");
 		return 1;
 	}
 

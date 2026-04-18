@@ -7,7 +7,6 @@
 #include "source/systems/inventory/inventory_db.inc"
 
 forward bool:Inventory_IsLoaded(playerid);
-forward Inventory_RegisterItem(itemid, const name[], const use_handler[] = "", const throw_handler[] = "");
 forward Inventory_GetItemName(itemid, name[], size = sizeof name);
 forward Inventory_GetAmount(playerid, itemid);
 forward bool:Inventory_Has(playerid, itemid, amount);
@@ -17,32 +16,30 @@ forward bool:Inventory_Remove(playerid, itemid, amount);
 forward bool:Inventory_Transfer(from_playerid, to_playerid, itemid, amount);
 forward bool:Inventory_Use(playerid, itemid, amount = 1);
 forward bool:Inventory_Throw(playerid, itemid, amount);
-forward Money_Get(playerid);
-forward bool:Money_Has(playerid, amount);
-forward bool:Money_Set(playerid, amount);
-forward bool:Money_Give(playerid, amount);
-forward bool:Money_Take(playerid, amount);
-forward Inventory_FindDefinition(itemid);
-forward bool:Inventory_GetHandler(itemid, handler[], size = sizeof handler, bool:throw_handler = false);
+forward InventoryCash_SyncDisplay(playerid);
+forward bool:InventorySkins_IsItem(itemid);
+forward InventorySkins_GetName(itemid, name[], size = sizeof name);
+forward bool:InventorySkins_Use(playerid, itemid, amount);
+forward InventorySkins_Throw(playerid, itemid, amount);
+forward Banking_OpenCardFromItem(playerid, itemid);
 forward Inventory_FindCacheIndex(playerid, itemid);
 forward Inventory_FindFreeCacheIndex(playerid);
 
 Inventory_Init()
 {
 	InventoryDB_EnsureTables();
-	Inventory_RegisterItem(ITEM_CASH, "Cash");
 	return 1;
 }
 
 Inventory_Reset(playerid)
 {
 	InventoryLoaded[playerid] = false;
-	InventorySelectedItem[playerid] = INVALID_INVENTORY_ITEM_ID;
+	InventorySelectedItem[playerid] = ITEM_INVALID;
 	InventoryDialogItemCount[playerid] = 0;
 
 	for (new i = 0; i < INVENTORY_MAX_CACHE_ITEMS; i++)
 	{
-		InventoryData[playerid][i][InventoryItemID] = INVALID_INVENTORY_ITEM_ID;
+		InventoryData[playerid][i][InventoryItemID] = ITEM_INVALID;
 		InventoryData[playerid][i][InventoryAmount] = 0;
 	}
 
@@ -61,44 +58,28 @@ stock bool:Inventory_IsLoaded(playerid)
 	return InventoryLoaded[playerid];
 }
 
-stock Inventory_RegisterItem(itemid, const name[], const use_handler[] = "", const throw_handler[] = "")
-{
-	new index = Inventory_FindDefinition(itemid);
-
-	if (index == -1)
-	{
-		if (InventoryItemCount >= INVENTORY_MAX_REGISTERED_ITEMS)
-		{
-			printf("[Inventory] Cannot register item %d. Registry is full.", itemid);
-			return 0;
-		}
-
-		index = InventoryItemCount++;
-	}
-
-	InventoryItems[index][ItemDefID] = itemid;
-	format(InventoryItems[index][ItemDefName], INVENTORY_ITEM_NAME_LENGTH, "%s", name);
-	format(InventoryItems[index][ItemDefUseHandler], INVENTORY_HANDLER_LENGTH, "%s", use_handler);
-	format(InventoryItems[index][ItemDefThrowHandler], INVENTORY_HANDLER_LENGTH, "%s", throw_handler);
-	return 1;
-}
-
-stock bool:Inventory_IsRegisteredItem(itemid)
-{
-	return Inventory_FindDefinition(itemid) != -1;
-}
-
 stock Inventory_GetItemName(itemid, name[], size = sizeof name)
 {
-	new index = Inventory_FindDefinition(itemid);
-
-	if (index == -1)
+	switch (itemid)
 	{
-		format(name, size, "Item #%d", itemid);
-		return 1;
+		case ITEM_CASH:
+		{
+			format(name, size, "Cash");
+			return 1;
+		}
+		case ITEM_BANK_CARD:
+		{
+			format(name, size, "Bank Card");
+			return 1;
+		}
 	}
 
-	format(name, size, "%s", InventoryItems[index][ItemDefName]);
+	if (InventorySkins_IsItem(itemid))
+	{
+		return InventorySkins_GetName(itemid, name, size);
+	}
+
+	format(name, size, "Item #%d", itemid);
 	return 1;
 }
 
@@ -121,7 +102,7 @@ stock bool:Inventory_Has(playerid, itemid, amount)
 
 stock bool:Inventory_Set(playerid, itemid, amount)
 {
-	if (!Inventory_IsLoaded(playerid) || itemid <= INVALID_INVENTORY_ITEM_ID || amount < 0)
+	if (!Inventory_IsLoaded(playerid) || itemid <= ITEM_INVALID || amount < 0)
 	{
 		return false;
 	}
@@ -132,11 +113,15 @@ stock bool:Inventory_Set(playerid, itemid, amount)
 	{
 		if (index != -1)
 		{
-			InventoryData[playerid][index][InventoryItemID] = INVALID_INVENTORY_ITEM_ID;
+			InventoryData[playerid][index][InventoryItemID] = ITEM_INVALID;
 			InventoryData[playerid][index][InventoryAmount] = 0;
 		}
 
 		InventoryDB_DeleteItem(playerid, itemid);
+		if (itemid == ITEM_CASH)
+		{
+			InventoryCash_SyncDisplay(playerid);
+		}
 		return true;
 	}
 
@@ -154,6 +139,10 @@ stock bool:Inventory_Set(playerid, itemid, amount)
 	InventoryData[playerid][index][InventoryItemID] = itemid;
 	InventoryData[playerid][index][InventoryAmount] = amount;
 	InventoryDB_SetItem(playerid, itemid, amount);
+	if (itemid == ITEM_CASH)
+	{
+		InventoryCash_SyncDisplay(playerid);
+	}
 	return true;
 }
 
@@ -205,14 +194,21 @@ stock bool:Inventory_Use(playerid, itemid, amount = 1)
 		return false;
 	}
 
-	new handler[INVENTORY_HANDLER_LENGTH];
-	if (!Inventory_GetHandler(itemid, handler, sizeof(handler)))
+	switch (itemid)
 	{
-		SendError(playerid, "This item cannot be used.");
-		return false;
+		case ITEM_BANK_CARD:
+		{
+			return bool:Banking_OpenCardFromItem(playerid, itemid);
+		}
 	}
 
-	return bool:CallLocalFunction(handler, "iii", playerid, itemid, amount);
+	if (InventorySkins_IsItem(itemid))
+	{
+		return InventorySkins_Use(playerid, itemid, amount);
+	}
+
+	SendError(playerid, "This item cannot be used.");
+	return false;
 }
 
 stock bool:Inventory_Throw(playerid, itemid, amount)
@@ -222,79 +218,11 @@ stock bool:Inventory_Throw(playerid, itemid, amount)
 		return false;
 	}
 
-	new handler[INVENTORY_HANDLER_LENGTH];
-	if (Inventory_GetHandler(itemid, handler, sizeof(handler), true))
+	if (InventorySkins_IsItem(itemid))
 	{
-		CallLocalFunction(handler, "iii", playerid, itemid, amount);
+		InventorySkins_Throw(playerid, itemid, amount);
 	}
 
-	return true;
-}
-
-stock Money_Get(playerid)
-{
-	return Inventory_GetAmount(playerid, ITEM_CASH);
-}
-
-stock bool:Money_Has(playerid, amount)
-{
-	return Inventory_Has(playerid, ITEM_CASH, amount);
-}
-
-stock bool:Money_Set(playerid, amount)
-{
-	return Inventory_Set(playerid, ITEM_CASH, amount);
-}
-
-stock bool:Money_Give(playerid, amount)
-{
-	return Inventory_Add(playerid, ITEM_CASH, amount);
-}
-
-stock bool:Money_Take(playerid, amount)
-{
-	return Inventory_Remove(playerid, ITEM_CASH, amount);
-}
-
-static Inventory_FindDefinition(itemid)
-{
-	for (new i = 0; i < InventoryItemCount; i++)
-	{
-		if (InventoryItems[i][ItemDefID] == itemid)
-		{
-			return i;
-		}
-	}
-
-	return -1;
-}
-
-static bool:Inventory_GetHandler(itemid, handler[], size = sizeof handler, bool:throw_handler = false)
-{
-	new index = Inventory_FindDefinition(itemid);
-
-	if (index == -1)
-	{
-		return false;
-	}
-
-	if (throw_handler)
-	{
-		if (!InventoryItems[index][ItemDefThrowHandler][0])
-		{
-			return false;
-		}
-
-		format(handler, size, "%s", InventoryItems[index][ItemDefThrowHandler]);
-		return true;
-	}
-
-	if (!InventoryItems[index][ItemDefUseHandler][0])
-	{
-		return false;
-	}
-
-	format(handler, size, "%s", InventoryItems[index][ItemDefUseHandler]);
 	return true;
 }
 
@@ -315,7 +243,7 @@ static Inventory_FindFreeCacheIndex(playerid)
 {
 	for (new i = 0; i < INVENTORY_MAX_CACHE_ITEMS; i++)
 	{
-		if (InventoryData[playerid][i][InventoryItemID] == INVALID_INVENTORY_ITEM_ID)
+		if (InventoryData[playerid][i][InventoryItemID] == ITEM_INVALID)
 		{
 			return i;
 		}
@@ -327,4 +255,6 @@ static Inventory_FindFreeCacheIndex(playerid)
 #include "source/systems/inventory/inventory_dialogs.inc"
 #include "source/systems/inventory/inventory_callbacks.inc"
 #include "source/systems/inventory/inventory_cmds.inc"
+#include "source/systems/inventory/cash/cash.inc"
+#include "source/systems/inventory/skins/skins.inc"
 #include "source/systems/inventory/inventory_hooks.inc"

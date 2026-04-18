@@ -135,6 +135,7 @@ public Character_OnLoaded(playerid)
 	cache_get_value_name_int(0, "age", CharacterData[playerid][Age]);
 	cache_get_value_name_int(0, "sex", CharacterData[playerid][Sex]);
 	cache_get_value_name_int(0, "ethnos", CharacterData[playerid][Ethnos]);
+	cache_get_value_name(0, "pame", CharacterData[playerid][Pame], CHARACTER_MAX_PAME_LENGTH);
 	cache_get_value_name_float(0, "last_x", CharacterData[playerid][LastX]);
 	cache_get_value_name_float(0, "last_y", CharacterData[playerid][LastY]);
 	cache_get_value_name_float(0, "last_z", CharacterData[playerid][LastZ]);
@@ -144,6 +145,7 @@ public Character_OnLoaded(playerid)
 	cache_get_value_name_int(0, "last_unloaded_at", CharacterData[playerid][LastUnloadedAt]);
 	CharacterData[playerid][Loaded] = true;
 
+	Settings_Load(playerid);
 	Inventory_Load(playerid);
 	return 1;
 }
@@ -156,7 +158,7 @@ public Character_OnInventoryLoaded(playerid)
 		return 1;
 	}
 
-	Character_EnsureCurrentSkinItem(playerid);
+	InventorySkins_EnsureCurrent(playerid);
 
 	if (Character_CanResumeSession(playerid))
 	{
@@ -166,6 +168,5 @@ public Character_OnInventoryLoaded(playerid)
 
 	Character_Spawn(playerid, false);
 	CharacterDB_UpdateLogin(playerid);
-	SendOK(playerid, "Character loaded.");
 	return 1;
 }

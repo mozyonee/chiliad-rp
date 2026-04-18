@@ -4,6 +4,7 @@
 #define CHILIAD_ACCOUNTS
 
 forward bool:Account_CanSkipPassword(playerid);
+forward Admin_Load(playerid);
 
 #include <samp_bcrypt>
 #include "source/systems/accounts/accounts_data.inc"
@@ -36,6 +37,7 @@ Account_Start(playerid)
 {
 	Account_Reset(playerid);
 	GetPlayerName(playerid, AccountData[playerid][Name], MAX_PLAYER_NAME + 1);
+	TogglePlayerSpectating(playerid, true);
 	TogglePlayerControllable(playerid, false);
 	AccountDB_FindByName(playerid);
 	return 1;
@@ -47,6 +49,7 @@ Account_FinishLogin(playerid)
 	AccountData[playerid][LoginAttempts] = 0;
 
 	AccountDB_UpdateLogin(playerid);
+	Admin_Load(playerid);
 	TogglePlayerControllable(playerid, true);
 
 	CallLocalFunction("OnAccountLogin", "i", playerid);
@@ -84,6 +87,12 @@ bool:Account_CanSkipPassword(playerid)
 stock Account_GetID(playerid)
 {
 	return AccountData[playerid][ID];
+}
+
+stock Account_GetName(playerid, name[], size = sizeof name)
+{
+	format(name, size, "%s", AccountData[playerid][Name]);
+	return 1;
 }
 
 stock bool:Account_IsLoggedIn(playerid)

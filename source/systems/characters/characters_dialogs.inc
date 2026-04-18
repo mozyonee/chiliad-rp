@@ -3,10 +3,6 @@
 #endif
 #define CHILIAD_CHARACTERS_DIALOGS
 
-#define DIALOG_CHARACTER_SELECT (DIALOG_CHARACTER_BASE + 1)
-#define DIALOG_CHARACTER_CREATE_NAME (DIALOG_CHARACTER_BASE + 2)
-#define DIALOG_CHARACTER_RESUME_SESSION (DIALOG_CHARACTER_BASE + 3)
-
 Character_ShowSelectDialog(playerid)
 {
 	new body[512], line[64];
@@ -94,6 +90,5 @@ Character_HandleResumeSessionDialog(playerid, response)
 {
 	Character_Spawn(playerid, bool:response);
 	CharacterDB_UpdateLogin(playerid);
-	SendOK(playerid, "Character loaded.");
 	return 1;
 }

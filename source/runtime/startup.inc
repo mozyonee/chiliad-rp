@@ -15,8 +15,11 @@ public OnGameModeInit()
 	}
 
 	Account_Init();
+	Admin_Init();
 	Character_Init();
 	Inventory_Init();
+	Banking_Init();
+	Settings_Init();
 
 	print("[Runtime] Chiliad RP initialized.");
 	return 1;

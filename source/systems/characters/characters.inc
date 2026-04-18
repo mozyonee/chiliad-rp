@@ -9,9 +9,9 @@ forward bool:Character_IsValidSkin(skinid);
 forward bool:Character_IsNakedSkin(skinid);
 forward Inventory_Load(playerid);
 forward Inventory_Reset(playerid);
-forward Inventory_RegisterItem(itemid, const name[], const use_handler[] = "", const throw_handler[] = "");
-forward bool:Inventory_Has(playerid, itemid, amount);
-forward bool:Inventory_Add(playerid, itemid, amount);
+forward InventorySkins_EnsureCurrent(playerid);
+forward General_ResetPlayer(playerid);
+forward General_RefreshPameLabel(playerid);
 
 #include "source/systems/characters/characters_data.inc"
 #include "source/systems/characters/characters_db.inc"
@@ -22,7 +22,6 @@ forward bool:Inventory_Add(playerid, itemid, amount);
 Character_Init()
 {
 	CharacterDB_EnsureTables();
-	Character_RegisterSkinItems();
 	return 1;
 }
 
@@ -37,6 +36,7 @@ Character_Reset(playerid)
 	CharacterData[playerid][Age] = 18;
 	CharacterData[playerid][Sex] = 0;
 	CharacterData[playerid][Ethnos] = 0;
+	CharacterData[playerid][Pame][0] = EOS;
 	CharacterData[playerid][LastX] = CHARACTER_DEFAULT_X;
 	CharacterData[playerid][LastY] = CHARACTER_DEFAULT_Y;
 	CharacterData[playerid][LastZ] = CHARACTER_DEFAULT_Z;
@@ -47,6 +47,7 @@ Character_Reset(playerid)
 	CharacterData[playerid][Loaded] = false;
 
 	CharacterListCount[playerid] = 0;
+	General_ResetPlayer(playerid);
 	return 1;
 }
 
@@ -187,7 +188,9 @@ Character_Spawn(playerid, bool:resume_session)
 	SetPlayerVirtualWorld(playerid, world);
 	SetPlayerInterior(playerid, interior);
 	SetSpawnInfo(playerid, NO_TEAM, CharacterData[playerid][Skin], x, y, z, angle);
+	TogglePlayerSpectating(playerid, false);
 	SpawnPlayer(playerid);
+	General_RefreshPameLabel(playerid);
 	return 1;
 }
 
@@ -204,90 +207,35 @@ Character_SetSkin(playerid, skinid)
 	return 1;
 }
 
-Character_EnsureCurrentSkinItem(playerid)
+Character_GetSkin(playerid)
 {
-	if (Character_IsNakedSkin(CharacterData[playerid][Skin]))
-	{
-		return 1;
-	}
+	return CharacterData[playerid][Skin];
+}
 
-	new itemid = Character_SkinToItem(CharacterData[playerid][Skin]);
-
-	if (!Inventory_Has(playerid, itemid, 1))
-	{
-		Inventory_Add(playerid, itemid, 1);
-	}
-
+Character_SetPame(playerid, const text[])
+{
+	format(CharacterData[playerid][Pame], CHARACTER_MAX_PAME_LENGTH, "%s", text);
+	CharacterDB_UpdatePame(playerid);
 	return 1;
 }
 
-forward Character_OnSkinItemUse(playerid, itemid, amount);
-public Character_OnSkinItemUse(playerid, itemid, amount)
+Character_GetPame(playerid, text[], size = sizeof text)
 {
-	#pragma unused amount
-
-	new skinid = Character_ItemToSkin(itemid);
-
-	if (!Character_IsValidSkin(skinid))
-	{
-		SendError(playerid, "Invalid skin item.");
-		return 0;
-	}
-
-	Character_SetSkin(playerid, skinid);
-	SendOK(playerid, "Skin changed.");
+	format(text, size, "%s", CharacterData[playerid][Pame]);
 	return 1;
 }
 
-forward Character_OnSkinItemThrow(playerid, itemid, amount);
-public Character_OnSkinItemThrow(playerid, itemid, amount)
-{
-	#pragma unused amount
-
-	new skinid = Character_ItemToSkin(itemid);
-
-	if (CharacterData[playerid][Skin] == skinid)
-	{
-		Character_SetSkin(playerid, Character_GetNakedSkin(playerid));
-	}
-
-	return 1;
-}
-
-static Character_RegisterSkinItems()
-{
-	new name[32];
-
-	for (new skinid = 0; skinid <= 311; skinid++)
-	{
-		format(name, sizeof(name), "Skin #%d", skinid);
-		Inventory_RegisterItem(Character_SkinToItem(skinid), name, "Character_OnSkinItemUse", "Character_OnSkinItemThrow");
-	}
-
-	return 1;
-}
-
-static Character_SkinToItem(skinid)
-{
-	return ITEM_SKIN_BASE + skinid;
-}
-
-static Character_ItemToSkin(itemid)
-{
-	return itemid - ITEM_SKIN_BASE;
-}
-
-static bool:Character_IsValidSkin(skinid)
+bool:Character_IsValidSkin(skinid)
 {
 	return 0 <= skinid <= 311;
 }
 
-static Character_GetNakedSkin(playerid)
+Character_GetNakedSkin(playerid)
 {
 	return CharacterData[playerid][Sex] ? CHARACTER_NAKED_FEMALE_SKIN : CHARACTER_NAKED_MALE_SKIN;
 }
 
-static bool:Character_IsNakedSkin(skinid)
+bool:Character_IsNakedSkin(skinid)
 {
 	return skinid == CHARACTER_NAKED_MALE_SKIN || skinid == CHARACTER_NAKED_FEMALE_SKIN;
 }
