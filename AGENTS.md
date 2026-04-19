@@ -25,7 +25,7 @@ The project relies on `sampctl` for most tasks. Ensure you have it installed.
     ```
 *   **Compile Gamemode:**
     ```bash
-    sampctl build
+    ./scripts/build.sh
     ```
 *   **Run Server:**
     ```bash
@@ -99,40 +99,40 @@ Use these ownership rules:
 *   Global world mapping belongs in `source/world/mapping/`.
 *   Global UI and textdraws belong in `source/ui/`.
 *   Feature-owned code belongs in `source/systems/<feature>/`.
-*   Feature-specific mapping and textdraws stay inside the feature that owns them, for example `source/systems/jobs/trucking/trucking_map.inc` and `source/systems/jobs/trucking/trucking_textdraws.inc`.
+*   Feature-specific mapping and textdraws stay inside the feature that owns them, for example `source/systems/jobs/trucking/map.inc` and `source/systems/jobs/trucking/textdraws.inc`.
 
 Avoid broad type buckets such as one global `source/commands/`, `source/callbacks/`, or `source/textdraws/` folder for all feature code. These make one feature harder to understand once the server grows.
 
 ## Feature File Convention
 
-Within a feature folder, use suffixes to separate responsibility. Not every feature needs every file; add files only when the feature grows enough to justify them.
+Within a feature folder, use the new naming convention to separate responsibility. Not every feature needs every file; add files only when the feature grows enough to justify them.
 
 Example:
 
 ```text
 source/systems/vehicles/
-+-- vehicles.inc
-+-- vehicles_data.inc
-+-- vehicles_db.inc
-+-- vehicles_cmds.inc
-+-- vehicles_hooks.inc
-+-- vehicles_callbacks.inc
-+-- vehicles_dialogs.inc
-+-- vehicles_map.inc
-+-- vehicles_textdraws.inc
++-- index.inc
++-- data.inc
++-- database.inc
++-- cmds.inc
++-- hooks.inc
++-- callbacks.inc
++-- dialogs.inc
++-- map.inc
++-- textdraws.inc
 ```
 
 File meanings:
 
-*   `<feature>.inc`: Main feature file. Owns feature initialization, public feature API, and feature-level business rules.
-*   `<feature>_data.inc`: Enums, arrays, constants, cache state, and internal data structures owned by the feature.
-*   `<feature>_db.inc`: Database persistence for the feature, including loading, saving, inserting, updating, and deleting records.
-*   `<feature>_cmds.inc`: Player and admin commands owned by the feature.
-*   `<feature>_hooks.inc`: `open.mp` / SA-MP callbacks handled by the feature, such as `OnPlayerConnect`, `OnPlayerEnterVehicle`, or `OnVehicleDeath`.
-*   `<feature>_callbacks.inc`: Custom gamemode callbacks owned by the feature, such as `OnVehiclePurchased`, `OnCharacterLoaded`, or `OnBusinessPurchased`.
-*   `<feature>_dialogs.inc`: Dialog definitions and dialog response handling owned by the feature.
-*   `<feature>_map.inc`: Mapping objects owned by the feature.
-*   `<feature>_textdraws.inc`: Textdraws owned by the feature.
+*   `index.inc`: Main feature file. Owns feature initialization, public feature API, and feature-level business rules.
+*   `data.inc`: Enums, arrays, constants, cache state, and internal data structures owned by the feature.
+*   `database.inc`: Database persistence for the feature, including loading, saving, inserting, updating, and deleting records.
+*   `cmds.inc`: Player and admin commands owned by the feature.
+*   `hooks.inc`: `open.mp` / SA-MP callbacks handled by the feature, such as `OnPlayerConnect`, `OnPlayerEnterVehicle`, or `OnVehicleDeath`.
+*   `callbacks.inc`: Custom gamemode callbacks owned by the feature, such as `OnVehiclePurchased`, `OnCharacterLoaded`, or `OnBusinessPurchased`.
+*   `dialogs.inc`: Dialog definitions and dialog response handling owned by the feature.
+*   `map.inc`: Mapping objects owned by the feature.
+*   `textdraws.inc`: Textdraws owned by the feature.
 
 Dialog flow convention:
 
@@ -152,7 +152,7 @@ callbacks  = the gamemode calls itself
 For example:
 
 ```pawn
-// vehicles_hooks.inc
+// hooks.inc
 
 hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 {
@@ -161,7 +161,7 @@ hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 ```
 
 ```pawn
-// vehicles_callbacks.inc
+// callbacks.inc
 
 forward OnVehiclePurchased(playerid, vehicleid);
 

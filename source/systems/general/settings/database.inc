@@ -1,7 +1,7 @@
-#if defined CHILIAD_SETTINGS_DB
+#if defined CHILIAD_GENERAL_SETTINGS_DATABASE
 	#endinput
 #endif
-#define CHILIAD_SETTINGS_DB
+#define CHILIAD_GENERAL_SETTINGS_DATABASE
 
 SettingsDB_EnsureTables()
 {

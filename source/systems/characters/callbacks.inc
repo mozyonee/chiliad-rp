@@ -75,6 +75,11 @@ public Character_OnListLoaded(playerid)
 		cache_get_value_name_int(i, "id", CharacterList[playerid][i][ListID]);
 		cache_get_value_name(i, "name", CharacterList[playerid][i][ListName], MAX_PLAYER_NAME + 1);
 		cache_get_value_name_int(i, "skin", CharacterList[playerid][i][ListSkin]);
+		cache_get_value_name_float(i, "last_x", CharacterList[playerid][i][ListLastX]);
+		cache_get_value_name_float(i, "last_y", CharacterList[playerid][i][ListLastY]);
+		cache_get_value_name_float(i, "last_z", CharacterList[playerid][i][ListLastZ]);
+		cache_get_value_name_int(i, "last_interior", CharacterList[playerid][i][ListLastInterior]);
+		cache_get_value_name_int(i, "last_unloaded_at", CharacterList[playerid][i][ListLastUnloadedAt]);
 	}
 
 	Character_ShowSelectDialog(playerid);
@@ -145,6 +150,7 @@ public Character_OnLoaded(playerid)
 	CharacterData[playerid][Loaded] = true;
 
 	Settings_Load(playerid);
+	Vehicle_LoadCharacter(playerid);
 	Inventory_Load(playerid);
 	return 1;
 }
@@ -166,12 +172,6 @@ public Character_OnInventoryLoaded(playerid)
 	}
 
 	Character_Spawn(playerid, false);
-	CharacterDB_UpdateLogin(playerid);
-	
-	new name[MAX_PLAYER_NAME + 1], message[144];
-	General_GetDisplayName(playerid, name, sizeof(name));
-	format(message, sizeof message, "Welcome back to Chiliad, %s!", name);
-	SendSuccess(playerid, message);
-	
+	CharacterDB_UpdateLogin(playerid);	
 	return 1;
 }

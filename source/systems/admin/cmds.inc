@@ -3,6 +3,7 @@
 #endif
 #define CHILIAD_ADMIN_CMDS
 
+alias:aduty("alogin")
 CMD:aduty(playerid)
 {
 	if (!Admin_Require(playerid, 1, false))
@@ -35,7 +36,6 @@ CMD:aduty(playerid)
 	return 1;
 }
 
-alias:amenu("alogin")
 CMD:amenu(playerid)
 {
 	if (!Admin_Require(playerid, 1, false))

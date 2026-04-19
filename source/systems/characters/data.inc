@@ -46,7 +46,12 @@ enum E_CHARACTER_LIST_DATA
 {
 	ListID,
 	ListName[MAX_PLAYER_NAME + 1],
-	ListSkin
+	ListSkin,
+	Float:ListLastX,
+	Float:ListLastY,
+	Float:ListLastZ,
+	ListLastInterior,
+	ListLastUnloadedAt
 }
 
 new CharacterData[MAX_PLAYERS][E_CHARACTER_DATA];

@@ -12,12 +12,14 @@ forward Inventory_Reset(playerid);
 forward InventorySkins_EnsureCurrent(playerid);
 forward General_ResetPlayer(playerid);
 forward General_RefreshPameLabel(playerid);
+forward Vehicle_LoadCharacter(playerid);
+forward Vehicle_UnloadCharacter(playerid);
 
-#include "source/systems/characters/characters_data.inc"
-#include "source/systems/characters/characters_db.inc"
-#include "source/systems/characters/characters_dialogs.inc"
-#include "source/systems/characters/characters_callbacks.inc"
-#include "source/systems/characters/characters_hooks.inc"
+#include "source/systems/characters/data.inc"
+#include "source/systems/characters/database.inc"
+#include "source/systems/characters/dialogs.inc"
+#include "source/systems/characters/callbacks.inc"
+#include "source/systems/characters/hooks.inc"
 
 Character_Init()
 {
@@ -75,6 +77,7 @@ Character_Load(playerid, character_id)
 	if (CharacterData[playerid][Loaded])
 	{
 		Character_SaveUnloadPosition(playerid);
+		Vehicle_UnloadCharacter(playerid);
 		Inventory_Reset(playerid);
 		Character_Reset(playerid);
 	}

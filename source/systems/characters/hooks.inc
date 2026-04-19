@@ -8,6 +8,7 @@ Character_OnPlayerDisconnect(playerid, reason)
 	#pragma unused reason
 
 	Character_SaveUnloadPosition(playerid);
+	Vehicle_UnloadCharacter(playerid);
 	Character_Reset(playerid);
 	return 1;
 }

@@ -5,13 +5,36 @@
 
 Character_ShowSelectDialog(playerid)
 {
-	new body[512], line[64];
+	new body[1024], line[128], location[40], status[32];
 
-	body[0] = EOS;
+	format(body, sizeof(body), "Character\tLocation\tStatus\n");
 
 	for (new i = 0; i < CharacterListCount[playerid]; i++)
 	{
-		format(line, sizeof(line), P"%d."W" %s\n", i + 1, CharacterList[playerid][i][ListName]);
+		if (CharacterList[playerid][i][ListLastInterior])
+		{
+			format(location, sizeof(location), "Interior");
+		}
+		else
+		{
+			Zone_GetNameByCoords(
+				CharacterList[playerid][i][ListLastX],
+				CharacterList[playerid][i][ListLastY],
+				CharacterList[playerid][i][ListLastZ],
+				location
+			);
+		}
+
+		if (CharacterData[playerid][Loaded] && CharacterData[playerid][ID] == CharacterList[playerid][i][ListID])
+		{
+			format(status, sizeof(status), P"Playing");
+		}
+		else
+		{
+			format(status, sizeof(status), YES"Available");
+		}
+
+		format(line, sizeof(line), P"%d."W" %s\t"G"%s\t%s\n", i + 1, CharacterList[playerid][i][ListName], location, status);
 		strcat(body, line, sizeof(body));
 	}
 
@@ -20,7 +43,7 @@ Character_ShowSelectDialog(playerid)
 		strcat(body, P"+"W" Create new character\n", sizeof(body));
 	}
 
-	SPD(playerid, DIALOG_CHARACTER_SELECT, DSL,
+	SPD(playerid, DIALOG_CHARACTER_SELECT, DSTH,
 		DIALOG_TITLE("Characters"),
 		body,
 		DIALOG_BUTTON_SUBMIT,
@@ -93,8 +116,8 @@ Character_HandleResumeSessionDialog(playerid, response)
 
 	new name[MAX_PLAYER_NAME + 1], message[144];
 	General_GetDisplayName(playerid, name, sizeof(name));
-	format(message, sizeof message, "Welcome back to Chiliad, %s!", name);
-	SendSuccess(playerid, message);
+	format(message, sizeof message, "You are now playing as %s.", name);
+	SendInfo(playerid, message);
 	
 	return 1;
 }

@@ -1,7 +1,7 @@
-#if defined CHILIAD_ADMIN_DB
+#if defined CHILIAD_ADMIN_DATABASE
 	#endinput
 #endif
-#define CHILIAD_ADMIN_DB
+#define CHILIAD_ADMIN_DATABASE
 
 AdminDB_EnsureTables()
 {

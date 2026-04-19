@@ -7,11 +7,11 @@ forward bool:Account_CanSkipPassword(playerid);
 forward Admin_Load(playerid);
 
 #include <samp_bcrypt>
-#include "source/systems/accounts/accounts_data.inc"
-#include "source/systems/accounts/accounts_db.inc"
-#include "source/systems/accounts/accounts_dialogs.inc"
-#include "source/systems/accounts/accounts_callbacks.inc"
-#include "source/systems/accounts/accounts_hooks.inc"
+#include "source/systems/accounts/data.inc"
+#include "source/systems/accounts/database.inc"
+#include "source/systems/accounts/dialogs.inc"
+#include "source/systems/accounts/callbacks.inc"
+#include "source/systems/accounts/hooks.inc"
 
 Account_Init()
 {

@@ -1,7 +1,7 @@
-#if defined CHILIAD_BANKING_DB
+#if defined CHILIAD_BANKING_DATABASE
 	#endinput
 #endif
-#define CHILIAD_BANKING_DB
+#define CHILIAD_BANKING_DATABASE
 
 BankingDB_EnsureTables()
 {

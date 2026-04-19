@@ -1,7 +1,7 @@
-#if defined CHILIAD_ACCOUNTS_DB
+#if defined CHILIAD_ACCOUNTS_DATABASE
 	#endinput
 #endif
-#define CHILIAD_ACCOUNTS_DB
+#define CHILIAD_ACCOUNTS_DATABASE
 
 AccountDB_EnsureTables()
 {

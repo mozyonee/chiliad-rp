@@ -5,6 +5,7 @@
 
 public OnGameModeInit()
 {
+	ManualVehicleEngineAndLights();
 	SetGameModeText("Chiliad RP");
 	AddPlayerClass(0, 1958.3783, 1343.1572, 15.3746, 269.1425);
 
@@ -20,6 +21,7 @@ public OnGameModeInit()
 	Inventory_Init();
 	Banking_Init();
 	Settings_Init();
+	Vehicle_Init();
 
 	print("[Runtime] Chiliad RP initialized.");
 	return 1;

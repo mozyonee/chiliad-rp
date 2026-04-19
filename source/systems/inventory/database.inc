@@ -1,7 +1,7 @@
-#if defined CHILIAD_INVENTORY_DB
+#if defined CHILIAD_INVENTORY_DATABASE
 	#endinput
 #endif
-#define CHILIAD_INVENTORY_DB
+#define CHILIAD_INVENTORY_DATABASE
 
 InventoryDB_EnsureTables()
 {

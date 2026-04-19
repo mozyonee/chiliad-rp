@@ -3,8 +3,8 @@
 #endif
 #define CHILIAD_ADMIN
 
-#include "source/systems/admin/admin_data.inc"
-#include "source/systems/admin/admin_db.inc"
+#include "source/systems/admin/data.inc"
+#include "source/systems/admin/database.inc"
 
 forward Admin_GetLevel(playerid);
 forward bool:Admin_IsDuty(playerid);
@@ -12,11 +12,12 @@ forward bool:Admin_Require(playerid, level, bool:duty = true);
 forward Admin_SetLevel(playerid, level);
 forward Admin_SetDuty(playerid, bool:enabled);
 forward Admin_SendMessage(const text[]);
+forward Admin_OnPlayerClickMap(playerid, Float:x, Float:y, Float:z);
 
-#include "source/systems/admin/admin_callbacks.inc"
-#include "source/systems/admin/admin_dialogs.inc"
-#include "source/systems/admin/admin_cmds.inc"
-#include "source/systems/admin/admin_hooks.inc"
+#include "source/systems/admin/callbacks.inc"
+#include "source/systems/admin/dialogs.inc"
+#include "source/systems/admin/cmds.inc"
+#include "source/systems/admin/hooks.inc"
 
 Admin_Init()
 {
@@ -62,15 +63,9 @@ bool:Admin_Require(playerid, level, bool:duty = true)
 		return true;
 	}
 
-	if (AdminData[playerid][Level] < level)
+	if (AdminData[playerid][Level] < level || (duty && !AdminData[playerid][Duty]))
 	{
 		SendError(playerid, "You do not have access to this command.");
-		return false;
-	}
-
-	if (duty && !AdminData[playerid][Duty])
-	{
-		SendError(playerid, "Use /aduty first.");
 		return false;
 	}
 
@@ -118,5 +113,27 @@ Admin_SendMessage(const text[])
 		}
 	}
 
+	return 1;
+}
+
+Admin_OnPlayerClickMap(playerid, Float:x, Float:y, Float:z)
+{
+	if (!Admin_IsDuty(playerid))
+	{
+		return 1;
+	}
+
+	if (IsPlayerInAnyVehicle(playerid) && GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
+	{
+		new vehicleid = GetPlayerVehicleID(playerid);
+		SetVehiclePos(vehicleid, x, y, z + 3.0);
+		LinkVehicleToInterior(vehicleid, 0);
+		SetVehicleVirtualWorld(vehicleid, GetPlayerVirtualWorld(playerid));
+		SetPlayerInterior(playerid, 0);
+		return 1;
+	}
+
+	SetPlayerInterior(playerid, 0);
+	SetPlayerPosFindZ(playerid, x, y, z + 3.0);
 	return 1;
 }

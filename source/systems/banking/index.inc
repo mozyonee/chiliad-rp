@@ -3,15 +3,15 @@
 #endif
 #define CHILIAD_BANKING
 
-#include "source/systems/banking/banking_data.inc"
-#include "source/systems/banking/banking_db.inc"
+#include "source/systems/banking/data.inc"
+#include "source/systems/banking/database.inc"
 
 forward bool:Banking_IsValidPin(const pin[]);
 forward Banking_OpenCardFromItem(playerid, itemid);
-#include "source/systems/banking/banking_dialogs.inc"
-#include "source/systems/banking/banking_callbacks.inc"
-#include "source/systems/banking/banking_cmds.inc"
-#include "source/systems/banking/banking_hooks.inc"
+#include "source/systems/banking/dialogs.inc"
+#include "source/systems/banking/callbacks.inc"
+#include "source/systems/banking/cmds.inc"
+#include "source/systems/banking/hooks.inc"
 
 Banking_Init()
 {

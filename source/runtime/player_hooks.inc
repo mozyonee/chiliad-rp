@@ -7,6 +7,7 @@ public OnPlayerConnect(playerid)
 {
 	Dialog_ClearOpen(playerid);
 	Admin_Reset(playerid);
+	Vehicle_InitPlayer(playerid);
 	Account_OnPlayerConnect(playerid);
 	return 1;
 }
@@ -44,12 +45,23 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	Banking_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	Settings_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	Admin_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
+	Vehicle_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	GeneralMenu_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
+	return 1;
+}
+
+public OnPlayerStateChange(playerid, PLAYER_STATE:newstate, PLAYER_STATE:oldstate)
+{
+	#pragma unused oldstate
+
+	Vehicle_OnPlayerStateChange(playerid, newstate);
 	return 1;
 }
 
 public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
+	Vehicle_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
+
 	if ((newkeys & KEY_YES) && !(oldkeys & KEY_YES))
 	{
 		pc_cmd_inventory(playerid);
@@ -62,4 +74,14 @@ public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 public OnPlayerText(playerid, text[])
 {
 	return General_OnPlayerText(playerid, text);
+}
+
+public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
+{
+	return Admin_OnPlayerClickMap(playerid, fX, fY, fZ);
+}
+
+public OnPlayerEnterCheckpoint(playerid)
+{
+	return Vehicle_OnPlayerEnterCheckpoint(playerid);
 }

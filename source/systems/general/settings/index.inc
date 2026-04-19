@@ -1,14 +1,14 @@
-#if defined CHILIAD_SETTINGS
+#if defined CHILIAD_GENERAL_SETTINGS
 	#endinput
 #endif
-#define CHILIAD_SETTINGS
+#define CHILIAD_GENERAL_SETTINGS
 
-#include "source/systems/general/settings/settings_data.inc"
-#include "source/systems/general/settings/settings_db.inc"
-#include "source/systems/general/settings/settings_dialogs.inc"
-#include "source/systems/general/settings/settings_callbacks.inc"
-#include "source/systems/general/settings/settings_cmds.inc"
-#include "source/systems/general/settings/settings_hooks.inc"
+#include "source/systems/general/settings/data.inc"
+#include "source/systems/general/settings/database.inc"
+#include "source/systems/general/settings/dialogs.inc"
+#include "source/systems/general/settings/callbacks.inc"
+#include "source/systems/general/settings/cmds.inc"
+#include "source/systems/general/settings/hooks.inc"
 
 Settings_Init()
 {

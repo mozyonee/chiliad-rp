@@ -1,7 +1,7 @@
-#if defined CHILIAD_CHARACTERS_DB
+#if defined CHILIAD_CHARACTERS_DATABASE
 	#endinput
 #endif
-#define CHILIAD_CHARACTERS_DB
+#define CHILIAD_CHARACTERS_DATABASE
 
 CharacterDB_EnsureTables()
 {
@@ -48,7 +48,9 @@ CharacterDB_LoadAccountCharacters(playerid)
 	new query[256];
 
 	mysql_format(Database_GetHandle(), query, sizeof(query),
-		"SELECT `id`, `name`, `skin` FROM `characters` WHERE `account_id` = %d ORDER BY `id` ASC LIMIT %d",
+		"SELECT `id`, `name`, `skin`, `last_x`, `last_y`, `last_z`, `last_interior`, \
+		IFNULL(UNIX_TIMESTAMP(`last_unloaded_at`), 0) AS `last_unloaded_at` \
+		FROM `characters` WHERE `account_id` = %d ORDER BY `id` ASC LIMIT %d",
 		Account_GetID(playerid),
 		CHARACTER_MAX_PER_ACCOUNT
 	);

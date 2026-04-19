@@ -3,8 +3,8 @@
 #endif
 #define CHILIAD_INVENTORY
 
-#include "source/systems/inventory/inventory_data.inc"
-#include "source/systems/inventory/inventory_db.inc"
+#include "source/systems/inventory/data.inc"
+#include "source/systems/inventory/database.inc"
 
 forward bool:Inventory_IsLoaded(playerid);
 forward Inventory_GetItemName(itemid, name[], size = sizeof name);
@@ -252,9 +252,9 @@ static Inventory_FindFreeCacheIndex(playerid)
 	return -1;
 }
 
-#include "source/systems/inventory/inventory_dialogs.inc"
-#include "source/systems/inventory/inventory_callbacks.inc"
-#include "source/systems/inventory/inventory_cmds.inc"
-#include "source/systems/inventory/cash/cash.inc"
-#include "source/systems/inventory/skins/skins.inc"
-#include "source/systems/inventory/inventory_hooks.inc"
+#include "source/systems/inventory/dialogs.inc"
+#include "source/systems/inventory/callbacks.inc"
+#include "source/systems/inventory/cmds.inc"
+#include "source/systems/inventory/cash/index.inc"
+#include "source/systems/inventory/skins/index.inc"
+#include "source/systems/inventory/hooks.inc"
