@@ -1,7 +1,7 @@
-#if defined CHILIAD_VEHICLES_CMDS
+#if defined CHILIAD_VEHICLES_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_VEHICLES_CMDS
+#define CHILIAD_VEHICLES_COMMANDS
 
 alias:vehicles("vehs", "cars")
 CMD:vehicles(playerid)

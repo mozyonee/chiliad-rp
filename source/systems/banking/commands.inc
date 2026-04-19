@@ -1,7 +1,7 @@
-#if defined CHILIAD_BANKING_CMDS
+#if defined CHILIAD_BANKING_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_BANKING_CMDS
+#define CHILIAD_BANKING_COMMANDS
 
 CMD:bank(playerid)
 {

@@ -1,7 +1,7 @@
-#if defined CHILIAD_GENERAL_MENU_CMDS
+#if defined CHILIAD_GENERAL_MENU_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_GENERAL_MENU_CMDS
+#define CHILIAD_GENERAL_MENU_COMMANDS
 
 alias:menu("mn", "mm")
 CMD:menu(playerid)

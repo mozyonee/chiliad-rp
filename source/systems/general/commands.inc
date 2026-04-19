@@ -1,7 +1,7 @@
-#if defined CHILIAD_GENERAL_CMDS
+#if defined CHILIAD_GENERAL_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_GENERAL_CMDS
+#define CHILIAD_GENERAL_COMMANDS
 
 alias:n("b")
 CMD:n(playerid, params[])

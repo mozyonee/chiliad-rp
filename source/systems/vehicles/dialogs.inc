@@ -21,7 +21,7 @@ Vehicle_ShowList(playerid)
 
 	if (!VehicleCount[playerid])
 	{
-		strcat(content, G"No vehicles.\t-\t-\t-\n", sizeof(content));
+		strcat(content, G"No vehicles.\n", sizeof(content));
 	}
 
 	SPD(playerid, DIALOG_VEHICLE_LIST, DSTH,

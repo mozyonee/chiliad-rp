@@ -1,7 +1,7 @@
-#if defined CHILIAD_INVENTORY_CMDS
+#if defined CHILIAD_INVENTORY_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_INVENTORY_CMDS
+#define CHILIAD_INVENTORY_COMMANDS
 
 alias:inventory("inv")
 CMD:inventory(playerid)

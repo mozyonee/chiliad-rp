@@ -32,7 +32,7 @@ forward Vehicle_GetPlate(playerid, index, plate[], size = sizeof plate);
 
 #include "source/systems/vehicles/callbacks.inc"
 #include "source/systems/vehicles/dialogs.inc"
-#include "source/systems/vehicles/cmds.inc"
+#include "source/systems/vehicles/commands.inc"
 #include "source/systems/vehicles/hooks.inc"
 
 Vehicle_Init()

@@ -10,7 +10,7 @@ forward bool:Banking_IsValidPin(const pin[]);
 forward Banking_OpenCardFromItem(playerid, itemid);
 #include "source/systems/banking/dialogs.inc"
 #include "source/systems/banking/callbacks.inc"
-#include "source/systems/banking/cmds.inc"
+#include "source/systems/banking/commands.inc"
 #include "source/systems/banking/hooks.inc"
 
 Banking_Init()

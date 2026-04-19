@@ -1,7 +1,7 @@
-#if defined CHILIAD_ADMIN_CMDS
+#if defined CHILIAD_ADMIN_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_ADMIN_CMDS
+#define CHILIAD_ADMIN_COMMANDS
 
 alias:aduty("alogin")
 CMD:aduty(playerid)

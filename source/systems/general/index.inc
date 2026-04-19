@@ -12,6 +12,6 @@ forward pc_cmd_n(playerid, params[]);
 #include "source/systems/general/utils.inc"
 #include "source/systems/general/settings/index.inc"
 #include "source/systems/general/chat.inc"
-#include "source/systems/general/cmds.inc"
+#include "source/systems/general/commands.inc"
 #include "source/systems/general/menu/index.inc"
 #include "source/systems/general/hooks.inc"

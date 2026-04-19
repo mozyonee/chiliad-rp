@@ -254,7 +254,7 @@ static Inventory_FindFreeCacheIndex(playerid)
 
 #include "source/systems/inventory/dialogs.inc"
 #include "source/systems/inventory/callbacks.inc"
-#include "source/systems/inventory/cmds.inc"
+#include "source/systems/inventory/commands.inc"
 #include "source/systems/inventory/cash/index.inc"
 #include "source/systems/inventory/skins/index.inc"
 #include "source/systems/inventory/hooks.inc"

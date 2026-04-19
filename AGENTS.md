@@ -114,7 +114,7 @@ source/systems/vehicles/
 +-- index.inc
 +-- data.inc
 +-- database.inc
-+-- cmds.inc
++-- commands.inc
 +-- hooks.inc
 +-- callbacks.inc
 +-- dialogs.inc
@@ -127,7 +127,7 @@ File meanings:
 *   `index.inc`: Main feature file. Owns feature initialization, public feature API, and feature-level business rules.
 *   `data.inc`: Enums, arrays, constants, cache state, and internal data structures owned by the feature.
 *   `database.inc`: Database persistence for the feature, including loading, saving, inserting, updating, and deleting records.
-*   `cmds.inc`: Player and admin commands owned by the feature.
+*   `commands.inc`: Player and admin commands owned by the feature.
 *   `hooks.inc`: `open.mp` / SA-MP callbacks handled by the feature, such as `OnPlayerConnect`, `OnPlayerEnterVehicle`, or `OnVehicleDeath`.
 *   `callbacks.inc`: Custom gamemode callbacks owned by the feature, such as `OnVehiclePurchased`, `OnCharacterLoaded`, or `OnBusinessPurchased`.
 *   `dialogs.inc`: Dialog definitions and dialog response handling owned by the feature.

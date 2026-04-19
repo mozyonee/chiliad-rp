@@ -4,5 +4,5 @@
 #define CHILIAD_GENERAL_MENU
 
 #include "source/systems/general/menu/dialogs.inc"
-#include "source/systems/general/menu/cmds.inc"
+#include "source/systems/general/menu/commands.inc"
 #include "source/systems/general/menu/hooks.inc"

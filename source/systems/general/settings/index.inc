@@ -7,7 +7,7 @@
 #include "source/systems/general/settings/database.inc"
 #include "source/systems/general/settings/dialogs.inc"
 #include "source/systems/general/settings/callbacks.inc"
-#include "source/systems/general/settings/cmds.inc"
+#include "source/systems/general/settings/commands.inc"
 #include "source/systems/general/settings/hooks.inc"
 
 Settings_Init()

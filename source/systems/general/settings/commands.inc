@@ -1,7 +1,7 @@
-#if defined CHILIAD_SETTINGS_CMDS
+#if defined CHILIAD_SETTINGS_COMMANDS
 	#endinput
 #endif
-#define CHILIAD_SETTINGS_CMDS
+#define CHILIAD_SETTINGS_COMMANDS
 
 CMD:settings(playerid)
 {

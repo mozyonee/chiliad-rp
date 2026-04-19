@@ -16,7 +16,7 @@ forward Admin_OnPlayerClickMap(playerid, Float:x, Float:y, Float:z);
 
 #include "source/systems/admin/callbacks.inc"
 #include "source/systems/admin/dialogs.inc"
-#include "source/systems/admin/cmds.inc"
+#include "source/systems/admin/commands.inc"
 #include "source/systems/admin/hooks.inc"
 
 Admin_Init()
