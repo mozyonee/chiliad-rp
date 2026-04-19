@@ -38,17 +38,22 @@ CMD:aduty(playerid)
 
 CMD:amenu(playerid)
 {
-	if (!Admin_Require(playerid, 1, false))
+	if (!Admin_Require(playerid, 1))
 	{
 		return 1;
 	}
 
-	if (!Admin_IsDuty(playerid))
+	return Admin_ShowMenu(playerid);
+}
+
+CMD:ahelp(playerid)
+{
+	if (!Admin_Require(playerid, 1))
 	{
-		return pc_cmd_aduty(playerid);
+		return 1;
 	}
 
-	return Admin_ShowMenu(playerid);
+	return Admin_ShowHelp(playerid);
 }
 
 CMD:admins(playerid)
@@ -233,6 +238,34 @@ CMD:gethere(playerid, params[])
 	return 1;
 }
 
+CMD:spawn(playerid)
+{
+	if (!Admin_Require(playerid, 1))
+	{
+		return 1;
+	}
+
+	if (IsPlayerInAnyVehicle(playerid))
+	{
+		new vehicleid = GetPlayerVehicleID(playerid);
+		SetVehiclePos(vehicleid, CHARACTER_DEFAULT_X, CHARACTER_DEFAULT_Y, CHARACTER_DEFAULT_Z);
+		SetVehicleZAngle(vehicleid, CHARACTER_DEFAULT_ANGLE);
+		LinkVehicleToInterior(vehicleid, 0);
+		SetVehicleVirtualWorld(vehicleid, 0);
+	}
+	else
+	{
+		SetPlayerPos(playerid, CHARACTER_DEFAULT_X, CHARACTER_DEFAULT_Y, CHARACTER_DEFAULT_Z);
+		SetPlayerFacingAngle(playerid, CHARACTER_DEFAULT_ANGLE);
+	}
+
+	SetPlayerInterior(playerid, 0);
+	SetPlayerVirtualWorld(playerid, 0);
+	SetCameraBehindPlayer(playerid);
+	SendSuccess(playerid, "Teleported to spawn.");
+	return 1;
+}
+
 CMD:slap(playerid, params[])
 {
 	if (!Admin_Require(playerid, 2))
@@ -400,6 +433,197 @@ CMD:debug(playerid)
 		DIALOG_BUTTON_CLOSE,
 		""
 	);
+	return 1;
+}
+
+Admin_FindInteriorTeleport(sourceid)
+{
+	for (new i = 0; i < sizeof(InteriorTeleports); i++)
+	{
+		if (InteriorTeleports[i][InteriorTeleportSourceID] == sourceid)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+Admin_TeleportToInterior(playerid, index)
+{
+	if (index < 0 || index >= sizeof(InteriorTeleports))
+	{
+		SendError(playerid, "Interior not found.");
+		return 1;
+	}
+
+	new interior = InteriorTeleports[index][InteriorTeleportID];
+	new Float:x = InteriorTeleports[index][InteriorTeleportX];
+	new Float:y = InteriorTeleports[index][InteriorTeleportY];
+	new Float:z = InteriorTeleports[index][InteriorTeleportZ];
+	new Float:angle = InteriorTeleports[index][InteriorTeleportAngle];
+
+	if (IsPlayerInAnyVehicle(playerid))
+	{
+		new vehicleid = GetPlayerVehicleID(playerid);
+		SetVehiclePos(vehicleid, x, y, z);
+		SetVehicleZAngle(vehicleid, angle);
+		LinkVehicleToInterior(vehicleid, interior);
+		SetVehicleVirtualWorld(vehicleid, GetPlayerVirtualWorld(playerid));
+	}
+	else
+	{
+		SetPlayerPos(playerid, x, y, z);
+		SetPlayerFacingAngle(playerid, angle);
+	}
+
+	SetPlayerInterior(playerid, interior);
+	SetPlayerShopName(playerid, "");
+	SetCameraBehindPlayer(playerid);
+
+	new message[128];
+	format(message, sizeof(message), "Teleported to %s.", InteriorTeleports[index][InteriorTeleportName]);
+	SendSuccess(playerid, message);
+	return 1;
+}
+
+alias:tpint("int", "interiors")
+CMD:tpint(playerid, params[])
+{
+	if (!Admin_Require(playerid, 3))
+	{
+		return 1;
+	}
+
+	if (isnull(params))
+	{
+		return Admin_ShowInteriorDialog(playerid);
+	}
+
+	new interior;
+	if (sscanf(params, "i", interior))
+	{
+		SendError(playerid, "Usage: /tpint [interior id]");
+		return 1;
+	}
+
+	new index = Admin_FindInteriorTeleport(interior);
+	if (index == -1)
+	{
+		SendError(playerid, "Interior not found.");
+		return 1;
+	}
+
+	return Admin_TeleportToInterior(playerid, index);
+}
+
+alias:setint("si")
+CMD:setint(playerid, params[])
+{
+	if (!Admin_Require(playerid, 5))
+	{
+		return 1;
+	}
+
+	new interior;
+	if (sscanf(params, "i", interior))
+	{
+		SendError(playerid, "Usage: /si [interior]");
+		return 1;
+	}
+
+	SetPlayerInterior(playerid, interior);
+
+	if (IsPlayerInAnyVehicle(playerid))
+	{
+		LinkVehicleToInterior(GetPlayerVehicleID(playerid), interior);
+	}
+
+	new message[64];
+	format(message, sizeof(message), "Interior: %d.", interior);
+	SendSuccess(playerid, message);
+	return 1;
+}
+
+alias:setvw("sw", "svw")
+CMD:setvw(playerid, params[])
+{
+	if (!Admin_Require(playerid, 5))
+	{
+		return 1;
+	}
+
+	new world;
+	if (sscanf(params, "i", world))
+	{
+		SendError(playerid, "Usage: /sw [world]");
+		return 1;
+	}
+
+	SetPlayerVirtualWorld(playerid, world);
+
+	if (IsPlayerInAnyVehicle(playerid))
+	{
+		SetVehicleVirtualWorld(GetPlayerVehicleID(playerid), world);
+	}
+
+	new message[64];
+	format(message, sizeof(message), "Virtual world: %d.", world);
+	SendSuccess(playerid, message);
+	return 1;
+}
+
+alias:setpos("sp")
+CMD:setpos(playerid, params[])
+{
+	if (!Admin_Require(playerid, 1))
+	{
+		return 1;
+	}
+
+	General_ReplaceSymbol(params, ',', ' ');
+
+	new Float:x, Float:y, Float:z;
+	if (sscanf(params, "fff", x, y, z))
+	{
+		SendError(playerid, "Usage: /pos [x] [y] [z]");
+		return 1;
+	}
+
+	SetPlayerPos(playerid, x, y, z);
+	SendSuccess(playerid, "Position updated.");
+	return 1;
+}
+
+alias:setang("sa")
+CMD:setang(playerid, params[])
+{
+	if (!Admin_Require(playerid, 5))
+	{
+		return 1;
+	}
+
+	new Float:angle;
+	if (sscanf(params, "f", angle))
+	{
+		SendError(playerid, "Usage: /sa [angle]");
+		return 1;
+	}
+
+	if (IsPlayerInAnyVehicle(playerid))
+	{
+		SetVehicleZAngle(GetPlayerVehicleID(playerid), angle);
+	}
+	else
+	{
+		SetPlayerFacingAngle(playerid, angle);
+	}
+
+	SetCameraBehindPlayer(playerid);
+
+	new message[64];
+	format(message, sizeof(message), "Angle: %.2f.", angle);
+	SendSuccess(playerid, message);
 	return 1;
 }
 

@@ -50,7 +50,7 @@ Vehicle_OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
 	if (GetPlayerState(playerid) != PLAYER_STATE_DRIVER)
 	{
-		return 1;
+		return 0;
 	}
 
 	if ((newkeys & KEY_FIRE) && !(oldkeys & KEY_FIRE))
@@ -65,5 +65,5 @@ Vehicle_OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 		return 1;
 	}
 
-	return 1;
+	return 0;
 }

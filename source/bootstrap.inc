@@ -3,7 +3,10 @@
 #endif
 #define CHILIAD_BOOTSTRAP
 
+#include <open.mp>
+
 #include "source/data/items.inc"
+#include "source/data/interiors.inc"
 #include "source/data/vehicles.inc"
 #include "source/data/zones.inc"
 
@@ -20,6 +23,7 @@
 #include "source/systems/admin/index.inc"
 #include "source/systems/inventory/index.inc"
 #include "source/systems/banking/index.inc"
+#include "source/systems/businesses/index.inc"
 #include "source/systems/vehicles/index.inc"
 
 #include "source/runtime/startup.inc"

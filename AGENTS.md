@@ -152,23 +152,25 @@ callbacks  = the gamemode calls itself
 For example:
 
 ```pawn
-// hooks.inc
+// index.inc (Banking)
 
-hook OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
+Banking_OpenCardFromItem(playerid, itemid)
 {
-    return Vehicle_HandlePlayerEnter(playerid, vehicleid, ispassenger);
+    if (itemid != BANK_CARD)
+    {
+        SendError(playerid, "Invalid bank card.");
+        return 1;
+    }
+    // ...
 }
 ```
 
 ```pawn
-// callbacks.inc
+// inventory/cash/index.inc
 
-forward OnVehiclePurchased(playerid, vehicleid);
-
-Vehicle_CallPurchased(playerid, vehicleid)
+stock Money_Get(playerid)
 {
-    CallLocalFunction("OnVehiclePurchased", "ii", playerid, vehicleid);
-    return 1;
+    return Inventory_GetAmount(playerid, CASH);
 }
 ```
 

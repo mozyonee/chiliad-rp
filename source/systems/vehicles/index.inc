@@ -321,7 +321,7 @@ Vehicle_Locate(playerid, index)
 
 Vehicle_Goto(playerid, index)
 {
-	if (index < 0 || index >= VehicleCount[playerid] || !Admin_IsDuty(playerid))
+	if (index < 0 || index >= VehicleCount[playerid] || !Admin_Require(playerid, 1))
 	{
 		return 0;
 	}
@@ -345,7 +345,7 @@ Vehicle_Goto(playerid, index)
 
 Vehicle_Gethere(playerid, index)
 {
-	if (index < 0 || index >= VehicleCount[playerid] || !Admin_IsDuty(playerid))
+	if (index < 0 || index >= VehicleCount[playerid] || !Admin_Require(playerid, 1))
 	{
 		return 0;
 	}

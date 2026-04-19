@@ -25,7 +25,7 @@ public Banking_OnCardsLoaded(playerid)
 		cache_get_value_name_int(i, "balance", BankingCards[playerid][i][BankCardBalance]);
 	}
 
-	Inventory_Set(playerid, ITEM_BANK_CARD, BankingCardCount[playerid]);
+	Inventory_Set(playerid, BANK_CARD, BankingCardCount[playerid]);
 
 	if (BankingOpenedFromItem[playerid])
 	{

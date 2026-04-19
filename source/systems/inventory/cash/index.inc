@@ -12,46 +12,50 @@ InventoryCash_SyncDisplay(playerid)
 
 stock Money_Get(playerid)
 {
-	return Inventory_GetAmount(playerid, ITEM_CASH);
+	return Inventory_GetAmount(playerid, CASH);
 }
 
 stock bool:Money_Has(playerid, amount)
 {
-	return Inventory_Has(playerid, ITEM_CASH, amount);
+	return Inventory_Has(playerid, CASH, amount);
 }
 
 stock bool:Money_Set(playerid, amount)
 {
-	return Inventory_Set(playerid, ITEM_CASH, amount);
+	return Inventory_Set(playerid, CASH, amount);
+}
+
+stock bool:Money_Add(playerid, amount)
+{
+	return Inventory_Add(playerid, CASH, amount);
+}
+
+stock bool:Money_Remove(playerid, amount)
+{
+	return Inventory_Remove(playerid, CASH, amount);
 }
 
 stock bool:Money_Give(playerid, amount)
 {
-	return Inventory_Add(playerid, ITEM_CASH, amount);
+	return Money_Add(playerid, amount);
 }
 
 stock bool:Money_Take(playerid, amount)
 {
-	return Inventory_Remove(playerid, ITEM_CASH, amount);
+	return Money_Remove(playerid, amount);
 }
 
 CMD:pay(playerid, params[])
 {
-	if (!General_RequireCharacter(playerid))
-	{
-		return 1;
-	}
-
-	if (!Inventory_IsLoaded(playerid))
-	{
-		SendError(playerid, "Inventory is not loaded yet.");
-		return 1;
-	}
-
 	new targetid, amount;
 	if (sscanf(params, "ui", targetid, amount))
 	{
 		SendError(playerid, "Usage: /pay [player] [amount]");
+		return 1;
+	}
+
+	if (!Inventory_RequireLoaded(playerid))
+	{
 		return 1;
 	}
 
@@ -89,7 +93,7 @@ CMD:pay(playerid, params[])
 	General_GetDisplayName(playerid, sender, sizeof(sender));
 	General_GetDisplayName(targetid, receiver, sizeof(receiver));
 
-	Inventory_Transfer(playerid, targetid, ITEM_CASH, amount);
+	Inventory_Transfer(playerid, targetid, CASH, amount);
 
 	format(message, sizeof(message), "You paid %s $%d.", receiver, amount);
 	SendSuccess(playerid, message);
@@ -102,14 +106,8 @@ CMD:pay(playerid, params[])
 alias:statistics("stats")
 CMD:statistics(playerid)
 {
-	if (!General_RequireCharacter(playerid))
+	if (!Inventory_RequireLoaded(playerid))
 	{
-		return 1;
-	}
-
-	if (!Inventory_IsLoaded(playerid))
-	{
-		SendError(playerid, "Inventory is not loaded yet.");
 		return 1;
 	}
 

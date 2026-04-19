@@ -12,6 +12,7 @@ static CommandFloodCount[MAX_PLAYERS];
 public OnPlayerConnect(playerid)
 {
 	Dialog_ClearOpen(playerid);
+	SetPlayerShopName(playerid, "");
 	Admin_Reset(playerid);
 	Vehicle_InitPlayer(playerid);
 	Account_OnPlayerConnect(playerid);
@@ -42,6 +43,12 @@ public OnPlayerRequestSpawn(playerid)
 	return Character_IsLoaded(playerid);
 }
 
+forward Admin_OnDialogResponse(playerid, dialogid, response, listitem, const inputtext[]);
+forward Vehicle_OnDialogResponse(playerid, dialogid, response, listitem, const inputtext[]);
+forward Business_OnDialogResponse(playerid, dialogid, response, listitem, const inputtext[]);
+forward General_OnDialogResponse(playerid, dialogid, response, listitem, const inputtext[]);
+forward GeneralMenu_OnDialogResponse(playerid, dialogid, response, listitem, const inputtext[]);
+
 public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
 	Dialog_ClearOpen(playerid);
@@ -52,6 +59,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 	Settings_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	Admin_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	Vehicle_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
+	Business_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
+	General_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	GeneralMenu_OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 	return 1;
 }
@@ -66,13 +75,9 @@ public OnPlayerStateChange(playerid, PLAYER_STATE:newstate, PLAYER_STATE:oldstat
 
 public OnPlayerKeyStateChange(playerid, KEY:newkeys, KEY:oldkeys)
 {
-	Vehicle_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
-
-	if ((newkeys & KEY_YES) && !(oldkeys & KEY_YES))
-	{
-		pc_cmd_inventory(playerid);
-		return 1;
-	}
+	if (Vehicle_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
+	if (Business_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
+	if (General_OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) return 1;
 
 	return 1;
 }

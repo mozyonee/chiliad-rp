@@ -71,7 +71,7 @@ Vehicle_ShowOptions(playerid, index)
 	strcat(content, row, sizeof(content));
 	option_count++;
 
-	if (Admin_IsDuty(playerid))
+	if (Admin_Require(playerid, 1))
 	{
 		VehicleDialogOptions[playerid][option_count] = VEHICLE_OPTION_GOTO;
 		format(row, sizeof(row), P"%d."W" Goto\n", option_count + 1);
@@ -81,7 +81,6 @@ Vehicle_ShowOptions(playerid, index)
 		VehicleDialogOptions[playerid][option_count] = VEHICLE_OPTION_GETHERE;
 		format(row, sizeof(row), P"%d."W" Get Here\n", option_count + 1);
 		strcat(content, row, sizeof(content));
-		option_count++;
 	}
 
 	format(title, sizeof(title), DIALOG_TITLE("%s"), name);

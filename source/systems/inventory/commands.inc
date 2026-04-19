@@ -6,7 +6,7 @@
 alias:inventory("inv")
 CMD:inventory(playerid)
 {
-	if (!General_RequireCharacter(playerid))
+	if (!Inventory_RequireLoaded(playerid))
 	{
 		return 1;
 	}

@@ -33,7 +33,7 @@ InventoryDB_Load(playerid)
 	return 1;
 }
 
-InventoryDB_SetItem(playerid, itemid, amount)
+InventoryDB_SetItem(playerid, E_ITEM:itemid, amount)
 {
 	new query[256];
 
@@ -41,7 +41,7 @@ InventoryDB_SetItem(playerid, itemid, amount)
 		"INSERT INTO `inventory` (`character_id`, `item_id`, `amount`) VALUES (%d, %d, %d) \
 		ON DUPLICATE KEY UPDATE `amount` = VALUES(`amount`)",
 		CharacterData[playerid][ID],
-		itemid,
+		_:itemid,
 		amount
 	);
 
@@ -49,14 +49,14 @@ InventoryDB_SetItem(playerid, itemid, amount)
 	return 1;
 }
 
-InventoryDB_DeleteItem(playerid, itemid)
+InventoryDB_DeleteItem(playerid, E_ITEM:itemid)
 {
 	new query[160];
 
 	mysql_format(Database_GetHandle(), query, sizeof(query),
 		"DELETE FROM `inventory` WHERE `character_id` = %d AND `item_id` = %d LIMIT 1",
 		CharacterData[playerid][ID],
-		itemid
+		_:itemid
 	);
 
 	mysql_tquery(Database_GetHandle(), query);

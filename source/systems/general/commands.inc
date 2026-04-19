@@ -324,36 +324,7 @@ CMD:time(playerid)
 
 CMD:help(playerid)
 {
-	SPD(playerid, DIALOG_GENERAL_HELP, DSM,
-		DIALOG_TITLE("Help"),
-		P"/menu"W" - Open the main menu.\n\
-		"P"/inventory"W" - Open your inventory.\n\
-		"P"/settings"W" - Change character settings.\n\
-		"P"/bank"W" - Manage bank cards and money.\n\
-		"P"/admins"W" - View online administrators.\n\
-		"P"/pay"W" - Give cash to another player.\n\
-		"P"/stats"W" - View basic character stats.\n\
-		"P"/pm"W" - Send a private message.\n\
-		"P"/id"W" - Find a player's server ID.\n\
-		"P"/time"W" - View server time.\n\n\
-		"P"/n"W" - Send an OOC message.\n\
-		"P"/an"W" - Send an administrator OOC message.\n\
-		"P"/s"W" - Shout nearby.\n\
-		"P"/w"W" - Whisper nearby.\n\
-		"P"/me"W" - Describe a character action.\n\
-		"P"/ame"W" - Show a short action above you.\n\
-		"P"/do"W" - Describe a scene or detail.\n\
-		"P"/ado"W" - Show a scene detail above you.\n\
-		"P"/todo"W" - Speak with an attached action.\n\
-		"P"/try"W" - Attempt an action with random success.\n\
-		"P"/coin"W" - Flip a coin.\n\n\
-		"P"/action"W" - Set or clear your action label.\n\
-		"P"/delaction"W" - Clear another player's action label.\n\
-		"P"/pame"W" - Set or clear your character description.",
-		DIALOG_BUTTON_CLOSE,
-		""
-	);
-	return 1;
+	return General_ShowHelp(playerid);
 }
 
 CMD:pm(playerid, params[])

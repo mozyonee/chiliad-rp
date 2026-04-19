@@ -13,6 +13,7 @@ forward Admin_SetLevel(playerid, level);
 forward Admin_SetDuty(playerid, bool:enabled);
 forward Admin_SendMessage(const text[]);
 forward Admin_OnPlayerClickMap(playerid, Float:x, Float:y, Float:z);
+forward Admin_TeleportToInterior(playerid, index);
 
 #include "source/systems/admin/callbacks.inc"
 #include "source/systems/admin/dialogs.inc"
@@ -65,7 +66,6 @@ bool:Admin_Require(playerid, level, bool:duty = true)
 
 	if (AdminData[playerid][Level] < level || (duty && !AdminData[playerid][Duty]))
 	{
-		SendError(playerid, "You do not have access to this command.");
 		return false;
 	}
 
@@ -118,7 +118,7 @@ Admin_SendMessage(const text[])
 
 Admin_OnPlayerClickMap(playerid, Float:x, Float:y, Float:z)
 {
-	if (!Admin_IsDuty(playerid))
+	if (!Admin_Require(playerid, 1))
 	{
 		return 1;
 	}

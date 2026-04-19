@@ -3,13 +3,38 @@
 #endif
 #define CHILIAD_ITEMS
 
-enum
+enum E_ITEM
 {
-	ITEM_INVALID,
+	INVALID_ITEM_ID,
 
-	ITEM_CASH,
+	CASH,
 
-	ITEM_SKIN = 100,
+	// Electronics
+	PHONE = 100,
+	WATCH,
+	CAMERA,
+	RADIO,
 
-	ITEM_BANK_CARD = 1000
+	// Tools
+	CROWBAR = 200,
+	GAS_CAN,
+	FISHING_ROD,
+	BAIT,
+	REPAIR_KIT,
+	LIGHTER,
+
+	// Consumables
+	WATER = 300,
+	SODA,
+	BREAD,
+	SANDWICH,
+	CHIPS,
+	CIGARETTES,
+
+	ARMOUR = 400,
+
+	BANK_CARD = 500,
+
+	// Dynamic items. No next item is defined, so valid skins are limited by skin ID validation.
+	SKIN = 1000
 }

@@ -11,21 +11,22 @@ Inventory_ShowList(playerid)
 		return 1;
 	}
 
-	new content[2048], row[96], name[INVENTORY_ITEM_NAME_LENGTH];
+	new content[2048], row[96], name[ITEM_NAME_LENGTH];
 	InventoryDialogItemCount[playerid] = 0;
 
 	format(content, sizeof(content), "Item\tAmount\n");
 
 	for (new i = 0; i < INVENTORY_MAX_CACHE_ITEMS && InventoryDialogItemCount[playerid] < INVENTORY_MAX_DIALOG_ITEMS; i++)
 	{
-		if (InventoryData[playerid][i][InventoryItemID] == ITEM_INVALID || InventoryData[playerid][i][InventoryAmount] <= 0)
+		if (InventoryData[playerid][i][InventoryItemID] == INVALID_ITEM_ID || InventoryData[playerid][i][InventoryAmount] <= 0)
 		{
 			continue;
 		}
 
 		Inventory_GetItemName(InventoryData[playerid][i][InventoryItemID], name, sizeof(name));
-		format(row, sizeof(row), W"%s\t"P"%d"W"\n", name, InventoryData[playerid][i][InventoryAmount]);
+		format(row, sizeof(row), W"%s\t"P"%d\n", name, InventoryData[playerid][i][InventoryAmount]);
 		strcat(content, row, sizeof(content));
+
 		InventoryDialogItems[playerid][InventoryDialogItemCount[playerid]] = InventoryData[playerid][i][InventoryItemID];
 		InventoryDialogItemCount[playerid]++;
 	}
@@ -44,9 +45,9 @@ Inventory_ShowList(playerid)
 	return 1;
 }
 
-Inventory_ShowItemOptions(playerid, itemid)
+Inventory_ShowItemOptions(playerid, E_ITEM:itemid)
 {
-	new title[64], content[96], name[INVENTORY_ITEM_NAME_LENGTH];
+	new title[64], content[96], name[ITEM_NAME_LENGTH];
 	InventorySelectedItem[playerid] = itemid;
 	Inventory_GetItemName(itemid, name, sizeof(name));
 
@@ -65,7 +66,7 @@ Inventory_ShowItemOptions(playerid, itemid)
 
 Inventory_ShowGiveDialog(playerid)
 {
-	new name[INVENTORY_ITEM_NAME_LENGTH], content[192];
+	new name[ITEM_NAME_LENGTH], content[192];
 	Inventory_GetItemName(InventorySelectedItem[playerid], name, sizeof(name));
 
 	format(content, sizeof(content), W"Item: "P"%s\n"W"Amount owned: "P"%d\n\n"W"Enter player and amount.",
@@ -84,7 +85,7 @@ Inventory_ShowGiveDialog(playerid)
 
 Inventory_ShowThrowDialog(playerid)
 {
-	new name[INVENTORY_ITEM_NAME_LENGTH], content[192];
+	new name[ITEM_NAME_LENGTH], content[192];
 	Inventory_GetItemName(InventorySelectedItem[playerid], name, sizeof(name));
 
 	format(content, sizeof(content), W"Item: "P"%s\n"W"Amount owned: "P"%d\n\n"W"Enter amount to throw away.",
@@ -191,7 +192,7 @@ Inventory_HandleGiveDialog(playerid, response, const inputtext[])
 		return 1;
 	}
 
-	new itemname[INVENTORY_ITEM_NAME_LENGTH], sender[MAX_PLAYER_NAME + 1], receiver[MAX_PLAYER_NAME + 1], message[144];
+	new itemname[ITEM_NAME_LENGTH], sender[MAX_PLAYER_NAME + 1], receiver[MAX_PLAYER_NAME + 1], message[144];
 	Inventory_GetItemName(InventorySelectedItem[playerid], itemname, sizeof(itemname));
 	General_GetDisplayName(playerid, sender, sizeof(sender));
 	General_GetDisplayName(targetid, receiver, sizeof(receiver));
@@ -232,7 +233,7 @@ Inventory_HandleThrowDialog(playerid, response, const inputtext[])
 		return 1;
 	}
 
-	new itemname[INVENTORY_ITEM_NAME_LENGTH], message[96];
+	new itemname[ITEM_NAME_LENGTH], message[96];
 	Inventory_GetItemName(InventorySelectedItem[playerid], itemname, sizeof(itemname));
 	Inventory_Throw(playerid, InventorySelectedItem[playerid], amount);
 

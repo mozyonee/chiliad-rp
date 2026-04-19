@@ -34,7 +34,7 @@ Character_ShowSelectDialog(playerid)
 			format(status, sizeof(status), YES"Available");
 		}
 
-		format(line, sizeof(line), P"%d."W" %s\t"G"%s\t%s\n", i + 1, CharacterList[playerid][i][ListName], location, status);
+		format(line, sizeof(line), W" %s\t"G"%s\t%s\n", CharacterList[playerid][i][ListName], location, status);
 		strcat(body, line, sizeof(body));
 	}
 

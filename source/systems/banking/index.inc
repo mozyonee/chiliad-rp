@@ -7,7 +7,7 @@
 #include "source/systems/banking/database.inc"
 
 forward bool:Banking_IsValidPin(const pin[]);
-forward Banking_OpenCardFromItem(playerid, itemid);
+forward Banking_OpenCardFromItem(playerid, E_ITEM:itemid);
 #include "source/systems/banking/dialogs.inc"
 #include "source/systems/banking/callbacks.inc"
 #include "source/systems/banking/commands.inc"
@@ -39,14 +39,8 @@ bool:Banking_IsValidPin(const pin[])
 
 Banking_Open(playerid, bool:from_item = false)
 {
-	if (!General_RequireCharacter(playerid))
+	if (!Inventory_RequireLoaded(playerid))
 	{
-		return 1;
-	}
-
-	if (!Inventory_IsLoaded(playerid))
-	{
-		SendError(playerid, "Inventory is not loaded yet.");
 		return 1;
 	}
 
@@ -63,9 +57,9 @@ Banking_SelectCard(playerid, card_id, balance)
 	return 1;
 }
 
-Banking_OpenCardFromItem(playerid, itemid)
+Banking_OpenCardFromItem(playerid, E_ITEM:itemid)
 {
-	if (itemid != ITEM_BANK_CARD)
+	if (itemid != BANK_CARD)
 	{
 		SendError(playerid, "Invalid bank card.");
 		return 1;
